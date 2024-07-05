@@ -25,6 +25,8 @@ const size = {
 
 const palette = ['rgba(180, 70, 109, 1)','#FF9A00','#06D001'];
 
+const palette2 = ["#059212", '#00FF00', "#FFFF00", "#FFA500",'#FF0000'];
+
 function createData(color, Cat, Area, AreaPerc, Population) {
   return { color, Cat, Area, AreaPerc, Population };
 }
@@ -87,7 +89,7 @@ export default function LocationCard({
     const hazardname = {"District Level": "District Level","Downscaled Risk": "Downscaled Risk","Risk Index": "Risk index","Hazard Index": "Hazard Index",
       "Low temperature induced spikelet sterility": "Low temperature induced spikelet sterility",
       "Low temperature induced pollen sterility": "Low temperature induced pollen sterility","High temperature induced pollen sterility": "High temperature induced pollen sterility",
-      "Heat Stress": "Heat stress","Heat Stress": "Heat stress","High temperature induced spikelet sterility": "High temperature induced spikelet sterility",
+      "Heat Stress": "Heat stress","High temperature induced spikelet sterility": "High temperature induced spikelet sterility",
       "Cold Stress": "Cold stress","Low temperature induced tuberization failure": "Low temperature induced tuberization failure",'Untimely Rainfall':"Untimely rainfall",
       "Terminal Heat": "Terminal heat","Days of Frost": "Days of Frost","Excess Rainfall and Waterlogging": "Excess rain and waterlogging",
       "Delayed Monsoon": "Delayed monsoon","Drought": "Drought","Dry Spell": "Number of dry spells","Flood": "Flood",
@@ -100,6 +102,18 @@ export default function LocationCard({
       "Availability of crop residues":'Residue',"Rural infrastructure":'Road network density',"Cyclone":'Cyclone',"Rainfall Deficit":"Rainfall deficit",
       "Extreme Rainfall days":"Extreme Rainfall Days","Cold days":"Cold stress or cold days","Hot days":"Heat stress or hot days","Temperature-Humidity Index":'Temperature-humidity Index',
       "Socio-economic Development Indicator":"Human development index"};
+
+
+      function checkcrop() {
+        const diffcrop = ['Cattle','Buffalo','Goat','Sheep','Pig','Poultry'];
+        let ans = true;
+        diffcrop.forEach((sname) => {
+          if(commodity===sname){
+            ans = false;
+          }
+        })
+        return ans;
+      };
 
     function fetchthedataPie() {
       let data = [];
@@ -136,7 +150,11 @@ export default function LocationCard({
         else{
           rowstr = commodity+"_"+location+"_Suitability_"+commodity+"_"+optcode[adaption];
         }
-        const row_data = area_data[rowstr];
+        const row_data = area_data[rowstr.toLowerCase()];
+        console.log(area_data);
+        console.log("Float");
+        console.log(rowstr);
+        console.log(rowstr.toLowerCase());
         const total = Number(row_data['Unsuitable']) + Number(row_data['Suitable']) + Number(row_data['Adaptation Benefits']);
         data = [
           { value: (row_data['Unsuitable']*100/total).toFixed(2), label: 'Unsuitable' },
@@ -200,7 +218,10 @@ export default function LocationCard({
       return data;
     }
     
-    const data3 = fetchthedataPieHzd(); 
+    let data3 = [];
+    if(RiskName !== "" && RiskName !== "Hazard Index" && RiskType()==="Hazard" && checkcrop() ){
+      data3 = fetchthedataPieHzd();
+    }
 
     function fetchthedataTable() {
       let data = [];
@@ -237,7 +258,9 @@ export default function LocationCard({
         else{
           rowstr = commodity+"_"+location+"_Suitability_"+commodity+"_"+optcode[adaption];
         }
-        const row_data = area_data[rowstr];
+        const row_data = area_data[rowstr.toLowerCase()];
+        console.log("Float");
+        console.log(rowstr);
         const total = Number(row_data['Unsuitable']) + Number(row_data['Suitable']) + Number(row_data['Adaptation Benefits']);
         //console.log(total);
         data = 
@@ -249,6 +272,15 @@ export default function LocationCard({
         //console.log(data);
       }
       return data;
+    }
+
+    function UnitFind(RiskName){
+      let x = unitrisk[RiskName];
+      if(x){
+        x = "(" + x.toLowerCase() + ")";
+        return x;
+      }
+      return "";
     }
 
     const rows = fetchthedataTable()
@@ -269,8 +301,8 @@ export default function LocationCard({
     if(RiskName==='Exposure Index'||RiskName==='Number of Animals per grid'||RiskName==='Cropped Area') {
       str = 'Exposure';
     }
-    if(RiskName==='Irrigation'||RiskName==='Soil Water Holding Capacity'||RiskName==='Income'||RiskName==='Soil Organic Carbon'
-    ||RiskName==='Availability of crop residues'||RiskName==='Rural infratructure'||RiskName==='Socio-economic Development Indicator') {
+    if(RiskName==='Vulnerability Index'||RiskName==='Irrigation'||RiskName==='Soil Water Holding Capacity'||RiskName==='Income'||RiskName==='Soil Organic Carbon'
+    ||RiskName==='Availability of crop residues'||RiskName==='Rural infrastructure'||RiskName==='Socio-economic Development Indicator') {
       str = 'Vulnerability';
     }
     return str;
@@ -329,10 +361,10 @@ export default function LocationCard({
         <Typography sx={{ fontSize: 14, whiteSpace: 'pre-wrap' }} color="black">
           {RiskType()}:&nbsp;
           <Typography component="span" sx={{ fontSize: 14, fontWeight:'bold' }} color='text.secondary'>
-            {RiskName.charAt(0).toUpperCase() + RiskName.toLowerCase().slice(1)}&nbsp;(
+            {RiskName.charAt(0).toUpperCase() + RiskName.toLowerCase().slice(1)}&nbsp;
             <Typography component="span" sx={{ fontSize: 14 }}>
-              {unitrisk[RiskName].toLowerCase()}
-            </Typography>)
+              {UnitFind(RiskName)}
+            </Typography>
           </Typography>
         </Typography>
         </div>}
@@ -439,6 +471,8 @@ export default function LocationCard({
                     </Box>
                     }
                     {RiskName === "Hazard Index" && <Box sx={{marginTop:'2px',marginBottom:'-5px'}}>
+                    <Box sx={{width:'100%', display:'flex',alignItems:'center',flexDirection:'column'}}>
+                    </Box>
                     <Box sx={{display:'flex',flexDirection:'row',width:'100%'}}>
                     <Box sx={{width: 20,height: 20,borderRadius: 1,bgcolor: "#FF0000",margin:'4px'}}/>
                     <Typography sx={{ fontSize: 14, margin:'4px' }} color="text.secondary" gutterBottom> 
@@ -475,8 +509,27 @@ export default function LocationCard({
                     </Box>
                     </Box>
                     </Box>}
-
-                    {RiskName !== "" && RiskName !== "Hazard Index" && <Box sx={{marginTop:'2px',marginBottom:'-5px'}}>
+                    {RiskName !== "" && RiskName !== "Hazard Index" && checkcrop(commodity)===false &&
+                      <Box sx={{display:'flex',flexDirection:'row',width:'100%',alignItems:'center'}}>
+                      <Box sx={{width: 20,height: 85,borderRadius: 1,background: 'linear-gradient(to bottom, rgba(255,0,0,1),rgba(255, 165, 0,1),rgba(255, 255, 0,1),rgba(0, 255, 0,1),rgba(5, 146, 18,1) )',margin:'4px',marginLeft:'10px'}}/>
+                      <Box sx={{display:'flex',flexDirection:'column'}}>
+                      <Typography sx={{ fontSize: 14, marginX:'4px',marginY:'1px' }} color="text.secondary" gutterBottom> 
+                      Very high
+                      </Typography>
+                      <Typography sx={{ fontSize: 14, marginX:'4px' ,marginY:'1px' }} color="text.secondary" gutterBottom> 
+                      High
+                      </Typography>
+                      <Typography sx={{ fontSize: 14, marginX:'4px',marginY:'1px'  }} color="text.secondary" gutterBottom> 
+                      Medium
+                      </Typography>
+                      <Typography sx={{ fontSize: 14, marginX:'4px' ,marginY:'1px' }} color="text.secondary" gutterBottom> 
+                      Low
+                      </Typography>
+                      </Box>
+                      
+                      </Box> 
+                    }
+                    {RiskName !== "" && RiskName !== "Hazard Index" && RiskType()==="Hazard" && checkcrop() && <Box sx={{marginTop:'2px',marginBottom:'-5px'}}>
                     {/* <Box sx={{width:'100%', display:'flex',alignContent:'center'}}>
                     <PieChart
                       margin={{ top: 10, bottom: 10, left: 10, right:10 }}
@@ -524,6 +577,31 @@ export default function LocationCard({
                     </Box>
                     
                     </Box> */}
+                    <Box sx={{width:'100%', display:'flex',alignItems:'center',flexDirection:'column'}}>
+                    <PieChart
+                      margin={{ top: 10, bottom: 10, left: 10, right:10 }}
+                      colors={palette2}
+                      series={[
+                        {
+                          arcLabel: (item) => `${item.value}%`,
+                          arcLabelMinAngle: 5,
+                          data: data3,
+                          innerRadius: 25,
+                          paddingAngle: 0,
+                        },
+                      ]}
+                      slotProps={{
+                        legend: { hidden:true} 
+                      }}
+                      sx={{
+                        [`& .${pieArcLabelClasses.root}`]: {
+                          fill: 'white',
+                          fontWeight: 'bold',
+                        },
+                      }}
+                      {...size}
+                    /> 
+                    </Box>
                     <Box sx={{display:'flex',flexDirection:'row',width:'100%'}}>
                     <Box sx={{display:'flex',flexDirection:'row',width:'100%'}}>
                     <Box sx={{width: 20,height: 20,borderRadius: 1,bgcolor: "#FF0000",margin:'4px'}}/>

@@ -51,7 +51,7 @@ export default function LegendCard({
     const hazardname = {"District Level": "District Level","Downscaled Risk": "Downscaled Risk","Risk Index": "Risk index","Hazard Index": "Hazard Index",
         "Low temperature induced spikelet sterility": "Low temperature induced spikelet sterility",
         "Low temperature induced pollen sterility": "Low temperature induced pollen sterility","High temperature induced pollen sterility": "High temperature induced pollen sterility",
-        "Heat Stress": "Heat stress","Heat Stress": "Heat stress","High temperature induced spikelet sterility": "High temperature induced spikelet sterility",
+        "Heat Stress": "Heat stress","High temperature induced spikelet sterility": "High temperature induced spikelet sterility",
         "Cold Stress": "Cold stress","Low temperature induced tuberization failure": "Low temperature induced tuberization failure",'Untimely Rainfall':"Untimely rainfall",
         "Terminal Heat": "Terminal heat","Days of Frost": "Days of Frost","Excess Rainfall and Waterlogging": "Excess rain and waterlogging",
         "Delayed Monsoon": "Delayed monsoon","Drought": "Drought","Dry Spell": "Number of dry spells","Flood": "Flood",
@@ -100,8 +100,8 @@ export default function LegendCard({
         else{
           rowstr = commodity+"_"+location+"_Suitability_"+commodity+"_"+optcode[adaption];
         }
-        const row_data = area_data[rowstr];
-        console.log(area_data2);
+        const row_data = area_data[rowstr.toLowerCase()];
+        console.log(rowstr);
         const total = Number(row_data['Unsuitable']) + Number(row_data['Suitable']) + Number(row_data['Adaptation Benefits']);
         //console.log(total);
         data = 
@@ -151,16 +151,18 @@ export default function LegendCard({
           else{
             rowstr = commodity+"_"+location+"_ZZ_"+hazardname[RiskName];
           }
+          
           const row_data = area_data2[rowstr];
+          console.log(area_data2);
           const total = Number(row_data['Very Low']) + Number(row_data['Low']) + Number(row_data['Medium']) + Number(row_data['High']) + Number(row_data['Very High']);
           //console.log(total);
           data = 
           [
-            createData(<Box sx={{width: 90,height: 13,borderRadius: 0,bgcolor: '#059212'}}/>,'Very Low', row_data['Very Low']/10, (row_data['Very Low']*100/total).toFixed(2), Math.round(row_data['Very Low_Area']/1000000)),
-            createData(<Box sx={{width: 90,height: 13,borderRadius: 0,bgcolor: '#00FF00'}}/>,'Low', row_data['Low']/10, (row_data['Low']*100/total).toFixed(2), Math.round(row_data['Low_Area']/1000000)),
-            createData(<Box sx={{width: 90,height: 13,borderRadius: 0,bgcolor: '#FFFF00'}}/>,'Medium', row_data['Medium']/10, (row_data['Medium']*100/total).toFixed(2), Math.round(row_data['Medium_Area']/1000000)),
-            createData(<Box sx={{width: 90,height: 13,borderRadius: 0,bgcolor: '#FFA500'}}/>,'High', row_data['High']/10, (row_data['High']*100/total).toFixed(2), Math.round(row_data['High_Area']/1000000)),
-            createData(<Box sx={{width: 90,height: 13,borderRadius: 0,bgcolor: '#FF0000'}}/>,'Very High', row_data['Very High']/10, (row_data['Very High']*100/total).toFixed(2), Math.round(row_data['Very High_Area']/1000000)),
+            createData(<Box sx={{width: 96,height: 13,borderRadius: 0,bgcolor: '#059212'}}/>,'Very low', row_data['Very Low']/10, (row_data['Very Low']*100/total).toFixed(2), Math.round(row_data['Very Low_Area']/1000000)),
+            createData(<Box sx={{width: 96,height: 13,borderRadius: 0,bgcolor: '#00FF00'}}/>,'Low', row_data['Low']/10, (row_data['Low']*100/total).toFixed(2), Math.round(row_data['Low_Area']/1000000)),
+            createData(<Box sx={{width: 96,height: 13,borderRadius: 0,bgcolor: '#FFFF00'}}/>,'Medium', row_data['Medium']/10, (row_data['Medium']*100/total).toFixed(2), Math.round(row_data['Medium_Area']/1000000)),
+            createData(<Box sx={{width: 96,height: 13,borderRadius: 0,bgcolor: '#FFA500'}}/>,'High', row_data['High']/10, (row_data['High']*100/total).toFixed(2), Math.round(row_data['High_Area']/1000000)),
+            createData(<Box sx={{width: 96,height: 13,borderRadius: 0,bgcolor: '#FF0000'}}/>,'Very high', row_data['Very High']/10, (row_data['Very High']*100/total).toFixed(2), Math.round(row_data['Very High_Area']/1000000)),
           ];
           //console.log(data);
         }
@@ -174,30 +176,36 @@ export default function LegendCard({
         return popu+'M people';
     }
     const rows = fetchthedataTable();
-    const rowshzd = fetchthedataHzd();
+    let rowshzd = [];
+    if(RiskName !== "" && RiskName !== "Hazard Index" && RiskType()==="Hazard" && checkcrop() ){
+        rowshzd = fetchthedataHzd();
+    }
 
-  function RiskMethod(){
-    let str = 'Estimated risk';
-    if(RiskName==='District Level'||RiskName==='Downscaled Risk') {
-      str = 'Measured risk';
-    }
-    return str;
-  }
+    function RiskType(){
+        let str = 'Hazard';
+        if(RiskName==='Risk Index'||RiskName==='District Level'||RiskName==='Downscaled Risk'){
+          str = 'Risk';
+        }
+        if(RiskName==='Exposure Index'||RiskName==='Number of Animals per grid'||RiskName==='Cropped Area') {
+          str = 'Exposure';
+        }
+        if(RiskName==='Vulnerability Index'||RiskName==='Irrigation'||RiskName==='Soil Water Holding Capacity'||RiskName==='Income'||RiskName==='Soil Organic Carbon'
+        ||RiskName==='Availability of crop residues'||RiskName==='Rural infrastructure'||RiskName==='Socio-economic Development Indicator') {
+          str = 'Vulnerability';
+        }
+        return str;
+      };
 
-  function RiskType(){
-    let str = 'Hazard';
-    if(RiskName==='Risk Index'||RiskName==='District Level'||RiskName==='Downscaled Risk'){
-      str = 'Risk';
-    }
-    if(RiskName==='Exposure Index'||RiskName==='Number of Animals per grid'||RiskName==='Cropped Area') {
-      str = 'Exposure';
-    }
-    if(RiskName==='Irrigation'||RiskName==='Soil Water Holding Capacity'||RiskName==='Income'||RiskName==='Soil Organic Carbon'
-    ||RiskName==='Availability of crop residues'||RiskName==='Rural infratructure'||RiskName==='Socio-economic Development Indicator') {
-      str = 'Vulnerability';
-    }
-    return str;
-  }
+      function checkcrop() {
+        const diffcrop = ['Cattle','Buffalo','Goat','Sheep','Pig','Poultry'];
+        let ans = true;
+        diffcrop.forEach((sname) => {
+          if(commodity===sname){
+            ans = false;
+          }
+        })
+        return ans;
+      };
     
   return (
     <Popper
@@ -210,19 +218,15 @@ export default function LegendCard({
         {adaption !== '' && <div>
         <Box sx={{display:'flex'}}>
         <Typography sx={{ fontSize: 14, marginBottom:'2px'}} color="black">
-          Technical suitability of&nbsp;{adaption.toLowerCase()} for rural population:</Typography>
+          Technical suitability of&nbsp;{adaption.toLowerCase()} for rural population:
+          </Typography>
           </Box>
         </div>}
-        {RiskName !== '' && <div><Divider sx={{bgcolor:'#e8ffea', borderBottomWidth: 2, marginTop: 0.1, marginBottom: 0.3}}/>
-        <Box sx={{display:'flex',flexDirection:'row'}}>
-        <Typography sx={{ fontSize: 14 }} color="black" >
-          Risk Method:&nbsp;</Typography>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>{RiskMethod()}</Typography>
-        </Box>
-        <Box sx={{display:'flex',flexDirection:'row'}}>
-        <Typography sx={{ fontSize: 14 }} color="black" >
-          {RiskType()}:&nbsp;</Typography>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>{RiskName.charAt(0).toUpperCase() + RiskName.toLowerCase().slice(1)}</Typography>
+        {RiskName !== "" && RiskName !== "Hazard Index" && RiskType()==="Hazard" && checkcrop() && <div>
+        <Box sx={{display:'flex'}}>
+        <Typography  sx={{ fontSize: 14, marginBottom:'2px'}} color="black">
+            {RiskName.charAt(0).toUpperCase() + RiskName.toLowerCase().slice(1)} risk for rural population:
+            </Typography>
         </Box>
         </div>}
         
@@ -252,42 +256,20 @@ export default function LegendCard({
                     ))}
                     </Box>
                     }
-                    {RiskName !== "" && <Box sx={{marginTop:'2px',marginBottom:'-5px'}}>
-                    <Box sx={{display:'flex',flexDirection:'row',width:'100%'}}>
-                    <Box sx={{width: 20,height: 20,borderRadius: 1,bgcolor: "#FF0000",margin:'4px'}}/>
-                    <Typography sx={{ fontSize: 14, margin:'4px' }} color="text.secondary" gutterBottom> 
-                    Extreme
-                    </Typography>
+                    {RiskName !== "" && RiskName !== "Hazard Index" && RiskType()==="Hazard" && checkcrop() &&
+                    <Box sx={{width:'100%', display:'flex',flexDirection:'row',gap:'4px',padding:0,justifyItems:'center'}}>
+                    {rowshzd.map((row,index) => (
+                        
+                        <Box sx={{display:'flex',alignItems:'left',flexDirection:'column'}}>
+                        {row.color}
+                        <Box>
+                        <Typography sx={{ fontSize: 14}} color="black" > <strong>{row.Cat}</strong>&nbsp;risk for {calcpop(row.Population)}</Typography>
+                        </Box>
+                        </Box>
+                        
+                    ))}
                     </Box>
-                    <Box sx={{display:'flex',flexDirection:'row',width:'100%'}}>
-                    <Box sx={{display:'flex',flexDirection:'row',width:'100%'}}>
-                    <Box sx={{width: 20,height: 20,borderRadius: 1,bgcolor: '#FFA500',margin:'4px'}}/>
-                    <Typography sx={{ fontSize: 14, margin:'4px' }} color="text.secondary" gutterBottom> 
-                    Very High
-                    </Typography>
-                    </Box>
-                    <Box sx={{display:'flex',flexDirection:'row',width:'100%'}}>
-                    <Box sx={{width: 20,height: 20,borderRadius: 1,bgcolor: '#FFFF00',margin:'4px'}}/>
-                    <Typography sx={{ fontSize: 14, margin:'4px' }} color="text.secondary" gutterBottom> 
-                    High
-                    </Typography>
-                    </Box>
-                    </Box>
-                    <Box sx={{display:'flex',flexDirection:'row',width:'100%'}}>
-                    <Box sx={{display:'flex',flexDirection:'row',width:'100%'}}>
-                    <Box sx={{width: 20,height: 20,borderRadius: 1,bgcolor: '#00FF00',margin:'4px'}}/>
-                    <Typography sx={{ fontSize: 14, margin:'4px' }} color="text.secondary" gutterBottom> 
-                    Medium
-                    </Typography>
-                    </Box>
-                    <Box sx={{display:'flex',flexDirection:'row',width:'100%'}}>
-                    <Box sx={{width: 20,height: 20,borderRadius: 1,bgcolor: '#059212',margin:'4px'}}/>
-                    <Typography sx={{ fontSize: 14, margin:'4px' }} color="text.secondary" gutterBottom> 
-                    Low
-                    </Typography>
-                    </Box>
-                    </Box>
-                    </Box>}
+                    }
 
         </Typography>
         </AccordionDetails>

@@ -422,10 +422,11 @@ const [acc,setacc] = React.useState(false);
   if(area_data && area_data.data && area_data.data.length > 0){
     for(let i = 1; i < area_data.data.length; i++){
       const row1 = area_data.data[i];
-      area_dict[row1[0]] = {'Unsuitable':row1[1],'Suitable':row1[2],'Adaptation Benefits':row1[3],
+      area_dict[row1[0].toLowerCase()] = {'Unsuitable':row1[1],'Suitable':row1[2],'Adaptation Benefits':row1[3],
         'Unsuitable_Area':row1[4],'Suitable_Area':row1[5],'Adaptation Benefits_Area':row1[6]
       };
     }
+    delete area_dict[""];
   }
 
   const [area_data2, setarea_data2] = React.useState([]);
@@ -443,7 +444,7 @@ const [acc,setacc] = React.useState(false);
   if(area_data2 && area_data2.data && area_data2.data.length > 0){
     for(let i = 1; i < area_data2.data.length; i++){
       const row1 = area_data2.data[i];
-      area_dict[row1[0]] = {'Very Low':row1[1],'Low':row1[2],'Medium':row1[3],'High':row1[4],'Very High':row1[5],
+      area_dict2[row1[0]] = {'Very Low':row1[1],'Low':row1[2],'Medium':row1[3],'High':row1[4],'Very High':row1[5],
         'Very Low_Area':row1[6],'Low_Area':row1[7],'Medium_Area':row1[8],'High_Area':row1[9],'Very High_Area':row1[10]
       };
     }
@@ -494,7 +495,7 @@ const [acc,setacc] = React.useState(false);
         activeOpt={option} changeOpt={handleChangeOpt} changeRisk={changeRisk} activeImpact={CurrImpact} changeImpact={changeImpact} activeScenario={scenario} changeScenario={handleScenarioChange}></DrawerV>}
         {/*activeBar==='analytics' && <DrawerA activeCrop={crop} changeCrop={handleChange} LocationData={countryStateMap} activeRegion={activeRegion} changeRegion={ActiveRegionChange}></DrawerA>*/}
         {(/* activeBar==='analytics' ||  */activeBar==='viewer') && <div ref={container}><LocationCard location={activeRegion} commodity={Currcrop} adaption={CurrOpt} setHeight1={setHeight1}
-        RiskName={RiskName} scenario={NameScenario} ImpactName={ImpactName} area_data={area_dict} area_data2={area_data2}></LocationCard></div>}
+        RiskName={RiskName} scenario={NameScenario} ImpactName={ImpactName} area_data={area_dict} area_data2={area_dict2}></LocationCard></div>}
         {/*(activeBar==='viewer') && CurrOpt!=='' && <AdaptationCard activeCrop={Currcrop} activeRegion={activeRegion} adapOption={CurrOpt} heightnext={height1}></AdaptationCard>*/}
         {/* <Summ1
         crop2={crop2} focus2={focus2} activeRegion2={activeRegion2} option={option} CurrRisk2={CurrRisk2} handleChangeSumm={handleChangeSumm} ActiveRegionChange2={ActiveRegionChange2} opt2={opt2} 
@@ -502,7 +503,7 @@ const [acc,setacc] = React.useState(false);
         option4={option4} opt5={opt5} handleChangeOptSumm4={handleChangeOptSumm4} option5={option5} 
         ></Summ1>} */}
         {(/* activeBar==='analytics' ||  */activeBar==='viewer') && (RiskName!=""||CurrOpt!="") && <LegendCard location={activeRegion} commodity={Currcrop} adaption={CurrOpt}
-        RiskName={RiskName} scenario={NameScenario} ImpactName={ImpactName} area_data={area_dict} area_data2={area_data2}></LegendCard>}
+        RiskName={RiskName} scenario={NameScenario} ImpactName={ImpactName} area_data={area_dict} area_data2={area_dict2}></LegendCard>}
         
         {(activeBar==='analytics') && 
         

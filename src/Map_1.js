@@ -19,7 +19,6 @@ import {FullScreen, Zoom} from 'ol/control.js';
 import OSM from 'ol/source/OSM';
 import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
 import { fromFile } from "geotiff";
-import { polygon } from "@turf/turf";
 import Typography from '@mui/material/Typography';
 import { Popper } from '@mui/material';
 import Slide from '@mui/material/Slide';
@@ -132,6 +131,17 @@ export default function MApp({
       center: fromLonLat([71.2090057,21.6138954]),
       zoom: 3.5,
     });
+
+    function checkcrop(activeCrop) {
+      const diffcrop = ['Cattle','Buffalo','Goat','Sheep','Pig','Poultry'];
+      let ans = true;
+      diffcrop.forEach((sname) => {
+        if(activeCrop===sname){
+          ans = false;
+        }
+      })
+      return ans;
+    };
 
     const max = 1;
     function normalize(value) {
@@ -730,22 +740,22 @@ useEffect(() => {
     'Animal Health':'ANHLT','Animal Productivity':'ANPRO','Mulching':'MULCH','Alternate wetting and drying':'AWD','Fertilizer rating and timing':'FRT',
     'Manure Management':'MNMGT','Information Use':'INFO','Heat Stress Management':'HSMGT'};
 
-  const hazardname = {"District Level": "District Level","Downscaled Risk": "Downscaled Risk","Risk Index": "Risk index","Hazard Index": "Hazard Index",
-    "Low temperature induced spikelet sterility": "Low temperature induced spikelet sterility",
-    "Low temperature induced pollen sterility": "Low temperature induced pollen sterility","High temperature induced pollen sterility": "High temperature induced pollen sterility",
-    "Heat Stress": "Heat stress","Heat Stress": "Heat stress","High temperature induced spikelet sterility": "High temperature induced spikelet sterility",
-    "Cold Stress": "Cold stress","Low temperature induced tuberization failure": "Low temperature induced tuberization failure",'Untimely Rainfall':"Untimely rainfall",
-    "Terminal Heat": "Terminal heat","Days of Frost": "Days of Frost","Excess Rainfall and Waterlogging": "Excess rain and waterlogging",
-    "Delayed Monsoon": "Delayed monsoon","Drought": "Drought","Dry Spell": "Number of dry spells","Flood": "Flood",
-    "Lodging": "Rain and wind causing lodging","Biotic": "High humidity and temperature for blight","Irrigation": "Irrigation","Water Holding": "Water Holding","Income": "Agricultural GDP",
-    "Access to Credit": "Access to Credit","Access to Market": "Access to Market","Elevation": "Elevation","Access to Knowledge": "Access to Knowledge","Exposure Index": "Exposure Index",
-    "Number of Farmers": "Number of Farmers","Cropped Area": "Cropped Area","Excess Rainfall":"Excess rainfall","Number of Animals per grid":"Number of animals per grid",
-    'Cold stress in reproductive stage':'Cold stress in reproductive stage','Heat stress in reproductive stage':"Heat stress in reproductive stage",
-    'Heat stress during boll formation':'Heat stress during boll formation','Cold stress during flowering':'Cold stress during flowering',
-    'High tempearture during flowering':'High tempearture during flowering','Biotic Stress':'Biotic stress',"Vulnerability Index":'Vulnerability Index',
-    "Availability of crop residues":'Residue',"Rural infrastructure":'Road network density',"Cyclone":'Cyclone',"Rainfall Deficit":"Rainfall deficit",
-    "Extreme Rainfall days":"Extreme Rainfall Days","Cold days":"Cold stress or cold days","Hot days":"Heat stress or hot days","Temperature-Humidity Index":'Temperature-humidity Index',
-    "Socio-economic Development Indicator":"Human development index"}
+    const hazardname = {"District Level": "District Level","Downscaled Risk": "Downscaled Risk","Risk Index": "Risk index","Hazard Index": "Hazard Index",
+      "Low temperature induced spikelet sterility": "Low temperature induced spikelet sterility",
+      "Low temperature induced pollen sterility": "Low temperature induced pollen sterility","High temperature induced pollen sterility": "High temperature induced pollen sterility",
+      "Heat Stress": "Heat stress","High temperature induced spikelet sterility": "High temperature induced spikelet sterility",
+      "Cold Stress": "Cold stress","Low temperature induced tuberization failure": "Low temperature induced tuberization failure",'Untimely Rainfall':"Untimely rainfall",
+      "Terminal Heat": "Terminal heat","Days of Frost": "Days of Frost","Excess Rainfall and Waterlogging": "Excess rain and waterlogging",
+      "Delayed Monsoon": "Delayed monsoon","Drought": "Drought","Dry Spell": "Number of dry spells","Flood": "Flood",
+      "Lodging": "Rain and wind causing lodging","Biotic": "High humidity and temperature for blight","Irrigation": "Irrigation","Water Holding": "Water Holding","Income": "Agricultural GDP",
+      "Access to Credit": "Access to Credit","Access to Market": "Access to Market","Elevation": "Elevation","Access to Knowledge": "Access to Knowledge","Exposure Index": "Exposure Index",
+      "Number of Farmers": "Number of Farmers","Cropped Area": "Cropped Area","Excess Rainfall":"Excess rainfall","Number of Animals per grid":"Number of animals per grid",
+      'Cold stress in reproductive stage':'Cold stress in reproductive stage','Heat stress in reproductive stage':"Heat stress in reproductive stage",
+      'Heat stress during boll formation':'Heat stress during boll formation','Cold stress during flowering':'Cold stress during flowering',
+      'High tempearture during flowering':'High tempearture during flowering','Biotic Stress':'Biotic stress',"Vulnerability Index":'Vulnerability Index',
+      "Availability of crop residues":'Residue',"Rural infrastructure":'Road network density',"Cyclone":'Cyclone',"Rainfall Deficit":"Rainfall deficit",
+      "Extreme Rainfall days":"Extreme Rainfall Days","Cold days":"Cold stress or cold days","Hot days":"Heat stress or hot days","Temperature-Humidity Index":'Temperature-humidity Index',
+      "Socio-economic Development Indicator":"Human development index"};
 
     if(activeOpt!==''){
       opt=2;
@@ -807,7 +817,13 @@ useEffect(() => {
       newOverl.setStyle(color2);
     }
     else if(opt===3){
+      if(checkcrop(activeCrop)===false){
+        newOverl.setStyle(colorGradient2);
+      }
+      else{
       newOverl.setStyle(color_hazard);
+      }
+
     }
     else if(opt===4){
       newOverl.setStyle(color4);
@@ -834,12 +850,12 @@ useEffect(() => {
       <div id="popup2" class="ol-popup">
       <div id="popup-content2" style={{textTransform:'capitalize',fontSize:'13px'}}></div>
       </div>
-    <div ref={ref} style={{height:'calc(100vh - 80px)',width:'auto',marginTop:'80px',marginLeft:0,marginBottom:'-16px'}} className="map-container" />
+    <div ref={ref} style={{height:'calc(100vh - 90px)',width:'auto',marginTop:'90px',marginLeft:0,marginBottom:'-16px'}} className="map-container" />
     
     <Popper
     open={missingSource}
       >
-        <div style={{position:'fixed',right:'330px',top:90, boxShadow:'0px 0px 1px #aaa',backgroundColor: 'rgba(14, 33, 1, 0.6)', border: '0px solid black', width:'180px', borderRadius:'5px',padding:'3px'}}>
+        <div style={{position:'fixed',right:'330px',top:95, boxShadow:'0px 0px 1px #aaa',backgroundColor: 'rgba(14, 33, 1, 0.6)', border: '0px solid black', width:'180px', borderRadius:'5px',padding:'3px'}}>
         <Slide direction="down" in={missingSource} mountOnEnter unmountOnExit>
         <Typography sx={{ fontSize: 15, marginLeft:1,marginY:0.5, fontWeight:'bold' }} color="white" gutterBottom>
           Note <Typography sx={{ fontSize: 14, }} color="white" gutterBottom>
