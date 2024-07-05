@@ -16,6 +16,27 @@ export default function News(
     return(
         <div>
             <Box sx={{display:'flex',flexDirection:'column', marginX:'70px',marginY:'20px',gap:'20px'}}>
+
+            <Box sx={{backgroundColor:'#f1f1f1',borderRadius:'8px',display:'flex',flexDirection:'row'}}>
+                <Box sx={{marginLeft:'20px'}}>
+                <img src={'issue02.png'}
+                style={logoStyle}
+                alt="news"/>
+                </Box>
+                <Box sx={{display:'flex',flexDirection:'column', textAlign:'left', padding:'10px',marginX:'50px',marginY:'20px'}}> 
+                <Typography variant='h6' sx={{fontWeight:'bold'}}>
+                Issue 02
+                </Typography>
+                <Typography>
+                ACASA second newsletter - our progress and development, events, posts, data and methods, and media presence... 
+                <a href="https://mailchi.mp/cgiar.org/acasa-strides_issue02-bisa?e=3233d543a1" target="_blank" style={{fontWeight:'bold',color:'#333333',textDecoration:'none'}}> Read More</a>
+                </Typography>
+                <Typography sx={{color:'#444444',marginTop:'20px'}}>
+                June 2024
+                </Typography>
+                </Box>
+                </Box>
+
                 <Box sx={{backgroundColor:'#f1f1f1',borderRadius:'8px',display:'flex',flexDirection:'row'}}>
                 <Box sx={{marginLeft:'20px'}}>
                 <img src={'news.png'}
@@ -35,6 +56,7 @@ export default function News(
                 </Typography>
                 </Box>
                 </Box>
+
             </Box>
         </div>
     );

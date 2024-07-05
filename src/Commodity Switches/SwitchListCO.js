@@ -15,10 +15,14 @@ export default function SwitchCereals({
 }) {
   const switchh = ['Rice','Wheat','Maize','Sorghum','Finger Millet','Pearl Millet'];
   const switchid = ['rice','wheat','maize','sorghum','fmillet','pmillet'];
-  
+  const disvar = {'rice':false,'wheat':false,'maize':false,'sorghum':false,'fmillet':true,'pmillet':false};
   const padd = 8;
   const season = ['Rice is planted in multiple seasons in different countries. Here this analysis is only for monsoon season (also known as \'Kharif\' in India, \'Aman\' in Bangladesh,and \'Yala\' in Sri Lanka)',
-  'Season: B','Season: C','Season: D','Season: E','Season: F'];
+  'The analysis for wheat (except for Afghanistan) is done for rabi/winter season with planting time around mid-November.  For Afghanistan, wheat season starts around April.',
+  'Maize is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as \'Kharif\') and \'Yala\' in Sri Lanka',
+  'Sorghum is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as \'Kharif\').',
+  'Finger Millet is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as \'Kharif\').',
+  'Pearl Millet is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as \'Kharif\').'];
 
   const LightTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
@@ -77,22 +81,30 @@ export default function SwitchCereals({
           },
      },
   }));
+
+  const CustomFormControlLabel = styled(FormControlLabel)(({ theme }) => ({
+    '&.Mui-disabled .MuiTypography-body2': {
+      color: '#ccc', // Color for the label text when disabled
+    },
+  }));
+
   return (
     <FormControl component="fieldset" variant="standard"  sx={{paddingBottom:1, paddingLeft:6}}>
       
       {switchh.map((sname,index) => (
         <FormGroup>
-        <FormControlLabel
+        <CustomFormControlLabel
         control={
           <AntSwitch inputProps={{ 'aria-label': 'ant design' }} checked={activeCrop[switchid[index]]} onChange={changeCrop(switchid[index])} name={switchid[index]} />
         }
         key={switchid[index]}
+        disabled={disvar[switchid[index]]}
         label={<Typography variant="body2" sx={{paddingLeft:1}}>{sname}
-        <LightTooltip title={season[index]} placement="top" arrow>
+        {disvar[switchid[index]]===false && <LightTooltip title={season[index]} placement="top" arrow>
         <IconButton sx={{padding:0,margin:0,paddingX:'4px'}}>
         <InfoOutlinedIcon sx={{fontSize:'12px',padding:0,margin:0}} />
         </IconButton>
-        </LightTooltip></Typography>}
+        </LightTooltip>}</Typography>}
         />
      </FormGroup>
       ))}

@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family:  'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -68,14 +68,14 @@ code {
 }
 .map-container .ol-zoomx {
   /* Change the position of the zoom controls */
-  top: 12px;
-  right: 270px;
+  top: 15px;
+  right: 300px;
   left: auto;
 }
 .ol-fullscreenx {
   /* Change the position of the zoom controls */
-  top: 72px;
-  right: 270px;
+  top: 75px;
+  right: 300px;
   left: auto;
 }
 .ol-zoom2 {

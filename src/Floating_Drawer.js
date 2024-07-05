@@ -8,7 +8,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { ListOutlined, HomeOutlined, LocationOnOutlined, SearchOutlined, PollOutlined } from '@mui/icons-material';
 
-const Items = ['Home', 'Location', 'Theme', 'Search', 'Selected'];
+const Items = ['Home'];
 
 export default function Floating_drawer({
     activeCrop,

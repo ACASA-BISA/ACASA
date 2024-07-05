@@ -14,6 +14,7 @@ import DrawerMapShow from './DrawerMapShow';
 //import MenuIcon from '@mui/icons-material/Menu';
 //import { IconButton } from '@mui/material';
 import Home from './Home';
+import './font.css';
 import Divider from '@mui/material/Divider';
 import {
   HashRouter as Router,
@@ -21,25 +22,37 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import { transform } from 'ol/proj';
+import Feedback1 from './Feedback';
+import Translate from "./Translate"; // Import Translate component
 
-const pages = ['Data Viewer', 'Summary','Use Cases','Data Access','Resources','About Us'];
-const pageid = ['viewer', 'analytics','usecase','access','resources','about'];
-const AppBarHeight = '80px';
+const pages = ['Guide','Explore Data', 'Adaptation at a glance','Data Access','Use Cases','Resources','About Us'];
+const pageid = ['guide','viewer', 'analytics','access','usecase','resources','about'];
+const AppBarHeight = '90px';
 
 function ResponsiveAppBar({
 
 }) {
   
-
+  
   const [flag, setflag] = React.useState(null);
   
-  React.useEffect(()=>{
-    let sec = window.location.href.indexOf('#');
-    let strr = window.location.href.substring(sec+2);
-    if(strr!==''){
-      setflag(strr);
-    }
-  });
+  React.useEffect(() => {
+    const handleUrlChange = () => {
+      const sec = window.location.href.indexOf('#');
+      const strr = window.location.href.substring(sec + 2);
+      if (strr !== '') {
+        setflag(strr);
+      }
+    };
+    handleUrlChange();
+
+    window.addEventListener('popstate', handleUrlChange);
+
+    return () => {
+      window.removeEventListener('popstate', handleUrlChange);
+    };
+  }, []);
   //const [home, sethome] = React.useState(true);
 /*   function setflagfunc(){
     let strr = window.location.href.substring(1);
@@ -78,6 +91,7 @@ function ResponsiveAppBar({
       //borderColor: '#0062cc',
       boxShadow: 'none',
       color: '#000',
+      
       //fontWeight: 'bold',
     },
     "&.Mui-selected, &.Mui-selected:hover": {
@@ -109,9 +123,26 @@ function ResponsiveAppBar({
     <div>
     <Router>
     <AppBar position="fixed" sx={{bgcolor:'white',zIndex: (theme) => theme.zIndex.drawer + 1, height:AppBarHeight,boxShadow: '0px 0px 4px #aaa'}}>
-      <Divider sx={{bgcolor:'#4b9e44', borderBottomWidth: 8, margin:0}}/>
+      {/* <Divider sx={{bgcolor:'#4b9e44', borderBottomWidth: 8, margin:0}}/> */}
+      <Box sx={{display:'flex',flexDirection:'column'}}>
+      <Box
+                sx={{
+                  display: "flex",
+                  flexGrow: -1,
+                  alignItems: "right",
+                  justifyItems: "right",
+                  justifyContent:'right',
+                  width:'100%',
+                  height:'20px',
+                  boxShadow:'-2px #ccc',
+                  backgroundColor:'#4b9e44',
+                }}
+              >
+                <Translate />
+         </Box>
+      
         <Toolbar disableGutters>
-        <Box sx={{  display: 'flex' , flexGrow: 0 }}>
+        <Box sx={{  display: 'flex' , flexGrow: 0, flexDirection:'column'}}>
         <Button
               size="small"
               href=''
@@ -120,10 +151,12 @@ function ResponsiveAppBar({
               onClick={handleHomeClick}
               >
              <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-              <Avatar variant="square" alt="Remy Sharp" src="./Acasa_Logo_colored 2.svg" sx={{width:'auto',height:'70px'}}/>
+              <Avatar variant="square" alt="Remy Sharp" src="./Acasa_Logo_colored 2.svg" sx={{width:'auto',height:'60px'}}/>
               </Link>
             </Button>
+            
         </Box>
+        
         <Box display="flex"
             justifyContent="center" sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             <ToggleButtonGroup
@@ -138,27 +171,34 @@ function ResponsiveAppBar({
                 key={pageid[index]}
                 href={"/#/".concat(pageid[index])}
               >
-                <Typography textAlign="center" sx={{fontSize:'16px',fontFamily:'revert'}}>
+                <Typography textAlign="center" sx={{fontSize:'14px',fontWeight:'bold',color:'#000'}} className='fira-sans-condensed-medium'>
+                  <div >
                   {page}
-                  </Typography>
+                  </div>
+               </Typography>
               </MyButton>
             ))}
             </ToggleButtonGroup>
+            <Button sx={{paddingRight:2, paddingLeft:2,margin:0,border:'1px solid #aaa',marginLeft:2}}
+              href={"/#/feedback"}>
+              <Typography textAlign="center" sx={{fontSize:'14px',fontFamily:'revert',textTransform:'none'}}>Feedback</Typography>
+            </Button>
           </Box>
-          <Box sx={{display: 'flex' , flexGrow: 0,display: { xs: 'none', md: 'flex' }}}>
+          <Box sx={{display: 'flex' , flexGrow: 0,display: { xs: 'none', md: 'flex' },flexDirection:'column'}}>
+          
           <ImgButton
               size="small"
               href='https://bisa.org/'
               color="inherit"
               key='Bisa'
               >
-             <Avatar variant="square" alt="Remy Sharp" src="./BISA.png" sx={{width:'auto',height:'60px'}}/>
+             <Avatar variant="square" alt="Remy Sharp" src="./BISA.png" sx={{width:'auto',height:'50px'}}/>
             </ImgButton>
-            </Box>
+          </Box>
           <Box sx={{  display: 'flex' , flexGrow: 0,display: { xs: 'flex', md: 'none' }}}>
           </Box>
         </Toolbar>
-
+        </Box>
     </AppBar>
     <Routes>
                         <Route
@@ -184,6 +224,18 @@ function ResponsiveAppBar({
                         <Route
                             path="/resources"
                             element={<DrawerMapShow activeBar='resources'/>}
+                        ></Route>
+                        <Route
+                            path="/usecase"
+                            element={<DrawerMapShow activeBar='usecase'/>}
+                        ></Route>
+                        <Route
+                            path="/guide"
+                            element={<DrawerMapShow activeBar='guide'/>}
+                        ></Route>
+                        <Route
+                            path="/feedback"
+                            element={<Feedback1 />}
                         ></Route>
     </Routes>
     </Router>

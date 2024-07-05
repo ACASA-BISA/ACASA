@@ -19,7 +19,7 @@ import ListItemText from '@mui/material/ListItemText';
 
 function Copyright() {
   return (
-    <Typography variant="body2" sx={{color:'#aaaaaa'}}>
+    <Typography sx={{fontSize:12,color:'#aaaaaa'}}>
       {'Copyright © ACASA-BISA, 2024. All rights reserved.'}
       {/* <Link color="inherit" href="https://mui.com/">
         Your Website
@@ -38,7 +38,7 @@ export default function StickyFooter() {
   return (
       <Box
         sx={{
-          display: 'flex',
+          display: { xs: 'none', md: 'flex' },
           flexDirection: 'column',
           textAlign: { sm: 'center', md: 'left' },
         }}
@@ -67,7 +67,7 @@ export default function StickyFooter() {
               To address the vulnerability of South Asian countries to climatic risks, with support from the Bill & Melinda Gates Foundation (BMGF),
                the Borlaug Institute for South Asia (BISA) is working with national agriculture research systems of the region to develop ACASA.
             </Typography>
-            <Button variant="contained" href='/about' sx={{ flexShrink: 0, backgroundColor:'#111111', color:'#fece2f',padding:0,fontWeight:'bold',fontSize:'16px', fontFamily:'inherit',
+            <Button variant="contained" href='/#/about' sx={{ flexShrink: 0, backgroundColor:'#111111', color:'#fece2f',padding:0,fontWeight:'bold',fontSize:'16px', fontFamily:'inherit',
               '&:hover':{backgroundColor:'#111111'}, marginLeft:'5px',}}>
                 Read More
               </Button>
@@ -110,6 +110,18 @@ export default function StickyFooter() {
             </Typography>
             <Table size="small" aria-label="a dense table" padding='none' >
                 <TableBody >
+                <TableRow
+                  key='1'
+                  sx={{'& td': {border: 0},}}>
+                    <TableCell align="left" sx={{width:'70px'}}><Typography variant="subtitle1" sx={{color:'#ffffff'}}>
+                    Name:
+                    </Typography>
+                    </TableCell>
+                    <TableCell align="left"><Typography variant="subtitle1" sx={{color:'#ffffff',fontWeight:'bold'}}  ml={2}>
+                      Dr Pramod Aggarwal
+                    </Typography>
+                  </TableCell>
+              </TableRow>
                 <TableRow
                   key='1'
                   sx={{'& td': {border: 0},}}>
@@ -201,26 +213,37 @@ export default function StickyFooter() {
           </Box>
           </Box>
           <Divider sx={{bgcolor:'#252525', borderBottomWidth: 2, marginTop:-4, marginLeft:6,marginRight:6}}/>
-          <Box sx={{display: 'flex',flexDirection: 'row'}}>
-            <Box sx={{ width: { xs: '100%', sm: '40%' },margin:1,marginLeft:6}}><Copyright /></Box>
-            <Box sx={{ display: 'flex',flexDirection: 'row', width: { xs: '100%', sm: '40%' },margin:1,marginLeft:8,marginTop:0}}>
+          <Box sx={{display: 'flex',flexDirection: 'row',width:'100%',justifyContent:'center'}}>
+            <Box sx={{ display: 'flex',flexDirection: 'row', margin:1,marginTop:0}}>
             <ListItemButton sx={{marginRight:-2}} href='/'>
             <ListItemIcon sx={{color: '#fece2f', fontSize: '15px'}}>
                 &#9670;
                 </ListItemIcon>
-              <ListItemText primary='Home' primaryTypographyProps={{color: '#aaaaaa', fontSize: '12px',fontWeight:'normal',}} sx={{marginLeft:-5,marginRight:-1}}/>
+              <ListItemText primary='Home' primaryTypographyProps={{color: '#aaaaaa', fontSize: '13px',fontWeight:'normal',}} sx={{marginLeft:-5,marginRight:-1}}/>
+            </ListItemButton>
+            <ListItemButton sx={{marginRight:-2}} href='/#/guide'>
+            <ListItemIcon sx={{color: '#fece2f', fontSize: '15px'}}>
+                &#9670;
+                </ListItemIcon>
+              <ListItemText primary='Guide' primaryTypographyProps={{color: '#aaaaaa', fontSize: '12px',fontWeight:'normal',}} sx={{marginLeft:-5,marginRight:-1}}/>
             </ListItemButton>
             <ListItemButton sx={{marginRight:-2}} href='/#/viewer'>
             <ListItemIcon sx={{color: '#fece2f', fontSize: '15px'}}>
                 &#9670;
                 </ListItemIcon>
-              <ListItemText primary='Data Viewer' primaryTypographyProps={{color: '#aaaaaa', fontSize: '12px',fontWeight:'normal',}} sx={{marginLeft:-5,marginRight:-1}}/>
+              <ListItemText primary='Explore Data' primaryTypographyProps={{color: '#aaaaaa', fontSize: '12px',fontWeight:'normal',}} sx={{marginLeft:-5,marginRight:-1}}/>
             </ListItemButton>
             <ListItemButton sx={{marginRight:-2}} href='/#/analytics'>
             <ListItemIcon sx={{color: '#fece2f', fontSize: '15px'}}>
                 &#9670;
                 </ListItemIcon>
-              <ListItemText primary='Analytics' primaryTypographyProps={{color: '#aaaaaa', fontSize: '12px',fontWeight:'normal',}} sx={{marginLeft:-5,marginRight:-1}}/>
+              <ListItemText primary='Adaptation at a glance' primaryTypographyProps={{color: '#aaaaaa', fontSize: '12px',fontWeight:'normal',}} sx={{marginLeft:-5,marginRight:-1}}/>
+            </ListItemButton>
+            <ListItemButton sx={{marginRight:-2}} href='/#/usecase'>
+                <ListItemIcon sx={{color: '#fece2f', fontSize: '15px'}}>
+                &#9670;
+                </ListItemIcon>
+              <ListItemText primary='Use Cases' primaryTypographyProps={{color: '#aaaaaa', fontSize: '12px',fontWeight:'normal',}} sx={{marginLeft:-5,marginRight:-1}}/>
             </ListItemButton>
             <ListItemButton sx={{marginRight:-2}} href='/#/access'>
             <ListItemIcon sx={{color: '#fece2f', fontSize: '15px'}}>
@@ -242,6 +265,7 @@ export default function StickyFooter() {
             </ListItemButton>
             </Box>
           </Box>
+          <Box sx={{ display:'flex',width:'100%',justifyContent:'center',marginBottom:'5x'}}><Copyright /></Box>
         </Box>
       </Box>
   );

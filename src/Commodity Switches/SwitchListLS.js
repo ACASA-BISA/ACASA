@@ -17,7 +17,8 @@ export default function SwitchLivestock({
   const switchid = ['cattle','buffalo','goat','sheep','pig','poultry'];
   
   const padd = 8;
-  const season = ['Season: A','Season: B','Season: C','Season: D','Season: E','Season: F'];
+  const season = ['Season information to be updated','Season information to be updated','Season information to be updated','Season information to be updated',
+    'Season information to be updated','Season information to be updated'];
 
   const LightTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
@@ -85,11 +86,7 @@ export default function SwitchLivestock({
         }
         key={sname}
         label={<Typography variant="body2" sx={{paddingLeft:1}}>{switchh[index]}
-        <LightTooltip title={season[index]} placement="top" arrow>
-        <IconButton sx={{padding:0,margin:0,paddingX:'4px'}}>
-        <InfoOutlinedIcon sx={{fontSize:'12px',padding:0,margin:0}} />
-        </IconButton>
-        </LightTooltip></Typography>}
+        </Typography>}
         />
       ))}
       </FormGroup>

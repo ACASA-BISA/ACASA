@@ -19,8 +19,9 @@ import SwitchImpact from './Switch_Impact';
 import SwitchScenario from './Switch_Scenario';
 import { styled } from '@mui/material/styles';
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
+import './font.css';
 
-const top_margin = 85;
+const top_margin = 95;
 let extra = 0;
 const Items = ['Go to Home', 'Select Region','Select Commodity','Select Scenario','Climatic Risks','Impact','Adaptation Options'];
 const Items2 = ['Home', 'Region','Commodity','Scenario','Risks','Impact','Adaptation'];
@@ -35,6 +36,7 @@ export default function DrawerV({
   changeRegion,
   activeOpt,
   changeOpt,
+  CurrRisk,
   changeRisk,
   activeImpact,
   changeImpact,
@@ -157,7 +159,7 @@ export default function DrawerV({
               { index===5 && <AutoAwesomeIcon sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>} 
               { index===6 && <TuneIcon sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>} 
               {/* index===7 && <PollOutlined sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>*/}  
-              { DrOpen===false && <Typography sx={{fontSize: '13px',fontWeight:'bold',marginLeft:1.5,padding:0,fontFamily:'revert'}}>{Item}</Typography>}
+              { DrOpen===false && <Typography sx={{fontSize: '13px',fontWeight:'bold',marginLeft:1.5,padding:0}} className='roboto-condensed-xyz'>{Item}</Typography>}
            </Box>
           </ListItemButton>
         </ListItem>
@@ -195,7 +197,7 @@ export default function DrawerV({
             marginTop: '90px',
             borderLeft: 5,
             borderLeftColor: '#fece2f',
-            background:'rgba(255,255,255,0.6)',
+            background:'rgba(255,255,255,0.8)',
             borderRadius:'10px'
             },
         }}
@@ -203,7 +205,7 @@ export default function DrawerV({
         {open['Select Commodity'] === true && <SwitchCom activeCrop={activeCrop} changeCrop={changeCrop}></SwitchCom>}
         {open['Select Region'] === true && <SwitchLoc activeRegion={activeRegion} changeRegion={changeRegion} countryStateMap={LocationData}></SwitchLoc>}
         {open['Adaptation Options'] === true && <SwitchOpt activeCrop={activeCrop} activeOpt={activeOpt} changeOpt={changeOpt}></SwitchOpt>}
-        {open['Climatic Risks'] === true && <SwitchRisk2 activeCrop={activeCrop} changeRisk={changeRisk} activeScenario={activeScenario}></SwitchRisk2>}
+        {open['Climatic Risks'] === true && <SwitchRisk2 activeCrop={activeCrop} changeRisk={changeRisk} activeScenario={activeScenario} CurrRisk={CurrRisk}></SwitchRisk2>}
         {open['Impact'] === true && <SwitchImpact activeImpact={activeImpact} changeImpact={changeImpact}></SwitchImpact>}
         {open['Go to Home'] === true && (window.location.href = "/")}
         {open['Select Scenario'] === true && <SwitchScenario activeScenario={activeScenario} changeScenario={changeScenario}></SwitchScenario>}

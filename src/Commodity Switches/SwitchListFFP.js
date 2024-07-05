@@ -15,18 +15,20 @@ export default function SwitchFruits({
 }) {
   const switchh = ['Potato','Onion','Tomato','Chillies','Mango','Banana'];
   const switchid = ['potato','onion','tomato','chilli','mango','banana'];
-  
+  const disvar = {'potato':false,'onion':false,'tomato':true,'chilli':true,'mango':true,'banana':true};
   const padd = 8;
-  const season = ['Season: A','Season: B','Season: C','Season: D','Season: E','Season: F'];
+  const season = ['Analysis done for rabi/winter season or Maha season.','Onion is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as \'Kharif\' in India) and Yala in Sri Lanka.','Season information to be updated','Season information to be updated',
+    'Season information to be updated','Season information to be updated'];
 
   const LightTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
   ))(({ theme }) => ({
     [`& .${tooltipClasses.tooltip}`]: {
-      backgroundColor: theme.palette.common.white,
-      color: 'rgba(0, 0, 0, 0.87)',
+      //backgroundColor: theme.palette.common.white,
+      color: 'rgba(255, 255, 255, 0.87)',
       boxShadow: theme.shadows[1],
       fontSize: 13,
+      maxWidth: 250,
     },
   }));
 
@@ -75,21 +77,29 @@ export default function SwitchFruits({
           },
      },
   }));
+
+  const CustomFormControlLabel = styled(FormControlLabel)(({ theme }) => ({
+    '&.Mui-disabled .MuiTypography-body2': {
+      color: '#ccc', // Color for the label text when disabled
+    },
+  }));
+
   return (
     <FormControl component="fieldset" variant="standard"  sx={{paddingBottom:1, paddingLeft:6}}>
       <FormGroup>
       {switchid.map((sname,index) => (
-        <FormControlLabel
+        <CustomFormControlLabel
         control={
           <AntSwitch inputProps={{ 'aria-label': 'ant design' }} checked={activeCrop[sname]} onChange={changeCrop(sname)} name={sname} />
         }
         key={sname}
+        disabled={disvar[sname]}
         label={<Typography variant="body2" sx={{paddingLeft:1}}>{switchh[index]}
-        <LightTooltip title={season[index]} placement="top" arrow>
+        {disvar[sname]===false && <LightTooltip title={season[index]} placement="top" arrow>
         <IconButton sx={{padding:0,margin:0,paddingX:'4px'}}>
         <InfoOutlinedIcon sx={{fontSize:'12px',padding:0,margin:0}} />
         </IconButton>
-        </LightTooltip></Typography>}
+        </LightTooltip>}</Typography>}
         />
       ))}
       </FormGroup>

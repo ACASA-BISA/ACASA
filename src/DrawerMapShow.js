@@ -10,16 +10,31 @@ import TabsData from './Data_Access';
 import Floating_drawer from './Floating_Drawer';
 import ResTabsData from './Resources';
 import AboutUs from './About_Us';
-import { Box } from '@mui/material';
+import { Accordion, Box } from '@mui/material';
 import {Paper} from '@mui/material';
 import Summ_Comm from './Summ_Comm';
-import Summ_Risk from './Summ_Risk';
+import Summ_Loc from './Summ_Loc';
 import Summ_Adapt from './Summ_Adapt';
+import Summ_Adapt2 from './Summ_Adapt2';
+import Summ_Adapt3 from './Summ_Adapt3';
+import Summ_Adapt4 from './Summ_Adapt4';
+import Summ_Adapt5 from './Summ_Adapt5';
+import Summ_Adapt6 from './Summ_Adapt6';
 import Map_Risk from './Map_Risk1';
 import Map_Option from './Map_Option1';
-import Map_Extra from './Map_Extra';
+//import Map_Extra from './Map_Extra';
 import { useLocation } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
+import UseCase from './Usecase';
+import Guidee from './Guide';
+import UnitCard from './UnitRisk';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Popper from '@mui/material/Popper';
+import { area } from '@turf/turf';
+import LegendCard from './Legend_Card';
+//import Summ1 from './Summary1';
 
 async function GetData(artist) {
   const data = Papa.parse(await fetchCsv());
@@ -29,6 +44,38 @@ async function GetData(artist) {
 
 async function fetchCsv() {
   const response = await fetch('./dt_data.csv');
+  const reader = response.body.getReader();
+  const result = await reader.read();
+  const decoder = new TextDecoder('utf-8');
+  const csv = decoder.decode(result.value);
+  //console.log('csv', csv);
+  return csv;
+}
+
+async function GetData2() {
+  const data = Papa.parse(await fetchCsv2());
+  //console.log(data);
+  return data;
+}
+
+async function fetchCsv2() {
+  const response = await fetch('./Computed.csv');
+  const reader = response.body.getReader();
+  const result = await reader.read();
+  const decoder = new TextDecoder('utf-8');
+  const csv = decoder.decode(result.value);
+  //console.log('csv', csv);
+  return csv;
+}
+
+async function GetData3() {
+  const data = Papa.parse(await fetchCsv3());
+  //console.log(data);
+  return data;
+}
+
+async function fetchCsv3() {
+  const response = await fetch('./Computed_Hazard.csv');
   const reader = response.body.getReader();
   const result = await reader.read();
   const decoder = new TextDecoder('utf-8');
@@ -75,29 +122,35 @@ export default function DrawerMapShow({
     const switchscenarioid = ['baseline','ssp245','ssp585'];
 
     const Comm = ['Rice','Wheat','Maize','Sorghum','Finger Millet','Pearl Millet',
-    'Safflower','Sunflower','Rapeseed/Mustard','Sesame','Groundnut',
+    'Safflower','Sunflower','Mustard','Sesame','Groundnut',
     'Soybean','Chickpea','Pigeonpea','Black Gram','Green Gram','Lentil',
     'Cotton','Jute','Rubber','Sugarcane','Tea','Coconut',
     'Cattle','Buffalo','Goat','Sheep','Pig','Poultry',
     'Freshwater','Brackish','Marine','Cold water',
     'Potato','Onion','Tomato','Chillies','Mango','Banana'];
 
-    const opt = ['Stress Tolerant Variety','Early Sowing','Levelling','Zero Tillage','Broad Bed and Furrow',
-    'DSR (Dry Seed)','DSR (Wet Seed)','System of Rice Intensification','Farm Pond','Microirrigation','Precision Water Management',
-    'Low Tech Precision Technology','High Tech Precision Technology','Deep Placement of Urea',
-    'ICT Agro Advisory','Crop Insurance','Land Management','Feed Management','Herd Management',
+    const opt = ['Stress Tolerant Variety','Early Sowing','Precision Land Levelling','Zero Tillage with residue','Broad Bed and Furrow',
+    'DSR (Dry Seed)','DSR (Wet Seed)','System of Rice Intensification','Supplemental Irrigation','Microirrigation','Precision Water Management',
+    'Low-tech Precision Technology','High-tech Precision Technology','Deep Placement of Urea',
+    'ICT-based Agro Advisory','Crop Insurance','Land Management','Feed Management','Herd Management',
     'Animal Health','Animal Productivity','Mulching','Alternate wetting and drying','Fertilizer rating and timing',
     'Manure Management','Information Use','Heat Stress Management'];
 
     const impact = ['Impact on Productivity','Value of Production'];
 
-    const Risk = ['District Level','Downscaled Risk','Risk Index','Hazard Index','Heat Stress','Heat Stress','High temperature induced spikelet sterility',
-      'Cold Stress','Terminal Heat','Days of Frost','Excess Rainfall/Waterlogging','Delayed Monsoon','Drought SPI','Dry Spell',
-    'Flood','Lodging','Biotic','Irrigation','Water Holding','Income','Access to Credit','Access to Market','Elevation',
-    'Access to Knowledge','Exposure Index','Number of Farmers','Cropped Area'];
+    const Risk = ['District Level','Downscaled Risk','Risk Index','Hazard Index','Low temperature induced spikelet sterility',"Untimely Rainfall",
+      'Low temperature induced pollen sterility','High temperature induced pollen sterility','Heat Stress','Heat Stress','High temperature induced spikelet sterility',
+      'Cold Stress','Low temperature induced tuberization failure','Terminal Heat','Days of Frost','Excess Rainfall and Waterlogging','Delayed Monsoon','Drought','Dry Spell',
+    'Flood','Lodging','Biotic',"Excess Rainfall",,"Temperature-Humidity Index","Hot days","Cold days","Extreme Rainfall days",
+    "Rainfall Deficit","Cyclone",'Cold stress in reproductive stage','Heat stress in reproductive stage',
+    'Heat stress during boll formation','Cold stress during flowering','High tempearture during flowering','Number of Animals per grid',
+    'Vulnerability Index','Irrigation','Soil Water Holding Capacity','Soil Organic Carbon','Income','Rural infrastructure','Socio-economic Development Indicator',
+    "Availability of crop residues",'Exposure Index','Cropped Area','Biotic Stress'];
 
-    const switchCombId = ['dl','dr','riskindex','HINDEX','HEAT STRESS','HEAT STRESS1','HEAT STRESS2','COLD STRESS','TERMINAL HEAT','FROST','ERWL','DELMON','SPI','DSN','FLOOD','LODGE','BIOTIC',
-    'irrigation','waterholding','income','credit','market','elevation','knowledge','expoindex','rural','c-area'];
+    const switchCombId = ['dl','dr','riskindex','HINDEX','COLD STRESS2',"ERWL2",'LOW POLLEN','HIGH POLLEN','HEAT STRESS','HEAT STRESS1','HEAT STRESS2',
+      'COLD STRESS','PCOLD','TERMINAL HEAT','FROST','ERWL','DELMON','SPI','DSN','FLOOD','LODGE','BIOTIC',"ER",,"THI",'HD','CD','ERD',
+    'RAINDEF','CYCL','CSTRESS REPRO','HIGH REPRO','HSTRESS BOLL','COLD FLOWER','HIGH FLOWER','animals',
+    'vulne','irrigation','waterholding','soil','GDP','ROAD','HDI',"CROPRES",'expoindex','c-area','BIOTIC2'];
 
     function createInitialCrops() {
         const initialTodos = {};
@@ -115,14 +168,13 @@ export default function DrawerMapShow({
             return initialTodos;
         }
 
-    function IntialOptions2() {
-          const initialTodos = {};
-          opt.forEach((sname) => {
-            initialTodos[sname] = false;
-          });
-          initialTodos['Stress Tolarent Variety'] = true;
-          return initialTodos;
-      }
+const [opt2,setopt2] = React.useState("High-tech Precision Technology");
+const [opt3,setopt3] = React.useState("Early Sowing");
+const [opt4,setopt4] = React.useState("ICT-based Agro Advisory");
+const [opt5,setopt5] = React.useState("Microirrigation");
+const [opt6,setopt6] = React.useState("Zero Tillage with residue");
+const [opt7,setopt7] = React.useState("Fertilizer rating and timing");
+const [acc,setacc] = React.useState(false);
 
     function InitialHazard() {
         const haz = {};
@@ -180,15 +232,15 @@ export default function DrawerMapShow({
     );
     
     const [crop2, setCrop2] = React.useState(
+      'Rice'
+    );
+
+    const [crop3, setCrop3] = React.useState(
       createInitialCrops
     );
 
     const [option, setOption] = React.useState(
         IntialOptions
-    );
-
-    const [option2, setOption2] = React.useState(
-      IntialOptions2
     );
 
     function initialCrop() {
@@ -251,11 +303,14 @@ export default function DrawerMapShow({
       };
 
     const handleChangeSumm = (name) => {
-        const newState = { ...crop2};
-        fullList.map((sname) => {
+      const newState = { ...crop};
+        fullList.map((sname,index) => {
         newState[sname] = sname === name;
+        if(sname===name){
+          setCrop2(Comm[index]);
+      }
         });
-        setCrop2(newState);
+        setCrop3(newState);
       };
     
     const changeRisk = (name) => {
@@ -296,12 +351,28 @@ export default function DrawerMapShow({
         setImpactName('');
     };
 
-    const handleChangeOptSumm = (name) => (event) => {
-      const newState = { ...option2 };
-      opt.map((sname) => {
-      newState[sname] = sname === name;
-      });
-      setOption(newState);
+    const handleChangeOptSumm = (name) => {
+      setopt2(name);
+    };
+
+    const handleChangeOptSumm2 = (name) => {
+      setopt3(name);
+    };
+
+    const handleChangeOptSumm3 = (name) => {
+      setopt4(name);
+    };
+
+    const handleChangeOptSumm4 = (name) => {
+      setopt5(name);
+    };
+
+    const handleChangeOptSumm5 = (name) => {
+      setopt6(name);
+    };
+
+    const handleChangeOptSumm6 = (name) => {
+      setopt7(name);
     };
 
   const [data1, setData1] = React.useState([]);
@@ -336,6 +407,48 @@ export default function DrawerMapShow({
     }
   }
 
+  const [area_data, setarea_data] = React.useState([]);
+
+  React.useEffect(() => {
+    async function fetchData2() {
+      const data = await GetData2();
+      setarea_data(data);
+    }
+    fetchData2();
+  }, []);
+
+  const area_dict = {};
+
+  if(area_data && area_data.data && area_data.data.length > 0){
+    for(let i = 1; i < area_data.data.length; i++){
+      const row1 = area_data.data[i];
+      area_dict[row1[0]] = {'Unsuitable':row1[1],'Suitable':row1[2],'Adaptation Benefits':row1[3],
+        'Unsuitable_Area':row1[4],'Suitable_Area':row1[5],'Adaptation Benefits_Area':row1[6]
+      };
+    }
+  }
+
+  const [area_data2, setarea_data2] = React.useState([]);
+
+  React.useEffect(() => {
+    async function fetchData3() {
+      const data = await GetData3();
+      setarea_data2(data);
+    }
+    fetchData3();
+  }, []);
+
+  const area_dict2 = {};
+
+  if(area_data2 && area_data2.data && area_data2.data.length > 0){
+    for(let i = 1; i < area_data2.data.length; i++){
+      const row1 = area_data2.data[i];
+      area_dict[row1[0]] = {'Very Low':row1[1],'Low':row1[2],'Medium':row1[3],'High':row1[4],'Very High':row1[5],
+        'Very Low_Area':row1[6],'Low_Area':row1[7],'Medium_Area':row1[8],'High_Area':row1[9],'Very High_Area':row1[10]
+      };
+    }
+  }
+
     const OnFocus = ['Region','Country','State'];
 
     const [focus, setfocus] = React.useState(
@@ -344,16 +457,24 @@ export default function DrawerMapShow({
     
     const [activeRegion,setActiveRegion] = React.useState(Homeregion);
 
+    const [focus2, setfocus2] = React.useState('Region');
+    const [activeRegion2,setActiveRegion2] = React.useState("South Asia");
+
     const ActiveRegionChange = (fname,rname) => {
         setfocus(fname);
         setActiveRegion(rname);
       };
 
+    const ActiveRegionChange2 = (fname,rname) => {
+        setfocus2(fname);
+        setActiveRegion2(rname);
+      };
 
     const container = useRef(null);
     const [height1, setHeight1] = React.useState(null);
     return (
         <div>
+          <Box sx={{display:{xs:'none',md:'block'}}}>
         {activeBar==='access' && <div style={{backgroundColor:'#f8f8f8', minHeight:'calc(100vh - 80px)'  }}>
         <TabsData activeTab={activeTab}></TabsData>
         <Floating_drawer activeCrop={Currcrop} activeRegion={activeRegion}></Floating_drawer>
@@ -361,58 +482,274 @@ export default function DrawerMapShow({
         {activeBar==='resources' && <div style={{ minHeight:'calc(100vh - 80px)'  }}>
           <ResTabsData></ResTabsData>
         </div>}
+        {activeBar==='usecase' && <div style={{ minHeight:'calc(100vh - 80px)'  }}>
+          <UseCase></UseCase>
+        </div>}
+        {activeBar==='guide' && <div style={{ minHeight:'calc(100vh - 80px)'  }}>
+          <Guidee></Guidee>
+        </div>}
         {activeBar==='about' && <AboutUs></AboutUs>}
-        {(activeBar==='viewer') &&<MApp activeCrop={crop} focus={focus} activeRegion={activeRegion} activeOpt={option} CurrRisk={CurrRisk} activeImpact={CurrImpact}></MApp>}
-        {activeBar==='viewer' && <DrawerV activeCrop={crop} changeCrop={handleChange} LocationData={countryStateMap} activeRegion={activeRegion} changeRegion={ActiveRegionChange}
+        {(activeBar==='viewer') &&<MApp activeCrop={Currcrop} activeScenario={scenario} focus={focus} activeRegion={activeRegion} activeOpt={CurrOpt} CurrRisk={RiskName} activeImpact={CurrImpact}></MApp>}
+        {activeBar==='viewer' && <DrawerV activeCrop={crop} changeCrop={handleChange} LocationData={countryStateMap} activeRegion={activeRegion} changeRegion={ActiveRegionChange} CurrRisk={RiskName}
         activeOpt={option} changeOpt={handleChangeOpt} changeRisk={changeRisk} activeImpact={CurrImpact} changeImpact={changeImpact} activeScenario={scenario} changeScenario={handleScenarioChange}></DrawerV>}
         {/*activeBar==='analytics' && <DrawerA activeCrop={crop} changeCrop={handleChange} LocationData={countryStateMap} activeRegion={activeRegion} changeRegion={ActiveRegionChange}></DrawerA>*/}
         {(/* activeBar==='analytics' ||  */activeBar==='viewer') && <div ref={container}><LocationCard location={activeRegion} commodity={Currcrop} adaption={CurrOpt} setHeight1={setHeight1}
-        RiskName={RiskName} scenario={NameScenario} ImpactName={ImpactName}></LocationCard></div>}
-        {(activeBar==='viewer') && CurrOpt!=='' && <AdaptationCard activeCrop={Currcrop} activeRegion={activeRegion} adapOption={CurrOpt} heightnext={height1}></AdaptationCard>}
-
+        RiskName={RiskName} scenario={NameScenario} ImpactName={ImpactName} area_data={area_dict} area_data2={area_data2}></LocationCard></div>}
+        {/*(activeBar==='viewer') && CurrOpt!=='' && <AdaptationCard activeCrop={Currcrop} activeRegion={activeRegion} adapOption={CurrOpt} heightnext={height1}></AdaptationCard>*/}
+        {/* <Summ1
+        crop2={crop2} focus2={focus2} activeRegion2={activeRegion2} option={option} CurrRisk2={CurrRisk2} handleChangeSumm={handleChangeSumm} ActiveRegionChange2={ActiveRegionChange2} opt2={opt2} 
+        handleChangeOptSumm={handleChangeOptSumm} option2={option2} opt3={opt3} handleChangeOptSumm2={handleChangeOptSumm2} option3={option3} opt4={opt4} handleChangeOptSumm3={handleChangeOptSumm3} 
+        option4={option4} opt5={opt5} handleChangeOptSumm4={handleChangeOptSumm4} option5={option5} 
+        ></Summ1>} */}
+        {(/* activeBar==='analytics' ||  */activeBar==='viewer') && (RiskName!=""||CurrOpt!="") && <LegendCard location={activeRegion} commodity={Currcrop} adaption={CurrOpt}
+        RiskName={RiskName} scenario={NameScenario} ImpactName={ImpactName} area_data={area_dict} area_data2={area_data2}></LegendCard>}
+        
         {(activeBar==='analytics') && 
-        <div><Box sx={{width:'auto', display:'flex',height:'calc(100vh - 80px)',flexDirection:'row',justifyContent:'center',marginX:'auto',marginTop:'80px',backgroundColor:'#fff'}} gap='2vw'>
-        <Box sx={{display:'flex',flexDirection:'column',gap:'2vh',marginTop:'4px',alignItems:'center'}}>
-        <Box sx={{paddingX:'8px',paddingY:'4px',display:'flex',flexDirection:'row',justifyContent:'center',gap:'4px',alignItems:'center',width:'47vw',backgroundColor:'#F7F7F7',border:'0px solid black'}}>
+        
+         <div>
+        <Box sx={{width:'auto', display:'flex',maxHeight:'calc(100vh - 90px)',flexDirection:'row',justifyContent:'center',marginX:'auto',marginTop:'90px',backgroundColor:'#fff'}} gap='2vw'>
+        <Popper
+        sx={{zIndex:2}}
+        open={true}
+        >
+        <div style={{position:'absolute',left:'3vw',top:100,width:'calc(23vw + 16px)', boxShadow:'0px 0px 0px #aaa', borderRadius:'15px'}}>
+        <Accordion expanded={acc} onMouseOver={()=>setacc(true)} onMouseLeave={()=>setacc(false)}>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1-content"
+          id="panel1-header"
+          sx={{justifyItems:'center',alignContent:'center',marginY:'-5px',backgroundColor:'#F7F7F7'}}
+        > <Typography sx={{ fontSize: 15, fontWeight:'bold', color:'#143200',marginLeft:'4px'}}>Data layers at a glance</Typography>
+        </AccordionSummary>
+        <AccordionDetails sx={{marginY:'-5px'}}>This overview page allows you to select a specific crop and region of your choice, and explore the associated adaptation options
+           comprehensively on one page.
+        </AccordionDetails>
+        </Accordion>
+        </div>
+        </Popper>
+        <Box sx={{display:'flex',flexDirection:'column',gap:'12px',marginTop:'4px',alignItems:'center'}}>
+        <Box sx={{height:'40px'}}></Box>
+        <Box sx={{paddingX:'8px',paddingY:'4px',display:'flex',flexDirection:'row',justifyContent:'center',gap:'4px',alignItems:'center',width:'23vw',backgroundColor:'#F7F7F7',border:'0px solid black'}}>
         <Typography sx={{fontSize:14,fontWeight:'bold'}}>Commodity: </Typography>
         <Summ_Comm changeComm={handleChangeSumm}></Summ_Comm>
+        <Typography sx={{marginLeft:'5px',fontSize:14,fontWeight:'bold'}}>Location: </Typography>
+        <Summ_Loc focus={focus2} activeRegion={activeRegion2} changeReg={ActiveRegionChange2}></Summ_Loc>
         </Box>
         <Box sx={{display:'flex',flexDirection:'row',gap:'2vh'}}> 
+          <Box sx={{display:'flex',flexDirection:'column'}}>
+          <Box sx={{display:'flex',flexDirection:'row',justifyContent:'center'}}>
+                    <Box sx={{width: 10,height: 10,borderRadius: 1,bgcolor: "#FF0000",margin:'4px'}}/>
+                    <Typography sx={{ fontSize: 10, margin:'2px' }} color="text.secondary" gutterBottom> 
+                    Extreme
+                    </Typography>
+                    <Box sx={{width: 10,height: 10,borderRadius: 1,bgcolor: '#FFA500',margin:'4px'}}/>
+                    <Typography sx={{ fontSize: 10, margin:'2px' }} color="text.secondary" gutterBottom> 
+                    Very High
+                    </Typography>
+                    <Box sx={{width: 10,height: 10,borderRadius: 1,bgcolor: '#FFFF00',margin:'4px'}}/>
+                    <Typography sx={{ fontSize: 10, margin:'2px' }} color="text.secondary" gutterBottom> 
+                    High
+                    </Typography>
+                    <Box sx={{width: 10,height: 10,borderRadius: 1,bgcolor: '#00FF00',margin:'4px'}}/>
+                    <Typography sx={{ fontSize: 10, margin:'2px' }} color="text.secondary" gutterBottom> 
+                    Medium
+                    </Typography>
+                    <Box sx={{width: 10,height: 10,borderRadius: 1,bgcolor: '#059212',margin:'4px'}}/>
+                    <Typography sx={{ fontSize: 10, margin:'2px' }} color="text.secondary" gutterBottom> 
+                    Low
+                    </Typography>
+
+          </Box>
         <Paper elevation={1}>
-        <Map_Risk activeCrop={crop2} focus={focus} activeRegion={activeRegion} CurrRisk={CurrRisk2}></Map_Risk>
+        <Map_Risk activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} CurrRisk={CurrRisk2}></Map_Risk>
         </Paper>
-        <Paper elevation={1}>
-        <SMap activeCrop={crop2} focus={focus} activeRegion={activeRegion} activeOpt={option} CurrRisk={CurrRisk}></SMap>
-        </Paper>
+        </Box>
+        {/* <Paper elevation={1}>
+        <SMap activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={option} CurrRisk={CurrRisk2}></SMap>
+        </Paper> */}
         </Box>
         
         </Box>
         
-        <Box sx={{display:'flex',flexDirection:'column',gap:'2vh',marginTop:'4px'}}>
-        <Box sx={{paddingX:'8px',paddingY:'4px',display:'flex',flexDirection:'row',justifyContent:'center',gap:'4px',alignItems:'center'}}><Typography sx={{fontSize:14}}>Adaptation: </Typography>
-        <Summ_Adapt changeOption={handleChangeOptSumm}></Summ_Adapt></Box>
-        <Paper elevation={1}>
-        <Map_Option activeCrop={crop2} focus={focus} activeRegion={activeRegion} activeOpt={option2}></Map_Option>
-        </Paper>
-        <Box sx={{paddingX:'8px',paddingY:'4px',display:'flex',flexDirection:'row',justifyContent:'center',gap:'4px',alignItems:'center'}}><Typography sx={{fontSize:14}}>Adaptation: </Typography>
-        <Summ_Adapt changeOption={handleChangeOptSumm}></Summ_Adapt></Box>
-        <Paper elevation={1}>
-        <Map_Option activeCrop={crop2} focus={focus} activeRegion={activeRegion} activeOpt={option2}></Map_Option>
-        </Paper>
+        <Box sx={{display:'flex',flexDirection:'column',gap:'1vh',marginTop:'4px'}}>
+        <div>
+        <Box sx={{paddingX:'8px',paddingY:'4px',display:'flex',flexDirection:'row',justifyContent:'center',gap:'4px',alignItems:'center'}}><Typography sx={{fontSize:12}}>Adaptation: </Typography>
+        <Summ_Adapt activv={opt2} changeOption={handleChangeOptSumm} activeCrop={crop3}></Summ_Adapt>
         </Box>
-        <Box sx={{display:'flex',flexDirection:'column',gap:'2vh',marginTop:'4px'}}>
-        <Box sx={{paddingX:'8px',paddingY:'4px',display:'flex',flexDirection:'row',justifyContent:'center',gap:'4px',alignItems:'center'}}><Typography sx={{fontSize:14}}>Adaptation: </Typography>
-        <Summ_Adapt changeOption={handleChangeOptSumm}></Summ_Adapt></Box>
-        <Paper elevation={1}>
-        <Map_Option activeCrop={crop2} focus={focus} activeRegion={activeRegion} activeOpt={option2}></Map_Option>
+        <Box sx={{display:'flex',flexDirection:'row', width:'100%',justifyContent:'center', gap:'4px'}}>
+                    <Box sx={{display:'flex',flexDirection:'row'}}>
+                    <Box sx={{width: 10,height: 10,borderRadius: 1,bgcolor: 'rgba(180, 70, 109, 1)',margin:'2px'}}/>
+                    <Typography sx={{ fontSize: 10}} color="text.secondary" gutterBottom> 
+                    Unsuitable
+                    </Typography>
+                    </Box>
+                    <Box sx={{display:'flex',flexDirection:'row'}}>
+                    <Box sx={{width: 10,height: 10,borderRadius: 1,bgcolor: '#FF9A00',margin:'2px'}}/>
+                    <Typography sx={{ fontSize: 10 }} color="text.secondary" gutterBottom> 
+                    Suitable
+                    </Typography>
+                    </Box>
+                    <Box sx={{display:'flex',flexDirection:'row'}}>
+                    <Box sx={{width: 11,height: 11,borderRadius: 1,bgcolor: "#06D001",margin:'2px'}}/>
+                    <Typography sx={{ fontSize: 10}} color="text.secondary" gutterBottom> 
+                    Adaptation benefits
+                    </Typography>
+                    </Box>
+         </Box>
+        <Paper elevation={1} sx={{width:'21vw'}}>
+        <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt2}></Map_Option>
         </Paper>
-        <Box sx={{paddingX:'8px',paddingY:'4px',display:'flex',flexDirection:'row',justifyContent:'center',gap:'4px',alignItems:'center'}}><Typography sx={{fontSize:14}}>Adaptation: </Typography>
-        <Summ_Adapt changeOption={handleChangeOptSumm}></Summ_Adapt></Box>
-        <Paper elevation={1}>
-        <Map_Option activeCrop={crop2} focus={focus} activeRegion={activeRegion} activeOpt={option2}></Map_Option>
+        </div>
+        <div>
+        <Box sx={{paddingX:'8px',paddingY:'4px',display:'flex',flexDirection:'row',justifyContent:'center',gap:'4px',alignItems:'center'}}><Typography sx={{fontSize:12}}>Adaptation: </Typography>
+        <Summ_Adapt2 activv={opt3} changeOption={handleChangeOptSumm2} activeCrop={crop3}></Summ_Adapt2>
+        </Box>
+        <Box sx={{display:'flex',flexDirection:'row', width:'100%',justifyContent:'center', gap:'4px'}}>
+                    <Box sx={{display:'flex',flexDirection:'row'}}>
+                    <Box sx={{width: 10,height: 10,borderRadius: 1,bgcolor: 'rgba(180, 70, 109, 1)',margin:'2px'}}/>
+                    <Typography sx={{ fontSize: 10}} color="text.secondary" gutterBottom> 
+                    Unsuitable
+                    </Typography>
+                    </Box>
+                    <Box sx={{display:'flex',flexDirection:'row'}}>
+                    <Box sx={{width: 10,height: 10,borderRadius: 1,bgcolor: '#FF9A00',margin:'2px'}}/>
+                    <Typography sx={{ fontSize: 10 }} color="text.secondary" gutterBottom> 
+                    Suitable
+                    </Typography>
+                    </Box>
+                    <Box sx={{display:'flex',flexDirection:'row'}}>
+                    <Box sx={{width: 11,height: 11,borderRadius: 1,bgcolor: "#06D001",margin:'2px'}}/>
+                    <Typography sx={{ fontSize: 10}} color="text.secondary" gutterBottom> 
+                    Adaptation benefits
+                    </Typography>
+                    </Box>
+         </Box>
+        <Paper elevation={1} sx={{width:'21vw'}}>
+        <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt3}></Map_Option>
         </Paper>
+        </div>
+        </Box>
+        <Box sx={{display:'flex',flexDirection:'column',gap:'1vh',marginTop:'4px'}}>
+        <div>
+        <Box sx={{paddingX:'8px',paddingY:'4px',display:'flex',flexDirection:'row',justifyContent:'center',gap:'4px',alignItems:'center'}}><Typography sx={{fontSize:12}}>Adaptation: </Typography>
+        <Summ_Adapt3 activv={opt4} changeOption={handleChangeOptSumm3} activeCrop={crop3}></Summ_Adapt3>
+        </Box>
+        <Box sx={{display:'flex',flexDirection:'row', width:'100%',justifyContent:'center', gap:'4px'}}>
+                    <Box sx={{display:'flex',flexDirection:'row'}}>
+                    <Box sx={{width: 10,height: 10,borderRadius: 1,bgcolor: 'rgba(180, 70, 109, 1)',margin:'2px'}}/>
+                    <Typography sx={{ fontSize: 10}} color="text.secondary" gutterBottom> 
+                    Unsuitable
+                    </Typography>
+                    </Box>
+                    <Box sx={{display:'flex',flexDirection:'row'}}>
+                    <Box sx={{width: 10,height: 10,borderRadius: 1,bgcolor: '#FF9A00',margin:'2px'}}/>
+                    <Typography sx={{ fontSize: 10 }} color="text.secondary" gutterBottom> 
+                    Suitable
+                    </Typography>
+                    </Box>
+                    <Box sx={{display:'flex',flexDirection:'row'}}>
+                    <Box sx={{width: 11,height: 11,borderRadius: 1,bgcolor: "#06D001",margin:'2px'}}/>
+                    <Typography sx={{ fontSize: 10}} color="text.secondary" gutterBottom> 
+                    Adaptation benefits
+                    </Typography>
+                    </Box>
+         </Box>
+        <Paper elevation={1} sx={{width:'21vw'}}>
+        <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt4}></Map_Option>
+        </Paper>
+        </div>
+        <div>
+        <Box sx={{paddingX:'8px',paddingY:'4px',display:'flex',flexDirection:'row',justifyContent:'center',gap:'4px',alignItems:'center'}}><Typography sx={{fontSize:12}}>Adaptation: </Typography>
+        <Summ_Adapt4 activv={opt5} changeOption={handleChangeOptSumm4} activeCrop={crop3}></Summ_Adapt4>
+        </Box>
+        <Box sx={{display:'flex',flexDirection:'row', width:'100%',justifyContent:'center', gap:'4px'}}>
+                    <Box sx={{display:'flex',flexDirection:'row'}}>
+                    <Box sx={{width: 10,height: 10,borderRadius: 1,bgcolor: 'rgba(180, 70, 109, 1)',margin:'2px'}}/>
+                    <Typography sx={{ fontSize: 10}} color="text.secondary" gutterBottom> 
+                    Unsuitable
+                    </Typography>
+                    </Box>
+                    <Box sx={{display:'flex',flexDirection:'row'}}>
+                    <Box sx={{width: 10,height: 10,borderRadius: 1,bgcolor: '#FF9A00',margin:'2px'}}/>
+                    <Typography sx={{ fontSize: 10 }} color="text.secondary" gutterBottom> 
+                    Suitable
+                    </Typography>
+                    </Box>
+                    <Box sx={{display:'flex',flexDirection:'row'}}>
+                    <Box sx={{width: 11,height: 11,borderRadius: 1,bgcolor: "#06D001",margin:'2px'}}/>
+                    <Typography sx={{ fontSize: 10}} color="text.secondary" gutterBottom> 
+                    Adaptation benefits
+                    </Typography>
+                    </Box>
+         </Box>
+        <Paper elevation={1} sx={{width:'21vw'}}>
+        <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt5}></Map_Option>
+        </Paper>
+        </div>
+        </Box>
+        <Box sx={{display:'flex',flexDirection:'column',gap:'1vh',marginTop:'4px'}}>
+        <div>
+        <Box sx={{paddingX:'8px',paddingY:'4px',display:'flex',flexDirection:'row',justifyContent:'center',gap:'4px',alignItems:'center'}}><Typography sx={{fontSize:12}}>Adaptation: </Typography>
+        <Summ_Adapt5 activv={opt6} changeOption={handleChangeOptSumm5} activeCrop={crop3}></Summ_Adapt5>
+        </Box>
+        <Box sx={{display:'flex',flexDirection:'row', width:'100%',justifyContent:'center', gap:'4px'}}>
+                    <Box sx={{display:'flex',flexDirection:'row'}}>
+                    <Box sx={{width: 10,height: 10,borderRadius: 1,bgcolor: 'rgba(180, 70, 109, 1)',margin:'2px'}}/>
+                    <Typography sx={{ fontSize: 10}} color="text.secondary" gutterBottom> 
+                    Unsuitable
+                    </Typography>
+                    </Box>
+                    <Box sx={{display:'flex',flexDirection:'row'}}>
+                    <Box sx={{width: 10,height: 10,borderRadius: 1,bgcolor: '#FF9A00',margin:'2px'}}/>
+                    <Typography sx={{ fontSize: 10 }} color="text.secondary" gutterBottom> 
+                    Suitable
+                    </Typography>
+                    </Box>
+                    <Box sx={{display:'flex',flexDirection:'row'}}>
+                    <Box sx={{width: 11,height: 11,borderRadius: 1,bgcolor: "#06D001",margin:'2px'}}/>
+                    <Typography sx={{ fontSize: 10}} color="text.secondary" gutterBottom> 
+                    Adaptation benefits
+                    </Typography>
+                    </Box>
+         </Box>
+        <Paper elevation={1} sx={{width:'21vw'}}>
+        <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt6}></Map_Option>
+        </Paper>
+        </div>
+        <div>
+        <Box sx={{paddingX:'8px',paddingY:'4px',display:'flex',flexDirection:'row',justifyContent:'center',gap:'4px',alignItems:'center'}}><Typography sx={{fontSize:12}}>Adaptation: </Typography>
+        <Summ_Adapt6 activv={opt7} changeOption={handleChangeOptSumm6} activeCrop={crop3}></Summ_Adapt6>
+        </Box>
+        <Box sx={{display:'flex',flexDirection:'row', width:'100%',justifyContent:'center', gap:'4px'}}>
+                    <Box sx={{display:'flex',flexDirection:'row'}}>
+                    <Box sx={{width: 10,height: 10,borderRadius: 1,bgcolor: 'rgba(180, 70, 109, 1)',margin:'2px'}}/>
+                    <Typography sx={{ fontSize: 10}} color="text.secondary" gutterBottom> 
+                    Unsuitable
+                    </Typography>
+                    </Box>
+                    <Box sx={{display:'flex',flexDirection:'row'}}>
+                    <Box sx={{width: 10,height: 10,borderRadius: 1,bgcolor: '#FF9A00',margin:'2px'}}/>
+                    <Typography sx={{ fontSize: 10 }} color="text.secondary" gutterBottom> 
+                    Suitable
+                    </Typography>
+                    </Box>
+                    <Box sx={{display:'flex',flexDirection:'row'}}>
+                    <Box sx={{width: 11,height: 11,borderRadius: 1,bgcolor: "#06D001",margin:'2px'}}/>
+                    <Typography sx={{ fontSize: 10}} color="text.secondary" gutterBottom> 
+                    Adaptation benefits
+                    </Typography>
+                    </Box>
+         </Box>
+        <Paper elevation={1} sx={{width:'21vw'}}>
+        <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt7}></Map_Option>
+        </Paper>
+        </div>
         </Box>
         </Box></div>}
+        </Box>
+        <Box sx={{marginTop:'80px',width:'100%',height:'calc(100vh - 80px)',alignItems:'center',justifyContent:'center',display: { xs: 'flex', md: 'none' }}}>
+          <Typography>This website is designed for desktop/laptop. Please view in a bigger screen.</Typography>
+        </Box>
         </div>
     );
 }

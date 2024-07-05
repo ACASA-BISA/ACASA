@@ -20,6 +20,7 @@ export default function SwitchesGroup({
 }) {
   const switchh = ['Cereals','Legumes','Oilseeds','Fruits and Vegetables','Industrial Crops','Livestock','Fisheries'];
   const switchid = ['cereals', 'legumes', 'oilseeds', 'fruits', 'industrial','livestock','fisheries'];
+  const disvar = {'cereals':false, 'legumes':false, 'oilseeds':false, 'fruits':false, 'industrial':false,'livestock':false,'fisheries':true};
 
   function createInitialTodos() {
   const initialTodos = {};
@@ -86,6 +87,12 @@ export default function SwitchesGroup({
      },
   }));
 
+  const CustomFormControlLabel = styled(FormControlLabel)(({ theme }) => ({
+    '&.Mui-disabled .MuiTypography-body2': {
+      color: '#ccc', // Color for the label text when disabled
+    },
+  }));
+
   return (
     <FormControl component="fieldset" variant="standard"  sx={{paddingTop:1, paddingLeft:3}}>
       <FormLabel sx={{display:'flex',paddingBottom:1}}>
@@ -94,12 +101,13 @@ export default function SwitchesGroup({
       
       {switchid.map((sname,index) => (
         <FormGroup>
-        <FormControlLabel
+        <CustomFormControlLabel
         control={
           <AntSwitch inputProps={{ 'aria-label': 'ant design' }} checked={state[sname]} 
           onChange={handleChange(sname)} name={sname} />
         } 
         key={sname}
+        disabled={disvar[sname]}
         label={<Typography variant="body2" sx={{paddingLeft:1}}>{switchh[index]}</Typography>}
         />
         {state[sname] && sname === 'cereals' && (

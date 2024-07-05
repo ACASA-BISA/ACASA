@@ -56,6 +56,7 @@ export default function BasicSelect({
   };
   const handleChange = (event) => {
     setReg(event.target.value);
+    setState("");
     if(event.target.value==='SA'){
       changeRegion('Region',countryMap[event.target.value]);
     }

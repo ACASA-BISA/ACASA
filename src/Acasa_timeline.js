@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Paper, Button } from '@mui/material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Timeline from '@mui/lab/Timeline';
@@ -9,10 +8,6 @@ import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent';
 import TimelineDot from '@mui/lab/TimelineDot';
-import FastfoodIcon from '@mui/icons-material/Fastfood';
-import LaptopMacIcon from '@mui/icons-material/LaptopMac';
-import HotelIcon from '@mui/icons-material/Hotel';
-import RepeatIcon from '@mui/icons-material/Repeat';
 
 const logoStyle = {
     width: '18vw',
@@ -33,7 +28,100 @@ export default function Timeline2(
         <TimelineItem>
             <TimelineOppositeContent
             sx={{ mt: '15px' }}
-            align="right"
+            variant="body2"
+            color="text.secondary"
+            >
+            <Typography>13th December, 2023</Typography>
+            <Typography>Nepal</Typography>
+            </TimelineOppositeContent>
+            <TimelineSeparator>
+            <img src={'tvtoday.png'}
+                style={logoStyle}
+                alt="Timeline1"/>
+            <TimelineConnector />
+            </TimelineSeparator>
+            <TimelineContent sx={{ py: '12px', px: 2 }}>
+            <Box sx={{padding:'20px',border:1,borderColor:'#4b9e44',height:'auto',width:'25vw'}}>
+            <Typography variant="h5" component="span" sx={{color:'#4b9e44',fontWeight:'bold'}}>
+            TV Today
+            </Typography>
+            <Typography sx={{fontWeight:'bold',lineHeight:'22px',fontSize:'18px',color:'#333333',mt:'10px'}}>
+            Partners Interview
+            </Typography>
+            <Typography sx={{mt:'10px', fontSize:'15px'}}>In frame: Hon’ble Secretary (Livestock Development), MoALD, Nepal; Dhruba Raj Bhattarai, NARC, Nepal; Pramod Aggarwal, BISA-CIMMYT, India; Tess Russo, BMGF, Seattle; Roshan B Ojha, NARC; Amar Bahadur Pun, NARC talks ACASA.</Typography>
+            <Typography sx={{color:'#444444',marginTop:'10px'}}>
+            <a href="https://www.facebook.com/tvtodayhd/videos/368122882369588/" target="_blank" rel="noopener noreferrer" style={{fontWeight:'bold',color:'#333333',textDecoration:'none'}}>Watch</a>
+            </Typography>
+            </Box>
+            </TimelineContent>
+        </TimelineItem>
+        <TimelineItem>
+            <TimelineOppositeContent
+            sx={{ mt:'15px' }}
+            variant="body2"
+            color="text.secondary"
+            >
+            <Typography>12th December, 2023</Typography>
+            <Typography>Nepal</Typography>
+            </TimelineOppositeContent>
+            <TimelineSeparator>
+            <img src={'kantipurtv.png'}
+                style={logoStyle}
+                alt="Timeline2"/>
+            <TimelineConnector />
+            </TimelineSeparator>
+            <TimelineContent sx={{ py: '12px', px: 2 }} align='left'>
+            <Box sx={{marginLeft:'80px',padding:'20px',border:1,borderColor:'#4b9e44',height:'auto',width:'25vw', textAlign:'right' }}>
+            <Typography variant="h5" component="span" sx={{color:'#4b9e44',fontWeight:'bold'}}>
+            Kantipur TV
+            </Typography>
+            <Typography sx={{fontWeight:'bold',lineHeight:'22px',fontSize:'18px',color:'#333333',mt:'10px'}}>
+            Regular News Time
+            </Typography>
+            <Typography sx={{mt:'10px',fontSize:'15px'}}>Coverage for ACASA Annual Project Review and Planning Meet 2023 conducted at Kathmandu, Nepal</Typography>
+            <Typography sx={{color:'#444444',marginTop:'10px'}}>
+            <a href="https://kantipurtv.com/business/2023/12/12/1702374469.html" target="_blank" rel="noopener noreferrer" style={{fontWeight:'bold',color:'#333333',textDecoration:'none'}}>Read More</a>
+            </Typography>
+            <Typography sx={{color:'#444444',marginTop:'10px'}}>
+            <a href="https://www.youtube.com/watch?v=Dba9GhkGcz0&t=249s" target="_blank" rel="noopener noreferrer" style={{fontWeight:'bold',color:'#333333',textDecoration:'none'}}>Watch</a>
+            </Typography>
+            </Box>
+            </TimelineContent>
+        </TimelineItem>
+        <TimelineItem>
+            <TimelineOppositeContent
+            sx={{ mt: '15px' }}
+            variant="body2"
+            color="text.secondary"
+            >
+            <Typography>15th December, 2023</Typography>
+            <Typography>Nepal</Typography>
+            <Typography></Typography>
+            </TimelineOppositeContent>
+            <TimelineSeparator>
+            <img src={'Ujyaalo.png'}
+                style={logoStyle}
+                alt="Timeline3"/>
+            <TimelineConnector />
+            </TimelineSeparator>
+            <TimelineContent sx={{ py: '12px', px: 2 }}>
+            <Box sx={{padding:'20px',border:1,borderColor:'#4b9e44',height:'auto',width:'25vw'}}>
+            <Typography variant="h5" component="span" sx={{color:'#4b9e44',fontWeight:'bold'}}>
+            Ujyaalo Online
+            </Typography>
+            <Typography sx={{fontWeight:'bold',lineHeight:'22px',fontSize:'18px',color:'#333333',mt:'10px'}}>
+            Partner Radio Interview
+            </Typography>
+            <Typography sx={{mt:'10px', fontSize:'15px'}}>Roshan B Ojha, ACASA country lead, Nepal, discusses the collaboration of Nepal Agricultural Research Council (NARC) and ACASA for enabling the development of effective mitigation and adaptation options in the country. 
+            </Typography><Typography sx={{color:'#444444',marginTop:'10px'}}>
+            <a href="https://ujyaaloonline.com/show/23438" target="_blank" rel="noopener noreferrer" style={{fontWeight:'bold',color:'#333333',textDecoration:'none'}}>Listen</a>
+            </Typography>
+            </Box>
+            </TimelineContent>
+        </TimelineItem>
+        <TimelineItem>
+            <TimelineOppositeContent
+            sx={{ mt: '15px' }}
             variant="body2"
             color="text.secondary"
             >
@@ -94,7 +182,6 @@ export default function Timeline2(
         <TimelineItem>
             <TimelineOppositeContent
             sx={{ mt: '15px' }}
-            align="right"
             variant="body2"
             color="text.secondary"
             >

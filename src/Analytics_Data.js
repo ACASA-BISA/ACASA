@@ -47,14 +47,14 @@ export default function Analytics_Data() {
       <CardHeader
         titleTypographyProps={{ variant: 'subtitle1' }}
         title="Crop Topology"
-        subheader="Commodity: Rice"
+        subheader="General Layer"
         sx = {{marginTop:-1}}
       />
       <Box sx={{ marginLeft: 1, marginRight: 1,marginTop: -1}}>
         <CardMedia
           component="img"
           height="auto"
-          image="/Analytics_Rice_croptypology.png"
+          image="/Topo.png"
           alt="Crop Topology"
         />
       </Box>
@@ -70,20 +70,20 @@ export default function Analytics_Data() {
     <CardHeader
       titleTypographyProps={{ variant: 'subtitle1' }}
       title="Irrigation"
-      subheader="Commodity: Rice"
+      subheader="General Layer"
       sx = {{marginTop:-1}}
     />
     <Box sx={{ marginLeft: 1, marginRight: 1,marginTop: -1}}>
       <CardMedia
         component="img"
         height="auto"
-        image="/Analytics_Rice_irrigation.png"
+        image="/Irrigation.png"
         alt="Irrigation"
       />
     </Box>
     <CardContent  sx={{ marginBottom: -2 }}>
       <Typography variant="body2" color="text.secondary">
-      Data source: FAO</Typography>
+      Data source: Open source</Typography>
     </CardContent>
     <CardActions disableSpacing>
     <DataButton variant="contained" fullWidth>Details</DataButton>
@@ -92,21 +92,21 @@ export default function Analytics_Data() {
   <Card sx={{ width: '30%'}}>
   <CardHeader
     titleTypographyProps={{ variant: 'subtitle1' }}
-    title="Yield Gap"
-    subheader="Commodity: Rice"
+    title="Climatic Zones"
+    subheader="General Layer"
     sx = {{marginTop:-1}}
   />
   <Box sx={{ marginLeft: 1, marginRight: 1,marginTop: -1}}>
     <CardMedia
       component="img"
       height="auto"
-      image="/Analytics_Rice_yieldgap.png"
-      alt="Yield Gap"
+      image="/Climate.png"
+      alt="Farm Size"
     />
   </Box>
   <CardContent  sx={{ marginBottom: -2 }}>
     <Typography variant="body2" color="text.secondary">
-    Data source: </Typography>
+    Data source: Open source</Typography>
   </CardContent>
   <CardActions disableSpacing>
   <DataButton variant="contained" fullWidth>Details</DataButton>

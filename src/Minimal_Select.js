@@ -18,16 +18,16 @@ export function SelectMinimal({
   const switchfish = ['Freshwater','Bracklish','Marine','Cold water'];
   const switchfishid = ['freshwater','bracklish','marine','coldwater'];
 
-  const switchls = ['Cattle','Buffalo','Goat','Sheet','Pig','Poultry'];
-  const switchlsid = ['cattle','buffalo','goat','sheet','pig','poultry'];
+  const switchls = ['Cattle','Buffalo','Goat','Sheep','Pig','Poultry'];
+  const switchlsid = ['cattle','buffalo','goat','sheep','pig','poultry'];
 
   const switchind = ['Cotton','Jute','Rubber','Sugarcane','Tea','Coconut'];
   const switchindid = ['cotton','jute','rubber','sugarcane','tea','coconut'];
 
-  const switchhc = ['Soyabean','Chickpea','Pigeon Pea','Black Gram','Green Gram','Lentil'];
+  const switchhc = ['Soybean','Chickpea','Pigeonpea','Black Gram','Green Gram','Lentil'];
   const switchhcid = ['soyabean','chickpea','ppea','bgram','ggram','lentil'];
 
-  const switchoil = ['Safflower','Sunflower','Rapeseed/Mustard','Sesame','Groundnut'];
+  const switchoil = ['Safflower','Sunflower','Mustard','Sesame','Groundnut'];
   const switchoilid = ['safflower','sunflower','rapeseed','sesame','groundnut'];
 
   const handleChange = (event) => {

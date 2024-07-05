@@ -24,25 +24,25 @@ export default function AdaptationCard({
   return (
     <Popper
     open={true} >
-        <div style={{position:'fixed',right:10,top:heightnext+100, boxShadow:'0px 0px 0px #aaa',backgroundColor: 'white', border: '0px solid black', width:'250px', borderRadius:'15px' }}>
+        <div style={{position:'fixed',right:10,top:heightnext+100, boxShadow:'0px 0px 0px #aaa',backgroundColor: 'white', border: '0px solid black', width:'280px', borderRadius:'15px' }}>
         <Accordion defaultExpanded>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1-content"
           id="panel1-header"
-          sx={{justifyItems:'center',alignContent:'center'}}
+          sx={{justifyItems:'center',alignContent:'center',marginBottom:'-5px'}}
         > <SettingsSuggestIcon fontSize='small' color='inherit' />
         <Typography sx={{ fontSize: 15, fontWeight:'bold', color:'#143200',marginLeft:'4px'}}>
          {adapOption}
         </Typography>
         </AccordionSummary>
-        <AccordionDetails>
-        <Typography sx={{ fontSize: 14 }} color="black" gutterBottom>
+        <AccordionDetails sx={{marginBottom:-1}}>
+        <Typography sx={{ fontSize: 14 ,marginTop:'-10px'}} color="black" gutterBottom>
           Details: <Typography sx={{ fontSize: 14}} color="text.secondary" gutterBottom>
-          This map has been derived by consideration of <a href='/access' style={{color:'inherit'}}>yield gap</a>, 
-          &nbsp;<a href='/access' style={{color:'inherit'}}>hazards</a>, <a href='/access' style={{color:'inherit'}}>technical suitability</a>,
+          This map has been derived by consideration of{/* <a href='/access' style={{color:'inherit'}}>yield gap</a>,  */}
+          &nbsp;<a href='/access' style={{color:'inherit'}}>hazards</a> and <a href='/access' style={{color:'inherit'}}>technical suitability</a>{/* ,
           &nbsp;<a href='/access' style={{color:'inherit'}}>adoption barriers</a> and <a href='/access' style={{color:'inherit'}}>scalability</a>.
-          &nbsp;<a href='/access' onClick={()=>{toComponentAccess()}} style={{textDecoration:'none',color:'inherit'}}>(Access all data here)</a>
+          &nbsp;<a href='/access' onClick={()=>{toComponentAccess()}} style={{textDecoration:'none',color:'inherit'}}>(Access all data here)</a> */}
           </Typography>
         </Typography>
         </AccordionDetails>

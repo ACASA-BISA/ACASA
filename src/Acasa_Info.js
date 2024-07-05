@@ -18,24 +18,22 @@ export default function Info(
             <Box sx={{display:'flex',flexDirection:'column', marginX:'70px',marginY:'20px',gap:'20px'}}>
                 <Box sx={{backgroundColor:'#f1f1f1',borderRadius:'8px',display:'flex',flexDirection:'row'}}>
                 <Box sx={{marginLeft:'50px',marginY:'20px'}}>
-                <img src={'ACASA1.png'}
+                <img src={'ACASA4.png'}
                 style={logoStyle}
                 alt="ACASA-REPORT1"/>
                 </Box>
                 <Box sx={{display:'flex',flexDirection:'column', textAlign:'left', padding:'10px',marginX:'50px',marginY:'20px'}}> 
                 <Typography variant='h6' sx={{fontWeight:'bold'}}>
-                ACASA Use Cases
+                Risk characterisation and adaptation technology - rice
                 </Typography>
                 <Typography sx={{marginY:'20px'}}>
-                The ACASA project places significant importance on the practical applications of the Atlas. Various stakeholders
-                 could utilise Atlas to enhance investment in agricultural adaptation technologies and climate information 
-                 services. Drawing from the diverse perspectives of the panellists during the inception meeting, a consolidated
-                  report was prepared on how ACASA team and its 
-                partners will be prioritising and developing use cases based on geographical and thematic considerations...
+                This report shows the climate hazard index for rice and the suitability of direct seeded rice (DSR) dry as one of the proposed adaptation options. 
+                Its visualization in the test version of ACASA is also depicted. 
+                This methodology will subsequently be applied to other key commodities across South Asia.
                 
                 </Typography>
                 <Typography sx={{color:'#444444',marginTop:'10px'}}>
-                <a href="#" target="_blank" rel="noopener noreferrer" style={{fontWeight:'bold',color:'#333333',textDecoration:'none'}}>Read More</a>
+                <a href="https://repository.cimmyt.org/entities/publication/69093195-f49a-4328-866a-d897e1b56093" target="_blank" rel="noopener noreferrer" style={{fontWeight:'bold',color:'#333333',textDecoration:'none'}}>Read More</a>
                 </Typography>
                 </Box>
                 </Box>
@@ -47,7 +45,7 @@ export default function Info(
                 </Box>
                 <Box sx={{display:'flex',flexDirection:'column', textAlign:'left', padding:'10px',marginX:'50px',marginY:'20px'}}> 
                 <Typography variant='h6' sx={{fontWeight:'bold'}}>
-                Production Risk
+                Production risk
                 </Typography>
                 <Typography sx={{marginY:'20px'}}>
                 ACASA uses multiple methods at different scales to characterise risk in production. This note describes risk
@@ -70,7 +68,7 @@ export default function Info(
                 </Box>
                 <Box sx={{display:'flex',flexDirection:'column', textAlign:'left', padding:'10px',marginX:'50px',marginY:'20px'}}> 
                 <Typography variant='h6' sx={{fontWeight:'bold'}}>
-                Risk by IPCC Framework
+                Risk by IPCC framework
                 </Typography>
                 <Typography sx={{marginY:'20px'}}>
                 The Fifth Assessment Report (AR5) of the Intergovernmental Panel on Climate Change (IPCC) has defined risk as a

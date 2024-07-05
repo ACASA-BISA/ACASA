@@ -17,22 +17,107 @@ import GeoJSON from 'ol/format/GeoJSON.js';
 import Overlay from 'ol/Overlay';
 import {FullScreen, Zoom} from 'ol/control.js';
 import OSM from 'ol/source/OSM';
+import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
+import { fromFile } from "geotiff";
+import { polygon } from "@turf/turf";
+import Typography from '@mui/material/Typography';
+import { Popper } from '@mui/material';
+import Slide from '@mui/material/Slide';
+import ImageL from 'ol/layer/Image';
+import { Padding } from '@mui/icons-material';
 
+/* async function clipUsingPolygon(
+  tiffFilePath,
+  polygonCoordinates
+) {
+  try {
+    // TIFF file using geotiff
+    console.log("Here1");
+    const tiff = await fetch(tiffFilePath);
+    console.log(tiff);
+    const image = await tiff.getImage();
+    const rasters = await image.readRasters();
+
+    // Geotransform
+    const tiePoint = image.getTiePoints()[0];
+    const pixelScale = image.getFileDirectory().ModelPixelScale;
+    const originX = tiePoint.x;
+    const originY = tiePoint.y;
+    const pixelWidth = pixelScale[0];
+    const pixelHeight = -pixelScale[1]; // Assuming negative for north-up images
+
+    //Geo coordinates -> pixel coordinates
+    function geoToPixel(geoX, geoY) {
+      const pixelX = Math.round((geoX - originX) / pixelWidth);
+      const pixelY = Math.round((originY - geoY) / pixelHeight);
+      return [pixelX, pixelY];
+    }
+
+    //Polygon coordinates -> pixel coordinates
+    const pixelPolygon = polygonCoordinates.map(([geoX, geoY]) =>
+      geoToPixel(geoX, geoY)
+    );
+
+    // Getting image dimensions
+    const width = image.getWidth();
+    const height = image.getHeight();
+
+    // Empty array for the mask
+    const maskArray = new Uint8Array(width * height).fill(0);
+    console.log("Here");
+    // Creating turf polygon
+    const turfPolygon = polygon([polygonCoordinates]);
+
+    // Filling the mask array based on the polygon
+    for (let y = 0; y < height; y++) {
+      for (let x = 0; x < width; x++) {
+        const geoX = originX + x * pixelWidth;
+        const geoY = originY - y * pixelHeight;
+        if (booleanPointInPolygon([geoX, geoY], turfPolygon)) {
+          maskArray[y * width + x] = 1;
+        }
+      }
+    }
+
+    // Extracting the region using the mask
+    const data = rasters[0]; //Single-band image
+    const pixels = [];
+    for (let y = 0; y < height; y++) {
+      for (let x = 0; x < width; x++) {
+        const index = y * width + x;
+        if (maskArray[index]) {
+          pixels.push(data[index]);
+        }
+      }
+    }
+
+    // Preparing JSON object with relevant image information
+    const jsonOutput = {
+      width,
+      height,
+      pixels,
+    };
+
+  } catch (error) {
+    console.error("Error processing the TIFF file:", error);
+  }
+}
+ */
 export default function MApp({
   activeCrop, focus='Region', activeRegion,
-  activeOpt, CurrRisk, activeImpact,
+  activeOpt, CurrRisk, activeImpact,activeScenario
 }) {
 
     const ref = useRef(null);
     const mapRef = useRef(null);
     const [overl, setOverl] = useState(null);
+    const [overl2, setOverl2] = useState(null);
     const [vectorLayerr, setvectorLayerr] = useState(null);
     const [countryLayer, setcountryLayer] = useState(null);
     const [maskLayer1, setmaskLayer1] = useState(null);
-
-    const [isRasterLayerReady, setIsRasterLayerReady] = useState(false);
-    const [isVectorLayerReady, setIsVectorLayerReady] = useState(false);
-    const [isMapReady, setIsMapReady] = useState(false);
+    const [tiffFilePath, settiffFilePath] = useState("");
+    const [polycord, setpolycord] = useState(null);
+    const [missingSource, setmsource] = useState(false);
 
     const fill = new Fill({
       color: 'rgba(255,255,255,0)',
@@ -76,24 +161,67 @@ export default function MApp({
       ],
     };
     
-    const color2 = {
+    const color3 = {
+      color: [
+        'palette',
+        [
+          'interpolate',
+          ['linear'],
+          ['/', ['-', nir, green], ['+', nir, blue]],
+          -0.1,
+          0,
+          3,
+          10,
+        ],
+        ['rgba(98, 181, 209, 0)','#bbb', '#bbb', '#bbb', '#bbb', '#bbb'],
+      ],
+    };
+  
+
+     const color2 = {
       color: [
         'palette',
         [
         'interpolate',
         ['linear'],
-        ['*',['band', 2], 16], 
+        ['*',['band', 1], 16], 
         0,       // Start color (minimum value)
         1,        // Intermediate color
+        1,
+        3,
         2,
         4,
         3,
         5
       ],
-      ['rgba(0,0,0,0)','rgba(0,0,0,0)',"rgba(180, 70, 109, 1)", 'rgba(98, 181, 209, 1)', "#00A600", "#004D00",
+      ['rgba(0,0,0,0)','rgba(0,0,0,0)',"rgba(180, 70, 109, 1)", '#FF9A00', "#06D001", 'rgba(0,0,0,0)',
+      ],
+      ],
+    }; 
+
+    const color4 = {
+      color: [
+        'palette',
+        [
+        'interpolate',
+        ['linear'],
+        ['*',['band', 2], 250], 
+        0,       // Start color (minimum value)
+        1,        // Intermediate color
+        1,
+        2,
+        2,
+        3,
+        4,
+        5,
+        5,
+        6
+      ],
+      ['rgba(0,0,0,0)','rgba(0,0,0,0)',"#059212", '#00FF00', "#FFFF00", "#FFA500",'#FF0000', '#3b528b', '#21918c', '#5ec962', '#fde725',
       ],
       ],
     };
+
 
     const color_hazard = {
       color: [
@@ -101,24 +229,59 @@ export default function MApp({
         [
         'interpolate',
         ['linear'],
-        ['*',['band', 2], 100], 
-        -1,       // Start color (minimum value)
-        0,        // Intermediate color
-        3.5,
+        ['*',['band', 2], 25], 
+        0,       // Start color (minimum value)
+        1,        // Intermediate color
+        1,
+        2,
+        2,
+        3,
+        3,
+        4,
+        4,
+        5,
+        5,
         6,
-        8.5,
-        11,
+        6,
+        7
       ],
-      ['rgba(0,0,0,0)','rgba(0,0,0,0)','#5ec962','#21918c','#3b528b','#440154',
+      ['rgba(0,0,0,0)','rgba(0,0,0,0)','rgba(150,150,150,1)',"#059212", '#00FF00', "#FFFF00", "#FFA500",'#FF0000', 
+        /* 'rgba(0,0,0,0)','rgba(0,0,0,0)','#5ec962','#21918c','#3b528b','#440154', */
       ],
       ],
     };
 
+    const colorGradient = {
+      color: [
+        'interpolate',
+        ['linear'],
+        ['*',['band', 2], 320],
+        0, 'rgba(0,0,0,0)',
+        1, 'rgba(0, 255, 0, 1)',        // Start color (minimum value)
+        6, 'rgba(255, 255, 0, 1)',    // Intermediate color
+        11, 'rgba(255, 0, 0, 1)'         // End color (maximum value)
+      ]
+    };
+
+    const colorGradient2 = {
+      color: [
+        'interpolate',
+        ['linear'],
+        ['*',['band', 1], 310],
+        0, 'rgba(0,0,0,0)',
+        1, '#059212',        // Start color (minimum value)
+        3, '#00FF00', 
+        5,"#FFFF00", 
+        7, '#FFA500',    // Intermediate color
+        11, '#FF0000'         // End color (maximum value)
+      ]
+    };
 /*     const BingMapNew = new TileLayer({
        source: new OSM(),
         opacity: 0.9,
      });
  */
+
     const BingMapNew = new TileLayer2({
       preload: Infinity,
       source: new BingMaps({
@@ -130,161 +293,108 @@ export default function MApp({
       }),
       opacity:0.8,
       zIndex:10,
-    })
+    });
 
     useEffect(() => {
-      let source1 = null;
-      let opt = 1;
-      if (activeCrop.rice) {
-        if (CurrRisk['HINDEX']){source1 = new GeoTIFF({sources: [{ url: './Hazards/Aman Rice/Hazard index.tif' }]});}
-        else if(CurrRisk['HEAT STRESS1']){source1 = new GeoTIFF({sources: [{ url: './Hazards/Aman Rice/ZZ_Heat stress.tif' }]});}
-        else if(CurrRisk['HEAT STRESS2']){source1 = new GeoTIFF({sources: [{ url: './Hazards/Aman Rice/ZZ_High temperature induced spikelet sterility.tif' }],});}
-        else if(CurrRisk['COLD STRESS']){source1 = new GeoTIFF({sources: [{ url: './Hazards/Aman Rice/ZZ_Low temperature induced spikelet sterility.tif' }],});}
-        else if(CurrRisk['DELMON']){source1 = new GeoTIFF({sources: [{ url: './Hazards/Aman Rice/ZZ_Delayed monsoon.tif' }],});}
-        else if(CurrRisk['SPI']){source1 = new GeoTIFF({sources: [{ url: './Hazards/Aman Rice/ZZ_Drought.tif' }],});}
-        else if(CurrRisk['DSN']){source1 = new GeoTIFF({sources: [{ url: './Hazards/Aman Rice/ZZ_Number of dry spells.tif'  }],});}
-        else if(CurrRisk['FLOOD']){source1 = new GeoTIFF({sources: [{ url: './Hazards/Aman Rice/ZZ_Flood.tif' }],});}
-        
-        else if(activeOpt['ICT Agro Advisory']){source1 = new GeoTIFF({sources: [{ url: './Rice/Suitability_Rice_WEAGA.tif' }],});}
-        else if(activeOpt['Levelling']){source1 = new GeoTIFF({sources: [{ url: './Rice/Suitability_Rice_LASLV.tif' }],});}
-        else if(activeOpt['Zero Tillage']){source1 = new GeoTIFF({sources: [{ url: './Rice/Suitability_Rice_ZTILL.tif' }],});}
-        else if(activeOpt['Broad Bed and Furrow']){source1 = new GeoTIFF({sources: [{ url: './Rice/Suitability_Rice_BBFIB.tif' }],});}
-        else if(activeOpt['Early Sowing']){source1 = new GeoTIFF({sources: [{ url: './Rice/Suitability_Rice_ADPTI.tif' }],});}
-        else if(activeOpt['DSR (Dry Seed)']){source1 = new GeoTIFF({sources: [{ url: './Rice/Suitability_Rice_DSDRY.tif' }],});}
-        else if(activeOpt['DSR (Wet Seed)']){source1 = new GeoTIFF({sources: [{ url: './Rice/Suitability_Rice_DSWET.tif' }],});}
-        else if(activeOpt['SRI']){source1 = new GeoTIFF({sources: [{ url: './Rice/Suitability_Rice_SRIUT.tif' }],});}
-        else if(activeOpt['Crop Insurance']){source1 = new GeoTIFF({sources: [{ url: './Rice/Suitability_Rice_INSUR.tif' }],});}
-        else if(activeOpt['Stress Tolerant Variety']){source1 = new GeoTIFF({sources: [{ url: './Rice/Suitability_Rice_ADVAR.tif' }],});}
-        else if(activeOpt['Deep Placement of Urea']){source1 = new GeoTIFF({sources: [{ url: './Rice/Suitability_Rice_DPURZ.tif' }],});}
-        else if(activeOpt['Low Tech Precision Technology']){source1 = new GeoTIFF({sources: [{ url: './Rice/Suitability_Rice_PNMLT.tif' }],});}
-        else if(activeOpt['High Tech Precision Technology']){source1 = new GeoTIFF({sources: [{ url: './Rice/Suitability_Rice_PNMHT.tif' }],});}
-        else if(activeOpt['Microirrigation']){source1 = new GeoTIFF({sources: [{ url: './Rice/Suitability_Rice_MICIR.tif' }],});}
-        else if(activeOpt['Precision Management']){source1 = new GeoTIFF({sources: [{ url: './Rice/Suitability_Rice_PWMGT.tif' }],});}
-        else if(activeOpt['Farm Pond']){source1 = new GeoTIFF({sources: [{ url: './Rice/Suitability_Rice_WHSRC.tif' }],});}
-        else if(activeImpact['Impact on Productivity']){source1 = new GeoTIFF({sources: [{ url: './Multiplicative_with_zeros/Rice_y.tif' }],});}
-        else if(activeImpact['Value of Production']){source1 = new GeoTIFF({sources: [{ url: './Multiplicative_with_zeros/Rice_x.tif' }],});}
-        else{
-          source1 = new GeoTIFF({sources: [{ url: './Crop Masks/AllPix/ZZ_Mask_Rice801.tif' }] });
-        }
-      } else if (activeCrop.maize) {
-        if (CurrRisk['HINDEX']){source1 = new GeoTIFF({sources: [{ url: './Hazards/Maize/ZZ_Hazard index.tif' }]});}
-        else if(CurrRisk['HEAT STRESS1']){source1 = new GeoTIFF({sources: [{ url: './Hazards/Maize/ZZ_Heat stress.tif' }]});}
-        else if(CurrRisk['HEAT STRESS2']){source1 = new GeoTIFF({sources: [{ url: './Hazards/Maize/ZZ_High temperature induced pollen sterility.tif' }],});}
-        else if(CurrRisk['COLD STRESS']){source1 = new GeoTIFF({sources: [{ url: './Hazards/Maize/ZZ_Cold Stress.tif' }],});}
-        else if(CurrRisk['ERWL']){source1 = new GeoTIFF({sources: [{ url: './Hazards/Maize/ZZ_Excess rain and waterlogging.tif' }],});}
-        else if(CurrRisk['DELMON']){source1 = new GeoTIFF({sources: [{ url: './Hazards/Maize/ZZ_Delayed monsoon.tif' }],});}
-        else if(CurrRisk['SPI']){source1 = new GeoTIFF({sources: [{ url: './Hazards/Maize/ZZ_Drought.tif' }],});}
-        else if(CurrRisk['DSN']){source1 = new GeoTIFF({sources: [{ url: './Hazards/Maize/ZZ_Number of dry spells.tif'  }],});}
-        else if(CurrRisk['FLOOD']){source1 = new GeoTIFF({sources: [{ url: './Hazards/Maize/ZZ_Flood.tif' }],});}
-
-        else if(activeOpt['ICT Agro Advisory']){opt=2;source1 = new GeoTIFF({sources: [{ url: './Adap/Maize/Suitability_Maize_WEAGA.tif' }],});}
-        else if(activeOpt['Levelling']){opt=2;source1 = new GeoTIFF({sources: [{ url: './Adap/Maize/Suitability_Maize_LASLV.tif' }],});}
-        else if(activeOpt['Zero Tillage']){opt=2;source1 = new GeoTIFF({sources: [{ url: './Adap/Maize/Suitability_Maize_ZTILL.tif' }],});}
-        else if(activeOpt['Broad Bed and Furrow']){opt=2;source1 = new GeoTIFF({sources: [{ url: './Adap/Maize/Suitability_Maize_BBFIB.tif' }],});}
-        else if(activeOpt['Early Sowing']){opt=2;source1 = new GeoTIFF({sources: [{ url: './Adap/Maize/Suitability_Maize_ADPTI.tif' }],});}
-        else if(activeOpt['Mulching']){opt=2;source1 = new GeoTIFF({sources: [{ url: './Adap/Maize/Suitability_Maize_MULCH.tif' }],});}
-        else if(activeOpt['Crop Insurance']){opt=2;source1 = new GeoTIFF({sources: [{ url: './Adap/Maize/Suitability_Maize_INSUR.tif' }],});}
-        else if(activeOpt['Stress Tolerant Variety']){opt=2;source1 = new GeoTIFF({sources: [{ url: './Adap/Maize/Suitability_Maize_ADVAR.tif' }],});}
-        else if(activeOpt['Fertilizer rating and timing']){opt=2;source1 = new GeoTIFF({sources: [{ url: './Adap/Maize/Suitability_Maize_FRT.tif' }],});}
-        else if(activeOpt['Low Tech Precision Technology']){opt=2;source1 = new GeoTIFF({sources: [{ url: './Adap/Maize/Suitability_Maize_PNMLT.tif' }],});}
-        else if(activeOpt['High Tech Precision Technology']){opt=2;source1 = new GeoTIFF({sources: [{ url: './Adap/Maize/Suitability_Maize_PNMHT.tif' }],});}
-        else if(activeOpt['Microirrigation']){opt=2;source1 = new GeoTIFF({sources: [{ url: './Adap/Maize/Suitability_Maize_MICIR.tif' }],});}
-        else if(activeOpt['Precision Water Management']){opt=2;source1 = new GeoTIFF({sources: [{ url: './Adap/Maize/Suitability_Maize_PWMGT.tif' }],});}
-        else if(activeOpt['Farm Pond']){opt=2;source1 = new GeoTIFF({sources: [{ url: './Adap/Maize/Suitability_Maize_WHSRC.tif' }],});}
-        else if(activeImpact['Impact on Productivity']){opt=2;source1 = new GeoTIFF({sources: [{ url: './Adap/Maize/Suitability_Maize_x.tif' }],});}
-        else if(activeImpact['Value of Production']){opt=2;source1 = new GeoTIFF({sources: [{ url: './Adap/Maize/Suitability_Maize_y.tif' }],});}
-
-        else{
-        source1 = new GeoTIFF({sources: [{ url: './Crop Masks/AllPix/ZZ_Mask_Maize801.tif' }]});
-        }
-      } else if (activeCrop.wheat) {
-        if (CurrRisk['HINDEX']){source1 = new GeoTIFF({sources: [{ url: './Hazards/Wheat/ZZ_Hazard index.tif' }]});}
-        else if(CurrRisk['HEAT STRESS']){source1 = new GeoTIFF({sources: [{ url: './Hazards/Wheat/ZZ_High temperature induced pollen sterility.tif' }]});}
-        else if(CurrRisk['TERMINAL HEAT']){source1 = new GeoTIFF({sources: [{ url: './Hazards/Wheat/ZZ_Terminal heat.tif' }],});}
-        else if(CurrRisk['FROST']){source1 = new GeoTIFF({sources: [{ url: './Hazards/Wheat/ZZ_Days of frost.tif' }],});}
-        else if(CurrRisk['ERWL']){source1 = new GeoTIFF({sources: [{ url: './Hazards/Wheat/ZZ_Untimely rainfall.tif' }],});}
-        else if(CurrRisk['SPI']){source1 = new GeoTIFF({sources: [{ url: './Hazards/Wheat/ZZ_Drought.tif' }],});}
-        else if(CurrRisk['LODGE']){source1 = new GeoTIFF({sources: [{ url: './Hazards/Wheat/ZZ_Rain and wind causing lodging.tif'  }],});}
-
-        else if(activeOpt['ICT Agro Advisory']){opt=2;source1 = new GeoTIFF({sources: [{ url: './Adap/Wheat/Suitability_Wheat_WEAGA.tif' }],});}
-        else if(activeOpt['Levelling']){opt=2;source1 = new GeoTIFF({sources: [{ url: './Adap/Wheat/Suitability_Wheat_LASLV.tif' }],});}
-        else if(activeOpt['Zero Tillage']){opt=2;source1 = new GeoTIFF({sources: [{ url: './Adap/Wheat/Suitability_Wheat_ZTILL.tif' }],});}
-        else if(activeOpt['Broad Bed and Furrow']){opt=2;source1 = new GeoTIFF({sources: [{ url: './Adap/Wheat/Suitability_Wheat_BBFIB.tif' }],});}
-        else if(activeOpt['Early Sowing']){opt=2;source1 = new GeoTIFF({sources: [{ url: './Adap/Wheat/Suitability_Wheat_ADPTI.tif' }],});}
-        else if(activeOpt['Mulching']){opt=2;source1 = new GeoTIFF({sources: [{ url: './Adap/Wheat/Suitability_Wheat_MULCH.tif' }],});}
-        else if(activeOpt['Crop Insurance']){opt=2;source1 = new GeoTIFF({sources: [{ url: './Adap/Wheat/Suitability_Wheat_INSUR.tif' }],});}
-        else if(activeOpt['Stress Tolerant Variety']){opt=2;source1 = new GeoTIFF({sources: [{ url: './Adap/Wheat/Suitability_Wheat_ADVAR.tif' }],});}
-        else if(activeOpt['Fertilizer rating and timing']){opt=2;source1 = new GeoTIFF({sources: [{ url: './Adap/Wheat/Suitability_Wheat_FRT.tif' }],});}
-        else if(activeOpt['Low Tech Precision Technology']){opt=2;source1 = new GeoTIFF({sources: [{ url: './Adap/Wheat/Suitability_Wheat_PNMLT.tif' }],});}
-        else if(activeOpt['High Tech Precision Technology']){opt=2;source1 = new GeoTIFF({sources: [{ url: './Adap/Wheat/Suitability_Wheat_PNMHT.tif' }],});}
-        else if(activeOpt['Microirrigation']){opt=2;source1 = new GeoTIFF({sources: [{ url: './Adap/Wheat/Suitability_Wheat_MICIR.tif' }],});}
-        else if(activeOpt['Precision Water Management']){opt=2;source1 = new GeoTIFF({sources: [{ url: './Adap/Wheat/Suitability_Wheat_PWMGT.tif' }],});}
-        else if(activeOpt['Farm Pond']){opt=2;source1 = new GeoTIFF({sources: [{ url: './Adap/Wheat/Suitability_Wheat_WHSRC.tif' }],});}
-        else if(activeImpact['Impact on Productivity']){opt=2;source1 = new GeoTIFF({sources: [{ url: './Adap/Wheat/Suitability_Wheat_x.tif' }],});}
-        else if(activeImpact['Value of Production']){opt=2;source1 = new GeoTIFF({sources: [{ url: './Adap/Wheat/Suitability_Wheat_y.tif' }],});}
-
-        else{
-        source1 = new GeoTIFF({sources: [{ url: './Crop Masks/AllPix/ZZ_Mask_Wheat801.tif' }] });
-        }
-      } else if (activeCrop.rapeseed) {
-        source1 = new GeoTIFF({sources: [{ url: './Crop Masks/AllPix/ZZ_Mask_Mustard801.tif' }] });
-      } else if (activeCrop.ppea) {
-        source1 = new GeoTIFF({sources: [{ url: './Crop Masks/AllPix/ZZ_Mask_Pigeonpea801.tif' }] });
-      } else if (activeCrop.potato) {
-        source1 = new GeoTIFF({sources: [{ url: './Crop Masks/AllPix/ZZ_Mask_Potato801.tif' }] });
-      } else if (activeCrop.pmillet) {
-        source1 = new GeoTIFF({sources: [{ url: './Crop Masks/AllPix/ZZ_Mask_PearlMillet801.tif' }] });
-      } else if (activeCrop.sorghum) {
-        source1 = new GeoTIFF({sources: [{ url: './Crop Masks/AllPix/ZZ_Mask_Sorghum801.tif' }] });
-      } else if (activeCrop.onion) {
-        source1 = new GeoTIFF({sources: [{ url: './Crop Masks/AllPix/ZZ_Mask_Onion801.tif' }] });
-      } else if (activeCrop.soyabean) {
-        source1 = new GeoTIFF({sources: [{ url: './Crop Masks/AllPix/ZZ_Mask_Soybean801.tif' }] });
-      } else if (activeCrop.cotton) {
-        source1 = new GeoTIFF({sources: [{ url: './Crop Masks/AllPix/ZZ_Mask_Cotton801.tif' }] });
-      } else if (activeCrop.fmillet) {
-        source1 = new GeoTIFF({sources: [{ url: './Crop Masks/AllPix/ZZ_Mask_Millet801.tif' }] });
-      } else if (activeCrop.chickpea) {
-        source1 = new GeoTIFF({sources: [{ url: './Crop Masks/AllPix/ZZ_Mask_Chickpea801.tif' }] });
-      } else if (activeCrop.groundnut) {
-        source1 = new GeoTIFF({sources: [{ url: './Crop Masks/AllPix/ZZ_Mask_Groundnut801.tif' }] });
-      } else if (activeCrop.lentil) {
-        source1 = new GeoTIFF({sources: [{ url: './Crop Masks/AllPix/ZZ_Mask_Lentil801.tif' }] });
-      } else if (activeCrop.sugarcane) {
-        source1 = new GeoTIFF({sources: [{ url: './Crop Masks/AllPix/ZZ_Mask_Sugarcane801.tif' }] });
+      const container = document.getElementById('popup2');
+      const content = document.getElementById('popup-content2');
+  
+      if (!container || !content ) {
+        console.error('Popup elements not found');
+        return;
       }
   
-      if (mapRef.current && overl) {
-        mapRef.current.removeLayer(overl);
-        setOverl(null);
-      }
-      //HEAT STRESS	SPIKELET STERILITY HEAT	SPIKELET STERILITY COLD
-      if (source1) {
-        const newOverl = new TileLayer({
-          source: source1,
-          opacity: 0.85,
-          zIndex: 90,
-        });
-        newOverl.setStyle(color_hazard);
-        if(opt===2){
-          newOverl.setStyle(color2);
-        }
-        //console.log(source1.getAttributions());
+      const overlay = new Overlay({
+        element: container,
+        autoPan: {
+          animation: {
+            duration: 250,
+          },
+        },
+      });
 
-        if (mapRef.current) {
-          mapRef.current.addLayer(newOverl);
-          setOverl(newOverl);
-          setIsRasterLayerReady(true);
+    if (ref.current && !mapRef.current) {
+        mapRef.current = new Map({
+          controls: [
+            new FullScreen({
+            className: 'ol-fullscreenx' 
+          }),
+          new Zoom({
+            className: 'ol-zoomx' 
+          }),
+        ],
+          target: ref.current,
+          layers: [BingMapNew],
+          //overlays: [overlay],
+          view: ViewV,
+        });
+      }
+
+    const display_state = function (pixel) {
+      const feature = mapRef.current.forEachFeatureAtPixel(pixel, function (feature) {
+        return feature;
+      });
+      let state = null;
+      if(feature){
+        if(feature.get('D_NAME_1')){
+          state = feature.get('D_NAME_1');
+        }
+        else{
+          state = feature.get('STATE');
         }
       }
-}, [CurrRisk,activeCrop,activeOpt,activeImpact,mapRef]);
- 
+      return state;
+    };
+
+    function getCentroidOfPolygon(geometry) {
+      const extentt = geometry.getExtent();
+      let x = 0, y=0;
+      x = (extentt[0]+extentt[2])/2;
+      y = (extentt[1]+extentt[3])/2;
+      return [x,y];
+    }
+
+    const LocationofEvent = function (pixel) {
+      const feature = mapRef.current.forEachFeatureAtPixel(pixel, function (feature) {
+        return feature;
+      });
+      let cordinates = null;
+      if(feature){
+        const geometry = feature.getGeometry();
+        cordinates = getCentroidOfPolygon(geometry);;
+      }
+      return cordinates;
+    };
+
+    if (mapRef.current) {
+      mapRef.current.on('pointermove', function (evt) {
+      if (evt.dragging) {
+        return;
+      }
+      //const coordinate = evt.coordinate;
+      const pixel = mapRef.current.getEventPixel(evt.originalEvent);
+      const contentofbox = display_state(pixel);
+      if(contentofbox){
+        if(content){
+        content.innerHTML = contentofbox.toLowerCase();
+        };
+        //console.log(overlay);
+        overlay.setPosition(LocationofEvent(pixel));
+        mapRef.current.addOverlay(overlay);
+      }
+      else{
+        mapRef.current.removeOverlay(overlay);
+      }
+    });
+    }
+    }, [ref, mapRef]);
+
     useEffect(() => {
       let sourcet;
       let countryboundary;
       if (focus==='Region') {
         sourcet = new VectorSource({
-          url: './CountryBoundary/SA_outline.json',
+          url: './CountryBoundary/SA_Country.json',
           format: new GeoJSON(),
         });
         countryboundary = new VectorSource({
@@ -329,7 +439,7 @@ export default function MApp({
         });
       } else if (activeRegion==='Maldives') {
         sourcet = new VectorSource({
-          url: './CountryBoundary/MV.json',
+          url: './StateBoundary/MV_ST.json',
           format: new GeoJSON(),
         });
         countryboundary = new VectorSource({
@@ -374,7 +484,6 @@ export default function MApp({
         if(x==='Bangladesh'){
           let urlsourcestr = './DistrictBoundary/BD/'+ y.substring(0,y.length-9) + 'DIV.json';
           let urlcountrystr = './StateBoundary/BD/'+ y.substring(0,y.length-9) + 'ST.json';
-          console.log(urlcountrystr);
           sourcet = new VectorSource({
             url: urlsourcestr,
             format: new GeoJSON(),
@@ -384,10 +493,9 @@ export default function MApp({
             format: new GeoJSON(),
           });
         }
-        if(x==='Nepal'){
+        else if(x==='Nepal'){
           let urlsourcestr = './DistrictBoundary/NP/'+ y + 'DIV.json';
           let urlcountrystr = './StateBoundary/NP/'+ y + 'ST.json';
-          console.log(urlcountrystr);
           sourcet = new VectorSource({
             url: urlsourcestr,
             format: new GeoJSON(),
@@ -397,9 +505,57 @@ export default function MApp({
             format: new GeoJSON(),
           });
         }
-        if(x==='Afghanistan'){
+        else if(x==='Afghanistan'){
           let urlsourcestr = './DistrictBoundary/AF/'+ y.toUpperCase() + '.json';
           let urlcountrystr = './StateBoundary/AF/STATE_'+ y.toUpperCase() + '.json';
+          sourcet = new VectorSource({
+            url: urlsourcestr,
+            format: new GeoJSON(),
+          });
+          countryboundary = new VectorSource({
+            url: urlcountrystr,
+            format: new GeoJSON(),
+          });
+        }
+        else if(x==='India'){
+          let urlsourcestr = './DistrictBoundary/IN/STATE_'+ y.toUpperCase() + '.json';
+          let urlcountrystr = './StateBoundary/IN/STATE_'+ y.toUpperCase() + '.json';
+          sourcet = new VectorSource({
+            url: urlsourcestr,
+            format: new GeoJSON(),
+          });
+          countryboundary = new VectorSource({
+            url: urlcountrystr,
+            format: new GeoJSON(),
+          });
+        }
+        else if(x==='Sri Lanka'){
+          let urlsourcestr = './DistrictBoundary/SL/STATE_'+ y.toUpperCase() + '.json';
+          let urlcountrystr = './StateBoundary/SL/STATE_'+ y.toUpperCase() + '.json';
+          sourcet = new VectorSource({
+            url: urlsourcestr,
+            format: new GeoJSON(),
+          });
+          countryboundary = new VectorSource({
+            url: urlcountrystr,
+            format: new GeoJSON(),
+          });
+        }
+        else if(x==='Pakistan'){
+          let urlsourcestr = './DistrictBoundary/PK/STATE_'+ y.toUpperCase() + '.json';
+          let urlcountrystr = './StateBoundary/PK/STATE_'+ y.toUpperCase() + '.json';
+          sourcet = new VectorSource({
+            url: urlsourcestr,
+            format: new GeoJSON(),
+          });
+          countryboundary = new VectorSource({
+            url: urlcountrystr,
+            format: new GeoJSON(),
+          });
+        }
+        else if(x==='Maldives'){
+          let urlsourcestr = './DistrictBoundary/MV/STATE_'+ y.toUpperCase() + '.json';
+          let urlcountrystr = './StateBoundary/MV/'+ y.toUpperCase() + '.json';
           sourcet = new VectorSource({
             url: urlsourcestr,
             format: new GeoJSON(),
@@ -444,9 +600,15 @@ export default function MApp({
               if(countryboundary.getFeatures()) {
                 const featuress = countryboundary.getFeatures();
                 const polyy = featuress[0].getGeometry();
+                /* const polygoncordinates  = polyy.getCoordinates();
+                setpolycord(polygoncordinates); */
                 const extentt = polyy.getExtent(); 
                 const sizee = mapRef.current.getSize();
-                mapRef.current.getView().fit(extentt,{size:[sizee[0]*0.8,sizee[1]*0.8]});
+                let x = 0;
+                if(CurrRisk!=""||activeOpt!=""){
+                  x = 90;
+                }
+                mapRef.current.getView().fit(extentt,{size:[sizee[0]*0.9,sizee[1]*0.9],padding:[0,0,x,0]});
             }
             }
           });
@@ -511,7 +673,7 @@ export default function MApp({
                   color: 'rgba(255,255,255,1)',
                 }),
               }),
-              opacity:0.7,
+              opacity:0.6,
               zIndex:100,
             });
 
@@ -521,108 +683,151 @@ export default function MApp({
             }
             mapRef.current.addLayer(maskLayer);
             setmaskLayer1(maskLayer);
-            setIsVectorLayerReady(true);
             }
             }
           });
       }
       }
-}, [activeRegion,focus,mapRef]);
+}, [activeRegion,focus,mapRef,activeOpt,CurrRisk]);
 
-    useEffect(() => {
-      const container = document.getElementById('popup2');
-      const content = document.getElementById('popup-content2');
-  
-      if (!container || !content ) {
-        console.error('Popup elements not found');
-        return;
-      }
-  
-      const overlay = new Overlay({
-        element: container,
-        autoPan: {
-          animation: {
-            duration: 250,
-          },
-        },
-      });
+/* useEffect(() => {
+  let source1 = null;
 
-    if (ref.current && !mapRef.current) {
-        mapRef.current = new Map({
-          controls: [
-            new FullScreen({
-            className: 'ol-fullscreenx' 
-          }),
-          new Zoom({
-            className: 'ol-zoomx' 
-          }),
-        ],
-          target: ref.current,
-          layers: [BingMapNew],
-          //overlays: [overlay],
-          view: ViewV,
-        });
-      }
-    setIsMapReady(true);
+  const urlstr = './Crop Masks/AllPix/ZZ_Mask_'+activeCrop+'801.tif';
+  source1 = new GeoTIFF({sources: [{ url: urlstr }], sourceOptions:{allowFullFile:true} });
 
-    const display_state = function (pixel) {
-      const feature = mapRef.current.forEachFeatureAtPixel(pixel, function (feature) {
-        return feature;
-      });
-      let state = null;
-      if(feature){
-        if(feature.get('D_NAME_1')){
-          state = feature.get('D_NAME_1');
-        }
-        else{
-          state = feature.get('STATE')
-        }
-      }
-      return state;
-    };
+  if (mapRef.current && overl2) {
+    mapRef.current.removeLayer(overl2);
+    setOverl2(null);
+  }
 
-    function getCentroidOfPolygon(geometry) {
-      const extentt = geometry.getExtent();
-      let x = 0, y=0;
-      x = (extentt[0]+extentt[2])/2;
-      y = (extentt[1]+extentt[3])/2;
-      return [x,y];
-    }
+  if(activeOpt!=='' || CurrRisk!=='' || activeImpact['Impact on Productivity'] || activeImpact['Value of Production']) {
 
-    const LocationofEvent = function (pixel) {
-      const feature = mapRef.current.forEachFeatureAtPixel(pixel, function (feature) {
-        return feature;
-      });
-      let cordinates = null;
-      if(feature){
-        const geometry = feature.getGeometry();
-        cordinates = getCentroidOfPolygon(geometry);;
-      }
-      return cordinates;
-    };
-
+  if (source1) {
+    const newOverl2 = new TileLayer({
+      source: source1,
+      opacity: 0.85,
+      zIndex: 90,
+    });
+    
+    newOverl2.setStyle(color3);
     if (mapRef.current) {
-      mapRef.current.on('pointermove', function (evt) {
-      if (evt.dragging) {
-        return;
+      mapRef.current.addLayer(newOverl2);
+      setOverl2(newOverl2);
+    }
+  }
+}
+}, [CurrRisk,activeCrop,activeOpt,activeImpact,mapRef,activeScenario]); */
+
+
+useEffect(() => {
+  let source1 = null;
+  let opt = 1;
+  const optcode = {'Stress Tolerant Variety':'ADVAR','Early Sowing':'ADPTI','Precision Land Levelling':'LASLV','Zero Tillage with residue':'ZTILL','Broad Bed and Furrow':'BBFIB',
+    'DSR (Dry Seed)':'DSDRY','DSR (Wet Seed)':'DSWET','System of Rice Intensification':'SRIUT','Supplemental Irrigation':'WHSRC','Microirrigation':'MICIR','Precision Water Management':'PWMGT',
+    'Low-tech Precision Technology':'PNMLT','High-tech Precision Technology':'PNMHT','Deep Placement of Urea':'DR',
+    'ICT-based Agro Advisory':'WEAGA','Crop Insurance':'INSUR','Land Management':'LMGT','Feed Management':'FMGT','Herd Management':'HMGT',
+    'Animal Health':'ANHLT','Animal Productivity':'ANPRO','Mulching':'MULCH','Alternate wetting and drying':'AWD','Fertilizer rating and timing':'FRT',
+    'Manure Management':'MNMGT','Information Use':'INFO','Heat Stress Management':'HSMGT'};
+
+  const hazardname = {"District Level": "District Level","Downscaled Risk": "Downscaled Risk","Risk Index": "Risk index","Hazard Index": "Hazard Index",
+    "Low temperature induced spikelet sterility": "Low temperature induced spikelet sterility",
+    "Low temperature induced pollen sterility": "Low temperature induced pollen sterility","High temperature induced pollen sterility": "High temperature induced pollen sterility",
+    "Heat Stress": "Heat stress","Heat Stress": "Heat stress","High temperature induced spikelet sterility": "High temperature induced spikelet sterility",
+    "Cold Stress": "Cold stress","Low temperature induced tuberization failure": "Low temperature induced tuberization failure",'Untimely Rainfall':"Untimely rainfall",
+    "Terminal Heat": "Terminal heat","Days of Frost": "Days of Frost","Excess Rainfall and Waterlogging": "Excess rain and waterlogging",
+    "Delayed Monsoon": "Delayed monsoon","Drought": "Drought","Dry Spell": "Number of dry spells","Flood": "Flood",
+    "Lodging": "Rain and wind causing lodging","Biotic": "High humidity and temperature for blight","Irrigation": "Irrigation","Water Holding": "Water Holding","Income": "Agricultural GDP",
+    "Access to Credit": "Access to Credit","Access to Market": "Access to Market","Elevation": "Elevation","Access to Knowledge": "Access to Knowledge","Exposure Index": "Exposure Index",
+    "Number of Farmers": "Number of Farmers","Cropped Area": "Cropped Area","Excess Rainfall":"Excess rainfall","Number of Animals per grid":"Number of animals per grid",
+    'Cold stress in reproductive stage':'Cold stress in reproductive stage','Heat stress in reproductive stage':"Heat stress in reproductive stage",
+    'Heat stress during boll formation':'Heat stress during boll formation','Cold stress during flowering':'Cold stress during flowering',
+    'High tempearture during flowering':'High tempearture during flowering','Biotic Stress':'Biotic stress',"Vulnerability Index":'Vulnerability Index',
+    "Availability of crop residues":'Residue',"Rural infrastructure":'Road network density',"Cyclone":'Cyclone',"Rainfall Deficit":"Rainfall deficit",
+    "Extreme Rainfall days":"Extreme Rainfall Days","Cold days":"Cold stress or cold days","Hot days":"Heat stress or hot days","Temperature-Humidity Index":'Temperature-humidity Index',
+    "Socio-economic Development Indicator":"Human development index"}
+
+    if(activeOpt!==''){
+      opt=2;
+      let urlstr = "xyz.tif";
+      if(activeScenario['baseline']){
+        urlstr = "./Adap/"+activeCrop+"/Suitability_"+activeCrop+"_"+optcode[activeOpt]+".tif";
       }
-      //const coordinate = evt.coordinate;
-      const pixel = mapRef.current.getEventPixel(evt.originalEvent);
-      const contentofbox = display_state(pixel);
-      if(contentofbox){
-        if(content){
-        content.innerHTML = contentofbox.toLowerCase();
-        };
-        //console.log(overlay);
-        overlay.setPosition(LocationofEvent(pixel));
-        mapRef.current.addOverlay(overlay);
+      settiffFilePath(urlstr);
+      source1 = new GeoTIFF({sources: [{ url: urlstr}],sourceOptions:{allowFullFile:true}});
+    }
+    else if(CurrRisk!==''){
+      opt=3;
+      let urlstr = "xyz.tif";
+      if(activeScenario['baseline']){
+       urlstr = "./Hazards/"+activeCrop+"/ZZ_"+hazardname[CurrRisk]+".tif";
       }
-      else{
-        mapRef.current.removeOverlay(overlay);
+      if(CurrRisk==='Hazard Index'){
+        opt=4;
+        urlstr = "./Hazard_index/"+activeCrop+".tif";
+      }
+      settiffFilePath(urlstr);
+      source1 = new GeoTIFF({sources: [{ url: urlstr}],sourceOptions:{allowFullFile:true}});
+    }
+    else if(activeImpact['Impact on Productivity'] || activeImpact['Value of Production']){
+      let urlstr = "xyz.tif";
+      settiffFilePath(urlstr);
+      source1 = new GeoTIFF({sources: [{ url: urlstr}],sourceOptions:{allowFullFile:true}});
+    }
+    else{
+      const urlstr = './Crop Masks/AllPix/ZZ_Mask_'+activeCrop+'801.tif';
+      settiffFilePath(urlstr);
+      //console.log(urlstr);
+      source1 = new GeoTIFF({sources: [{ url: urlstr }], sourceOptions:{allowFullFile:true} });
+    }
+    
+    source1.on('change', function() {
+      const state = source1.getState();
+      if (state === 'error') {
+        setmsource(true);
+      } else if (state === 'ready') {
+        setmsource(false);
       }
     });
+
+  if (mapRef.current && overl) {
+    mapRef.current.removeLayer(overl);
+    setOverl(null);
+  }
+  //HEAT STRESS	SPIKELET STERILITY HEAT	SPIKELET STERILITY COLD
+  if (source1) {
+    
+    const newOverl = new TileLayer({
+      source: source1,
+      opacity: 0.85,
+      zIndex: 91,
+    });
+
+    if(opt===2){
+      newOverl.setStyle(color2);
     }
-    }, [ref, mapRef]);
+    else if(opt===3){
+      newOverl.setStyle(color_hazard);
+    }
+    else if(opt===4){
+      newOverl.setStyle(color4);
+    }
+    else{
+      newOverl.setStyle(color1);
+    }
+    if (mapRef.current) {
+      mapRef.current.addLayer(newOverl);
+      setOverl(newOverl);
+    }
+  }
+  
+}, [CurrRisk,activeCrop,activeOpt,activeImpact,mapRef,activeScenario]);
+             
+/* useEffect(() => {
+  if(tiffFilePath!=="" && polycord!==null){
+    clipUsingPolygon(tiffFilePath, polycord);
+  }
+},[tiffFilePath,polycord]); */
 
     return (
       <div>
@@ -630,6 +835,21 @@ export default function MApp({
       <div id="popup-content2" style={{textTransform:'capitalize',fontSize:'13px'}}></div>
       </div>
     <div ref={ref} style={{height:'calc(100vh - 80px)',width:'auto',marginTop:'80px',marginLeft:0,marginBottom:'-16px'}} className="map-container" />
+    
+    <Popper
+    open={missingSource}
+      >
+        <div style={{position:'fixed',right:'330px',top:90, boxShadow:'0px 0px 1px #aaa',backgroundColor: 'rgba(14, 33, 1, 0.6)', border: '0px solid black', width:'180px', borderRadius:'5px',padding:'3px'}}>
+        <Slide direction="down" in={missingSource} mountOnEnter unmountOnExit>
+        <Typography sx={{ fontSize: 15, marginLeft:1,marginY:0.5, fontWeight:'bold' }} color="white" gutterBottom>
+          Note <Typography sx={{ fontSize: 14, }} color="white" gutterBottom>
+                  Data to be updated soon.
+                    </Typography>
+        </Typography>
+        </Slide>
+        </div>
+      </Popper>
+      
     </div>
     );
 }

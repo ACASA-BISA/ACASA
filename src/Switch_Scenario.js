@@ -11,9 +11,9 @@ export default function SwitchScenario({
   activeScenario,
   changeScenario,
 }) {
-  const switchh = ['Baseline','SSP 2-4.5 2050s','SSP 5-8.5 2050s'];
+  const switchh = ['Baseline','SSP 2-4.5 2050s (To be updated)','SSP 5-8.5 2050s (To be updated)'];
   const switchid = ['baseline','ssp245','ssp585'];
-
+  const disvar ={'baseline':false,'ssp245':true,'ssp585':true}
   const padd = 8;
 
   const AntSwitch = styled(Switch)(({ theme }) => ({
@@ -63,7 +63,7 @@ export default function SwitchScenario({
 
   const CustomFormControlLabel = styled(FormControlLabel)(({ theme }) => ({
     '&.Mui-disabled .MuiTypography-body2': {
-      color: '#E8E8E8', // Color for the label text when disabled
+      color: '#ccc', // Color for the label text when disabled
     },
   }));
 
@@ -80,6 +80,7 @@ export default function SwitchScenario({
           name={switchid[index]}/>
         }
         key={switchid[index]}
+        disabled={disvar[switchid[index]]}
         label={<Typography variant="body2" sx={{paddingLeft:1}}>{sname}</Typography>}
         />
      </FormGroup>
