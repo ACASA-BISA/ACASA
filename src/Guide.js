@@ -143,7 +143,7 @@ export default function Guidee() {
     },
     {
       step: "Step 6",
-      img: "/timelineF.png",
+      img: "/timelineG.png",
       title: "Resources",
       subtitle: "Exploring the Resources",
       description:
@@ -152,12 +152,12 @@ export default function Guidee() {
     },
     {
       step: "Step 7",
-      img: "/timelineG.png",
+      img: "/timelineF.png",
       title: "About Us",
       subtitle: "Know more from About Us",
       description:
         "Click the seventh tab in the navigation panel & visit the About Us tab to know more about ACASA-our approach, workstreams, Our developement partners- Investors, Partners in South Asia, External Partners, Other South Asian Partners & contributors, ACASA Advisory Panel, Country Team Leads & Core team.",
-      link: "#/resources",
+      link: "#/about",
     },
     {
       step: "Step 8",
@@ -166,7 +166,7 @@ export default function Guidee() {
       subtitle: "Your Valuable Feedback",
       description:
         "Click the eighth tab in the navigation panel to provide us with your valuable feedback. Click on the Green Feedback form Button which will redirect you to a google form link where you can tell us about your experience & expectation from the website,",
-      link: "#/resources",
+      link: "#/feedback",
     },
   ];
 

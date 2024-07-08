@@ -52,36 +52,14 @@ async function fetchCsv() {
   return csv;
 }
 
-async function GetData2() {
-  const data = Papa.parse(await fetchCsv2());
-  //console.log(data);
-  return data;
-}
-
 async function fetchCsv2() {
-  const response = await fetch('./Computed.csv');
-  const reader = response.body.getReader();
-  const result = await reader.read();
-  const decoder = new TextDecoder('utf-8');
-  const csv = decoder.decode(result.value);
-  //console.log('csv', csv);
-  return csv;
-}
-
-async function GetData3() {
-  const data = Papa.parse(await fetchCsv3());
-  //console.log(data);
-  return data;
+  const response = await fetch('./Computed.json');
+  return await response.json();
 }
 
 async function fetchCsv3() {
-  const response = await fetch('./Computed_Hazard.csv');
-  const reader = response.body.getReader();
-  const result = await reader.read();
-  const decoder = new TextDecoder('utf-8');
-  const csv = decoder.decode(result.value);
-  //console.log('csv', csv);
-  return csv;
+  const response = await fetch('./Computed_Hazard.json');
+  return await response.json();
 }
 
 export default function DrawerMapShow({
@@ -411,15 +389,16 @@ const [acc,setacc] = React.useState(false);
 
   React.useEffect(() => {
     async function fetchData2() {
-      const data = await GetData2();
+      const data = await fetchCsv2();
+      console.log(data);
       setarea_data(data);
     }
     fetchData2();
   }, []);
 
-  const area_dict = {};
+  const area_dict = area_data;
 
-  if(area_data && area_data.data && area_data.data.length > 0){
+/*   if(area_data && area_data.data && area_data.data.length > 0){
     for(let i = 1; i < area_data.data.length; i++){
       const row1 = area_data.data[i];
       area_dict[row1[0].toLowerCase()] = {'Unsuitable':row1[1],'Suitable':row1[2],'Adaptation Benefits':row1[3],
@@ -427,21 +406,21 @@ const [acc,setacc] = React.useState(false);
       };
     }
     delete area_dict[""];
-  }
+  } */
 
   const [area_data2, setarea_data2] = React.useState([]);
 
   React.useEffect(() => {
     async function fetchData3() {
-      const data = await GetData3();
+      const data = await fetchCsv3();
       setarea_data2(data);
     }
     fetchData3();
   }, []);
 
-  const area_dict2 = {};
+  const area_dict2 = area_data2;
 
-  if(area_data2 && area_data2.data && area_data2.data.length > 0){
+/*   if(area_data2 && area_data2.data && area_data2.data.length > 0){
     for(let i = 1; i < area_data2.data.length; i++){
       const row1 = area_data2.data[i];
       area_dict2[row1[0]] = {'Very Low':row1[1],'Low':row1[2],'Medium':row1[3],'High':row1[4],'Very High':row1[5],
@@ -449,7 +428,7 @@ const [acc,setacc] = React.useState(false);
       };
     }
   }
-
+ */
     const OnFocus = ['Region','Country','State'];
 
     const [focus, setfocus] = React.useState(
@@ -476,17 +455,17 @@ const [acc,setacc] = React.useState(false);
     return (
         <div>
           <Box sx={{display:{xs:'none',md:'block'}}}>
-        {activeBar==='access' && <div style={{backgroundColor:'#f8f8f8', minHeight:'calc(100vh - 80px)'  }}>
+        {activeBar==='access' && <div style={{backgroundColor:'#f8f8f8', minHeight:'calc(100vh - 90px)'  }}>
         <TabsData activeTab={activeTab}></TabsData>
         <Floating_drawer activeCrop={Currcrop} activeRegion={activeRegion}></Floating_drawer>
         </div> }
-        {activeBar==='resources' && <div style={{ minHeight:'calc(100vh - 80px)'  }}>
+        {activeBar==='resources' && <div style={{ minHeight:'calc(100vh - 90px)'  }}>
           <ResTabsData></ResTabsData>
         </div>}
-        {activeBar==='usecase' && <div style={{ minHeight:'calc(100vh - 80px)'  }}>
+        {activeBar==='usecase' && <div style={{ minHeight:'calc(100vh - 90px)'  }}>
           <UseCase></UseCase>
         </div>}
-        {activeBar==='guide' && <div style={{ minHeight:'calc(100vh - 80px)'  }}>
+        {activeBar==='guide' && <div style={{ minHeight:'calc(100vh - 90px)'  }}>
           <Guidee></Guidee>
         </div>}
         {activeBar==='about' && <AboutUs></AboutUs>}
@@ -507,7 +486,8 @@ const [acc,setacc] = React.useState(false);
         
         {(activeBar==='analytics') && 
         
-         <div>
+         <div style={{overflow:'hidden'}}>
+          <Box>
         <Box sx={{width:'auto', display:'flex',maxHeight:'calc(100vh - 90px)',flexDirection:'row',justifyContent:'center',marginX:'auto',marginTop:'90px',backgroundColor:'#fff'}} gap='2vw'>
         <Popper
         sx={{zIndex:2}}
@@ -572,7 +552,7 @@ const [acc,setacc] = React.useState(false);
         
         </Box>
         
-        <Box sx={{display:'flex',flexDirection:'column',gap:'1vh',marginTop:'4px'}}>
+        <Box sx={{display:'flex',flexDirection:'column',gap:'1vh',marginTop:'3px'}}>
         <div>
         <Box sx={{paddingX:'8px',paddingY:'4px',display:'flex',flexDirection:'row',justifyContent:'center',gap:'4px',alignItems:'center'}}><Typography sx={{fontSize:12}}>Adaptation: </Typography>
         <Summ_Adapt activv={opt2} changeOption={handleChangeOptSumm} activeCrop={crop3}></Summ_Adapt>
@@ -630,7 +610,7 @@ const [acc,setacc] = React.useState(false);
         </Paper>
         </div>
         </Box>
-        <Box sx={{display:'flex',flexDirection:'column',gap:'1vh',marginTop:'4px'}}>
+        <Box sx={{display:'flex',flexDirection:'column',gap:'1vh',marginTop:'3px'}}>
         <div>
         <Box sx={{paddingX:'8px',paddingY:'4px',display:'flex',flexDirection:'row',justifyContent:'center',gap:'4px',alignItems:'center'}}><Typography sx={{fontSize:12}}>Adaptation: </Typography>
         <Summ_Adapt3 activv={opt4} changeOption={handleChangeOptSumm3} activeCrop={crop3}></Summ_Adapt3>
@@ -688,7 +668,7 @@ const [acc,setacc] = React.useState(false);
         </Paper>
         </div>
         </Box>
-        <Box sx={{display:'flex',flexDirection:'column',gap:'1vh',marginTop:'4px'}}>
+        <Box sx={{display:'flex',flexDirection:'column',gap:'1vh',marginTop:'3px'}}>
         <div>
         <Box sx={{paddingX:'8px',paddingY:'4px',display:'flex',flexDirection:'row',justifyContent:'center',gap:'4px',alignItems:'center'}}><Typography sx={{fontSize:12}}>Adaptation: </Typography>
         <Summ_Adapt5 activv={opt6} changeOption={handleChangeOptSumm5} activeCrop={crop3}></Summ_Adapt5>
@@ -746,7 +726,9 @@ const [acc,setacc] = React.useState(false);
         </Paper>
         </div>
         </Box>
-        </Box></div>}
+        </Box>
+        </Box>
+        </div>}
         </Box>
         <Box sx={{marginTop:'80px',width:'100%',height:'calc(100vh - 80px)',alignItems:'center',justifyContent:'center',display: { xs: 'flex', md: 'none' }}}>
           <Typography>This website is designed for desktop/laptop. Please view in a bigger screen.</Typography>

@@ -25,7 +25,7 @@ const size = {
 
 const palette = ['rgba(180, 70, 109, 1)','#FF9A00','#06D001'];
 
-const palette2 = ["#059212", '#00FF00', "#FFFF00", "#FFA500",'#FF0000'];
+const palette2 = ["#059212", '#00FF00', "#FFFF00", "#FFA500",'#FF0000','#969696'];
 
 function createData(color, Cat, Area, AreaPerc, Population) {
   return { color, Cat, Area, AreaPerc, Population };
@@ -91,7 +91,7 @@ export default function LocationCard({
       "Low temperature induced pollen sterility": "Low temperature induced pollen sterility","High temperature induced pollen sterility": "High temperature induced pollen sterility",
       "Heat Stress": "Heat stress","High temperature induced spikelet sterility": "High temperature induced spikelet sterility",
       "Cold Stress": "Cold stress","Low temperature induced tuberization failure": "Low temperature induced tuberization failure",'Untimely Rainfall':"Untimely rainfall",
-      "Terminal Heat": "Terminal heat","Days of Frost": "Days of Frost","Excess Rainfall and Waterlogging": "Excess rain and waterlogging",
+      "Terminal Heat": "Terminal heat","Days of Frost": "Days of frost","Excess Rainfall and Waterlogging": "Excess rain and waterlogging",
       "Delayed Monsoon": "Delayed monsoon","Drought": "Drought","Dry Spell": "Number of dry spells","Flood": "Flood",
       "Lodging": "Rain and wind causing lodging","Biotic": "High humidity and temperature for blight","Irrigation": "Irrigation","Water Holding": "Water Holding","Income": "Agricultural GDP",
       "Access to Credit": "Access to Credit","Access to Market": "Access to Market","Elevation": "Elevation","Access to Knowledge": "Access to Knowledge","Exposure Index": "Exposure Index",
@@ -204,7 +204,7 @@ export default function LocationCard({
           rowstr = commodity+"_"+location+"_ZZ_"+hazardname[RiskName];
         }
         const row_data = area_data2[rowstr];
-        const total = Number(row_data['Very Low']) + Number(row_data['Low']) + Number(row_data['Medium']) + Number(row_data['High']) + Number(row_data['Very High']);
+        const total = Number(row_data['Very Low']) + Number(row_data['Low']) + Number(row_data['Medium']) + Number(row_data['High']) + Number(row_data['Very High']) + Number(row_data['Nil']);
         //console.log(total);
         data = [
           { value: (row_data['Very Low']*100/total).toFixed(2), label: 'Very Low' },
@@ -212,8 +212,9 @@ export default function LocationCard({
           { value: (row_data['Medium']*100/total).toFixed(2), label: 'Medium' },
           { value: (row_data['High']*100/total).toFixed(2), label: 'High' },
           { value: (row_data['Very High']*100/total).toFixed(2), label: 'Very High' },
+          { value: (row_data['Nil']*100/total).toFixed(2), label: 'Nil' },
         ];
-        //console.log(data);
+        console.log(data);
       }
       return data;
     }
@@ -349,7 +350,7 @@ export default function LocationCard({
         {adaption !== '' && <div><Divider sx={{bgcolor:'#e8ffea', borderBottomWidth: 2, marginTop: 0.1, marginBottom: 0.3}}/>
         <Box sx={{display:'flex'}}>
         <Typography sx={{ fontSize: 14 }} color="black" flexWrap>
-          Technical suitability of&nbsp;<strong>{adaption}</strong> by area %:</Typography>
+          Technical suitability of&nbsp;<strong>{adaption.charAt(0).toUpperCase()+adaption.slice(1,4)+adaption.toLowerCase().slice(4)}</strong> by area %:</Typography>
           </Box>
         </div>}
         {RiskName !== '' && <div><Divider sx={{bgcolor:'#e8ffea', borderBottomWidth: 2, marginTop: 0.1, marginBottom: 0.3}}/>

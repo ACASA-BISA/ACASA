@@ -53,7 +53,7 @@ export default function LegendCard({
         "Low temperature induced pollen sterility": "Low temperature induced pollen sterility","High temperature induced pollen sterility": "High temperature induced pollen sterility",
         "Heat Stress": "Heat stress","High temperature induced spikelet sterility": "High temperature induced spikelet sterility",
         "Cold Stress": "Cold stress","Low temperature induced tuberization failure": "Low temperature induced tuberization failure",'Untimely Rainfall':"Untimely rainfall",
-        "Terminal Heat": "Terminal heat","Days of Frost": "Days of Frost","Excess Rainfall and Waterlogging": "Excess rain and waterlogging",
+        "Terminal Heat": "Terminal heat","Days of Frost": "Days of frost","Excess Rainfall and Waterlogging": "Excess rain and waterlogging",
         "Delayed Monsoon": "Delayed monsoon","Drought": "Drought","Dry Spell": "Number of dry spells","Flood": "Flood",
         "Lodging": "Rain and wind causing lodging","Biotic": "High humidity and temperature for blight","Irrigation": "Irrigation","Water Holding": "Water Holding","Income": "Agricultural GDP",
         "Access to Credit": "Access to Credit","Access to Market": "Access to Market","Elevation": "Elevation","Access to Knowledge": "Access to Knowledge","Exposure Index": "Exposure Index",
@@ -153,16 +153,17 @@ export default function LegendCard({
           }
           
           const row_data = area_data2[rowstr];
-          console.log(area_data2);
-          const total = Number(row_data['Very Low']) + Number(row_data['Low']) + Number(row_data['Medium']) + Number(row_data['High']) + Number(row_data['Very High']);
+          //console.log(area_data2);
+          const total = Number(row_data['Very Low']) + Number(row_data['Low']) + Number(row_data['Medium']) + Number(row_data['High']) + Number(row_data['Very High']) + Number(row_data['Nil']);
           //console.log(total);
           data = 
           [
-            createData(<Box sx={{width: 96,height: 13,borderRadius: 0,bgcolor: '#059212'}}/>,'Very low', row_data['Very Low']/10, (row_data['Very Low']*100/total).toFixed(2), Math.round(row_data['Very Low_Area']/1000000)),
-            createData(<Box sx={{width: 96,height: 13,borderRadius: 0,bgcolor: '#00FF00'}}/>,'Low', row_data['Low']/10, (row_data['Low']*100/total).toFixed(2), Math.round(row_data['Low_Area']/1000000)),
-            createData(<Box sx={{width: 96,height: 13,borderRadius: 0,bgcolor: '#FFFF00'}}/>,'Medium', row_data['Medium']/10, (row_data['Medium']*100/total).toFixed(2), Math.round(row_data['Medium_Area']/1000000)),
-            createData(<Box sx={{width: 96,height: 13,borderRadius: 0,bgcolor: '#FFA500'}}/>,'High', row_data['High']/10, (row_data['High']*100/total).toFixed(2), Math.round(row_data['High_Area']/1000000)),
-            createData(<Box sx={{width: 96,height: 13,borderRadius: 0,bgcolor: '#FF0000'}}/>,'Very high', row_data['Very High']/10, (row_data['Very High']*100/total).toFixed(2), Math.round(row_data['Very High_Area']/1000000)),
+            createData(<Box sx={{width: 76,height: 13,borderRadius: 0,bgcolor: '#969696',margin:0}}/>,'Nil', row_data['Nil']/10, (row_data['Nil']*100/total).toFixed(2), Math.round(row_data['Nil_Area']/1000000)),
+            createData(<Box sx={{width: 76,height: 13,borderRadius: 0,bgcolor: '#059212',margin:0}}/>,'Very low', row_data['Very Low']/10, (row_data['Very Low']*100/total).toFixed(2), Math.round(row_data['Very Low_Area']/1000000)),
+            createData(<Box sx={{width: 76,height: 13,borderRadius: 0,bgcolor: '#00FF00',margin:0}}/>,'Low', row_data['Low']/10, (row_data['Low']*100/total).toFixed(2), Math.round(row_data['Low_Area']/1000000)),
+            createData(<Box sx={{width: 76,height: 13,borderRadius: 0,bgcolor: '#FFFF00',margin:0}}/>,'Medium', row_data['Medium']/10, (row_data['Medium']*100/total).toFixed(2), Math.round(row_data['Medium_Area']/1000000)),
+            createData(<Box sx={{width: 76,height: 13,borderRadius: 0,bgcolor: '#FFA500',margin:0}}/>,'High', row_data['High']/10, (row_data['High']*100/total).toFixed(2), Math.round(row_data['High_Area']/1000000)),
+            createData(<Box sx={{width: 76,height: 13,borderRadius: 0,bgcolor: '#FF0000',margin:0}}/>,'Very high', row_data['Very High']/10, (row_data['Very High']*100/total).toFixed(2), Math.round(row_data['Very High_Area']/1000000)),
           ];
           //console.log(data);
         }
@@ -218,7 +219,7 @@ export default function LegendCard({
         {adaption !== '' && <div>
         <Box sx={{display:'flex'}}>
         <Typography sx={{ fontSize: 14, marginBottom:'2px'}} color="black">
-          Technical suitability of&nbsp;{adaption.toLowerCase()} for rural population:
+          Technical suitability of&nbsp;{adaption.charAt(0).toUpperCase()+adaption.slice(1,4)+adaption.toLowerCase().slice(4)} for rural population:
           </Typography>
           </Box>
         </div>}
@@ -249,7 +250,7 @@ export default function LegendCard({
                         <Box sx={{display:'flex',alignItems:'left',flexDirection:'column'}}>
                         {row.color}
                         <Box>
-                        <Typography sx={{ fontSize: 14, fontWeight:'bold'}} color="black" > {row.Cat}&nbsp;for {calcpop(row.Population)}</Typography>
+                        <Typography sx={{ fontSize: 14, fontWeight:'bold'}} color="black" > {row.Cat} for {calcpop(row.Population)}</Typography>
                         </Box>
                         </Box>
                         
@@ -258,12 +259,13 @@ export default function LegendCard({
                     }
                     {RiskName !== "" && RiskName !== "Hazard Index" && RiskType()==="Hazard" && checkcrop() &&
                     <Box sx={{width:'100%', display:'flex',flexDirection:'row',gap:'4px',padding:0,justifyItems:'center'}}>
+                      
                     {rowshzd.map((row,index) => (
                         
-                        <Box sx={{display:'flex',alignItems:'left',flexDirection:'column'}}>
+                        <Box sx={{display:'flex',alignItems:'left',flexDirection:'column',width:'100%'}}>
                         {row.color}
                         <Box>
-                        <Typography sx={{ fontSize: 14}} color="black" > <strong>{row.Cat}</strong>&nbsp;risk for {calcpop(row.Population)}</Typography>
+                        <Typography sx={{ fontSize: 14}} color="black" > <strong>{row.Cat}</strong> risk for {calcpop(row.Population)}</Typography>
                         </Box>
                         </Box>
                         

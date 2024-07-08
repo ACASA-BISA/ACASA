@@ -196,7 +196,7 @@ const Home = (props) => {
             }}
           >
             <a
-              href="/viewer"
+              href="/#/viewer"
               onClick={() => {
                 toComponentB();
               }}
@@ -542,7 +542,7 @@ function Item(props) {
           </Box>
           <Button
             variant="contained"
-            href="/viewer"
+            href="/#/viewer"
             sx={{
               width: "160px",
               mt: 6,

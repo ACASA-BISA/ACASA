@@ -355,7 +355,7 @@ export default function AboutUs(){
       <Typography sx={{color:'#111111',fontWeight:'normal',fontSize:'14px', fontFamily:'revert', fontWeight:'bold'}}>1. Pramod Aggarwal, Project Leader, ACASA; Regional Program Leader</Typography>
       <Typography sx={{color:'#111111',fontWeight:'normal',fontSize:'14px', fontFamily:'revert'}}>2. Paresh Shirsath,	Scientist, Climate Adaptation</Typography>
       <Typography sx={{color:'#111111',fontWeight:'normal',fontSize:'14px', fontFamily:'revert'}}>3. Prasun Gangopadhyay,	Research Lead, Digital Agriculture</Typography>
-      <Typography sx={{color:'#111111',fontWeight:'normal',fontSize:'14px', fontFamily:'revert'}}>4. Sanjoy Bandyopadhyay,	Sr. Agronomist & Climate Adaptation Expert</Typography>
+      <Typography sx={{color:'#111111',fontWeight:'normal',fontSize:'14px', fontFamily:'revert'}}>4. Sanjoy Bandopadhyay,	Sr. Agronomist & Climate Adaptation Expert</Typography>
       <Typography sx={{color:'#111111',fontWeight:'normal',fontSize:'14px', fontFamily:'revert'}}>5. Anasuya Barik, Data Analyst</Typography>
       <Typography sx={{color:'#111111',fontWeight:'normal',fontSize:'14px', fontFamily:'revert'}}>6. Aniket Deo, Bioeconomic Modeler</Typography>
       <Typography sx={{color:'#111111',fontWeight:'normal',fontSize:'14px', fontFamily:'revert'}}>7. Kaushik Bora, Agricultural Economist</Typography>

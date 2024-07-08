@@ -204,7 +204,7 @@ export default function SwitchOpt({
               } 
               disabled={false}
               key={sname}
-              label={<Typography variant="body2" sx={{paddingLeft:1}}>{sname.charAt(0).toUpperCase()+sname.toLowerCase().slice(1)}</Typography>}
+              label={<Typography variant="body2" sx={{paddingLeft:1}}>{sname.charAt(0).toUpperCase()+sname.slice(1,4)+sname.toLowerCase().slice(4)}</Typography>}
               />
            </FormGroup>
             ))}
@@ -216,7 +216,7 @@ export default function SwitchOpt({
           onChange={handleChange(sname1)} name={sname1} />
         } 
         key={sname1}
-        label={<Typography variant="body2" sx={{paddingLeft:1}}>{sname1.charAt(0).toUpperCase()+sname1.toLowerCase().slice(1)}</Typography>}
+        label={<Typography variant="body2" sx={{paddingLeft:1}}>{sname1.charAt(0).toUpperCase()+sname1.slice(1,4)+sname1.toLowerCase().slice(4)}</Typography>}
         />
         {state[sname1] && sname1 === 'Planting Technology' && (
             <FormControl component="fieldset" variant="standard"  sx={{paddingBottom:1, paddingLeft:6}}>
@@ -230,7 +230,7 @@ export default function SwitchOpt({
               } 
               disabled={false}
               key={sname}
-              label={<Typography variant="body2" sx={{paddingLeft:1}}>{sname.charAt(0).toUpperCase()+sname.toLowerCase().slice(1)}</Typography>}
+              label={<Typography variant="body2" sx={{paddingLeft:1}}>{sname.charAt(0).toUpperCase()+sname.slice(1,4)+sname.toLowerCase().slice(4)}</Typography>}
               />
            </FormGroup>
             ))}
@@ -247,7 +247,7 @@ export default function SwitchOpt({
               }
               disabled={false}
               key={sname}
-              label={<Typography variant="body2" sx={{paddingLeft:1}}>{sname.charAt(0).toUpperCase()+sname.toLowerCase().slice(1)}</Typography>}
+              label={<Typography variant="body2" sx={{paddingLeft:1}}>{sname.charAt(0).toUpperCase()+sname.slice(1,4)+sname.toLowerCase().slice(4)}</Typography>}
               />
            </FormGroup>
             ))}
@@ -264,7 +264,7 @@ export default function SwitchOpt({
               } 
               disabled={false}
               key={sname}
-              label={<Typography variant="body2" sx={{paddingLeft:1}}>{sname.charAt(0).toUpperCase()+sname.toLowerCase().slice(1)}</Typography>}
+              label={<Typography variant="body2" sx={{paddingLeft:1}}>{sname.charAt(0).toUpperCase()+sname.slice(1,4)+sname.toLowerCase().slice(4)}</Typography>}
               />
            </FormGroup>
             ))}
@@ -279,7 +279,7 @@ export default function SwitchOpt({
           onChange={handleChange(sname1)} name={sname1} />
         } 
         key={sname1}
-        label={<Typography variant="body2" sx={{paddingLeft:1}}>{sname1.charAt(0).toUpperCase()+sname1.toLowerCase().slice(1)}</Typography>}
+        label={<Typography variant="body2" sx={{paddingLeft:1}}>{sname1.charAt(0).toUpperCase()+sname1.slice(1,4)+sname1.toLowerCase().slice(4)}</Typography>}
         />
         {state[sname1] && sname1 === 'Planting Technology' && (
             <FormControl component="fieldset" variant="standard"  sx={{paddingBottom:1, paddingLeft:6}}>
@@ -293,7 +293,7 @@ export default function SwitchOpt({
               } 
               disabled={false}
               key={sname}
-              label={<Typography variant="body2" sx={{paddingLeft:1}}>{sname.charAt(0).toUpperCase()+sname.toLowerCase().slice(1)}</Typography>}
+              label={<Typography variant="body2" sx={{paddingLeft:1}}>{sname.charAt(0).toUpperCase()+sname.slice(1,4)+sname.toLowerCase().slice(4)}</Typography>}
               />
            </FormGroup>
             ))}
@@ -310,7 +310,7 @@ export default function SwitchOpt({
               }
               disabled={false}
               key={sname}
-              label={<Typography variant="body2" sx={{paddingLeft:1}}>{sname.charAt(0).toUpperCase()+sname.toLowerCase().slice(1)}</Typography>}
+              label={<Typography variant="body2" sx={{paddingLeft:1}}>{sname.charAt(0).toUpperCase()+sname.slice(1,4)+sname.toLowerCase().slice(4)}</Typography>}
               />
            </FormGroup>
             ))}
@@ -327,7 +327,7 @@ export default function SwitchOpt({
               } 
               disabled={false}
               key={sname}
-              label={<Typography variant="body2" sx={{paddingLeft:1}}>{sname.charAt(0).toUpperCase()+sname.toLowerCase().slice(1)}</Typography>}
+              label={<Typography variant="body2" sx={{paddingLeft:1}}>{sname.charAt(0).toUpperCase()+sname.slice(1,4)+sname.toLowerCase().slice(4)}</Typography>}
               />
            </FormGroup>
             ))}
@@ -344,7 +344,7 @@ export default function SwitchOpt({
               } 
               disabled={false}
               key={sname}
-              label={<Typography variant="body2" sx={{paddingLeft:1}}>{sname.charAt(0).toUpperCase()+sname.toLowerCase().slice(1)}</Typography>}
+              label={<Typography variant="body2" sx={{paddingLeft:1}}>{sname.charAt(0).toUpperCase()+sname.slice(1,4)+sname.toLowerCase().slice(4)}</Typography>}
               />
            </FormGroup>
             ))}
@@ -358,7 +358,7 @@ export default function SwitchOpt({
               } 
               disabled={true}
               key={sname}
-              label={<Typography variant="body2" sx={{paddingLeft:1}}>{sname.charAt(0).toUpperCase()+sname.toLowerCase().slice(1)}</Typography>}
+              label={<Typography variant="body2" sx={{paddingLeft:1}}>{sname.charAt(0).toUpperCase()+sname.slice(1,4)+sname.toLowerCase().slice(4)}</Typography>}
               />
            </FormGroup>
             ))}

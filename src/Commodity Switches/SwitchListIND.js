@@ -15,8 +15,8 @@ export default function SwitchIndustrial({
 }) {
   const switchh = ['Cotton','Jute','Rubber','Sugarcane','Tea','Coconut'];
   const switchid = ['cotton','jute','rubber','sugarcane','tea','coconut'];
-  const disvar = {'cotton':false,'jute':false,'rubber':true,'sugarcane':true,'tea':true,'coconut':true};
-  const tooltipvar = {'cotton':false,'jute':false,'rubber':true,'sugarcane':true,'tea':true,'coconut':true};
+  const disvar = {'cotton':false,'jute':true,'rubber':true,'sugarcane':true,'tea':true,'coconut':true};
+  const tooltipvar = {'cotton':false,'jute':true,'rubber':true,'sugarcane':true,'tea':true,'coconut':true};
   const padd = 8;
   const season = ['Cotton is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as \'Kharif\' in India).',
     'Jute is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as \'Kharif\' in India).',

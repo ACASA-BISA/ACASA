@@ -48,7 +48,7 @@ const ButtonEffect = ({ activeTab, onTabClick }) => {
       sx={{
         marginTop: "100px",
         textAlign: "left",
-        display: { xs: "none", md: "block" },
+        display: { xs: "none", md: "block" }
       }}
     >
       <div className="tabs">
@@ -94,7 +94,7 @@ const Usecase = () => {
   };
 
   return (
-    <div className="carousel-container" style={{ marginBottom: "20px" }}>
+    <div className="carousel-container" style={{ marginBottom: "20px",overflow:'hidden'}}>
       <ButtonEffect activeTab={activeTab} onTabClick={handleTabClick} />
       <Carousel
         selectedItem={activeTab}

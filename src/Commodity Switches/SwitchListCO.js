@@ -15,7 +15,7 @@ export default function SwitchCereals({
 }) {
   const switchh = ['Rice','Wheat','Maize','Sorghum','Finger Millet','Pearl Millet'];
   const switchid = ['rice','wheat','maize','sorghum','fmillet','pmillet'];
-  const disvar = {'rice':false,'wheat':false,'maize':false,'sorghum':false,'fmillet':true,'pmillet':false};
+  const disvar = {'rice':false,'wheat':false,'maize':false,'sorghum':false,'fmillet':true,'pmillet':true};
   const padd = 8;
   const season = ['Rice is planted in multiple seasons in different countries. Here this analysis is only for monsoon season (also known as \'Kharif\' in India, \'Aman\' in Bangladesh,and \'Yala\' in Sri Lanka)',
   'The analysis for wheat (except for Afghanistan) is done for rabi/winter season with planting time around mid-November.  For Afghanistan, wheat season starts around April.',
