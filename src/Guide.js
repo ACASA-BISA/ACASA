@@ -9,6 +9,7 @@ import TimelineContent from "@mui/lab/TimelineContent";
 import TimelineOppositeContent from "@mui/lab/TimelineOppositeContent";
 import { ReactTyped } from "react-typed";
 
+// Define a component for the heading with a typewriter effect
 const headingA = () => {
   return (
     <Box sx={headingBoxStyle}>
@@ -30,6 +31,7 @@ const headingA = () => {
   );
 };
 
+// Styles for the heading box
 const headingBoxStyle = {
   position: "absolute",
   top: "-60px",
@@ -41,6 +43,7 @@ const headingBoxStyle = {
   boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
 };
 
+// Styles for the timeline event images
 const logoStyle = {
   width: "29vw",
   height: "16vw",
@@ -51,6 +54,7 @@ const logoStyle = {
   borderRadius: "8px",
 };
 
+// Base styles for the tooltip boxes
 const tooltipBoxStyleBase = {
   padding: "20px",
   border: "1px solid #4b9e44",
@@ -66,6 +70,7 @@ const tooltipBoxStyleBase = {
   },
 };
 
+// Styles for left-pointing arrow
 const arrowStyleLeft = {
   content: '""',
   position: "absolute",
@@ -80,6 +85,7 @@ const arrowStyleLeft = {
   filter: "drop-shadow(-1px 0 1px rgba(0, 0, 0, 0.1))",
 };
 
+// Styles for right-pointing arrow
 const arrowStyleRight = {
   content: '""',
   position: "absolute",
@@ -94,6 +100,7 @@ const arrowStyleRight = {
   filter: "drop-shadow(1px 0 1px rgba(0, 0, 0, 0.1))",
 };
 
+// Main Guide component to render the timeline with events
 export default function Guidee() {
   const events = [
     {
