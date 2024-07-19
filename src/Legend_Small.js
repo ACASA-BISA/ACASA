@@ -277,7 +277,7 @@ export default function Legend_Small({
             </Typography>
             </Box>
         </div>}
-        {((RiskName !== "" && RiskType()==="Hazard" && checkcrop()===false)) && <div>
+        {((RiskName !== "" && checkcrop()===false)) && <div>
             <Box sx={{ display: 'flex' }}>
             <Typography sx={{ fontSize: 11, marginBottom: '2px' }} color="black">
                 Affected&nbsp;
@@ -294,7 +294,7 @@ export default function Legend_Small({
         </Box>
         </div>
         }
-        {((RiskName !== "" && RiskType()==="Exposure" && (checkcrop()===false||(commodity==='Rice'||commodity==='Wheat'||commodity==='Barley'||commodity==='Soybean'||commodity==='Cotton'||commodity==='Chickpea'||commodity==='Maize'||commodity==='Mustard')))) && <div>
+        {((RiskName !== "" && RiskType()==="Exposure" && ((commodity==='Rice'||commodity==='Wheat'||commodity==='Barley'||commodity==='Soybean'||commodity==='Cotton'||commodity==='Chickpea'||commodity==='Maize'||commodity==='Mustard')))) && <div>
         {/* <Box sx={{display:'flex'}}>
         <Typography  sx={{ fontSize: 13, marginBottom:'2px'}} color="black">
         Number of farm households affected by this {typrstr().toLowerCase()} in {commodity.toLowerCase()}
@@ -330,98 +330,106 @@ export default function Legend_Small({
                     </Box>
                     }
                     {((RiskName !== "" && RiskName !== "Hazard Index" && RiskType()==="Hazard") || ((RiskName !== "" && RiskType()==="Hazard" && (checkcrop()===false||(commodity==='Rice'||commodity==='Wheat'||commodity==='Barley'||commodity==='Soybean'||commodity==='Cotton'||commodity==='Chickpea'||commodity==='Maize'||commodity==='Mustard'))))) &&
-                    <div> 
-                    {rowshzd.map((row,index) => (
-                        <div>
-                        {index===0 &&
-                            <div>
-                                <Box sx={{display:'flex',alignItems:'left',flexDirection:'row',width:'100%'}}>
-                                    <Box sx={{width: 110,height: 18,borderRadius: 0,bgcolor:row.color, margin:0, alignContent:'center'}}>
-                                    <Typography sx={{ fontSize: 10, marginY:'auto',marginLeft:'3px'}} color="white" > 
-                                        <strong>{row.Cat}</strong>
-                                    </Typography>
-                                    </Box>
-                                    {checkcrop()===true && <Box>
-                                    <Typography sx={{ fontSize: 10, margin:'2px'}} color="#AA5486" fontWeight='bold'>{calcpop(row.Population)}</Typography>
-                                    </Box>}
-                                    <Box>
-                                    <Typography sx={{ fontSize: 10, margin:'2px'}} color="#859F3D" fontWeight='bold'>{calcarea(row.Area)}</Typography>
-                                    </Box>
-                                </Box>
-                            </div>
-                        }
-                        </div>
-                    ))}
+                      <div> 
+                      {rowshzd.map((row,index) => (
+                          <div>
+                          {index===0 &&
+                              <div>
+                                  <Box sx={{display:'flex',alignItems:'left',flexDirection:'row',width:'100%'}}>
+                                      <Box sx={{width: 110,height: 18,borderRadius: 0,bgcolor:row.color, margin:0, alignContent:'center'}}>
+                                      <Typography sx={{ fontSize: 10, marginY:'auto',marginLeft:'3px'}} color="white" > 
+                                          <strong>{row.Cat}</strong>
+                                      </Typography>
+                                      </Box>
+                                      {checkcrop()===true && <Box>
+                                      <Typography sx={{ fontSize: 10, margin:'2px'}} color="#AA5486" fontWeight='bold'>{calcpop(row.Population)}</Typography>
+                                      </Box>}
+                                      <Box>
+                                      <Typography sx={{ fontSize: 10, margin:'2px'}} color="#859F3D" fontWeight='bold'>{calcarea(row.Area)}</Typography>
+                                      </Box>
+                                  </Box>
+                              </div>
+                          }
+                          </div>
+                      ))}
 
-                    <Box sx={{width:'100%', display:'flex',flexDirection:'row',padding:0,justifyItems:'center',marginTop:'1px'}}>
-                    {rowshzd.map((row,index) => (
-                        <div>
-                            {index!==0 && 
-                            <div>
-                                <Box sx={{display:'flex',alignItems:'left',flexDirection:'column',width:'100%',gap:'2px'}}>
-                                {checkcrop()===true && <Box sx={{width: 58, height: 18, borderRadius: 0}}>
-                                    <Typography sx={{ fontSize: 10, margin:'2px'}} color="#AA5486" fontWeight='bold'> {calcpop(row.Population)}</Typography>
-                                    </Box>}
-                                    <Box sx={{width: 58, height: 18, borderRadius: 0, bgcolor:row.color, alignContent:'center'}}>
-                                    <Typography sx={{ fontSize: 10, marginY:'auto',marginLeft:'3px'}} color="white" > 
-                                    <strong>{row.Cat}</strong>
-                                    </Typography>
-                                    </Box>
-                                    <Box sx={{width: 58, height: 18, borderRadius: 0}}>
-                                    <Typography sx={{ fontSize: 10, margin:'2px'}} color="#859F3D" fontWeight='bold'> {calcarea(row.Area)}</Typography>
-                                    </Box>
-                                </Box>
-                            </div>
-                            }
-                        </div>
-                    ))}
-                    </Box>
-                    </div> 
+                      <Box sx={{width:'100%', display:'flex',flexDirection:'row',padding:0,justifyItems:'center',marginTop:'1px'}}>
+                      {rowshzd.map((row,index) => (
+                          <div>
+                              {index!==0 && 
+                              <div>
+                                  <Box sx={{display:'flex',alignItems:'left',flexDirection:'column',width:'100%',gap:'2px'}}>
+                                  {checkcrop()===true && <Box sx={{width: 58, height: 18, borderRadius: 0}}>
+                                      <Typography sx={{ fontSize: 10, margin:'2px'}} color="#AA5486" fontWeight='bold'> {calcpop(row.Population)}</Typography>
+                                      </Box>}
+                                      <Box sx={{width: 58, height: 18, borderRadius: 0, bgcolor:row.color, alignContent:'center'}}>
+                                      <Typography sx={{ fontSize: 10, marginY:'auto',marginLeft:'3px'}} color="white" > 
+                                      <strong>{row.Cat}</strong>
+                                      </Typography>
+                                      </Box>
+                                      <Box sx={{width: 58, height: 18, borderRadius: 0}}>
+                                      <Typography sx={{ fontSize: 10, margin:'2px'}} color="#859F3D" fontWeight='bold'> {calcarea(row.Area)}</Typography>
+                                      </Box>
+                                  </Box>
+                              </div>
+                              }
+                          </div>
+                      ))}
+                      </Box>
+                      </div> 
                     }
                     {(((RiskName !== "" && RiskType()==="Vulnerability"))) &&
                     <div>
-                    <Box sx={{width:'100%', display:'flex',flexDirection:'row',gap:'4px',padding:0,justifyItems:'center'}}>
-                      
-                    {rowshzd.map((row,index) => (
-                        <div>
-                        {(index!==0) && <Box sx={{display:'flex',alignItems:'left',flexDirection:'column',width:'100%'}}>
-                        <Box sx={{width: 92,height: 18,borderRadius: 0,bgcolor:row.color,margin:0}}>
-                        <Typography sx={{ fontSize: 12, marginY:'auto',marginLeft:'5px'}} color="white" > 
-                          <strong>{vulcat(row.Cat)}</strong>
-                          </Typography>
-                          </Box>
-                        <Box>
-                        <Typography sx={{ fontSize: 12, margin:'2px'}} color="black" > {calcpop(row.Population)}</Typography>
-                        </Box>
-                        </Box>}
-                        </div>
-                    ))}
-                    
-                    </Box>
-                    {RiskType()==="Vulnerability" && <Box sx={{width:'100%', display:'flex',alignContent:'center',alignItems:'center',justifyContent:'center'}}>
-                    <Typography sx={{ fontSize: 12, marginX:'2px',fontWeight:'normal' }} color="text.secondary">(Lower {RiskName.toLowerCase()} depicts higher vulnerability)</Typography>
-                    </Box>}
+                      <Box sx={{width:'100%', display:'flex',flexDirection:'row',padding:0,justifyItems:'center',marginTop:'1px'}}>   
+                      {rowshzd.map((row,index) => (
+                          <div>
+                          {index!==0 && 
+                                <div>
+                                    <Box sx={{display:'flex',alignItems:'left',flexDirection:'column',width:'100%',gap:'2px'}}>
+                                    {checkcrop()===true && <Box sx={{width: 58, height: 18, borderRadius: 0}}>
+                                        <Typography sx={{ fontSize: 10, margin:'2px'}} color="#AA5486" fontWeight='bold'> {calcpop(row.Population)}</Typography>
+                                        </Box>}
+                                        <Box sx={{width: 58, height: 18, borderRadius: 0, bgcolor:row.color, alignContent:'center'}}>
+                                        <Typography sx={{ fontSize: 10, marginY:'auto',marginLeft:'3px'}} color="white" > 
+                                        <strong>{row.Cat}</strong>
+                                        </Typography>
+                                        </Box>
+                                        <Box sx={{width: 58, height: 18, borderRadius: 0}}>
+                                        <Typography sx={{ fontSize: 10, margin:'2px'}} color="#859F3D" fontWeight='bold'> {calcarea(row.Area)}</Typography>
+                                        </Box>
+                                    </Box>
+                                </div>
+                                }
+                          </div>
+                      ))}
+                      </Box>
                     </div>
                     }
                     {(((RiskName !== "" && (RiskType()==="Exposure"||RiskType()==='Risk')))) &&
                     <div>
-                    <Box sx={{width:'100%', display:'flex',flexDirection:'row',gap:'4px',padding:0,justifyItems:'center'}}>
-                      
-                    {rowshzd.map((row,index) => (
-                        <div>
-                        {(index!==0) && <Box sx={{display:'flex',alignItems:'left',flexDirection:'column',width:'100%'}}>
-                        <Box sx={{width: 92,height: 18,borderRadius: 0,bgcolor:row.color,margin:0}}>
-                        <Typography sx={{ fontSize: 12, marginY:'auto',marginLeft:'5px'}} color="white" > 
-                          <strong>{row.Cat}</strong>
-                          </Typography>
-                          </Box>
-                        <Box>
-                        <Typography sx={{ fontSize: 12, margin:'2px'}} color="black" > {calcpop(row.Population)}</Typography>
-                        </Box>
-                        </Box>}
-                        </div>
-                    ))}
-                    </Box>
+                    <Box sx={{width:'100%', display:'flex',flexDirection:'row',padding:0,justifyItems:'center',marginTop:'1px'}}>   
+                      {rowshzd.map((row,index) => (
+                          <div>
+                          {index!==0 && 
+                                <div>
+                                    <Box sx={{display:'flex',alignItems:'left',flexDirection:'column',width:'100%',gap:'2px'}}>
+                                    {checkcrop()===true && <Box sx={{width: 58, height: 18, borderRadius: 0}}>
+                                        <Typography sx={{ fontSize: 10, margin:'2px'}} color="#AA5486" fontWeight='bold'> {calcpop(row.Population)}</Typography>
+                                        </Box>}
+                                        <Box sx={{width: 58, height: 18, borderRadius: 0, bgcolor:row.color, alignContent:'center'}}>
+                                        <Typography sx={{ fontSize: 10, marginY:'auto',marginLeft:'3px'}} color="white" > 
+                                        <strong>{row.Cat}</strong>
+                                        </Typography>
+                                        </Box>
+                                        <Box sx={{width: 58, height: 18, borderRadius: 0}}>
+                                        <Typography sx={{ fontSize: 10, margin:'2px'}} color="#859F3D" fontWeight='bold'> {calcarea(row.Area)}</Typography>
+                                        </Box>
+                                    </Box>
+                                </div>
+                                }
+                          </div>
+                      ))}
+                      </Box>
                     </div>
                     }
         </Typography>

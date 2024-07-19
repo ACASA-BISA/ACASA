@@ -34,42 +34,37 @@ function ResponsiveAppBar({}) {
   const [flag, setflag] = React.useState(null);
 
   React.useEffect(() => {
+    // Function to handle URL changes and set the active page
     const handleUrlChange = () => {
-      const sec = window.location.href.indexOf('#');
+      const sec = window.location.href.indexOf("#");
       const strr = window.location.href.substring(sec + 2);
-      if (strr !== '') {
+      if (strr !== "") {
         setflag(strr);
       }
     };
     handleUrlChange();
 
-    window.addEventListener('popstate', handleUrlChange);
+    // Add event listener for popstate to handle back/forward browser navigation
+    window.addEventListener("popstate", handleUrlChange);
 
+    // Cleanup the event listener when the component unmounts
     return () => {
-      window.removeEventListener('popstate', handleUrlChange);
+      window.removeEventListener("popstate", handleUrlChange);
     };
   }, []);
-  //const [home, sethome] = React.useState(true);
-/*   function setflagfunc(){
-    let strr = window.location.href.substring(1);
-    if(strr!==''){
-      setflag(strr);
-    }
-    console.log(window.location.href);
-  }
 
-  setflagfunc(); */
-
+  // Handle the ToggleButtonGroup change event
   // Ref for the "Data at a glance" button
   const GlanceButtonRef = React.useRef(null);
   const ExploreButtonRef = React.useRef(null);
 
   const handleClick = (event, newvalue) => {
     if (newvalue !== null) {
-        setflag(newvalue);
-      }
+      setflag(newvalue);
+    }
   };
 
+  // Handle the click event for the home button
   const handleHomeClick = () => {
     setflag(null);
   };
@@ -94,9 +89,10 @@ function ResponsiveAppBar({}) {
     setAnchorElUser2(null);
   };
 
+  // Styled ToggleButton with custom styles
   const MyButton = styled(ToggleButton)({
-    boxShadow: 'none',
-    textTransform: 'none',
+    boxShadow: "none",
+    textTransform: "none",
     fontSize: 15,
     fontWeight:'normal',
     color:'#333',
@@ -114,27 +110,24 @@ function ResponsiveAppBar({}) {
       //fontWeight: 'bold',
     },
     "&.Mui-selected, &.Mui-selected:hover": {
-      boxShadow: 'none',
-      backgroundColor: '#fece2f',
-      //borderColor: '#005cbf',
+      boxShadow: "none",
+      backgroundColor: "#fece2f",
     },
   });
 
-  const ImgButton = styled(Button )({
-    boxShadow: 'none',
-    borderRadius:0,
-    border: '0px solid',
-    backgroundColor: '#ffffff',
-    //borderColor: '#0063cc',
-    '&:hover': {
-      backgroundColor: '#ffffff',
-      //borderColor: '#0062cc',
-      boxShadow: 'none',
+  // Styled Button with custom styles for images
+  const ImgButton = styled(Button)({
+    boxShadow: "none",
+    borderRadius: 0,
+    border: "0px solid",
+    backgroundColor: "#ffffff",
+    "&:hover": {
+      backgroundColor: "#ffffff",
+      boxShadow: "none",
     },
     "&.Mui-selected, &.Mui-selected:hover": {
-      boxShadow: 'none',
-      backgroundColor: '#ffffff',
-      //borderColor: '#005cbf',
+      boxShadow: "none",
+      backgroundColor: "#ffffff",
     },
   });
 
@@ -400,4 +393,5 @@ function ResponsiveAppBar({}) {
     </div>
   );
 }
+
 export default ResponsiveAppBar;
