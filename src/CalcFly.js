@@ -1,26 +1,26 @@
-import React, { useState, useEffect, useRef } from 'react';
-import GeoTIFF from 'ol/source/GeoTIFF.js';
-import GeoJSON from 'ol/format/GeoJSON.js';
-import VectorImage from 'ol/layer/VectorImage';
-import VectorLayer from 'ol/layer/Vector';
-import ImageLayer from 'ol/layer/Image';
-import VectorSource from 'ol/source/Vector';
-import TileLayer from 'ol/layer/WebGLTile';
-import TileLayer2 from 'ol/layer/Tile';
-import RasterSource from 'ol/source/Raster';
-import Tile from 'ol/layer/Tile';
-import Style from 'ol/style/Style';
-import {fromLonLat} from 'ol/proj';
-import Fill from 'ol/style/Fill';
-import Text from 'ol/style/Text';
-import OSM from 'ol/source/OSM';
-import Stroke from 'ol/style/Stroke';
-import { Map, View } from 'ol';
-import bbox from '@turf/bbox';
-import { featureCollection } from '@turf/helpers';
-import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
-import { fromFile } from "geotiff";
-import { polygon } from "@turf/turf";
+import React, { useState, useEffect, useRef } from "react";
+import GeoTIFF from "ol/source/GeoTIFF.js"; // Import GeoTIFF for handling TIFF files
+import GeoJSON from "ol/format/GeoJSON.js"; // Import GeoJSON format handling
+import VectorImage from "ol/layer/VectorImage"; // Import VectorImage for rendering vector layers
+import VectorLayer from "ol/layer/Vector"; // Import Vector layer (not used here)
+import ImageLayer from "ol/layer/Image"; // Import ImageLayer (not used here)
+import VectorSource from "ol/source/Vector"; // Import VectorSource for vector data
+import TileLayer from "ol/layer/WebGLTile"; // Import WebGLTile layer (not used here)
+import TileLayer2 from "ol/layer/Tile"; // Import Tile layer (not used here)
+import RasterSource from "ol/source/Raster"; // Import RasterSource (not used here)
+import Tile from "ol/layer/Tile"; // Import Tile layer (not used here)
+import Style from "ol/style/Style"; // Import Style for styling layers
+import { fromLonLat } from "ol/proj"; // Import fromLonLat for coordinate transformations
+import Fill from "ol/style/Fill"; // Import Fill for fill styles
+import Text from "ol/style/Text"; // Import Text for text styles (not used here)
+import OSM from "ol/source/OSM"; // Import OSM source for OpenStreetMap data
+import Stroke from "ol/style/Stroke"; // Import Stroke for stroke styles
+import { Map, View } from "ol"; // Import Map and View for OpenLayers map setup
+import bbox from "@turf/bbox"; // Import bbox for bounding box calculations
+import { featureCollection } from "@turf/helpers"; // Import featureCollection for Turf helpers
+import booleanPointInPolygon from "@turf/boolean-point-in-polygon"; // Import booleanPointInPolygon for point-in-polygon checks
+import { fromFile } from "geotiff"; // Import fromFile for reading TIFF files
+import { polygon } from "@turf/turf"; // Import polygon function for creating polygons
 
 async function clipUsingPolygon(
   tiffFilePath,
@@ -80,17 +80,20 @@ async function clipUsingPolygon(
       height,
       pixels,
     };
-
   } catch (error) {
     console.error("Error processing the TIFF file:", error);
   }
 }
-
+// Main functional component
 export default function PieValue({
-    activeCrop, focus='Region', activeRegion,
-    activeOpt, CurrRisk, activeImpact,
-  }) {
-       /* const fill = new Fill({
+  activeCrop,
+  focus = "Region",
+  activeRegion,
+  activeOpt,
+  CurrRisk,
+  activeImpact,
+}) {
+  /* const fill = new Fill({
         color: 'rgba(0,0,0,1)',
       });
   
@@ -255,9 +258,5 @@ export default function PieValue({
         }
     }, [activeRegion,focus,activeOpt,CurrRisk,activeCrop,activeImpact]); */
 
-    return(
-        <div>
-
-        </div>
-    )
-  }
+  return <div></div>;
+}
