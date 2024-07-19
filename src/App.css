@@ -1,17 +1,22 @@
+/* Center text in the App component */
 .App {
   text-align: center;
 }
+
+/* Set the height of the App logo and disable pointer events */
 .App-logo {
   height: 40vmin;
   pointer-events: none;
 }
 
+/* Apply animation to the App logo only if the user prefers reduced motion */
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
 }
 
+/* Style the App header with background color, minimum height, flex properties, and text styling */
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -23,10 +28,12 @@
   color: white;
 }
 
+/* Set the color of links inside the App component */
 .App-link {
   color: #61dafb;
 }
 
+/* Define keyframes for spinning the App logo */
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
