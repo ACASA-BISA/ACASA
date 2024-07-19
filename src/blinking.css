@@ -1,9 +1,10 @@
 .blinking {
-    animation: blink 0.5s step-start infinite;
+  animation: blink 0.5s step-start infinite;
+}
+/* Logo blinking animation added to the Loading screen/Pre-loader */
+@keyframes blink {
+  50% {
+    opacity: 0;
   }
-  
-  @keyframes blink {
-    50% {
-      opacity: 0;
-    }
-  }
+}
+/* blinking keyframe size */
