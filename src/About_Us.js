@@ -1,51 +1,66 @@
-import * as React from 'react';
-import StickyFooter from './StickyFooter';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
-import Paper from '@mui/material/Paper';
-import Zoom from '@mui/material/Zoom';
+// React library is imported for building the component.
+// Several components from Material UI are imported for styling and functionality like Box, Typography, Link, Paper, and Zoom.
+// It also imports custom components PartnersContributors and StickyFooter (which seems to be absent in the provided code).
+import * as React from "react";
+import StickyFooter from "./StickyFooter";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Link from "@mui/material/Link";
+import Paper from "@mui/material/Paper";
+import Zoom from "@mui/material/Zoom";
 import PartnersContributors from "./Partners";
 
+// The code defines several styles using Javascript objects for logo images with different sizes. These styles are used with the img tag later.
+
 const logoStyle = {
-  width: 'auto',
-  height: '8vh',
-  paddingLeft:'16px',
-  marginTop:'16px',
-  marginBottom:'16px'
+  width: "auto",
+  height: "8vh",
+  paddingLeft: "16px",
+  marginTop: "16px",
+  marginBottom: "16px",
 };
 
 const logoStyle2 = {
-  width: '70%',
-  height: 'auto',
-  margin:'auto',
-  marginTop:30,
+  width: "70%",
+  height: "auto",
+  margin: "auto",
+  marginTop: 30,
 };
 
 const logoStyle3 = {
-  width: 'auto',
+  width: "auto",
   height: 80,
-  margin:'auto',
-  marginTop:20,
+  margin: "auto",
+  marginTop: 20,
 };
 const logoStyle4 = {
-  width: 'auto',
+  width: "auto",
   height: 40,
-  margin:'auto',
-  marginTop:40,
-  marginBottom:20,
+  margin: "auto",
+  marginTop: 40,
+  marginBottom: 20,
 };
 
-export default function AboutUs(){
-    return(
-        <div>
-          <Box
+// This is the main component that returns JSX code defining the layout and content of the about us section.
+// It uses a Box component from MUI to manage the layout with flexbox for different screen sizes (xs - extra small, md - medium).
+// The component displays text content about ACASA using Typography components with various styles for headings and paragraphs.
+// Links to relevant websites like CIMMYT and ACASA brochure are included using Link components.
+// Images representing Workstreams of ACASA are displayed using the img tag with styles applied.
+// It uses Zoom component from MUI to add a zoom animation effect on hover for the workstream logos.
+// Partner logos from Bill & Melinda Gates Foundation and research institutions from South Asia are displayed using Paper components with logos as images and text descriptions. Links to their websites are also included.
+// Similar structure is used to display information about Advisory Panel and Country Team Leads of ACASA.
+// The component likely uses the StickyFooter component at the bottom (not provided in the code) for a persistent footer.
+
+export default function AboutUs() {
+  return (
+    <div>
+      <Box
         sx={{
-          display: { xs: 'none', md: 'flex' },
-          flexDirection: 'column',
-          marginTop:'70px',
-          minHeight: '50vh',
-          textAlign: { sm: 'center', md: 'left' },
+          display: { xs: "none", md: "flex" },
+          flexDirection: "column",
+          marginTop: "70px",
+          minHeight: "50vh",
+          textAlign: { sm: "center", md: "left" },
         }}
       >
       <Box sx={{paddingBottom:5}}>
@@ -263,113 +278,761 @@ export default function AboutUs(){
                 <PartnersContributors country="sriLanka" />
               </Box>
             </Box>
-      </Box>
-      </Box>
-      <Box sx={{display: 'flex', flexDirection: 'column',width: { xs: '100%', sm: '100%' },paddingBottom:5,paddinTop:5,backgroundColor:'#ffffff'}}>
-      <Box sx={{marginLeft:7,marginRight:7,marginTop:4}}>
-      <Typography sx={{color:'#111111',fontWeight:'bold',fontSize:'25px', fontFamily:'revert'}}>ACASA advisory panel</Typography>
-      <Typography sx={{color:'#111111',fontSize:'15px', fontFamily:'revert',marginTop:2,marginBottom:2}}>The advisory panel established under ACASA will have the scientific 
-      advisory committee that will identify potential users, use cases in different countries, and guide and review Atlas’ progress.</Typography>
-      <Box sx={{display:'flex',flexDirection:'row',width: { xs: '100%', sm: '100%' }}} gap='1vw'>
-      <Paper sx={{ m: 1,ml:0, width: '21vw',height:'auto', backgroundColor:'#f7f7ff' }} elevation={0}><Box sx={{display: 'flex', flexDirection: 'column',textAlign: { sm: 'center', md: 'center' }}}>
-      <Typography sx={{color:'#333333',fontSize:'15px',fontWeight:'bold',fontFamily:'revert',margin:2,mb:1}}>
-      Pramod K Joshi</Typography>
-        <Typography sx={{color:'#333333',fontSize:'14px',fontFamily:'revert',margin:0,marginRight:3,marginLeft:3,mb:2}}>
-        Ex-Director- International Food Policy Research Institute (IFPRI), India</Typography>
-         </Box></Paper>
-      <Paper sx={{ m: 1,ml:0, width: '21vw',height:'auto', backgroundColor:'#f7f7ff'}} elevation={0}><Box sx={{display: 'flex', flexDirection: 'column',textAlign: { sm: 'center', md: 'center' }}}>
-      <Typography sx={{color:'#333333',fontSize:'15px',fontWeight:'bold',fontFamily:'revert',margin:2,mb:1}}>
-      Leigh Anderson</Typography>
-        <Typography sx={{color:'#333333',fontSize:'14px',fontFamily:'revert',margin:0,marginRight:3,marginLeft:3,mb:2}}>
-        Evans School of Public Policy and Governance, University of Washington, Seattle</Typography>
-         </Box></Paper>
-      <Paper sx={{ m: 1,ml:0, width: '21vw',height:'auto', backgroundColor:'#f7f7ff' }} elevation={0}><Box sx={{display: 'flex', flexDirection: 'column',textAlign: { sm: 'center', md: 'center' }}}>
-      <Typography sx={{color:'#333333',fontSize:'15px',fontWeight:'bold',fontFamily:'revert',margin:2,mb:1}}>
-      Miranda Meuwissen</Typography>
-        <Typography sx={{color:'#333333',fontSize:'14px',fontFamily:'revert',margin:0,marginRight:3,marginLeft:3,mb:2}}>
-        Professor of Risk Management and Resilience, Wageningen University, Netherlands</Typography>
-         </Box></Paper>
-         <Paper sx={{ m: 1,ml:0, width: '21vw',height:'auto', backgroundColor:'#f7f7ff' }} elevation={0}><Box sx={{display: 'flex', flexDirection: 'column',textAlign: { sm: 'center', md: 'center' }}}>
-         <Typography sx={{color:'#333333',fontSize:'15px',fontWeight:'bold',fontFamily:'revert',margin:2,mb:1}}>
-      Michiko Katagami</Typography>
-        <Typography sx={{color:'#333333',fontSize:'14px',fontFamily:'revert',margin:0,marginRight:3,marginLeft:3,mb:2}}>
-        Principal Natural Resources and Agriculture Specialist, Asia Development Bank (ADB), Manila</Typography>
-         </Box></Paper>
-      </Box>
-      <Box sx={{display:'flex',flexDirection:'row',width: { xs: '100%', sm: '100%' }}} gap='1vw'>
-      <Paper sx={{ m: 1,ml:0, width: '21vw',height:'auto', backgroundColor:'#f7f7ff' }} elevation={0}><Box sx={{display: 'flex', flexDirection: 'column',textAlign: { sm: 'center', md: 'center' }}}>
-      <Typography sx={{color:'#333333',fontSize:'15px',fontWeight:'bold',fontFamily:'revert',margin:2,mb:1}}>
-      V. Geethalakshmi</Typography>
-        <Typography sx={{color:'#333333',fontSize:'14px',fontFamily:'revert',margin:0,marginRight:3,marginLeft:3,mb:2}}>
-        Vice Chancellor, Tamil Nādu Agriculture University, India</Typography>
-         </Box></Paper>
-      <Paper sx={{ m: 1,ml:0, width: '21vw',height:'auto', backgroundColor:'#f7f7ff'}} elevation={0}><Box sx={{display: 'flex', flexDirection: 'column',textAlign: { sm: 'center', md: 'center' }}}>
-      <Typography sx={{color:'#333333',fontSize:'15px',fontWeight:'bold',fontFamily:'revert',margin:2,mb:1}}>
-      Alex Ruane</Typography>
-        <Typography sx={{color:'#333333',fontSize:'14px',fontFamily:'revert',margin:0,marginRight:3,marginLeft:3,mb:2}}>
-        Co-Director, Climate Impacts Group, NASA Goddard Institute for Space Studies (GISS)</Typography>
-         </Box></Paper>
-      <Paper sx={{ m: 1,ml:0, width: '21vw',height:'auto', backgroundColor:'#f7f7ff' }} elevation={0}><Box sx={{display: 'flex', flexDirection: 'column',textAlign: { sm: 'center', md: 'center' }}}>
-      <Typography sx={{color:'#333333',fontSize:'15px',fontWeight:'bold',fontFamily:'revert',margin:2,mb:1}}>
-      Tess Russo</Typography>
-        <Typography sx={{color:'#333333',fontSize:'14px',fontFamily:'revert',margin:0,marginRight:3,marginLeft:3,mb:2}}>
-        Senior Program Officer, Bill & Melinda Gates Foundation (BMGF), Seattle</Typography>
-         </Box></Paper>
-         <Paper sx={{ m: 1,ml:0, width: '21vw',height:'auto', backgroundColor:'#f7f7ff' }} elevation={0}><Box sx={{display: 'flex', flexDirection: 'column',textAlign: { sm: 'center', md: 'center' }}}>
-         <Typography sx={{color:'#333333',fontSize:'15px',fontWeight:'bold',fontFamily:'revert',margin:2,mb:1}}>
-      Pramod Aggarwal</Typography>
-        <Typography sx={{color:'#333333',fontSize:'14px',fontFamily:'revert',margin:0,marginRight:3,marginLeft:3,mb:2}}>
-        Project Leader, ACASA; Regional Program Leader, BISA-CIMMYT, Delhi</Typography>
-         </Box></Paper>
-      </Box>
-      <Typography sx={{color:'#111111',fontWeight:'bold',fontSize:'25px', fontFamily:'revert',marginTop:2,marginBottom:2}}>ACASA country team leads</Typography>
-      <Box sx={{display:'flex',flexDirection:'row',width: { xs: '100%', sm: '100%' }}} gap='1vw'>
-      <Paper sx={{ m: 1,ml:0, width: '21vw', height:'auto', backgroundColor:'#fff7ff' }} elevation={0}>
-      <Box sx={{display: 'flex', flexDirection: 'column',textAlign: { sm: 'center', md: 'center' }}}>
-      <Typography sx={{color:'#333333',fontSize:'15px',fontWeight:'bold',fontFamily:'revert',margin:2,mb:1}}>
-      Hasan Md. Hamidur Rahman</Typography>
-        <Typography sx={{color:'#333333',fontSize:'14px',fontFamily:'revert',margin:0,marginRight:3,marginLeft:3,mb:2}}>
-        Director, Computer and GIS Unit, BARC, Bangladesh</Typography>
-         </Box></Paper>
-      <Paper sx={{ m: 1,ml:0, width: '21vw', height:'auto', backgroundColor:'#fff7ff'}} elevation={0}><Box sx={{display: 'flex', flexDirection: 'column',textAlign: { sm: 'center', md: 'center' }}}>
-      <Typography sx={{color:'#333333',fontSize:'15px',fontWeight:'bold',fontFamily:'revert',margin:2,mb:1}}>
-      CA Rama Rao</Typography>
-        <Typography sx={{color:'#333333',fontSize:'14px',fontFamily:'revert',margin:0,marginRight:3,marginLeft:3,mb:2}}>
-        Principal Scientist, ICAR-Central Research Institute for Dryland Agriculture (CRIDA), India</Typography>
-         </Box></Paper>
-      <Paper sx={{ m: 1,ml:0, width: '21vw', height:'auto', backgroundColor:'#fff7ff' }} elevation={0}><Box sx={{display: 'flex', flexDirection: 'column',textAlign: { sm: 'center', md: 'center' }}}>
-      <Typography sx={{color:'#333333',fontSize:'15px',fontWeight:'bold',fontFamily:'revert',margin:2,mb:1}}>
-      Roshan B Ojha</Typography>
-        <Typography sx={{color:'#333333',fontSize:'14px',fontFamily:'revert',margin:0,marginRight:3,marginLeft:3,mb:2}}>
-        Soil Scientist, National Agricultural Environment Research Centre, NARC, Nepal</Typography>
-         </Box></Paper>
-         <Paper sx={{ m: 1,ml:0, width: '21vw', height:'auto', backgroundColor:'#fff7ff' }} elevation={0}><Box sx={{display: 'flex', flexDirection: 'column',textAlign: { sm: 'center', md: 'center' }}}>
-         <Typography sx={{color:'#333333',fontSize:'15px',fontWeight:'bold',fontFamily:'revert',margin:2,mb:1}}>
-         W.M.U.K Rathnayake</Typography>
-        <Typography sx={{color:'#333333',fontSize:'14px',fontFamily:'revert',margin:0,marginRight:3,marginLeft:3,mb:2}}>
-        Director, NRMC, Department of Agriculture, Sri Lanka</Typography>
-         </Box></Paper>
-      </Box>
-      <Typography sx={{color:'#111111',fontWeight:'bold',fontSize:'25px', fontFamily:'revert',marginTop:2,marginBottom:2}}>ACASA core team @ BISA</Typography>
-      <Box sx={{display:'flex',flexDirection:'column',width: { xs: '100%', sm: '100%' }}} gap='0vw'>
-      <Typography sx={{color:'#111111',fontWeight:'normal',fontSize:'14px', fontFamily:'revert', fontWeight:'bold'}}>1. Pramod Aggarwal, Project Leader, ACASA; Regional Program Leader</Typography>
-      <Typography sx={{color:'#111111',fontWeight:'normal',fontSize:'14px', fontFamily:'revert'}}>2. Paresh Shirsath,	Scientist, Climate Adaptation</Typography>
-      <Typography sx={{color:'#111111',fontWeight:'normal',fontSize:'14px', fontFamily:'revert'}}>3. Prasun Gangopadhyay,	Research Lead, Digital Agriculture</Typography>
-      <Typography sx={{color:'#111111',fontWeight:'normal',fontSize:'14px', fontFamily:'revert'}}>4. Sanjoy Bandopadhyay,	Sr. Agronomist & Climate Adaptation Expert</Typography>
-      <Typography sx={{color:'#111111',fontWeight:'normal',fontSize:'14px', fontFamily:'revert'}}>5. Anasuya Barik, Data Analyst</Typography>
-      <Typography sx={{color:'#111111',fontWeight:'normal',fontSize:'14px', fontFamily:'revert'}}>6. Aniket Deo, Bioeconomic Modeler</Typography>
-      <Typography sx={{color:'#111111',fontWeight:'normal',fontSize:'14px', fontFamily:'revert'}}>7. Kaushik Bora, Agricultural Economist</Typography>
-      <Typography sx={{color:'#111111',fontWeight:'normal',fontSize:'14px', fontFamily:'revert'}}>8. Riya Gupta, Communication Officer</Typography>
-      <Typography sx={{color:'#111111',fontWeight:'normal',fontSize:'14px', fontFamily:'revert'}}>9. Saumya Singh, Data Analyst & Software Developer</Typography>
-      <Typography sx={{color:'#111111',fontWeight:'normal',fontSize:'14px', fontFamily:'revert'}}>10. Uttam Puri Goswami, Data Analyst</Typography>
-      </Box>
-      </Box>
-      </Box>
+          </Box>
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            width: { xs: "100%", sm: "100%" },
+            paddingBottom: 5,
+            paddinTop: 5,
+            backgroundColor: "#ffffff",
+          }}
+        >
+          <Box sx={{ marginLeft: 7, marginRight: 7, marginTop: 4 }}>
+            <Typography
+              sx={{
+                color: "#111111",
+                fontWeight: "bold",
+                fontSize: "25px",
+                fontFamily: "revert",
+              }}
+            >
+              ACASA advisory panel
+            </Typography>
+            <Typography
+              sx={{
+                color: "#111111",
+                fontSize: "15px",
+                fontFamily: "revert",
+                marginTop: 2,
+                marginBottom: 2,
+              }}
+            >
+              The advisory panel established under ACASA will have the
+              scientific advisory committee that will identify potential users,
+              use cases in different countries, and guide and review Atlas’
+              progress.
+            </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                width: { xs: "100%", sm: "100%" },
+              }}
+              gap="1vw"
+            >
+              <Paper
+                sx={{
+                  m: 1,
+                  ml: 0,
+                  width: "21vw",
+                  height: "auto",
+                  backgroundColor: "#f7f7ff",
+                }}
+                elevation={0}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    textAlign: { sm: "center", md: "center" },
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      color: "#333333",
+                      fontSize: "15px",
+                      fontWeight: "bold",
+                      fontFamily: "revert",
+                      margin: 2,
+                      mb: 1,
+                    }}
+                  >
+                    Pramod K Joshi
+                  </Typography>
+                  <Typography
+                    sx={{
+                      color: "#333333",
+                      fontSize: "14px",
+                      fontFamily: "revert",
+                      margin: 0,
+                      marginRight: 3,
+                      marginLeft: 3,
+                      mb: 2,
+                    }}
+                  >
+                    Ex-Director- International Food Policy Research Institute
+                    (IFPRI), India
+                  </Typography>
+                </Box>
+              </Paper>
+              <Paper
+                sx={{
+                  m: 1,
+                  ml: 0,
+                  width: "21vw",
+                  height: "auto",
+                  backgroundColor: "#f7f7ff",
+                }}
+                elevation={0}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    textAlign: { sm: "center", md: "center" },
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      color: "#333333",
+                      fontSize: "15px",
+                      fontWeight: "bold",
+                      fontFamily: "revert",
+                      margin: 2,
+                      mb: 1,
+                    }}
+                  >
+                    Leigh Anderson
+                  </Typography>
+                  <Typography
+                    sx={{
+                      color: "#333333",
+                      fontSize: "14px",
+                      fontFamily: "revert",
+                      margin: 0,
+                      marginRight: 3,
+                      marginLeft: 3,
+                      mb: 2,
+                    }}
+                  >
+                    Evans School of Public Policy and Governance, University of
+                    Washington, Seattle
+                  </Typography>
+                </Box>
+              </Paper>
+              <Paper
+                sx={{
+                  m: 1,
+                  ml: 0,
+                  width: "21vw",
+                  height: "auto",
+                  backgroundColor: "#f7f7ff",
+                }}
+                elevation={0}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    textAlign: { sm: "center", md: "center" },
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      color: "#333333",
+                      fontSize: "15px",
+                      fontWeight: "bold",
+                      fontFamily: "revert",
+                      margin: 2,
+                      mb: 1,
+                    }}
+                  >
+                    Miranda Meuwissen
+                  </Typography>
+                  <Typography
+                    sx={{
+                      color: "#333333",
+                      fontSize: "14px",
+                      fontFamily: "revert",
+                      margin: 0,
+                      marginRight: 3,
+                      marginLeft: 3,
+                      mb: 2,
+                    }}
+                  >
+                    Professor of Risk Management and Resilience, Wageningen
+                    University, Netherlands
+                  </Typography>
+                </Box>
+              </Paper>
+              <Paper
+                sx={{
+                  m: 1,
+                  ml: 0,
+                  width: "21vw",
+                  height: "auto",
+                  backgroundColor: "#f7f7ff",
+                }}
+                elevation={0}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    textAlign: { sm: "center", md: "center" },
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      color: "#333333",
+                      fontSize: "15px",
+                      fontWeight: "bold",
+                      fontFamily: "revert",
+                      margin: 2,
+                      mb: 1,
+                    }}
+                  >
+                    Michiko Katagami
+                  </Typography>
+                  <Typography
+                    sx={{
+                      color: "#333333",
+                      fontSize: "14px",
+                      fontFamily: "revert",
+                      margin: 0,
+                      marginRight: 3,
+                      marginLeft: 3,
+                      mb: 2,
+                    }}
+                  >
+                    Principal Natural Resources and Agriculture Specialist, Asia
+                    Development Bank (ADB), Manila
+                  </Typography>
+                </Box>
+              </Paper>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                width: { xs: "100%", sm: "100%" },
+              }}
+              gap="1vw"
+            >
+              <Paper
+                sx={{
+                  m: 1,
+                  ml: 0,
+                  width: "21vw",
+                  height: "auto",
+                  backgroundColor: "#f7f7ff",
+                }}
+                elevation={0}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    textAlign: { sm: "center", md: "center" },
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      color: "#333333",
+                      fontSize: "15px",
+                      fontWeight: "bold",
+                      fontFamily: "revert",
+                      margin: 2,
+                      mb: 1,
+                    }}
+                  >
+                    V. Geethalakshmi
+                  </Typography>
+                  <Typography
+                    sx={{
+                      color: "#333333",
+                      fontSize: "14px",
+                      fontFamily: "revert",
+                      margin: 0,
+                      marginRight: 3,
+                      marginLeft: 3,
+                      mb: 2,
+                    }}
+                  >
+                    Vice Chancellor, Tamil Nādu Agriculture University, India
+                  </Typography>
+                </Box>
+              </Paper>
+              <Paper
+                sx={{
+                  m: 1,
+                  ml: 0,
+                  width: "21vw",
+                  height: "auto",
+                  backgroundColor: "#f7f7ff",
+                }}
+                elevation={0}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    textAlign: { sm: "center", md: "center" },
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      color: "#333333",
+                      fontSize: "15px",
+                      fontWeight: "bold",
+                      fontFamily: "revert",
+                      margin: 2,
+                      mb: 1,
+                    }}
+                  >
+                    Alex Ruane
+                  </Typography>
+                  <Typography
+                    sx={{
+                      color: "#333333",
+                      fontSize: "14px",
+                      fontFamily: "revert",
+                      margin: 0,
+                      marginRight: 3,
+                      marginLeft: 3,
+                      mb: 2,
+                    }}
+                  >
+                    Co-Director, Climate Impacts Group, NASA Goddard Institute
+                    for Space Studies (GISS)
+                  </Typography>
+                </Box>
+              </Paper>
+              <Paper
+                sx={{
+                  m: 1,
+                  ml: 0,
+                  width: "21vw",
+                  height: "auto",
+                  backgroundColor: "#f7f7ff",
+                }}
+                elevation={0}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    textAlign: { sm: "center", md: "center" },
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      color: "#333333",
+                      fontSize: "15px",
+                      fontWeight: "bold",
+                      fontFamily: "revert",
+                      margin: 2,
+                      mb: 1,
+                    }}
+                  >
+                    Tess Russo
+                  </Typography>
+                  <Typography
+                    sx={{
+                      color: "#333333",
+                      fontSize: "14px",
+                      fontFamily: "revert",
+                      margin: 0,
+                      marginRight: 3,
+                      marginLeft: 3,
+                      mb: 2,
+                    }}
+                  >
+                    Senior Program Officer, Bill & Melinda Gates Foundation
+                    (BMGF), Seattle
+                  </Typography>
+                </Box>
+              </Paper>
+              <Paper
+                sx={{
+                  m: 1,
+                  ml: 0,
+                  width: "21vw",
+                  height: "auto",
+                  backgroundColor: "#f7f7ff",
+                }}
+                elevation={0}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    textAlign: { sm: "center", md: "center" },
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      color: "#333333",
+                      fontSize: "15px",
+                      fontWeight: "bold",
+                      fontFamily: "revert",
+                      margin: 2,
+                      mb: 1,
+                    }}
+                  >
+                    Pramod Aggarwal
+                  </Typography>
+                  <Typography
+                    sx={{
+                      color: "#333333",
+                      fontSize: "14px",
+                      fontFamily: "revert",
+                      margin: 0,
+                      marginRight: 3,
+                      marginLeft: 3,
+                      mb: 2,
+                    }}
+                  >
+                    Project Leader, ACASA; Regional Program Leader, BISA-CIMMYT,
+                    Delhi
+                  </Typography>
+                </Box>
+              </Paper>
+            </Box>
+            <Typography
+              sx={{
+                color: "#111111",
+                fontWeight: "bold",
+                fontSize: "25px",
+                fontFamily: "revert",
+                marginTop: 2,
+                marginBottom: 2,
+              }}
+            >
+              ACASA country team leads
+            </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                width: { xs: "100%", sm: "100%" },
+              }}
+              gap="1vw"
+            >
+              <Paper
+                sx={{
+                  m: 1,
+                  ml: 0,
+                  width: "21vw",
+                  height: "auto",
+                  backgroundColor: "#fff7ff",
+                }}
+                elevation={0}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    textAlign: { sm: "center", md: "center" },
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      color: "#333333",
+                      fontSize: "15px",
+                      fontWeight: "bold",
+                      fontFamily: "revert",
+                      margin: 2,
+                      mb: 1,
+                    }}
+                  >
+                    Hasan Md. Hamidur Rahman
+                  </Typography>
+                  <Typography
+                    sx={{
+                      color: "#333333",
+                      fontSize: "14px",
+                      fontFamily: "revert",
+                      margin: 0,
+                      marginRight: 3,
+                      marginLeft: 3,
+                      mb: 2,
+                    }}
+                  >
+                    Director, Computer and GIS Unit, BARC, Bangladesh
+                  </Typography>
+                </Box>
+              </Paper>
+              <Paper
+                sx={{
+                  m: 1,
+                  ml: 0,
+                  width: "21vw",
+                  height: "auto",
+                  backgroundColor: "#fff7ff",
+                }}
+                elevation={0}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    textAlign: { sm: "center", md: "center" },
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      color: "#333333",
+                      fontSize: "15px",
+                      fontWeight: "bold",
+                      fontFamily: "revert",
+                      margin: 2,
+                      mb: 1,
+                    }}
+                  >
+                    CA Rama Rao
+                  </Typography>
+                  <Typography
+                    sx={{
+                      color: "#333333",
+                      fontSize: "14px",
+                      fontFamily: "revert",
+                      margin: 0,
+                      marginRight: 3,
+                      marginLeft: 3,
+                      mb: 2,
+                    }}
+                  >
+                    Principal Scientist, ICAR-Central Research Institute for
+                    Dryland Agriculture (CRIDA), India
+                  </Typography>
+                </Box>
+              </Paper>
+              <Paper
+                sx={{
+                  m: 1,
+                  ml: 0,
+                  width: "21vw",
+                  height: "auto",
+                  backgroundColor: "#fff7ff",
+                }}
+                elevation={0}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    textAlign: { sm: "center", md: "center" },
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      color: "#333333",
+                      fontSize: "15px",
+                      fontWeight: "bold",
+                      fontFamily: "revert",
+                      margin: 2,
+                      mb: 1,
+                    }}
+                  >
+                    Roshan B Ojha
+                  </Typography>
+                  <Typography
+                    sx={{
+                      color: "#333333",
+                      fontSize: "14px",
+                      fontFamily: "revert",
+                      margin: 0,
+                      marginRight: 3,
+                      marginLeft: 3,
+                      mb: 2,
+                    }}
+                  >
+                    Soil Scientist, National Agricultural Environment Research
+                    Centre, NARC, Nepal
+                  </Typography>
+                </Box>
+              </Paper>
+              <Paper
+                sx={{
+                  m: 1,
+                  ml: 0,
+                  width: "21vw",
+                  height: "auto",
+                  backgroundColor: "#fff7ff",
+                }}
+                elevation={0}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    textAlign: { sm: "center", md: "center" },
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      color: "#333333",
+                      fontSize: "15px",
+                      fontWeight: "bold",
+                      fontFamily: "revert",
+                      margin: 2,
+                      mb: 1,
+                    }}
+                  >
+                    W.M.U.K Rathnayake
+                  </Typography>
+                  <Typography
+                    sx={{
+                      color: "#333333",
+                      fontSize: "14px",
+                      fontFamily: "revert",
+                      margin: 0,
+                      marginRight: 3,
+                      marginLeft: 3,
+                      mb: 2,
+                    }}
+                  >
+                    Director, NRMC, Department of Agriculture, Sri Lanka
+                  </Typography>
+                </Box>
+              </Paper>
+            </Box>
+            <Typography
+              sx={{
+                color: "#111111",
+                fontWeight: "bold",
+                fontSize: "25px",
+                fontFamily: "revert",
+                marginTop: 2,
+                marginBottom: 2,
+              }}
+            >
+              ACASA core team @ BISA
+            </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                width: { xs: "100%", sm: "100%" },
+              }}
+              gap="0vw"
+            >
+              <Typography
+                sx={{
+                  color: "#111111",
+                  fontWeight: "normal",
+                  fontSize: "14px",
+                  fontFamily: "revert",
+                  fontWeight: "bold",
+                }}
+              >
+                1. Pramod Aggarwal, Project Leader, ACASA; Regional Program
+                Leader
+              </Typography>
+              <Typography
+                sx={{
+                  color: "#111111",
+                  fontWeight: "normal",
+                  fontSize: "14px",
+                  fontFamily: "revert",
+                }}
+              >
+                2. Paresh Shirsath, Scientist, Climate Adaptation
+              </Typography>
+              <Typography
+                sx={{
+                  color: "#111111",
+                  fontWeight: "normal",
+                  fontSize: "14px",
+                  fontFamily: "revert",
+                }}
+              >
+                3. Prasun Gangopadhyay, Research Lead, Digital Agriculture
+              </Typography>
+              <Typography
+                sx={{
+                  color: "#111111",
+                  fontWeight: "normal",
+                  fontSize: "14px",
+                  fontFamily: "revert",
+                }}
+              >
+                4. Sanjoy Bandopadhyay, Sr. Agronomist & Climate Adaptation
+                Expert
+              </Typography>
+              <Typography
+                sx={{
+                  color: "#111111",
+                  fontWeight: "normal",
+                  fontSize: "14px",
+                  fontFamily: "revert",
+                }}
+              >
+                5. Anasuya Barik, Data Analyst
+              </Typography>
+              <Typography
+                sx={{
+                  color: "#111111",
+                  fontWeight: "normal",
+                  fontSize: "14px",
+                  fontFamily: "revert",
+                }}
+              >
+                6. Aniket Deo, Bioeconomic Modeler
+              </Typography>
+              <Typography
+                sx={{
+                  color: "#111111",
+                  fontWeight: "normal",
+                  fontSize: "14px",
+                  fontFamily: "revert",
+                }}
+              >
+                7. Kaushik Bora, Agricultural Economist
+              </Typography>
+              <Typography
+                sx={{
+                  color: "#111111",
+                  fontWeight: "normal",
+                  fontSize: "14px",
+                  fontFamily: "revert",
+                }}
+              >
+                8. Riya Gupta, Communication Officer
+              </Typography>
+              <Typography
+                sx={{
+                  color: "#111111",
+                  fontWeight: "normal",
+                  fontSize: "14px",
+                  fontFamily: "revert",
+                }}
+              >
+                9. Saumya Singh, Data Analyst & Software Developer
+              </Typography>
+              <Typography
+                sx={{
+                  color: "#111111",
+                  fontWeight: "normal",
+                  fontSize: "14px",
+                  fontFamily: "revert",
+                }}
+              >
+                10. Uttam Puri Goswami, Data Analyst
+              </Typography>
+            </Box>
+          </Box>
+        </Box>
       </Box>
       <StickyFooter></StickyFooter>
-      <Box sx={{marginTop:'80px',width:'100%',height:'calc(100vh - 80px)',alignItems:'center',justifyContent:'center',display: { xs: 'flex', md: 'none' }}}>
-            <Typography>This website is designed for desktop. Please view in a bigger screen.</Typography>
-        </Box>
-      </div>
-    );
-};
+      <Box
+        sx={{
+          marginTop: "80px",
+          width: "100%",
+          height: "calc(100vh - 80px)",
+          alignItems: "center",
+          justifyContent: "center",
+          display: { xs: "flex", md: "none" },
+        }}
+      >
+        <Typography>
+          This website is designed for desktop. Please view in a bigger screen.
+        </Typography>
+      </Box>
+    </div>
+  );
+}
