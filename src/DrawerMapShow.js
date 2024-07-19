@@ -1,27 +1,27 @@
-import * as React from 'react';
-import DrawerV from './DrawerViewer';
-import MApp from './Map_1';
-import SMap from './Map_3d';
-import LocationCard from './Floating_Card';
-import Papa from 'papaparse';
-import AdaptationCard from './Adaptation_Card';
+import * as React from "react";
+import DrawerV from "./DrawerViewer";
+import MApp from "./Map_1";
+import SMap from "./Map_3d";
+import LocationCard from "./Floating_Card";
+import Papa from "papaparse";
+import AdaptationCard from "./Adaptation_Card";
 import { useRef } from "react";
-import TabsData from './Data_Access';
-import Floating_drawer from './Floating_Drawer';
-import ResTabsData from './Resources';
-import AboutUs from './About_Us';
-import { Accordion, Box } from '@mui/material';
-import {Paper} from '@mui/material';
-import Summ_Comm from './Summ_Comm';
-import Summ_Loc from './Summ_Loc';
-import Summ_Adapt from './Summ_Adapt';
-import Summ_Adapt2 from './Summ_Adapt2';
-import Summ_Adapt3 from './Summ_Adapt3';
-import Summ_Adapt4 from './Summ_Adapt4';
-import Summ_Adapt5 from './Summ_Adapt5';
-import Summ_Adapt6 from './Summ_Adapt6';
-import Map_Risk from './Map_Risk1';
-import Map_Option from './Map_Option1';
+import TabsData from "./Data_Access";
+import Floating_drawer from "./Floating_Drawer";
+import ResTabsData from "./Resources";
+import AboutUs from "./About_Us";
+import { Accordion, Box } from "@mui/material";
+import { Paper } from "@mui/material";
+import Summ_Comm from "./Summ_Comm";
+import Summ_Loc from "./Summ_Loc";
+import Summ_Adapt from "./Summ_Adapt";
+import Summ_Adapt2 from "./Summ_Adapt2";
+import Summ_Adapt3 from "./Summ_Adapt3";
+import Summ_Adapt4 from "./Summ_Adapt4";
+import Summ_Adapt5 from "./Summ_Adapt5";
+import Summ_Adapt6 from "./Summ_Adapt6";
+import Map_Risk from "./Map_Risk1";
+import Map_Option from "./Map_Option1";
 //import Map_Extra from './Map_Extra';
 import { useLocation } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
@@ -42,6 +42,13 @@ import Selection_bar from './Selection_bar.js';
 // import AdaptationGlance from './AdaptationGlance';
 //import Summ1 from './Summary1';
 
+// React and useRef for creating and managing components.
+// Several custom components like DrawerViewer, Map_1, Map_3d, Floating_Card, etc.
+// Papa for parsing CSV data.
+// Material UI components for UI elements like Accordion, Box, Typography, and others.
+// Utility functions from @turf/turf for geospatial calculations.
+// useLocation from react-router-dom to access the current location object.
+
 async function GetData(artist) {
   const data = Papa.parse(await fetchCsv());
   //console.log(data);
@@ -49,22 +56,22 @@ async function GetData(artist) {
 }
 
 async function fetchCsv() {
-  const response = await fetch('./dt_data.csv');
+  const response = await fetch("./dt_data.csv");
   const reader = response.body.getReader();
   const result = await reader.read();
-  const decoder = new TextDecoder('utf-8');
+  const decoder = new TextDecoder("utf-8");
   const csv = decoder.decode(result.value);
   //console.log('csv', csv);
   return csv;
 }
 
 async function fetchCsv2() {
-  const response = await fetch('./Computed.json');
+  const response = await fetch("./Computed.json");
   return await response.json();
 }
 
 async function fetchCsv3() {
-  const response = await fetch('./Computed_Hazard.json');
+  const response = await fetch("./Computed_Hazard.json");
   return await response.json();
 }
 
@@ -78,25 +85,23 @@ async function fetchCsv5() {
   return await response.json();
 }
 
-export default function DrawerMapShow({
-    activeBar
-}) {
-    let Homecrop='rice';
-    let Homefocus='Region';
-    let Homeregion='South Asia';
-    let activeTab = 0;
+export default function DrawerMapShow({ activeBar }) {
+  let Homecrop = "rice";
+  let Homefocus = "Region";
+  let Homeregion = "South Asia";
+  let activeTab = 0;
 
-    const loc1 = useLocation();
-    const data2 = loc1.state;
+  const loc1 = useLocation();
+  const data2 = loc1.state;
 
-    if(data2){
-      if(data2.activeTab){
-        activeTab = data2.activeTab;
-      }
-      if(data2.Region){
-        Homeregion = data2.Region;
-      }
-      if(data2.Commodity){
+  if (data2) {
+    if (data2.activeTab) {
+      activeTab = data2.activeTab;
+    }
+    if (data2.Region) {
+      Homeregion = data2.Region;
+    }
+    if (data2.Commodity) {
       Homecrop = data2.Commodity;
       }
       if(Homeregion!=='South Asia'){
@@ -123,28 +128,137 @@ export default function DrawerMapShow({
     'Freshwater','Brackish','Marine','Cold water',
     'Potato','Onion','Tomato','Chillies','Mango','Banana'];
 
-    const opt = ['Stress Tolerant Variety','Early Sowing','Precision Land Levelling','Zero Tillage with residue','Broad Bed and Furrow',
-    'DSR (Dry Seed)','DSR (Wet Seed)','System of Rice Intensification','Supplemental Irrigation','Microirrigation','Precision Water Management',
-    'Low-tech Precision Technology','High-tech Precision Technology','Deep Placement of Urea',
-    'ICT-based Agro Advisory','Crop Insurance','Land Management','Feed Management','Herd Management',
-    'Animal Health','Animal Productivity','Mulching','Alternate wetting and drying','Fertilizer rating and timing',
-    'Manure Management','Information Use','Heat Stress Management'];
+  const opt = [
+    "Stress Tolerant Variety",
+    "Early Sowing",
+    "Precision Land Levelling",
+    "Zero Tillage with residue",
+    "Broad Bed and Furrow",
+    "DSR (Dry Seed)",
+    "DSR (Wet Seed)",
+    "System of Rice Intensification",
+    "Supplemental Irrigation",
+    "Microirrigation",
+    "Precision Water Management",
+    "Low-tech Precision Technology",
+    "High-tech Precision Technology",
+    "Deep Placement of Urea",
+    "ICT-based Agro Advisory",
+    "Crop Insurance",
+    "Land Management",
+    "Feed Management",
+    "Herd Management",
+    "Animal Health",
+    "Animal Productivity",
+    "Mulching",
+    "Alternate wetting and drying",
+    "Fertilizer rating and timing",
+    "Manure Management",
+    "Information Use",
+    "Heat Stress Management",
+  ];
 
-    const impact = ['Impact on Productivity','Value of Production'];
+  const impact = ["Impact on Productivity", "Value of Production"];
 
-    const Risk = ['District Level','Downscaled Risk','Risk Index','Hazard Index','Low temperature induced spikelet sterility',"Untimely Rainfall",
-      'Low temperature induced pollen sterility','High temperature induced pollen sterility','Heat Stress','Heat Stress','High temperature induced spikelet sterility',
-      'Cold Stress','Low temperature induced tuberization failure','Terminal Heat','Days of Frost','Excess Rainfall and Waterlogging','Delayed Monsoon','Drought','Dry Spell',
-    'Flood','Lodging','Biotic',"Excess Rainfall",,"Temperature-Humidity Index","Hot days","Cold days","Extreme Rainfall days",
-    "Rainfall Deficit","Cyclone",'Cold stress in reproductive stage','Heat stress in reproductive stage',
-    'Heat stress during boll formation','Cold stress during flowering','High tempearture during flowering','Number of Animals per grid',
-    'Vulnerability Index','Irrigation','Soil Water Holding Capacity','Soil Organic Carbon','Income','Rural infrastructure','Socio-economic Development Indicator',
-    "Availability of crop residues",'Exposure Index','Cropped Area','Biotic Stress'];
+  const Risk = [
+    "District Level",
+    "Downscaled Risk",
+    "Risk Index",
+    "Hazard Index",
+    "Low temperature induced spikelet sterility",
+    "Untimely Rainfall",
+    "Low temperature induced pollen sterility",
+    "High temperature induced pollen sterility",
+    "Heat Stress",
+    "Heat Stress",
+    "High temperature induced spikelet sterility",
+    "Cold Stress",
+    "Low temperature induced tuberization failure",
+    "Terminal Heat",
+    "Days of Frost",
+    "Excess Rainfall and Waterlogging",
+    "Delayed Monsoon",
+    "Drought",
+    "Dry Spell",
+    "Flood",
+    "Lodging",
+    "Biotic",
+    "Excess Rainfall",
+    ,
+    "Temperature-Humidity Index",
+    "Hot days",
+    "Cold days",
+    "Extreme Rainfall days",
+    "Rainfall Deficit",
+    "Cyclone",
+    "Cold stress in reproductive stage",
+    "Heat stress in reproductive stage",
+    "Heat stress during boll formation",
+    "Cold stress during flowering",
+    "High tempearture during flowering",
+    "Number of Animals per grid",
+    "Vulnerability Index",
+    "Irrigation",
+    "Soil Water Holding Capacity",
+    "Soil Organic Carbon",
+    "Income",
+    "Rural infrastructure",
+    "Socio-economic Development Indicator",
+    "Availability of crop residues",
+    "Exposure Index",
+    "Cropped Area",
+    "Biotic Stress",
+  ];
 
-    const switchCombId = ['dl','dr','riskindex','HINDEX','COLD STRESS2',"ERWL2",'LOW POLLEN','HIGH POLLEN','HEAT STRESS','HEAT STRESS1','HEAT STRESS2',
-      'COLD STRESS','PCOLD','TERMINAL HEAT','FROST','ERWL','DELMON','SPI','DSN','FLOOD','LODGE','BIOTIC',"ER",,"THI",'HD','CD','ERD',
-    'RAINDEF','CYCL','CSTRESS REPRO','HIGH REPRO','HSTRESS BOLL','COLD FLOWER','HIGH FLOWER','animals',
-    'vulne','irrigation','waterholding','soil','GDP','ROAD','HDI',"CROPRES",'expoindex','c-area','BIOTIC2'];
+  const switchCombId = [
+    "dl",
+    "dr",
+    "riskindex",
+    "HINDEX",
+    "COLD STRESS2",
+    "ERWL2",
+    "LOW POLLEN",
+    "HIGH POLLEN",
+    "HEAT STRESS",
+    "HEAT STRESS1",
+    "HEAT STRESS2",
+    "COLD STRESS",
+    "PCOLD",
+    "TERMINAL HEAT",
+    "FROST",
+    "ERWL",
+    "DELMON",
+    "SPI",
+    "DSN",
+    "FLOOD",
+    "LODGE",
+    "BIOTIC",
+    "ER",
+    ,
+    "THI",
+    "HD",
+    "CD",
+    "ERD",
+    "RAINDEF",
+    "CYCL",
+    "CSTRESS REPRO",
+    "HIGH REPRO",
+    "HSTRESS BOLL",
+    "COLD FLOWER",
+    "HIGH FLOWER",
+    "animals",
+    "vulne",
+    "irrigation",
+    "waterholding",
+    "soil",
+    "GDP",
+    "ROAD",
+    "HDI",
+    "CROPRES",
+    "expoindex",
+    "c-area",
+    "BIOTIC2",
+  ];
 
     function createInitialCrops() {
         const initialTodos = {};
@@ -232,9 +346,7 @@ export default function DrawerMapShow({
       'rice'
     );
 
-    const [crop3, setCrop3] = React.useState(
-      createInitialCrops
-    );
+  const [crop3, setCrop3] = React.useState(createInitialCrops);
 
     const [option, setOption] = React.useState(
         IntialOptions
@@ -244,31 +356,25 @@ export default function DrawerMapShow({
       {'Technical Suitability':true,'Socio-Economic':false,'Scalibility':false}
     );
 
-    function initialCrop() {
-      let namee = '';
-      fullList.map((sname,index) => {
-        if(sname===Homecrop){
-            namee = Comm[index];
-        }
-        });
-      return namee;
-    };
+  function initialCrop() {
+    let namee = "";
+    fullList.map((sname, index) => {
+      if (sname === Homecrop) {
+        namee = Comm[index];
+      }
+    });
+    return namee;
+  }
 
-    const [Currcrop, setCurrCrop] = React.useState(
-        initialCrop
-    );
-    
-    const [CurrOpt, setCurrOpt] = React.useState('');
+  const [Currcrop, setCurrCrop] = React.useState(initialCrop);
 
-    const [CurrRisk, setRisk] = React.useState(
-      InitialHazard
-    );
+  const [CurrOpt, setCurrOpt] = React.useState("");
 
-    const [CurrRisk2, setRisk2] = React.useState(
-      InitialHazard2
-    );
+  const [CurrRisk, setRisk] = React.useState(InitialHazard);
 
-    const [RiskName, setRiskName] = React.useState('');
+  const [CurrRisk2, setRisk2] = React.useState(InitialHazard2);
+
+  const [RiskName, setRiskName] = React.useState("");
 
     const [CurrImpact, setImpact] = React.useState(InitialImpact);
     const [ImpactName, setImpactName] = React.useState('');
@@ -428,29 +534,35 @@ export default function DrawerMapShow({
       });
     };
 
-    const handleChangeOptSumm = (name) => {
-      setopt2(name);
-    };
+  const handleChangeOptSumm = (name) => {
+    setopt2(name);
+  };
 
-    const handleChangeOptSumm2 = (name) => {
-      setopt3(name);
-    };
+  const handleChangeOptSumm2 = (name) => {
+    setopt3(name);
+  };
 
-    const handleChangeOptSumm3 = (name) => {
-      setopt4(name);
-    };
+  const handleChangeOptSumm3 = (name) => {
+    setopt4(name);
+  };
 
-    const handleChangeOptSumm4 = (name) => {
-      setopt5(name);
-    };
+  const handleChangeOptSumm4 = (name) => {
+    setopt5(name);
+  };
 
-    const handleChangeOptSumm5 = (name) => {
-      setopt6(name);
-    };
+  const handleChangeOptSumm5 = (name) => {
+    setopt6(name);
+  };
 
-    const handleChangeOptSumm6 = (name) => {
-      setopt7(name);
-    };
+  const handleChangeOptSumm6 = (name) => {
+    setopt7(name);
+  };
+
+  // Event Handlers:
+  // handleScenarioChange: Updates the selected scenario.
+  // handleChange: Updates the selected crop and resets other states.
+  // handleChangeSumm: Updates the crop for summaries.
+  // changeImpact: Updates the selected impact and resets other states.
 
   const [data1, setData1] = React.useState([]);
 
@@ -472,7 +584,9 @@ export default function DrawerMapShow({
       let stateName = row[3];
       if (stateName) {
         stateName = stateName.toLowerCase(); // Convert state name to lowercase
-        const capitalizedStateName = stateName.replace(/\b\w/g, (char) => char.toUpperCase()); // Capitalize first letter of each word
+        const capitalizedStateName = stateName.replace(/\b\w/g, (char) =>
+          char.toUpperCase()
+        ); // Capitalize first letter of each word
         if (!countryStateMap[countryCode]) {
           countryStateMap[countryCode] = [];
         }
@@ -508,7 +622,11 @@ export default function DrawerMapShow({
 
   const area_dict2 = area_data2;
 
-  const [area_data3, setarea_data3] = React.useState([]);
+  // State Initialization and Management
+  // The initial states for crops, options, scenarios, hazards, and impacts are set up using predefined lists (fullList, opt, impact, switchscenarioid, etc.).
+  // Event handlers are used to manage the state changes based on user interactions.
+
+    const [area_data3, setarea_data3] = React.useState([]);
 
   React.useEffect(() => {
     async function fetchData4() {
@@ -532,26 +650,24 @@ export default function DrawerMapShow({
 
   const area_dict4 = area_data4;
   
-    const OnFocus = ['Region','Country','State'];
+  const OnFocus = ["Region", "Country", "State"];
 
-    const [focus, setfocus] = React.useState(
-        Homefocus
-    );
-    
-    const [activeRegion,setActiveRegion] = React.useState(Homeregion);
+  const [focus, setfocus] = React.useState(Homefocus);
 
-    const [focus2, setfocus2] = React.useState('Region');
-    const [activeRegion2,setActiveRegion2] = React.useState("South Asia");
+  const [activeRegion, setActiveRegion] = React.useState(Homeregion);
 
-    const ActiveRegionChange = (fname,rname) => {
-        setfocus(fname);
-        setActiveRegion(rname);
-      };
+  const [focus2, setfocus2] = React.useState("Region");
+  const [activeRegion2, setActiveRegion2] = React.useState("South Asia");
 
-    const ActiveRegionChange2 = (fname,rname) => {
-        setfocus2(fname);
-        setActiveRegion2(rname);
-      };
+  const ActiveRegionChange = (fname, rname) => {
+    setfocus(fname);
+    setActiveRegion(rname);
+  };
+
+  const ActiveRegionChange2 = (fname, rname) => {
+    setfocus2(fname);
+    setActiveRegion2(rname);
+  };
 
     const container = useRef(null);
     const [height1, setHeight1] = React.useState(null);
@@ -853,3 +969,22 @@ export default function DrawerMapShow({
         </div>
     );
 }
+
+// User Selection:
+// Commodity: Selected through Summ_Comm component (likely a dropdown or input for crop selection).
+// Location: Selected through Summ_Loc component (likely a dropdown or map interaction for region selection).
+
+// Risk Data:
+// A map component (Map_Risk) presumably displays risk levels (Extreme, Very High, High, Medium, Low) based on the selected crop and region.
+
+// Adaptation Options:
+// Up to six adaptation options are displayed.
+
+// Each option has:
+// A name displayed by Summ_AdaptX component (X being the option number).
+// Suitability level (Unsuitable, Suitable) based on the selected crop and region, displayed through color legend and text.
+// Adaptation benefits presumably visualized on a map component (Map_Option).
+
+// Responsive Design:
+// The entire content is hidden on screens smaller than medium size (phones).
+// A message suggests viewing on a larger screen.
