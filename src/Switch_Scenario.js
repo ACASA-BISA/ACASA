@@ -11,9 +11,9 @@ export default function SwitchScenario({
   activeScenario,
   changeScenario,
 }) {
-  const switchh = ['Baseline','SSP 2-4.5 2050s (To be updated)','SSP 5-8.5 2050s (To be updated)'];
+  const switchh = ['Baseline','SSP 2-4.5 2050s','SSP 5-8.5 2050s'];
   const switchid = ['baseline','ssp245','ssp585'];
-  const disvar ={'baseline':false,'ssp245':true,'ssp585':true}
+  const disvar ={'baseline':false,'ssp245':false,'ssp585':false}
   const padd = 8;
 
   const AntSwitch = styled(Switch)(({ theme }) => ({

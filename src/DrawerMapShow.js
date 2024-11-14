@@ -34,6 +34,11 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Popper from '@mui/material/Popper';
 import { area } from '@turf/turf';
 import LegendCard from './Legend_Card';
+import CompV from './Exp_Comp';
+import ImageTimeline from './gif';
+import CompGif from './Explore_with_gif.js';
+import Summary_Statistics from './Summary_Statistics.js';
+// import AdaptationGlance from './AdaptationGlance';
 //import Summ1 from './Summary1';
 
 async function GetData(artist) {
@@ -88,7 +93,7 @@ export default function DrawerMapShow({
       }
     }
   
-    const fullList = ['rice','wheat','maize','sorghum','fmillet','pmillet',
+    const fullList = ['rice','wheat','maize','barley','sorghum','fmillet','pmillet',
     'safflower','sunflower','rapeseed','sesame','groundnut',
     'soyabean','chickpea','ppea','bgram','ggram','lentil',
     'cotton','jute','rubber','sugarcane','tea','coconut',
@@ -99,7 +104,7 @@ export default function DrawerMapShow({
     const switchscenario = ['Baseline','SSP 2-4.5 2050s','SSP 5-8.5 2050s'];
     const switchscenarioid = ['baseline','ssp245','ssp585'];
 
-    const Comm = ['Rice','Wheat','Maize','Sorghum','Finger Millet','Pearl Millet',
+    const Comm = ['Rice','Wheat','Maize','Barley','Sorghum','Finger Millet','Pearl Millet',
     'Safflower','Sunflower','Mustard','Sesame','Groundnut',
     'Soybean','Chickpea','Pigeonpea','Black Gram','Green Gram','Lentil',
     'Cotton','Jute','Rubber','Sugarcane','Tea','Coconut',
@@ -136,7 +141,7 @@ export default function DrawerMapShow({
           initialTodos[sname] = sname===Homecrop? true:false;
         });
         return initialTodos;
-        }
+        };
     
     function IntialOptions() {
             const initialTodos = {};
@@ -144,15 +149,15 @@ export default function DrawerMapShow({
               initialTodos[sname] = false;
             });
             return initialTodos;
-        }
+        };
 
-const [opt2,setopt2] = React.useState("High-tech Precision Technology");
-const [opt3,setopt3] = React.useState("Early Sowing");
-const [opt4,setopt4] = React.useState("ICT-based Agro Advisory");
-const [opt5,setopt5] = React.useState("Microirrigation");
-const [opt6,setopt6] = React.useState("Zero Tillage with residue");
-const [opt7,setopt7] = React.useState("Fertilizer rating and timing");
-const [acc,setacc] = React.useState(false);
+    const [opt2,setopt2] = React.useState("High-tech Precision Technology");
+    const [opt3,setopt3] = React.useState("Early Sowing");
+    const [opt4,setopt4] = React.useState("ICT-based Agro Advisory");
+    const [opt5,setopt5] = React.useState("Microirrigation");
+    const [opt6,setopt6] = React.useState("Zero Tillage with residue");
+    const [opt7,setopt7] = React.useState("Fertilizer rating and timing");
+    const [acc,setacc] = React.useState(false);
 
     function InitialHazard() {
         const haz = {};
@@ -160,7 +165,7 @@ const [acc,setacc] = React.useState(false);
           haz[sname] = false;
         });
         return haz;
-      }
+      };
 
     function InitialImpact() {
         const imp = {};
@@ -168,7 +173,7 @@ const [acc,setacc] = React.useState(false);
           imp[sname] = false;
         });
         return imp;
-      }
+      };
 
     function InitialHazard2() {
         const haz = {};
@@ -177,7 +182,7 @@ const [acc,setacc] = React.useState(false);
         });
         haz['DRYSP'] = true;
         return haz;
-      }
+      };
     
     function createInitialScenario() {
         const initialTodos = {};
@@ -211,6 +216,9 @@ const [acc,setacc] = React.useState(false);
     
     const [crop2, setCrop2] = React.useState(
       'Rice'
+    );
+    const [cropid, setCropid] = React.useState(
+      'rice'
     );
 
     const [crop3, setCrop3] = React.useState(
@@ -250,6 +258,62 @@ const [acc,setacc] = React.useState(false);
     const [CurrImpact, setImpact] = React.useState(InitialImpact);
     const [ImpactName, setImpactName] = React.useState('');
 
+    //without event for three map structure we use dropdowm menu
+
+    const changeImpact_CMP = (name) => {
+      const oldimpt = {...CurrImpact};
+      impact.map((sname) => {
+        oldimpt[sname] = sname === name;
+      })
+      setImpact(oldimpt);
+      setImpactName(name);
+      setOption(IntialOptions);
+      setCurrOpt('');
+      setRisk(InitialHazard);
+      setRiskName(''); 
+    };
+
+    //without event for three map structure we use dropdowm menu
+
+    const handleChange_CMP = (name) => {
+        const newState = { ...crop};
+        fullList.map((sname,index) => {
+          newState[sname] = sname === name;
+          if(sname===name){
+              setCurrCrop(Comm[index]);
+          }
+        });
+        setCrop(newState);
+        setOption(IntialOptions);
+        setCurrOpt('');
+        setRisk(InitialHazard);
+        setRiskName('');
+        setImpact(InitialImpact);
+        setImpactName('');
+    };
+
+    //without event for three map structure we use dropdowm menu
+
+    const handleChangeOpt_CMP = (name) => {
+      const newState = { ...option};
+      opt.map((sname) => {
+        newState[sname] = sname === name;
+        if(sname===name){
+            setCurrOpt(name);
+        }
+      });
+      if(name===''){
+        setCurrOpt('');
+      }
+      setOption(newState);
+      setRisk(InitialHazard);
+      setRiskName('');
+      setImpact(InitialImpact);
+      setImpactName('');
+  };
+
+    // with event for switch click event in linear structure
+
     const changeImpact = (name) => (event) => {
       const oldimpt = {...CurrImpact};
       impact.map((sname) => {
@@ -261,15 +325,15 @@ const [acc,setacc] = React.useState(false);
       setCurrOpt('');
       setRisk(InitialHazard);
       setRiskName(''); 
-  }
+    };
 
     const handleChange = (name) => (event) => {
         const newState = { ...crop};
         fullList.map((sname,index) => {
-        newState[sname] = sname === name;
-        if(sname===name){
-            setCurrCrop(Comm[index]);
-        }
+          newState[sname] = sname === name;
+          if(sname===name){
+              setCurrCrop(Comm[index]);
+          }
         });
         setCrop(newState);
         setOption(IntialOptions);
@@ -278,17 +342,18 @@ const [acc,setacc] = React.useState(false);
         setRiskName('');
         setImpact(InitialImpact);
         setImpactName('');
-      };
+    };
 
     const handleChangeSumm = (name) => {
       const newState = { ...crop};
         fullList.map((sname,index) => {
-        newState[sname] = sname === name;
-        if(sname===name){
-          setCrop2(Comm[index]);
-      }
+          newState[sname] = sname === name;
+          if(sname===name){
+            setCrop2(Comm[index]);
+          }
         });
         setCrop3(newState);
+        setCropid(name);
       };
     
     const changeRisk = (name) => {
@@ -297,8 +362,11 @@ const [acc,setacc] = React.useState(false);
           old[sname] = sname===name;
           if(sname===name){
             setRiskName(Risk[index%Risk.length]);
-        }
+          }
         });
+        if(name===''){
+          setRiskName('');
+        }
         setRisk(old);
         setOption(IntialOptions);
         setCurrOpt('');
@@ -312,16 +380,19 @@ const [acc,setacc] = React.useState(false);
         old[sname] = sname===name;
       });
       setRisk2(old);
-  }
+    }
 
-  const handleChangeOpt = (name) => (event) => {
-        const newState = { ...option };
+    const handleChangeOpt = (name) => (event) => {
+        const newState = { ...option};
         opt.map((sname) => {
-        newState[sname] = sname === name;
-        if(sname===name){
-            setCurrOpt(name);
-        }
+          newState[sname] = sname === name;
+          if(sname===name){
+              setCurrOpt(name);
+          }
         });
+        if(name===''){
+          setCurrOpt('');
+        }
         setOption(newState);
         setRisk(InitialHazard);
         setRiskName('');
@@ -390,23 +461,12 @@ const [acc,setacc] = React.useState(false);
   React.useEffect(() => {
     async function fetchData2() {
       const data = await fetchCsv2();
-      console.log(data);
       setarea_data(data);
     }
     fetchData2();
   }, []);
 
   const area_dict = area_data;
-
-/*   if(area_data && area_data.data && area_data.data.length > 0){
-    for(let i = 1; i < area_data.data.length; i++){
-      const row1 = area_data.data[i];
-      area_dict[row1[0].toLowerCase()] = {'Unsuitable':row1[1],'Suitable':row1[2],'Adaptation Benefits':row1[3],
-        'Unsuitable_Area':row1[4],'Suitable_Area':row1[5],'Adaptation Benefits_Area':row1[6]
-      };
-    }
-    delete area_dict[""];
-  } */
 
   const [area_data2, setarea_data2] = React.useState([]);
 
@@ -419,16 +479,7 @@ const [acc,setacc] = React.useState(false);
   }, []);
 
   const area_dict2 = area_data2;
-
-/*   if(area_data2 && area_data2.data && area_data2.data.length > 0){
-    for(let i = 1; i < area_data2.data.length; i++){
-      const row1 = area_data2.data[i];
-      area_dict2[row1[0]] = {'Very Low':row1[1],'Low':row1[2],'Medium':row1[3],'High':row1[4],'Very High':row1[5],
-        'Very Low_Area':row1[6],'Low_Area':row1[7],'Medium_Area':row1[8],'High_Area':row1[9],'Very High_Area':row1[10]
-      };
-    }
-  }
- */
+  
     const OnFocus = ['Region','Country','State'];
 
     const [focus, setfocus] = React.useState(
@@ -454,7 +505,17 @@ const [acc,setacc] = React.useState(false);
     const [height1, setHeight1] = React.useState(null);
     return (
         <div>
-          <Box sx={{display:{xs:'none',md:'block'}}}>
+        <Box sx={{display:{xs:'none',md:'block'}}}>
+        {activeBar==='future' && <CompV activeCrop={Currcrop} changeCrop={handleChange_CMP} LocationData={countryStateMap} focus={focus} activeRegion={activeRegion} changeRegion={ActiveRegionChange} CurrRisk={RiskName}
+        activeOpt={CurrOpt} changeOpt={handleChangeOpt_CMP} changeRisk={changeRisk} activeImpact={CurrImpact} changeImpact={changeImpact_CMP} activeScenario={scenario} changeScenario={handleScenarioChange}></CompV>}
+        
+        {activeBar==='timeline' && <ImageTimeline></ImageTimeline>}
+
+        {activeBar==='summary' && <Summary_Statistics></Summary_Statistics>}
+
+        {activeBar==='comparison' && <CompGif activeCrop={Currcrop} changeCrop={handleChange_CMP} LocationData={countryStateMap} focus={focus} activeRegion={activeRegion} changeRegion={ActiveRegionChange} CurrRisk={RiskName}
+        activeOpt={CurrOpt} changeOpt={handleChangeOpt_CMP} changeRisk={changeRisk} activeImpact={CurrImpact} changeImpact={changeImpact_CMP} activeScenario={scenario} changeScenario={handleScenarioChange}></CompGif>}
+        
         {activeBar==='access' && <div style={{backgroundColor:'#f8f8f8', minHeight:'calc(100vh - 90px)'  }}>
         <TabsData activeTab={activeTab}></TabsData>
         <Floating_drawer activeCrop={Currcrop} activeRegion={activeRegion}></Floating_drawer>
@@ -469,23 +530,19 @@ const [acc,setacc] = React.useState(false);
           <Guidee></Guidee>
         </div>}
         {activeBar==='about' && <AboutUs></AboutUs>}
-        {(activeBar==='viewer') &&<MApp activeCrop={Currcrop} activeScenario={scenario} focus={focus} activeRegion={activeRegion} activeOpt={CurrOpt} CurrRisk={RiskName} activeImpact={CurrImpact}></MApp>}
+        <div style={{overflow:'hidden'}}>
+        {(activeBar==='viewer') && <MApp activeCrop={Currcrop} activeScenario={scenario} focus={focus} activeRegion={activeRegion} activeOpt={CurrOpt} CurrRisk={RiskName} activeImpact={CurrImpact}></MApp>}
+        
         {activeBar==='viewer' && <DrawerV activeCrop={crop} changeCrop={handleChange} LocationData={countryStateMap} activeRegion={activeRegion} changeRegion={ActiveRegionChange} CurrRisk={RiskName}
         activeOpt={option} changeOpt={handleChangeOpt} changeRisk={changeRisk} activeImpact={CurrImpact} changeImpact={changeImpact} activeScenario={scenario} changeScenario={handleScenarioChange}></DrawerV>}
-        {/*activeBar==='analytics' && <DrawerA activeCrop={crop} changeCrop={handleChange} LocationData={countryStateMap} activeRegion={activeRegion} changeRegion={ActiveRegionChange}></DrawerA>*/}
-        {(/* activeBar==='analytics' ||  */activeBar==='viewer') && <div ref={container}><LocationCard location={activeRegion} commodity={Currcrop} adaption={CurrOpt} setHeight1={setHeight1}
+        
+        {(activeBar==='viewer') && <div ref={container}><LocationCard location={activeRegion} commodity={Currcrop} adaption={CurrOpt} setHeight1={setHeight1}
         RiskName={RiskName} scenario={NameScenario} ImpactName={ImpactName} area_data={area_dict} area_data2={area_dict2}></LocationCard></div>}
-        {/*(activeBar==='viewer') && CurrOpt!=='' && <AdaptationCard activeCrop={Currcrop} activeRegion={activeRegion} adapOption={CurrOpt} heightnext={height1}></AdaptationCard>*/}
-        {/* <Summ1
-        crop2={crop2} focus2={focus2} activeRegion2={activeRegion2} option={option} CurrRisk2={CurrRisk2} handleChangeSumm={handleChangeSumm} ActiveRegionChange2={ActiveRegionChange2} opt2={opt2} 
-        handleChangeOptSumm={handleChangeOptSumm} option2={option2} opt3={opt3} handleChangeOptSumm2={handleChangeOptSumm2} option3={option3} opt4={opt4} handleChangeOptSumm3={handleChangeOptSumm3} 
-        option4={option4} opt5={opt5} handleChangeOptSumm4={handleChangeOptSumm4} option5={option5} 
-        ></Summ1>} */}
-        {(/* activeBar==='analytics' ||  */activeBar==='viewer') && (RiskName!=""||CurrOpt!="") && <LegendCard location={activeRegion} commodity={Currcrop} adaption={CurrOpt}
+        
+        {(activeBar==='viewer') && (RiskName!==""||CurrOpt!=="") && <LegendCard location={activeRegion} commodity={Currcrop} adaption={CurrOpt}
         RiskName={RiskName} scenario={NameScenario} ImpactName={ImpactName} area_data={area_dict} area_data2={area_dict2}></LegendCard>}
-        
+        </div>
         {(activeBar==='analytics') && 
-        
          <div style={{overflow:'hidden'}}>
           <Box>
         <Box sx={{width:'auto', display:'flex',maxHeight:'calc(100vh - 90px)',flexDirection:'row',justifyContent:'center',marginX:'auto',marginTop:'90px',backgroundColor:'#fff'}} gap='2vw'>
@@ -512,7 +569,7 @@ const [acc,setacc] = React.useState(false);
         <Box sx={{height:'40px'}}></Box>
         <Box sx={{paddingX:'8px',paddingY:'4px',display:'flex',flexDirection:'row',justifyContent:'center',gap:'4px',alignItems:'center',width:'23vw',backgroundColor:'#F7F7F7',border:'0px solid black'}}>
         <Typography sx={{fontSize:14,fontWeight:'bold'}}>Commodity: </Typography>
-        <Summ_Comm changeComm={handleChangeSumm}></Summ_Comm>
+        <Summ_Comm changeComm={handleChangeSumm} comm={cropid}></Summ_Comm>
         <Typography sx={{marginLeft:'5px',fontSize:14,fontWeight:'bold'}}>Location: </Typography>
         <Summ_Loc focus={focus2} activeRegion={activeRegion2} changeReg={ActiveRegionChange2}></Summ_Loc>
         </Box>
@@ -545,9 +602,6 @@ const [acc,setacc] = React.useState(false);
         <Map_Risk activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} CurrRisk={CurrRisk2}></Map_Risk>
         </Paper>
         </Box>
-        {/* <Paper elevation={1}>
-        <SMap activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={option} CurrRisk={CurrRisk2}></SMap>
-        </Paper> */}
         </Box>
         
         </Box>
@@ -578,7 +632,7 @@ const [acc,setacc] = React.useState(false);
                     </Box>
          </Box>
         <Paper elevation={1} sx={{width:'21vw'}}>
-        <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt2}></Map_Option>
+        <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt2} area_dict={area_dict}></Map_Option>
         </Paper>
         </div>
         <div>
@@ -606,7 +660,7 @@ const [acc,setacc] = React.useState(false);
                     </Box>
          </Box>
         <Paper elevation={1} sx={{width:'21vw'}}>
-        <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt3}></Map_Option>
+        <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt3} area_dict={area_dict}></Map_Option>
         </Paper>
         </div>
         </Box>
@@ -636,7 +690,7 @@ const [acc,setacc] = React.useState(false);
                     </Box>
          </Box>
         <Paper elevation={1} sx={{width:'21vw'}}>
-        <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt4}></Map_Option>
+        <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt4} area_dict={area_dict}></Map_Option>
         </Paper>
         </div>
         <div>
@@ -664,7 +718,7 @@ const [acc,setacc] = React.useState(false);
                     </Box>
          </Box>
         <Paper elevation={1} sx={{width:'21vw'}}>
-        <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt5}></Map_Option>
+        <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt5} area_dict={area_dict}></Map_Option>
         </Paper>
         </div>
         </Box>
@@ -694,7 +748,7 @@ const [acc,setacc] = React.useState(false);
                     </Box>
          </Box>
         <Paper elevation={1} sx={{width:'21vw'}}>
-        <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt6}></Map_Option>
+        <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt6} area_dict={area_dict}></Map_Option>
         </Paper>
         </div>
         <div>
@@ -722,13 +776,14 @@ const [acc,setacc] = React.useState(false);
                     </Box>
          </Box>
         <Paper elevation={1} sx={{width:'21vw'}}>
-        <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt7}></Map_Option>
+        <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt7} area_dict={area_dict}></Map_Option>
         </Paper>
         </div>
         </Box>
         </Box>
         </Box>
-        </div>}
+        </div> 
+        }
         </Box>
         <Box sx={{marginTop:'80px',width:'100%',height:'calc(100vh - 80px)',alignItems:'center',justifyContent:'center',display: { xs: 'flex', md: 'none' }}}>
           <Typography>This website is designed for desktop/laptop. Please view in a bigger screen.</Typography>

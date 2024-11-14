@@ -14,10 +14,21 @@ import GeoTIFF from 'ol/source/GeoTIFF.js';
 import GeoJSON from 'ol/format/GeoJSON.js';
 import TileLayer2 from 'ol/layer/Tile';
 import BingMaps from 'ol/source/BingMaps';
+import tilesource from 'ol/source/TileJSON';
+import {ZoomToExtent, FullScreen, defaults as defaultControls} from 'ol/control.js';
+import './olsm.css';
+import { Tooltip,Typography,Box } from '@mui/material';
+
+const optcode = {'Stress Tolerant Variety':'ADVAR','Early Sowing':'ADPTI','Precision Land Levelling':'LASLV','Zero Tillage with residue':'ZTILL','Broad Bed and Furrow':'BBFIB',
+  'DSR (Dry Seed)':'DSDRY','DSR (Wet Seed)':'DSWET','System of Rice Intensification':'SRIUT','Supplemental Irrigation':'WHSRC','Microirrigation':'MICIR','Precision Water Management':'PWMGT',
+  'Low-tech Precision Technology':'PNMLT','High-tech Precision Technology':'PNMHT','Deep Placement of Urea':'DR',
+  'ICT-based Agro Advisory':'WEAGA','Crop Insurance':'INSUR','Land Management':'LMGT','Feed Management':'FMGT','Herd Management':'HMGT',
+  'Animal Health':'ANHLT','Animal Productivity':'ANPRO','Mulching':'MULCH','Alternate wetting and drying':'AWD','Fertilizer rating and timing':'FRT',
+  'Manure Management':'MNMGT','Information Use':'INFO','Heat Stress Management':'HSMGT'};
 
 export default function Map_Option({
   activeCrop, focus='Region', activeRegion,
-  activeOpt
+  activeOpt, area_dict
 }) {
     const ref = useRef(null);
     const mapRef = useRef(null);
@@ -25,7 +36,7 @@ export default function Map_Option({
     const [vectorLayerr, setvectorLayerr] = useState(null);
     const [countryLayer, setcountryLayer] = useState(null);
     const [maskLayer1, setmaskLayer1] = useState(null);
-    const [overl2, setOverl2] = useState(null);
+    const [population, setpopulation] = useState(0);
     
     const fill = new Fill({
       color: 'rgba(255,255,255,0)',
@@ -65,10 +76,25 @@ export default function Map_Option({
       ],
     };
 
+    const key = 'TrN2dn4maoO3C2x0sUpH';
+
+
+    const sourcemap = new tilesource({
+      url: `https://api.maptiler.com/maps/bright-v2/tiles.json?key=${key}`, // source URL
+      tileSize: 512,
+      crossOrigin: 'anonymous'
+    });
+
     const BingMapNew = new TileLayer2({
+          source: sourcemap,
+      opacity:0.9,
+    zIndex:10,
+  });
+
+/*     const BingMapNew = new TileLayer2({
       preload: Infinity,
       source: new BingMaps({
-        key: 'Atn0vmES8VxxGdRJ5nDXIu77cQnFlfa1OfQiDIYJMfuiBfL9jNAzky4SU0sXCKyW',
+        key: 'AvUc2NPj5dHI1yefH-oLqI4_EzAKBjyYTg3dM9c9lUrZglsLsvB1usgVz330xsZC',
         imagerySet: 'RoadOnDemand',
         // use maxZoom 19 to see stretched tiles instead of the BingMaps
         // "no photos at this zoom level" tiles
@@ -76,12 +102,26 @@ export default function Map_Option({
       }),
       opacity:0.8,
       zIndex:10,
-    });
+    }); */
+    let defext = [
+      6731721.531032621,
+      -79003.34768295793,
+      10843798.383928495,
+      4648992.169943628
+    ];
 
     useEffect(() => {
       if (ref.current && !mapRef.current) {
         mapRef.current = new Map({
-          
+          controls: defaultControls().extend([
+            new ZoomToExtent({
+              extent: defext,
+              className: 'ol-zoomtoextenty'
+            }),
+            new FullScreen({
+              className: 'ol-fullscreeny'
+            }),
+          ]),
           target: ref.current,
           layers: [BingMapNew],
           view: ViewV,
@@ -94,7 +134,7 @@ export default function Map_Option({
         let countryboundary;
         if (focus==='Region') {
           sourcet = new VectorSource({
-            url: './CountryBoundary/SA_outline.json',
+            url: './CountryBoundary/SA_Country.json',
             format: new GeoJSON(),
           });
           countryboundary = new VectorSource({
@@ -340,12 +380,6 @@ export default function Map_Option({
   
   useEffect(() => {
     let source1 = null;
-    const optcode = {'Stress Tolerant Variety':'ADVAR','Early Sowing':'ADPTI','Precision Land Levelling':'LASLV','Zero Tillage with residue':'ZTILL','Broad Bed and Furrow':'BBFIB',
-      'DSR (Dry Seed)':'DSDRY','DSR (Wet Seed)':'DSWET','System of Rice Intensification':'SRIUT','Supplemental Irrigation':'WHSRC','Microirrigation':'MICIR','Precision Water Management':'PWMGT',
-      'Low-tech Precision Technology':'PNMLT','High-tech Precision Technology':'PNMHT','Deep Placement of Urea':'DR',
-      'ICT-based Agro Advisory':'WEAGA','Crop Insurance':'INSUR','Land Management':'LMGT','Feed Management':'FMGT','Herd Management':'HMGT',
-      'Animal Health':'ANHLT','Animal Productivity':'ANPRO','Mulching':'MULCH','Alternate wetting and drying':'AWD','Fertilizer rating and timing':'FRT',
-      'Manure Management':'MNMGT','Information Use':'INFO','Heat Stress Management':'HSMGT'};
   
         let urlstr = "xyz.tif";
           urlstr = "./Adap/"+activeCrop+"/Suitability_"+activeCrop+"_"+optcode[activeOpt]+".tif";
@@ -374,11 +408,78 @@ export default function Map_Option({
     
   }, [activeCrop,activeOpt,mapRef]);
 
-
+  function getpopulation(){
+    if(activeOpt!=='' && Object.keys(area_dict).length>0 ){
+      let sec = activeRegion.indexOf(',');
+      let y ='';
+      let x = '';
+      let rowstr = "";
+      if (sec>0){
+        y = activeRegion.substring(0,sec);
+        x = activeRegion.substring(sec+2);
+        let statecode = '';
+        if(x==='Bangladesh'){
+          statecode = y.substring(0,y.length-9) + 'DIV';
+          rowstr = activeCrop+"_"+statecode+"_Suitability_"+activeCrop+"_"+optcode[activeOpt];
+        }
+        else if(x==='Nepal'){
+          statecode = y + 'DIV';
+          rowstr = activeCrop+"_"+statecode+"_Suitability_"+activeCrop+"_"+optcode[activeOpt];
+        }
+        else if(x==='India'||x==='Sri Lanka'||x==='Pakistan'){
+          statecode = 'STATE_'+ y.toUpperCase();
+          rowstr = activeCrop+"_"+statecode+"_Suitability_"+activeCrop+"_"+optcode[activeOpt];
+        }
+        else if(x==='Maldives'||x==='Afghanistan'){
+          statecode = y.toUpperCase();
+          rowstr = activeCrop+"_"+statecode+"_Suitability_"+activeCrop+"_"+optcode[activeOpt];
+        }
+        else if(x==='Bhutan'){
+          statecode = y;
+          rowstr = activeCrop+"_"+statecode+"_Suitability_"+activeCrop+"_"+optcode[activeOpt];
+        }
+      }
+      else{
+        rowstr = activeCrop+"_"+activeRegion+"_Suitability_"+activeCrop+"_"+optcode[activeOpt];
+      }
+      const row_data = area_dict[rowstr.toLowerCase()];
+      return Math.round(row_data['Adaptation Benefits_Area']/1000000)
+    }
+    return 0;
+  };
+  const dt = getpopulation();
 
     return (
       <div>
+      <Tooltip
+      title={<Typography sx={{fontSize:11,fontWeight:'bold'}} color='black'>
+        <Box sx={{width: "100%",height: 8,borderRadius: 0,bgcolor: '#06D001'}}/>
+        {dt} M people
+        <Typography sx={{fontSize:11,fontWeight:'bold'}} color='black'>under adapt.</Typography>
+        <Typography sx={{fontSize:11,fontWeight:'bold'}} color='black'>benefits</Typography></Typography>}
+      open={true}
+      placement='bottom-start'
+      slotProps={{
+        popper: {
+          modifiers: [
+            {
+              name: 'offset',
+              options: {
+                offset: [5, -85],
+              },
+            },
+          ],
+        },
+      }}
+      PopperProps={{style:{zIndex:0},
+      sx: {
+        '& .MuiTooltip-tooltip': {
+          backgroundColor: '#ffffff', // Change to desired background color
+        },
+      },}}
+    >
         <div ref={ref} style={{height:'calc(48vh - 92px)',width:'21vw',marginLeft:0,marginRight:0}} className="map-container" />
+        </Tooltip> 
       </div>
     );
 }

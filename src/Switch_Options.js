@@ -18,9 +18,11 @@ export default function SwitchOpt({
   const directswitchdown = ['ICT-based Agro Advisory','Crop Insurance'];
 
   const planting_rice = ['Early Sowing','Precision Land Levelling','Zero Tillage with residue',
-  'DSR (Dry Seed)','DSR (Wet Seed)','System of Rice Intensification','Alternate wetting and drying'];
+  'DSR (Dry Seed)','DSR (Wet Seed)','System of Rice Intensification'];
 
   const water = ['Supplemental Irrigation','Microirrigation','Precision Water Management'];
+
+  const water_rice = ['Supplemental Irrigation','Microirrigation','Precision Water Management','Alternate wetting and drying'];
 
   const fertilizer_rice = ['Fertilizer rating and timing','Low-tech Precision Technology','High-tech Precision Technology'];
 
@@ -184,6 +186,7 @@ export default function SwitchOpt({
   }));
 
   const CustomFormControlLabel = styled(FormControlLabel)(({ theme }) => ({
+    alignItems: 'flex-start', // Align items to the start 
     '&.Mui-disabled .MuiTypography-body2': {
       color: '#ccc', // Color for the label text when disabled
     },
@@ -204,7 +207,8 @@ export default function SwitchOpt({
               } 
               disabled={false}
               key={sname}
-              label={<Typography variant="body2" sx={{paddingLeft:1}}>{sname.charAt(0).toUpperCase()+sname.slice(1,4)+sname.toLowerCase().slice(4)}</Typography>}
+              label={<Typography variant="body2" align='left'  sx={{paddingLeft:1,maxWidth:'250px',wordBreak:'break-word', 
+                whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sname.charAt(0).toUpperCase()+sname.slice(1,4)+sname.toLowerCase().slice(4)}</Typography>}
               />
            </FormGroup>
             ))}
@@ -216,7 +220,8 @@ export default function SwitchOpt({
           onChange={handleChange(sname1)} name={sname1} />
         } 
         key={sname1}
-        label={<Typography variant="body2" sx={{paddingLeft:1}}>{sname1.charAt(0).toUpperCase()+sname1.slice(1,4)+sname1.toLowerCase().slice(4)}</Typography>}
+        label={<Typography variant="body2" align='left' sx={{paddingLeft:1,maxWidth:'250px',wordBreak:'break-word', 
+          whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sname1.charAt(0).toUpperCase()+sname1.slice(1,4)+sname1.toLowerCase().slice(4)}</Typography>}
         />
         {state[sname1] && sname1 === 'Planting Technology' && (
             <FormControl component="fieldset" variant="standard"  sx={{paddingBottom:1, paddingLeft:6}}>
@@ -230,7 +235,8 @@ export default function SwitchOpt({
               } 
               disabled={false}
               key={sname}
-              label={<Typography variant="body2" sx={{paddingLeft:1}}>{sname.charAt(0).toUpperCase()+sname.slice(1,4)+sname.toLowerCase().slice(4)}</Typography>}
+              label={<Typography variant="body2" align='left'  sx={{paddingLeft:1,maxWidth:'250px',wordBreak:'break-word', 
+                whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sname.charAt(0).toUpperCase()+sname.slice(1,4)+sname.toLowerCase().slice(4)}</Typography>}
               />
            </FormGroup>
             ))}
@@ -247,7 +253,8 @@ export default function SwitchOpt({
               }
               disabled={false}
               key={sname}
-              label={<Typography variant="body2" sx={{paddingLeft:1}}>{sname.charAt(0).toUpperCase()+sname.slice(1,4)+sname.toLowerCase().slice(4)}</Typography>}
+              label={<Typography variant="body2" align='left'  sx={{paddingLeft:1,maxWidth:'250px',wordBreak:'break-word', 
+                whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sname.charAt(0).toUpperCase()+sname.slice(1,4)+sname.toLowerCase().slice(4)}</Typography>}
               />
            </FormGroup>
             ))}
@@ -264,7 +271,8 @@ export default function SwitchOpt({
               } 
               disabled={false}
               key={sname}
-              label={<Typography variant="body2" sx={{paddingLeft:1}}>{sname.charAt(0).toUpperCase()+sname.slice(1,4)+sname.toLowerCase().slice(4)}</Typography>}
+              label={<Typography variant="body2" align='left' sx={{paddingLeft:1,maxWidth:'250px',wordBreak:'break-word', 
+                whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sname.charAt(0).toUpperCase()+sname.slice(1,4)+sname.toLowerCase().slice(4)}</Typography>}
               />
            </FormGroup>
             ))}
@@ -279,7 +287,8 @@ export default function SwitchOpt({
           onChange={handleChange(sname1)} name={sname1} />
         } 
         key={sname1}
-        label={<Typography variant="body2" sx={{paddingLeft:1}}>{sname1.charAt(0).toUpperCase()+sname1.slice(1,4)+sname1.toLowerCase().slice(4)}</Typography>}
+        label={<Typography variant="body2" align='left' sx={{paddingLeft:1,maxWidth:'250px',wordBreak:'break-word', 
+          whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sname1.charAt(0).toUpperCase()+sname1.slice(1,4)+sname1.toLowerCase().slice(4)}</Typography>}
         />
         {state[sname1] && sname1 === 'Planting Technology' && (
             <FormControl component="fieldset" variant="standard"  sx={{paddingBottom:1, paddingLeft:6}}>
@@ -293,7 +302,8 @@ export default function SwitchOpt({
               } 
               disabled={false}
               key={sname}
-              label={<Typography variant="body2" sx={{paddingLeft:1}}>{sname.charAt(0).toUpperCase()+sname.slice(1,4)+sname.toLowerCase().slice(4)}</Typography>}
+              label={<Typography variant="body2" align='left' sx={{paddingLeft:1,maxWidth:'250px',wordBreak:'break-word', 
+                whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sname.charAt(0).toUpperCase()+sname.slice(1,4)+sname.toLowerCase().slice(4)}</Typography>}
               />
            </FormGroup>
             ))}
@@ -310,14 +320,15 @@ export default function SwitchOpt({
               }
               disabled={false}
               key={sname}
-              label={<Typography variant="body2" sx={{paddingLeft:1}}>{sname.charAt(0).toUpperCase()+sname.slice(1,4)+sname.toLowerCase().slice(4)}</Typography>}
+              label={<Typography variant="body2" align='left' sx={{paddingLeft:1,maxWidth:'250px',wordBreak:'break-word', 
+                whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sname.charAt(0).toUpperCase()+sname.slice(1,4)+sname.toLowerCase().slice(4)}</Typography>}
               />
            </FormGroup>
             ))}
           </FormControl>)}
         {state[sname1] && sname1 === 'Water Management' && (
             <FormControl component="fieldset" variant="standard"  sx={{paddingBottom:1, paddingLeft:6}}>
-            {water.map((sname) => (
+            {water_rice.map((sname) => (
               <FormGroup>
               <CustomFormControlLabel
               control={
@@ -327,7 +338,8 @@ export default function SwitchOpt({
               } 
               disabled={false}
               key={sname}
-              label={<Typography variant="body2" sx={{paddingLeft:1}}>{sname.charAt(0).toUpperCase()+sname.slice(1,4)+sname.toLowerCase().slice(4)}</Typography>}
+              label={<Typography variant="body2" align='left' sx={{paddingLeft:1,maxWidth:'250px',wordBreak:'break-word', 
+                whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sname.charAt(0).toUpperCase()+sname.slice(1,4)+sname.toLowerCase().slice(4)}</Typography>}
               />
            </FormGroup>
             ))}
@@ -344,7 +356,8 @@ export default function SwitchOpt({
               } 
               disabled={false}
               key={sname}
-              label={<Typography variant="body2" sx={{paddingLeft:1}}>{sname.charAt(0).toUpperCase()+sname.slice(1,4)+sname.toLowerCase().slice(4)}</Typography>}
+              label={<Typography variant="body2" align='left' sx={{paddingLeft:1,maxWidth:'250px',wordBreak:'break-word', 
+                whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sname.charAt(0).toUpperCase()+sname.slice(1,4)+sname.toLowerCase().slice(4)}</Typography>}
               />
            </FormGroup>
             ))}
@@ -358,7 +371,8 @@ export default function SwitchOpt({
               } 
               disabled={true}
               key={sname}
-              label={<Typography variant="body2" sx={{paddingLeft:1}}>{sname.charAt(0).toUpperCase()+sname.slice(1,4)+sname.toLowerCase().slice(4)}</Typography>}
+              label={<Typography variant="body2" align='left' sx={{paddingLeft:1,maxWidth:'250px',wordBreak:'break-word', 
+                whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sname.charAt(0).toUpperCase()+sname.slice(1,4)+sname.toLowerCase().slice(4)}</Typography>}
               />
            </FormGroup>
             ))}

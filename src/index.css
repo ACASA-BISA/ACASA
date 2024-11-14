@@ -66,15 +66,18 @@ code {
 .map .ol-rotate {
   top: 3em;
 }
-.map-container .ol-zoomx {
+.map-container{
+  width: 100%;
+}
+.ol-zoomx {
   /* Change the position of the zoom controls */
-  top: 15px;
+  top: 10px;
   right: 300px;
   left: auto;
 }
 .ol-fullscreenx {
   /* Change the position of the zoom controls */
-  top: 75px;
+  top: 70px;
   right: 300px;
   left: auto;
 }
@@ -89,4 +92,14 @@ code {
   top: 70px;
   right: 10px;
   left: auto;
+}
+.ol-zoom-comp {
+  /* Change the position of the zoom controls */
+  top: 8px;
+  left: 8px;
+}
+.ol-fullscreen-comp {
+  /* Change the position of the zoom controls */
+  top: 8px;
+  right: 8px;
 }

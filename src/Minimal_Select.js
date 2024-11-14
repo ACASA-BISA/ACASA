@@ -9,8 +9,8 @@ export function SelectMinimal({
 }) {
   const [val2, setVal2] = React.useState('rice');
 
-  const switchco = ['Rice','Wheat','Maize','Sorghum','Finger Millet','Pearl Millet'];
-  const switchcoid = ['rice','wheat','maize','sorghum','fmillet','pmillet'];
+  const switchco = ['Rice','Wheat','Maize','Barley','Sorghum','Finger Millet','Pearl Millet'];
+  const switchcoid = ['rice','wheat','maize','barley','sorghum','fmillet','pmillet'];
 
   const switchffp = ['Potato','Onion','Tomato','Chillies','Mango','Banana'];
   const switchffpid = ['potato','onion','tomato','chilli','mango','banana'];
@@ -24,11 +24,11 @@ export function SelectMinimal({
   const switchind = ['Cotton','Jute','Rubber','Sugarcane','Tea','Coconut'];
   const switchindid = ['cotton','jute','rubber','sugarcane','tea','coconut'];
 
-  const switchhc = ['Soybean','Chickpea','Pigeonpea','Black Gram','Green Gram','Lentil'];
-  const switchhcid = ['soyabean','chickpea','ppea','bgram','ggram','lentil'];
+  const switchhc = ['Chickpea','Pigeonpea','Black Gram','Green Gram','Lentil'];
+  const switchhcid = ['chickpea','ppea','bgram','ggram','lentil'];
 
-  const switchoil = ['Safflower','Sunflower','Mustard','Sesame','Groundnut'];
-  const switchoilid = ['safflower','sunflower','rapeseed','sesame','groundnut'];
+  const switchoil = ['Soybean','Safflower','Sunflower','Mustard','Sesame','Groundnut'];
+  const switchoilid = ['soyabean','safflower','sunflower','rapeseed','sesame','groundnut'];
 
   const handleChange = (event) => {
     setVal2(event.target.value)

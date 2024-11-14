@@ -3,10 +3,10 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-//import Menu from '@mui/material/Menu';
+import Menu from '@mui/material/Menu';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-//import MenuItem from '@mui/material/MenuItem';
+import MenuItem from '@mui/material/MenuItem';
 import { styled } from '@mui/material/styles';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
@@ -15,28 +15,24 @@ import DrawerMapShow from './DrawerMapShow';
 //import { IconButton } from '@mui/material';
 import Home from './Home';
 import './font.css';
-import Divider from '@mui/material/Divider';
 import {
   HashRouter as Router,
   Routes,
   Route,
-  Link
+  Link,
+  useLocation
 } from "react-router-dom";
-import { transform } from 'ol/proj';
+import ScrollToTop from "./scrolltop";
 import Feedback1 from './Feedback';
 import Translate from "./Translate"; // Import Translate component
 
-const pages = ['Guide','Explore Data', 'Adaptation at a glance','Data Access','Use Cases','Resources','About Us'];
+const pages = ['Guide','Explore Data', 'Data at a glance','Data Access','Use Cases','Resources','About Us'];
 const pageid = ['guide','viewer', 'analytics','access','usecase','resources','about'];
 const AppBarHeight = '90px';
 
-function ResponsiveAppBar({
-
-}) {
-  
-  
+function ResponsiveAppBar({}) {
   const [flag, setflag] = React.useState(null);
-  
+
   React.useEffect(() => {
     const handleUrlChange = () => {
       const sec = window.location.href.indexOf('#');
@@ -64,6 +60,10 @@ function ResponsiveAppBar({
 
   setflagfunc(); */
 
+  // Ref for the "Data at a glance" button
+  const GlanceButtonRef = React.useRef(null);
+  const ExploreButtonRef = React.useRef(null);
+
   const handleClick = (event, newvalue) => {
     if (newvalue !== null) {
         setflag(newvalue);
@@ -72,7 +72,27 @@ function ResponsiveAppBar({
 
   const handleHomeClick = () => {
     setflag(null);
-  }
+  };
+
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(GlanceButtonRef.current);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
+  const [anchorElUser2, setAnchorElUser2] = React.useState(null);
+
+  const handleOpenUserMenu2 = (event) => {
+    setAnchorElUser2(ExploreButtonRef.current);
+  };
+
+  const handleCloseUserMenu2 = () => {
+    setAnchorElUser2(null);
+  };
 
   const MyButton = styled(ToggleButton)({
     boxShadow: 'none',
@@ -91,7 +111,6 @@ function ResponsiveAppBar({
       //borderColor: '#0062cc',
       boxShadow: 'none',
       color: '#000',
-      
       //fontWeight: 'bold',
     },
     "&.Mui-selected, &.Mui-selected:hover": {
@@ -165,23 +184,144 @@ function ResponsiveAppBar({
             onChange={handleClick}
             >
             {pages.map((page,index) => (
-              <MyButton 
+              <div>
+               {(page!=='Data at a glance' && page!=='Explore Data') && 
+               <MyButton 
                 value={pageid[index]}
                 sx={{ paddingRight:2, paddingLeft:2,paddingTop:1,paddingBottom:1}}
                 key={pageid[index]}
                 href={"/#/".concat(pageid[index])}
               >
-                <Typography textAlign="center" sx={{fontSize:'14px',fontWeight:'bold',color:'#000'}} className='fira-sans-condensed-medium'>
+                <Typography textAlign="center" sx={{fontSize:'14px',fontWeight:700,color:'#000', fontFamily:"Karla"}}>
                   <div >
-                  {page}
+                    {page}
                   </div>
-               </Typography>
-              </MyButton>
+                </Typography>
+               </MyButton>}
+               
+               {page==='Explore Data' &&
+               <div ref={ExploreButtonRef}>
+                <MyButton 
+                  value={pageid[index]}
+                  sx={{ paddingRight:2, paddingLeft:2,paddingTop:1,paddingBottom:1,
+                    backgroundColor: Boolean(anchorElUser2) ? '#f5f3ed' : '#ffffff',  // Darkens when menu is open
+                  }}
+                  key={pageid[index]}
+                  onMouseEnter={handleOpenUserMenu2} 
+                  //onClick={handleOpenUserMenu}  
+                  onMouseLeave={handleCloseUserMenu2}
+                  aria-owns={Boolean(anchorElUser2) ? "menu-appbar-explore" : undefined}
+                  aria-haspopup="true"
+                >
+                
+                  <Typography textAlign="center" sx={{fontSize:'14px',fontWeight:700,color:'#000', fontFamily:"Karla"}}>
+                    <div >
+                      {page}
+                    </div>
+                  </Typography> 
+                </MyButton>
+                <Menu
+                    //sx={{ mt: '45px' }}
+                    //sx={{pointerEvents:'none'}}
+                    id="menu-appbar-explore"
+                    anchorEl={anchorElUser2}
+                    open={Boolean(anchorElUser2)}
+                    onClose={handleCloseUserMenu2}
+                    onClick={handleCloseUserMenu2}
+                    anchorOrigin={{
+                      vertical: 'bottom',
+                      horizontal: 'left',
+                    }}
+                    transformOrigin={{
+                      vertical: 'top',
+                      horizontal: 'left',
+                    }}
+                    //MenuListProps={{ onMouseLeave: handleCloseUserMenu }}
+                  >
+                    {/* {opts.map((setting) => (<div></div>))} */}
+                      <a href="/#/viewer" style={{textDecoration: 'none'}}>
+                      <MenuItem onClick={handleClick}>
+                        <Typography textAlign="center" fontSize={13} color='#222222' sx={{fontFamily:"Karla",fontWeight:350}}>Linear Exploration</Typography>
+                      </MenuItem>
+                      </a>
+                      <a href="/#/comparison" style={{textDecoration: 'none'}}>
+                      <MenuItem onClick={handleClick}>
+                          <Typography textAlign="center" fontSize={13} color='#222222' sx={{fontFamily:"Karla",fontWeight:350}}>Comparative Exploration</Typography>  
+                      </MenuItem>
+                      </a>
+                  </Menu>
+                </div>}
+
+               {page==='Data at a glance' &&
+               <div ref={GlanceButtonRef}>
+                <MyButton 
+                  value={pageid[index]}
+                  sx={{ paddingRight:2, paddingLeft:2,paddingTop:1,paddingBottom:1,
+                    backgroundColor: Boolean(anchorElUser) ? '#f5f3ed' : '#ffffff',  // Darkens when menu is open
+                  }}
+                  key={pageid[index]}
+                  onMouseEnter={handleOpenUserMenu} 
+                  //onClick={handleOpenUserMenu}  
+                  onMouseLeave={handleCloseUserMenu}
+                  aria-owns={Boolean(anchorElUser) ? "menu-appbar" : undefined}
+                  aria-haspopup="true"
+                >
+                
+                  <Typography textAlign="center" sx={{fontSize:'14px',fontWeight:700,color:'#000', fontFamily:"Karla"}}>
+                    <div >
+                      {page}
+                    </div>
+                  </Typography> 
+                </MyButton>
+                <Menu
+                    //sx={{ mt: '45px' }}
+                    //sx={{pointerEvents:'none'}}
+                    id="menu-appbar"
+                    anchorEl={anchorElUser}
+                    open={Boolean(anchorElUser)}
+                    onClose={handleCloseUserMenu}
+                    onClick={handleCloseUserMenu}
+                    anchorOrigin={{
+                      vertical: 'bottom',
+                      horizontal: 'left',
+                    }}
+                    transformOrigin={{
+                      vertical: 'top',
+                      horizontal: 'left',
+                    }}
+                    //MenuListProps={{ onMouseLeave: handleCloseUserMenu }}
+                  >
+                    {/* {opts.map((setting) => (<div></div>))} */}
+                      <a href="/#/future" style={{textDecoration: 'none'}}>
+                      <MenuItem onClick={handleClick}>
+                        <Typography textAlign="center" fontSize={13} color='#222222' sx={{fontFamily:"Karla",fontWeight:350}}>Hazard at a glance</Typography>
+                      </MenuItem>
+                      </a>
+                      <a href="/#/analytics" style={{textDecoration: 'none'}}>
+                      <MenuItem onClick={handleClick}>
+                          <Typography textAlign="center" fontSize={13} color='#222222' sx={{fontFamily:"Karla",fontWeight:350}}>Adaptation at a glance</Typography>  
+                      </MenuItem>
+                      </a>
+                      <a href="/#/summary" style={{textDecoration: 'none'}}>
+                      <MenuItem onClick={handleClick}>
+                        <Typography textAlign="center" fontSize={13} color='#222222' sx={{fontFamily:"Karla",fontWeight:350}}>Summary Statistics</Typography>
+                      </MenuItem>
+                      </a>
+                      <a href="/#/timeline" style={{textDecoration: 'none'}}>
+                      <MenuItem onClick={handleClick}>
+                        <Typography textAlign="center" fontSize={13} color='#222222' sx={{fontFamily:"Karla",fontWeight:350}}>Timeline</Typography>
+                      </MenuItem>
+                      </a>
+                  </Menu>
+                </div>}
+              </div>
+              
             ))}
             </ToggleButtonGroup>
+            
             <Button sx={{paddingRight:2, paddingLeft:2,margin:0,border:'1px solid #aaa',marginLeft:2}}
               href={"/#/feedback"}>
-              <Typography textAlign="center" sx={{fontSize:'14px',fontFamily:'revert',textTransform:'none'}}>Feedback</Typography>
+              <Typography textAlign="center" sx={{fontSize:'14px',fontFamily:'revert',textTransform:'none', fontFamily:"Karla"}}>Feedback</Typography>
             </Button>
           </Box>
           <Box sx={{display: 'flex' , flexGrow: 0,display: { xs: 'none', md: 'flex' },flexDirection:'column'}}>
@@ -234,10 +374,28 @@ function ResponsiveAppBar({
                             element={<DrawerMapShow activeBar='guide'/>}
                         ></Route>
                         <Route
+                            path="/future"
+                            element={<DrawerMapShow activeBar='future'/>}
+                        ></Route>
+                        <Route
+                            path="/comparison"
+                            element={<DrawerMapShow activeBar='comparison'/>}
+                        ></Route>
+                        <Route
+                            path="/summary"
+                            element={<DrawerMapShow activeBar='summary'/>}
+                        ></Route>
+                        <Route
+                            path="/timeline"
+                            element={<DrawerMapShow activeBar='timeline'/>}
+                        ></Route>
+                        <Route
                             path="/feedback"
                             element={<Feedback1 />}
                         ></Route>
     </Routes>
+    
+    <ScrollToTop />
     </Router>
     </div>
   );

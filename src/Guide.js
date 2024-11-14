@@ -99,7 +99,7 @@ export default function Guidee() {
     {
       step: "Step 1",
       img: "/timelineA.png",
-      title: "Explore",
+      title: "Landing Page",
       subtitle: "Navigating the ACASA website",
       description:
         "To explore the comprehensive data available on the ACASA website, visit www.acasa-bisa.org. Click on the yellow Explore button or select your desired region from the drop-down menu. Additionally, choose the specific commodity you wish to access data for from the adjacent drop-down menu, and then click the green Explore button to proceed.",
@@ -108,10 +108,10 @@ export default function Guidee() {
     {
       step: "Step 2",
       img: "/timelineB.png",
-      title: "Data Viewer",
+      title: "Explore Data",
       subtitle: "Navigating the advanced Data Viewer",
       description:
-        "Upon clicking the Explore button or selecting the Data Viewer tab in the navigation bar, you will be seamlessly redirected to the South Asian Atlas, preconfigured with rice as the default commodity and the baseline scenario. Rest assured, you have the flexibility to customize your exploration by selecting your desired commodity, country, and state. Additionally, you can change your visualisation criteria by adjusting various parameters such as risk, impact, scenario, and adaptation using the options available in the vertical navigation bar.",
+        "Upon clicking the Explore button or selecting the Explore Data tab in the navigation bar, you will be seamlessly redirected to the South Asian Atlas, preconfigured with rice as the default commodity and the baseline scenario. Rest assured, you have the flexibility to customize your exploration by selecting your desired commodity, country, and state. Additionally, you can change your visualisation criteria by adjusting various parameters such as risk, impact, scenario, and adaptation using the options available in the vertical navigation bar.",
       link: "/#/viewer",
     },
     {

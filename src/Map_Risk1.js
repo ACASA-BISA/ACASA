@@ -16,8 +16,11 @@ import GeoJSON from 'ol/format/GeoJSON.js';
 import Tooltip from '@mui/material/Tooltip';
 import TileLayer2 from 'ol/layer/Tile';
 import BingMaps from 'ol/source/BingMaps';
+import tilesource from 'ol/source/TileJSON';
 import Typography from '@mui/material/Typography';
 import { Popper, Slide } from '@mui/material';
+import {ZoomToExtent, FullScreen, defaults as defaultControls} from 'ol/control.js';
+import './olsm.css';
 import Box from '@mui/material/Box';
 
 export default function Map_Risk({
@@ -75,10 +78,25 @@ export default function Map_Risk({
       ],
     };
 
+    const key = 'TrN2dn4maoO3C2x0sUpH';
+
+
+    const sourcemap = new tilesource({
+      url: `https://api.maptiler.com/maps/bright-v2/tiles.json?key=${key}`, // source URL
+      tileSize: 512,
+      crossOrigin: 'anonymous'
+    });
+
     const BingMapNew = new TileLayer2({
+          source: sourcemap,
+      opacity:0.9,
+    zIndex:10,
+  });
+
+/*     const BingMapNew = new TileLayer2({
       preload: Infinity,
       source: new BingMaps({
-        key: 'Atn0vmES8VxxGdRJ5nDXIu77cQnFlfa1OfQiDIYJMfuiBfL9jNAzky4SU0sXCKyW',
+        key: 'AvUc2NPj5dHI1yefH-oLqI4_EzAKBjyYTg3dM9c9lUrZglsLsvB1usgVz330xsZC',
         imagerySet: 'RoadOnDemand',
         // use maxZoom 19 to see stretched tiles instead of the BingMaps
         // "no photos at this zoom level" tiles
@@ -86,12 +104,26 @@ export default function Map_Risk({
       }),
       opacity:0.8,
       zIndex:10,
-    });
+    }); */
+    let defext = [
+      6731721.531032621,
+      -79003.34768295793,
+      10843798.383928495,
+      4648992.169943628
+    ];
 
     useEffect(() => {
       if (ref.current && !mapRef.current) {
         mapRef.current = new Map({
-          
+          controls: defaultControls().extend([
+            new ZoomToExtent({
+              extent: defext,
+              className: 'ol-zoomtoextenty'
+            }),
+            new FullScreen({
+              className: 'ol-fullscreeny'
+            }),
+          ]),
           target: ref.current,
           layers: [BingMapNew],
           view: ViewV,
@@ -409,7 +441,9 @@ export default function Map_Risk({
     <Popper
     open={missingSource}
       >
-        <div style={{position:'fixed',left:'29vw',top:70, boxShadow:'0px 0px 1px #aaa',backgroundColor: 'rgba(255, 255, 255, 0.8)', border: '0px solid black', width:'68vw',height:'calc(100vh - 70px)', borderRadius:'5px',padding:'3px'}}>
+        <div style={{position:'fixed',left:'29vw',top:70, boxShadow:'0px 0px 1px #aaa',
+        backgroundColor: 'rgba(255, 255, 255, 0.8)', zIndex:5,
+           border: '0px solid black', width:'68vw',height:'calc(100vh - 70px)', borderRadius:'5px',padding:'3px'}}>
         <Slide direction="down" in={missingSource} mountOnEnter unmountOnExit>
           <Box sx={{height:'100%',alignContent:'center'}}>
 

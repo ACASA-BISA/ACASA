@@ -18,10 +18,12 @@ export default function SwitchesGroup({
     activeCrop,
     changeCrop
 }) {
-  const switchh = ['Cereals','Legumes','Oilseeds','Fruits and Vegetables','Industrial Crops','Livestock','Fisheries'];
-  const switchid = ['cereals', 'legumes', 'oilseeds', 'fruits', 'industrial','livestock','fisheries'];
-  const disvar = {'cereals':false, 'legumes':false, 'oilseeds':false, 'fruits':false, 'industrial':false,'livestock':false,'fisheries':true};
+  const switchh = ['Cereals','Legumes','Oilseeds','Fruits and Vegetables','Industrial Crops'];
+  const switchid = ['cereals', 'legumes', 'oilseeds', 'fruits', 'industrial'];
+  const disvar = {'cereals':false, 'legumes':false, 'oilseeds':false, 'fruits':false, 'industrial':false};
 
+  console.log(activeCrop);
+  
   function createInitialTodos() {
   const initialTodos = {};
   switchid.forEach((sname,index) => {

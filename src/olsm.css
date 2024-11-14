@@ -1,0 +1,56 @@
+.ol-zoomtoextentx {
+    top: 105px;
+    right: 300px;
+    left: auto;
+  }
+
+  .ol-zoomtoextentx button {
+    background: url("../public/locate.png") no-repeat center center; /* Use your custom icon */
+    background-size: 70%; /* Scale the background image */
+    background-position: center;
+    border-width: 1px; /* Remove the border */
+    border-color: #333;
+    width: 22px; /* Set the width */
+    height: 22px; /* Set the height */
+    color: transparent; /* Hide the default text */
+    font-size: 0; /* Hide the default text */
+    background-color: rgba(255, 255, 255, 1);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  }
+  
+  .ol-zoomtoextentx button:hover {
+    background-color: rgba(255, 255, 255, 0.3); /* Add a hover effect if needed */
+  }
+  
+  .ol-fullscreeny {
+    top: 31px;
+    right: 8px;
+  }
+
+  .ol-zoomtoextenty {
+    top: 8px;
+    right: 8px;
+  }
+
+  .ol-zoomtoextent-comp {
+    top: 31px;
+    right: 8px;
+  }
+
+  .ol-zoomtoextenty button {
+    background: url("../public/locate.png") no-repeat center center; /* Use your custom icon */
+    background-size: 70%; /* Scale the background image */
+    background-position: center;
+    border-width: 1px; /* Remove the border */
+    border-color: #333;
+    width: 22px; /* Set the width */
+    height: 22px; /* Set the height */
+    color: transparent; /* Hide the default text */
+    font-size: 0; /* Hide the default text */
+    background-color: rgba(255, 255, 255, 1);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  }
+  
+  .ol-zoomtoextenty button:hover {
+    background-color: rgba(255, 255, 255, 0.3); /* Add a hover effect if needed */
+  }

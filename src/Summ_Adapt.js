@@ -36,9 +36,11 @@ export default function Summ_Adapt({
   const directswitchdown = ['ICT-based Agro Advisory','Crop Insurance'];
 
   const planting_rice = ['Early Sowing','Precision Land Levelling','Zero Tillage with residue',
-  'DSR (Dry Seed)','DSR (Wet Seed)','System of Rice Intensification','Alternate wetting and drying'];
+  'DSR (Dry Seed)','DSR (Wet Seed)','System of Rice Intensification'];
 
   const water = ['Supplemental Irrigation','Microirrigation','Precision Water Management'];
+
+  const water_rice = ['Supplemental Irrigation','Microirrigation','Precision Water Management','Alternate wetting and drying'];
 
   const fertilizer_rice = ['Fertilizer rating and timing','Low-tech Precision Technology','High-tech Precision Technology'];
 
@@ -84,8 +86,11 @@ export default function Summ_Adapt({
             <MenuItem value={naam} sx={{fontSize:12}}>{planting_rice[idx]}</MenuItem>
         ))}
         {(checkcrop()===true || activeCrop['rice']===true) && <Typography variant="subtitle1" sx={{paddingLeft:1,fontWeight:'bold',fontSize:12}}>Water Management</Typography>}
-        {(checkcrop()===true || activeCrop['rice']===true) && water.map((naam,idx) => (
+        {(checkcrop()===true) && water.map((naam,idx) => (
                 <MenuItem value={naam} sx={{fontSize:12}}>{water[idx]}</MenuItem>
+            ))}
+        {(activeCrop['rice']===true) && water_rice.map((naam,idx) => (
+                <MenuItem value={naam} sx={{fontSize:12}}>{water_rice[idx]}</MenuItem>
             ))}
         {(checkcrop()===true || activeCrop['rice']===true) && <Typography variant="subtitle1" sx={{paddingLeft:1,fontWeight:'bold',fontSize:12}}>Fertilizer Management</Typography>}
         {checkcrop()===true && fertilizer.map((naam,idx) => (

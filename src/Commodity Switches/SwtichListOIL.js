@@ -13,11 +13,11 @@ export default function SwitchOilseeds({
   activeCrop,
   changeCrop
 }) {
-  const switchh = ['Safflower','Sunflower','Rapeseed/Mustard','Sesame','Groundnut'];
-  const switchid = ['safflower','sunflower','rapeseed','sesame','groundnut'];
-  const disvar = {'safflower':true,'sunflower':true,'rapeseed':false,'sesame':true,'groundnut':false};
+  const switchh = ['Soybean','Safflower','Sunflower','Rapeseed/Mustard','Sesame','Groundnut'];
+  const switchid = ['soyabean','safflower','sunflower','rapeseed','sesame','groundnut'];
+  const disvar = {'soyabean':false,'safflower':true,'sunflower':true,'rapeseed':false,'sesame':true,'groundnut':false};
   const padd = 8;
-  const season = ['','','Analysis done for rabi/winter season.','',
+  const season = ['Soybean is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as \'Kharif\') and Yala in Sri Lanka','','','Analysis done for rabi/winter season.','',
     'Groundnut is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as \'Kharif\' in India) and Yala in Sri Lanka.'];
 
   const LightTooltip = styled(({ className, ...props }) => (

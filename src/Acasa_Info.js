@@ -33,7 +33,8 @@ export default function Info(
                 
                 </Typography>
                 <Typography sx={{color:'#444444',marginTop:'10px'}}>
-                <a href="https://repository.cimmyt.org/entities/publication/69093195-f49a-4328-866a-d897e1b56093" target="_blank" rel="noopener noreferrer" style={{fontWeight:'bold',color:'#333333',textDecoration:'none'}}>Read More</a>
+                <a href="https://repository.cimmyt.org/entities/publication/69093195-f49a-4328-866a-d897e1b56093" 
+                target="_blank" rel="noopener noreferrer" style={{fontWeight:'bold',color:'#333333',textDecoration:'none'}}>Read More</a>
                 </Typography>
                 </Box>
                 </Box>
@@ -56,7 +57,8 @@ export default function Info(
                 
                 </Typography>
                 <Typography sx={{color:'#444444',marginTop:'10px'}}>
-                <a href="https://mcusercontent.com/f5e2b90aee260789647f778e4/files/e66b002b-7b5b-7ab7-3629-522dff9cab4e/Production_Risk.pdf" target="_blank" rel="noopener noreferrer" style={{fontWeight:'bold',color:'#333333',textDecoration:'none'}}>Read More</a>
+                <a href="https://mcusercontent.com/f5e2b90aee260789647f778e4/files/e66b002b-7b5b-7ab7-3629-522dff9cab4e/Production_Risk.pdf" 
+                target="_blank" rel="noopener noreferrer" style={{fontWeight:'bold',color:'#333333',textDecoration:'none'}}>Read More</a>
                 </Typography>
                 </Box>
                 </Box>
@@ -79,7 +81,8 @@ export default function Info(
                 
                 </Typography>
                 <Typography sx={{color:'#444444',marginTop:'10px'}}>
-                <a href="https://mcusercontent.com/f5e2b90aee260789647f778e4/files/e96af2c0-1e35-f7f1-dd54-080b503a7319/Risk_Method_by_IPCC.pdf" target="_blank" rel="noopener noreferrer" style={{fontWeight:'bold',color:'#333333',textDecoration:'none'}}>Read More</a>
+                <a href="https://mcusercontent.com/f5e2b90aee260789647f778e4/files/e96af2c0-1e35-f7f1-dd54-080b503a7319/Risk_Method_by_IPCC.pdf" 
+                target="_blank" rel="noopener noreferrer" style={{fontWeight:'bold',color:'#333333',textDecoration:'none'}}>Read More</a>
                 </Typography>
                 </Box>
                 </Box>

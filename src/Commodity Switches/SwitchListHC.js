@@ -13,11 +13,11 @@ export default function SwitchLegumes({
   activeCrop,
   changeCrop
 }) {
-  const switchh = ['Soybean','Chickpea','Pigeonpea','Black Gram','Green Gram','Lentil'];
-  const switchid = ['soyabean','chickpea','ppea','bgram','ggram','lentil'];
-  const disvar = {'soyabean':false,'chickpea':false,'ppea':false,'bgram':true,'ggram':true,'lentil':true};
+  const switchh = ['Chickpea','Pigeonpea','Black Gram','Green Gram','Lentil'];
+  const switchid = ['chickpea','ppea','bgram','ggram','lentil'];
+  const disvar = {'chickpea':false,'ppea':false,'bgram':true,'ggram':true,'lentil':true};
   const padd = 8;
-  const season = ['Soybean is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as \'Kharif\') and Yala in Sri Lanka',
+  const season = [
     'Analysis done for rabi/winter season','Analysis done for rabi/winter season','Analysis done for rabi/winter season',
     'Analysis done for rabi/winter season','Analysis done for rabi/winter season'];
 

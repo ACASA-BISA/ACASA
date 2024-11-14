@@ -75,7 +75,7 @@ export default function AboutUs(){
              </Link>
              </Typography>
              <Typography sx={{color:'#333333', fontFamily:'revert',fontSize:'16px'}}>
-             <Link href="#" underline="none" color='#4b9e44' target="_blank">
+             <Link href="ACASA Brochure.pdf" underline="none" color='#4b9e44' target="_blank">
              ACASA Brochure
              </Link>
              </Typography>

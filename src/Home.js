@@ -30,7 +30,9 @@ const logoStyle4 = {
   marginTop: 10,
   marginBottom: 10,
 };
-
+const thumbstyle ={
+  width:'100vw',
+}
 const logoStyle6 = { height: "88%", margin: "auto" };
 const logoStyle8 = { height: "55%", margin: "auto" };
 const logoStyle7 = { width: "90%", margin: "auto" };
@@ -44,7 +46,7 @@ const Home = (props) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false); // Hide loading screen after 10 seconds
-    }, 5000);
+    }, 1000);
 
     return () => clearTimeout(timer);
   }, []);
@@ -74,6 +76,7 @@ const Home = (props) => {
         "Interconnections between climate risks, practices, technologies, and policies",
       type: "Increase the quality, availability, and utility of data and evidence",
       video: "./vid31.mp4",
+      videothumb: "./thumb31.jpg",
       id: 1,
     },
     {
@@ -82,6 +85,7 @@ const Home = (props) => {
         "Interconnections between climate risks, practices, technologies, and policies",
       type: "Improve climate adaptive capacity of agricultural systems",
       video: "./vid5.mp4",
+      videothumb: "./thumb5.jpg",
       id: 2,
     },
     {
@@ -90,6 +94,7 @@ const Home = (props) => {
         "Interconnections between climate risks, practices, technologies, and policies",
       type: "Increase the resilience of small-scale producers to climate variability and change",
       video: "./vid41.mp4",
+      videothumb: "./thumb41.jpg",
       id: 3,
     },
   ];
@@ -259,7 +264,7 @@ const Home = (props) => {
             >
               The functionalities of the Atlas can be best utilized in the
               following order: start by visualizing the data layers in detail in
-              the Data Viewer tab. The Overview tab is then used to look at
+              the Explore Data tab. The Adaptation at a glance tab is then used to look at
               multiple data layers at once. The Data Access tab gives
               information about the data and their download links. The Use Cases
               tab discusses several possible uses of the ACASA Atlas.
@@ -477,7 +482,7 @@ function Item(props) {
             backgroundColor: "#ffffff",
           }}
         >
-          <img src={"acasa.svg"} alt="Loading" />
+          <img src={props.item.videothumb} alt="Loading" style={thumbstyle} />
         </Box>
       )}
       <ReactPlayer

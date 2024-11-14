@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Feature, Map, View } from 'ol';
 import TileLayer from 'ol/layer/WebGLTile';
 import TileLayer2 from 'ol/layer/Tile';
+import tilesource from 'ol/source/TileJSON';
 import Polygon from 'ol/geom/Polygon.js';
 import 'ol/ol.css';
 import './index.css';
@@ -11,19 +12,17 @@ import Style from 'ol/style/Style';
 import {fromLonLat} from 'ol/proj';
 import Fill from 'ol/style/Fill';
 import Stroke from 'ol/style/Stroke';
-import BingMaps from 'ol/source/BingMaps';
 import GeoTIFF from 'ol/source/GeoTIFF.js';
 import GeoJSON from 'ol/format/GeoJSON.js';
 import Overlay from 'ol/Overlay';
-import {FullScreen, Zoom} from 'ol/control.js';
-import OSM from 'ol/source/OSM';
-import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
-import { fromFile } from "geotiff";
+import {ZoomToExtent, FullScreen, Zoom} from 'ol/control.js';
+import './olsm.css';
+//import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
+//import { fromFile } from "geotiff";
 import Typography from '@mui/material/Typography';
 import { Popper } from '@mui/material';
 import Slide from '@mui/material/Slide';
-import ImageL from 'ol/layer/Image';
-import { Padding } from '@mui/icons-material';
+//import ImageL from 'ol/layer/Image';
 
 /* async function clipUsingPolygon(
   tiffFilePath,
@@ -110,13 +109,19 @@ export default function MApp({
     const ref = useRef(null);
     const mapRef = useRef(null);
     const [overl, setOverl] = useState(null);
-    const [overl2, setOverl2] = useState(null);
+    //const [overl2, setOverl2] = useState(null);
     const [vectorLayerr, setvectorLayerr] = useState(null);
     const [countryLayer, setcountryLayer] = useState(null);
     const [maskLayer1, setmaskLayer1] = useState(null);
     const [tiffFilePath, settiffFilePath] = useState("");
-    const [polycord, setpolycord] = useState(null);
+    //const [polycord, setpolycord] = useState(null);
     const [missingSource, setmsource] = useState(false);
+    let defext = [
+      6731721.531032621,
+      -300003.34768295793,
+      10843798.383928495,
+      4918992.169943628
+    ];
 
     const fill = new Fill({
       color: 'rgba(255,255,255,0)',
@@ -127,13 +132,24 @@ export default function MApp({
       width: 1,
     });
 
+    const h_fill = new Fill({
+      color: 'rgba(255,255,255,0.0)',
+    });
+    const h_stroke = new Stroke({
+      color: '#111111',
+      width: 2.5,
+    });
+
     const ViewV = new View({
       center: fromLonLat([71.2090057,21.6138954]),
       zoom: 3.5,
     });
+    
+    console.log(activeCrop);
 
-    function checkcrop(activeCrop) {
-      const diffcrop = ['Cattle','Buffalo','Goat','Sheep','Pig','Poultry'];
+    function checkcrop() {
+      const diffcrop = ['Cattle','Buffalo','Goat','Sheep','Pig','Poultry','Rice','Wheat','Maize','Mustard',
+        'Cotton','Soybean','Chickpea','Barley'];
       let ans = true;
       diffcrop.forEach((sname) => {
         if(activeCrop===sname){
@@ -153,6 +169,11 @@ export default function MApp({
     const blue = normalize(['band', 3]);
     const nir = normalize(['band', 4]);
 
+    const color_comm = {"Rice":'#5ec962',"Wheat":"#f7e465","Maize":"#ffcc00","Sorghum":'#8b4513',"Soybean":"#8c7658",
+      "Chickpea":"#b3a057","Pigeonpea":"#de815f","Mustard":"#FFDB58","Groundnut":"#d2691e","Potato":"#ab6042","Onion":"#8e507f",
+      "Cotton":"#5102b0","Cattle":"#8B4513","Cow":"#ac8e59","Buffalo":"#5c2f08","Pig":"#FFC0CB","Poultry":"#FF8C00","Sheep":"#5fdbfa",
+      "Goat":"#7ca67c","Barley":'#5ec962'
+    };
     const color1 = {
       color: [
         'palette',
@@ -165,28 +186,9 @@ export default function MApp({
           3,
           10,
         ],
-        ['rgba(98, 181, 209, 0)','#440154', '#3b528b', '#21918c', '#5ec962', '#fde725',
-        'rgba(140, 150, 250, 1)','rgba(98, 181, 209, 1)','rgba(90, 230, 153, 1)',
-        'rgba(250, 181, 109, 1)','rgba(180, 70, 109, 1)'],
+        ['rgba(98, 181, 209, 0)', color_comm[activeCrop]],
       ],
     };
-    
-    const color3 = {
-      color: [
-        'palette',
-        [
-          'interpolate',
-          ['linear'],
-          ['/', ['-', nir, green], ['+', nir, blue]],
-          -0.1,
-          0,
-          3,
-          10,
-        ],
-        ['rgba(98, 181, 209, 0)','#bbb', '#bbb', '#bbb', '#bbb', '#bbb'],
-      ],
-    };
-  
 
      const color2 = {
       color: [
@@ -232,7 +234,6 @@ export default function MApp({
       ],
     };
 
-
     const color_hazard = {
       color: [
         'palette',
@@ -240,8 +241,8 @@ export default function MApp({
         'interpolate',
         ['linear'],
         ['*',['band', 2], 25], 
-        0,       // Start color (minimum value)
-        1,        // Intermediate color
+        0,
+        1,
         1,
         2,
         2,
@@ -256,20 +257,22 @@ export default function MApp({
         7
       ],
       ['rgba(0,0,0,0)','rgba(0,0,0,0)','rgba(150,150,150,1)',"#059212", '#00FF00', "#FFFF00", "#FFA500",'#FF0000', 
-        /* 'rgba(0,0,0,0)','rgba(0,0,0,0)','#5ec962','#21918c','#3b528b','#440154', */
       ],
       ],
     };
 
-    const colorGradient = {
+    const colorGradientEx = {
       color: [
         'interpolate',
         ['linear'],
-        ['*',['band', 2], 320],
+        ['*',['band', 1], 310],
         0, 'rgba(0,0,0,0)',
-        1, 'rgba(0, 255, 0, 1)',        // Start color (minimum value)
-        6, 'rgba(255, 255, 0, 1)',    // Intermediate color
-        11, 'rgba(255, 0, 0, 1)'         // End color (maximum value)
+        10, '#FFF9C4', 
+        20, '#FFE680',
+        30, '#FFD700',
+        40, '#DAA520',
+        50, '#A0522D',
+        60, '#6B3D1B'
       ]
     };
 
@@ -279,23 +282,34 @@ export default function MApp({
         ['linear'],
         ['*',['band', 1], 310],
         0, 'rgba(0,0,0,0)',
-        1, '#059212',        // Start color (minimum value)
+        1, '#059212', 
         3, '#00FF00', 
         5,"#FFFF00", 
-        7, '#FFA500',    // Intermediate color
-        11, '#FF0000'         // End color (maximum value)
+        7, '#FFA500', 
+        11, '#FF0000' 
       ]
     };
-/*     const BingMapNew = new TileLayer({
-       source: new OSM(),
-        opacity: 0.9,
-     });
- */
 
-    const BingMapNew = new TileLayer2({
+    const key = 'TrN2dn4maoO3C2x0sUpH';
+
+
+      const sourcemap = new tilesource({
+        url: `https://api.maptiler.com/maps/bright-v2/tiles.json?key=${key}`, // source URL
+        tileSize: 512,
+        crossOrigin: 'anonymous'
+      });
+
+      const BingMapNew = new TileLayer2({
+            source: sourcemap,
+        opacity:0.9,
+      zIndex:10,
+    });
+
+
+   /*  const BingMapNew = new TileLayer2({
       preload: Infinity,
       source: new BingMaps({
-        key: 'Atn0vmES8VxxGdRJ5nDXIu77cQnFlfa1OfQiDIYJMfuiBfL9jNAzky4SU0sXCKyW',
+        key: 'AvUc2NPj5dHI1yefH-oLqI4_EzAKBjyYTg3dM9c9lUrZglsLsvB1usgVz330xsZC',
         imagerySet: 'RoadOnDemand',
         // use maxZoom 19 to see stretched tiles instead of the BingMaps
         // "no photos at this zoom level" tiles
@@ -303,7 +317,7 @@ export default function MApp({
       }),
       opacity:0.8,
       zIndex:10,
-    });
+    }); */
 
     useEffect(() => {
       const container = document.getElementById('popup2');
@@ -332,14 +346,29 @@ export default function MApp({
           new Zoom({
             className: 'ol-zoomx' 
           }),
+          new ZoomToExtent({
+            extent: defext,
+            className: 'ol-zoomtoextentx'
+          }),
         ],
           target: ref.current,
           layers: [BingMapNew],
-          //overlays: [overlay],
           view: ViewV,
         });
       }
 
+      const featureOverlay = new VectorLayer({
+        source: new VectorSource(),
+        map: mapRef.current,
+        style: [
+          new Style({
+            fill: h_fill,
+            stroke: h_stroke,
+          }),
+        ],
+      });
+
+    let highlight;
     const display_state = function (pixel) {
       const feature = mapRef.current.forEachFeatureAtPixel(pixel, function (feature) {
         return feature;
@@ -352,6 +381,17 @@ export default function MApp({
         else{
           state = feature.get('STATE');
         }
+      }
+      if (feature !== highlight) {
+        if (highlight) {
+          featureOverlay.getSource().removeFeature(highlight);
+        }
+        if (feature) {
+          if(state){
+          featureOverlay.getSource().addFeature(feature);
+          }
+        }
+        highlight = feature;
       }
       return state;
     };
@@ -615,10 +655,11 @@ export default function MApp({
                 const extentt = polyy.getExtent(); 
                 const sizee = mapRef.current.getSize();
                 let x = 0;
-                if(CurrRisk!=""||activeOpt!=""){
+                if(CurrRisk!==""||activeOpt!==""){
                   x = 90;
                 }
                 mapRef.current.getView().fit(extentt,{size:[sizee[0]*0.9,sizee[1]*0.9],padding:[0,0,x,0]});
+                defext = extentt;
             }
             }
           });
@@ -692,7 +733,7 @@ export default function MApp({
               setmaskLayer1(null);
             }
             mapRef.current.addLayer(maskLayer);
-            setmaskLayer1(maskLayer);
+            setmaskLayer1(maskLayer); 
             }
             }
           });
@@ -741,15 +782,15 @@ useEffect(() => {
     'Manure Management':'MNMGT','Information Use':'INFO','Heat Stress Management':'HSMGT'};
 
     const hazardname = {"District Level": "District Level","Downscaled Risk": "Downscaled Risk","Risk Index": "Risk index","Hazard Index": "Hazard Index",
-      "Low temperature induced spikelet sterility": "Low temperature induced spikelet sterility",
-      "Low temperature induced pollen sterility": "Low temperature induced pollen sterility","High temperature induced pollen sterility": "High temperature induced pollen sterility",
-      "Heat Stress": "Heat stress","High temperature induced spikelet sterility": "High temperature induced spikelet sterility",
-      "Cold Stress": "Cold stress","Low temperature induced tuberization failure": "Low temperature induced tuberization failure",'Untimely Rainfall':"Untimely rainfall",
+      "Low temperature induced spikelet sterility": "Low temp induced spikelet sterility",
+      "Low temperature induced pollen sterility": "Low temp induced pollen sterility","High temperature induced pollen sterility": "High temp induced pollen sterility",
+      "Heat Stress": "Heat stress","High temperature induced spikelet sterility": "High temp induced spikelet sterility",
+      "Cold Stress": "Cold stress","Low temperature induced tuberization failure": "Low temp induced tuberization failure",'Untimely Rainfall':"Untimely rainfall",
       "Terminal Heat": "Terminal heat","Days of Frost": "Days of frost","Excess Rainfall and Waterlogging": "Excess rain and waterlogging",
-      "Delayed Monsoon": "Delayed monsoon","Drought": "Drought","Dry Spell": "Number of dry spells","Flood": "Flood",
-      "Lodging": "Rain and wind causing lodging","Biotic": "High humidity and temperature for blight","Irrigation": "Irrigation","Water Holding": "Water Holding","Income": "Agricultural GDP",
+      "Delayed Monsoon": "Delayed monsoon","Drought": "Rainfall deficit index","Dry Spell": "Dry spell number","Flood": "Flood","Soil Organic Carbon":"Soil organic carbon",
+      "Lodging": "Rain and wind causing lodging","Biotic": "High humidity and temperature for blight","Irrigation": "Irrigation","Soil Water Holding Capacity": "Water holding capacity","Income": "Agricultural GDP",
       "Access to Credit": "Access to Credit","Access to Market": "Access to Market","Elevation": "Elevation","Access to Knowledge": "Access to Knowledge","Exposure Index": "Exposure Index",
-      "Number of Farmers": "Number of Farmers","Cropped Area": "Cropped Area","Excess Rainfall":"Excess rainfall","Number of Animals per grid":"Number of animals per grid",
+      "Number of Farmers": "Number of Farmers","Cropped Area": "Extent","Excess Rainfall":"Excess rainfall","Number of Animals per grid":"Number of animals per grid",
       'Cold stress in reproductive stage':'Cold stress in reproductive stage','Heat stress in reproductive stage':"Heat stress in reproductive stage",
       'Heat stress during boll formation':'Heat stress during boll formation','Cold stress during flowering':'Cold stress during flowering',
       'High tempearture during flowering':'High tempearture during flowering','Biotic Stress':'Biotic stress',"Vulnerability Index":'Vulnerability Index',
@@ -761,7 +802,13 @@ useEffect(() => {
       opt=2;
       let urlstr = "xyz.tif";
       if(activeScenario['baseline']){
-        urlstr = "./Adap/"+activeCrop+"/Suitability_"+activeCrop+"_"+optcode[activeOpt]+".tif";
+        urlstr = "./Adap/"+activeCrop+"/Baseline/Suitability_"+activeCrop+"_"+optcode[activeOpt]+".tif";
+      }
+      else if(activeScenario['ssp245']){
+        urlstr = "./Adap/"+activeCrop+"/SSP245/Suitability_"+activeCrop+"_"+optcode[activeOpt]+".tif";
+      }
+      else if(activeScenario['ssp585']){
+        urlstr = "./Adap/"+activeCrop+"/SSP585/Suitability_"+activeCrop+"_"+optcode[activeOpt]+".tif";
       }
       settiffFilePath(urlstr);
       source1 = new GeoTIFF({sources: [{ url: urlstr}],sourceOptions:{allowFullFile:true}});
@@ -770,24 +817,33 @@ useEffect(() => {
       opt=3;
       let urlstr = "xyz.tif";
       if(activeScenario['baseline']){
-       urlstr = "./Hazards/"+activeCrop+"/ZZ_"+hazardname[CurrRisk]+".tif";
+       urlstr = "./Hazards/"+activeCrop+"/Baseline/ZZ_"+hazardname[CurrRisk]+".tif";
       }
-      if(CurrRisk==='Hazard Index'){
-        opt=4;
-        urlstr = "./Hazard_index/"+activeCrop+".tif";
-      }
+      else if(activeScenario['ssp245']){
+        urlstr = "./Hazards/"+activeCrop+"/SSP245/ZZ_"+hazardname[CurrRisk]+".tif";
+       }
+      else if(activeScenario['ssp585']){
+        urlstr = "./Hazards/"+activeCrop+"/SSP585/ZZ_"+hazardname[CurrRisk]+".tif";
+       }
       settiffFilePath(urlstr);
       source1 = new GeoTIFF({sources: [{ url: urlstr}],sourceOptions:{allowFullFile:true}});
     }
     else if(activeImpact['Impact on Productivity'] || activeImpact['Value of Production']){
       let urlstr = "xyz.tif";
+      opt=3;
+      if(activeImpact['Impact on Productivity']){
+        urlstr = "./Impact/"+activeCrop+"_DR.tif";
+      }
       settiffFilePath(urlstr);
       source1 = new GeoTIFF({sources: [{ url: urlstr}],sourceOptions:{allowFullFile:true}});
     }
     else{
-      const urlstr = './Crop Masks/AllPix/ZZ_Mask_'+activeCrop+'801.tif';
+      let urlstr = './Crop Masks/AllPix/ZZ_Mask_'+activeCrop+'801.tif';
       settiffFilePath(urlstr);
       //console.log(urlstr);
+      if(checkcrop()===false){
+        urlstr = './Crop Masks/Extent/'+activeCrop+'.tif';
+      }
       source1 = new GeoTIFF({sources: [{ url: urlstr }], sourceOptions:{allowFullFile:true} });
     }
     
@@ -817,19 +873,16 @@ useEffect(() => {
       newOverl.setStyle(color2);
     }
     else if(opt===3){
-      if(checkcrop(activeCrop)===false){
-        newOverl.setStyle(colorGradient2);
-      }
-      else{
       newOverl.setStyle(color_hazard);
-      }
-
     }
     else if(opt===4){
       newOverl.setStyle(color4);
     }
     else{
       newOverl.setStyle(color1);
+      if(checkcrop()===false){
+        newOverl.setStyle(colorGradientEx);
+      }
     }
     if (mapRef.current) {
       mapRef.current.addLayer(newOverl);
@@ -846,26 +899,23 @@ useEffect(() => {
 },[tiffFilePath,polycord]); */
 
     return (
-      <div style={{overflow:'hidden'}}>
+    <div style={{overflow:'hidden',marginTop:'90px'}}>
       <div id="popup2" class="ol-popup">
-      <div id="popup-content2" style={{textTransform:'capitalize',fontSize:'13px'}}></div>
+        <div id="popup-content2" style={{textTransform:'capitalize',fontSize:'13px'}}></div>
       </div>
-    <div ref={ref} style={{height:'calc(100vh - 90px)',width:'auto',marginTop:'90px',marginLeft:0,marginBottom:'-16px'}} className="map-container" />
+      <div ref={ref} style={{height:'calc(100vh - 90px)',width:'auto',margin:0,padding:0}} className="map-container" />
     
-    <Popper
-    open={missingSource}
-      >
+    <Popper open={missingSource}>
         <div style={{position:'fixed',right:'330px',top:95, boxShadow:'0px 0px 1px #aaa',backgroundColor: 'rgba(14, 33, 1, 0.6)', border: '0px solid black', width:'180px', borderRadius:'5px',padding:'3px'}}>
         <Slide direction="down" in={missingSource} mountOnEnter unmountOnExit>
-        <Typography sx={{ fontSize: 15, marginLeft:1,marginY:0.5, fontWeight:'bold' }} color="white" gutterBottom>
-          Note <Typography sx={{ fontSize: 14, }} color="white" gutterBottom>
+        <Typography sx={{fontSize: 15, marginLeft:1, marginY:0.5, fontWeight:'bold'}} color="white" gutterBottom>
+          Note <Typography sx={{fontSize: 14}} color="white" gutterBottom>
                   Data to be updated soon.
                     </Typography>
         </Typography>
         </Slide>
         </div>
-      </Popper>
-      
+      </Popper> 
     </div>
     );
 }

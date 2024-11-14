@@ -64,7 +64,7 @@ export default function DrawerV({
       });
       setOpen(newState);
       if(name==='Climatic Risks'){
-        extra = 20;
+        extra = 0;
       }
       else{
         extra = 0;
@@ -128,12 +128,13 @@ export default function DrawerV({
     }));
 
   return (
+    <div style={{overflow:'hidden'}}>
       <ClickAwayListener
         mouseEvent="onMouseDown"
         touchEvent="onTouchStart"
         onClickAway={handleClickAway}
         > 
-      <div>
+      <div style={{overflow:'hidden'}}>
         <List>
         {Items.map((Item,index)=>(
           <Popper open={true}>
@@ -144,7 +145,7 @@ export default function DrawerV({
            <Box  sx={{ display:'flex', flexDirection: 'row'}}>
               { //index===0 && <LightTooltip open={(isShown1&&DrOpen)} title="Home" placement="top" arrow><HomeOutlined onMouseEnter={() => setIsShown1(true)} onMouseLeave={() => setIsShown1(false)} sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/></LightTooltip>
               }
-{/*               { index===0 && <LightTooltip title="Home" placement="top" arrow><HomeOutlined sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/></LightTooltip>}
+{/*           { index===0 && <LightTooltip title="Home" placement="top" arrow><HomeOutlined sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/></LightTooltip>}
               { index===1 && <LightTooltip title="Region" placement="top" arrow><LocationOnOutlined sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/></LightTooltip>}
               { index===2 && <LightTooltip title="Commodity" placement="top" arrow><GrassOutlined sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/></LightTooltip>}
               { index===4 && <LightTooltip title="Climatic Risks" placement="top" arrow><WarningAmberIcon sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/></LightTooltip>} 
@@ -190,11 +191,12 @@ export default function DrawerV({
             overflow:'auto',
             whiteSpace: 'nowrap',
             '& .MuiDrawer-paper': {
-            width: 100*3+extra,
+            width: 280+extra,
             height: 'calc(100vh - 100px)',
             boxSizing: 'border-box',
             marginLeft: '85px',
             marginTop: '95px',
+            marginBottom: '0px',
             borderLeft: 5,
             borderLeftColor: '#fece2f',
             background:'rgba(255,255,255,0.8)',
@@ -213,7 +215,7 @@ export default function DrawerV({
         </Fade>
         </div>
       </ClickAwayListener>
-        
+      </div>
     
   );
 }

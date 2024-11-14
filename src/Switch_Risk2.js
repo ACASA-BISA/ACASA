@@ -29,7 +29,7 @@ export default function SwitchRisk2({
 
   const MasterHazard = ['Hazard Index','Low temperature induced spikelet sterility',"Untimely Rainfall",'Low temperature induced pollen sterility',
     'High temperature induced pollen sterility','Heat Stress','Heat Stress','High temperature induced spikelet sterility','Cold Stress',
-    'Low temperature induced tuberization failure','Terminal Heat','Days of Frost','Excess Rainfall and Waterlogging','Delayed Monsoon','Drought','Dry Spell',
+    'Low temperature induced tuberization failure','Terminal Heat','Days of Frost','Excess Rainfall and Waterlogging','Delayed Monsoon','Rainfall Deficit Index','Dry Spell',
     'Flood','Lodging','Biotic',"Excess Rainfall","Temperature-Humidity Index","Hot days","Cold days","Extreme Rainfall days",
     "Rainfall Deficit","Cyclone",'Cold stress in reproductive stage','Heat stress in reproductive stage',
     'Heat stress during boll formation','Cold stress during flowering','High tempearture during flowering','Biotic Stress'];
@@ -38,7 +38,7 @@ export default function SwitchRisk2({
     'COLD STRESS','PCOLD','TERMINAL HEAT','FROST','ERWL','DELMON','SPI','DSN','FLOOD','LODGE','BIOTIC',"ER","THI",'HD','CD','ERD',
     'RAINDEF','CYCL','CSTRESS REPRO','HIGH REPRO','HSTRESS BOLL','COLD FLOWER','HIGH FLOWER','BIOTIC2'];
 
-  const fullList = ['rice','wheat','maize','sorghum','fmillet','pmillet',
+  const fullList = ['rice','wheat','maize','barley','sorghum','fmillet','pmillet',
   'safflower','sunflower','rapeseed','sesame','groundnut',
   'soyabean','chickpea','ppea','bgram','ggram','lentil',
   'cotton','jute','rubber','sugarcane','tea','coconut',
@@ -46,7 +46,7 @@ export default function SwitchRisk2({
   'freshwater','bracklish','marine','coldwater',
   'potato','onion','tomato','chilli','mango','banana'];
 
-  const Common = ['Rice','Wheat','Maize','Sorghum','Finger Millet','Pearl Millet',
+  const Common = ['Rice','Wheat','Maize','Barley','Sorghum','Finger Millet','Pearl Millet',
   'Safflower','Sunflower','Rapeseed/Mustard','Sesame','Groundnut',
   'Soybean','Chickpea','Pigeonpea','Black Gram','Green Gram','Lentil',
   'Cotton','Jute','Rubber','Sugarcane','Tea','Coconut',
@@ -73,6 +73,9 @@ export default function SwitchRisk2({
         else if(sname==='wheat'){
             HazardList = ['HINDEX','HIGH POLLEN','TERMINAL HEAT','FROST','ERWL2','SPI','LODGE'];
         }
+        else if(sname==='barley'){
+            HazardList = ['HINDEX','HEAT STRESS','TERMINAL HEAT','FROST','ERWL2','SPI','LODGE'];
+        }
         else if(sname==='maize'){
             HazardList = ['HINDEX','HEAT STRESS1','HIGH POLLEN','COLD STRESS','ERWL','DELMON','SPI','DSN','FLOOD'];
         }
@@ -86,7 +89,7 @@ export default function SwitchRisk2({
             HazardList = ['HINDEX','HEAT STRESS','COLD STRESS','ER','DELMON','SPI','DSN','FLOOD'];
         }
         else if(sname==='cotton'){
-            HazardList = ['HINDEX','CSTRESS REPRO','HIGH REPRO','HSTRESS BOLL','ER','SPI','DSN','FLOOD'];
+            HazardList = ['HINDEX','CSTRESS REPRO','HIGH REPRO','HSTRESS BOLL','ER','DELMON','SPI','DSN','FLOOD'];
         }
         else if(sname==='rapeseed'){
             HazardList = ['HINDEX','HEAT STRESS','ERWL2','SPI'];
@@ -164,7 +167,7 @@ export default function SwitchRisk2({
 
   const Risk = ['District Level','Downscaled Risk','Risk Index','Hazard Index','Low temperature induced spikelet sterility',"Untimely Rainfall",
         'Low temperature induced pollen sterility','High temperature induced pollen sterility','Heat Stress','Heat Stress','High temperature induced spikelet sterility',
-        'Cold Stress','Low temperature induced tuberization failure','Terminal Heat','Days of Frost','Excess Rainfall and Waterlogging','Delayed Monsoon','Drought','Dry Spell',
+        'Cold Stress','Low temperature induced tuberization failure','Terminal Heat','Days of Frost','Excess Rainfall and Waterlogging','Delayed Monsoon','Rainfall Deficit Index','Dry Spell',
       'Flood','Lodging','Biotic',"Excess Rainfall",,"Temperature-Humidity Index","Hot days","Cold days","Extreme Rainfall days",
       "Rainfall Deficit","Cyclone",'Cold stress in reproductive stage','Heat stress in reproductive stage',
       'Heat stress during boll formation','Cold stress during flowering','High tempearture during flowering','Number of Animals per grid',
@@ -220,7 +223,7 @@ export default function SwitchRisk2({
             }
         });
         setP3(newst);
-        changeRisk(name,idxx);
+        changeRisk(name);
       };
 
 
@@ -300,7 +303,7 @@ export default function SwitchRisk2({
   const CustomFormControlLabel = styled(FormControlLabel)(({ theme }) => ({
     alignItems: 'flex-start', // Align items to the start 
     '&.Mui-disabled .MuiTypography-body2': {
-      color: '#E8E8E8', // Color for the label text when disabled
+      color: '#CCC', // Color for the label text when disabled
     },
   }));
 
@@ -333,7 +336,7 @@ export default function SwitchRisk2({
         <FormLabel sx={{paddingBottom:1,textAlign:'left'}}>
         <Typography sx={{color:'black',fontWeight:'bold',fontSize:14,paddingTop:1,paddingLeft:2}}>Climatic Risks of {cropname}</Typography>
         </FormLabel>
-        {activeScenario['baseline'] && (
+        { true && (
         <FormControl component="" variant="standard" sx={{paddingBottom:1, paddingLeft:3}}>
             {switchChild.map((sname1,index1) => (
               <FormGroup>
@@ -357,7 +360,7 @@ export default function SwitchRisk2({
                                 onChange={handleChangeP3(switchProID[idx])} name={switchProID[idx]}
                                 />
                                 }
-                                disabled={false}
+                                disabled={checklivestock()}
                                 key={switchProID[idx]}
                                 label={<Typography variant='body2'  sx={{paddingLeft:1}}>{sn1}</Typography>}
                                 />
@@ -403,7 +406,8 @@ export default function SwitchRisk2({
                                                     />}
                                                     disabled={false}
                                                     key={(CurrHazard[idxr])}
-                                                    label={<Typography variant='body2' align='left' sx={{paddingLeft:1,maxWidth:'200px',wordBreak:'break-word', whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sn1r.charAt(0).toUpperCase()+sn1r.toLowerCase().slice(1)}</Typography>}
+                                                    label={<Typography variant='body2' align='left' sx={{paddingLeft:1,maxWidth:'200px',wordBreak:'break-word', 
+                                                        whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sn1r.charAt(0).toUpperCase()+sn1r.toLowerCase().slice(1)}</Typography>}
                                                     />
                                                 </FormGroup>
                                                 ))
@@ -495,113 +499,6 @@ export default function SwitchRisk2({
                                                     />}
                                                     disabled={false}
                                                     key={(switchExposureLivestockID[idxr])}
-                                                    label={<Typography variant='body2' align='left' sx={{paddingLeft:1,maxWidth:'200px',wordBreak:'break-word', whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sn1r.charAt(0).toUpperCase()+sn1r.toLowerCase().slice(1)}</Typography>}
-                                                    />
-                                                </FormGroup>
-                                                ))
-                                            }
-                                        </FormControl>
-                                    )}
-                        </FormGroup>
-                    ))}
-                </FormControl>)}
-           </FormGroup>
-            ))}
-          </FormControl>)}
-        
-          {activeScenario['ssp245'] && (
-            <FormControl component="fieldset" variant="standard"  sx={{paddingBottom:1, paddingLeft:3}}>
-            {switchChild.map((sname1,index1) => (
-              <FormGroup>
-              <CustomFormControlLabel
-              control={
-                <AntSwitch inputProps={{ 'aria-label': 'ant design' }} checked={P2b[switchChildID[index1]]} 
-                onChange={handleChange2b(switchChildID[index1])} name={switchChildID[index1]} 
-                />
-              }
-              disabled={false}
-              key={switchChildID[index1]}
-              label={<Typography variant="body2" sx={{paddingLeft:1}}>{sname1}</Typography>}
-              />
-              {P2b[switchChildID[index1]] && switchChildID[index1] === 'pr' && (
-                <FormControl component="fieldset" variant="standard" sx={{paddingBottom:1,paddingLeft:5}}>
-                    {switchPro.map((sn1,idx) => (
-                        <FormGroup>
-                            <CustomFormControlLabel
-                            control = {
-                                <AntSwitch inputProps={{'aria-label':'ant design'}} checked={P3[switchProID2[idx]]}
-                                onChange={handleChangeP3(switchProID2[idx])} name={switchProID2[idx]}
-                                />
-                                }
-                                disabled={false}
-                                key={switchProID2[idx]}
-                                label={<Typography variant='body2'  sx={{paddingLeft:1}}>{sn1}</Typography>}
-                                />
-                        </FormGroup>
-                    ))}
-                </FormControl>)}
-                {P2b[switchChildID[index1]] && switchChildID[index1] === 'ipcc' && (
-                <FormControl component="fieldset" variant="standard" sx={{paddingBottom:1,paddingLeft:5}}>
-                    {switchIPCC.map((sn1,idx) => (
-                        <FormGroup>
-                            <CustomFormControlLabel
-                            control = {
-                                <AntSwitch inputProps={{'aria-label':'ant design'}} checked={P3bipcc[switchIPCCID[idx]]}
-                                onChange={handleChangeP3bipcc(switchIPCCID[idx])} name={switchIPCCID[idx]}
-                                />
-                                }
-                                disabled={false}
-                                key={switchIPCCID[idx]}
-                                label={<Typography variant='body2'  sx={{paddingLeft:1}}>{sn1}</Typography>}
-                                />
-                                
-                                    {P3bipcc[switchIPCCID[idx]] && switchIPCCID[idx]==='hazard' && (
-                                        <FormControl component="fieldset" variant="standard" sx={{paddingBottom:1,paddingLeft:5}}>
-                                            {
-                                                CurrHazardName.map((sn1r,idxr)=>(
-                                                <FormGroup>
-                                                    <CustomFormControlLabel
-                                                    control = {<AntSwitch inputProps={{'aria-label':'ant design'}} checked={P3[(CurrHazard[idxr].concat('2'))]}
-                                                    onChange={handleChangeP3((CurrHazard[idxr].concat('2')))} name={(CurrHazard[idxr].concat('2'))}
-                                                    />}
-                                                    disabled={false}
-                                                    key={(CurrHazard[idxr].concat('2'))}
-                                                    label={<Typography variant='body2' align='left' sx={{paddingLeft:1,maxWidth:'200px',wordBreak:'break-word', whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sn1r.charAt(0).toUpperCase()+sn1r.toLowerCase().slice(1)}</Typography>}
-                                                    />
-                                                </FormGroup>
-                                                ))
-                                            }
-                                        </FormControl>
-                                    )}
-                                    {P3bipcc[switchIPCCID[idx]] && switchIPCCID[idx]==='vulner' && (
-                                        <FormControl component="fieldset" variant="standard" sx={{paddingBottom:1,paddingLeft:5}}>
-                                            {
-                                                switchVulner.map((sn1r,idxr)=>(
-                                                <FormGroup>
-                                                    <CustomFormControlLabel
-                                                    control = {<AntSwitch inputProps={{'aria-label':'ant design'}} checked={P3[(switchVulnerID[idxr].concat('2'))]}
-                                                    onChange={handleChangeP3((switchVulnerID[idxr].concat('2')))} name={(switchVulnerID[idxr].concat('2'))}
-                                                    />}
-                                                    disabled={false}
-                                                    key={(switchVulnerID[idxr].concat('2'))}
-                                                    label={<Typography variant='body2' align='left' sx={{paddingLeft:1,maxWidth:'200px',wordBreak:'break-word', whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sn1r.charAt(0).toUpperCase()+sn1r.toLowerCase().slice(1)}</Typography>}
-                                                    />
-                                                </FormGroup>
-                                                ))
-                                            }
-                                        </FormControl>
-                                    )}
-                                    {P3bipcc[switchIPCCID[idx]] && switchIPCCID[idx]==='exposure' && (
-                                        <FormControl component="fieldset" variant="standard" sx={{paddingBottom:1,paddingLeft:5}}>
-                                            {
-                                                switchExposure.map((sn1r,idxr)=>(
-                                                <FormGroup>
-                                                    <CustomFormControlLabel
-                                                    control = {<AntSwitch inputProps={{'aria-label':'ant design'}} checked={P3[(switchExposureID[idxr].concat('2'))]}
-                                                    onChange={handleChangeP3((switchExposureID[idxr].concat('2')))} name={(switchExposureID[idxr].concat('2'))}
-                                                    />}
-                                                    disabled={false}
-                                                    key={(switchExposureID[idxr].concat('2'))}
                                                     label={<Typography variant='body2' align='left' sx={{paddingLeft:1,maxWidth:'200px',wordBreak:'break-word', whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sn1r.charAt(0).toUpperCase()+sn1r.toLowerCase().slice(1)}</Typography>}
                                                     />
                                                 </FormGroup>

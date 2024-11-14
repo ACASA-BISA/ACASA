@@ -35,7 +35,7 @@ function createData(Crop, Hazard, Method, Source, Action) {
 }
 
   const rows = [
-    createData('Rice','High temperature induced spikelet sterility','High temperature stress leads to spikelet sterility (55 to 65 days after transplanting/upland direct seeded need to be corrected by adding 30 days) where Tday > 37','https://www.chc.ucsb.edu/data/chirps','Download'),
+    createData('Rice','High temperature induced spikelet sterility','High temperature stress leads to spikelet sterility (55 to 65 days after transplanting/upland direct seeded need to be corrected by adding 30 days) where Tday > 37','http://data.chc.ucsb.edu/products/CHIRTSdaily/','Download'),
     createData('Rice','Heat Stress','High temperature stress during entire life cycle where Tmax > 43','https://www.chc.ucsb.edu/data/chirps','Download'),
     createData('Rice','Low temperature induced spikelet sterility','Low temperature stress leads to spikelet sterility (55 to 65 days after transplanting/upland direct seeded need to be corrected by adding 30 days) where Tmin < 15','https://global-flood-database.cloudtostreet.info/','Download'),
     createData('Rice','Delayed Monsoon','Number of events of delayed monsoon where delay is more than 15 days','https://www.chc.ucsb.edu/data/chirps','Download'),
