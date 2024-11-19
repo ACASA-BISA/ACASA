@@ -3,6 +3,8 @@ import { Grid, Paper, Typography, Box, MenuItem, Select, FormControl, InputLabel
 import Map_Option from './Comp_Map';  // Assuming this is your map component
 import './font.css';
 import './extra.css';
+import './font2.css';
+import Legend_Small from './Legend_Small';
 
 const Comm = ['Rice','Wheat','Maize','Barley','Sorghum','Mustard','Groundnut',
   'Soybean','Chickpea','Pigeonpea','Cotton','Jute','Sugarcane','Tea','Potato',
@@ -32,7 +34,7 @@ export default function CompV({
         scn ='ssp585';
     }
     const [commodity, setCommodity] = React.useState(activeCrop.toLowerCase());
-    const [futureModel, setFutureModel] = React.useState(scn);
+    const [futureModel, setFutureModel] = React.useState('ssp245');
     const [layer, setLayer] = React.useState('');
     const [subChoice, setSubChoice] = React.useState('');
     const [adpopt, setAdpopt] = React.useState('');
@@ -103,13 +105,13 @@ export default function CompV({
     }
 
     const handleScenariochange = (event) => {
-        changeScenario(event.target.value);
-        setFutureModel(event.target.value);
+      changeScenario(event.target.value);
+      setFutureModel(event.target.value);
     }
 
     const handleRiskchange = (event) => {
-        changeRisk(event.target.value);
-        setHzd(event.target.value);
+      changeRisk(event.target.value);
+      setHzd(event.target.value);
     }
 
     const handleProjChange = (event) => {
@@ -520,15 +522,30 @@ export default function CompV({
       {/* Maps Section */}
       <Grid item xs={12}>
         <Grid container spacing={2}>
-          {['Baseline', 'SSP2-4.5', 'SSP5-8.5'].map((label, index) => (
+          {['Baseline', '2050s', '2080s'].map((label, index) => (
             <Grid item xs={4} key={index}>
-              <Box sx={{width:'100%',bgcolor:'#C1E1C1',height:'22px'}}><Typography align="center" sx={{fontSize:'14px',fontWeight:'bold'}}>{label}</Typography></Box>
+              <Box sx={{width:'100%',bgcolor:'#C1E1C1',height:'24px',
+                display:'flex',flexDirection:'row',
+                alignContent:'center',justifyContent:'center',alignItems:'center',
+                gap:'10px'}}>
+                <Typography align="center" sx={{fontSize:'14px',fontWeight:'bold',fontFamily:'Karla'}}>{label}</Typography>
+                {(label==='2050s'||label==='2080s') && <FormControl size='small'>
+                <Select labelId="Scenariox"
+                  id="future-model-select-idx"
+                  sx={{fontSize:'14px',height:'20px',fontFamily:'Karla'}}
+                  value={futureModel} onChange={handleScenariochange}>
+                    <MenuItem value="ssp245" sx={{fontSize:'14px',height:'20px',fontFamily:'Karla'}}>SSP2-4.5</MenuItem>
+                    <MenuItem value="ssp585" sx={{fontSize:'14px',height:'20px',fontFamily:'Karla'}}>SSP5-8.5</MenuItem>
+                </Select>
+                </FormControl>}
+              </Box>
+              
               <Paper elevation={1} sx={{ width: '100%', height: 'calc(100vh - 150px)' }}>
                 {label==='Baseline'&&
                 <Map_Option activeCrop={activeCrop} activeScenario='baseline' focus={focus} activeRegion={activeRegion} activeOpt={activeOpt} CurrRisk={CurrRisk} activeImpact={activeImpact}></Map_Option>}
-                {label==='SSP2-4.5'&&
+                {label==='2050s'&&
                 <Map_Option activeCrop={activeCrop} activeScenario='ssp245' focus={focus} activeRegion={activeRegion} activeOpt={activeOpt} CurrRisk={CurrRisk} activeImpact={activeImpact}></Map_Option>}
-                {label==='SSP5-8.5'&&
+                {label==='2080s'&&
                 <Map_Option activeCrop={activeCrop} activeScenario='ssp585' focus={focus} activeRegion={activeRegion} activeOpt={activeOpt} CurrRisk={CurrRisk} activeImpact={activeImpact}></Map_Option>}
               </Paper>
             </Grid>
