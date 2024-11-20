@@ -43,7 +43,7 @@ export default function AboutUs(){
         sx={{
           display: { xs: 'none', md: 'flex' },
           flexDirection: 'column',
-          marginTop:'80px',
+          marginTop:'70px',
           minHeight: '50vh',
           textAlign: { sm: 'center', md: 'left' },
         }}

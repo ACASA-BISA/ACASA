@@ -53,46 +53,30 @@ const Translate = () => {
       .goog-te-gadget-icon {
         display: none !important;
       }
+      /* Customize the Translate button appearance */
       .goog-te-gadget-simple {
-        border-radius: 20px !important; 
-        overflow: hidden;
-        background-color: #ccc !important; 
-        color: white !important;
-        font-weight: bold !important; 
+        border-radius: 8px !important;
+        background-color: #ccc !important; /* Change background */
+        color: white !important; /* Text color */
+        font-size: 12px !important; /* Smaller font size */
+        padding: 4px 8px !important; /* Reduce padding */
+        height: 8px !important;
+        display: inline-flex;
+        align-items: center;
       }
-      .goog-te-gadget-simple .goog-te-menu-value {
-        border-radius: 20px !important;
-        background-color: #ccc !important; 
-        color: white !important; 
-        font-weight: bold !important; 
-      }
-      .goog-te-gadget-simple .goog-te-menu-value span {
-        border-radius: 20px !important;
-        background-color: #ccc !important; 
-        color: white !important;
-        font-weight: bold !important; 
+
+      /* Dropdown box styling */
+      .goog-te-combo {
+        height: 20px !important; /* Adjust dropdown height */
+        font-size: 12px !important; /* Adjust dropdown font size */
+        color: #333 !important; /* Text color inside dropdown */
+        border: 1px solid #ccc !important;
+        border-radius: 4px !important;
       }
       .goog-logo-link {
         display: none !important;
       }
-      .goog-te-gadget .goog-te-combo {
-        margin-left: 0;
-        color: white !important;
-        font-weight: bold !important;
-      }
-        .goog-te-combo option {
-        color: black !important;
-      }
-      .goog-te-banner-frame {
-        height: 40px !important; 
-        background-color: red !important;
-      }
-      .goog-te-banner-frame .goog-te-banner-content {
-        padding: 0 !important; 
-        line-height: 40px !important; 
-        font-size: 16px !important; 
-        color: white !important; 
-      }
+      
     `;
     document.head.appendChild(style);
   }, []); 

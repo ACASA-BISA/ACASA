@@ -28,7 +28,7 @@ import Translate from "./Translate"; // Import Translate component
 
 const pages = ['Guide','Explore Data', 'Data at a glance','Data Access','Use Cases','Resources','About Us'];
 const pageid = ['guide','viewer', 'analytics','access','usecase','resources','about'];
-const AppBarHeight = '90px';
+const AppBarHeight = '85px';
 
 function ResponsiveAppBar({}) {
   const [flag, setflag] = React.useState(null);
@@ -152,7 +152,7 @@ function ResponsiveAppBar({}) {
                   justifyItems: "right",
                   justifyContent:'right',
                   width:'100%',
-                  height:'20px',
+                  height:'18px',
                   boxShadow:'-2px #ccc',
                   backgroundColor:'#4b9e44',
                 }}

@@ -25,6 +25,8 @@ export default function CompV({
   changeRisk,
   activeImpact,
   changeImpact,
+  area_dict3,
+  area_dict4
 }) {
     let scn = 'baseline';
     if(activeScenario['ssp245']){
@@ -137,7 +139,7 @@ export default function CompV({
     
   return (
     <div className='viewer-container' style={{overflow:'hidden'}}>
-    <Grid container spacing={2} sx={{marginTop:'90px',padding: '1rem', paddingTop:'0rem'}} columns={15}>
+    <Grid container spacing={2} sx={{marginTop:'80px',padding: '1rem', paddingTop:'0rem'}} columns={15}>
       {/* Left-side Options Panel */}
       <Grid item xs={3}>
       <Box sx={{width:'100%',height:'22px'}}><Typography align="center" sx={{fontSize:'14px',fontWeight:'bold'}}>Selection Tab</Typography></Box>
@@ -548,6 +550,8 @@ export default function CompV({
                 {label==='2080s'&&
                 <Map_Option activeCrop={activeCrop} activeScenario='ssp585' focus={focus} activeRegion={activeRegion} activeOpt={activeOpt} CurrRisk={CurrRisk} activeImpact={activeImpact}></Map_Option>}
               </Paper>
+              <Legend_Small location={activeRegion} commodity={activeCrop} adaption={activeOpt} RiskName={CurrRisk}
+                scenario={scn} ImpactName={activeImpact} area_data3={area_dict3} area_data4={area_dict4}></Legend_Small>
             </Grid>
           ))}
         </Grid>

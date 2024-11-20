@@ -22,8 +22,8 @@ export default function Legend_Small({
     RiskName,
     scenario,
     ImpactName,
-    area_data,
-    area_data2
+    area_data3,
+    area_data4
 }) {
   const cardRef = useRef(null);
 
@@ -76,37 +76,29 @@ export default function Legend_Small({
           let statecode = '';
           if(x==='Bangladesh'){
             statecode = y.substring(0,y.length-9) + 'DIV';
-            rowstr = commodity+"_"+statecode+"_Suitability_"+commodity+"_"+optcode[adaption];
+            rowstr = commodity+"_"+statecode+"_"+optcode[adaption]+"_"+scenario;
           }
           else if(x==='Nepal'){
             statecode = y + 'DIV';
-            rowstr = commodity+"_"+statecode+"_Suitability_"+commodity+"_"+optcode[adaption];
+            rowstr = commodity+"_"+statecode+"_"+optcode[adaption]+"_"+scenario;
           }
-          else if(x==='India'||x==='Sri Lanka'||x==='Pakistan'){
-            statecode = 'STATE_'+ y.toUpperCase();
-            rowstr = commodity+"_"+statecode+"_Suitability_"+commodity+"_"+optcode[adaption];
-          }
-          else if(x==='Maldives'||x==='Afghanistan'){
-            statecode = y.toUpperCase();
-            rowstr = commodity+"_"+statecode+"_Suitability_"+commodity+"_"+optcode[adaption];
-          }
-          else if(x==='Bhutan'){
+          else if(x==='Bhutan'||x==='Maldives'||x==='Afghanistan'||x==='India'||x==='Sri Lanka'||x==='Pakistan'){
             statecode = y;
-            rowstr = commodity+"_"+statecode+"_Suitability_"+commodity+"_"+optcode[adaption];
+            rowstr = commodity+"_"+statecode+"_"+optcode[adaption]+"_"+scenario;
           }
         }
         else{
-          rowstr = commodity+"_"+location+"_Suitability_"+commodity+"_"+optcode[adaption];
+          rowstr = "Calculated_"+commodity+"_"+location+"_"+optcode[adaption]+"_"+scenario;
         }
-        const row_data = area_data[rowstr.toLowerCase()];
+        const row_data = area_data3[rowstr.toLowerCase()];
         //console.log(rowstr);
-        const total = Number(row_data['Unsuitable']) + Number(row_data['Suitable']) + Number(row_data['Adaptation Benefits']);
+        const total = Number(row_data['Unsuitable']) + Number(row_data['Suitable']) + Number(row_data['Suitable with adaptation benefits']);
         //console.log(total);
         data = 
         [
-          createData(<Box sx={{width: 160,height: 13,borderRadius: 0,bgcolor: 'rgba(180, 70, 109, 1)'}}/>,'Unsuitable', row_data['Unsuitable']/10, (row_data['Unsuitable']*100/total).toFixed(2), (row_data['Unsuitable_Area']*0.16/1000000)),
-          createData(<Box sx={{width: 160,height: 13,borderRadius: 0,bgcolor: '#FF9A00'}}/>,'Suitable', row_data['Suitable']/10, (row_data['Suitable']*100/total).toFixed(2), (row_data['Suitable_Area']*0.16/1000000)),
-          createData(<Box sx={{width: 160,height: 13,borderRadius: 0,bgcolor: '#06D001'}}/>,'Suitable with adaptation benefits', row_data['Adaptation Benefits']/10, (row_data['Adaptation Benefits']*100/total).toFixed(2), (row_data['Adaptation Benefits_Area']*0.16/1000000)),
+          createData(<Box sx={{width: 160,height: 13,borderRadius: 0,bgcolor: 'rgba(180, 70, 109, 1)'}}/>,'Unsuitable', row_data['Unsuitable']/10, (row_data['Unsuitable']*100/total).toFixed(2), (row_data['Unsuitable Population']*0.16/1000000)),
+          createData(<Box sx={{width: 160,height: 13,borderRadius: 0,bgcolor: '#FF9A00'}}/>,'Suitable', row_data['Suitable']/10, (row_data['Suitable']*100/total).toFixed(2), (row_data['Suitable Population']*0.16/1000000)),
+          createData(<Box sx={{width: 160,height: 13,borderRadius: 0,bgcolor: '#06D001'}}/>,'Suitable with adaptation benefits', row_data['Suitable with adaptation benefits']/10, (row_data['Suitable with adaptation benefits Population']*100/total).toFixed(2), (row_data['Suitable with adaptation benefits Population']*0.16/1000000)),
         ];
         //console.log(data);
       }
@@ -127,47 +119,40 @@ export default function Legend_Small({
             let statecode = '';
             if(x==='Bangladesh'){
               statecode = y.substring(0,y.length-9) + 'DIV';
-              rowstr = commodity+"_"+statecode+"_ZZ_"+hazardname[RiskName];
+              rowstr = commodity+"_"+statecode+"_"+hazardname[RiskName]+"_"+scenario;
             }
             else if(x==='Nepal'){
               statecode = y + 'DIV';
-              rowstr = commodity+"_"+statecode+"_ZZ_"+hazardname[RiskName];
+              rowstr = commodity+"_"+statecode+"_"+hazardname[RiskName]+"_"+scenario;
             }
-            else if(x==='India'||x==='Sri Lanka'||x==='Pakistan'){
-              statecode = 'STATE_'+ y.toUpperCase();
-              rowstr = commodity+"_"+statecode+"_ZZ_"+hazardname[RiskName];
-            }
-            else if(x==='Maldives'||x==='Afghanistan'){
-              statecode = y.toUpperCase();
-              rowstr = commodity+"_"+statecode+"_ZZ_"+hazardname[RiskName];
-            }
-            else if(x==='Bhutan'){
+            else if(x==='Bhutan'||x==='India'||x==='Sri Lanka'||x==='Pakistan'||x==='Maldives'||x==='Afghanistan'){
               statecode = y;
-              rowstr = commodity+"_"+statecode+"_ZZ_"+hazardname[RiskName];
+              rowstr = commodity+"_"+statecode+"_"+hazardname[RiskName]+"_"+scenario;
             }
           }
           else{
-            rowstr = commodity+"_"+location+"_ZZ_"+hazardname[RiskName];
+            rowstr = "Calculated_"+commodity+"_"+location+"_"+hazardname[RiskName]+"_"+scenario;
           }
           
-          const row_data = area_data2[rowstr];
-          //console.log(area_data2);
+          const row_data = area_data4[rowstr.toLowerCase()];
+          console.log(row_data);
+          console.log(rowstr.toLowerCase());
           const total = Number(row_data['Very Low']) + Number(row_data['Low']) + Number(row_data['Medium']) + Number(row_data['High']) + Number(row_data['Very High']) + Number(row_data['Nil']);
           //console.log(total);
           data = 
           [
             createData('#969696',
-              "No "+typrstr(), row_data['Nil']/10, (row_data['Nil']*100/total).toFixed(2), (row_data['Nil_Area']*0.16/1000000)),
+              "No "+typrstr(), row_data['Nil']/10, (row_data['Nil']*100/total).toFixed(2), (row_data['Nil Population']*0.16/1000000)),
             createData('#059212',
-              'Very low', row_data['Very Low']/10, (row_data['Very Low']*100/total).toFixed(2), (row_data['Very Low_Area']*0.16/1000000)),
+              'Very low', row_data['Very Low']/10, (row_data['Very Low']*100/total).toFixed(2), (row_data['Very Low Population']*0.16/1000000)),
             createData('#00FF00',
-              'Low', row_data['Low']/10, (row_data['Low']*100/total).toFixed(2), (row_data['Low_Area']*0.16/1000000)),
+              'Low', row_data['Low']/10, (row_data['Low']*100/total).toFixed(2), (row_data['Low Population']*0.16/1000000)),
             createData('#FFDE4D',
-              'Medium', row_data['Medium']/10, (row_data['Medium']*100/total).toFixed(2), (row_data['Medium_Area']*0.16/1000000)),
+              'Medium', row_data['Medium']/10, (row_data['Medium']*100/total).toFixed(2), (row_data['Medium Population']*0.16/1000000)),
             createData('#FFA500',
-              'High', row_data['High']/10, (row_data['High']*100/total).toFixed(2), (row_data['High_Area']*0.16/1000000)),
+              'High', row_data['High']/10, (row_data['High']*100/total).toFixed(2), (row_data['High Population']*0.16/1000000)),
             createData('#E4003A',
-              'Very high', row_data['Very High']/10, (row_data['Very High']*100/total).toFixed(2), (row_data['Very High_Area']*0.16/1000000)),
+              'Very high', row_data['Very High']/10, (row_data['Very High']*100/total).toFixed(2), (row_data['Very High Population']*0.16/1000000)),
           ];
           //console.log(data);
         }
@@ -250,7 +235,7 @@ export default function Legend_Small({
     {(RiskType()!=="Exposure") && <Popper
     open={true}
       >
-        <div ref={cardRef} style={{position:'fixed',right:'calc(50vw - 260px)',bottom:10, boxShadow:'0px 0px 0px #aaa',backgroundColor: 'white', border: '0px solid black', width:'520px', borderRadius:'15px' }}>
+        <div ref={cardRef} style={{position:'fixed',right:'calc(50vw - 260px)',bottom:10, boxShadow:'0px 0px 0px #aaa',backgroundColor: 'white', border: '0px solid black', width:'auto', borderRadius:'15px' }}>
         <Accordion defaultExpanded>
         <AccordionDetails sx={{marginTop:-1,marginBottom:0}}>
 
@@ -265,21 +250,21 @@ export default function Legend_Small({
         <Box sx={{display:'flex'}}>
         <Typography  sx={{ fontSize: 13, marginBottom:'2px'}} color="black">
             {/* {RiskName.charAt(0).toUpperCase() + RiskName.toLowerCase().slice(1)} risk for rural population: */}
-            Number of farm households affected by this {typrstr().toLowerCase()} in {commodity.toLowerCase()}
+            Farm households affected by this {typrstr().toLowerCase()} in {commodity.toLowerCase()}
             </Typography>
         </Box>
         </div>}
         {(RiskName !== "" && (RiskType()==="Risk" || RiskName==="Hazard Index") && (checkcrop()===false||(commodity==='Rice'||commodity==='Wheat'||commodity==='Barley'||commodity==='Soybean'||commodity==='Cotton'||commodity==='Chickpea'||commodity==='Maize'||commodity==='Mustard'))) && <div>
         <Box sx={{display:'flex'}}>
         <Typography  sx={{ fontSize: 13, marginBottom:'2px'}} color="black">
-        Number of farm households affected
+        Farm households affected
             </Typography>
         </Box>
         </div>}
         {((RiskName !== "" && RiskName!=="Hazard Index" && RiskType()==="Hazard" && (checkcrop()===false))) && <div>
         <Box sx={{display:'flex'}}>
         <Typography  sx={{ fontSize: 13, marginBottom:'2px'}} color="black">
-        Number of farm households affected by this {typrstr().toLowerCase()} in {commodity.toLowerCase()}
+        Farm households affected by this {typrstr().toLowerCase()} in {commodity.toLowerCase()}
             </Typography>
         </Box>
         </div>
@@ -287,7 +272,7 @@ export default function Legend_Small({
         {((RiskName !== "" && RiskType()==="Vulnerability" && (checkcrop()===false||(commodity==='Rice'||commodity==='Wheat'||commodity==='Barley'||commodity==='Soybean'||commodity==='Cotton'||commodity==='Chickpea'||commodity==='Maize'||commodity==='Mustard')))) && <div>
         <Box sx={{display:'flex'}}>
         <Typography  sx={{ fontSize: 13, marginBottom:'2px'}} color="black">
-        Number of farm households under different categories of {RiskName.toLowerCase()}
+        Farm households under different categories of {RiskName.toLowerCase()}
             </Typography>
         </Box>
         </div>

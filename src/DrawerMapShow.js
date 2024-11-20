@@ -67,6 +67,16 @@ async function fetchCsv3() {
   return await response.json();
 }
 
+async function fetchCsv4() {
+  const response = await fetch('./All_adaptation_crops_corrected.json');
+  return await response.json();
+}
+
+async function fetchCsv5() {
+  const response = await fetch('./All_hazards_crops_corrected.json');
+  return await response.json();
+}
+
 export default function DrawerMapShow({
     activeBar
 }) {
@@ -479,6 +489,30 @@ export default function DrawerMapShow({
   }, []);
 
   const area_dict2 = area_data2;
+
+  const [area_data3, setarea_data3] = React.useState([]);
+
+  React.useEffect(() => {
+    async function fetchData4() {
+      const data = await fetchCsv4();
+      setarea_data3(data);
+    }
+    fetchData4();
+  }, []);
+
+  const area_dict3 = area_data3;
+
+  const [area_data4, setarea_data4] = React.useState([]);
+
+  React.useEffect(() => {
+    async function fetchData5() {
+      const data = await fetchCsv5();
+      setarea_data4(data);
+    }
+    fetchData5();
+  }, []);
+
+  const area_dict4 = area_data4;
   
     const OnFocus = ['Region','Country','State'];
 
@@ -507,7 +541,8 @@ export default function DrawerMapShow({
         <div>
         <Box sx={{display:{xs:'none',md:'block'}}}>
         {activeBar==='future' && <CompV activeCrop={Currcrop} changeCrop={handleChange_CMP} LocationData={countryStateMap} focus={focus} activeRegion={activeRegion} changeRegion={ActiveRegionChange} CurrRisk={RiskName}
-        activeOpt={CurrOpt} changeOpt={handleChangeOpt_CMP} changeRisk={changeRisk} activeImpact={CurrImpact} changeImpact={changeImpact_CMP} activeScenario={scenario} changeScenario={handleScenarioChange}></CompV>}
+        activeOpt={CurrOpt} changeOpt={handleChangeOpt_CMP} changeRisk={changeRisk} activeImpact={CurrImpact} changeImpact={changeImpact_CMP} activeScenario={scenario} changeScenario={handleScenarioChange}
+        area_dict3={area_dict3} area_dict4={area_dict4}></CompV>}
         
         {activeBar==='timeline' && <ImageTimeline></ImageTimeline>}
 
@@ -545,7 +580,7 @@ export default function DrawerMapShow({
         {(activeBar==='analytics') && 
          <div style={{overflow:'hidden'}}>
           <Box>
-        <Box sx={{width:'auto', display:'flex',maxHeight:'calc(100vh - 90px)',flexDirection:'row',justifyContent:'center',marginX:'auto',marginTop:'90px',backgroundColor:'#fff'}} gap='2vw'>
+        <Box sx={{width:'auto', display:'flex',maxHeight:'calc(100vh - 85px)',flexDirection:'row',justifyContent:'center',marginX:'auto',marginTop:'85px',backgroundColor:'#fff'}} gap='2vw'>
         <Popper
         sx={{zIndex:2}}
         open={true}

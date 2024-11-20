@@ -235,7 +235,7 @@ export default function CompGif({
     
   return (
     <div className='viewer-container' style={{overflow:'hidden'}}>
-    <Grid container spacing={2} sx={{marginTop:'90px',padding: '1rem', paddingTop:'0rem'}} columns={15}>
+    <Grid container spacing={2} sx={{marginTop:'80px',padding: '1rem', paddingTop:'0rem'}} columns={15}>
       {/* Left-side Options Panel */}
       <Grid item xs={3}>
       <Box sx={{width:'100%',height:'22px'}}><Typography align="center" sx={{fontSize:'14px',fontWeight:'bold'}}>Selection Tab</Typography></Box>

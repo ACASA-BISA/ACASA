@@ -5,6 +5,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import { GrassOutlined, HomeOutlined, LocationOnOutlined, AccessTimeOutlined } from '@mui/icons-material';
+import YardOutlinedIcon from '@mui/icons-material/YardOutlined';
 import SwitchCom from './Switch_Commodity';
 import { ClickAwayListener } from '@mui/base/ClickAwayListener';
 import Fade from '@mui/material/Fade';
@@ -20,11 +21,12 @@ import SwitchScenario from './Switch_Scenario';
 import { styled } from '@mui/material/styles';
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import './font.css';
+import './font2.css';
 
 const top_margin = 95;
 let extra = 0;
-const Items = ['Go to Home', 'Select Region','Select Commodity','Select Scenario','Climatic Risks','Impact','Adaptation Options'];
-const Items2 = ['Home', 'Region','Commodity','Scenario','Risks','Impact','Adaptation'];
+const Items = ['Go to Home', 'Select Region','Select Commodity','Select Scenario','Climatic Risks','Suitability','Impact','Adaptation Options'];
+const Items2 = ['Home', 'Region','Commodity','Scenario','Risks','Suitability','Impact','Adaptation'];
 
 export default function DrawerV({
   activeCrop,
@@ -56,6 +58,7 @@ export default function DrawerV({
     const [DrOpen, setDrOpen] = React.useState(false);
     const [widthh, setWidth] = React.useState('190px');
     const [vextra, setvextra] = React.useState(0);
+    const [heightdrawer, setheightdrawer] = React.useState('50px');
 
     const toggleList = (name) => (event) => {
       const newState = { ...open };
@@ -96,23 +99,25 @@ export default function DrawerV({
     React.useEffect(() => {
       if(DrOpen===true){
         setWidth('53px');
-        setvextra(3);
+        setvextra(2);
+        setheightdrawer('40px');
       }
       else{
         setWidth('190px');
         setvextra(0);
+        setheightdrawer('50px');
       }
     },[DrOpen]);
 
     function topmarg(cidx){
-      let marg = top_margin;
+      let marg = top_margin-3;
       /* if(cidx===1){
         marg = marg + 48;
       }
       else if (cidx>0){
         marg = marg + (cidx-1)*67 + 48;
       } */
-      marg = marg + cidx*(70 + vextra)
+      marg = marg + cidx*(65 + vextra)
       return marg;
     }
 
@@ -139,7 +144,7 @@ export default function DrawerV({
         {Items.map((Item,index)=>(
           <Popper open={true}>
           <div style={{position:'relative',zIndex:(theme) => theme.zIndex.map + 1,left:10,top:topmarg(index),margin:4,padding:3,
-          boxShadow:'0px 0px 0px #aaa',backgroundColor: 'rgba(14, 33, 1, 0.7)', border: '0px solid black', width:widthh, height:'55px', borderRadius:'3px' }}>
+          boxShadow:'0px 0px 0px #aaa',backgroundColor: 'rgba(14, 33, 1, 0.7)', border: '0px solid black', width:widthh, height:heightdrawer, borderRadius:'3px' }}>
           <ListItem key={Item} onClick={toggleList(Item)} disablePadding sx={{color:'#ffffff', '&:hover': { backgroundColor: '#fece2f' },backgroundColor:colorofbutton(Item),height:'100%'}}>
            <ListItemButton>
            <Box  sx={{ display:'flex', flexDirection: 'row'}}>
@@ -152,15 +157,16 @@ export default function DrawerV({
               { index===3 && <LightTooltip title="Scenario" placement="top" arrow><AccessTimeOutlined sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/></LightTooltip>} 
               { index===5 && <LightTooltip title="Impact" placement="top" arrow><AutoAwesomeIcon sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/></LightTooltip>} 
               { index===6 && <LightTooltip title="Adaptation Options" placement="top" arrow><TuneIcon sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/></LightTooltip>} */} 
-                { index===0 && <HomeOutlined sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>}
+              { index===0 && <HomeOutlined sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>}
               { index===1 && <LocationOnOutlined sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>}
               { index===2 && <GrassOutlined sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>}
               { index===4 && <WarningAmberIcon sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>} 
               { index===3 && <AccessTimeOutlined sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>} 
-              { index===5 && <AutoAwesomeIcon sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>} 
-              { index===6 && <TuneIcon sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>} 
+              { index===5 && <YardOutlinedIcon  sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}></YardOutlinedIcon>}
+              { index===6 && <AutoAwesomeIcon sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>} 
+              { index===7 && <TuneIcon sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>} 
               {/* index===7 && <PollOutlined sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>*/}  
-              { DrOpen===false && <Typography sx={{fontSize: '13px',fontWeight:'bold',marginLeft:1.5,padding:0}} className='roboto-condensed-xyz'>{Item}</Typography>}
+              { DrOpen===false && <Typography sx={{fontSize: '13px',fontWeight:'bold',marginLeft:1.5,padding:0,fontFamily:'Karla'}}>{Item}</Typography>}
            </Box>
           </ListItemButton>
         </ListItem>
@@ -172,11 +178,11 @@ export default function DrawerV({
       { DrOpen===true &&  <List>
         {Items2.map((Item,index)=>(
           <Popper open={DrOpen} transition='fade'>
-          <div style={{position:'relative',zIndex:(theme) => theme.zIndex.map + 1,left:1,top:topmarg(index)+47,margin:4,padding:3, 
+          <div style={{position:'relative',zIndex:(theme) => theme.zIndex.map + 1,left:1,top:topmarg(index)+42,margin:4,padding:3, 
           boxShadow:'0px 1px 0px #aaa',backgroundColor: 'rgba(220, 220, 220, 1)', border: '0px solid #fece2f', width:'72px', height:'15px', borderRadius:'3px' }}>
           <ListItem key={Item}  disablePadding sx={{color:'#000000', height:'100%'}}>
            <Box  sx={{ display:'flex', flexDirection: 'row',width:'100%'}}>
-              <Typography sx={{fontSize: '12px',fontWeight:'normal',marginX:'auto',padding:0,fontFamily:'revert'}}>{Item}</Typography>
+              <Typography sx={{fontSize: '12px',fontWeight:'bold',marginX:'auto',padding:0,fontFamily:'Karla'}}>{Item}</Typography>
            </Box>
         </ListItem>
         </div>

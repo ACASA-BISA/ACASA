@@ -899,7 +899,7 @@ useEffect(() => {
 },[tiffFilePath,polycord]); */
 
     return (
-    <div style={{overflow:'hidden',marginTop:'90px'}}>
+    <div style={{overflow:'hidden',marginTop:'85px'}}>
       <div id="popup2" class="ol-popup">
         <div id="popup-content2" style={{textTransform:'capitalize',fontSize:'13px'}}></div>
       </div>

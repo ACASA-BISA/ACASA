@@ -49,7 +49,7 @@ export default function TabsData({
       value={tabIndex}
       onChange={(e, index) => setTabIndex(index)}
       sx={{
-        marginTop:'90px',
+        marginTop:'85px',
         marginRight:'70px',
         marginLeft:'70px',
         width:'calc(100vw - 140px)',
