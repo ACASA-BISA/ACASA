@@ -136,6 +136,33 @@ export default function CompV({
       }
       setLayer(e.target.value);
     }
+
+    const boxref1 = React.useRef(null);
+    const boxref2 = React.useRef(null);
+    const boxref3 = React.useRef(null);
+
+    const [boxstart1, setboxstart1] = React.useState(0);
+    const [boxstart2, setboxstart2] = React.useState(0);
+    const [boxstart3, setboxstart3] = React.useState(0);
+
+    const [boxwidth1, setboxwidth1] = React.useState(0);
+    const [boxwidth2, setboxwidth2] = React.useState(0);
+    const [boxwidth3, setboxwidth3] = React.useState(0);
+
+    React.useEffect(() =>{
+      if(boxref1.current){
+        setboxstart1(boxref1.current.offsetLeft);
+        setboxwidth1(boxref1.current.offsetWidth);
+      };
+      if(boxref2.current){
+        setboxstart2(boxref2.current.offsetLeft);
+        setboxwidth2(boxref2.current.offsetWidth);
+      };
+      if(boxref3.current){
+        setboxstart3(boxref3.current.offsetLeft);
+        setboxwidth3(boxref3.current.offsetWidth);
+      };
+    });
     
   return (
     <div className='viewer-container' style={{overflow:'hidden'}}>
@@ -544,14 +571,27 @@ export default function CompV({
               
               <Paper elevation={1} sx={{ width: '100%', height: 'calc(100vh - 150px)' }}>
                 {label==='Baseline'&&
-                <Map_Option activeCrop={activeCrop} activeScenario='baseline' focus={focus} activeRegion={activeRegion} activeOpt={activeOpt} CurrRisk={CurrRisk} activeImpact={activeImpact}></Map_Option>}
+                <div ref={boxref1}>
+                  <Map_Option activeCrop={activeCrop} activeScenario='baseline' focus={focus} activeRegion={activeRegion} activeOpt={activeOpt} CurrRisk={CurrRisk} activeImpact={activeImpact}></Map_Option>
+                  <Legend_Small location={activeRegion} commodity={activeCrop} adaption={activeOpt} RiskName={CurrRisk}
+                      scenario='baseline' ImpactName={activeImpact} area_data3={area_dict3} area_data4={area_dict4}
+                      open_yes={true} bottom_position={36} left_position={boxstart1+5} box_width={boxwidth1-10}></Legend_Small>
+                </div>}
                 {label==='2050s'&&
-                <Map_Option activeCrop={activeCrop} activeScenario='ssp245' focus={focus} activeRegion={activeRegion} activeOpt={activeOpt} CurrRisk={CurrRisk} activeImpact={activeImpact}></Map_Option>}
+                <div ref={boxref2}>
+                  <Map_Option activeCrop={activeCrop} activeScenario='ssp245' focus={focus} activeRegion={activeRegion} activeOpt={activeOpt} CurrRisk={CurrRisk} activeImpact={activeImpact}></Map_Option>
+                  <Legend_Small location={activeRegion} commodity={activeCrop} adaption={activeOpt} RiskName={CurrRisk}
+                      scenario='ssp245' ImpactName={activeImpact} area_data3={area_dict3} area_data4={area_dict4}
+                      open_yes={true} bottom_position={36} left_position={boxstart2+5} box_width={boxwidth2-10}></Legend_Small>
+                </div>}
                 {label==='2080s'&&
-                <Map_Option activeCrop={activeCrop} activeScenario='ssp585' focus={focus} activeRegion={activeRegion} activeOpt={activeOpt} CurrRisk={CurrRisk} activeImpact={activeImpact}></Map_Option>}
+                <div ref={boxref3}>
+                  <Map_Option activeCrop={activeCrop} activeScenario='ssp585' focus={focus} activeRegion={activeRegion} activeOpt={activeOpt} CurrRisk={CurrRisk} activeImpact={activeImpact}></Map_Option>
+                  <Legend_Small location={activeRegion} commodity={activeCrop} adaption={activeOpt} RiskName={CurrRisk}
+                      scenario='ssp245' ImpactName={activeImpact} area_data3={area_dict3} area_data4={area_dict4}
+                      open_yes={true} bottom_position={36} left_position={boxstart3+5} box_width={boxwidth3-10}></Legend_Small>
+                </div>}
               </Paper>
-              <Legend_Small location={activeRegion} commodity={activeCrop} adaption={activeOpt} RiskName={CurrRisk}
-                scenario={scn} ImpactName={activeImpact} area_data3={area_dict3} area_data4={area_dict4}></Legend_Small>
             </Grid>
           ))}
         </Grid>

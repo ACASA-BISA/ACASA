@@ -1,8 +1,6 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Accordion from '@mui/material/Accordion';
-import AccordionDetails from '@mui/material/AccordionDetails';
 import { Popper, Paper } from '@mui/material';
 import { useRef } from "react";
 
@@ -21,6 +19,10 @@ export default function Legend_Small({
     adaption,
     RiskName,
     scenario,
+    left_position,
+    bottom_position,
+    open_yes,
+    box_width,
     ImpactName,
     area_data3,
     area_data4
@@ -142,17 +144,17 @@ export default function Legend_Small({
           data = 
           [
             createData('#969696',
-              "No "+typrstr(), row_data['Nil']/10, (row_data['Nil']*100/total).toFixed(2), (row_data['Nil Population']*0.16/1000000)),
+              "No "+typrstr(), row_data['Nil'], (row_data['Nil']*100/total).toFixed(2), (row_data['Nil Population']*0.16/1000000)),
             createData('#059212',
-              'Very low', row_data['Very Low']/10, (row_data['Very Low']*100/total).toFixed(2), (row_data['Very Low Population']*0.16/1000000)),
+              'Very low', row_data['Very Low'], (row_data['Very Low']*100/total).toFixed(2), (row_data['Very Low Population']*0.16/1000000)),
             createData('#00FF00',
-              'Low', row_data['Low']/10, (row_data['Low']*100/total).toFixed(2), (row_data['Low Population']*0.16/1000000)),
+              'Low', row_data['Low'], (row_data['Low']*100/total).toFixed(2), (row_data['Low Population']*0.16/1000000)),
             createData('#FFDE4D',
-              'Medium', row_data['Medium']/10, (row_data['Medium']*100/total).toFixed(2), (row_data['Medium Population']*0.16/1000000)),
+              'Medium', row_data['Medium'], (row_data['Medium']*100/total).toFixed(2), (row_data['Medium Population']*0.16/1000000)),
             createData('#FFA500',
-              'High', row_data['High']/10, (row_data['High']*100/total).toFixed(2), (row_data['High Population']*0.16/1000000)),
+              'High', row_data['High'], (row_data['High']*100/total).toFixed(2), (row_data['High Population']*0.16/1000000)),
             createData('#E4003A',
-              'Very high', row_data['Very High']/10, (row_data['Very High']*100/total).toFixed(2), (row_data['Very High Population']*0.16/1000000)),
+              'Very high', row_data['Very High'], (row_data['Very High']*100/total).toFixed(2), (row_data['Very High Population']*0.16/1000000)),
           ];
           //console.log(data);
         }
@@ -184,6 +186,34 @@ export default function Legend_Small({
         }
         return Math.round(popu)+' million';
     }
+
+    function calcarea(popu){
+        if(popu===0){
+          return 'None';
+        }
+        popu = popu/1000000;
+        if(popu<0.1){
+          if(checkcrop()){
+          return '<0.1 Mha';
+          }
+          else{
+            return '<0.1 Mha';
+          }
+        }
+        if(popu<1 && popu>=0.1){
+          if(checkcrop()){
+          return popu.toFixed(1) + ' Mha';
+          }
+          else{
+            return popu.toFixed(1) + ' Mha';
+          }
+        }
+        if(checkcrop()){
+          return Math.round(popu)+' Mha';
+        }
+        return Math.round(popu)+' Mha';
+    }
+
     function vulcat(str){
       if(str==='Very low')
         return 'Very high';
@@ -232,38 +262,39 @@ export default function Legend_Small({
 
   return (
     <div>
-    {(RiskType()!=="Exposure") && <Popper
-    open={true}
-      >
-        <div ref={cardRef} style={{position:'fixed',right:'calc(50vw - 260px)',bottom:10, boxShadow:'0px 0px 0px #aaa',backgroundColor: 'white', border: '0px solid black', width:'auto', borderRadius:'15px' }}>
-        <Accordion defaultExpanded>
-        <AccordionDetails sx={{marginTop:-1,marginBottom:0}}>
+    {(RiskType()!=="Exposure") && 
+    <Popper open={open_yes}>
+        <div ref={cardRef} style={{position:'fixed',left:left_position,bottom:bottom_position, boxShadow:'0px 0px 0px #aaa',backgroundColor: 'white', border: '0px solid black', width:box_width, borderRadius:'5px' }}>
+        <Paper elevation={1} sx={{padding:'10px'}}>
 
         {adaption !== '' && <div>
         <Box sx={{display:'flex'}}>
-        <Typography sx={{ fontSize: 13, marginBottom:'2px'}} color="black">
+        <Typography sx={{ fontSize: 11, marginBottom:'2px'}} color="black">
           Technical suitability of&nbsp;{adaption.charAt(0).toUpperCase()+adaption.slice(1,4)+adaption.toLowerCase().slice(4)} for number of farm households:
           </Typography>
           </Box>
         </div>}
         {((RiskName !== "" && RiskName !== "Hazard Index" && RiskType()==="Hazard" && checkcrop())) && <div>
-        <Box sx={{display:'flex'}}>
-        <Typography  sx={{ fontSize: 13, marginBottom:'2px'}} color="black">
-            {/* {RiskName.charAt(0).toUpperCase() + RiskName.toLowerCase().slice(1)} risk for rural population: */}
-            Farm households affected by this {typrstr().toLowerCase()} in {commodity.toLowerCase()}
+            <Box sx={{ display: 'flex' }}>
+            <Typography sx={{ fontSize: 11, marginBottom: '2px' }} color="black">
+                Affected&nbsp;
+                <span style={{ color: '#AA5486', fontWeight: 'bold' }}>farm households</span>
+                &nbsp;and&nbsp;
+                <span style={{ color: '#859F3D', fontWeight: 'bold' }}>cropped area</span>
+                :
             </Typography>
-        </Box>
+            </Box>
         </div>}
         {(RiskName !== "" && (RiskType()==="Risk" || RiskName==="Hazard Index") && (checkcrop()===false||(commodity==='Rice'||commodity==='Wheat'||commodity==='Barley'||commodity==='Soybean'||commodity==='Cotton'||commodity==='Chickpea'||commodity==='Maize'||commodity==='Mustard'))) && <div>
         <Box sx={{display:'flex'}}>
-        <Typography  sx={{ fontSize: 13, marginBottom:'2px'}} color="black">
+        <Typography  sx={{ fontSize: 11, marginBottom:'2px'}} color="black">
         Farm households affected
             </Typography>
         </Box>
         </div>}
         {((RiskName !== "" && RiskName!=="Hazard Index" && RiskType()==="Hazard" && (checkcrop()===false))) && <div>
         <Box sx={{display:'flex'}}>
-        <Typography  sx={{ fontSize: 13, marginBottom:'2px'}} color="black">
+        <Typography  sx={{ fontSize: 11, marginBottom:'2px'}} color="black">
         Farm households affected by this {typrstr().toLowerCase()} in {commodity.toLowerCase()}
             </Typography>
         </Box>
@@ -271,7 +302,7 @@ export default function Legend_Small({
         }
         {((RiskName !== "" && RiskType()==="Vulnerability" && (checkcrop()===false||(commodity==='Rice'||commodity==='Wheat'||commodity==='Barley'||commodity==='Soybean'||commodity==='Cotton'||commodity==='Chickpea'||commodity==='Maize'||commodity==='Mustard')))) && <div>
         <Box sx={{display:'flex'}}>
-        <Typography  sx={{ fontSize: 13, marginBottom:'2px'}} color="black">
+        <Typography  sx={{ fontSize: 11, marginBottom:'2px'}} color="black">
         Farm households under different categories of {RiskName.toLowerCase()}
             </Typography>
         </Box>
@@ -313,23 +344,53 @@ export default function Legend_Small({
                     </Box>
                     }
                     {((RiskName !== "" && RiskName !== "Hazard Index" && RiskType()==="Hazard") || ((RiskName !== "" && RiskType()==="Hazard" && (checkcrop()===false||(commodity==='Rice'||commodity==='Wheat'||commodity==='Barley'||commodity==='Soybean'||commodity==='Cotton'||commodity==='Chickpea'||commodity==='Maize'||commodity==='Mustard'))))) &&
-                    <Box sx={{width:'100%', display:'flex',flexDirection:'row',gap:'4px',padding:0,justifyItems:'center'}}>
-                      
+                    <div> 
                     {rowshzd.map((row,index) => (
-                        
-                        <Box sx={{display:'flex',alignItems:'left',flexDirection:'column',width:'100%'}}>
-                        <Box sx={{width: 76,height: 18,borderRadius: 0,bgcolor:row.color,margin:0}}>
-                        <Typography sx={{ fontSize: 12, marginY:'auto',marginLeft:'5px'}} color="white" > 
-                          <strong>{row.Cat}</strong>
-                          </Typography>
-                          </Box>
-                        <Box>
-                        <Typography sx={{ fontSize: 12, margin:'2px'}} color="black" > {calcpop(row.Population)}</Typography>
-                        </Box>
-                        </Box>
-                        
+                        <div>
+                        {index===0 &&
+                            <div>
+                                <Box sx={{display:'flex',alignItems:'left',flexDirection:'row',width:'100%'}}>
+                                    <Box sx={{width: 60,height: 18,borderRadius: 0,bgcolor:row.color, margin:0, alignContent:'center'}}>
+                                    <Typography sx={{ fontSize: 10, marginY:'auto',marginLeft:'3px'}} color="white" > 
+                                        <strong>{row.Cat}</strong>
+                                    </Typography>
+                                    </Box>
+                                    <Box>
+                                    <Typography sx={{ fontSize: 10, margin:'2px'}} color="#AA5486" fontWeight='bold'>{calcpop(row.Population)}</Typography>
+                                    </Box>
+                                    <Box>
+                                    <Typography sx={{ fontSize: 10, margin:'2px'}} color="#859F3D" fontWeight='bold'>{calcarea(row.Area)}</Typography>
+                                    </Box>
+                                </Box>
+                            </div>
+                        }
+                        </div>
+                    ))}
+
+                    <Box sx={{width:'100%', display:'flex',flexDirection:'row',padding:0,justifyItems:'center',marginTop:'1px'}}>
+                    {rowshzd.map((row,index) => (
+                        <div>
+                            {index!==0 && 
+                            <div>
+                                <Box sx={{display:'flex',alignItems:'left',flexDirection:'column',width:'100%',gap:'2px'}}>
+                                <Box sx={{width: 58, height: 18, borderRadius: 0}}>
+                                    <Typography sx={{ fontSize: 10, margin:'2px'}} color="#AA5486" fontWeight='bold'> {calcpop(row.Population)}</Typography>
+                                    </Box>
+                                    <Box sx={{width: 58, height: 18, borderRadius: 0, bgcolor:row.color, alignContent:'center'}}>
+                                    <Typography sx={{ fontSize: 10, marginY:'auto',marginLeft:'3px'}} color="white" > 
+                                    <strong>{row.Cat}</strong>
+                                    </Typography>
+                                    </Box>
+                                    <Box sx={{width: 58, height: 18, borderRadius: 0}}>
+                                    <Typography sx={{ fontSize: 10, margin:'2px'}} color="#859F3D" fontWeight='bold'> {calcarea(row.Area)}</Typography>
+                                    </Box>
+                                </Box>
+                            </div>
+                            }
+                        </div>
                     ))}
                     </Box>
+                    </div> 
                     }
                     {(((RiskName !== "" && RiskType()==="Vulnerability"))) &&
                     <div>
@@ -378,8 +439,7 @@ export default function Legend_Small({
                     </div>
                     }
         </Typography>
-        </AccordionDetails>
-      </Accordion>
+        </Paper>
         </div>
       </Popper>}
       </div>

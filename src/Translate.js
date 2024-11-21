@@ -59,15 +59,15 @@ const Translate = () => {
         background-color: #ccc !important; /* Change background */
         color: white !important; /* Text color */
         font-size: 12px !important; /* Smaller font size */
-        padding: 4px 8px !important; /* Reduce padding */
+        padding: 4px 4px !important; /* Reduce padding */
         height: 8px !important;
-        display: inline-flex;
-        align-items: center;
+        display: inline-flex !important;
+        align-items: center !important;
       }
 
       /* Dropdown box styling */
       .goog-te-combo {
-        height: 20px !important; /* Adjust dropdown height */
+        height: 10px !important; /* Adjust dropdown height */
         font-size: 12px !important; /* Adjust dropdown font size */
         color: #333 !important; /* Text color inside dropdown */
         border: 1px solid #ccc !important;
@@ -81,7 +81,7 @@ const Translate = () => {
     document.head.appendChild(style);
   }, []); 
 
-  return <div id="google_translate_element" style={{marginRight:'10px'}}></div>;
+  return <div id="google_translate_element" style={{margin:'0px',marginRight:'10px'}}></div>;
 };
 
 export default Translate;
