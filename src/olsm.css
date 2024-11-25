@@ -36,6 +36,16 @@
     top: 31px;
     right: 8px;
   }
+  .box-legend {
+    top: 54px;
+    position: absolute;
+    right: 8px;
+  }
+  
+  .legend-box {
+    top:10px;
+    left:50px;
+  }
 
   .ol-zoomtoextenty button {
     background: url("../public/locate.png") no-repeat center center; /* Use your custom icon */

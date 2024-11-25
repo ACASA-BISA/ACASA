@@ -163,15 +163,23 @@ export default function CompV({
         setboxwidth3(boxref3.current.offsetWidth);
       };
     });
+
+    const [sharedView, setSharedView] = React.useState(null);
+
+    const handleviewchange = (viewx) => {
+      setSharedView({
+        center: viewx.getCenter(),
+        zoom: viewx.getZoom(),
+      });
+    };
     
   return (
     <div className='viewer-container' style={{overflow:'hidden'}}>
     <Grid container spacing={2} sx={{marginTop:'80px',padding: '1rem', paddingTop:'0rem'}} columns={15}>
       {/* Left-side Options Panel */}
       <Grid item xs={3}>
-      <Box sx={{width:'100%',height:'22px'}}><Typography align="center" sx={{fontSize:'14px',fontWeight:'bold'}}>Selection Tab</Typography></Box>
+      {/* <Box sx={{width:'100%',height:'22px'}}><Typography align="center" sx={{fontSize:'14px',fontWeight:'bold'}}>Selection Tab</Typography></Box>
         <Paper elevation={2} sx={{padding: '1rem'}}>
-          {/* Dropdown Options */}
           <FormControl fullWidth sx={{ marginBottom: '1.2rem', marginTop: '0.5rem'}} size='small'>
             <InputLabel id="Region" sx={{fontSize:'14px'}}>Region</InputLabel>
             <Select
@@ -333,7 +341,6 @@ export default function CompV({
                 {subChoice==='Shelter Management' &&
                 <FormControl fullWidth sx={{ marginBottom: '0.5rem' }} size='small'>
                 <InputLabel id="Adaptation Option1" sx={{fontSize:'14px'}}>Adaptation Option</InputLabel>
-                {/* For different category there is a different list of Adaptation Option*/}
                 {activeCrop==='Cattle' && <Select
                     labelId="Adaptation Option1"
                     id="sub-choice-adapt-opt-id"
@@ -391,7 +398,6 @@ export default function CompV({
                 {subChoice==='Feeding Management' &&
                 <FormControl fullWidth sx={{ marginBottom: '0.5rem' }} size='small'>
                 <InputLabel id="Adaptation Option2" sx={{fontSize:'14px'}}>Adaptation Option</InputLabel>
-                {/* For different category there is a different list of Adaptation Option*/}
                 {activeCrop==='Pig' && <Select
                     labelId="Adaptation Option2"
                     id="sub-choice-adapt-opt-id"
@@ -453,7 +459,6 @@ export default function CompV({
                 {subChoice==='Healthcare Management' &&
                 <FormControl fullWidth sx={{ marginBottom: '0.5rem' }} size='small'>
                 <InputLabel id="Adaptation Option3" sx={{fontSize:'14px'}}>Adaptation Option</InputLabel>
-                {/* For different category there is a different list of Adaptation Option*/}
                 {activeCrop==='Poultry' && <Select
                     labelId="Adaptation Option3"
                     id="sub-choice-adapt-opt-id"
@@ -485,7 +490,6 @@ export default function CompV({
                 {subChoice==='Reproductive Management' &&
                 <FormControl fullWidth sx={{ marginBottom: '0.5rem' }} size='small'>
                 <InputLabel id="Adaptation Option4" sx={{fontSize:'14px'}}>Adaptation Option</InputLabel>
-                {/* For different category there is a different list of Adaptation Option*/}
                 {(activeCrop==='Pig') && <Select
                     labelId="Adaptation Option4"
                     id="sub-choice-adapt-opt-id"
@@ -517,7 +521,6 @@ export default function CompV({
                 {subChoice==='Climate resilient breeds' &&
                 <FormControl fullWidth sx={{ marginBottom: '0.5rem' }} size='small'>
                 <InputLabel id="Adaptation Option5" sx={{fontSize:'14px'}}>Adaptation Option</InputLabel>
-                {/* For different category there is a different list of Adaptation Option*/}
                 {(activeCrop==='Poultry'||activeCrop==='Cattle') && <Select
                     labelId="Adaptation Option5"
                     id="sub-choice-adapt-opt-id"
@@ -545,7 +548,7 @@ export default function CompV({
                     </Select>
                     }
                 </FormControl>}
-        </Paper>
+        </Paper> */}
       </Grid>
 
       {/* Maps Section */}
@@ -572,21 +575,24 @@ export default function CompV({
               <Paper elevation={1} sx={{ width: '100%', height: 'calc(100vh - 150px)' }}>
                 {label==='Baseline'&&
                 <div ref={boxref1}>
-                  <Map_Option activeCrop={activeCrop} activeScenario='baseline' focus={focus} activeRegion={activeRegion} activeOpt={activeOpt} CurrRisk={CurrRisk} activeImpact={activeImpact}></Map_Option>
+                  <Map_Option activeCrop={activeCrop} activeScenario='baseline' focus={focus} activeRegion={activeRegion} activeOpt={activeOpt} CurrRisk={CurrRisk} activeImpact={activeImpact}
+                  sharedView={sharedView} handleviewchange={handleviewchange}></Map_Option>
                   <Legend_Small location={activeRegion} commodity={activeCrop} adaption={activeOpt} RiskName={CurrRisk}
                       scenario='baseline' ImpactName={activeImpact} area_data3={area_dict3} area_data4={area_dict4}
                       open_yes={true} bottom_position={36} left_position={boxstart1+5} box_width={boxwidth1-10}></Legend_Small>
                 </div>}
                 {label==='2050s'&&
                 <div ref={boxref2}>
-                  <Map_Option activeCrop={activeCrop} activeScenario='ssp245' focus={focus} activeRegion={activeRegion} activeOpt={activeOpt} CurrRisk={CurrRisk} activeImpact={activeImpact}></Map_Option>
+                  <Map_Option activeCrop={activeCrop} activeScenario='ssp245' focus={focus} activeRegion={activeRegion} activeOpt={activeOpt} CurrRisk={CurrRisk} activeImpact={activeImpact}
+                  sharedView={sharedView} handleviewchange={handleviewchange}></Map_Option>
                   <Legend_Small location={activeRegion} commodity={activeCrop} adaption={activeOpt} RiskName={CurrRisk}
                       scenario='ssp245' ImpactName={activeImpact} area_data3={area_dict3} area_data4={area_dict4}
                       open_yes={true} bottom_position={36} left_position={boxstart2+5} box_width={boxwidth2-10}></Legend_Small>
                 </div>}
                 {label==='2080s'&&
                 <div ref={boxref3}>
-                  <Map_Option activeCrop={activeCrop} activeScenario='ssp585' focus={focus} activeRegion={activeRegion} activeOpt={activeOpt} CurrRisk={CurrRisk} activeImpact={activeImpact}></Map_Option>
+                  <Map_Option activeCrop={activeCrop} activeScenario='ssp585' focus={focus} activeRegion={activeRegion} activeOpt={activeOpt} CurrRisk={CurrRisk} activeImpact={activeImpact}
+                  sharedView={sharedView} handleviewchange={handleviewchange}></Map_Option>
                   <Legend_Small location={activeRegion} commodity={activeCrop} adaption={activeOpt} RiskName={CurrRisk}
                       scenario='ssp245' ImpactName={activeImpact} area_data3={area_dict3} area_data4={area_dict4}
                       open_yes={true} bottom_position={36} left_position={boxstart3+5} box_width={boxwidth3-10}></Legend_Small>

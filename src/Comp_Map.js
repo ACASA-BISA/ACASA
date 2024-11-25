@@ -15,26 +15,26 @@ import Stroke from 'ol/style/Stroke';
 import GeoTIFF from 'ol/source/GeoTIFF.js';
 import GeoJSON from 'ol/format/GeoJSON.js';
 import Overlay from 'ol/Overlay';
-import {ZoomToExtent, FullScreen, Zoom} from 'ol/control.js';
+import {Control, ZoomToExtent, FullScreen, Zoom} from 'ol/control.js';
 import './olsm.css';
 import Typography from '@mui/material/Typography';
 import { Popper } from '@mui/material';
 import Slide from '@mui/material/Slide';
+import BoxLegend from './BoxLegend';
 
 export default function MApp({
   activeCrop, focus='Region', activeRegion,
-  activeOpt, CurrRisk, activeImpact,activeScenario
+  activeOpt, CurrRisk, activeImpact,activeScenario,
+  sharedView,handleviewchange
 }) {
 
     const ref = useRef(null);
     const mapRef = useRef(null);
     const [overl, setOverl] = useState(null);
-    //const [overl2, setOverl2] = useState(null);
     const [vectorLayerr, setvectorLayerr] = useState(null);
     const [countryLayer, setcountryLayer] = useState(null);
     const [maskLayer1, setmaskLayer1] = useState(null);
     const [tiffFilePath, settiffFilePath] = useState("");
-    //const [polycord, setpolycord] = useState(null);
     const [missingSource, setmsource] = useState(false);
     let defext = [
       6731721.531032621,
@@ -61,6 +61,11 @@ export default function MApp({
     });
 
     const ViewV = new View({
+      center: fromLonLat([71.2090057,21.6138954]),
+      zoom: 3.5,
+    });
+
+    let ViewV2 = new View({
       center: fromLonLat([71.2090057,21.6138954]),
       zoom: 3.5,
     });
@@ -189,6 +194,49 @@ export default function MApp({
       ],
     };
 
+    const color_hazard_25 = {
+      color: [
+        'palette',
+        [
+        'interpolate',
+        ['linear'],
+        ['*',['band', 2], 250], 
+        0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,
+        10,11,11,12,12,13,13,14,14,15,15,16,16,17,17,18,18,19,19,20,
+        20,21,21,22,22,23,23,24,24,25,25,26
+      ],
+      [
+        'rgba(0, 0, 0, 0)',
+        'rgba(0, 0, 0, 0)',
+        'rgba(0, 0, 139, 1)',        // Class 1
+        'rgba(70, 130, 180, 1)',     // Class 2
+        'rgba(0, 191, 255, 1)',      // Class 3
+        'rgba(50, 205, 50, 1)',      // Class 4
+        'rgba(255, 255, 0, 1)',      // Class 5
+        'rgba(70, 130, 180, 1)',     // Class 6
+        'rgba(0, 191, 255, 1)',      // Class 7
+        'rgba(50, 205, 50, 1)',      // Class 8
+        'rgba(255, 255, 0, 1)',      // Class 9
+        'rgba(255, 165, 0, 1)',      // Class 10
+        'rgba(0, 191, 255, 1)',      // Class 11
+        'rgba(50, 205, 50, 1)',      // Class 12
+        'rgba(255, 255, 0, 1)',      // Class 13
+        'rgba(255, 165, 0, 1)',      // Class 14
+        'rgba(204, 51, 0, 1)',       // Class 15
+        'rgba(50, 205, 50, 1)',      // Class 16
+        'rgba(255, 255, 0, 1)',      // Class 17
+        'rgba(255, 165, 0, 1)',      // Class 18
+        'rgba(204, 51, 0, 1)',       // Class 19
+        'rgba(128, 0, 0, 1)',        // Class 20
+        'rgba(255, 255, 0, 1)',      // Class 21
+        'rgba(255, 165, 0, 1)',      // Class 22
+        'rgba(204, 51, 0, 1)',       // Class 23
+        'rgba(128, 0, 0, 1)',        // Class 24
+        'rgba(128, 0, 0, 1)' ,        // Class 25
+      ],
+      ],
+    };
+
     const colorGradientEx = {
       color: [
         'interpolate',
@@ -220,6 +268,193 @@ export default function MApp({
 
     const key = 'TrN2dn4maoO3C2x0sUpH';
 
+// Define the custom legend control
+class LegendControl extends Control {
+  constructor(options = {}) {
+    const button = document.createElement('button');
+    button.innerText = 'L'; // The button label
+    button.title = 'Display Legend';
+
+    // Style the button
+    /* button.style.cssText = `
+      width: 20px;
+      height: 20px;
+      font-size: 12px;
+      border: 1px solid black;
+      background-color: white;
+      cursor: pointer;
+      border-radius: 5px;
+    `; */
+
+    // Create a container for the control
+    const element = document.createElement('div');
+    element.className = 'ol-control ol-unselectable box-legend';
+    
+    element.appendChild(button);
+
+    super({
+      element: element,
+      target: options.target,
+    });
+
+    // Legend container
+    const legend = document.createElement('div');
+    legend.style.cssText = `
+      display: none; /* Initially hidden */
+      position: relative;
+      top: 0px;
+      left: 00px;
+      background-color: white;
+      border: 1px solid black;
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    `;
+    legend.id = 'legend';
+
+    // Add color boxes to the legend
+    const colors = [
+      'rgba(255, 255, 0, 1)', // Box 21
+      'rgba(255, 165, 0, 1)', // Box 22
+      'rgba(204, 51, 0, 1)', // Box 23
+      'rgba(128, 0, 0, 1)', // Box 24
+      'rgba(128, 0, 0, 1)', // Box 25
+      'rgba(50, 205, 50, 1)', // Box 16
+      'rgba(255, 255, 0, 1)', // Box 17
+      'rgba(255, 165, 0, 1)', // Box 18
+      'rgba(204, 51, 0, 1)', // Box 19
+      'rgba(128, 0, 0, 1)', // Box 20
+      'rgba(0, 191, 255, 1)', // Box 11
+      'rgba(50, 205, 50, 1)', // Box 12
+      'rgba(255, 255, 0, 1)', // Box 13
+      'rgba(255, 165, 0, 1)', // Box 14
+      'rgba(204, 51, 0, 1)', // Box 15
+      'rgba(70, 130, 180, 1)', // Box 6
+      'rgba(0, 191, 255, 1)', // Box 7
+      'rgba(50, 205, 50, 1)', // Box 8
+      'rgba(255, 255, 0, 1)', // Box 9
+      'rgba(255, 165, 0, 1)', // Box 10
+      'rgba(0, 0, 139, 1)', // Box 1
+      'rgba(70, 130, 180, 1)', // Box 2
+      'rgba(0, 191, 255, 1)', // Box 3
+      'rgba(50, 205, 50, 1)', // Box 4
+      'rgba(255, 255, 0, 1)', // Box 5
+    ];
+    legend.style.display = 'none';
+    legend.style.gridTemplateColumns = 'repeat(5, 30px)';
+    legend.style.gridGap = '2px';
+    colors.forEach((color) => {
+      const colorBox = document.createElement('div');
+      colorBox.style.width = '30px';
+      colorBox.style.height = '30px';
+      colorBox.style.backgroundColor = color;
+      colorBox.style.border = '1px solid black';
+      legend.appendChild(colorBox);
+    });
+
+    // Toggle legend visibility on button click
+    button.addEventListener('click', () => {
+      legend.style.display = legend.style.display === 'none' ? 'grid' : 'none';
+    });
+
+    // Append legend to the control element
+    element.appendChild(legend);
+  }
+}
+/*     //
+    // Define Legend Toggle Control.
+    //
+    class LegendToggleControl extends Control {
+     
+      constructor(opt_options) {
+        const options = opt_options || {};
+
+        const button = document.createElement('button');
+        button.innerHTML = 'L'; // Button with the letter 'L'
+        button.title = 'Display Legend';
+
+        const element = document.createElement('div');
+        element.className = 'legend-toggle ol-unselectable ol-control box-legend';
+        element.appendChild(button);
+
+        super({
+          element: element,
+          target: options.target,
+        });
+
+        this.isLegendVisible = false; // State to track legend visibility
+        this.legendElement = this.createLegendElement(); // Create legend box
+
+        // Attach event listener to toggle legend visibility
+        button.addEventListener('click', this.handleLegendToggle.bind(this), false);
+      }
+
+      // Method to create the legend box
+      createLegendElement() {
+        const legend = document.createElement('div');
+        legend.className = 'legend-box';
+        legend.style.position = 'absolute';
+        //legend.style.top = '50px';
+        //legend.style.left = '10px';
+        legend.style.background = 'white';
+        legend.style.padding = '5px';
+        legend.style.border = '1px solid black';
+        legend.style.borderRadius = '2px';
+        legend.style.display = 'grid'; // Initially hidden
+        legend.style.zIndex = 1000;
+
+        // Populate the legend with colored boxes
+        const colors = [
+          'rgba(0, 0, 139, 1)', // Box 1
+          'rgba(70, 130, 180, 1)', // Box 2
+          'rgba(0, 191, 255, 1)', // Box 3
+          'rgba(50, 205, 50, 1)', // Box 4
+          'rgba(255, 255, 0, 1)', // Box 5
+          'rgba(70, 130, 180, 1)', // Box 6
+          'rgba(0, 191, 255, 1)', // Box 7
+          'rgba(50, 205, 50, 1)', // Box 8
+          'rgba(255, 255, 0, 1)', // Box 9
+          'rgba(255, 165, 0, 1)', // Box 10
+          'rgba(0, 191, 255, 1)', // Box 11
+          'rgba(50, 205, 50, 1)', // Box 12
+          'rgba(255, 255, 0, 1)', // Box 13
+          'rgba(255, 165, 0, 1)', // Box 14
+          'rgba(204, 51, 0, 1)', // Box 15
+          'rgba(50, 205, 50, 1)', // Box 16
+          'rgba(255, 255, 0, 1)', // Box 17
+          'rgba(255, 165, 0, 1)', // Box 18
+          'rgba(204, 51, 0, 1)', // Box 19
+          'rgba(128, 0, 0, 1)', // Box 20
+          'rgba(255, 255, 0, 1)', // Box 21
+          'rgba(255, 165, 0, 1)', // Box 22
+          'rgba(204, 51, 0, 1)', // Box 23
+          'rgba(128, 0, 0, 1)', // Box 24
+          'rgba(128, 0, 0, 1)', // Box 25
+        ];
+        colors.forEach((color,index) => {
+          if(index%5===0){
+
+          }
+          const colorBox = document.createElement('div');
+          colorBox.style.width = '30px';
+          colorBox.style.height = '30px';
+          colorBox.style.backgroundColor = color;
+          colorBox.style.marginBottom = '0px';
+          legend.appendChild(colorBox);
+        });
+
+        // Append the legend box to the map container
+        document.body.appendChild(legend);
+
+        return legend;
+      }
+
+      // Method to toggle legend visibility
+      handleLegendToggle() {
+        this.isLegendVisible = !this.isLegendVisible;
+        this.legendElement.style.display = this.isLegendVisible ? 'block' : 'none';
+      }
+    } */
 
       const sourcemap = new tilesource({
         url: `https://api.maptiler.com/maps/bright-v2/tiles.json?key=${key}`, // source URL
@@ -278,6 +513,9 @@ export default function MApp({
             extent: defext,
             className: 'ol-zoomtoextent-comp'
           }),
+          new LegendControl({
+            className: 'box-legend'
+          })
         ],
           target: ref.current,
           layers: [BingMapNew],
@@ -755,6 +993,9 @@ useEffect(() => {
         opt=4;
         urlstr = "./Hazard_index/"+activeCrop+".tif";
       }
+      if(CurrRisk==='Flood'){
+        opt=99;
+      }
       settiffFilePath(urlstr);
       source1 = new GeoTIFF({sources: [{ url: urlstr}],sourceOptions:{allowFullFile:true}});
     }
@@ -807,6 +1048,9 @@ useEffect(() => {
     }
     else if(opt===4){
       newOverl.setStyle(color4);
+    }
+    else if(opt==99){
+      newOverl.setStyle(color_hazard_25);
     }
     else{
       newOverl.setStyle(color1);

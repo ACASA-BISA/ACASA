@@ -543,6 +543,9 @@ export default function DrawerMapShow({
         {activeBar==='future' && <CompV activeCrop={Currcrop} changeCrop={handleChange_CMP} LocationData={countryStateMap} focus={focus} activeRegion={activeRegion} changeRegion={ActiveRegionChange} CurrRisk={RiskName}
         activeOpt={CurrOpt} changeOpt={handleChangeOpt_CMP} changeRisk={changeRisk} activeImpact={CurrImpact} changeImpact={changeImpact_CMP} activeScenario={scenario} changeScenario={handleScenarioChange}
         area_dict3={area_dict3} area_dict4={area_dict4}></CompV>}
+
+        {activeBar==='future' && <DrawerV activeCrop={crop} changeCrop={handleChange} LocationData={countryStateMap} activeRegion={activeRegion} changeRegion={ActiveRegionChange} CurrRisk={RiskName}
+        activeOpt={option} changeOpt={handleChangeOpt} changeRisk={changeRisk} activeImpact={CurrImpact} changeImpact={changeImpact} activeScenario={scenario} changeScenario={handleScenarioChange}></DrawerV>}
         
         {activeBar==='timeline' && <ImageTimeline></ImageTimeline>}
 
