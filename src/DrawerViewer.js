@@ -28,7 +28,6 @@ let extra = 0;
 const Items = ['Go to Home', 'Select Region','Select Commodity','Select Scenario','Climatic Risks','Suitability','Impact','Adaptation Options'];
 const Items2 = ['Home', 'Region','Commodity','Scenario','Risks','Suitability','Impact','Adaptation'];
 
-// Main functional component
 export default function DrawerV({
   activeCrop,
   activeScenario,
@@ -46,8 +45,7 @@ export default function DrawerV({
   activeOptLayer,
   changeOptLayer
 }) {
-  // Function to create initial state for menu items
-  function createInitialTodos() {
+    function createInitialTodos() {
     const initialTodos = {};
     Items.forEach((sname) => {
       initialTodos[sname] = false;
@@ -81,28 +79,24 @@ export default function DrawerV({
       }
       else{
       setDrOpen(true);
-    }
-  };
-
-  // Function to determine the background color of the button
-  function colorofbutton(Item) {
-    let normally = "rgba(14, 33, 1, 0.0)";
-    if (open[Item]) {
-      normally = "rgba(10, 30, 1, 0.9)";
-    }
-    return normally;
-  }
-
-  // Function to handle clicking away from the drawer
-  const handleClickAway = () => {
-    const newState = { ...open };
-    Items.forEach((sname) => {
+      }
+    };
+    function colorofbutton(Item){
+      let normally = 'rgba(14, 33, 1, 0.0)';
+      if(open[Item]){
+        normally = 'rgba(10, 30, 1, 0.9)';
+      }
+      return normally;
+    };
+    const handleClickAway = () => {
+      const newState = { ...open };
+      Items.forEach((sname) => {
       newState[sname] = false;
-    });
-    setOpen(newState);
-    setDrOpen(false);
-    extra = 0;
-  };
+      });
+      setOpen(newState);
+      setDrOpen(false);
+      extra = 0;
+    };
 
     React.useEffect(() => {
       if(DrOpen===true){
@@ -129,17 +123,16 @@ export default function DrawerV({
       return marg;
     }
 
-  // Styled tooltip component for custom styling
-  const LightTooltip = styled(({ className, ...props }) => (
-    <Tooltip {...props} classes={{ popper: className }} />
-  ))(({ theme }) => ({
-    [`& .${tooltipClasses.tooltip}`]: {
-      backgroundColor: theme.palette.common.white,
-      color: "rgba(0, 0, 0, 0.87)",
-      boxShadow: theme.shadows[1],
-      fontSize: 13,
-    },
-  }));
+    const LightTooltip = styled(({ className, ...props }) => (
+      <Tooltip {...props} classes={{ popper: className }} />
+    ))(({ theme }) => ({
+      [`& .${tooltipClasses.tooltip}`]: {
+        backgroundColor: theme.palette.common.white,
+        color: 'rgba(0, 0, 0, 0.87)',
+        boxShadow: theme.shadows[1],
+        fontSize: 13,
+      },
+    }));
 
   return (
     <div style={{overflow:'hidden',height:'auto'}}>
