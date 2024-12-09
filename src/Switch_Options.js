@@ -5,13 +5,16 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import { Typography } from '@mui/material';
+import Checkbox from '@mui/material/Checkbox';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 
 export default function SwitchOpt({
     activeCrop,
     activeOpt,
-    changeOpt
+    changeOpt,
+    activeOptLayer,
+    changeOptLayer
 }) {
   const switchh = ['Planting Technology','Water Management','Fertilizer Management'];
   const directswitch = ['Stress Tolerant Variety'];
@@ -194,6 +197,26 @@ export default function SwitchOpt({
 
   return (
     <FormControl component="fieldset" variant="standard"  sx={{paddingTop:1, paddingLeft:3}}>
+      <FormLabel sx={{display:'flex',paddingBottom:1}}>
+        <Typography sx={{color:'black',fontWeight:'bold',fontSize:14,paddingTop:1,}}>Select Layer</Typography>
+        </FormLabel>
+        <FormGroup>
+        <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Technical Suitability']} name="Technical Suitability" 
+            onChange={changeOptLayer}
+            color="success" sx={{padding:0,marginLeft:1}}/>} 
+            label={<Typography variant="body2" align='left'  sx={{paddingLeft:1,maxWidth:'250px',wordBreak:'break-word', 
+            whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>Technical Suitability</Typography>}/>
+        <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Socio-Economic']}  name="Socio-Economic" 
+            onChange={changeOptLayer}
+            color="success" sx={{padding:0,marginLeft:1}}/>} 
+            label={<Typography variant="body2" align='left'  sx={{paddingLeft:1,maxWidth:'250px',wordBreak:'break-word', 
+            whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>Socio-Economic Benefits</Typography>}/>
+        <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Scalibility']} name="Scalibility" 
+            onChange={changeOptLayer}
+            color="success" sx={{padding:0,marginLeft:1}}/>} 
+            label={<Typography variant="body2" align='left'  sx={{paddingLeft:1,maxWidth:'250px',wordBreak:'break-word', 
+            whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>Scalibility</Typography>}/>
+        </FormGroup>
       <FormLabel sx={{display:'flex',paddingBottom:1}}>
         <Typography sx={{color:'black',fontWeight:'bold',fontSize:14,paddingTop:1,}}>Select Adaptation Option</Typography>
         </FormLabel>

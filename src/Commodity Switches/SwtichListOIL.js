@@ -17,8 +17,8 @@ export default function SwitchOilseeds({
   const switchid = ['soyabean','safflower','sunflower','rapeseed','sesame','groundnut'];
   const disvar = {'soyabean':false,'safflower':true,'sunflower':true,'rapeseed':false,'sesame':true,'groundnut':false};
   const padd = 8;
-  const season = ['Soybean is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as \'Kharif\') and Yala in Sri Lanka','','','Analysis done for rabi/winter season.','',
-    'Groundnut is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as \'Kharif\' in India) and Yala in Sri Lanka.'];
+  const season = ['Soybean is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as \'Kharif\') and Maha in Sri Lanka','','','Analysis done for Rabi/winter season.','',
+    'Groundnut is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as \'Kharif\' in India) and Maha in Sri Lanka.'];
 
   const LightTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />

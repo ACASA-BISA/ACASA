@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { Popper, Paper } from '@mui/material';
+import { Popper, Paper,Grid } from '@mui/material';
 import { useRef } from "react";
 
 const size = {
@@ -19,15 +19,10 @@ export default function Legend_Small({
     adaption,
     RiskName,
     scenario,
-    left_position,
-    bottom_position,
-    open_yes,
-    box_width,
     ImpactName,
     area_data3,
     area_data4
 }) {
-  const cardRef = useRef(null);
 
   function checkcrop() {
     const diffcrop = ['Cattle','Buffalo','Goat','Sheep','Pig','Poultry'];
@@ -62,9 +57,9 @@ export default function Legend_Small({
       'Heat stress during boll formation':'Heat stress during boll formation','Cold stress during flowering':'Cold stress during flowering',
       'High tempearture during flowering':'High tempearture during flowering','Biotic Stress':'Biotic stress',"Vulnerability Index":'Vulnerability Index',
       "Availability of crop residues":'Residue',"Rural infrastructure":'Road network density',"Cyclone":'Cyclone',"Rainfall Deficit":"Rainfall deficit",
-      "Extreme Rainfall days":"Extreme Rainfall Days","Cold days":"Cold stress or cold days","Hot days":"Heat stress or hot days","Temperature-Humidity Index":'Temperature-humidity Index',
+      "Extreme Rainfall days":"Extreme Rainfall Days","Cold days":"Cold Stress","Hot days":"Heat stress or hot days","Temperature-Humidity Index":'THI',
       "Socio-economic Development Indicator":"Human development index"};
-
+      
     function fetchthedataTable() {
       let data = [];
       if(adaption!==''){
@@ -144,7 +139,7 @@ export default function Legend_Small({
           data = 
           [
             createData('#969696',
-              "No "+typrstr(), row_data['Nil'], (row_data['Nil']*100/total).toFixed(2), (row_data['Nil Population']*0.16/1000000)),
+              "No significant "+typrstr(), row_data['Nil'], (row_data['Nil']*100/total).toFixed(2), (row_data['Nil Population']*0.16/1000000)),
             createData('#059212',
               'Very low', row_data['Very Low'], (row_data['Very Low']*100/total).toFixed(2), (row_data['Very Low Population']*0.16/1000000)),
             createData('#00FF00',
@@ -197,7 +192,7 @@ export default function Legend_Small({
           return '<0.1 Mha';
           }
           else{
-            return '<0.1 Mha';
+            return '<0.1 million';
           }
         }
         if(popu<1 && popu>=0.1){
@@ -205,13 +200,13 @@ export default function Legend_Small({
           return popu.toFixed(1) + ' Mha';
           }
           else{
-            return popu.toFixed(1) + ' Mha';
+            return popu.toFixed(1) + ' million';
           }
         }
         if(checkcrop()){
           return Math.round(popu)+' Mha';
         }
-        return Math.round(popu)+' Mha';
+        return Math.round(popu)+' million';
     }
 
     function vulcat(str){
@@ -262,10 +257,7 @@ export default function Legend_Small({
 
   return (
     <div>
-    {(RiskType()!=="Exposure") && 
-    <Popper open={open_yes}>
-        <div ref={cardRef} style={{position:'fixed',left:left_position,bottom:bottom_position, boxShadow:'0px 0px 0px #aaa',backgroundColor: 'white', border: '0px solid black', width:box_width, borderRadius:'5px' }}>
-        <Paper elevation={1} sx={{padding:'10px'}}>
+    <Paper elevation={1} sx={{padding:'10px',borderRadius:'5px',boxShadow:'0px 0px 0px #aaa',textAlign:'left'}}>
 
         {adaption !== '' && <div>
         <Box sx={{display:'flex'}}>
@@ -274,7 +266,7 @@ export default function Legend_Small({
           </Typography>
           </Box>
         </div>}
-        {((RiskName !== "" && RiskName !== "Hazard Index" && RiskType()==="Hazard" && checkcrop())) && <div>
+        {((RiskName !== "" && RiskType()==="Hazard" && checkcrop())) && <div>
             <Box sx={{ display: 'flex' }}>
             <Typography sx={{ fontSize: 11, marginBottom: '2px' }} color="black">
                 Affected&nbsp;
@@ -285,22 +277,16 @@ export default function Legend_Small({
             </Typography>
             </Box>
         </div>}
-        {(RiskName !== "" && (RiskType()==="Risk" || RiskName==="Hazard Index") && (checkcrop()===false||(commodity==='Rice'||commodity==='Wheat'||commodity==='Barley'||commodity==='Soybean'||commodity==='Cotton'||commodity==='Chickpea'||commodity==='Maize'||commodity==='Mustard'))) && <div>
-        <Box sx={{display:'flex'}}>
-        <Typography  sx={{ fontSize: 11, marginBottom:'2px'}} color="black">
-        Farm households affected
+        {((RiskName !== "" && RiskType()==="Hazard" && checkcrop()===false)) && <div>
+            <Box sx={{ display: 'flex' }}>
+            <Typography sx={{ fontSize: 11, marginBottom: '2px' }} color="black">
+                Affected&nbsp;
+                <span style={{ color: '#859F3D', fontWeight: 'bold' }}>number of animals</span>
+                :
             </Typography>
-        </Box>
+            </Box>
         </div>}
-        {((RiskName !== "" && RiskName!=="Hazard Index" && RiskType()==="Hazard" && (checkcrop()===false))) && <div>
-        <Box sx={{display:'flex'}}>
-        <Typography  sx={{ fontSize: 11, marginBottom:'2px'}} color="black">
-        Farm households affected by this {typrstr().toLowerCase()} in {commodity.toLowerCase()}
-            </Typography>
-        </Box>
-        </div>
-        }
-        {((RiskName !== "" && RiskType()==="Vulnerability" && (checkcrop()===false||(commodity==='Rice'||commodity==='Wheat'||commodity==='Barley'||commodity==='Soybean'||commodity==='Cotton'||commodity==='Chickpea'||commodity==='Maize'||commodity==='Mustard')))) && <div>
+        {((RiskName !== "" && RiskType()==="Vulnerability" && ((commodity==='Rice'||commodity==='Wheat'||commodity==='Barley'||commodity==='Soybean'||commodity==='Cotton'||commodity==='Chickpea'||commodity==='Maize'||commodity==='Mustard')))) && <div>
         <Box sx={{display:'flex'}}>
         <Typography  sx={{ fontSize: 11, marginBottom:'2px'}} color="black">
         Farm households under different categories of {RiskName.toLowerCase()}
@@ -350,14 +336,14 @@ export default function Legend_Small({
                         {index===0 &&
                             <div>
                                 <Box sx={{display:'flex',alignItems:'left',flexDirection:'row',width:'100%'}}>
-                                    <Box sx={{width: 60,height: 18,borderRadius: 0,bgcolor:row.color, margin:0, alignContent:'center'}}>
+                                    <Box sx={{width: 110,height: 18,borderRadius: 0,bgcolor:row.color, margin:0, alignContent:'center'}}>
                                     <Typography sx={{ fontSize: 10, marginY:'auto',marginLeft:'3px'}} color="white" > 
                                         <strong>{row.Cat}</strong>
                                     </Typography>
                                     </Box>
-                                    <Box>
+                                    {checkcrop()===true && <Box>
                                     <Typography sx={{ fontSize: 10, margin:'2px'}} color="#AA5486" fontWeight='bold'>{calcpop(row.Population)}</Typography>
-                                    </Box>
+                                    </Box>}
                                     <Box>
                                     <Typography sx={{ fontSize: 10, margin:'2px'}} color="#859F3D" fontWeight='bold'>{calcarea(row.Area)}</Typography>
                                     </Box>
@@ -373,9 +359,9 @@ export default function Legend_Small({
                             {index!==0 && 
                             <div>
                                 <Box sx={{display:'flex',alignItems:'left',flexDirection:'column',width:'100%',gap:'2px'}}>
-                                <Box sx={{width: 58, height: 18, borderRadius: 0}}>
+                                {checkcrop()===true && <Box sx={{width: 58, height: 18, borderRadius: 0}}>
                                     <Typography sx={{ fontSize: 10, margin:'2px'}} color="#AA5486" fontWeight='bold'> {calcpop(row.Population)}</Typography>
-                                    </Box>
+                                    </Box>}
                                     <Box sx={{width: 58, height: 18, borderRadius: 0, bgcolor:row.color, alignContent:'center'}}>
                                     <Typography sx={{ fontSize: 10, marginY:'auto',marginLeft:'3px'}} color="white" > 
                                     <strong>{row.Cat}</strong>
@@ -440,8 +426,6 @@ export default function Legend_Small({
                     }
         </Typography>
         </Paper>
-        </div>
-      </Popper>}
       </div>
   );
 }

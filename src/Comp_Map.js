@@ -25,7 +25,7 @@ import BoxLegend from './BoxLegend';
 export default function MApp({
   activeCrop, focus='Region', activeRegion,
   activeOpt, CurrRisk, activeImpact,activeScenario,
-  sharedView,handleviewchange
+  sharedView,handleviewchange,activeOptLayer
 }) {
 
     const ref = useRef(null);
@@ -170,10 +170,18 @@ export default function MApp({
     const color_hazard = {
       color: [
         'palette',
+        ['clamp', ['*', ['band', 2], 25], 0, 6],
+        ['rgba(0,0,0,0)', 'rgba(150,150,150,1)', '#059212', '#00FF00', '#FFFF00', '#FFA500', '#FF0000']
+      ]
+    };
+
+    const color_hazard_livestock = {
+      color: [
+        'palette',
         [
         'interpolate',
         ['linear'],
-        ['*',['band', 2], 25], 
+        ['*',['band', 2], 250], 
         0,
         1,
         1,
@@ -361,100 +369,6 @@ class LegendControl extends Control {
     element.appendChild(legend);
   }
 }
-/*     //
-    // Define Legend Toggle Control.
-    //
-    class LegendToggleControl extends Control {
-     
-      constructor(opt_options) {
-        const options = opt_options || {};
-
-        const button = document.createElement('button');
-        button.innerHTML = 'L'; // Button with the letter 'L'
-        button.title = 'Display Legend';
-
-        const element = document.createElement('div');
-        element.className = 'legend-toggle ol-unselectable ol-control box-legend';
-        element.appendChild(button);
-
-        super({
-          element: element,
-          target: options.target,
-        });
-
-        this.isLegendVisible = false; // State to track legend visibility
-        this.legendElement = this.createLegendElement(); // Create legend box
-
-        // Attach event listener to toggle legend visibility
-        button.addEventListener('click', this.handleLegendToggle.bind(this), false);
-      }
-
-      // Method to create the legend box
-      createLegendElement() {
-        const legend = document.createElement('div');
-        legend.className = 'legend-box';
-        legend.style.position = 'absolute';
-        //legend.style.top = '50px';
-        //legend.style.left = '10px';
-        legend.style.background = 'white';
-        legend.style.padding = '5px';
-        legend.style.border = '1px solid black';
-        legend.style.borderRadius = '2px';
-        legend.style.display = 'grid'; // Initially hidden
-        legend.style.zIndex = 1000;
-
-        // Populate the legend with colored boxes
-        const colors = [
-          'rgba(0, 0, 139, 1)', // Box 1
-          'rgba(70, 130, 180, 1)', // Box 2
-          'rgba(0, 191, 255, 1)', // Box 3
-          'rgba(50, 205, 50, 1)', // Box 4
-          'rgba(255, 255, 0, 1)', // Box 5
-          'rgba(70, 130, 180, 1)', // Box 6
-          'rgba(0, 191, 255, 1)', // Box 7
-          'rgba(50, 205, 50, 1)', // Box 8
-          'rgba(255, 255, 0, 1)', // Box 9
-          'rgba(255, 165, 0, 1)', // Box 10
-          'rgba(0, 191, 255, 1)', // Box 11
-          'rgba(50, 205, 50, 1)', // Box 12
-          'rgba(255, 255, 0, 1)', // Box 13
-          'rgba(255, 165, 0, 1)', // Box 14
-          'rgba(204, 51, 0, 1)', // Box 15
-          'rgba(50, 205, 50, 1)', // Box 16
-          'rgba(255, 255, 0, 1)', // Box 17
-          'rgba(255, 165, 0, 1)', // Box 18
-          'rgba(204, 51, 0, 1)', // Box 19
-          'rgba(128, 0, 0, 1)', // Box 20
-          'rgba(255, 255, 0, 1)', // Box 21
-          'rgba(255, 165, 0, 1)', // Box 22
-          'rgba(204, 51, 0, 1)', // Box 23
-          'rgba(128, 0, 0, 1)', // Box 24
-          'rgba(128, 0, 0, 1)', // Box 25
-        ];
-        colors.forEach((color,index) => {
-          if(index%5===0){
-
-          }
-          const colorBox = document.createElement('div');
-          colorBox.style.width = '30px';
-          colorBox.style.height = '30px';
-          colorBox.style.backgroundColor = color;
-          colorBox.style.marginBottom = '0px';
-          legend.appendChild(colorBox);
-        });
-
-        // Append the legend box to the map container
-        document.body.appendChild(legend);
-
-        return legend;
-      }
-
-      // Method to toggle legend visibility
-      handleLegendToggle() {
-        this.isLegendVisible = !this.isLegendVisible;
-        this.legendElement.style.display = this.isLegendVisible ? 'block' : 'none';
-      }
-    } */
 
       const sourcemap = new tilesource({
         url: `https://api.maptiler.com/maps/bright-v2/tiles.json?key=${key}`, // source URL
@@ -467,20 +381,6 @@ class LegendControl extends Control {
         opacity:0.9,
       zIndex:10,
     });
-
-
-   /*  const BingMapNew = new TileLayer2({
-      preload: Infinity,
-      source: new BingMaps({
-        key: 'AvUc2NPj5dHI1yefH-oLqI4_EzAKBjyYTg3dM9c9lUrZglsLsvB1usgVz330xsZC',
-        imagerySet: 'RoadOnDemand',
-        // use maxZoom 19 to see stretched tiles instead of the BingMaps
-        // "no photos at this zoom level" tiles
-        // maxZoom: 19
-      }),
-      opacity:0.8,
-      zIndex:10,
-    }); */
 
     useEffect(() => {
       const container = document.getElementById('popup2');
@@ -907,36 +807,6 @@ class LegendControl extends Control {
       }
 }, [activeRegion,focus,mapRef,activeOpt,CurrRisk]);
 
-/* useEffect(() => {
-  let source1 = null;
-
-  const urlstr = './Crop Masks/AllPix/ZZ_Mask_'+activeCrop+'801.tif';
-  source1 = new GeoTIFF({sources: [{ url: urlstr }], sourceOptions:{allowFullFile:true} });
-
-  if (mapRef.current && overl2) {
-    mapRef.current.removeLayer(overl2);
-    setOverl2(null);
-  }
-
-  if(activeOpt!=='' || CurrRisk!=='' || activeImpact['Impact on Productivity'] || activeImpact['Value of Production']) {
-
-  if (source1) {
-    const newOverl2 = new TileLayer({
-      source: source1,
-      opacity: 0.85,
-      zIndex: 90,
-    });
-    
-    newOverl2.setStyle(color3);
-    if (mapRef.current) {
-      mapRef.current.addLayer(newOverl2);
-      setOverl2(newOverl2);
-    }
-  }
-}
-}, [CurrRisk,activeCrop,activeOpt,activeImpact,mapRef,activeScenario]); */
-
-
 useEffect(() => {
   let source1 = null;
   let opt = 1;
@@ -961,7 +831,7 @@ useEffect(() => {
       'Heat stress during boll formation':'Heat stress during boll formation','Cold stress during flowering':'Cold stress during flowering',
       'High tempearture during flowering':'High tempearture during flowering','Biotic Stress':'Biotic stress',"Vulnerability Index":'Vulnerability Index',
       "Availability of crop residues":'Residue',"Rural infrastructure":'Road network density',"Cyclone":'Cyclone',"Rainfall Deficit":"Rainfall deficit",
-      "Extreme Rainfall days":"Extreme Rainfall Days","Cold days":"Cold stress or cold days","Hot days":"Heat stress or hot days","Temperature-Humidity Index":'Temperature-humidity Index',
+      "Extreme Rainfall days":"Extreme Rainfall Days","Cold days":"Cold Stress","Hot days":"Heat stress or hot days","Temperature-Humidity Index":'THI',
       "Socio-economic Development Indicator":"Human development index"};
 
     if(activeOpt!==''){
@@ -995,6 +865,9 @@ useEffect(() => {
       }
       if(CurrRisk==='Flood'){
         opt=99;
+      }
+      if(checkcrop2()===false){
+        opt=101;
       }
       settiffFilePath(urlstr);
       source1 = new GeoTIFF({sources: [{ url: urlstr}],sourceOptions:{allowFullFile:true}});
@@ -1052,6 +925,9 @@ useEffect(() => {
     else if(opt==99){
       newOverl.setStyle(color_hazard_25);
     }
+    else if(opt==101){
+      newOverl.setStyle(color_hazard_livestock);
+    }
     else{
       newOverl.setStyle(color1);
       if(checkcrop()===false){
@@ -1065,19 +941,77 @@ useEffect(() => {
   }
   
 }, [CurrRisk,activeCrop,activeOpt,activeImpact,mapRef,activeScenario]);
-             
-/* useEffect(() => {
-  if(tiffFilePath!=="" && polycord!==null){
-    clipUsingPolygon(tiffFilePath, polycord);
+
+useEffect(() => {
+  let source1 = null;
+
+  let opt = 1;
+  const optcode = {'Stress Tolerant Variety':'ADVAR','Early Sowing':'ADPTI','Precision Land Levelling':'LASLV','Zero Tillage with residue':'ZTILL','Broad Bed and Furrow':'BBFIB',
+    'DSR (Dry Seed)':'DSDRY','DSR (Wet Seed)':'DSWET','System of Rice Intensification':'SRIUT','Supplemental Irrigation':'WHSRC','Microirrigation':'MICIR','Precision Water Management':'PWMGT',
+    'Low-tech Precision Technology':'PNMLT','High-tech Precision Technology':'PNMHT','Deep Placement of Urea':'DR',
+    'ICT-based Agro Advisory':'WEAGA','Crop Insurance':'INSUR','Land Management':'LMGT','Feed Management':'FMGT','Herd Management':'HMGT',
+    'Animal Health':'ANHLT','Animal Productivity':'ANPRO','Mulching':'MULCH','Alternate wetting and drying':'AWD','Fertilizer rating and timing':'FRT',
+    'Manure Management':'MNMGT','Information Use':'INFO','Heat Stress Management':'HSMGT'};
+
+    if(activeOpt!==''){
+      opt=2;
+      let urlstr = "xyz.tif";
+      if(activeScenario==='baseline'){
+        urlstr = "./Adap/"+activeCrop+"/Suitability_"+activeCrop+"_"+optcode[activeOpt]+".tif";
+        if(checkcrop2()===false){
+          opt=3;
+          urlstr = "./Adap/"+activeCrop+"/"+activeOpt+" Baseline.tif";
+        }
+      }
+      settiffFilePath(urlstr);
+      source1 = new GeoTIFF({sources: [{ url: urlstr}],sourceOptions:{allowFullFile:true}});
+    }
+    
+    /* source1.on('change', function() {
+      const state = source1.getState();
+      if (state === 'error') {
+        setmsource(true);
+      } else if (state === 'ready') {
+        setmsource(false);
+      }
+    });
+
+  if (mapRef.current && overl) {
+    mapRef.current.removeLayer(overl);
+    setOverl(null);
   }
-},[tiffFilePath,polycord]); */
+  //HEAT STRESS	SPIKELET STERILITY HEAT	SPIKELET STERILITY COLD
+  if (source1) {
+    
+    const newOverl = new TileLayer({
+      source: source1,
+      opacity: 0.85,
+      zIndex: 91,
+    });
+
+    if(opt===2){
+      newOverl.setStyle(color2);
+    }
+    else{
+      newOverl.setStyle(color1);
+      if(checkcrop()===false){
+        newOverl.setStyle(colorGradientEx);
+      }
+    }
+    if (mapRef.current) {
+      mapRef.current.addLayer(newOverl);
+      setOverl(newOverl);
+    }
+  } */
+  
+}, [activeOptLayer,mapRef]);
 
     return (
     <div style={{overflow:'hidden'}}>
     <div id="popup2" class="ol-popup">
       <div id="popup-content2" style={{textTransform:'capitalize',fontSize:'13px'}}></div>
     </div>
-    <div ref={ref} style={{height:'calc(100vh - 150px)',width:'auto',marginLeft:0,marginBottom:'0px',padding:0}} className="map-container" />
+    <div ref={ref} style={{height:'calc(100vh - 155px)',width:'auto',marginLeft:0,marginBottom:'0px',padding:0}} className="map-container" />
     
     <Popper open={missingSource}>
         <div style={{position:'fixed',right:'330px',top:95, boxShadow:'0px 0px 1px #aaa',backgroundColor: 'rgba(14, 33, 1, 0.6)', border: '0px solid black', width:'180px', borderRadius:'5px',padding:'3px'}}>

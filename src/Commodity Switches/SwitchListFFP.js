@@ -17,7 +17,7 @@ export default function SwitchFruits({
   const switchid = ['potato','onion','tomato','chilli','mango','banana'];
   const disvar = {'potato':false,'onion':false,'tomato':true,'chilli':true,'mango':true,'banana':true};
   const padd = 8;
-  const season = ['Analysis done for rabi/winter season or Maha season.','Onion is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as \'Kharif\' in India) and Yala in Sri Lanka.','Season information to be updated','Season information to be updated',
+  const season = ['Analysis done for Rabi/winter season or Maha season.','Onion is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as \'Kharif\' in India) and Maha in Sri Lanka.','Season information to be updated','Season information to be updated',
     'Season information to be updated','Season information to be updated'];
 
   const LightTooltip = styled(({ className, ...props }) => (

@@ -18,8 +18,8 @@ export default function SwitchLegumes({
   const disvar = {'chickpea':false,'ppea':false,'bgram':true,'ggram':true,'lentil':true};
   const padd = 8;
   const season = [
-    'Analysis done for rabi/winter season','Analysis done for rabi/winter season','Analysis done for rabi/winter season',
-    'Analysis done for rabi/winter season','Analysis done for rabi/winter season'];
+    'Analysis done for Rabi/winter season','Analysis done for Rabi/winter season','Analysis done for Rabi/winter season',
+    'Analysis done for Rabi/winter season','Analysis done for Rabi/winter season'];
 
   const LightTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />

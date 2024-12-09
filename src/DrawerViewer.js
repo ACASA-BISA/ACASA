@@ -42,6 +42,8 @@ export default function DrawerV({
   changeRisk,
   activeImpact,
   changeImpact,
+  activeOptLayer,
+  changeOptLayer
 }) {
     function createInitialTodos() {
     const initialTodos = {};
@@ -133,7 +135,7 @@ export default function DrawerV({
     }));
 
   return (
-    <div style={{overflow:'hidden'}}>
+    <div style={{overflow:'hidden',height:'auto'}}>
       <ClickAwayListener
         mouseEvent="onMouseDown"
         touchEvent="onTouchStart"
@@ -148,7 +150,8 @@ export default function DrawerV({
           <ListItem key={Item} onClick={toggleList(Item)} disablePadding sx={{color:'#ffffff', '&:hover': { backgroundColor: '#fece2f' },backgroundColor:colorofbutton(Item),height:'100%'}}>
            <ListItemButton>
            <Box  sx={{ display:'flex', flexDirection: 'row'}}>
-              { //index===0 && <LightTooltip open={(isShown1&&DrOpen)} title="Home" placement="top" arrow><HomeOutlined onMouseEnter={() => setIsShown1(true)} onMouseLeave={() => setIsShown1(false)} sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/></LightTooltip>
+              { //index===0 && <LightTooltip open={(isShown1&&DrOpen)} title="Home" placement="top" arrow><HomeOutlined onMouseEnter={() => setIsShown1(true)} onMouseLeave={() => setIsShown1(false)}
+              // sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/></LightTooltip>
               }
 {/*           { index===0 && <LightTooltip title="Home" placement="top" arrow><HomeOutlined sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/></LightTooltip>}
               { index===1 && <LightTooltip title="Region" placement="top" arrow><LocationOnOutlined sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/></LightTooltip>}
@@ -212,7 +215,8 @@ export default function DrawerV({
         >
         {open['Select Commodity'] === true && <SwitchCom activeCrop={activeCrop} changeCrop={changeCrop}></SwitchCom>}
         {open['Select Region'] === true && <SwitchLoc activeRegion={activeRegion} changeRegion={changeRegion} countryStateMap={LocationData}></SwitchLoc>}
-        {open['Adaptation Options'] === true && <SwitchOpt activeCrop={activeCrop} activeOpt={activeOpt} changeOpt={changeOpt}></SwitchOpt>}
+        {open['Adaptation Options'] === true && <SwitchOpt activeCrop={activeCrop} activeOpt={activeOpt} changeOpt={changeOpt} activeOptLayer={activeOptLayer}
+        changeOptLayer={changeOptLayer}></SwitchOpt>}
         {open['Climatic Risks'] === true && <SwitchRisk2 activeCrop={activeCrop} changeRisk={changeRisk} activeScenario={activeScenario} CurrRisk={CurrRisk}></SwitchRisk2>}
         {open['Impact'] === true && <SwitchImpact activeImpact={activeImpact} changeImpact={changeImpact}></SwitchImpact>}
         {open['Go to Home'] === true && (window.location.href = "/")}

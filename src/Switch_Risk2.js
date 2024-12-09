@@ -113,7 +113,7 @@ export default function SwitchRisk2({
             HazardList = ['HINDEX','HEAT STRESS','COLD STRESS','SPI','DSN','FLOOD'];
         }
         else if(sname==='buffalo'||sname==='cattle'||sname==='pig'||sname==='sheep'||sname==='poultry'||sname==='goat'){
-            HazardList = ['HINDEX','THI','HD','CD','ERD','RAINDEF','FLOOD','CYCL'];
+            HazardList = ['HINDEX','THI','CD','ERD','RAINDEF','FLOOD','CYCL'];
         }
         //Kharif Onion
         else if(sname==='onion'){
@@ -145,8 +145,11 @@ export default function SwitchRisk2({
   const switchVulner = ['Vulnerability Index','Irrigation','Soil Water Holding Capacity','Soil Organic Carbon',"Income","Rural infrastructure","Socio-economic Development Indicator"];
   const switchVulnerID = ['vulne','irrigation','waterholding','soil','GDP','ROAD','HDI'];
 
-  const switchvul_Livestock = ['Vulnerability Index',"Availability of crop residues","Income","Rural infrastructure","Socio-economic Development Indicator"];
-  const switchvul_LivestockID = ['vulne',"CROPRES","GDP","ROAD",'HDI'];
+/*   const switchvul_Livestock = ['Vulnerability Index',"Availability of crop residues","Income","Rural infrastructure","Socio-economic Development Indicator"];
+  const switchvul_LivestockID = ['vulne',"CROPRES","GDP","ROAD",'HDI']; */
+
+  const switchvul_Livestock = ['Vulnerability Index',"Availability of crop residues","Income","Socio-economic Development Indicator"];
+  const switchvul_LivestockID = ['vulne',"CROPRES","GDP",'HDI'];
 
   const switchvul_Fisheries = [];
   const switchvul_FisheriesID = [];
@@ -338,37 +341,10 @@ export default function SwitchRisk2({
         </FormLabel>
         { true && (
         <FormControl component="" variant="standard" sx={{paddingBottom:1, paddingLeft:3}}>
-            {switchChild.map((sname1,index1) => (
-              <FormGroup>
-              <CustomFormControlLabel
-              control={
-                <AntSwitch inputProps={{ 'aria-label': 'ant design' }} checked={P2a[switchChildID[index1]]} 
-                onChange={handleChange2a(switchChildID[index1])} name={switchChildID[index1]} 
-                />
-              }
-              disabled={false}
-              key={switchChildID[index1]}
-              label={<Typography variant="body2" sx={{paddingLeft:1}}>{sname1}</Typography>}
-              />
-              {P2a[switchChildID[index1]] && switchChildID[index1] === 'pr' && (
-                <FormControl component="fieldset" variant="standard" sx={{paddingBottom:1,paddingLeft:5}}>
-                    {switchPro.map((sn1,idx) => (
-                        <FormGroup>
-                            <CustomFormControlLabel
-                            control = {
-                                <AntSwitch inputProps={{'aria-label':'ant design'}} checked={P3[switchProID[idx]]}
-                                onChange={handleChangeP3(switchProID[idx])} name={switchProID[idx]}
-                                />
-                                }
-                                disabled={checklivestock()}
-                                key={switchProID[idx]}
-                                label={<Typography variant='body2'  sx={{paddingLeft:1}}>{sn1}</Typography>}
-                                />
-                        </FormGroup>
-                    ))}
-                </FormControl>)}
-                {P2a[switchChildID[index1]] && switchChildID[index1] === 'ipcc' && (
-                    <FormControl component="fieldset" variant="standard" sx={{paddingBottom:1,paddingLeft:5}}>
+            
+              
+                {true && (
+                    <FormControl component="fieldset" variant="standard" sx={{paddingBottom:1,paddingLeft:0}}>
                 {
                     switchRisk.map((sn1r,idxr)=>(
                     <FormGroup>
@@ -509,8 +485,7 @@ export default function SwitchRisk2({
                         </FormGroup>
                     ))}
                 </FormControl>)}
-           </FormGroup>
-            ))}
+                
           </FormControl>)}
           </Box>
           </div>

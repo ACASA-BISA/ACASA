@@ -782,12 +782,12 @@ useEffect(() => {
     'Manure Management':'MNMGT','Information Use':'INFO','Heat Stress Management':'HSMGT'};
 
     const hazardname = {"District Level": "District Level","Downscaled Risk": "Downscaled Risk","Risk Index": "Risk index","Hazard Index": "Hazard Index",
-      "Low temperature induced spikelet sterility": "Low temp induced spikelet sterility",
-      "Low temperature induced pollen sterility": "Low temp induced pollen sterility","High temperature induced pollen sterility": "High temp induced pollen sterility",
-      "Heat Stress": "Heat stress","High temperature induced spikelet sterility": "High temp induced spikelet sterility",
-      "Cold Stress": "Cold stress","Low temperature induced tuberization failure": "Low temp induced tuberization failure",'Untimely Rainfall':"Untimely rainfall",
+      "Low temperature induced spikelet sterility": "Low temperature induced spikelet sterility",
+      "Low temperature induced pollen sterility": "Low temperature induced pollen sterility","High temperature induced pollen sterility": "High temperature induced pollen sterility",
+      "Heat Stress": "Heat stress","High temperature induced spikelet sterility": "High temperature induced spikelet sterility",
+      "Cold Stress": "Cold stress","Low temperature induced tuberization failure": "Low temperature induced tuberization failure",'Untimely Rainfall':"Untimely rainfall",
       "Terminal Heat": "Terminal heat","Days of Frost": "Days of frost","Excess Rainfall and Waterlogging": "Excess rain and waterlogging",
-      "Delayed Monsoon": "Delayed monsoon","Drought": "Rainfall deficit index","Dry Spell": "Dry spell number","Flood": "Flood","Soil Organic Carbon":"Soil organic carbon",
+      "Delayed Monsoon": "Delayed monsoon","Drought": "Drought","Dry Spell": "Number of dry spells","Flood": "Flood","Soil Organic Carbon":"Soil organic carbon",
       "Lodging": "Rain and wind causing lodging","Biotic": "High humidity and temperature for blight","Irrigation": "Irrigation","Soil Water Holding Capacity": "Water holding capacity","Income": "Agricultural GDP",
       "Access to Credit": "Access to Credit","Access to Market": "Access to Market","Elevation": "Elevation","Access to Knowledge": "Access to Knowledge","Exposure Index": "Exposure Index",
       "Number of Farmers": "Number of Farmers","Cropped Area": "Extent","Excess Rainfall":"Excess rainfall","Number of Animals per grid":"Number of animals per grid",
@@ -795,7 +795,7 @@ useEffect(() => {
       'Heat stress during boll formation':'Heat stress during boll formation','Cold stress during flowering':'Cold stress during flowering',
       'High tempearture during flowering':'High tempearture during flowering','Biotic Stress':'Biotic stress',"Vulnerability Index":'Vulnerability Index',
       "Availability of crop residues":'Residue',"Rural infrastructure":'Road network density',"Cyclone":'Cyclone',"Rainfall Deficit":"Rainfall deficit",
-      "Extreme Rainfall days":"Extreme Rainfall Days","Cold days":"Cold stress or cold days","Hot days":"Heat stress or hot days","Temperature-Humidity Index":'Temperature-humidity Index',
+      "Extreme Rainfall days":"Extreme Rainfall Days","Cold days":"Cold Stress","Hot days":"Heat stress or hot days","Temperature-Humidity Index":'THI',
       "Socio-economic Development Indicator":"Human development index"};
 
     if(activeOpt!==''){

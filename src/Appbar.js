@@ -294,7 +294,7 @@ function ResponsiveAppBar({}) {
                     {/* {opts.map((setting) => (<div></div>))} */}
                       <a href="/#/future" style={{textDecoration: 'none'}}>
                       <MenuItem onClick={handleClick}>
-                        <Typography textAlign="center" fontSize={13} color='#222222' sx={{fontFamily:"Karla",fontWeight:350}}>Hazard at a glance</Typography>
+                        <Typography textAlign="center" fontSize={13} color='#222222' sx={{fontFamily:"Karla",fontWeight:350}}>Hazards at a glance</Typography>
                       </MenuItem>
                       </a>
                       <a href="/#/analytics" style={{textDecoration: 'none'}}>

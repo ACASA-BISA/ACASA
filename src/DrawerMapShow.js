@@ -27,7 +27,7 @@ import { useLocation } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import UseCase from './Usecase';
 import Guidee from './Guide';
-import UnitCard from './UnitRisk';
+//import UnitCard from './UnitRisk';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -38,6 +38,7 @@ import CompV from './Exp_Comp';
 import ImageTimeline from './gif';
 import CompGif from './Explore_with_gif.js';
 import Summary_Statistics from './Summary_Statistics.js';
+import Selection_bar from './Selection_bar.js';
 // import AdaptationGlance from './AdaptationGlance';
 //import Summ1 from './Summary1';
 
@@ -239,6 +240,10 @@ export default function DrawerMapShow({
         IntialOptions
     );
 
+    const [optionlayer, setOptionLayer] = React.useState(
+      {'Technical Suitability':true,'Socio-Economic':false,'Scalibility':false}
+    );
+
     function initialCrop() {
       let namee = '';
       fullList.map((sname,index) => {
@@ -320,7 +325,7 @@ export default function DrawerMapShow({
       setRiskName('');
       setImpact(InitialImpact);
       setImpactName('');
-  };
+    };
 
     // with event for switch click event in linear structure
 
@@ -403,11 +408,24 @@ export default function DrawerMapShow({
         if(name===''){
           setCurrOpt('');
         }
+        setOptionLayer({
+          ...optionlayer,
+          'Technical Suitability':true,
+          'Socio-Economic':false,
+          'Scalibility':false
+        });
         setOption(newState);
         setRisk(InitialHazard);
         setRiskName('');
         setImpact(InitialImpact);
         setImpactName('');
+    };
+
+    const changeOptLayer = (event) => {
+      setOptionLayer({
+        ...optionlayer,
+        [event.target.name]: event.target.checked,
+      });
     };
 
     const handleChangeOptSumm = (name) => {
@@ -540,12 +558,17 @@ export default function DrawerMapShow({
     return (
         <div>
         <Box sx={{display:{xs:'none',md:'block'}}}>
+
+        {(activeBar==='future') && <Selection_bar location={activeRegion} commodity={Currcrop} adaption={CurrOpt}
+        RiskName={RiskName} scenario={NameScenario} ImpactName={ImpactName}></Selection_bar>}
+
         {activeBar==='future' && <CompV activeCrop={Currcrop} changeCrop={handleChange_CMP} LocationData={countryStateMap} focus={focus} activeRegion={activeRegion} changeRegion={ActiveRegionChange} CurrRisk={RiskName}
         activeOpt={CurrOpt} changeOpt={handleChangeOpt_CMP} changeRisk={changeRisk} activeImpact={CurrImpact} changeImpact={changeImpact_CMP} activeScenario={scenario} changeScenario={handleScenarioChange}
-        area_dict3={area_dict3} area_dict4={area_dict4}></CompV>}
+        area_dict3={area_dict3} area_dict4={area_dict4} activeOptLayer={optionlayer} changeOptLayer={changeOptLayer}></CompV>}
 
         {activeBar==='future' && <DrawerV activeCrop={crop} changeCrop={handleChange} LocationData={countryStateMap} activeRegion={activeRegion} changeRegion={ActiveRegionChange} CurrRisk={RiskName}
-        activeOpt={option} changeOpt={handleChangeOpt} changeRisk={changeRisk} activeImpact={CurrImpact} changeImpact={changeImpact} activeScenario={scenario} changeScenario={handleScenarioChange}></DrawerV>}
+        activeOpt={option} changeOpt={handleChangeOpt} changeRisk={changeRisk} activeImpact={CurrImpact} changeImpact={changeImpact} activeScenario={scenario} changeScenario={handleScenarioChange}
+        activeOptLayer={optionlayer} changeOptLayer={changeOptLayer}></DrawerV>}
         
         {activeBar==='timeline' && <ImageTimeline></ImageTimeline>}
 
@@ -572,7 +595,8 @@ export default function DrawerMapShow({
         {(activeBar==='viewer') && <MApp activeCrop={Currcrop} activeScenario={scenario} focus={focus} activeRegion={activeRegion} activeOpt={CurrOpt} CurrRisk={RiskName} activeImpact={CurrImpact}></MApp>}
         
         {activeBar==='viewer' && <DrawerV activeCrop={crop} changeCrop={handleChange} LocationData={countryStateMap} activeRegion={activeRegion} changeRegion={ActiveRegionChange} CurrRisk={RiskName}
-        activeOpt={option} changeOpt={handleChangeOpt} changeRisk={changeRisk} activeImpact={CurrImpact} changeImpact={changeImpact} activeScenario={scenario} changeScenario={handleScenarioChange}></DrawerV>}
+        activeOpt={option} changeOpt={handleChangeOpt} changeRisk={changeRisk} activeImpact={CurrImpact} changeImpact={changeImpact} activeScenario={scenario} changeScenario={handleScenarioChange}
+        activeOptLayer={optionlayer} changeOptLayer={changeOptLayer}></DrawerV>}
         
         {(activeBar==='viewer') && <div ref={container}><LocationCard location={activeRegion} commodity={Currcrop} adaption={CurrOpt} setHeight1={setHeight1}
         RiskName={RiskName} scenario={NameScenario} ImpactName={ImpactName} area_data={area_dict} area_data2={area_dict2}></LocationCard></div>}
