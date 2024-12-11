@@ -57,6 +57,8 @@ export default function CompGif({
   changeRisk,
   activeImpact,
   changeImpact,
+  activeOptLayer,
+  changeOptLayer
 }) {
     let scn = 'baseline';
     if(activeScenario['ssp245']){
@@ -625,9 +627,11 @@ export default function CompGif({
               <Box sx={{width:'100%',bgcolor:'#C1E1C1',height:'22px'}}><Typography align="center" sx={{fontSize:'14px',fontWeight:'bold'}}>{label}</Typography></Box>
               <Paper elevation={1} sx={{ width: '100%', height: 'calc(100vh - 150px)' }}>
                 {label==='Baseline'&&
-                <Map_Option activeCrop={activeCrop} activeScenario='baseline' focus={focus} activeRegion={activeRegion} activeOpt={activeOpt} CurrRisk={CurrRisk} activeImpact={activeImpact}></Map_Option>}
+                <Map_Option activeCrop={activeCrop} activeScenario='baseline' focus={focus} activeRegion={activeRegion} activeOpt={activeOpt} CurrRisk={CurrRisk} activeImpact={activeImpact}
+                activeOptLayer={activeOptLayer}></Map_Option>}
                 {label==='SSP2-4.5'&&
-                <Map_Option activeCrop={activeCrop} activeScenario='ssp245' focus={focus} activeRegion={activeRegion} activeOpt={activeOpt} CurrRisk={CurrRisk} activeImpact={activeImpact}></Map_Option>}
+                <Map_Option activeCrop={activeCrop} activeScenario='ssp245' focus={focus} activeRegion={activeRegion} activeOpt={activeOpt} CurrRisk={CurrRisk} activeImpact={activeImpact}
+                activeOptLayer={activeOptLayer}></Map_Option>}
               </Paper>
             </Grid>
           ))}

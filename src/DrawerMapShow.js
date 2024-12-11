@@ -691,7 +691,8 @@ export default function DrawerMapShow({ activeBar }) {
         {activeBar==='summary' && <Summary_Statistics></Summary_Statistics>}
 
         {activeBar==='comparison' && <CompGif activeCrop={Currcrop} changeCrop={handleChange_CMP} LocationData={countryStateMap} focus={focus} activeRegion={activeRegion} changeRegion={ActiveRegionChange} CurrRisk={RiskName}
-        activeOpt={CurrOpt} changeOpt={handleChangeOpt_CMP} changeRisk={changeRisk} activeImpact={CurrImpact} changeImpact={changeImpact_CMP} activeScenario={scenario} changeScenario={handleScenarioChange}></CompGif>}
+        activeOpt={CurrOpt} changeOpt={handleChangeOpt_CMP} changeRisk={changeRisk} activeImpact={CurrImpact} changeImpact={changeImpact_CMP} activeScenario={scenario} changeScenario={handleScenarioChange}
+        activeOptLayer={optionlayer} changeOptLayer={changeOptLayer}></CompGif>}
         
         {activeBar==='access' && <div style={{backgroundColor:'#f8f8f8', minHeight:'calc(100vh - 90px)'  }}>
         <TabsData activeTab={activeTab}></TabsData>

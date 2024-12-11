@@ -237,7 +237,7 @@ function ResponsiveAppBar({}) {
                         <Typography textAlign="center" fontSize={13} color='#222222' sx={{fontFamily:"Karla",fontWeight:350}}>Linear Exploration</Typography>
                       </MenuItem>
                       </a>
-                      <a href="/#/comparison" style={{textDecoration: 'none'}}>
+                      <a href="/#/future" style={{textDecoration: 'none'}}>
                       <MenuItem onClick={handleClick}>
                           <Typography textAlign="center" fontSize={13} color='#222222' sx={{fontFamily:"Karla",fontWeight:350}}>Comparative Exploration</Typography>  
                       </MenuItem>
@@ -285,7 +285,7 @@ function ResponsiveAppBar({}) {
                     //MenuListProps={{ onMouseLeave: handleCloseUserMenu }}
                   >
                     {/* {opts.map((setting) => (<div></div>))} */}
-                      <a href="/#/future" style={{textDecoration: 'none'}}>
+                      <a href="/#/comparison" style={{textDecoration: 'none'}}>
                       <MenuItem onClick={handleClick}>
                         <Typography textAlign="center" fontSize={13} color='#222222' sx={{fontFamily:"Karla",fontWeight:350}}>Hazards at a glance</Typography>
                       </MenuItem>
