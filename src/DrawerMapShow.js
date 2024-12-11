@@ -353,7 +353,7 @@ export default function DrawerMapShow({ activeBar }) {
     );
 
     const [optionlayer, setOptionLayer] = React.useState(
-      {'Technical Suitability':true,'Socio-Economic':false,'Scalibility':false}
+      {'Technical Suitability':false,'Socio-Economic':false,'Scalibility':false}
     );
 
   function initialCrop() {
@@ -516,7 +516,7 @@ export default function DrawerMapShow({ activeBar }) {
         }
         setOptionLayer({
           ...optionlayer,
-          'Technical Suitability':true,
+          'Technical Suitability':false,
           'Socio-Economic':false,
           'Scalibility':false
         });

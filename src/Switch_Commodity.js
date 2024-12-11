@@ -21,8 +21,6 @@ export default function SwitchesGroup({
   const switchh = ['Cereals','Legumes','Oilseeds','Fruits and Vegetables','Industrial Crops',"Livestock"];
   const switchid = ['cereals', 'legumes', 'oilseeds', 'fruits', 'industrial', 'livestock'];
   const disvar = {'cereals':false, 'legumes':false, 'oilseeds':false, 'fruits':false, 'industrial':false, 'livestock':false};
-
-  console.log(activeCrop);
   
   function createInitialTodos() {
   const initialTodos = {};

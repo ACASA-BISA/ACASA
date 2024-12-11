@@ -154,11 +154,11 @@ export default function SwitchRisk2({
   const switchvul_Fisheries = [];
   const switchvul_FisheriesID = [];
 
-  const switchExposure = ['Exposure Index','Cropped Area'];
-  const switchExposureID = ['expoindex','c-area'];
+  const switchExposure = ['Cropped Area'];
+  const switchExposureID = ['c-area'];
 
-  const switchExposureLivestock = ['Exposure Index','Number of Animals per grid'];
-  const switchExposureLivestockID = ['expoindex','animals'];
+  const switchExposureLivestock = ['Number of Animals per grid'];
+  const switchExposureLivestockID = ['animals'];
 
   const switchExposureFish = ['Exposure Index'];
   const switchExposureFishID = ['expoindex'];
@@ -257,8 +257,8 @@ export default function SwitchRisk2({
   const padd = 8;
 
   const AntSwitch = styled(Switch)(({ theme }) => ({
-    width: 32+padd,
-    height: 14+padd,
+    width: 30+padd,
+    height: 12+padd,
     padding: padd/2,
     display: 'flex',
     
@@ -277,8 +277,8 @@ export default function SwitchRisk2({
     },
     '& .MuiSwitch-thumb': {
       boxShadow: '0 2px 4px 0 rgb(0 35 11 / 20%)',
-      width: 12,
-      height: 10,
+      width: 10,
+      height: 8,
       borderRadius: 6,
       transition: theme.transitions.create(['width'], {
         duration: 200,
@@ -354,7 +354,7 @@ export default function SwitchRisk2({
                         />}
                         disabled={false}
                         key={(switchRiskID[idxr])}
-                        label={<Typography variant='body2'  sx={{paddingLeft:1}}>{sn1r}</Typography>}
+                        label={<Typography fontSize='13px' sx={{paddingLeft:'3px'}}>{sn1r}</Typography>}
                         />
                     </FormGroup>
                     ))
@@ -369,7 +369,7 @@ export default function SwitchRisk2({
                                 }
                                 disabled={false}
                                 key={switchIPCCID[idx]}
-                                label={<Typography variant='body2'  sx={{paddingLeft:1}}>{sn1}</Typography>}
+                                label={<Typography fontSize='13px' sx={{paddingLeft:'3px'}}>{sn1}</Typography>}
                                 />
                                     {P3aipcc[switchIPCCID[idx]] && switchIPCCID[idx]==='hazard' && (
                                         <FormControl component="fieldset" variant="standard" sx={{paddingBottom:1,paddingLeft:5}}>
@@ -382,7 +382,7 @@ export default function SwitchRisk2({
                                                     />}
                                                     disabled={false}
                                                     key={(CurrHazard[idxr])}
-                                                    label={<Typography variant='body2' align='left' sx={{paddingLeft:1,maxWidth:'200px',wordBreak:'break-word', 
+                                                    label={<Typography fontSize='13px' align='left' sx={{paddingLeft:'3px',maxWidth:'200px',wordBreak:'break-word', 
                                                         whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sn1r.charAt(0).toUpperCase()+sn1r.toLowerCase().slice(1)}</Typography>}
                                                     />
                                                 </FormGroup>
@@ -401,7 +401,7 @@ export default function SwitchRisk2({
                                                     />}
                                                     disabled={false}
                                                     key={(switchVulnerID[idxr])}
-                                                    label={<Typography variant='body2' align='left' sx={{paddingLeft:1,maxWidth:'200px',wordBreak:'break-word', whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sn1r.charAt(0).toUpperCase()+sn1r.toLowerCase().slice(1)}</Typography>}
+                                                    label={<Typography fontSize='13px' align='left' sx={{paddingLeft:'3px',maxWidth:'200px',wordBreak:'break-word', whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sn1r.charAt(0).toUpperCase()+sn1r.toLowerCase().slice(1)}</Typography>}
                                                     />
                                                 </FormGroup>
                                                 ))
@@ -415,7 +415,7 @@ export default function SwitchRisk2({
                                                     />}
                                                     disabled={false}
                                                     key={(switchvul_FisheriesID[idxr])}
-                                                    label={<Typography variant='body2' align='left' sx={{paddingLeft:1,maxWidth:'200px',wordBreak:'break-word', whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sn1r.charAt(0).toUpperCase()+sn1r.toLowerCase().slice(1)}</Typography>}
+                                                    label={<Typography fontSize='13px' align='left' sx={{paddingLeft:'3px',maxWidth:'200px',wordBreak:'break-word', whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sn1r.charAt(0).toUpperCase()+sn1r.toLowerCase().slice(1)}</Typography>}
                                                     />
                                                 </FormGroup>
                                                 ))
@@ -429,7 +429,7 @@ export default function SwitchRisk2({
                                                     />}
                                                     disabled={false}
                                                     key={(switchvul_LivestockID[idxr])}
-                                                    label={<Typography variant='body2' align='left' sx={{paddingLeft:1,maxWidth:'200px',wordBreak:'break-word', whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sn1r.charAt(0).toUpperCase()+sn1r.toLowerCase().slice(1)}</Typography>}
+                                                    label={<Typography fontSize='13px' align='left' sx={{paddingLeft:'3px',maxWidth:'200px',wordBreak:'break-word', whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sn1r.charAt(0).toUpperCase()+sn1r.toLowerCase().slice(1)}</Typography>}
                                                     />
                                                 </FormGroup>
                                                 ))
@@ -447,7 +447,7 @@ export default function SwitchRisk2({
                                                     />}
                                                     disabled={false}
                                                     key={(switchExposureID[idxr])}
-                                                    label={<Typography variant='body2' align='left' sx={{paddingLeft:1,maxWidth:'200px',wordBreak:'break-word', whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sn1r.charAt(0).toUpperCase()+sn1r.toLowerCase().slice(1)}</Typography>}
+                                                    label={<Typography fontSize='13px' align='left' sx={{paddingLeft:'3px',maxWidth:'200px',wordBreak:'break-word', whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sn1r.charAt(0).toUpperCase()+sn1r.toLowerCase().slice(1)}</Typography>}
                                                     />
                                                 </FormGroup>
                                                 ))
@@ -461,7 +461,7 @@ export default function SwitchRisk2({
                                                     />}
                                                     disabled={false}
                                                     key={(switchExposureFishID[idxr])}
-                                                    label={<Typography variant='body2' align='left' sx={{paddingLeft:1,maxWidth:'200px',wordBreak:'break-word', whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sn1r.charAt(0).toUpperCase()+sn1r.toLowerCase().slice(1)}</Typography>}
+                                                    label={<Typography fontSize='13px' align='left' sx={{paddingLeft:'3px',maxWidth:'200px',wordBreak:'break-word', whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sn1r.charAt(0).toUpperCase()+sn1r.toLowerCase().slice(1)}</Typography>}
                                                     />
                                                 </FormGroup>
                                                 ))
@@ -475,7 +475,7 @@ export default function SwitchRisk2({
                                                     />}
                                                     disabled={false}
                                                     key={(switchExposureLivestockID[idxr])}
-                                                    label={<Typography variant='body2' align='left' sx={{paddingLeft:1,maxWidth:'200px',wordBreak:'break-word', whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sn1r.charAt(0).toUpperCase()+sn1r.toLowerCase().slice(1)}</Typography>}
+                                                    label={<Typography fontSize='13px' align='left' sx={{paddingLeft:'3px',maxWidth:'200px',wordBreak:'break-word', whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sn1r.charAt(0).toUpperCase()+sn1r.toLowerCase().slice(1)}</Typography>}
                                                     />
                                                 </FormGroup>
                                                 ))

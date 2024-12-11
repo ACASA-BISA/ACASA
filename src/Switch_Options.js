@@ -33,10 +33,25 @@ export default function SwitchOpt({
 
   const fertilizer = ['Fertilizer rating and timing','Low-tech Precision Technology','High-tech Precision Technology'];
   
-  const livestock = ['Land Management','Feed Management','Herd Management','Animal Health','Animal Productivity',
-  'Manure Management','Information Use','Heat Stress Management'];
+  const livestock = ['Shelter Management','Feed Management','Healthcare Management'];
 
   const marine = ['To be Updated'];
+
+  const livestock_shelter_master = ["Micro-climate modification shelter","Modification of shelter",
+    "Planting of trees","Bathing","Mechanical cooling","Wallowing","Heating management"];
+
+  const livestock_feed_master = ["Balanced concentrate with buffer","Mineral mixture supplementation",
+    "By pass protein and fats","Feed additivies, antioxidants, vitamins and probiotics",
+    "Modification in feeding pattern, schedule, grazing and space","Inclusion of green fodder",
+    "Fodder conservation","Ad lib water","Grassland and Silvi-pasture management",
+    "Protien and amino acid supplementation","Feed additivies, electrolyte, antioxidants, vitamins and probiotics"];
+
+  const livestock_health_master = ["Parasite control","Thinning of flock","Separation of multi-aged flock",
+    "Control of ectoparasites and other vectors"];
+
+  const livestock_standalone = ["Reproductive management: Estrous confirmation and synchronisation",
+    "Adoption of climate resillient breeds",
+    "Weather forecasts/THI advisory services","Livestock insurance","Diversification"];
 
 /*   const opt2 = ['Weather Services','Laser Land Levelling','Zero Tillage','BBR/FIRB','Early Sowing',
     'DSR (Dry Seed)','DSR (Wet Seed)','SRI','Insurance',
@@ -106,7 +121,7 @@ export default function SwitchOpt({
     initialTodos[sname] = false;
   });
   return initialTodos;
-  }
+  };
 
   function checkcrop() {
     const diffcrop = ['cattle','buffalo','goat','sheep','pig','poultry',
@@ -118,9 +133,9 @@ export default function SwitchOpt({
       }
     })
     return ans;
-  }
+  };
 
-  function checkFish(){
+  function checknotFish(){
     const fishes = ['freshwater','bracklish','marine','coldwater'];
     let ans = true;
     fishes.forEach((sname) => {
@@ -129,14 +144,30 @@ export default function SwitchOpt({
       }
     })
     return ans;
-  }
+  };
+
+  function createInitialLivestockSwitches() {
+    const initialTodos = {};
+    livestock.forEach((sname) => {
+      initialTodos[sname] = false;
+    });
+    return initialTodos;
+  };
 
   const [state, setState] = React.useState(
     createInitialTodos
   );
 
+  const [livestockstate, setLivestockState] = React.useState(
+    createInitialLivestockSwitches
+  );
+
   const handleChange = (name) => (event) => {
     setState({...state, [name]: event.target.checked});
+  };
+
+  const handleLivestockChange = (name) => (event) => {
+    setLivestockState({...livestockstate, [name]: event.target.checked});
   };
 
   const padd = 8;
@@ -198,14 +229,14 @@ export default function SwitchOpt({
   return (
     <FormControl component="fieldset" variant="standard"  sx={{paddingTop:1, paddingLeft:3}}>
       <FormLabel sx={{display:'flex',paddingBottom:1}}>
-        <Typography sx={{color:'black',fontWeight:'bold',fontSize:14,paddingTop:1,}}>Select Layer</Typography>
+        <Typography sx={{color:'black',fontWeight:'bold',fontSize:14,paddingTop:1,}}>Select Layer(s)</Typography>
         </FormLabel>
         <FormGroup>
         <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Technical Suitability']} name="Technical Suitability" 
             onChange={changeOptLayer}
             color="success" sx={{padding:0,marginLeft:1}}/>} 
             label={<Typography variant="body2" align='left'  sx={{paddingLeft:1,maxWidth:'250px',wordBreak:'break-word', 
-            whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>Technical Suitability</Typography>}/>
+            whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>Adaptation Benefits</Typography>}/>
         <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Socio-Economic']}  name="Socio-Economic" 
             onChange={changeOptLayer}
             color="success" sx={{padding:0,marginLeft:1}}/>} 
@@ -215,7 +246,7 @@ export default function SwitchOpt({
             onChange={changeOptLayer}
             color="success" sx={{padding:0,marginLeft:1}}/>} 
             label={<Typography variant="body2" align='left'  sx={{paddingLeft:1,maxWidth:'250px',wordBreak:'break-word', 
-            whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>Scalibility</Typography>}/>
+            whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>Scalability</Typography>}/>
         </FormGroup>
       <FormLabel sx={{display:'flex',paddingBottom:1}}>
         <Typography sx={{color:'black',fontWeight:'bold',fontSize:14,paddingTop:1,}}>Select Adaptation Option</Typography>
@@ -384,22 +415,73 @@ export default function SwitchOpt({
               />
            </FormGroup>
             ))}
-            {(checkcrop()===false && activeCrop['rice']===false && checkFish()===true) && livestock.map((sname) => (
+            {//Livestock switches
+            }
+            {(checkcrop()===false && activeCrop['rice']===false && checknotFish()===true) && livestock.map((snamelive) => (
               <FormGroup>
-              <CustomFormControlLabel
+              <FormControlLabel
               control={
-                <AntSwitch inputProps={{ 'aria-label': 'ant design' }} checked={activeOpt[sname]} 
-                onChange={changeOpt(sname)} name={sname} 
-                />
-              } 
-              disabled={true}
-              key={sname}
+                <AntSwitch inputProps={{ 'aria-label': 'ant design' }} checked={livestockstate[snamelive]} 
+                onChange={handleLivestockChange(snamelive)} name={snamelive} />
+              }
+              key={snamelive}
               label={<Typography variant="body2" align='left' sx={{paddingLeft:1,maxWidth:'250px',wordBreak:'break-word', 
-                whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sname.charAt(0).toUpperCase()+sname.slice(1,4)+sname.toLowerCase().slice(4)}</Typography>}
+                whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{snamelive.charAt(0).toUpperCase()+snamelive.slice(1,4)+snamelive.toLowerCase().slice(4)}</Typography>}
               />
+                {livestockstate[snamelive] && snamelive === 'Shelter Management' && (
+                <FormControl component="fieldset" variant="standard"  sx={{paddingBottom:1, paddingLeft:6}}>
+                {livestock_shelter_master.map((sname_shelter) => (
+                  <FormGroup>
+                  <CustomFormControlLabel
+                  control={
+                    <AntSwitch inputProps={{ 'aria-label': 'ant design' }} checked={activeOpt[sname_shelter]} 
+                    onChange={changeOpt(sname_shelter)} name={sname_shelter} 
+                    />
+                  }
+                  key={sname_shelter}
+                  label={<Typography variant="body2" align='left' sx={{paddingLeft:1,maxWidth:'250px',wordBreak:'break-word', 
+                    whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sname_shelter.charAt(0).toUpperCase()+sname_shelter.slice(1,4)+sname_shelter.toLowerCase().slice(4)}</Typography>}
+                  />
+                  </FormGroup>
+                ))}
+              </FormControl>)}
+              {livestockstate[snamelive] && snamelive === 'Feed Management' && (
+                <FormControl component="fieldset" variant="standard"  sx={{paddingBottom:1, paddingLeft:6}}>
+                {livestock_feed_master.map((sname_feed) => (
+                  <FormGroup>
+                  <CustomFormControlLabel
+                  control={
+                    <AntSwitch inputProps={{ 'aria-label': 'ant design' }} checked={activeOpt[sname_feed]} 
+                    onChange={changeOpt(sname_feed)} name={sname_feed} 
+                    />
+                  }
+                  key={sname_feed}
+                  label={<Typography variant="body2" align='left' sx={{paddingLeft:1,maxWidth:'250px',wordBreak:'break-word', 
+                    whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sname_feed.charAt(0).toUpperCase()+sname_feed.slice(1,4)+sname_feed.toLowerCase().slice(4)}</Typography>}
+                  />
+                  </FormGroup>
+                ))}
+              </FormControl>)}
+              {livestockstate[snamelive] && snamelive === 'Healthcare Management' && (
+                <FormControl component="fieldset" variant="standard"  sx={{paddingBottom:1, paddingLeft:6}}>
+                {livestock_health_master.map((sname_health) => (
+                  <FormGroup>
+                  <CustomFormControlLabel
+                  control={
+                    <AntSwitch inputProps={{ 'aria-label': 'ant design' }} checked={activeOpt[sname_health]} 
+                    onChange={changeOpt(sname_health)} name={sname_health} 
+                    />
+                  }
+                  key={sname_health}
+                  label={<Typography variant="body2" align='left' sx={{paddingLeft:1,maxWidth:'250px',wordBreak:'break-word', 
+                    whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sname_health.charAt(0).toUpperCase()+sname_health.slice(1,4)+sname_health.toLowerCase().slice(4)}</Typography>}
+                  />
+                  </FormGroup>
+                ))}
+              </FormControl>)}
            </FormGroup>
             ))}
-            {(checkcrop()===false && activeCrop['rice']===false && checkFish()===false) && marine.map((sname) => (
+            {(checkcrop()===false && activeCrop['rice']===false && checknotFish()===false) && marine.map((sname) => (
               <div><Box sx={{display:'flex',flexDirection:'column',textAlign:'left'}}>To be updated</Box></div>
             ))}
     </FormControl>

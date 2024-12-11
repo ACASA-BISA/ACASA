@@ -32,6 +32,9 @@ export default function MApp({
     const ref = useRef(null);
     const mapRef = useRef(null);
     const [overl, setOverl] = useState(null);
+    const [Sociolayer, setSocioLayer] = useState(null);
+    const [Scalelayer, setScaleLayer] = useState(null);
+    const [Adaptlayer, setAdaptLayer] = useState(null);
     const [vectorLayerr, setvectorLayerr] = useState(null);
     const [countryLayer, setcountryLayer] = useState(null);
     const [maskLayer1, setmaskLayer1] = useState(null);
@@ -839,11 +842,17 @@ useEffect(() => {
       opt=2;
       let urlstr = "xyz.tif";
       if(activeScenario==='baseline'){
-        urlstr = "./Adap/"+activeCrop+"/Suitability_"+activeCrop+"_"+optcode[activeOpt]+".tif";
-        if(checkcrop2()===false){
-          opt=3;
-          urlstr = "./Adap/"+activeCrop+"/"+activeOpt+" Baseline.tif";
+        urlstr = "./Adap/"+activeCrop+"/Baseline/Suitability_"+activeCrop+"_"+optcode[activeOpt]+".tif";
+       }
+       else if(activeScenario==='ssp245'){
+         urlstr = "./Adap/"+activeCrop+"/SSP245/Suitability_"+activeCrop+"_"+optcode[activeOpt]+".tif";
         }
+       else{
+         urlstr = "./Adap/"+activeCrop+"/SSP585/Suitability_"+activeCrop+"_"+optcode[activeOpt]+".tif";
+       }
+       if(checkcrop2()===false){
+        opt=3;
+        urlstr = "./Adap/"+activeCrop+"/"+activeOpt+" Baseline.tif";
       }
       settiffFilePath(urlstr);
       source1 = new GeoTIFF({sources: [{ url: urlstr}],sourceOptions:{allowFullFile:true}});
@@ -944,8 +953,10 @@ useEffect(() => {
 }, [CurrRisk,activeCrop,activeOpt,activeImpact,mapRef,activeScenario]);
 
 useEffect(() => {
-  let source1 = null;
-
+  let source_adapt = null;
+  let source_socio = null;
+  let source_scale = null;
+  let found = false;
   let opt = 1;
   const optcode = {'Stress Tolerant Variety':'ADVAR','Early Sowing':'ADPTI','Precision Land Levelling':'LASLV','Zero Tillage with residue':'ZTILL','Broad Bed and Furrow':'BBFIB',
     'DSR (Dry Seed)':'DSDRY','DSR (Wet Seed)':'DSWET','System of Rice Intensification':'SRIUT','Supplemental Irrigation':'WHSRC','Microirrigation':'MICIR','Precision Water Management':'PWMGT',
@@ -957,37 +968,72 @@ useEffect(() => {
     if(activeOpt!==''){
       opt=2;
       let urlstr = "xyz.tif";
-      if(activeScenario==='baseline'){
-        urlstr = "./Adap/"+activeCrop+"/Suitability_"+activeCrop+"_"+optcode[activeOpt]+".tif";
-        if(checkcrop2()===false){
-          opt=3;
-          urlstr = "./Adap/"+activeCrop+"/"+activeOpt+" Baseline.tif";
-        }
+      if(activeOptLayer['Technical Suitability']){
+        found = true;
+        if(activeScenario==='baseline'){
+          urlstr = "./Adap/"+activeCrop+"/Baseline/Tech/Suitability_"+activeCrop+"_"+optcode[activeOpt]+".tif";
+         }
+         else if(activeScenario==='ssp245'){
+           urlstr = "./Adap/"+activeCrop+"/SSP245/Tech/Suitability_"+activeCrop+"_"+optcode[activeOpt]+".tif";
+          }
+         else{
+           urlstr = "./Adap/"+activeCrop+"/SSP585/Tech/Suitability_"+activeCrop+"_"+optcode[activeOpt]+".tif";
+         }
       }
-      settiffFilePath(urlstr);
-      source1 = new GeoTIFF({sources: [{ url: urlstr}],sourceOptions:{allowFullFile:true}});
+      source_adapt = new GeoTIFF({sources: [{ url: urlstr}],sourceOptions:{allowFullFile:true}});
+      if(activeOptLayer['Socio-Economic']){
+        found = true;
+        if(activeScenario==='baseline'){
+          urlstr = "./Adap/"+activeCrop+"/Baseline/Socio/Suitability_"+activeCrop+"_"+optcode[activeOpt]+".tif";
+         }
+         else if(activeScenario==='ssp245'){
+           urlstr = "./Adap/"+activeCrop+"/SSP245/Socio/Suitability_"+activeCrop+"_"+optcode[activeOpt]+".tif";
+          }
+         else{
+           urlstr = "./Adap/"+activeCrop+"/SSP585/Socio/Suitability_"+activeCrop+"_"+optcode[activeOpt]+".tif";
+         }
+      }
+      source_socio = new GeoTIFF({sources: [{ url: urlstr}],sourceOptions:{allowFullFile:true}});
+      if(activeOptLayer['Scalibility']){
+        found = true;
+        if(activeScenario==='baseline'){
+          urlstr = "./Adap/"+activeCrop+"/Baseline/Scale/Suitability_"+activeCrop+"_"+optcode[activeOpt]+".tif";
+         }
+         else if(activeScenario==='ssp245'){
+           urlstr = "./Adap/"+activeCrop+"/SSP245/Scale/Suitability_"+activeCrop+"_"+optcode[activeOpt]+".tif";
+          }
+         else{
+           urlstr = "./Adap/"+activeCrop+"/SSP585/Scale/Suitability_"+activeCrop+"_"+optcode[activeOpt]+".tif";
+         }
+      }
+      source_scale = new GeoTIFF({sources: [{ url: urlstr}],sourceOptions:{allowFullFile:true}});
     }
-    
-    /* source1.on('change', function() {
-      const state = source1.getState();
-      if (state === 'error') {
-        setmsource(true);
-      } else if (state === 'ready') {
-        setmsource(false);
-      }
-    });
 
-  if (mapRef.current && overl) {
+  if (mapRef.current && overl && found) {
     mapRef.current.removeLayer(overl);
-    setOverl(null);
   }
-  //HEAT STRESS	SPIKELET STERILITY HEAT	SPIKELET STERILITY COLD
-  if (source1) {
-    
+  if(found){
+    mapRef.current.addLayer(overl);
+  }
+
+  if(activeOptLayer['Technical Suitability']===false && Adaptlayer){
+    mapRef.current.removeLayer(Adaptlayer);
+    setAdaptLayer(null);
+  }
+  if(activeOptLayer['Socio-Economic']===false && Sociolayer){
+    mapRef.current.removeLayer(Sociolayer);
+    setSocioLayer(null);
+  }
+  if(activeOptLayer['Scalibility']===false && Scalelayer){
+    mapRef.current.removeLayer(Scalelayer);
+    setScaleLayer(null);
+  }
+  
+  if (source_adapt && activeOptLayer['Technical Suitability']) {
     const newOverl = new TileLayer({
-      source: source1,
-      opacity: 0.85,
-      zIndex: 91,
+      source: source_adapt,
+      opacity: 0.70,
+      zIndex: 92,
     });
 
     if(opt===2){
@@ -1001,11 +1047,52 @@ useEffect(() => {
     }
     if (mapRef.current) {
       mapRef.current.addLayer(newOverl);
-      setOverl(newOverl);
+      setAdaptLayer(newOverl);
     }
-  } */
-  
-}, [activeOptLayer,mapRef]);
+  } 
+  if (activeOptLayer['Socio-Economic'] && source_socio) {
+    const newOverl = new TileLayer({
+      source: source_socio,
+      opacity: 0.80,
+      zIndex: 93,
+    });
+
+    if(opt===2){
+      newOverl.setStyle(color_hazard);
+    }
+    else{
+      newOverl.setStyle(color1);
+      if(checkcrop()===false){
+        newOverl.setStyle(colorGradientEx);
+      }
+    }
+    if (mapRef.current) {
+      mapRef.current.addLayer(newOverl);
+      setSocioLayer(newOverl);
+    }
+  } 
+  if (source_scale && activeOptLayer['Scalibility']) {
+    const newOverl = new TileLayer({
+      source: source_scale,
+      opacity: 0.90,
+      zIndex: 94,
+    });
+
+    if(opt===2){
+      newOverl.setStyle(color_hazard_livestock);
+    }
+    else{
+      newOverl.setStyle(color1);
+      if(checkcrop()===false){
+        newOverl.setStyle(colorGradientEx);
+      }
+    }
+    if (mapRef.current) {
+      mapRef.current.addLayer(newOverl);
+      setScaleLayer(newOverl);
+    }
+  } 
+}, [activeOptLayer,activeOpt,mapRef]);
 
     return (
     <div style={{overflow:'hidden'}}>

@@ -4,11 +4,6 @@ import Typography from '@mui/material/Typography';
 import { Popper, Paper,Grid } from '@mui/material';
 import { useRef } from "react";
 
-const size = {
-  width: 150,
-  height: 150,
-};
-
 function createData(color, Cat, Area, AreaPerc, Population) {
   return { color, Cat, Area, AreaPerc, Population };
 }
@@ -93,9 +88,9 @@ export default function Legend_Small({
         //console.log(total);
         data = 
         [
-          createData(<Box sx={{width: 160,height: 13,borderRadius: 0,bgcolor: 'rgba(180, 70, 109, 1)'}}/>,'Unsuitable', row_data['Unsuitable']/10, (row_data['Unsuitable']*100/total).toFixed(2), (row_data['Unsuitable Population']*0.16/1000000)),
-          createData(<Box sx={{width: 160,height: 13,borderRadius: 0,bgcolor: '#FF9A00'}}/>,'Suitable', row_data['Suitable']/10, (row_data['Suitable']*100/total).toFixed(2), (row_data['Suitable Population']*0.16/1000000)),
-          createData(<Box sx={{width: 160,height: 13,borderRadius: 0,bgcolor: '#06D001'}}/>,'Suitable with adaptation benefits', row_data['Suitable with adaptation benefits']/10, (row_data['Suitable with adaptation benefits Population']*100/total).toFixed(2), (row_data['Suitable with adaptation benefits Population']*0.16/1000000)),
+          createData(<Box sx={{width: '100%',height: 13,borderRadius: 0,bgcolor: 'rgba(180, 70, 109, 1)'}}/>,'Unsuitable', row_data['Unsuitable']/10, (row_data['Unsuitable']*100/total).toFixed(2), (row_data['Unsuitable Population']*0.16/1000000)),
+          createData(<Box sx={{width: '100%',height: 13,borderRadius: 0,bgcolor: '#FF9A00'}}/>,'Suitable', row_data['Suitable']/10, (row_data['Suitable']*100/total).toFixed(2), (row_data['Suitable Population']*0.16/1000000)),
+          createData(<Box sx={{width: '100%',height: 13,borderRadius: 0,bgcolor: '#06D001'}}/>,'Suitable with adaptation benefits', row_data['Suitable with adaptation benefits']/10, (row_data['Suitable with adaptation benefits Population']*100/total).toFixed(2), (row_data['Suitable with adaptation benefits Population']*0.16/1000000)),
         ];
         //console.log(data);
       }
@@ -256,9 +251,8 @@ export default function Legend_Small({
       };
 
   return (
-    <div>
+    <div style={{maxWidth:'320px'}}>
     <Paper elevation={1} sx={{padding:'10px',borderRadius:'5px',boxShadow:'0px 0px 0px #aaa',textAlign:'left'}}>
-
         {adaption !== '' && <div>
         <Box sx={{display:'flex'}}>
         <Typography sx={{ fontSize: 11, marginBottom:'2px'}} color="black">
@@ -315,15 +309,14 @@ export default function Legend_Small({
                     </Box>} */}
                     
                     {adaption !== '' &&
-                    <Box sx={{width:'100%', display:'flex',flexDirection:'row',gap:'4px',padding:0,justifyItems:'center'}}>
-                    {rows.map((row,index) => (
-                        
-                        <Box sx={{display:'flex',alignItems:'left',flexDirection:'column'}}>
-                        {row.color}
-                        <Box>
-                        <Typography sx={{ fontSize: 12, fontWeight:'bold', margin:'2px'}} color="black" > {row.Cat} for {calcpop(row.Population)}</Typography>
-                        {row.Cat==='Suitable' && <Typography sx={{ fontSize: 11, fontWeight:'normal'}} color="black" > (No significant hazards)</Typography>}
-                        </Box>
+                    <Box sx={{width:'100%', display:'flex',flexDirection:'row',padding:0,justifyItems:'center',marginTop:'1px'}}>   
+                    {rows.map((row,index) => ( 
+                        <Box sx={{width:'33%',display:'flex',alignItems:'left',flexDirection:'column'}}>
+                          {row.color}
+                          <Box>
+                          <Typography sx={{ fontSize: 12, fontWeight:'bold', margin:'2px'}} color="black" > {row.Cat} for {calcpop(row.Population)}</Typography>
+                          {row.Cat==='Suitable' && <Typography sx={{ fontSize: 11, fontWeight:'normal'}} color="black" > (No significant hazards)</Typography>}
+                          </Box>
                         </Box>
                         
                     ))}
@@ -331,28 +324,6 @@ export default function Legend_Small({
                     }
                     {((RiskName !== "" && RiskName !== "Hazard Index" && RiskType()==="Hazard") || ((RiskName !== "" && RiskType()==="Hazard" && (checkcrop()===false||(commodity==='Rice'||commodity==='Wheat'||commodity==='Barley'||commodity==='Soybean'||commodity==='Cotton'||commodity==='Chickpea'||commodity==='Maize'||commodity==='Mustard'))))) &&
                       <div> 
-                      {rowshzd.map((row,index) => (
-                          <div>
-                          {index===0 &&
-                              <div>
-                                  <Box sx={{display:'flex',alignItems:'left',flexDirection:'row',width:'100%'}}>
-                                      <Box sx={{width: 110,height: 18,borderRadius: 0,bgcolor:row.color, margin:0, alignContent:'center'}}>
-                                      <Typography sx={{ fontSize: 10, marginY:'auto',marginLeft:'3px'}} color="white" > 
-                                          <strong>{row.Cat}</strong>
-                                      </Typography>
-                                      </Box>
-                                      {checkcrop()===true && <Box>
-                                      <Typography sx={{ fontSize: 10, margin:'2px'}} color="#AA5486" fontWeight='bold'>{calcpop(row.Population)}</Typography>
-                                      </Box>}
-                                      <Box>
-                                      <Typography sx={{ fontSize: 10, margin:'2px'}} color="#859F3D" fontWeight='bold'>{calcarea(row.Area)}</Typography>
-                                      </Box>
-                                  </Box>
-                              </div>
-                          }
-                          </div>
-                      ))}
-
                       <Box sx={{width:'100%', display:'flex',flexDirection:'row',padding:0,justifyItems:'center',marginTop:'1px'}}>
                       {rowshzd.map((row,index) => (
                           <div>
@@ -376,6 +347,27 @@ export default function Legend_Small({
                           </div>
                       ))}
                       </Box>
+                      {rowshzd.map((row,index) => (
+                          <div>
+                          {index===0 &&
+                              <div>
+                                  <Box sx={{display:'flex',alignItems:'left',flexDirection:'row',width:'100%'}}>
+                                      <Box sx={{width: 110,height: 18,borderRadius: 0,bgcolor:row.color, margin:0, alignContent:'center'}}>
+                                      <Typography sx={{ fontSize: 10, marginY:'auto',marginLeft:'3px'}} color="white" > 
+                                          <strong>{row.Cat}</strong>
+                                      </Typography>
+                                      </Box>
+                                      {checkcrop()===true && <Box>
+                                      <Typography sx={{ fontSize: 10, margin:'2px'}} color="#AA5486" fontWeight='bold'>{calcpop(row.Population)}</Typography>
+                                      </Box>}
+                                      <Box>
+                                      <Typography sx={{ fontSize: 10, margin:'2px'}} color="#859F3D" fontWeight='bold'>{calcarea(row.Area)}</Typography>
+                                      </Box>
+                                  </Box>
+                              </div>
+                          }
+                          </div>
+                      ))}
                       </div> 
                     }
                     {(((RiskName !== "" && RiskType()==="Vulnerability"))) &&

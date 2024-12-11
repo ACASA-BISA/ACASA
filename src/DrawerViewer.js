@@ -56,11 +56,20 @@ export default function DrawerV({
     const [open, setOpen] = React.useState(
       createInitialTodos
     );
+
+    // Calculate custom height dynamically
+    const calculateTabHeight = () => {
+      const totalHeight = window.innerHeight; // Get the viewport height
+      let calculatedHeight = (totalHeight - 190) / 8; // Subtract 95px and divide by 3
+      //return `${calculatedHeight}px`; // Return as a string with 'px'
+      calculatedHeight = calculatedHeight > 60 ? 60 : calculatedHeight;
+      return calculatedHeight;
+    };
     
     const [DrOpen, setDrOpen] = React.useState(false);
     const [widthh, setWidth] = React.useState('190px');
     const [vextra, setvextra] = React.useState(0);
-    const [heightdrawer, setheightdrawer] = React.useState('50px');
+    const [heightdrawer, setheightdrawer] = React.useState(calculateTabHeight());
 
     const toggleList = (name) => (event) => {
       const newState = { ...open };
@@ -98,16 +107,28 @@ export default function DrawerV({
       extra = 0;
     };
 
+    // Recalculate height when the window resizes
+    React.useEffect(() => {
+      const handleResize = () => {
+        setheightdrawer(calculateTabHeight());
+      };
+
+      window.addEventListener('resize', handleResize);
+      return () => {
+        window.removeEventListener('resize', handleResize); // Cleanup on unmount
+      };
+    }, []);
+
     React.useEffect(() => {
       if(DrOpen===true){
         setWidth('53px');
         setvextra(2);
-        setheightdrawer('40px');
+        setheightdrawer(calculateTabHeight()-12);
       }
       else{
         setWidth('190px');
         setvextra(0);
-        setheightdrawer('50px');
+        setheightdrawer(calculateTabHeight());
       }
     },[DrOpen]);
 
@@ -119,7 +140,7 @@ export default function DrawerV({
       else if (cidx>0){
         marg = marg + (cidx-1)*67 + 48;
       } */
-      marg = marg + cidx*(65 + vextra)
+      marg = marg + cidx*(calculateTabHeight() + 10 + vextra);
       return marg;
     }
 
@@ -145,7 +166,7 @@ export default function DrawerV({
         <List>
         {Items.map((Item,index)=>(
           <Popper open={true}>
-          <div style={{position:'relative',zIndex:(theme) => theme.zIndex.map + 1,left:10,top:topmarg(index),margin:4,padding:3,
+          <div style={{position:'relative',zIndex:(theme) => theme.zIndex.map + 1,left:10,top:topmarg(index),margin:4,padding:2,
           boxShadow:'0px 0px 0px #aaa',backgroundColor: 'rgba(14, 33, 1, 0.7)', border: '0px solid black', width:widthh, height:heightdrawer, borderRadius:'3px' }}>
           <ListItem key={Item} onClick={toggleList(Item)} disablePadding sx={{color:'#ffffff', '&:hover': { backgroundColor: '#fece2f' },backgroundColor:colorofbutton(Item),height:'100%'}}>
            <ListItemButton>
@@ -181,7 +202,7 @@ export default function DrawerV({
       { DrOpen===true &&  <List>
         {Items2.map((Item,index)=>(
           <Popper open={DrOpen} transition='fade'>
-          <div style={{position:'relative',zIndex:(theme) => theme.zIndex.map + 1,left:1,top:topmarg(index)+42,margin:4,padding:3, 
+          <div style={{position:'relative',zIndex:(theme) => theme.zIndex.map + 1,left:1,top:topmarg(index)+heightdrawer,margin:4,padding:3, 
           boxShadow:'0px 1px 0px #aaa',backgroundColor: 'rgba(220, 220, 220, 1)', border: '0px solid #fece2f', width:'72px', height:'15px', borderRadius:'3px' }}>
           <ListItem key={Item}  disablePadding sx={{color:'#000000', height:'100%'}}>
            <Box  sx={{ display:'flex', flexDirection: 'row',width:'100%'}}>

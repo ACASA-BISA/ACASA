@@ -1,11 +1,8 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-//import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { LocationOn } from '@mui/icons-material';
 import { Popper, Paper , Grid} from '@mui/material';
-import { useEffect, useRef, useState } from "react";
 
 export default function Selection_bar({
     location,
@@ -27,23 +24,6 @@ export default function Selection_bar({
         })
         return ans;
       };
-
-   
-    
-    function typrstr(){
-      if(RiskType()==='Hazard'){
-        return 'hazard';
-      }
-      if(RiskType()==='Risk'){
-        return 'index';
-      }
-      if(RiskType()==='Exposure'){
-        return 'exposure';
-      }
-      if(RiskType()==='Vulnerability'){
-        return 'vuln.'
-      }
-    }
 
     function RiskType(){
         let str = 'Hazard';

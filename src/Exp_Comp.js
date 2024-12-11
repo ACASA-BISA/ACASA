@@ -99,7 +99,6 @@ export default function CompV({
     <Grid container sx={{marginTop:'0px',paddingX: '1rem'}} columns={12}>
       <Grid item xs={12}>
         <Grid container spacing={1}>
-
           {['Baseline', '2050s', '2080s'].map((label, index) => (
             <Grid item xs={4} key={index} ref={gridRefs[index]}>
               <Box sx={{width:'100%',bgcolor:'#C1E1C1',height:'24px',
@@ -123,7 +122,7 @@ export default function CompV({
                 <div>
                   <Map_Option activeCrop={activeCrop} activeScenario='baseline' focus={focus} activeRegion={activeRegion} activeOpt={activeOpt} CurrRisk={CurrRisk} activeImpact={activeImpact}
                   sharedView={sharedView} handleviewchange={handleviewchange} activeOptLayer={activeOptLayer}></Map_Option>
-                  <Popper
+                  {(CurrRisk!=='' || activeOpt!=='') && <Popper
                   open={true} // Always open
                   anchorEl={gridRefs[index].current} // Anchor to the Grid container
                   placement="bottom" // Position it at the bottom
@@ -132,22 +131,22 @@ export default function CompV({
                     {
                       name: "offset",
                       options: {
-                        offset: [0, -130], // Adjust distance from the container
+                        offset: [3, -130], // Adjust distance from the container
                       },
                     },
                   ]}
                 >
-                  <Paper elevation={1} sx={{ width: '100%',borderRadius: "5px",padding:'3px'}}>
+                  <Paper elevation={1} sx={{ maxWidth: '100%',borderRadius: "5px",padding:'3px'}}>
                   <Legend_Small location={activeRegion} commodity={activeCrop} adaption={activeOpt} RiskName={CurrRisk}
                       scenario='baseline' ImpactName={activeImpact} area_data3={area_dict3} area_data4={area_dict4}></Legend_Small>
                   </Paper>
-                </Popper>
+                </Popper>}
                 </div>}
                 {label==='2050s'&&
                 <div>
                   <Map_Option activeCrop={activeCrop} activeScenario='ssp245' focus={focus} activeRegion={activeRegion} activeOpt={activeOpt} CurrRisk={CurrRisk} activeImpact={activeImpact}
                   sharedView={sharedView} handleviewchange={handleviewchange} activeOptLayer={activeOptLayer}></Map_Option>
-                  <Popper
+                  {(CurrRisk!=='' || activeOpt!=='') && <Popper
                   open={true} // Always open
                   anchorEl={gridRefs[index].current} // Anchor to the Grid container
                   placement="bottom" // Position it at the bottom
@@ -156,22 +155,22 @@ export default function CompV({
                     {
                       name: "offset",
                       options: {
-                        offset: [0, -130], // Adjust distance from the container
+                        offset: [3, -130], // Adjust distance from the container
                       },
                     },
                   ]}
                 >
-                  <Paper elevation={1} sx={{ width: '100%',borderRadius: "5px",padding:'3px'}}>
+                  <Paper elevation={1} sx={{ maxWidth: '100%',borderRadius: "5px",padding:'3px'}}>
                   <Legend_Small location={activeRegion} commodity={activeCrop} adaption={activeOpt} RiskName={CurrRisk}
                       scenario='ssp245' ImpactName={activeImpact} area_data3={area_dict3} area_data4={area_dict4}></Legend_Small>
                   </Paper>
-                </Popper>
+                </Popper>}
                 </div>}
                 {label==='2080s'&&
                 <div>
                   <Map_Option activeCrop={activeCrop} activeScenario='ssp585' focus={focus} activeRegion={activeRegion} activeOpt={activeOpt} CurrRisk={CurrRisk} activeImpact={activeImpact}
                   sharedView={sharedView} handleviewchange={handleviewchange} activeOptLayer={activeOptLayer}></Map_Option>
-                  <Popper
+                  {(CurrRisk!=='' || activeOpt!=='') && <Popper
                   open={true} // Always open
                   anchorEl={gridRefs[index].current} // Anchor to the Grid container
                   placement="bottom" // Position it at the bottom
@@ -180,22 +179,20 @@ export default function CompV({
                     {
                       name: "offset",
                       options: {
-                        offset: [0, -130], // Adjust distance from the container
+                        offset: [3, -130], // Adjust distance from the container
                       },
                     },
                   ]}
                 >
-                  <Paper elevation={1} sx={{ width: '100%',borderRadius: "5px",padding:'3px'}}>
+                  <Paper elevation={1} sx={{ maxWidth: '100%',borderRadius: "5px",padding:'3px'}}>
                   <Legend_Small location={activeRegion} commodity={activeCrop} adaption={activeOpt} RiskName={CurrRisk}
                       scenario='ssp585' ImpactName={activeImpact} area_data3={area_dict3} area_data4={area_dict4}></Legend_Small>
                   </Paper>
-                </Popper>
+                </Popper>}
                 </div>}
-                
               </Paper>
             </Grid>
           ))}
-
         </Grid>
       </Grid>
     </Grid>
