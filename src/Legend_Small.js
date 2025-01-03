@@ -127,8 +127,6 @@ export default function Legend_Small({
           }
           
           const row_data = area_data4[rowstr.toLowerCase()];
-          console.log(row_data);
-          console.log(rowstr.toLowerCase());
           const total = Number(row_data['Very Low']) + Number(row_data['Low']) + Number(row_data['Medium']) + Number(row_data['High']) + Number(row_data['Very High']) + Number(row_data['Nil']);
           //console.log(total);
           data = 
@@ -314,8 +312,8 @@ export default function Legend_Small({
                         <Box sx={{width:'33%',display:'flex',alignItems:'left',flexDirection:'column'}}>
                           {row.color}
                           <Box>
-                          <Typography sx={{ fontSize: 12, fontWeight:'bold', margin:'2px'}} color="black" > {row.Cat} for {calcpop(row.Population)}</Typography>
-                          {row.Cat==='Suitable' && <Typography sx={{ fontSize: 11, fontWeight:'normal'}} color="black" > (No significant hazards)</Typography>}
+                          <Typography sx={{ fontSize: 10.5, fontWeight:'bold', margin:'2px'}} color="black" > {row.Cat} for {calcpop(row.Population)}</Typography>
+                          {row.Cat==='Suitable' && <Typography sx={{ fontSize: 10, fontWeight:'normal'}} color="black" > (No significant hazards)</Typography>}
                           </Box>
                         </Box>
                         

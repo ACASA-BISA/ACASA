@@ -39,6 +39,7 @@ import ImageTimeline from './gif';
 import CompGif from './Explore_with_gif.js';
 import Summary_Statistics from './Summary_Statistics.js';
 import Selection_bar from './Selection_bar.js';
+import HazardGlance from "./HazardGlance.js";
 // import AdaptationGlance from './AdaptationGlance';
 //import Summ1 from './Summary1';
 
@@ -687,6 +688,7 @@ export default function DrawerMapShow({ activeBar }) {
         activeOptLayer={optionlayer} changeOptLayer={changeOptLayer}></DrawerV>}
         
         {activeBar==='timeline' && <ImageTimeline></ImageTimeline>}
+        {activeBar==='hazards' && <HazardGlance></HazardGlance>}
 
         {activeBar==='summary' && <Summary_Statistics></Summary_Statistics>}
 
@@ -775,14 +777,12 @@ export default function DrawerMapShow({ activeBar }) {
                     <Typography sx={{ fontSize: 10, margin:'2px' }} color="text.secondary" gutterBottom> 
                     Low
                     </Typography>
-
           </Box>
         <Paper elevation={1}>
         <Map_Risk activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} CurrRisk={CurrRisk2}></Map_Risk>
         </Paper>
         </Box>
         </Box>
-        
         </Box>
         
         <Box sx={{display:'flex',flexDirection:'column',gap:'1vh',marginTop:'3px'}}>

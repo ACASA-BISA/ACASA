@@ -6,10 +6,6 @@ import './extra.css';
 import './font2.css';
 import Legend_Small from './Legend_Small';
 
-const Comm = ['Rice','Wheat','Maize','Barley','Sorghum','Mustard','Groundnut',
-  'Soybean','Chickpea','Pigeonpea','Cotton','Jute','Sugarcane','Tea','Potato',
-  'Cattle','Buffalo','Goat','Sheep','Pig','Poultry'];
-
 export default function CompV({
   activeCrop,
   activeScenario,

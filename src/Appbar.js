@@ -41,6 +41,9 @@ function ResponsiveAppBar({}) {
       if (strr !== "") {
         setflag(strr);
       }
+      if (strr === 'hazards'){
+        setflag('analytics');
+      }
     };
     handleUrlChange();
 
@@ -285,7 +288,7 @@ function ResponsiveAppBar({}) {
                     //MenuListProps={{ onMouseLeave: handleCloseUserMenu }}
                   >
                     {/* {opts.map((setting) => (<div></div>))} */}
-                      <a href="/#/comparison" style={{textDecoration: 'none'}}>
+                      <a href="/#/hazards" style={{textDecoration: 'none'}}>
                       <MenuItem onClick={handleClick}>
                         <Typography textAlign="center" fontSize={13} color='#222222' sx={{fontFamily:"Karla",fontWeight:350}}>Hazards at a glance</Typography>
                       </MenuItem>
@@ -298,6 +301,11 @@ function ResponsiveAppBar({}) {
                       <a href="/#/summary" style={{textDecoration: 'none'}}>
                       <MenuItem onClick={handleClick}>
                         <Typography textAlign="center" fontSize={13} color='#222222' sx={{fontFamily:"Karla",fontWeight:350}}>Summary Statistics</Typography>
+                      </MenuItem>
+                      </a>
+                      <a href="/#/comparison" style={{textDecoration: 'none'}}>
+                      <MenuItem onClick={handleClick}>
+                        <Typography textAlign="center" fontSize={13} color='#222222' sx={{fontFamily:"Karla",fontWeight:350}}>Comparison</Typography>
                       </MenuItem>
                       </a>
                       <a href="/#/timeline" style={{textDecoration: 'none'}}>
@@ -365,6 +373,10 @@ function ResponsiveAppBar({}) {
                         <Route
                             path="/guide"
                             element={<DrawerMapShow activeBar='guide'/>}
+                        ></Route>
+                        <Route
+                            path="/hazards"
+                            element={<DrawerMapShow activeBar='hazards'/>}
                         ></Route>
                         <Route
                             path="/future"

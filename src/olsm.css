@@ -41,6 +41,12 @@
     position: absolute;
     right: 8px;
   }
+
+  .download-button {
+    top: 54px;
+    position: absolute;
+    left: 8px;
+  }
   
   .legend-box {
     top:10px;

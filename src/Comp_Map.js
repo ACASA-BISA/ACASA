@@ -374,6 +374,71 @@ class LegendControl extends Control {
   }
 }
 
+// Define the download control
+class DownloadControl extends Control {
+  constructor(options = {}) {
+    const button = document.createElement('button');
+    button.innerText = '⬇'; // Download symbol
+    button.title = 'Download GeoTIFF Layer';
+
+    // Style the button
+    /* button.style.cssText = `
+      width: 40px;
+      height: 40px;
+      font-size: 18px;
+      border: 1px solid black;
+      background-color: white;
+      cursor: pointer;
+      border-radius: 5px;
+    `; */
+
+    // Create a container for the control
+    const element = document.createElement('div');
+    element.className = 'ol-control custom-download-control download-button';
+    element.appendChild(button);
+
+    super({
+      element: element,
+      target: options.target,
+    });
+
+    // Add event listener for the button click
+    button.addEventListener('click', this.handleDownload.bind(this), false);
+  }
+
+  handleDownload() {
+    const map = this.getMap(); // Get the map instance
+    const layers = map.getLayers().getArray(); // Get all layers on the map
+
+    // Find the GeoTIFF layer
+    const geoTiffLayer = layers.find(
+      (layer) => layer.getSource() instanceof GeoTIFF
+    );
+
+    if (geoTiffLayer) {
+      const source_tiff = geoTiffLayer.getSource();
+      // Access the URL from the `key_` property
+      const geoTiffUrl = source_tiff.key_;
+      if (geoTiffUrl) {
+        this.downloadFile(geoTiffUrl, 'layer.tiff'); // Trigger the download
+      } else {
+        alert('No URL found for the GeoTIFF layer.');
+      }
+    } else {
+      alert('No GeoTIFF layer is currently displayed on the map.');
+    }
+  }
+
+  downloadFile(url, filename) {
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+}
+
       const sourcemap = new tilesource({
         url: `https://api.maptiler.com/maps/bright-v2/tiles.json?key=${key}`, // source URL
         tileSize: 512,
@@ -419,6 +484,9 @@ class LegendControl extends Control {
           }),
           new LegendControl({
             className: 'box-legend'
+          }),
+          new DownloadControl({
+            className: 'download-button'
           })
         ],
           target: ref.current,
@@ -968,7 +1036,7 @@ useEffect(() => {
     if(activeOpt!==''){
       opt=2;
       let urlstr = "xyz.tif";
-      if(activeOptLayer['Technical Suitability']){
+      if(!(Adaptlayer) && activeOptLayer['Technical Suitability']){
         found = true;
         if(activeScenario==='baseline'){
           urlstr = "./Adap/"+activeCrop+"/Baseline/Tech/Suitability_"+activeCrop+"_"+optcode[activeOpt]+".tif";
@@ -979,9 +1047,10 @@ useEffect(() => {
          else{
            urlstr = "./Adap/"+activeCrop+"/SSP585/Tech/Suitability_"+activeCrop+"_"+optcode[activeOpt]+".tif";
          }
+         source_adapt = new GeoTIFF({sources: [{ url: urlstr}],sourceOptions:{allowFullFile:true}});
       }
-      source_adapt = new GeoTIFF({sources: [{ url: urlstr}],sourceOptions:{allowFullFile:true}});
-      if(activeOptLayer['Socio-Economic']){
+      
+      if(!(Sociolayer) && activeOptLayer['Socio-Economic']){
         found = true;
         if(activeScenario==='baseline'){
           urlstr = "./Adap/"+activeCrop+"/Baseline/Socio/Suitability_"+activeCrop+"_"+optcode[activeOpt]+".tif";
@@ -992,9 +1061,10 @@ useEffect(() => {
          else{
            urlstr = "./Adap/"+activeCrop+"/SSP585/Socio/Suitability_"+activeCrop+"_"+optcode[activeOpt]+".tif";
          }
+         source_socio = new GeoTIFF({sources: [{ url: urlstr}],sourceOptions:{allowFullFile:true}});
       }
-      source_socio = new GeoTIFF({sources: [{ url: urlstr}],sourceOptions:{allowFullFile:true}});
-      if(activeOptLayer['Scalibility']){
+      
+      if(!(Scalelayer) && activeOptLayer['Scalibility']){
         found = true;
         if(activeScenario==='baseline'){
           urlstr = "./Adap/"+activeCrop+"/Baseline/Scale/Suitability_"+activeCrop+"_"+optcode[activeOpt]+".tif";
@@ -1005,15 +1075,13 @@ useEffect(() => {
          else{
            urlstr = "./Adap/"+activeCrop+"/SSP585/Scale/Suitability_"+activeCrop+"_"+optcode[activeOpt]+".tif";
          }
+         source_scale = new GeoTIFF({sources: [{ url: urlstr}],sourceOptions:{allowFullFile:true}});
       }
-      source_scale = new GeoTIFF({sources: [{ url: urlstr}],sourceOptions:{allowFullFile:true}});
+      
     }
 
   if (mapRef.current && overl && found) {
     mapRef.current.removeLayer(overl);
-  }
-  if(found){
-    mapRef.current.addLayer(overl);
   }
 
   if(activeOptLayer['Technical Suitability']===false && Adaptlayer){
