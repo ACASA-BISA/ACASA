@@ -8,6 +8,15 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import InputLabel from '@mui/material/InputLabel';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 // Mapping of adaptation options to codes
 const optcode = {'Stress Tolerant Variety':'ADVAR','Early Sowing':'ADPTI','Precision Land Levelling':'LASLV','Zero Tillage with residues':'ZTILL','Broad Bed and Furrow':'BBFIB',
@@ -310,6 +319,75 @@ export default function Description() {
     });
   }
 
+  
+{/*TODO: Function to create a select feature.*/}
+
+function DialogSelect() {
+  const [open, setOpen] = React.useState(false);
+  const [crop, setCrop] = React.useState('');
+
+  const handleChange = (event) => {
+    setCrop(Number(event.target.value) || '');
+  };
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason !== 'backdropClick') {
+      setOpen(false);
+    }
+  };
+
+  return (
+    <div>
+      <Button onClick={handleClickOpen} sx={{display: "flex", flexWrap: "wrap", fontWeight: "bold", color:"#000000"}}>Filter table</Button>
+      <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
+      <DialogTitle>Select</DialogTitle>
+        <DialogContent>
+          <Box component="form" sx={{ display: 'flex', flexWrap: 'wrap' }}>
+            <FormControl sx={{ m: 1, minWidth: 120 }}>
+              <InputLabel htmlFor="demo-dialog-native">Crop</InputLabel>
+              <Select
+                native
+                value={crop}
+                onChange={handleChange}
+                input={<OutlinedInput label="Crop" id="demo-dialog-native" />}
+              >
+                <option aria-label="None" value="" />
+                <option>Rice</option>
+                <option>Wheat</option>
+              </Select>
+            </FormControl>
+            <FormControl sx={{ m: 1, minWidth: 120 }}>
+              <InputLabel id="demo-dialog-select-label">Crop</InputLabel>
+              <Select
+                labelId="demo-dialog-select-label"
+                id="demo-dialog-select"
+                value={crop}
+                onChange={handleChange}
+                input={<OutlinedInput label="Crop" />}
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                <MenuItem>Rice</MenuItem>
+                <MenuItem>Wheat</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} sx={{color:"#000000"}}>Cancel</Button>
+          <Button onClick={handleClose} sx={{color:"#000000"}}>Ok</Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
+}
+
+
   return (
     <div>
       <Box sx={{ textAlign: "left", marginLeft: "150px", marginRight: "40px" }}>
@@ -366,6 +444,17 @@ export default function Description() {
                   }}
                 >
                   Hazard
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell
+                  colSpan={5}>
+                  {/*TODO: Adding the select feature within the table.
+                  */}
+                  <DialogSelect>
+
+                  </DialogSelect>
+                
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -466,6 +555,17 @@ export default function Description() {
                   }}
                 >
                   Adaptation
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell
+                  colSpan={5}
+                  sx={{
+                    fontWeight: "bold"
+                  }}>
+                    <DialogSelect>
+
+                    </DialogSelect>
                 </TableCell>
               </TableRow>
               <TableRow>
