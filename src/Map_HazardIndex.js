@@ -12,23 +12,18 @@ import Fill from 'ol/style/Fill';
 import Stroke from 'ol/style/Stroke';
 import GeoTIFF from 'ol/source/GeoTIFF.js';
 import GeoJSON from 'ol/format/GeoJSON.js';
+import Tooltip from '@mui/material/Tooltip';
 import TileLayer2 from 'ol/layer/Tile';
-import BingMaps from 'ol/source/BingMaps';
 import tilesource from 'ol/source/TileJSON';
+import Typography from '@mui/material/Typography';
+import { Popper, Slide } from '@mui/material';
 import {ZoomToExtent, FullScreen, defaults as defaultControls} from 'ol/control.js';
 import './olsm.css';
-import { Tooltip,Typography,Box } from '@mui/material';
+import Box from '@mui/material/Box';
 
-const optcode = {'Stress Tolerant Variety':'ADVAR','Early Sowing':'ADPTI','Precision Land Levelling':'LASLV','Zero Tillage with residue':'ZTILL','Broad Bed and Furrow':'BBFIB',
-  'DSR (Dry Seed)':'DSDRY','DSR (Wet Seed)':'DSWET','System of Rice Intensification':'SRIUT','Supplemental Irrigation':'WHSRC','Microirrigation':'MICIR','Precision Water Management':'PWMGT',
-  'Low-tech Precision Technology':'PNMLT','High-tech Precision Technology':'PNMHT','Deep Placement of Urea':'DR',
-  'ICT-based Agro Advisory':'WEAGA','Crop Insurance':'INSUR','Land Management':'LMGT','Feed Management':'FMGT','Herd Management':'HMGT',
-  'Animal Health':'ANHLT','Animal Productivity':'ANPRO','Mulching':'MULCH','Alternate wetting and drying':'AWD','Fertilizer rating and timing':'FRT',
-  'Manure Management':'MNMGT','Information Use':'INFO','Heat Stress Management':'HSMGT'};
-
-export default function Map_Option({
+export default function Map_Index({
   activeCrop, focus='Region', activeRegion,
-  activeOpt, area_dict
+  CurrRisk
 }) {
     const ref = useRef(null);
     const mapRef = useRef(null);
@@ -36,7 +31,8 @@ export default function Map_Option({
     const [vectorLayerr, setvectorLayerr] = useState(null);
     const [countryLayer, setcountryLayer] = useState(null);
     const [maskLayer1, setmaskLayer1] = useState(null);
-    const [population, setpopulation] = useState(0);
+    
+    const [missingSource, setmsource] = useState(false);
     
     const fill = new Fill({
       color: 'rgba(255,255,255,0)',
@@ -48,7 +44,7 @@ export default function Map_Option({
     });
 
     const stroke2 = new Stroke({
-      color: 'rgba(50, 50, 50, 1)',
+      color: 'rgba(100, 100, 100, 1)',
       width: 1,
     });
 
@@ -57,21 +53,25 @@ export default function Map_Option({
       zoom: 3.5,
     });
 
-    const color2 = {
+    const color4 = {
       color: [
         'palette',
         [
         'interpolate',
         ['linear'],
-        ['*',['band', 2], 16], 
+        ['*',['band', 2], 250], 
         0,       // Start color (minimum value)
         1,        // Intermediate color
+        1,
         2,
-        4,
+        2,
         3,
-        5
+        4,
+        5,
+        5,
+        6
       ],
-      ['rgba(0,0,0,0)','rgba(0,0,0,0)',"rgba(180, 70, 109, 1)", '#FF9A00', "#06D001", "#004D00",
+      ['rgba(0,0,0,0)','rgba(0,0,0,0)',"#059212", '#00FF00', "#FFFF00", "#FFA500",'#FF0000', '#3b528b', '#21918c', '#5ec962', '#fde725',
       ],
       ],
     };
@@ -377,109 +377,84 @@ export default function Map_Option({
         }
         }
   }, [activeRegion,focus,mapRef]);
-  
-  useEffect(() => {
-    let source1 = null;
-  
-        let urlstr = "xyz.tif";
-          urlstr = "./Adap/"+activeCrop+"/Baseline/Suitability_"+activeCrop+"_"+optcode[activeOpt]+".tif";
-        source1 = new GeoTIFF({sources: [{ url: urlstr}],sourceOptions:{allowFullFile:true}});
-      //console.log(urlstr);
-    if (mapRef.current && overl) {
-      mapRef.current.removeLayer(overl);
-      setOverl(null);
-    }
 
-    if (source1) {
+    useEffect(() => {
+      let source1 = null;
+      const urlstr = "./Hazard_index/"+activeCrop+".tif";
+      source1 = new GeoTIFF({sources: [{ url: urlstr}],sourceOptions:{allowFullFile:true}});
+  
+      if (mapRef.current && overl) {
+        mapRef.current.removeLayer(overl);
+        setOverl(null);
+      }
       
-      const newOverl = new TileLayer({
-        source: source1,
-        opacity: 0.85,
-        zIndex: 90,
+      source1.on('change', function() {
+        const state = source1.getState();
+        if (state === 'error') {
+          setmsource(true);
+        } else if (state === 'ready') {
+          setmsource(false);
+        }
       });
 
-        newOverl.setStyle(color2);
+      if (source1) {
+        const newOverl = new TileLayer({
+          source: source1,
+        });
+        newOverl.setOpacity(0.85);
+        newOverl.setZIndex(90);
+        
+        newOverl.setStyle(color4);
 
-      if (mapRef.current) {
-        mapRef.current.addLayer(newOverl);
-        setOverl(newOverl);
-      }
-    }
-    
-  }, [activeCrop,activeOpt,mapRef]);
-
-  function getpopulation(){
-    if(activeOpt!=='' && Object.keys(area_dict).length>0 ){
-      let sec = activeRegion.indexOf(',');
-      let y ='';
-      let x = '';
-      let rowstr = "";
-      if (sec>0){
-        y = activeRegion.substring(0,sec);
-        x = activeRegion.substring(sec+2);
-        let statecode = '';
-        if(x==='Bangladesh'){
-          statecode = y.substring(0,y.length-9) + 'DIV';
-          rowstr = activeCrop+"_"+statecode+"_Suitability_"+activeCrop+"_"+optcode[activeOpt];
-        }
-        else if(x==='Nepal'){
-          statecode = y + 'DIV';
-          rowstr = activeCrop+"_"+statecode+"_Suitability_"+activeCrop+"_"+optcode[activeOpt];
-        }
-        else if(x==='India'||x==='Sri Lanka'||x==='Pakistan'){
-          statecode = 'STATE_'+ y.toUpperCase();
-          rowstr = activeCrop+"_"+statecode+"_Suitability_"+activeCrop+"_"+optcode[activeOpt];
-        }
-        else if(x==='Maldives'||x==='Afghanistan'){
-          statecode = y.toUpperCase();
-          rowstr = activeCrop+"_"+statecode+"_Suitability_"+activeCrop+"_"+optcode[activeOpt];
-        }
-        else if(x==='Bhutan'){
-          statecode = y;
-          rowstr = activeCrop+"_"+statecode+"_Suitability_"+activeCrop+"_"+optcode[activeOpt];
+        if (mapRef.current) {
+          mapRef.current.addLayer(newOverl);
+          setOverl(newOverl);
         }
       }
-      else{
-        rowstr = activeCrop+"_"+activeRegion+"_Suitability_"+activeCrop+"_"+optcode[activeOpt];
-      }
-      const row_data = area_dict[rowstr.toLowerCase()];
-      return Math.round(row_data['Adaptation Benefits_Area']/1000000)
-    }
-    return 0;
-  };
-  const dt = getpopulation();
+    }, [activeCrop,mapRef]);
 
     return (
       <div>
       <Tooltip
-      title={<Typography sx={{fontSize:11,fontWeight:'bold'}} color='black'>
-        <Box sx={{width: "100%",height: 8,borderRadius: 0,bgcolor: '#06D001'}}/>
-        {dt} M people
-        <Typography sx={{fontSize:11,fontWeight:'bold'}} color='black'>under adapt.</Typography>
-        <Typography sx={{fontSize:11,fontWeight:'bold'}} color='black'>benefits</Typography></Typography>}
+      title={<Typography sx={{fontSize:12}}>Hazard Index</Typography>}
       open={true}
-      placement='bottom-start'
+      placement='top'
       slotProps={{
         popper: {
           modifiers: [
             {
               name: 'offset',
               options: {
-                offset: [5, -85],
+                offset: [0, -50],
               },
             },
           ],
         },
       }}
-      PopperProps={{style:{zIndex:0},
-      sx: {
-        '& .MuiTooltip-tooltip': {
-          backgroundColor: '#ffffff', // Change to desired background color
-        },
-      },}}
+      PopperProps={{style:{zIndex:0}}}
     >
-        <div ref={ref} style={{height:'calc(48vh - 92px)',width:'21vw',marginLeft:0,marginRight:0}} className="map-container" />
-        </Tooltip> 
+        <div ref={ref} style={{position:'relative',height:'calc(100vh - 218px)',width:'auto',marginLeft:0,marginRight:0}} className="map-container" />
+        </Tooltip>
+
+    <Popper
+    open={missingSource}
+      >
+        <div style={{position:'fixed',left:'29vw',top:70, boxShadow:'0px 0px 1px #aaa',
+        backgroundColor: 'rgba(255, 255, 255, 0.8)', zIndex:5,
+           border: '0px solid black', width:'68vw',height:'calc(100vh - 70px)', borderRadius:'5px',padding:'3px'}}>
+        <Slide direction="down" in={missingSource} mountOnEnter unmountOnExit>
+          <Box sx={{height:'100%',alignContent:'center'}}>
+
+          
+        <Typography sx={{ fontSize: 15, fontWeight:'bold',marginLeft:'calc(34vw - 140px)'}} color="black" gutterBottom>
+          Note <Typography sx={{ fontSize: 14, }} color="black" gutterBottom>
+                  Data to be updated soon. Stay tuned.
+                    </Typography>
+        </Typography>
+        </Box>
+        </Slide>
+        </div>
+      </Popper>
       </div>
     );
 }

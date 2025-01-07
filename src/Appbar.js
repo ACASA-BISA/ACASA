@@ -44,6 +44,9 @@ function ResponsiveAppBar({}) {
       if (strr === 'hazards'){
         setflag('analytics');
       }
+      if (strr === "future"){
+        setflag('viewer');
+      }
     };
     handleUrlChange();
 

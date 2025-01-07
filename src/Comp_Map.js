@@ -22,6 +22,8 @@ import Typography from '@mui/material/Typography';
 import { Popper } from '@mui/material';
 import Slide from '@mui/material/Slide';
 import BoxLegend from './BoxLegend';
+import ReactDOMServer from 'react-dom/server';
+import DownloadIcon from '@mui/icons-material/Download';
 
 export default function MApp({
   activeCrop, focus='Region', activeRegion,
@@ -46,6 +48,21 @@ export default function MApp({
       10843798.383928495,
       4918992.169943628
     ];
+
+    let filename = "";
+
+    if(activeOpt!==''){
+      filename = activeCrop+"_"+activeOpt+"_"+activeScenario+'.tiff';
+    }
+    else if(CurrRisk!==''){
+      filename = activeCrop+"_"+CurrRisk+"_"+activeScenario+".tiff";
+    }
+    else if(activeImpact['Impact on Productivity'] || activeImpact['Value of Production']){
+      filename = activeCrop+"_Impact_"+activeScenario+".tiff";
+    }
+    else{
+      filename = activeCrop+"_CropMask_"+activeScenario+".tiff";
+    }
 
     const fill = new Fill({
       color: 'rgba(255,255,255,0)',
@@ -374,11 +391,21 @@ class LegendControl extends Control {
   }
 }
 
+// Use React to create an MUI icon element
+const iconElement = (
+  <DownloadIcon
+    style={{
+      fontSize: '16px', 
+      verticalAlign: 'middle',
+    }}
+  />
+);
+
 // Define the download control
 class DownloadControl extends Control {
   constructor(options = {}) {
     const button = document.createElement('button');
-    button.innerText = '⬇'; // Download symbol
+    button.innerHTML = ReactDOMServer.renderToString(iconElement);;
     button.title = 'Download GeoTIFF Layer';
 
     // Style the button
@@ -420,7 +447,7 @@ class DownloadControl extends Control {
       // Access the URL from the `key_` property
       const geoTiffUrl = source_tiff.key_;
       if (geoTiffUrl) {
-        this.downloadFile(geoTiffUrl, 'layer.tiff'); // Trigger the download
+        this.downloadFile(geoTiffUrl, filename); // Trigger the download
       } else {
         alert('No URL found for the GeoTIFF layer.');
       }

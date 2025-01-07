@@ -688,7 +688,8 @@ export default function DrawerMapShow({ activeBar }) {
         activeOptLayer={optionlayer} changeOptLayer={changeOptLayer}></DrawerV>}
         
         {activeBar==='timeline' && <ImageTimeline></ImageTimeline>}
-        {activeBar==='hazards' && <HazardGlance></HazardGlance>}
+        {activeBar==='hazards' && <HazardGlance handleChangeSumm={handleChangeSumm} cropid={cropid} focus2={focus2} activeRegion2={activeRegion2} ActiveRegionChange2={ActiveRegionChange2}
+        crop2={crop2} CurrRisk2={CurrRisk2}></HazardGlance>}
 
         {activeBar==='summary' && <Summary_Statistics></Summary_Statistics>}
 
@@ -738,7 +739,7 @@ export default function DrawerMapShow({ activeBar }) {
           aria-controls="panel1-content"
           id="panel1-header"
           sx={{justifyItems:'center',alignContent:'center',marginY:'-5px',backgroundColor:'#F7F7F7'}}
-        > <Typography sx={{ fontSize: 15, fontWeight:'bold', color:'#143200',marginLeft:'4px'}}>Data layers at a glance</Typography>
+        > <Typography sx={{ fontSize: 15, fontWeight:'bold', color:'#143200',marginLeft:'4px'}}>Adaptation layers at a glance</Typography>
         </AccordionSummary>
         <AccordionDetails sx={{marginY:'-5px'}}>This overview page allows you to select a specific crop and region of your choice, and explore the associated adaptation options
            comprehensively on one page.

@@ -16,6 +16,7 @@ import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { Popper } from "@mui/material";
 import GppMaybeIcon from "@mui/icons-material/GppMaybe";
 import PersonalVideoIcon from "@mui/icons-material/PersonalVideo";
+import Summary_Statistics from "./Summary_Statistics";
 
 const logoStyle3 = {
   width: "77vw",
@@ -214,7 +215,7 @@ const Home = (props) => {
         </Box>
 
         {/*  */}
-
+        <Summary_Statistics></Summary_Statistics>
         <Box sx={{ mt: "20px" }}>
           <img src={"acasa_approach.svg"} style={logoStyle3} alt="approach" />
         </Box>

@@ -45,35 +45,35 @@ export default function Summ_Comm({
       disableScrollLock: true,
     }}
     variant="standard"
-    sx={{backgroundColor:'rgba(235, 247, 233,1)', fontSize:14}}
+    sx={{backgroundColor:'rgba(235, 247, 233,1)', fontSize:13}}
   >
-        <Typography variant="subtitle1" sx={{paddingLeft:1,fontWeight:'bold'}}>Cereals</Typography>
+        <Typography variant="subtitle1" sx={{paddingLeft:1,fontSize:13,fontWeight:'bold'}}>Cereals</Typography>
         {switchcoid.map((naam,idx) => (
-            <MenuItem value={naam}>{switchco[idx]}</MenuItem>
+            <MenuItem value={naam} sx={{fontSize:13,paddingY:'2px'}}>{switchco[idx]}</MenuItem>
         ))}
-        <Typography variant="subtitle1" sx={{paddingLeft:1,fontWeight:'bold'}}>Legumes</Typography>
+        <Typography variant="subtitle1" sx={{paddingLeft:1,fontSize:13,fontWeight:'bold'}}>Legumes</Typography>
         {switchhcid.map((naam,idx) => (
-                <MenuItem value={naam}>{switchhc[idx]}</MenuItem>
+                <MenuItem value={naam} sx={{fontSize:13,paddingY:'2px'}}>{switchhc[idx]}</MenuItem>
         ))}
-        <Typography variant="subtitle1" sx={{paddingLeft:1,fontWeight:'bold'}}>Oilseeds</Typography>
+        <Typography variant="subtitle1" sx={{paddingLeft:1,fontSize:13,fontWeight:'bold'}}>Oilseeds</Typography>
         {switchoilid.map((naam,idx) => (
-                <MenuItem value={naam}>{switchoil[idx]}</MenuItem>
+                <MenuItem value={naam} sx={{fontSize:13,paddingY:'2px'}}>{switchoil[idx]}</MenuItem>
         ))}
-        <Typography variant="subtitle1" sx={{paddingLeft:1,fontWeight:'bold'}}>Fruits & Vegetables</Typography>
+        <Typography variant="subtitle1" sx={{paddingLeft:1,fontSize:13,fontWeight:'bold'}}>Fruits & Vegetables</Typography>
         {switchffpid.map((naam,idx) => (
-            <MenuItem value={naam}>{switchffp[idx]}</MenuItem>
+            <MenuItem value={naam} sx={{fontSize:13,paddingY:'2px'}}>{switchffp[idx]}</MenuItem>
         ))}
-        <Typography variant="subtitle1" sx={{paddingLeft:1,fontWeight:'bold'}}>Industrial</Typography>
+        <Typography variant="subtitle1" sx={{paddingLeft:1,fontSize:13,fontWeight:'bold'}}>Industrial</Typography>
         {switchindid.map((naam,idx) => (
-            <MenuItem value={naam}>{switchind[idx]}</MenuItem>
+            <MenuItem value={naam} sx={{fontSize:13,paddingY:'2px'}}>{switchind[idx]}</MenuItem>
         ))}
-        <Typography variant="subtitle1" sx={{paddingLeft:1,fontWeight:'bold'}}>Livestock</Typography>
+        <Typography variant="subtitle1" sx={{paddingLeft:1,fontSize:13,fontWeight:'bold'}}>Livestock</Typography>
         {switchlsid.map((naam,idx) => (
-            <MenuItem value={naam}>{switchls[idx]}</MenuItem>
+            <MenuItem value={naam} sx={{fontSize:13,paddingY:'2px'}}>{switchls[idx]}</MenuItem>
         ))}
-        <Typography variant="subtitle1" sx={{paddingLeft:1,fontWeight:'bold'}}>Fisheries</Typography>
+        <Typography variant="subtitle1" sx={{paddingLeft:1,fontSize:13,fontWeight:'bold'}}>Fisheries</Typography>
         {switchfishid.map((naam,idx) => (
-            <MenuItem value={naam}>{switchfish[idx]}</MenuItem>
+            <MenuItem value={naam} sx={{fontSize:13,paddingY:'2px'}}>{switchfish[idx]}</MenuItem>
         ))}
     </Select>
     </FormControl>

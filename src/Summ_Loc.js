@@ -38,17 +38,17 @@ export default function Summ_Loc({
       disableScrollLock: true,
     }}
     variant="standard"
-    sx={{backgroundColor:'rgba(235, 247, 233,1)', fontSize:14}}
+    sx={{backgroundColor:'rgba(235, 247, 233,1)', fontSize:13}}
   >
-    <MenuItem value='South Asia'>South Asia</MenuItem>
-    <MenuItem value='Afghanistan'>Afghanistan</MenuItem>
-    <MenuItem value='Bangladesh'>Bangladesh</MenuItem>
-    <MenuItem value='Bhutan'>Bhutan</MenuItem>
-    <MenuItem value='India'>India</MenuItem>
-    <MenuItem value='Nepal'>Nepal</MenuItem>
-    <MenuItem value='Pakistan'>Pakistan</MenuItem>
-    <MenuItem value='Sri Lanka'>Sri Lanka</MenuItem>
-    <MenuItem value='Maldives'>Maldives</MenuItem>
+    <MenuItem value='South Asia' sx={{fontSize:13,paddingY:'2px'}}>South Asia</MenuItem>
+    <MenuItem value='Afghanistan' sx={{fontSize:13,paddingY:'2px'}}>Afghanistan</MenuItem>
+    <MenuItem value='Bangladesh'sx={{fontSize:13,paddingY:'2px'}}>Bangladesh</MenuItem>
+    <MenuItem value='Bhutan' sx={{fontSize:13,paddingY:'2px'}}>Bhutan</MenuItem>
+    <MenuItem value='India' sx={{fontSize:13,paddingY:'2px'}}>India</MenuItem>
+    <MenuItem value='Nepal' sx={{fontSize:13,paddingY:'2px'}}>Nepal</MenuItem>
+    <MenuItem value='Pakistan' sx={{fontSize:13,paddingY:'2px'}}>Pakistan</MenuItem>
+    <MenuItem value='Sri Lanka' sx={{fontSize:13,paddingY:'2px'}}>Sri Lanka</MenuItem>
+    <MenuItem value='Maldives' sx={{fontSize:13,paddingY:'2px'}}>Maldives</MenuItem>
     </Select>
     </FormControl>
   );
