@@ -774,11 +774,11 @@ export default function MApp({
 useEffect(() => {
   let source1 = null;
   let opt = 1;
-  const optcode = {'Stress Tolerant Variety':'ADVAR','Early Sowing':'ADPTI','Precision Land Levelling':'LASLV','Zero Tillage with residue':'ZTILL','Broad Bed and Furrow':'BBFIB',
-    'DSR (Dry Seed)':'DSDRY','DSR (Wet Seed)':'DSWET','System of Rice Intensification':'SRIUT','Supplemental Irrigation':'WHSRC','Microirrigation':'MICIR','Precision Water Management':'PWMGT',
-    'Low-tech Precision Technology':'PNMLT','High-tech Precision Technology':'PNMHT','Deep Placement of Urea':'DR',
-    'ICT-based Agro Advisory':'WEAGA','Crop Insurance':'INSUR','Land Management':'LMGT','Feed Management':'FMGT','Herd Management':'HMGT',
-    'Animal Health':'ANHLT','Animal Productivity':'ANPRO','Mulching':'MULCH','Alternate wetting and drying':'AWD','Fertilizer rating and timing':'FRT',
+  const optcode = {'Stress Tolerant Variety':'ADVAR','Early Sowing':'ADPTI','Precision Land Levelling':'LASLV','Zero Tillage with residues':'ZTILL','Broad Bed and Furrow':'BBFIB',
+    'Direct Seeded Rice - Dry':'DSDRY','Direct Seeded Rice - Wet':'DSWET','System of Rice Intensification':'SRIUT','Supplemental Irrigation':'WHSRC','Microirrigation':'MICIR','Precision Water Management':'PWMGT',
+    'Precision Fertilizer Management - Low tech (PFM)':'PNMLT','Precision Fertilizer Management - High tech':'PNMHT','Deep Placement of Urea':'DR',
+    'Precision Agro Input Management':'WEAGA','Agri. Insurance':'INSUR','Land Management':'LMGT','Feed Management':'FMGT','Herd Management':'HMGT',
+    'Animal Health':'ANHLT','Animal Productivity':'ANPRO','Mulching':'MULCH','Alternate wetting and drying (AWD)':'AWD','Fertilizer rating and timing':'FRT',
     'Manure Management':'MNMGT','Information Use':'INFO','Heat Stress Management':'HSMGT'};
 
     const hazardname = {"District Level": "District Level","Downscaled Risk": "Downscaled Risk","Risk Index": "Risk index","Hazard Index": "Hazard Index",
@@ -899,11 +899,11 @@ useEffect(() => {
 },[tiffFilePath,polycord]); */
 
     return (
-    <div style={{overflow:'hidden',marginTop:'85px'}}>
+    <div style={{overflow:'hidden'}}>
       <div id="popup2" class="ol-popup">
         <div id="popup-content2" style={{textTransform:'capitalize',fontSize:'13px'}}></div>
       </div>
-      <div ref={ref} style={{height:'calc(100vh - 90px)',width:'auto',margin:0,padding:0}} className="map-container" />
+      <div ref={ref} style={{height:'calc(100vh - 120px)',width:'auto',margin:0,padding:0}} className="map-container" />
     
     <Popper open={missingSource}>
         <div style={{position:'fixed',right:'330px',top:95, boxShadow:'0px 0px 1px #aaa',backgroundColor: 'rgba(14, 33, 1, 0.6)', border: '0px solid black', width:'180px', borderRadius:'5px',padding:'3px'}}>

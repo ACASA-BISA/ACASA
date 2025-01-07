@@ -33,23 +33,22 @@ export default function Summ_Adapt5({
   }
 
   const directswitch = ['Stress Tolerant Variety'];
-  const directswitchdown = ['ICT-based Agro Advisory','Crop Insurance'];
+  const directswitchdown = ['Precision Agro Input Management','Agri. Insurance'];
 
-  const planting_rice = ['Early Sowing','Precision Land Levelling','Zero Tillage with residue',
-  'DSR (Dry Seed)','DSR (Wet Seed)','System of Rice Intensification'];
+  const planting_rice = ['Early Sowing','Precision Land Levelling','Zero Tillage with residues',
+  'Direct Seeded Rice - Dry','Direct Seeded Rice - Wet','System of Rice Intensification'];
 
   const water = ['Supplemental Irrigation','Microirrigation','Precision Water Management'];
 
-  const water_rice = ['Supplemental Irrigation','Microirrigation','Precision Water Management','Alternate wetting and drying'];
+  const water_rice = ['Supplemental Irrigation','Microirrigation','Precision Water Management','Alternate wetting and drying (AWD)'];
 
-  const fertilizer_rice = ['Fertilizer rating and timing','Low-tech Precision Technology','High-tech Precision Technology'];
+  const fertilizer_rice = ['Fertilizer rating and timing','Precision Fertilizer Management - Low tech (PFM)','Precision Fertilizer Management - High tech'];
 
-  const planting = ['Early Sowing','Precision Land Levelling','Zero Tillage with residue','Broad Bed and Furrow','Mulching'];
+  const planting = ['Early Sowing','Precision Land Levelling','Zero Tillage with residues','Broad Bed and Furrow','Mulching'];
 
-  const fertilizer = ['Fertilizer rating and timing','Low-tech Precision Technology','High-tech Precision Technology'];
+  const fertilizer = ['Fertilizer rating and timing','Precision Fertilizer Management - Low tech (PFM)','Precision Fertilizer Management - High tech'];
   
-  const livestock = ['Land Management','Feed Management','Herd Management','Animal Health','Animal Productivity',
-  'Manure Management','Information Use','Heat Stress Management'];
+  const livestock = ['Shelter Management','Feed Management','Healthcare Management'];
 
   const marine = ['To be Updated'];
 

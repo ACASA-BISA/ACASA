@@ -32,7 +32,6 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Popper from '@mui/material/Popper';
-import { area } from '@turf/turf';
 import LegendCard from './Legend_Card';
 import CompV from './Exp_Comp';
 import ImageTimeline from './gif';
@@ -133,26 +132,26 @@ export default function DrawerMapShow({ activeBar }) {
     "Stress Tolerant Variety",
     "Early Sowing",
     "Precision Land Levelling",
-    "Zero Tillage with residue",
+    "Zero Tillage with residues",
     "Broad Bed and Furrow",
-    "DSR (Dry Seed)",
-    "DSR (Wet Seed)",
+    "Direct Seeded Rice - Dry",
+    "Direct Seeded Rice - Wet",
     "System of Rice Intensification",
     "Supplemental Irrigation",
     "Microirrigation",
     "Precision Water Management",
-    "Low-tech Precision Technology",
-    "High-tech Precision Technology",
+    "Precision Fertilizer Management - Low tech (PFM)",
+    "Precision Fertilizer Management - High tech",
     "Deep Placement of Urea",
-    "ICT-based Agro Advisory",
-    "Crop Insurance",
+    "Precision Agro Input Management",
+    "Agri. Insurance",
     "Land Management",
     "Feed Management",
     "Herd Management",
     "Animal Health",
     "Animal Productivity",
     "Mulching",
-    "Alternate wetting and drying",
+    "Alternate wetting and drying (AWD)",
     "Fertilizer rating and timing",
     "Manure Management",
     "Information Use",
@@ -277,11 +276,11 @@ export default function DrawerMapShow({ activeBar }) {
             return initialTodos;
         };
 
-    const [opt2,setopt2] = React.useState("High-tech Precision Technology");
+    const [opt2,setopt2] = React.useState("Precision Fertilizer Management - Low tech (PFM)");
     const [opt3,setopt3] = React.useState("Early Sowing");
-    const [opt4,setopt4] = React.useState("ICT-based Agro Advisory");
+    const [opt4,setopt4] = React.useState("Precision Agro Input Management");
     const [opt5,setopt5] = React.useState("Microirrigation");
-    const [opt6,setopt6] = React.useState("Zero Tillage with residue");
+    const [opt6,setopt6] = React.useState("Zero Tillage with residues");
     const [opt7,setopt7] = React.useState("Fertilizer rating and timing");
     const [acc,setacc] = React.useState(false);
 
@@ -676,7 +675,7 @@ export default function DrawerMapShow({ activeBar }) {
         <div>
         <Box sx={{display:{xs:'none',md:'block'}}}>
 
-        {(activeBar==='future') && <Selection_bar location={activeRegion} commodity={Currcrop} adaption={CurrOpt}
+        {(activeBar==='future'||activeBar==='viewer') && <Selection_bar location={activeRegion} commodity={Currcrop} adaption={CurrOpt}
         RiskName={RiskName} scenario={NameScenario} ImpactName={ImpactName}></Selection_bar>}
 
         {activeBar==='future' && <CompV activeCrop={Currcrop} changeCrop={handleChange_CMP} LocationData={countryStateMap} focus={focus} activeRegion={activeRegion} changeRegion={ActiveRegionChange} CurrRisk={RiskName}

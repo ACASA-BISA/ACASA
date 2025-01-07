@@ -10,35 +10,12 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
 // Mapping of adaptation options to codes
-const optcode = {
-  "Stress Tolerant Variety": "ADVAR",
-  "Early Sowing": "ADPTI",
-  "Precision Land Levelling": "LASLV",
-  "Zero Tillage with residue": "ZTILL",
-  "Broad Bed and Furrow": "BBFIB",
-  "DSR (Dry Seed)": "DSDRY",
-  "DSR (Wet Seed)": "DSWET",
-  "System of Rice Intensification": "SRIUT",
-  "Supplemental Irrigation": "WHSRC",
-  Microirrigation: "MICIR",
-  "Precision Water Management": "PWMGT",
-  "Low Tech Precision Technology": "PNMLT",
-  "High Tech Precision Technology": "PNMHT",
-  "Deep Placement of Urea": "DR",
-  "ICT Agro Advisory": "WEAGA",
-  "Crop Insurance": "INSUR",
-  "Land Management": "LMGT",
-  "Feed Management": "FMGT",
-  "Herd Management": "HMGT",
-  "Animal Health": "ANHLT",
-  "Animal Productivity": "ANPRO",
-  Mulching: "MULCH",
-  "Alternate wetting and drying": "AWD",
-  "Fertilizer rating and timing": "FRT",
-  "Manure Management": "MNMGT",
-  "Information Use": "INFO",
-  "Heat Stress Management": "HSMGT",
-};
+const optcode = {'Stress Tolerant Variety':'ADVAR','Early Sowing':'ADPTI','Precision Land Levelling':'LASLV','Zero Tillage with residues':'ZTILL','Broad Bed and Furrow':'BBFIB',
+  'Direct Seeded Rice - Dry':'DSDRY','Direct Seeded Rice - Wet':'DSWET','System of Rice Intensification':'SRIUT','Supplemental Irrigation':'WHSRC','Microirrigation':'MICIR','Precision Water Management':'PWMGT',
+  'Precision Fertilizer Management - Low tech (PFM)':'PNMLT','Precision Fertilizer Management - High tech':'PNMHT','Deep Placement of Urea':'DR',
+  'Precision Agro Input Management':'WEAGA','Agri. Insurance':'INSUR','Land Management':'LMGT','Feed Management':'FMGT','Herd Management':'HMGT',
+  'Animal Health':'ANHLT','Animal Productivity':'ANPRO','Mulching':'MULCH','Alternate wetting and drying (AWD)':'AWD','Fertilizer rating and timing':'FRT',
+  'Manure Management':'MNMGT','Information Use':'INFO','Heat Stress Management':'HSMGT'};
 
 // Mapping of hazard names to descriptions
 const hazardname = {
@@ -250,7 +227,7 @@ const rows2 = [
   ),
   createData(
     "Wheat",
-    "Zero Tillage with residue",
+    "Zero Tillage with residues",
     "Analyzed",
     "Heurisitic Model",
     "Download"

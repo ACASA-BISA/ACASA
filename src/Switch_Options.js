@@ -18,20 +18,20 @@ export default function SwitchOpt({
 }) {
   const switchh = ['Planting Technology','Water Management','Fertilizer Management'];
   const directswitch = ['Stress Tolerant Variety'];
-  const directswitchdown = ['ICT-based Agro Advisory','Crop Insurance'];
+  const directswitchdown = ['Precision Agro Input Management','Agri. Insurance'];
 
-  const planting_rice = ['Early Sowing','Precision Land Levelling','Zero Tillage with residue',
-  'DSR (Dry Seed)','DSR (Wet Seed)','System of Rice Intensification'];
+  const planting_rice = ['Early Sowing','Precision Land Levelling','Zero Tillage with residues',
+  'Direct Seeded Rice - Dry','Direct Seeded Rice - Wet','System of Rice Intensification'];
 
   const water = ['Supplemental Irrigation','Microirrigation','Precision Water Management'];
 
-  const water_rice = ['Supplemental Irrigation','Microirrigation','Precision Water Management','Alternate wetting and drying'];
+  const water_rice = ['Supplemental Irrigation','Microirrigation','Precision Water Management','Alternate wetting and drying (AWD)'];
 
-  const fertilizer_rice = ['Fertilizer rating and timing','Low-tech Precision Technology','High-tech Precision Technology'];
+  const fertilizer_rice = ['Fertilizer rating and timing','Precision Fertilizer Management - Low tech (PFM)','Precision Fertilizer Management - High tech'];
 
-  const planting = ['Early Sowing','Precision Land Levelling','Zero Tillage with residue','Broad Bed and Furrow','Mulching'];
+  const planting = ['Early Sowing','Precision Land Levelling','Zero Tillage with residues','Broad Bed and Furrow','Mulching'];
 
-  const fertilizer = ['Fertilizer rating and timing','Low-tech Precision Technology','High-tech Precision Technology'];
+  const fertilizer = ['Fertilizer rating and timing','Precision Fertilizer Management - Low tech (PFM)','Precision Fertilizer Management - High tech'];
   
   const livestock = ['Shelter Management','Feed Management','Healthcare Management'];
 
@@ -173,8 +173,8 @@ export default function SwitchOpt({
   const padd = 8;
 
   const AntSwitch = styled(Switch)(({ theme }) => ({
-    width: 32+padd,
-    height: 14+padd,
+    width: 30+padd,
+    height: 12+padd,
     padding: padd/2,
     display: 'flex',
     
@@ -193,8 +193,8 @@ export default function SwitchOpt({
     },
     '& .MuiSwitch-thumb': {
       boxShadow: '0 2px 4px 0 rgb(0 35 11 / 20%)',
-      width: 12,
-      height: 10,
+      width: 10,
+      height: 8,
       borderRadius: 6,
       transition: theme.transitions.create(['width'], {
         duration: 200,
@@ -235,17 +235,17 @@ export default function SwitchOpt({
         <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Technical Suitability']} name="Technical Suitability" 
             onChange={changeOptLayer}
             color="success" sx={{padding:0,marginLeft:1}}/>} 
-            label={<Typography variant="body2" align='left'  sx={{paddingLeft:1,maxWidth:'250px',wordBreak:'break-word', 
+            label={<Typography variant="body2" align='left'  sx={{peddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
             whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>Adaptation Benefits</Typography>}/>
         <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Socio-Economic']}  name="Socio-Economic" 
             onChange={changeOptLayer}
             color="success" sx={{padding:0,marginLeft:1}}/>} 
-            label={<Typography variant="body2" align='left'  sx={{paddingLeft:1,maxWidth:'250px',wordBreak:'break-word', 
+            label={<Typography variant="body2" align='left'  sx={{peddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
             whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>Socio-Economic Benefits</Typography>}/>
         <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Scalibility']} name="Scalibility" 
             onChange={changeOptLayer}
             color="success" sx={{padding:0,marginLeft:1}}/>} 
-            label={<Typography variant="body2" align='left'  sx={{paddingLeft:1,maxWidth:'250px',wordBreak:'break-word', 
+            label={<Typography variant="body2" align='left'  sx={{peddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
             whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>Scalability</Typography>}/>
         </FormGroup>
       <FormLabel sx={{display:'flex',paddingBottom:1}}>
@@ -261,7 +261,7 @@ export default function SwitchOpt({
               } 
               disabled={false}
               key={sname}
-              label={<Typography variant="body2" align='left'  sx={{paddingLeft:1,maxWidth:'250px',wordBreak:'break-word', 
+              label={<Typography variant="body2" align='left'  sx={{peddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
                 whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sname.charAt(0).toUpperCase()+sname.slice(1,4)+sname.toLowerCase().slice(4)}</Typography>}
               />
            </FormGroup>
@@ -274,7 +274,7 @@ export default function SwitchOpt({
           onChange={handleChange(sname1)} name={sname1} />
         } 
         key={sname1}
-        label={<Typography variant="body2" align='left' sx={{paddingLeft:1,maxWidth:'250px',wordBreak:'break-word', 
+        label={<Typography variant="body2" align='left' sx={{peddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
           whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sname1.charAt(0).toUpperCase()+sname1.slice(1,4)+sname1.toLowerCase().slice(4)}</Typography>}
         />
         {state[sname1] && sname1 === 'Planting Technology' && (
@@ -289,7 +289,7 @@ export default function SwitchOpt({
               } 
               disabled={false}
               key={sname}
-              label={<Typography variant="body2" align='left'  sx={{paddingLeft:1,maxWidth:'250px',wordBreak:'break-word', 
+              label={<Typography variant="body2" align='left'  sx={{peddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
                 whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sname.charAt(0).toUpperCase()+sname.slice(1,4)+sname.toLowerCase().slice(4)}</Typography>}
               />
            </FormGroup>
@@ -307,7 +307,7 @@ export default function SwitchOpt({
               }
               disabled={false}
               key={sname}
-              label={<Typography variant="body2" align='left'  sx={{paddingLeft:1,maxWidth:'250px',wordBreak:'break-word', 
+              label={<Typography variant="body2" align='left'  sx={{peddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
                 whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sname.charAt(0).toUpperCase()+sname.slice(1,4)+sname.toLowerCase().slice(4)}</Typography>}
               />
            </FormGroup>
@@ -325,7 +325,7 @@ export default function SwitchOpt({
               } 
               disabled={false}
               key={sname}
-              label={<Typography variant="body2" align='left' sx={{paddingLeft:1,maxWidth:'250px',wordBreak:'break-word', 
+              label={<Typography variant="body2" align='left' sx={{peddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
                 whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sname.charAt(0).toUpperCase()+sname.slice(1,4)+sname.toLowerCase().slice(4)}</Typography>}
               />
            </FormGroup>
@@ -341,7 +341,7 @@ export default function SwitchOpt({
           onChange={handleChange(sname1)} name={sname1} />
         } 
         key={sname1}
-        label={<Typography variant="body2" align='left' sx={{paddingLeft:1,maxWidth:'250px',wordBreak:'break-word', 
+        label={<Typography variant="body2" align='left' sx={{peddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
           whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sname1.charAt(0).toUpperCase()+sname1.slice(1,4)+sname1.toLowerCase().slice(4)}</Typography>}
         />
         {state[sname1] && sname1 === 'Planting Technology' && (
@@ -356,7 +356,7 @@ export default function SwitchOpt({
               } 
               disabled={false}
               key={sname}
-              label={<Typography variant="body2" align='left' sx={{paddingLeft:1,maxWidth:'250px',wordBreak:'break-word', 
+              label={<Typography variant="body2" align='left' sx={{peddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
                 whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sname.charAt(0).toUpperCase()+sname.slice(1,4)+sname.toLowerCase().slice(4)}</Typography>}
               />
            </FormGroup>
@@ -374,7 +374,7 @@ export default function SwitchOpt({
               }
               disabled={false}
               key={sname}
-              label={<Typography variant="body2" align='left' sx={{paddingLeft:1,maxWidth:'250px',wordBreak:'break-word', 
+              label={<Typography variant="body2" align='left' sx={{peddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
                 whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sname.charAt(0).toUpperCase()+sname.slice(1,4)+sname.toLowerCase().slice(4)}</Typography>}
               />
            </FormGroup>
@@ -392,7 +392,7 @@ export default function SwitchOpt({
               } 
               disabled={false}
               key={sname}
-              label={<Typography variant="body2" align='left' sx={{paddingLeft:1,maxWidth:'250px',wordBreak:'break-word', 
+              label={<Typography variant="body2" align='left' sx={{peddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
                 whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sname.charAt(0).toUpperCase()+sname.slice(1,4)+sname.toLowerCase().slice(4)}</Typography>}
               />
            </FormGroup>
@@ -410,7 +410,7 @@ export default function SwitchOpt({
               } 
               disabled={false}
               key={sname}
-              label={<Typography variant="body2" align='left' sx={{paddingLeft:1,maxWidth:'250px',wordBreak:'break-word', 
+              label={<Typography variant="body2" align='left' sx={{peddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
                 whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sname.charAt(0).toUpperCase()+sname.slice(1,4)+sname.toLowerCase().slice(4)}</Typography>}
               />
            </FormGroup>
@@ -425,7 +425,7 @@ export default function SwitchOpt({
                 onChange={handleLivestockChange(snamelive)} name={snamelive} />
               }
               key={snamelive}
-              label={<Typography variant="body2" align='left' sx={{paddingLeft:1,maxWidth:'250px',wordBreak:'break-word', 
+              label={<Typography variant="body2" align='left' sx={{peddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
                 whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{snamelive.charAt(0).toUpperCase()+snamelive.slice(1,4)+snamelive.toLowerCase().slice(4)}</Typography>}
               />
                 {livestockstate[snamelive] && snamelive === 'Shelter Management' && (
@@ -439,7 +439,7 @@ export default function SwitchOpt({
                     />
                   }
                   key={sname_shelter}
-                  label={<Typography variant="body2" align='left' sx={{paddingLeft:1,maxWidth:'250px',wordBreak:'break-word', 
+                  label={<Typography variant="body2" align='left' sx={{peddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
                     whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sname_shelter.charAt(0).toUpperCase()+sname_shelter.slice(1,4)+sname_shelter.toLowerCase().slice(4)}</Typography>}
                   />
                   </FormGroup>
@@ -456,7 +456,7 @@ export default function SwitchOpt({
                     />
                   }
                   key={sname_feed}
-                  label={<Typography variant="body2" align='left' sx={{paddingLeft:1,maxWidth:'250px',wordBreak:'break-word', 
+                  label={<Typography variant="body2" align='left' sx={{peddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
                     whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sname_feed.charAt(0).toUpperCase()+sname_feed.slice(1,4)+sname_feed.toLowerCase().slice(4)}</Typography>}
                   />
                   </FormGroup>
@@ -473,7 +473,7 @@ export default function SwitchOpt({
                     />
                   }
                   key={sname_health}
-                  label={<Typography variant="body2" align='left' sx={{paddingLeft:1,maxWidth:'250px',wordBreak:'break-word', 
+                  label={<Typography variant="body2" align='left' sx={{peddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
                     whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sname_health.charAt(0).toUpperCase()+sname_health.slice(1,4)+sname_health.toLowerCase().slice(4)}</Typography>}
                   />
                   </FormGroup>
