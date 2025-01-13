@@ -316,6 +316,11 @@ function ResponsiveAppBar({}) {
                         <Typography textAlign="center" fontSize={13} color='#222222' sx={{fontFamily:"Karla",fontWeight:350}}>Timeline</Typography>
                       </MenuItem>
                       </a>
+                      <a href="/#/adaptation" style={{textDecoration: 'none'}}>
+                      <MenuItem onClick={handleClick}>
+                        <Typography textAlign="center" fontSize={13} color='#222222' sx={{fontFamily:"Karla",fontWeight:350}}>Adaptation Analytics</Typography>
+                      </MenuItem>
+                      </a>
                   </Menu>
                 </div>}
               </div>
@@ -396,6 +401,10 @@ function ResponsiveAppBar({}) {
                         <Route
                             path="/timeline"
                             element={<DrawerMapShow activeBar='timeline'/>}
+                        ></Route>
+                        <Route
+                            path="/adaptation"
+                            element={<DrawerMapShow activeBar='adaptation'/>}
                         ></Route>
                         <Route
                             path="/feedback"

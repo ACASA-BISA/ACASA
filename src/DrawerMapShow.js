@@ -39,6 +39,7 @@ import CompGif from './Explore_with_gif.js';
 import Summary_Statistics from './Summary_Statistics.js';
 import Selection_bar from './Selection_bar.js';
 import HazardGlance from "./HazardGlance.js";
+import Adaptation_Analytics from "./Adaptation_Analytics.js";
 // import AdaptationGlance from './AdaptationGlance';
 //import Summ1 from './Summary1';
 
@@ -689,6 +690,8 @@ export default function DrawerMapShow({ activeBar }) {
         {activeBar==='timeline' && <ImageTimeline></ImageTimeline>}
         {activeBar==='hazards' && <HazardGlance handleChangeSumm={handleChangeSumm} cropid={cropid} focus2={focus2} activeRegion2={activeRegion2} ActiveRegionChange2={ActiveRegionChange2}
         crop2={crop2} CurrRisk2={CurrRisk2}></HazardGlance>}
+
+        {activeBar==='adaptation' && <Adaptation_Analytics cropid={cropid} focus2={focus2} activeRegion2={activeRegion2} activeOpt={CurrOpt}></Adaptation_Analytics>}
 
         {activeBar==='summary' && <Summary_Statistics></Summary_Statistics>}
 

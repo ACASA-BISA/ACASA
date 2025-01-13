@@ -345,7 +345,7 @@ export default function Legend_Small({
                           </div>
                       ))}
                       </Box>
-                      {rowshzd.map((row,index) => (
+                      {/* {rowshzd.map((row,index) => (
                           <div>
                           {index===0 &&
                               <div>
@@ -365,7 +365,7 @@ export default function Legend_Small({
                               </div>
                           }
                           </div>
-                      ))}
+                      ))} */}
                       </div> 
                     }
                     {(((RiskName !== "" && RiskType()==="Vulnerability"))) &&

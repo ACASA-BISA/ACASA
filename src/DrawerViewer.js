@@ -25,8 +25,8 @@ import './font2.css';
 
 const top_margin = 95;
 let extra = 0;
-const Items = ['Go to Home', 'Select Region','Select Commodity','Select Scenario','Climatic Risks','Suitability','Impact','Adaptation Options'];
-const Items2 = ['Home', 'Region','Commodity','Scenario','Risks','Suitability','Impact','Adaptation'];
+const Items = ['Go to Home', 'Select Region','Select Commodity','Select Scenario','Climatic Risks','Impact','Adaptation Options'];
+const Items2 = ['Home', 'Region','Commodity','Scenario','Risks','Impact','Adaptation'];
 
 export default function DrawerV({
   activeCrop,
@@ -186,9 +186,9 @@ export default function DrawerV({
               { index===2 && <GrassOutlined sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>}
               { index===4 && <WarningAmberIcon sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>} 
               { index===3 && <AccessTimeOutlined sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>} 
-              { index===5 && <YardOutlinedIcon  sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}></YardOutlinedIcon>}
-              { index===6 && <AutoAwesomeIcon sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>} 
-              { index===7 && <TuneIcon sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>} 
+              {/* index===5 && <YardOutlinedIcon  sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}></YardOutlinedIcon>*/}
+              { index===5 && <AutoAwesomeIcon sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>} 
+              { index===6 && <TuneIcon sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>} 
               {/* index===7 && <PollOutlined sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>*/}  
               { DrOpen===false && <Typography sx={{fontSize: '13px',fontWeight:'bold',marginLeft:1.5,padding:0,fontFamily:'Karla'}}>{Item}</Typography>}
            </Box>

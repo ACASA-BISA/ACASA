@@ -13,7 +13,11 @@ export default function SwitchScenario({
 }) {
   const switchh = ['Baseline','SSP 2-4.5 2050s','SSP 5-8.5 2050s'];
   const switchid = ['baseline','ssp245','ssp585'];
-  const disvar ={'baseline':false,'ssp245':false,'ssp585':false}
+  const disvar ={'baseline':false,'ssp245':false,'ssp585':false};
+
+  const switchh2 = ['CHC','ISIMIP'];
+  const switchid2 = ['CHC','ISIMIP'];
+  const disvar2 ={'CHC':true,'ISIMIP':false};
   const padd = 8;
 
   const AntSwitch = styled(Switch)(({ theme }) => ({
@@ -81,6 +85,22 @@ export default function SwitchScenario({
         }
         key={switchid[index]}
         disabled={disvar[switchid[index]]}
+        label={<Typography variant="body2" sx={{paddingLeft:1}}>{sname}</Typography>}
+        />
+     </FormGroup>
+      ))}
+      <FormLabel sx={{display:'flex',paddingBottom:1}}>
+        <Typography sx={{color:'black',fontWeight:'bold',fontSize:14,paddingTop:2,}}>Select Data Projection</Typography><br/>
+        </FormLabel>
+      {switchh2.map((sname,index) => (
+        <FormGroup>
+        <CustomFormControlLabel
+        control={
+          <AntSwitch inputProps={{ 'aria-label': 'ant design' }} checked={activeScenario[switchid2[index]]} onChange={changeScenario(switchid[index])} 
+          name={switchid2[index]}/>
+        }
+        key={switchid2[index]}
+        disabled={disvar[switchid2[index]]}
         label={<Typography variant="body2" sx={{paddingLeft:1}}>{sname}</Typography>}
         />
      </FormGroup>
