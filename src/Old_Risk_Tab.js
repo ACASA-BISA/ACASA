@@ -145,7 +145,7 @@ export default function SwitchRisk2({
   const switchVulner = ['Vulnerability Index','Irrigation','Soil Water Holding Capacity','Soil Organic Carbon',"Income","Rural infrastructure","Socio-economic Development Indicator"];
   const switchVulnerID = ['vulne','irrigation','waterholding','soil','GDP','ROAD','HDI'];
 
-  const switchvul_Livestock = ['Vulnerability Index',"Availability of crop residues","Income","Rural infrastructure","Socio-economic Development Indicator"];
+  const switchvul_Livestock = ['Vulnerability Index',"Feed/Fodder","Income","Rural infrastructure","Socio-economic Development Indicator"];
   const switchvul_LivestockID = ['vulne',"CROPRES","GDP","ROAD",'HDI'];
 
   const switchvul_Fisheries = [];
@@ -172,7 +172,7 @@ export default function SwitchRisk2({
       "Rainfall Deficit","Cyclone",'Cold stress in reproductive stage','Heat stress in reproductive stage',
       'Heat stress during boll formation','Cold stress during flowering','High tempearture during flowering','Number of Animals per grid',
       'Vulnerability Index','Irrigation','Soil Water Holding Capacity','Soil Organic Carbon','Income','Rural infrastructure','Socio-economic Development Indicator',
-      "Availability of crop residues",'Exposure Index','Cropped Area','Biotic Stress'];
+      "Feed/Fodder",'Exposure Index','Cropped Area','Biotic Stress'];
 
   function createInitialP2() {
     const initialTodos = {};

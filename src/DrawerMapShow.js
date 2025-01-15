@@ -40,6 +40,8 @@ import Summary_Statistics from './Summary_Statistics.js';
 import Selection_bar from './Selection_bar.js';
 import HazardGlance from "./HazardGlance.js";
 import Adaptation_Analytics from "./Adaptation_Analytics.js";
+import Summ_Scenario from './Summ_Scenario';
+import Summ_Model from './Summ_Model';
 // import AdaptationGlance from './AdaptationGlance';
 //import Summ1 from './Summary1';
 
@@ -141,18 +143,18 @@ export default function DrawerMapShow({ activeBar }) {
     "Supplemental Irrigation",
     "Microirrigation",
     "Precision Water Management",
-    "Precision Fertilizer Management - Low tech (PFM)",
+    "Precision Fertilizer Management",
     "Precision Fertilizer Management - High tech",
     "Deep Placement of Urea",
-    "Precision Agro Input Management",
-    "Agri. Insurance",
+    "ICT linked Input Management",
+    "Crop Insurance",
     "Land Management",
     "Feed Management",
     "Herd Management",
     "Animal Health",
     "Animal Productivity",
     "Mulching",
-    "Alternate wetting and drying (AWD)",
+    "Alternate Wetting and Drying",
     "Fertilizer rating and timing",
     "Manure Management",
     "Information Use",
@@ -205,7 +207,7 @@ export default function DrawerMapShow({ activeBar }) {
     "Income",
     "Rural infrastructure",
     "Socio-economic Development Indicator",
-    "Availability of crop residues",
+    "Feed/Fodder",
     "Exposure Index",
     "Cropped Area",
     "Biotic Stress",
@@ -277,9 +279,9 @@ export default function DrawerMapShow({ activeBar }) {
             return initialTodos;
         };
 
-    const [opt2,setopt2] = React.useState("Precision Fertilizer Management - Low tech (PFM)");
+    const [opt2,setopt2] = React.useState("Precision Fertilizer Management");
     const [opt3,setopt3] = React.useState("Early Sowing");
-    const [opt4,setopt4] = React.useState("Precision Agro Input Management");
+    const [opt4,setopt4] = React.useState("ICT linked Input Management");
     const [opt5,setopt5] = React.useState("Microirrigation");
     const [opt6,setopt6] = React.useState("Zero Tillage with residues");
     const [opt7,setopt7] = React.useState("Fertilizer rating and timing");
@@ -672,6 +674,20 @@ export default function DrawerMapShow({ activeBar }) {
 
     const container = useRef(null);
     const [height1, setHeight1] = React.useState(null);
+
+    //Extra
+    //Extra
+    //Extra
+    
+        const handleScenario = (name) => {
+            setNameScenario(name);
+          };
+    
+        const [NameModel, setNameModel] = React.useState('CANESM5');
+    
+        const handleModel = (name) => {
+            setNameModel(name);
+          };
     return (
         <div>
         <Box sx={{display:{xs:'none',md:'block'}}}>
@@ -749,14 +765,23 @@ export default function DrawerMapShow({ activeBar }) {
         </Accordion>
         </div>
         </Popper>
+        
         <Box sx={{display:'flex',flexDirection:'column',gap:'12px',marginTop:'4px',alignItems:'center'}}>
         <Box sx={{height:'40px'}}></Box>
+        <Box sx={{display:'flex',flexDirection:'column',gap:'2px'}}>
         <Box sx={{paddingX:'8px',paddingY:'4px',display:'flex',flexDirection:'row',justifyContent:'center',gap:'4px',alignItems:'center',width:'23vw',backgroundColor:'#F7F7F7',border:'0px solid black'}}>
         <Typography sx={{fontSize:14,fontWeight:'bold'}}>Commodity: </Typography>
         <Summ_Comm changeComm={handleChangeSumm} comm={cropid}></Summ_Comm>
         <Typography sx={{marginLeft:'5px',fontSize:14,fontWeight:'bold'}}>Location: </Typography>
         <Summ_Loc focus={focus2} activeRegion={activeRegion2} changeReg={ActiveRegionChange2}></Summ_Loc>
         </Box>
+        <Box sx={{paddingX:'8px',paddingY:'4px',display:'flex',flexDirection:'row',justifyContent:'center',gap:'4px',alignItems:'center',width:'23vw',backgroundColor:'#F7F7F7',border:'0px solid black'}}>
+                            <Typography sx={{fontSize:13,fontWeight:'bold'}}>Scenario: </Typography>
+                            <Summ_Scenario handleScenario={handleScenario}></Summ_Scenario>
+                            <Typography sx={{marginLeft:'5px',fontSize:13,fontWeight:'bold'}}>Model: </Typography>
+                            <Summ_Model handleModel={handleModel}></Summ_Model>
+                        </Box>
+                        </Box>
         <Box sx={{display:'flex',flexDirection:'row',gap:'2vh'}}> 
           <Box sx={{display:'flex',flexDirection:'column'}}>
           <Box sx={{display:'flex',flexDirection:'row',justifyContent:'center'}}>

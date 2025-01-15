@@ -238,7 +238,7 @@ export default function CompV({
                       scenario='baseline' ImpactName={activeImpact} area_data3={area_dict3} area_data4={area_dict4}></Legend_Small>
                   </Paper>
                 </Popper>}
-                {(CurrRisk!=='' || activeOpt!=='') && <Popper
+                {/* {(CurrRisk!=='' || activeOpt!=='') && <Popper
                     open={true} // Always open
                     anchorEl={gridRefs[index].current} // Anchor to the Grid container
                     placement="bottom" // Position it at the bottom
@@ -283,7 +283,7 @@ export default function CompV({
                         sx={{ width: '100%', maxWidth: ( gridRefs[index].current.offsetWidth / 3), height: 'auto', mb: 0 }}
                     />  
                 </Box>
-                </Popper>}
+                </Popper>} */}
                 </div>}
                 {label==='2050s'&&
                 <div>
@@ -308,7 +308,7 @@ export default function CompV({
                       scenario='ssp245' ImpactName={activeImpact} area_data3={area_dict3} area_data4={area_dict4}></Legend_Small>
                   </Paper>
                 </Popper>}
-                {(CurrRisk!=='' || activeOpt!=='') && <Popper
+                {/* {(CurrRisk!=='' || activeOpt!=='') && <Popper
                   open={true} // Always open
                   anchorEl={gridRefs[index].current} // Anchor to the Grid container
                   placement="bottom" // Position it at the bottom
@@ -353,7 +353,7 @@ export default function CompV({
                       sx={{ width: '100%', maxWidth: ( gridRefs[index].current.offsetWidth / 3), height: 'auto', mb: 0 }}
                   />  
               </Box>
-              </Popper>}
+              </Popper>} */}
                 </div>}
                 {label==='2080s'&&
                 <div>
@@ -378,7 +378,7 @@ export default function CompV({
                       scenario='ssp585' ImpactName={activeImpact} area_data3={area_dict3} area_data4={area_dict4}></Legend_Small>
                   </Paper>
                 </Popper>}
-                {(CurrRisk!=='' || activeOpt!=='') && <Popper
+                {/* {(CurrRisk!=='' || activeOpt!=='') && <Popper
                   open={true} // Always open
                   anchorEl={gridRefs[index].current} // Anchor to the Grid container
                   placement="bottom" // Position it at the bottom
@@ -423,7 +423,7 @@ export default function CompV({
                       sx={{ width: '100%', maxWidth: ( gridRefs[index].current.offsetWidth / 3), height: 'auto', mb: 0 }}
                   />  
               </Box>
-              </Popper>}
+              </Popper>} */}
                 </div>}
               </Paper>
             </Grid>

@@ -18,20 +18,20 @@ export default function SwitchOpt({
 }) {
   const switchh = ['Planting Technology','Water Management','Fertilizer Management'];
   const directswitch = ['Stress Tolerant Variety'];
-  const directswitchdown = ['Precision Agro Input Management','Agri. Insurance'];
+  const directswitchdown = ['ICT linked Input Management','Crop Insurance'];
 
   const planting_rice = ['Early Sowing','Precision Land Levelling','Zero Tillage with residues',
   'Direct Seeded Rice - Dry','Direct Seeded Rice - Wet','System of Rice Intensification'];
 
   const water = ['Supplemental Irrigation','Microirrigation','Precision Water Management'];
 
-  const water_rice = ['Supplemental Irrigation','Microirrigation','Precision Water Management','Alternate wetting and drying (AWD)'];
+  const water_rice = ['Supplemental Irrigation','Microirrigation','Precision Water Management','Alternate Wetting and Drying'];
 
-  const fertilizer_rice = ['Fertilizer rating and timing','Precision Fertilizer Management - Low tech (PFM)','Precision Fertilizer Management - High tech'];
+  const fertilizer_rice = ['Fertilizer rating and timing','Precision Fertilizer Management'];
 
-  const planting = ['Early Sowing','Precision Land Levelling','Zero Tillage with residues','Broad Bed and Furrow','Mulching'];
+  const planting = ['Early Sowing','Precision Land Levelling','Zero Tillage with residues','Broad Bed and Furrow'];
 
-  const fertilizer = ['Fertilizer rating and timing','Precision Fertilizer Management - Low tech (PFM)','Precision Fertilizer Management - High tech'];
+  const fertilizer = ['Fertilizer rating and timing','Precision Fertilizer Management'];
   
   const livestock = ['Shelter Management','Feed Management','Healthcare Management'];
 
@@ -56,7 +56,7 @@ export default function SwitchOpt({
 /*   const opt2 = ['Weather Services','Laser Land Levelling','Zero Tillage','BBR/FIRB','Early Sowing',
     'DSR (Dry Seed)','DSR (Wet Seed)','SRI','Insurance',
     'Adaptive Varities','Urea Placement','Arid & Semi-Arid','N Fertiliser (RDF)','PNM (Low Tech)',
-    'PNM (High Tech)','Micro Irrigation','Precision WM','Supplimentary Irrigation',
+    'PNM (High Tech)','Microirrigation','Precision WM','Supplimentary Irrigation',
     'Frost Gun','Slow Release Fertilizer','Micro-Environment','Fog/Mist Gun','Mechanical Support',
     'Fertilizer Timing','Shading Canopy','Cooling Canopy']; */
 

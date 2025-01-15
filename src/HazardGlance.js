@@ -48,7 +48,7 @@ export default function HazardGlance({
         setNameScenario(name);
       };
 
-    const [NameModel, setNameModel] = React.useState('CHC');
+    const [NameModel, setNameModel] = React.useState('CANESM5');
 
     const handleModel = (name) => {
         setNameModel(name);

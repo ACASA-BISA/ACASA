@@ -33,9 +33,9 @@ export default function Legend_Small({
 
     const optcode = {'Stress Tolerant Variety':'ADVAR','Early Sowing':'ADPTI','Precision Land Levelling':'LASLV','Zero Tillage with residues':'ZTILL','Broad Bed and Furrow':'BBFIB',
     'Direct Seeded Rice - Dry':'DSDRY','Direct Seeded Rice - Wet':'DSWET','System of Rice Intensification':'SRIUT','Supplemental Irrigation':'WHSRC','Microirrigation':'MICIR','Precision Water Management':'PWMGT',
-    'Precision Fertilizer Management - Low tech (PFM)':'PNMLT','Precision Fertilizer Management - High tech':'PNMHT','Deep Placement of Urea':'DR',
-    'Precision Agro Input Management':'WEAGA','Agri. Insurance':'INSUR','Land Management':'LMGT','Feed Management':'FMGT','Herd Management':'HMGT',
-    'Animal Health':'ANHLT','Animal Productivity':'ANPRO','Mulching':'MULCH','Alternate wetting and drying (AWD)':'AWD','Fertilizer rating and timing':'FRT',
+    'Precision Fertilizer Management':'PNMLT','Precision Fertilizer Management - High tech':'PNMHT','Deep Placement of Urea':'DR',
+    'ICT linked Input Management':'WEAGA','Crop Insurance':'INSUR','Land Management':'LMGT','Feed Management':'FMGT','Herd Management':'HMGT',
+    'Animal Health':'ANHLT','Animal Productivity':'ANPRO','Mulching':'MULCH','Alternate Wetting and Drying':'AWD','Fertilizer rating and timing':'FRT',
     'Manure Management':'MNMGT','Information Use':'INFO','Heat Stress Management':'HSMGT'};
 
     const hazardname = {"District Level": "District Level","Downscaled Risk": "Downscaled Risk","Risk Index": "Risk index","Hazard Index": "Hazard Index",
@@ -51,7 +51,7 @@ export default function Legend_Small({
       'Cold stress in reproductive stage':'Cold stress in reproductive stage','Heat stress in reproductive stage':"Heat stress in reproductive stage",
       'Heat stress during boll formation':'Heat stress during boll formation','Cold stress during flowering':'Cold stress during flowering',
       'High tempearture during flowering':'High tempearture during flowering','Biotic Stress':'Biotic stress',"Vulnerability Index":'Vulnerability Index',
-      "Availability of crop residues":'Residue',"Rural infrastructure":'Road network density',"Cyclone":'Cyclone',"Rainfall Deficit":"Rainfall deficit",
+      "Feed/Fodder":'Residue',"Rural infrastructure":'Road network density',"Cyclone":'Cyclone',"Rainfall Deficit":"Rainfall deficit",
       "Extreme Rainfall days":"Extreme Rainfall Days","Cold days":"Cold Stress","Hot days":"Heat stress or hot days","Temperature-Humidity Index":'THI',
       "Socio-economic Development Indicator":"Human development index"};
       
@@ -242,7 +242,7 @@ export default function Legend_Small({
           str = 'Exposure';
         }
         if(RiskName==='Irrigation'||RiskName==='Soil Water Holding Capacity'||RiskName==='Income'||RiskName==='Soil Organic Carbon'
-        ||RiskName==='Availability of crop residues'||RiskName==='Rural infrastructure'||RiskName==='Socio-economic Development Indicator') {
+        ||RiskName==='Feed/Fodder'||RiskName==='Rural infrastructure'||RiskName==='Socio-economic Development Indicator') {
           str = 'Vulnerability';
         }
         return str;

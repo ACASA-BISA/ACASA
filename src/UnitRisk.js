@@ -39,7 +39,7 @@ export default function UnitCard({
      'Soil Organic Carbon': 'Soil Organic Carbon in % ', 'Income': 'Agricultural GDP as proxy for income. Agricultural Gross Domestic Product data in US $ per grid [~5 X 5 km]', 
      'Rural infrastructure': 'Road density used as proxy for rural infrastructure. Road density is length of rural roads per grid, km/grid', 
      'Socio-economic Development Indicator': 'HDI used as proxy. Global estimates of the United Nations Human Development Index',
-     'Availability of crop residues': 'Production and Usage of cereal residues in tonnes per grid [~5 X 5 km]',
+     'Feed/Fodder': 'Production and Usage of cereal residues in tonnes per grid [~5 X 5 km]',
      'Cropped Area': 'Area under crop in hectares per grid [~5 X 5 km]'};
 
   return (

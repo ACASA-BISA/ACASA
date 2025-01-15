@@ -34,7 +34,7 @@ export default function Selection_bar({
         str = 'Exposure';
         }
         if(RiskName==='Vulnerability Index'||RiskName==='Irrigation'||RiskName==='Soil Water Holding Capacity'||RiskName==='Income'||RiskName==='Soil Organic Carbon'
-        ||RiskName==='Availability of crop residues'||RiskName==='Rural infrastructure'||RiskName==='Socio-economic Development Indicator') {
+        ||RiskName==='Feed/Fodder'||RiskName==='Rural infrastructure'||RiskName==='Socio-economic Development Indicator') {
         str = 'Vulnerability';
         }
         return str;

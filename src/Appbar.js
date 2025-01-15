@@ -184,7 +184,7 @@ function ResponsiveAppBar({}) {
             >
             {pages.map((page,index) => (
               <div>
-               {(page!=='Data at a glance' && page!=='Explore Data') && 
+               {(page!=='Data at a glance') && 
                <MyButton 
                 value={pageid[index]}
                 sx={{ paddingRight:2, paddingLeft:2,paddingTop:1,paddingBottom:1}}
@@ -198,7 +198,7 @@ function ResponsiveAppBar({}) {
                 </Typography>
                </MyButton>}
                
-               {page==='Explore Data' &&
+               {/* page==='Explore Data' &&
                <div ref={ExploreButtonRef}>
                 <MyButton 
                   value={pageid[index]}
@@ -237,7 +237,7 @@ function ResponsiveAppBar({}) {
                     }}
                     //MenuListProps={{ onMouseLeave: handleCloseUserMenu }}
                   >
-                    {/* {opts.map((setting) => (<div></div>))} */}
+                    
                       <a href="/#/viewer" style={{textDecoration: 'none'}}>
                       <MenuItem onClick={handleClick}>
                         <Typography textAlign="center" fontSize={13} color='#222222' sx={{fontFamily:"Karla",fontWeight:350}}>Linear Exploration</Typography>
@@ -249,7 +249,7 @@ function ResponsiveAppBar({}) {
                       </MenuItem>
                       </a>
                   </Menu>
-                </div>}
+                </div> */}
 
                {page==='Data at a glance' &&
                <div ref={GlanceButtonRef}>
@@ -360,7 +360,7 @@ function ResponsiveAppBar({}) {
                         ></Route>
                         <Route
                             path="/viewer"
-                            element={<DrawerMapShow activeBar='viewer'/>}
+                            element={<DrawerMapShow activeBar='future'/>}
                         ></Route>
                         <Route
                             path="/analytics"

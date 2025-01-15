@@ -11,13 +11,13 @@ export default function SwitchScenario({
   activeScenario,
   changeScenario,
 }) {
-  const switchh = ['Baseline','SSP 2-4.5 2050s','SSP 5-8.5 2050s'];
-  const switchid = ['baseline','ssp245','ssp585'];
+  const switchh = ['SSP 2-4.5','SSP 5-8.5'];
+  const switchid = ['ssp245','ssp585'];
   const disvar ={'baseline':false,'ssp245':false,'ssp585':false};
 
-  const switchh2 = ['CHC','ISIMIP'];
-  const switchid2 = ['CHC','ISIMIP'];
-  const disvar2 ={'CHC':true,'ISIMIP':false};
+  const switchh2 = ["CANESM5", "CNRM-CM6-1", "CNRM-ESM-1"," EC-Earth3", "MIROC6"];
+  const switchid2 = ["CANESM5", "CNRM-CM6-1", "CNRM-ESM-1"," EC-Earth3", "MIROC6"];
+  const disvar2 ={"CANESM5":true, "CNRM-CM6-1":false, "CNRM-ESM-1":false," EC-Earth3":false, "MIROC6":false};
   const padd = 8;
 
   const AntSwitch = styled(Switch)(({ theme }) => ({
@@ -90,7 +90,7 @@ export default function SwitchScenario({
      </FormGroup>
       ))}
       <FormLabel sx={{display:'flex',paddingBottom:1}}>
-        <Typography sx={{color:'black',fontWeight:'bold',fontSize:14,paddingTop:2,}}>Select Data Projection</Typography><br/>
+        <Typography sx={{color:'black',fontWeight:'bold',fontSize:14,paddingTop:2,}}>Select Model</Typography><br/>
         </FormLabel>
       {switchh2.map((sname,index) => (
         <FormGroup>

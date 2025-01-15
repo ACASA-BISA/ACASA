@@ -32,20 +32,20 @@ export default function Summ_Adapt6({
     return ans;
   }
   const directswitch = ['Stress Tolerant Variety'];
-  const directswitchdown = ['Precision Agro Input Management','Agri. Insurance'];
+  const directswitchdown = ['ICT linked Input Management','Crop Insurance'];
 
   const planting_rice = ['Early Sowing','Precision Land Levelling','Zero Tillage with residues',
   'Direct Seeded Rice - Dry','Direct Seeded Rice - Wet','System of Rice Intensification'];
 
   const water = ['Supplemental Irrigation','Microirrigation','Precision Water Management'];
 
-  const water_rice = ['Supplemental Irrigation','Microirrigation','Precision Water Management','Alternate wetting and drying (AWD)'];
+  const water_rice = ['Supplemental Irrigation','Microirrigation','Precision Water Management','Alternate Wetting and Drying'];
 
-  const fertilizer_rice = ['Fertilizer rating and timing','Precision Fertilizer Management - Low tech (PFM)','Precision Fertilizer Management - High tech'];
+  const fertilizer_rice = ['Fertilizer rating and timing','Precision Fertilizer Management','Precision Fertilizer Management - High tech'];
 
-  const planting = ['Early Sowing','Precision Land Levelling','Zero Tillage with residues','Broad Bed and Furrow','Mulching'];
+  const planting = ['Early Sowing','Precision Land Levelling','Zero Tillage with residues','Broad Bed and Furrow'];
 
-  const fertilizer = ['Fertilizer rating and timing','Precision Fertilizer Management - Low tech (PFM)','Precision Fertilizer Management - High tech'];
+  const fertilizer = ['Fertilizer rating and timing','Precision Fertilizer Management'];
   
   const livestock = ['Shelter Management','Feed Management','Healthcare Management'];
 

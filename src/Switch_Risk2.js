@@ -21,11 +21,11 @@ export default function SwitchRisk2({
   const switchChild = ['Measured Risk','Estimated Risk'];
   const switchChildID = ['pr','ipcc'];
 
-  const switchIPCC = ['Hazard','Exposure','Vulnerability',];
-  const switchIPCCID = ['hazard','exposure','vulner'];
+  const switchIPCC = ['Hazard','Exposure','Vulnerability',"Risk"];
+  const switchIPCCID = ['hazard','exposure','vulner','risk'];
 
-  const switchRisk = ['Risk Index'];
-  const switchRiskID = ['riskindex'];
+  const switchRisk = ['Risk Index','Hazard Index','Vulnerability Index','Exposure Index'];
+  const switchRiskID = ['riskindex','HINDEX','vulne','expoindex'];
 
   const MasterHazard = ['Hazard Index','Low temperature induced spikelet sterility',"Untimely Rainfall",'Low temperature induced pollen sterility',
     'High temperature induced pollen sterility','Heat Stress','Heat Stress','High temperature induced spikelet sterility','Cold Stress',
@@ -68,59 +68,59 @@ export default function SwitchRisk2({
         }
     })
         if(sname==='rice'){
-            HazardList = ['HINDEX','HEAT STRESS1','HEAT STRESS2','COLD STRESS2','DELMON','SPI','DSN','FLOOD'];
+            HazardList = ['HEAT STRESS1','HEAT STRESS2','COLD STRESS2','DELMON','SPI','DSN','FLOOD'];
         }
         else if(sname==='wheat'){
-            HazardList = ['HINDEX','HIGH POLLEN','TERMINAL HEAT','FROST','ERWL2','SPI','LODGE'];
+            HazardList = ['HIGH POLLEN','TERMINAL HEAT','FROST','ERWL2','SPI','LODGE'];
         }
         else if(sname==='barley'){
-            HazardList = ['HINDEX','HEAT STRESS','TERMINAL HEAT','FROST','ERWL2','SPI','LODGE'];
+            HazardList = ['HEAT STRESS','TERMINAL HEAT','FROST','ERWL2','SPI','LODGE'];
         }
         else if(sname==='maize'){
-            HazardList = ['HINDEX','HEAT STRESS1','HIGH POLLEN','COLD STRESS','ERWL','DELMON','SPI','DSN','FLOOD'];
+            HazardList = ['HEAT STRESS1','HIGH POLLEN','COLD STRESS','ERWL','DELMON','SPI','DSN','FLOOD'];
         }
         else if(sname==='potato'){
-            HazardList = ['HINDEX','COLD STRESS','PCOLD','ERWL2','SPI','FROST','BIOTIC'];
+            HazardList = ['COLD STRESS','PCOLD','ERWL2','SPI','FROST','BIOTIC'];
         }
         else if(sname==='sorghum'||sname==='pmillet'||sname==='fmillet'){
-            HazardList = ['HINDEX','HEAT STRESS','ERWL','DELMON','SPI','DSN','FLOOD'];
+            HazardList = ['HEAT STRESS','ERWL','DELMON','SPI','DSN','FLOOD'];
         }
         else if(sname==='soyabean'){
-            HazardList = ['HINDEX','HEAT STRESS','COLD STRESS','ER','DELMON','SPI','DSN','FLOOD'];
+            HazardList = ['HEAT STRESS','COLD STRESS','ER','DELMON','SPI','DSN','FLOOD'];
         }
         else if(sname==='cotton'){
-            HazardList = ['HINDEX','CSTRESS REPRO','HIGH REPRO','HSTRESS BOLL','ER','DELMON','SPI','DSN','FLOOD'];
+            HazardList = ['CSTRESS REPRO','HIGH REPRO','HSTRESS BOLL','ER','DELMON','SPI','DSN','FLOOD'];
         }
         else if(sname==='rapeseed'){
-            HazardList = ['HINDEX','HEAT STRESS','ERWL2','SPI'];
+            HazardList = ['HEAT STRESS','ERWL2','SPI'];
         }
         else if(sname==='chickpea'){
-            HazardList = ['HINDEX','COLD FLOWER','HIGH FLOWER','FROST','ER','SPI'];
+            HazardList = ['COLD FLOWER','HIGH FLOWER','FROST','ER','SPI'];
         }
         else if(sname==='groundnut'){
-            HazardList = ['HINDEX','HEAT STRESS','LOW POLLEN','HIGH POLLEN','ERWL','DELMON','SPI','DSN','FLOOD'];
+            HazardList = ['HEAT STRESS','LOW POLLEN','HIGH POLLEN','ERWL','DELMON','SPI','DSN','FLOOD'];
         }
         else if(sname==='ppea'){
-            HazardList = ['HINDEX','ER','DELMON','SPI','DSN','FLOOD'];
+            HazardList = ['ER','DELMON','SPI','DSN','FLOOD'];
         }
         else if(sname==='jute'){
-            HazardList = ['HINDEX','HEAT STRESS','COLD STRESS','ERWL','SPI','DSN','FLOOD'];
+            HazardList = ['HEAT STRESS','COLD STRESS','ERWL','SPI','DSN','FLOOD'];
         }
         else if(sname==='lentil'){
-            HazardList = ['HINDEX','HEAT STRESS','COLD STRESS','FROST','ERWL','SPI'];
+            HazardList = ['HEAT STRESS','COLD STRESS','FROST','ERWL','SPI'];
         }
         else if(sname==='sugarcane'){
-            HazardList = ['HINDEX','HEAT STRESS','COLD STRESS','SPI','DSN','FLOOD'];
+            HazardList = ['HEAT STRESS','COLD STRESS','SPI','DSN','FLOOD'];
         }
         else if(sname==='buffalo'||sname==='cattle'||sname==='pig'||sname==='sheep'||sname==='poultry'||sname==='goat'){
-            HazardList = ['HINDEX','THI','CD','ERD','RAINDEF','FLOOD','CYCL'];
+            HazardList = ['THI','CD','ERD','RAINDEF','FLOOD','CYCL'];
         }
         //Kharif Onion
         else if(sname==='onion'){
-            HazardList = ['HINDEX','HEAT STRESS','ERWL','SPI','FLOOD','DSN','BIOTIC2'];
+            HazardList = ['HEAT STRESS','ERWL','SPI','FLOOD','DSN','BIOTIC2'];
         }
         else{
-            HazardList = ['HINDEX'];
+            HazardList = [''];
         }
 
     return HazardList;
@@ -142,14 +142,14 @@ export default function SwitchRisk2({
 
   const CurrHazardName = HazardName();
   
-  const switchVulner = ['Vulnerability Index','Irrigation','Soil Water Holding Capacity','Soil Organic Carbon',"Income","Rural infrastructure","Socio-economic Development Indicator"];
-  const switchVulnerID = ['vulne','irrigation','waterholding','soil','GDP','ROAD','HDI'];
+  const switchVulner = ['Irrigation',"Income","Rural infrastructure","Socio-economic Development Indicator"];
+  const switchVulnerID = ['irrigation','GDP','ROAD','HDI'];
 
-/*   const switchvul_Livestock = ['Vulnerability Index',"Availability of crop residues","Income","Rural infrastructure","Socio-economic Development Indicator"];
+/*   const switchvul_Livestock = ['Vulnerability Index',"Feed/Fodder","Income","Rural infrastructure","Socio-economic Development Indicator"];
   const switchvul_LivestockID = ['vulne',"CROPRES","GDP","ROAD",'HDI']; */
 
-  const switchvul_Livestock = ['Vulnerability Index',"Availability of crop residues","Income","Socio-economic Development Indicator"];
-  const switchvul_LivestockID = ['vulne',"CROPRES","GDP",'HDI'];
+  const switchvul_Livestock = ["Feed/Fodder","Income","Socio-economic Development Indicator","Rural infrastructure"];
+  const switchvul_LivestockID = ["CROPRES","GDP",'HDI','ROAD'];
 
   const switchvul_Fisheries = [];
   const switchvul_FisheriesID = [];
@@ -175,7 +175,7 @@ export default function SwitchRisk2({
       "Rainfall Deficit","Cyclone",'Cold stress in reproductive stage','Heat stress in reproductive stage',
       'Heat stress during boll formation','Cold stress during flowering','High tempearture during flowering','Number of Animals per grid',
       'Vulnerability Index','Irrigation','Soil Water Holding Capacity','Soil Organic Carbon','Income','Rural infrastructure','Socio-economic Development Indicator',
-      "Availability of crop residues",'Exposure Index','Cropped Area','Biotic Stress'];
+      "Feed/Fodder",'Exposure Index','Cropped Area','Biotic Stress'];
 
   function createInitialP2() {
     const initialTodos = {};
@@ -345,7 +345,7 @@ export default function SwitchRisk2({
               
                 {true && (
                     <FormControl component="fieldset" variant="standard" sx={{paddingBottom:1,paddingLeft:0}}>
-                {
+                {/* {
                     switchRisk.map((sn1r,idxr)=>(
                     <FormGroup>
                         <CustomFormControlLabel
@@ -358,7 +358,7 @@ export default function SwitchRisk2({
                         />
                     </FormGroup>
                     ))
-                }
+                } */}
                     {switchIPCC.map((sn1,idx) => (
                         <FormGroup>
                             <CustomFormControlLabel
@@ -427,13 +427,31 @@ export default function SwitchRisk2({
                                                     control = {<AntSwitch inputProps={{'aria-label':'ant design'}} checked={P3[(switchvul_LivestockID[idxr])]}
                                                     onChange={handleChangeP3((switchvul_LivestockID[idxr]))} name={(switchvul_LivestockID[idxr])}
                                                     />}
-                                                    disabled={false}
+                                                    disabled={(activeCrop['pig']&&sn1r==="Feed/Fodder")?true:false}
                                                     key={(switchvul_LivestockID[idxr])}
                                                     label={<Typography fontSize='13px' align='left' sx={{paddingLeft:'3px',maxWidth:'200px',wordBreak:'break-word', whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sn1r.charAt(0).toUpperCase()+sn1r.toLowerCase().slice(1)}</Typography>}
                                                     />
                                                 </FormGroup>
                                                 ))
                                             }
+                                        </FormControl>
+                                    )}
+                                    {P3aipcc[switchIPCCID[idx]] && switchIPCCID[idx]==='risk' && (
+                                        <FormControl component="fieldset" variant="standard" sx={{paddingBottom:1,paddingLeft:5}}>
+                                            {
+                                            switchRisk.map((sn1r,idxr)=>(
+                                            <FormGroup>
+                                                <CustomFormControlLabel
+                                                control = {<AntSwitch inputProps={{'aria-label':'ant design'}} checked={P3[(switchRiskID[idxr])]}
+                                                onChange={handleChangeP3((switchRiskID[idxr]))} name={(switchRiskID[idxr])}
+                                                />}
+                                                disabled={false}
+                                                key={(switchRiskID[idxr])}
+                                                label={<Typography fontSize='13px' sx={{paddingLeft:'3px'}}>{sn1r}</Typography>}
+                                                />
+                                            </FormGroup>
+                                            ))
+                                        } 
                                         </FormControl>
                                     )}
                                     {P3aipcc[switchIPCCID[idx]] && switchIPCCID[idx]==='exposure' && (
