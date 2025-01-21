@@ -1,22 +1,35 @@
 import * as React from "react";
-import { Paper, Button } from "@mui/material";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
+import {
+  Card,
+  CardContent,
+  CardActions,
+  Paper,
+  Button,
+  Typography,
+  Box,
+  Grid,
+} from "@mui/material";
+
+/*
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import InputLabel from '@mui/material/InputLabel';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import InputLabel from "@mui/material/InputLabel";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+*/
+
+// Importing the DataCatalog function to create card components
+import { DataCatalog } from "./Data_Catalog/Data_Catalog";
 
 // Mapping of adaptation options to codes
 const optcode = {'Stress Tolerant Variety':'ADVAR','Early Sowing':'ADPTI','Precision Land Levelling':'LASLV','Zero Tillage with residues':'ZTILL','Broad Bed and Furrow':'BBFIB',
@@ -73,29 +86,108 @@ const hazardname = {
   "Biotic Stress": "Biotic stress",
 };
 
-// Function to create a data row for the tables
+//Function to create a data row for the tables
 function createData(Crop, Hazard, Method, Source, Action) {
   return { Crop, Hazard, Method, Source, Action };
 }
 
-  const rows = [
-    createData('Rice','High temperature induced spikelet sterility','High temperature stress leads to spikelet sterility (55 to 65 days after transplanting/upland direct seeded need to be corrected by adding 30 days) where Tday > 37','http://data.chc.ucsb.edu/products/CHIRTSdaily/','Download'),
-    createData('Rice','Heat Stress','High temperature stress during entire life cycle where Tmax > 43','https://www.chc.ucsb.edu/data/chirps','Download'),
-    createData('Rice','Low temperature induced spikelet sterility','Low temperature stress leads to spikelet sterility (55 to 65 days after transplanting/upland direct seeded need to be corrected by adding 30 days) where Tmin < 15','https://global-flood-database.cloudtostreet.info/','Download'),
-    createData('Rice','Delayed Monsoon','Number of events of delayed monsoon where delay is more than 15 days','https://www.chc.ucsb.edu/data/chirps','Download'),
-    createData('Rice','Drought','SPI below -1 (moderate and severe drought)','http://data.chc.ucsb.edu/products/CHIRTSdaily/','Download'),
-    createData('Rice','Dry Spell','Number of dry spells with length of 15 days or more in a season','https://www.chc.ucsb.edu/data/chirps','Download'),
-    createData('Rice','Flood','Flood layer','https://www.chc.ucsb.edu/data/chirps','Download'),
-    createData('Wheat','High temperature induced pollen sterility','High temperature during pollination: Tday > 28 for two days','http://data.chc.ucsb.edu/products/CHIRTSdaily/','Download'),
-    createData('Wheat','Terminal Heat','GDD concept (degrees above normal GDD) [tbase=8 degrees] during grain filling','http://data.chc.ucsb.edu/products/CHIRTSdaily/','Download'),
-    createData('Wheat','Days of Frost','Minimum temperature less than zero degree for more than three days','https://www.chc.ucsb.edu/data/chirps','Download'),
-    createData('Wheat','Untimely Rainfall','Whole season consecutive two-day rainfall > 100 mm ','https://www.chc.ucsb.edu/data/chirps','Download'),
-    createData('Wheat','Drought','Sept/Oct/Nov and season drought','http://data.chc.ucsb.edu/products/CHIRTSdaily/','Download'),
-    createData('Wheat','Lodging','Windspeed and rainfall criteria after booting (85 to 115 days)','http://data.chc.ucsb.edu/products/CHIRTSdaily/','Download'),
-  ];
+// Hazard data
+const itemsHazard = [
+  createData(
+    "Rice",
+    "High temperature induced spikelet sterility",
+    "High temperature stress leads to spikelet sterility (55 to 65 days after transplanting/upland direct seeded need to be corrected by adding 30 days) where Tday > 37",
+    "http://data.chc.ucsb.edu/products/CHIRTSdaily/",
+    "Download"
+  ),
+  createData(
+    "Rice",
+    "Heat Stress",
+    "High temperature stress during entire life cycle where Tmax > 43",
+    "https://www.chc.ucsb.edu/data/chirps",
+    "Download"
+  ),
+  createData(
+    "Rice",
+    "Low temperature induced spikelet sterility",
+    "Low temperature stress leads to spikelet sterility (55 to 65 days after transplanting/upland direct seeded need to be corrected by adding 30 days) where Tmin < 15",
+    "https://global-flood-database.cloudtostreet.info/",
+    "Download"
+  ),
+  createData(
+    "Rice",
+    "Delayed Monsoon",
+    "Number of events of delayed monsoon where delay is more than 15 days",
+    "https://www.chc.ucsb.edu/data/chirps",
+    "Download"
+  ),
+  createData(
+    "Rice",
+    "Drought",
+    "SPI below -1 (moderate and severe drought)",
+    "http://data.chc.ucsb.edu/products/CHIRTSdaily/",
+    "Download"
+  ),
+  createData(
+    "Rice",
+    "Dry Spell",
+    "Number of dry spells with length of 15 days or more in a season",
+    "https://www.chc.ucsb.edu/data/chirps",
+    "Download"
+  ),
+  createData(
+    "Rice",
+    "Flood",
+    "Flood layer",
+    "https://www.chc.ucsb.edu/data/chirps",
+    "Download"
+  ),
+  createData(
+    "Wheat",
+    "High temperature induced pollen sterility",
+    "High temperature during pollination: Tday > 28 for two days",
+    "http://data.chc.ucsb.edu/products/CHIRTSdaily/",
+    "Download"
+  ),
+  createData(
+    "Wheat",
+    "Terminal Heat",
+    "GDD concept (degrees above normal GDD) [tbase=8 degrees] during grain filling",
+    "http://data.chc.ucsb.edu/products/CHIRTSdaily/",
+    "Download"
+  ),
+  createData(
+    "Wheat",
+    "Days of Frost",
+    "Minimum temperature less than zero degree for more than three days",
+    "https://www.chc.ucsb.edu/data/chirps",
+    "Download"
+  ),
+  createData(
+    "Wheat",
+    "Untimely Rainfall",
+    "Whole season consecutive two-day rainfall > 100 mm ",
+    "https://www.chc.ucsb.edu/data/chirps",
+    "Download"
+  ),
+  createData(
+    "Wheat",
+    "Drought",
+    "Sept/Oct/Nov and season drought",
+    "http://data.chc.ucsb.edu/products/CHIRTSdaily/",
+    "Download"
+  ),
+  createData(
+    "Wheat",
+    "Lodging",
+    "Windspeed and rainfall criteria after booting (85 to 115 days)",
+    "http://data.chc.ucsb.edu/products/CHIRTSdaily/",
+    "Download"
+  ),
+];
 
-// Data for risk table
-const rows1 = [
+// Risk data
+const itemsRisk = [
   createData(
     "Rice",
     "Downscaled risk",
@@ -106,8 +198,8 @@ const rows1 = [
   createData("Rice", "Insurance", "Analyzed", "Heurisitic Model", "Download"),
 ];
 
-// Data for adaptation table
-const rows2 = [
+// Adaptation data
+const itemsAdaptation = [
   createData(
     "Rice",
     "DSR (Dry Seed)",
@@ -250,8 +342,8 @@ const rows2 = [
   ),
 ];
 
-// Data for direct adaptation table
-const rows3 = [
+// Direct adaptation data
+const itemsDirectAdaptation = [
   createData(
     "Rice",
     "Direct seeded rice",
@@ -319,9 +411,13 @@ export default function Description() {
     });
   }
 
-  
-{/*TODO: Function to create a select feature.*/}
+  /*  
+//Function to filter the table
+function filterTable() {
 
+}
+
+//Function to create a select feature.
 function DialogSelect() {
   const [open, setOpen] = React.useState(false);
   const [crop, setCrop] = React.useState('');
@@ -386,13 +482,14 @@ function DialogSelect() {
     </div>
   );
 }
-
+*/
 
   return (
     <div>
       <Box sx={{ textAlign: "left", marginLeft: "150px", marginRight: "40px" }}>
         <Typography
           sx={{
+            fontSize: "22px",
             fontWeight: "bold",
             marginTop: "5px",
             color: "#333333",
@@ -425,6 +522,443 @@ function DialogSelect() {
           The details of the data source and method is described below.
         </Typography>
 
+        <hr />
+
+        <Typography
+          sx={{
+            fontSize: "20px",
+            fontWeight: "bold",
+            marginTop: "10px",
+            marginBottom: "10px",
+            color: "#333333",
+            fontFamily: "revert",
+          }}
+        >
+          Hazard Data
+        </Typography>
+
+        <div> 
+        {itemsHazard.map((item, index) => (
+          <DataCatalog
+            imgSrc="Topo.png"
+            imgAlt="Hazard"
+            title={item.Hazard}
+            method={item.Method}
+            source={item.Source}
+            buttonText={item.Action}
+            link={<Button
+              onClick={() =>
+                onButtonClick(hazardname[item.Hazard], item.Crop)
+              }
+            >
+            </Button>} // You can provide the actual link or additional logic here
+          />
+        ))}
+        </div>
+
+        {/*<DataCatalog
+          imgSrc="Topo.png"
+          imgAlt="Rice Hazard"
+          title="High Temperature Induced Spikelet Sterility"
+          method="High temperature stress leads to spikelet sterility (55 to 65 days after transplanting/upland direct seeded need to be corrected by adding 30 days) where Tday > 37"
+          source="http://data.chc.ucsb.edu/products/CHIRTSdaily/"
+          buttonText="Download"
+          link=""
+        />
+
+        <DataCatalog
+          imgSrc="Topo.png"
+          imgAlt="Rice Hazard"
+          title="Heat Stress"
+          method="High temperature stress during entire life cycle where Tmax > 43"
+          source="https://www.chc.ucsb.edu/data/chirps"
+          buttonText="Download"
+          link=""
+        />
+
+        <DataCatalog
+          imgSrc="Topo.png"
+          imgAlt="Rice Hazard"
+          title="Low Temperature Induced Spikelet Sterility"
+          method="Low temperature stress leads to spikelet sterility (55 to 65 days after transplanting/upland direct seeded need to be corrected by adding 30 days) where Tmin < 15"
+          source="https://global-flood-database.cloudtostreet.info/"
+          buttonText="Download"
+          link=""
+        />
+
+        <DataCatalog
+          imgSrc="Topo.png"
+          imgAlt="Rice Hazard"
+          title="Delayed Monsoon"
+          method="Number of events of delayed monsoon where delay is more than 15 days"
+          source="https://www.chc.ucsb.edu/data/chirps"
+          buttonText="Download"
+          link=""
+        />
+
+        <DataCatalog
+          imgSrc="Topo.png"
+          imgAlt="Rice Hazard"
+          title="Drought"
+          method="SPI below -1 (moderate and severe drought)"
+          source="http://data.chc.ucsb.edu/products/CHIRTSdaily/"
+          buttonText="Download"
+          link=""
+        />
+
+        <DataCatalog
+          imgSrc="Topo.png"
+          imgAlt="Rice Hazard"
+          title="Dry Spell"
+          method="Number of dry spells with length of 15 days or more in a season"
+          source="https://www.chc.ucsb.edu/data/chirps"
+          buttonText="Download"
+          link=""
+        />
+
+        <DataCatalog
+          imgSrc="Topo.png"
+          imgAlt="Rice Hazard"
+          title="Flood"
+          method="Flood Layer"
+          source="https://www.chc.ucsb.edu/data/chirps"
+          buttonText="Download"
+          link=""
+        />
+
+        <hr />
+
+        <Typography
+          sx={{
+            fontSize: "20px",
+            fontWeight: "bold",
+            marginTop: "10px",
+            marginBottom: "10px",
+            color: "#333333",
+            fontFamily: "revert",
+          }}
+        >
+          Hazard Data For Wheat
+        </Typography>
+
+        <DataCatalog
+          imgSrc="Topo.png"
+          imgAlt="Wheat Hazard"
+          title="High Temperature Induced Pollen Sterility"
+          method="High temperature during pollination: Tday > 28 for two days"
+          source="http://data.chc.ucsb.edu/products/CHIRTSdaily/"
+          buttonText="Download"
+          link=""
+        />
+
+        <DataCatalog
+          imgSrc="Topo.png"
+          imgAlt="Wheat Hazard"
+          title="Terminal Heat"
+          method="GDD concept (degrees above normal GDD) [tbase=8 degrees] during grain filling"
+          source="http://data.chc.ucsb.edu/products/CHIRTSdaily/"
+          buttonText="Download"
+          link=""
+        />
+
+        <DataCatalog
+          imgSrc="Topo.png"
+          imgAlt="Wheat Hazard"
+          title="Days Of Frost"
+          method="Minimum temperature less than zero degree for more than three days"
+          source="https://www.chc.ucsb.edu/data/chirps"
+          buttonText="Download"
+          link=""
+        />
+
+        <DataCatalog
+          imgSrc="Topo.png"
+          imgAlt="Wheat Hazard"
+          title="Untimely Rainfall"
+          method="Whole season consecutive two-day rainfall > 100 mm"
+          source="https://www.chc.ucsb.edu/data/chirps"
+          buttonText="Download"
+          link=""
+        />
+
+        <DataCatalog
+          imgSrc="Topo.png"
+          imgAlt="Wheat Hazard"
+          title="Drought"
+          method="Sept/Oct/Nov and season drought"
+          source="http://data.chc.ucsb.edu/products/CHIRTSdaily/"
+          buttonText="Download"
+          link=""
+        />
+
+        <DataCatalog
+          imgSrc="Topo.png"
+          imgAlt="Wheat Hazard"
+          title="Lodging"
+          method="Windspeed and rainfall criteria after booting (85 to 115 days)"
+          source="http://data.chc.ucsb.edu/products/CHIRTSdaily/"
+          buttonText="Download"
+          link=""
+        />
+        */}
+
+        <hr />
+
+        <Typography
+          sx={{
+            fontSize: "20px",
+            fontWeight: "bold",
+            marginTop: "10px",
+            marginBottom: "10px",
+            color: "#333333",
+            fontFamily: "revert",
+          }}
+        >
+          Adaptation Data
+        </Typography>
+
+        <div>
+          {itemsAdaptation.map((item) => (
+            <DataCatalog
+              imgSrc="Topo.png"
+              imgAlt="Adaptation"
+              title={item.Hazard}
+              method={item.Method}
+              model={item.Source}
+              buttonText={item.Action}
+              link= {<Button
+                      onClick={() =>
+                        onButtonClickOpt(optcode[item.Hazard], item.Crop)
+                      }
+                    >
+                    </Button>}
+            />
+          ))
+          }
+        </div>
+
+        {/*<DataCatalog
+          imgSrc="Topo.png"
+          imgAlt="Rice Adaptation"
+          title="DSR (Dry Seed)"
+          method="Analyzed"
+          model="Heuristic Model"
+          buttonText="Download"
+          link=""
+        />
+
+        <DataCatalog
+          imgSrc="Topo.png"
+          imgAlt="Rice Adaptation"
+          title="DSR (Wet Seed)"
+          method="Analyzed"
+          model="Heuristic Model"
+          buttonText="Download"
+          link=""
+        />
+
+        <DataCatalog
+          imgSrc="Topo.png"
+          imgAlt="Rice Adaptation"
+          title="System of Rice Intensification"
+          method="Analyzed"
+          model="Heuristic Model"
+          buttonText="Download"
+          link=""
+        />
+
+        <DataCatalog
+          imgSrc="Topo.png"
+          imgAlt="Rice Adaptation"
+          title="Alternate Wetting and Drying"
+          method="Analyzed"
+          model="Heuristic Model"
+          buttonText="Download"
+          link=""
+        />
+
+        <DataCatalog
+          imgSrc="Topo.png"
+          imgAlt="Rice Adaptation"
+          title="Early Sowing"
+          method="Analyzed"
+          model="Heuristic Model"
+          buttonText="Download"
+          link=""
+        />
+
+        <DataCatalog
+          imgSrc="Topo.png"
+          imgAlt="Rice Adaptation"
+          title="Zero Tillage with Residue"
+          method="Analyzed"
+          model="Heuristic Model"
+          buttonText="Download"
+          link=""
+        />
+
+        <DataCatalog
+          imgSrc="Topo.png"
+          imgAlt="Rice Adaptation"
+          title="Precision Land Leveling"
+          method="Analyzed"
+          model="Heuristic Model"
+          buttonText="Download"
+          link=""
+        />
+
+        <DataCatalog
+          imgSrc="Topo.png"
+          imgAlt="Rice Adaptation"
+          title="Precision Water Management"
+          method="Analyzed"
+          model="Heuristic Model"
+          buttonText="Download"
+          link=""
+        />
+
+        <DataCatalog
+          imgSrc="Topo.png"
+          imgAlt="Rice Adaptation"
+          title="Microirrigation"
+          method="Analyzed"
+          model="Heuristic Model"
+          buttonText="Download"
+          link=""
+        />
+
+        <DataCatalog
+          imgSrc="Topo.png"
+          imgAlt="Rice Adaptation"
+          title="Supplemental Irrigation"
+          method="Analyzed"
+          model="Heuristic Model"
+          buttonText="Download"
+          link=""
+        />
+
+        <DataCatalog
+          imgSrc="Topo.png"
+          imgAlt="Rice Adaptation"
+          title="Stress Tolerant Variety"
+          method="Analyzed"
+          model="Heuristic Model"
+          buttonText="Download"
+          link=""
+        />
+
+        <DataCatalog
+          imgSrc="Topo.png"
+          imgAlt="Rice Adaptation"
+          title="Fertilizer Rating and Timing"
+          method="Analyzed"
+          model="Heuristic Model"
+          buttonText="Download"
+          link=""
+        />
+
+        <DataCatalog
+          imgSrc="Topo.png"
+          imgAlt="Rice Adaptation"
+          title="Low Tech Precision Technology"
+          method="Analyzed"
+          model="Heuristic Model"
+          buttonText="Download"
+          link=""
+        />
+
+        <DataCatalog
+          imgSrc="Topo.png"
+          imgAlt="Rice Adaptation"
+          title="High Tech Precision Technology"
+          method="Analyzed"
+          model="Heuristic Model"
+          buttonText="Download"
+          link=""
+        />
+
+        <DataCatalog
+          imgSrc="Topo.png"
+          imgAlt="Rice Adaptation"
+          title="ICT Agro Advisory"
+          method="Analyzed"
+          model="Heuristic Model"
+          buttonText="Download"
+          link=""
+        />
+
+        <DataCatalog
+          imgSrc="Topo.png"
+          imgAlt="Rice Adaptation"
+          title="Crop Insurance"
+          method="Analyzed"
+          model="Heuristic Model"
+          buttonText="Download"
+          link=""
+        />
+
+        <hr />
+
+        <Typography
+          sx={{
+            fontSize: "20px",
+            fontWeight: "bold",
+            marginTop: "10px",
+            marginBottom: "10px",
+            color: "#333333",
+            fontFamily: "revert",
+          }}
+        >
+          Adaptation Data For Wheat
+        </Typography>
+
+        <DataCatalog
+          imgSrc="Topo.png"
+          imgAlt="Wheat Adaptation"
+          title="Stress Tolerant Variety"
+          method="Analyzed"
+          model="Heuristic Model"
+          buttonText="Download"
+          link=""
+        />
+
+        <DataCatalog
+          imgSrc="Topo.png"
+          imgAlt="Wheat Adaptation"
+          title="Early Sowing"
+          method="Analyzed"
+          model="Heuristic Model"
+          buttonText="Download"
+          link=""
+        />
+
+        <DataCatalog
+          imgSrc="Topo.png"
+          imgAlt="Wheat Adaptation"
+          title="Zero Tillage with Residue"
+          method="Analyzed"
+          model="Heuristic Model"
+          buttonText="Download"
+          link=""
+        />
+
+        <DataCatalog
+          imgSrc="Topo.png"
+          imgAlt="Wheat Adaptation"
+          title="Fertilizer Rating and Timing"
+          method="Analyzed"
+          model="Heuristic Model"
+          buttonText="Download"
+          link=""
+        />
+        */}
+      </Box>
+    </div>
+  )
+
+
+    /* Uncomment to add tables
+
         <TableContainer
           component={Paper}
           sx={{
@@ -449,10 +983,7 @@ function DialogSelect() {
               <TableRow>
                 <TableCell
                   colSpan={5}>
-                  {/*TODO: Adding the select feature within the table.
-                  */}
                   <DialogSelect>
-
                   </DialogSelect>
                 
                 </TableCell>
@@ -507,8 +1038,8 @@ function DialogSelect() {
               ))}
             </TableBody>
 
-            {/* Uncomment this section if you want to include the risk data table */}
-            {/* <TableHead sx={{backgroundColor: '#eeeeee'}}>
+            
+            <TableHead sx={{backgroundColor: '#eeeeee'}}>
                             <TableRow>
                                 <TableCell colSpan={5} sx={{fontWeight: 'bold', backgroundColor: '#4b9e44', color: '#ffffff'}}>
                                     Risk
@@ -542,7 +1073,7 @@ function DialogSelect() {
                                     </TableCell>
                                 </TableRow>
                             ))}
-                        </TableBody> */}
+                        </TableBody>
 
             <TableHead sx={{ backgroundColor: "#eeeeee" }}>
               <TableRow>
