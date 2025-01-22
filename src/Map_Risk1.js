@@ -416,7 +416,7 @@ export default function Map_Risk({
     return (
       <div>
       <Tooltip
-      title={<Typography sx={{fontSize:12}}>Hazard Index</Typography>}
+      title={<Typography sx={{fontSize:12}}>Impact on Productivity</Typography>}
       open={true}
       placement='top'
       slotProps={{
@@ -433,7 +433,7 @@ export default function Map_Risk({
       }}
       PopperProps={{style:{zIndex:0}}}
     >
-        <div ref={ref} style={{position:'relative',height:'calc(100vh - 250px)',width:'24vw',marginLeft:0,marginRight:0}} className="map-container" />
+        <div ref={ref} style={{position:'relative',height:'calc(100vh - 275px)',width:'24vw',marginLeft:0,marginRight:0}} className="map-container" />
         </Tooltip>
 
     <Popper

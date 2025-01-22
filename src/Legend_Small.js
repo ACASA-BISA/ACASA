@@ -16,7 +16,8 @@ export default function Legend_Small({
     scenario,
     ImpactName,
     area_data3,
-    area_data4
+    area_data4,
+    AdaptLayerName
 }) {
 
   function checkcrop() {
@@ -29,7 +30,6 @@ export default function Legend_Small({
     })
     return ans;
   };
-
 
     const optcode = {'Stress Tolerant Variety':'ADVAR','Early Sowing':'ADPTI','Precision Land Levelling':'LASLV','Zero Tillage with residues':'ZTILL','Broad Bed and Furrow':'BBFIB',
     'Direct Seeded Rice - Dry':'DSDRY','Direct Seeded Rice - Wet':'DSWET','System of Rice Intensification':'SRIUT','Supplemental Irrigation':'WHSRC','Microirrigation':'MICIR','Precision Water Management':'PWMGT',
@@ -53,7 +53,7 @@ export default function Legend_Small({
       'High tempearture during flowering':'High tempearture during flowering','Biotic Stress':'Biotic stress',"Vulnerability Index":'Vulnerability Index',
       "Feed/Fodder":'Residue',"Rural infrastructure":'Road network density',"Cyclone":'Cyclone',"Rainfall Deficit":"Rainfall deficit",
       "Extreme Rainfall days":"Extreme Rainfall Days","Cold days":"Cold Stress","Hot days":"Heat stress or hot days","Temperature-Humidity Index":'THI',
-      "Socio-economic Development Indicator":"Human development index"};
+      "Economic Development Indicator":"Human development index"};
       
     function fetchthedataTable() {
       let data = [];
@@ -82,10 +82,14 @@ export default function Legend_Small({
         else{
           rowstr = "Calculated_"+commodity+"_"+location+"_"+optcode[adaption]+"_"+scenario;
         }
-        const row_data = area_data3[rowstr.toLowerCase()];
-        //console.log(rowstr);
-        const total = Number(row_data['Unsuitable']) + Number(row_data['Suitable']) + Number(row_data['Suitable with adaptation benefits']);
-        //console.log(total);
+        let row_data = area_data3[rowstr.toLowerCase()];
+        let total = 1;
+          if(row_data){
+            total = Number(row_data['Unsuitable']) + Number(row_data['Suitable']) + Number(row_data['Suitable with adaptation benefits']);
+          }
+          else{
+            row_data = {'Unsuitable':NaN,'Suitable':NaN,'Suitable with adaptation benefits':NaN};
+          }
         data = 
         [
           createData(<Box sx={{width: '100%',height: 13,borderRadius: 0,bgcolor: 'rgba(180, 70, 109, 1)'}}/>,'Unsuitable', row_data['Unsuitable']/10, (row_data['Unsuitable']*100/total).toFixed(2), (row_data['Unsuitable Population']*0.16/1000000)),
@@ -100,7 +104,7 @@ export default function Legend_Small({
 
     function fetchthedataHzd() {
         let data = [];
-        if(RiskName!==''){
+        if(RiskName!==''||adaption!==''||ImpactName!==''){
           let sec = location.indexOf(',');
           let y ='';
           let x = '';
@@ -126,8 +130,14 @@ export default function Legend_Small({
             rowstr = "Calculated_"+commodity+"_"+location+"_"+hazardname[RiskName]+"_"+scenario;
           }
           
-          const row_data = area_data4[rowstr.toLowerCase()];
-          const total = Number(row_data['Very Low']) + Number(row_data['Low']) + Number(row_data['Medium']) + Number(row_data['High']) + Number(row_data['Very High']) + Number(row_data['Nil']);
+          let row_data = area_data4[rowstr.toLowerCase()];
+          let total = 1;
+          if(row_data){
+            total = Number(row_data['Very Low']) + Number(row_data['Low']) + Number(row_data['Medium']) + Number(row_data['High']) + Number(row_data['Very High']) + Number(row_data['Nil']);
+          }
+          else{
+            row_data = {'Nil':NaN,'Very Low':NaN,'Low':NaN,'Medium':NaN,'High':NaN,'Very High':NaN};
+          }
           //console.log(total);
           data = 
           [
@@ -229,9 +239,7 @@ export default function Legend_Small({
     }
     const rows = fetchthedataTable();
     let rowshzd = [];
-    if((RiskName !== "" && RiskName !== "Hazard Index" && RiskType()==="Hazard") || (RiskName !== "" && RiskName !== "District Level" && RiskName !== "Downscaled Risk" && (checkcrop()===false||(commodity==='Rice'||commodity==='Wheat'||commodity==='Barley'||commodity==='Soybean'||commodity==='Cotton'||commodity==='Chickpea'||commodity==='Maize'||commodity==='Mustard'))) || ((RiskName === "District Level"||RiskName==='Downscaled Risk') && commodity==='Rice')){
-        rowshzd = fetchthedataHzd();
-    }
+    rowshzd = fetchthedataHzd();
 
     function RiskType(){
         let str = 'Hazard';
@@ -241,23 +249,36 @@ export default function Legend_Small({
         if(RiskName==='Number of Animals per grid'||RiskName==='Cropped Area') {
           str = 'Exposure';
         }
-        if(RiskName==='Irrigation'||RiskName==='Soil Water Holding Capacity'||RiskName==='Income'||RiskName==='Soil Organic Carbon'
-        ||RiskName==='Feed/Fodder'||RiskName==='Rural infrastructure'||RiskName==='Socio-economic Development Indicator') {
+        if(RiskName==='Irrigation'||RiskName==='Soil Water Holding Capacity'||RiskName==='Agriculture Income'||RiskName==='Soil Organic Carbon'
+        ||RiskName==='Feed/Fodder'||RiskName==='Rural infrastructure'||RiskName==='Economic Development Indicator') {
           str = 'Vulnerability';
         }
         return str;
       };
-
+//maxWidth:'320px'
   return (
     <div style={{maxWidth:'320px'}}>
     <Paper elevation={1} sx={{padding:'10px',borderRadius:'5px',boxShadow:'0px 0px 0px #aaa',textAlign:'left'}}>
         {adaption !== '' && <div>
         <Box sx={{display:'flex'}}>
-        <Typography sx={{ fontSize: 11, marginBottom:'2px'}} color="black">
-          Technical suitability of&nbsp;{adaption.charAt(0).toUpperCase()+adaption.slice(1,4)+adaption.toLowerCase().slice(4)} for number of farm households:
-          </Typography>
+        <Typography sx={{ fontSize: 11, marginBottom: '2px' }} color="black">
+                Number of&nbsp;
+                <span style={{ color: '#AA5486', fontWeight: 'bold' }}>farm households</span>
+                &nbsp;and&nbsp;
+                <span style={{ color: '#859F3D', fontWeight: 'bold' }}>cropped area</span>
+                &nbsp;for suitability of&nbsp;{adaption.charAt(0).toUpperCase()+adaption.slice(1,4)+adaption.toLowerCase().slice(4)}:
+            </Typography>
           </Box>
         </div>}
+        {ImpactName!=='' && <Box sx={{ display: 'flex' }}>
+            <Typography sx={{ fontSize: 11, marginBottom: '2px' }} color="black">
+                Affected&nbsp;
+                <span style={{ color: '#AA5486', fontWeight: 'bold' }}>farm households</span>
+                &nbsp;and&nbsp;
+                <span style={{ color: '#859F3D', fontWeight: 'bold' }}>cropped area</span>
+                &nbsp;for impact on {ImpactName.toLowerCase()}:
+            </Typography>
+            </Box>}
         {((RiskName !== "" && RiskType()==="Hazard" && checkcrop())) && <div>
             <Box sx={{ display: 'flex' }}>
             <Typography sx={{ fontSize: 11, marginBottom: '2px' }} color="black">
@@ -265,7 +286,7 @@ export default function Legend_Small({
                 <span style={{ color: '#AA5486', fontWeight: 'bold' }}>farm households</span>
                 &nbsp;and&nbsp;
                 <span style={{ color: '#859F3D', fontWeight: 'bold' }}>cropped area</span>
-                :
+                &nbsp;for {RiskName}:
             </Typography>
             </Box>
         </div>}
@@ -306,7 +327,7 @@ export default function Legend_Small({
                     </Box>
                     </Box>} */}
                     
-                    {adaption !== '' &&
+                    {/* {adaption !== '' &&
                     <Box sx={{width:'100%', display:'flex',flexDirection:'row',padding:0,justifyItems:'center',marginTop:'1px'}}>   
                     {rows.map((row,index) => ( 
                         <Box sx={{width:'33%',display:'flex',alignItems:'left',flexDirection:'column'}}>
@@ -319,8 +340,8 @@ export default function Legend_Small({
                         
                     ))}
                     </Box>
-                    }
-                    {((RiskName !== "" && RiskName !== "Hazard Index" && RiskType()==="Hazard") || ((RiskName !== "" && RiskType()==="Hazard" && (checkcrop()===false||(commodity==='Rice'||commodity==='Wheat'||commodity==='Barley'||commodity==='Soybean'||commodity==='Cotton'||commodity==='Chickpea'||commodity==='Maize'||commodity==='Mustard'))))) &&
+                    } */}
+                    {
                       <div> 
                       <Box sx={{width:'100%', display:'flex',flexDirection:'row',padding:0,justifyItems:'center',marginTop:'1px'}}>
                       {rowshzd.map((row,index) => (

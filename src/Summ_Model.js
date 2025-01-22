@@ -7,7 +7,7 @@ export default function Summ_Model({
   handleModel
 }) {
 
-  const [val, setVal] = React.useState('CANESM5');
+  const [val, setVal] = React.useState('CHC');
 
   const handleChange = (event) => 
   {
@@ -28,6 +28,7 @@ export default function Summ_Model({
     variant="standard"
     sx={{backgroundColor:'rgba(235, 247, 233,1)', fontSize:13}}
   >
+    <MenuItem value='CHC' sx={{fontSize:13,paddingY:'2px'}}>CHC</MenuItem>
     <MenuItem value='CANESM5' sx={{fontSize:13,paddingY:'2px'}}>CANESM5</MenuItem>
     <MenuItem value='CNRM-CM6-1' sx={{fontSize:13,paddingY:'2px'}}>CNRM-CM6-1</MenuItem>
     <MenuItem value='CNRM-ESM-1' sx={{fontSize:13,paddingY:'2px'}}>CNRM-ESM-1</MenuItem>

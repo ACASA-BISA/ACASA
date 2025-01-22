@@ -33,8 +33,8 @@ export default function Selection_bar({
         if(RiskName==='Exposure Index'||RiskName==='Number of Animals per grid'||RiskName==='Cropped Area') {
         str = 'Exposure';
         }
-        if(RiskName==='Vulnerability Index'||RiskName==='Irrigation'||RiskName==='Soil Water Holding Capacity'||RiskName==='Income'||RiskName==='Soil Organic Carbon'
-        ||RiskName==='Feed/Fodder'||RiskName==='Rural infrastructure'||RiskName==='Socio-economic Development Indicator') {
+        if(RiskName==='Vulnerability Index'||RiskName==='Irrigation'||RiskName==='Soil Water Holding Capacity'||RiskName==='Agriculture Income'||RiskName==='Soil Organic Carbon'
+        ||RiskName==='Feed/Fodder'||RiskName==='Rural infrastructure'||RiskName==='Economic Development Indicator') {
         str = 'Vulnerability';
         }
         return str;

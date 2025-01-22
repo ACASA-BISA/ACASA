@@ -9,7 +9,7 @@ import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
-export default function SwitchLegumes({
+export default function SwitchPulses({
   activeCrop,
   changeCrop
 }) {

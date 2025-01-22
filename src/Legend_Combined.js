@@ -68,7 +68,7 @@ export default function LegendCard({
       'High tempearture during flowering':'High tempearture during flowering','Biotic Stress':'Biotic stress',"Vulnerability Index":'Vulnerability Index',
       "Feed/Fodder":'Residue',"Rural infrastructure":'Road network density',"Cyclone":'Cyclone',"Rainfall Deficit":"Rainfall deficit",
       "Extreme Rainfall days":"Extreme Rainfall Days","Cold days":"Cold Stress","Hot days":"Heat stress or hot days","Temperature-Humidity Index":'THI',
-      "Socio-economic Development Indicator":"Human development index"};
+      "Economic Development Indicator":"Human development index"};
 
     function fetchthedataTable() {
       let data = [];
@@ -245,8 +245,8 @@ export default function LegendCard({
         if(RiskName==='Number of Animals per grid'||RiskName==='Cropped Area') {
           str = 'Exposure';
         }
-        if(RiskName==='Irrigation'||RiskName==='Soil Water Holding Capacity'||RiskName==='Income'||RiskName==='Soil Organic Carbon'
-        ||RiskName==='Feed/Fodder'||RiskName==='Rural infrastructure'||RiskName==='Socio-economic Development Indicator') {
+        if(RiskName==='Irrigation'||RiskName==='Soil Water Holding Capacity'||RiskName==='Agriculture Income'||RiskName==='Soil Organic Carbon'
+        ||RiskName==='Feed/Fodder'||RiskName==='Rural infrastructure'||RiskName==='Economic Development Indicator') {
           str = 'Vulnerability';
         }
         return str;

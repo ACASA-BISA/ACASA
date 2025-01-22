@@ -425,7 +425,7 @@ export default function SMap({
     return (
       <div>
         <Tooltip
-      title={<Typography sx={{fontSize:12}}>Impact on Productivity</Typography>}
+      title={<Typography sx={{fontSize:12}}>Productivity</Typography>}
       open={true}
       placement='top'
       slotProps={{

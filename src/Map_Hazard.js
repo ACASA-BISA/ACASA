@@ -14,8 +14,11 @@ import Fill from 'ol/style/Fill';
 import Stroke from 'ol/style/Stroke';
 import GeoTIFF from 'ol/source/GeoTIFF.js';
 import GeoJSON from 'ol/format/GeoJSON.js';
-import {ZoomToExtent, FullScreen, defaults as defaultControls} from 'ol/control.js';
+import {Control, ZoomToExtent, FullScreen, Zoom} from 'ol/control.js';
 import './olsm.css';
+import { Tooltip,Typography,Box } from '@mui/material';
+import ReactDOMServer from 'react-dom/server';
+import DownloadIcon from '@mui/icons-material/Download';
 
 export default function Map_Hazard({
   activeCrop, focus='Region', activeRegion, CurrRisk, activeScenario
@@ -193,18 +196,96 @@ export default function Map_Hazard({
         zIndex:10,
     });
 
+    let filename = "";
+
+    if(CurrRisk!==''){
+      filename = activeCrop+"_"+CurrRisk+"_"+activeScenario+'.tiff';
+    }
+    else{
+      filename = activeCrop+"_CropMask_"+activeScenario+".tiff";
+    }
+
+    // Use React to create an MUI icon element
+    const iconElement = (
+      <DownloadIcon
+        style={{
+          fontSize: '16px', 
+          verticalAlign: 'middle',
+        }}
+      />
+    );
+
+    // Define the download control
+  class DownloadControl extends Control {
+    constructor(options = {}) {
+      const button = document.createElement('button');
+      button.innerHTML = ReactDOMServer.renderToString(iconElement);;
+      button.title = 'Download GeoTIFF Layer';
+
+      const element = document.createElement('div');
+      element.className = 'ol-control custom-download-control download-button';
+      element.appendChild(button);
+
+      super({
+        element: element,
+        target: options.target,
+      });
+
+      // Add event listener for the button click
+      button.addEventListener('click', this.handleDownload.bind(this), false);
+    }
+
+    handleDownload() {
+      const map = this.getMap(); // Get the map instance
+      const layers = map.getLayers().getArray(); // Get all layers on the map
+
+      // Find the GeoTIFF layer
+      const geoTiffLayer = layers.find(
+        (layer) => layer.getSource() instanceof GeoTIFF
+      );
+
+      if (geoTiffLayer) {
+        const source_tiff = geoTiffLayer.getSource();
+        // Access the URL from the `key_` property
+        const geoTiffUrl = source_tiff.key_;
+        if (geoTiffUrl) {
+          this.downloadFile(geoTiffUrl, filename); // Trigger the download
+        } else {
+          alert('No URL found for the GeoTIFF layer.');
+        }
+      } else {
+        alert('No GeoTIFF layer is currently displayed on the map.');
+      }
+    }
+
+    downloadFile(url, filename) {
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+  }
+
     useEffect(() => {
       if (ref.current && !mapRef.current) {
         mapRef.current = new Map({
-          controls: defaultControls().extend([
-            new ZoomToExtent({
-              extent: defext,
-              className: 'ol-zoomtoextenty'
-            }),
-            new FullScreen({
-              className: 'ol-fullscreeny'
-            }),
-          ]),
+          controls: [
+                    new ZoomToExtent({
+                      extent: defext,
+                      className: 'ol-zoomtoextenty'
+                    }),
+                  new Zoom({
+                    className: 'ol-zoom-comp' 
+                  }),
+                    new FullScreen({
+                      className: 'ol-fullscreeny'
+                    }),
+                    new DownloadControl({
+                      className: 'download-button'
+                    })
+                  ],
           target: ref.current,
           layers: [BackMap],
           view: ViewV,
@@ -528,7 +609,7 @@ useEffect(() => {
       'High tempearture during flowering':'High tempearture during flowering','Biotic Stress':'Biotic stress',"Vulnerability Index":'Vulnerability Index',
       "Feed/Fodder":'Residue',"Rural infrastructure":'Road network density',"Cyclone":'Cyclone',"Rainfall Deficit":"Rainfall deficit",
       "Extreme Rainfall days":"Extreme Rainfall Days","Cold days":"Cold Stress","Hot days":"Heat stress or hot days","Temperature-Humidity Index":'THI',
-      "Socio-economic Development Indicator":"Human development index"};
+      "Economic Development Indicator":"Human development index"};
 
     if(CurrRisk!==''){
       opt=3;
@@ -596,7 +677,7 @@ useEffect(() => {
              
     return (
     <div>
-      <div ref={ref} style={{position:'relative',height:'calc(50vh - 94px)',width:'auto',margin:0,padding:0}} className="map-container" /> 
+      <div ref={ref} style={{position:'relative',height:'calc(50vh - 80px)',width:'auto',margin:0,padding:0}} className="map-container" /> 
     </div>
     );
 }

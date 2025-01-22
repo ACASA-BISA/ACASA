@@ -142,10 +142,10 @@ export default function SwitchRisk2({
 
   const CurrHazardName = HazardName();
   
-  const switchVulner = ['Vulnerability Index','Irrigation','Soil Water Holding Capacity','Soil Organic Carbon',"Income","Rural infrastructure","Socio-economic Development Indicator"];
+  const switchVulner = ['Vulnerability Index','Irrigation','Soil Water Holding Capacity','Soil Organic Carbon',"Income","Rural infrastructure","Economic Development Indicator"];
   const switchVulnerID = ['vulne','irrigation','waterholding','soil','GDP','ROAD','HDI'];
 
-  const switchvul_Livestock = ['Vulnerability Index',"Feed/Fodder","Income","Rural infrastructure","Socio-economic Development Indicator"];
+  const switchvul_Livestock = ['Vulnerability Index',"Feed/Fodder","Income","Rural infrastructure","Economic Development Indicator"];
   const switchvul_LivestockID = ['vulne',"CROPRES","GDP","ROAD",'HDI'];
 
   const switchvul_Fisheries = [];
@@ -171,7 +171,7 @@ export default function SwitchRisk2({
       'Flood','Lodging','Biotic',"Excess Rainfall",,"Temperature-Humidity Index","Hot days","Cold days","Extreme Rainfall days",
       "Rainfall Deficit","Cyclone",'Cold stress in reproductive stage','Heat stress in reproductive stage',
       'Heat stress during boll formation','Cold stress during flowering','High tempearture during flowering','Number of Animals per grid',
-      'Vulnerability Index','Irrigation','Soil Water Holding Capacity','Soil Organic Carbon','Income','Rural infrastructure','Socio-economic Development Indicator',
+      'Vulnerability Index','Irrigation','Soil Water Holding Capacity','Soil Organic Carbon','Agriculture Income','Rural infrastructure','Economic Development Indicator',
       "Feed/Fodder",'Exposure Index','Cropped Area','Biotic Stress'];
 
   function createInitialP2() {

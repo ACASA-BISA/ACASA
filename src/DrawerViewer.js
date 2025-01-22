@@ -43,7 +43,9 @@ export default function DrawerV({
   activeImpact,
   changeImpact,
   activeOptLayer,
-  changeOptLayer
+  changeOptLayer,
+  exploreType,
+  handleExploreTypeChange
 }) {
     function createInitialTodos() {
     const initialTodos = {};
@@ -86,6 +88,9 @@ export default function DrawerV({
       if(newState['Go to Home']===true){
         setDrOpen(false);
       }
+      else if((exploreType==='Regional' &&  name==='Select Commodity')){
+        setDrOpen(false);
+      }
       else{
       setDrOpen(true);
       }
@@ -94,6 +99,9 @@ export default function DrawerV({
       let normally = 'rgba(14, 33, 1, 0.0)';
       if(open[Item]){
         normally = 'rgba(10, 30, 1, 0.9)';
+      }
+      if( (exploreType==='Regional' &&  Item==='Select Commodity')){
+        normally = 'rgba(180, 200, 180, 0.7)';
       }
       return normally;
     };
@@ -167,8 +175,10 @@ export default function DrawerV({
         {Items.map((Item,index)=>(
           <Popper open={true}>
           <div style={{position:'relative',zIndex:(theme) => theme.zIndex.map + 1,left:10,top:topmarg(index),margin:4,padding:2,
-          boxShadow:'0px 0px 0px #aaa',backgroundColor: 'rgba(14, 33, 1, 0.7)', border: '0px solid black', width:widthh, height:heightdrawer, borderRadius:'3px' }}>
-          <ListItem key={Item} onClick={toggleList(Item)} disablePadding sx={{color:'#ffffff', '&:hover': { backgroundColor: '#fece2f' },backgroundColor:colorofbutton(Item),height:'100%'}}>
+          boxShadow:'0px 0px 0px #aaa',backgroundColor: ((exploreType==='Regional'&&Items2[index]==='Commodity')?'rgba(140, 150, 140, 0.7)':'rgba(14, 33, 1, 0.7)'), border: '0px solid black', width:widthh, height:heightdrawer, borderRadius:'3px' }}>
+          <ListItem key={Item} onClick={toggleList(Item)} disablePadding sx={{color:'#ffffff', 
+            '&:hover': { backgroundColor: ((exploreType==='Regional'&&Items2[index]==='Commodity')?'rgba(140, 150, 140, 0.7)':'#fece2f') },
+            backgroundColor:colorofbutton(Item),height:'100%'}}>
            <ListItemButton>
            <Box  sx={{ display:'flex', flexDirection: 'row'}}>
               { //index===0 && <LightTooltip open={(isShown1&&DrOpen)} title="Home" placement="top" arrow><HomeOutlined onMouseEnter={() => setIsShown1(true)} onMouseLeave={() => setIsShown1(false)}
@@ -186,7 +196,7 @@ export default function DrawerV({
               { index===2 && <GrassOutlined sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>}
               { index===4 && <WarningAmberIcon sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>} 
               { index===3 && <AccessTimeOutlined sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>} 
-              {/* index===5 && <YardOutlinedIcon  sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}></YardOutlinedIcon>*/}
+              {/* index===2 && <YardOutlinedIcon sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/> */}
               { index===5 && <AutoAwesomeIcon sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>} 
               { index===6 && <TuneIcon sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>} 
               {/* index===7 && <PollOutlined sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>*/}  
@@ -201,8 +211,8 @@ export default function DrawerV({
 
       { DrOpen===true &&  <List>
         {Items2.map((Item,index)=>(
-          <Popper open={DrOpen} transition='fade'>
-          <div style={{position:'relative',zIndex:(theme) => theme.zIndex.map + 1,left:1,top:topmarg(index)+heightdrawer,margin:4,padding:3, 
+        <Popper open={DrOpen} transition='fade'>
+        <div style={{position:'relative',zIndex:(theme) => theme.zIndex.map + 1,left:1,top:topmarg(index)+heightdrawer,margin:4,padding:3, 
           boxShadow:'0px 1px 0px #aaa',backgroundColor: 'rgba(220, 220, 220, 1)', border: '0px solid #fece2f', width:'72px', height:'15px', borderRadius:'3px' }}>
           <ListItem key={Item}  disablePadding sx={{color:'#000000', height:'100%'}}>
            <Box  sx={{ display:'flex', flexDirection: 'row',width:'100%'}}>
@@ -235,11 +245,12 @@ export default function DrawerV({
         }}
         >
         {open['Select Commodity'] === true && <SwitchCom activeCrop={activeCrop} changeCrop={changeCrop}></SwitchCom>}
-        {open['Select Region'] === true && <SwitchLoc activeRegion={activeRegion} changeRegion={changeRegion} countryStateMap={LocationData}></SwitchLoc>}
+        {open['Select Region'] === true && <SwitchLoc activeRegion={activeRegion} changeRegion={changeRegion} countryStateMap={LocationData}
+         exploreType={exploreType} handleExploreTypeChange={handleExploreTypeChange}></SwitchLoc>}
         {open['Adaptation Options'] === true && <SwitchOpt activeCrop={activeCrop} activeOpt={activeOpt} changeOpt={changeOpt} activeOptLayer={activeOptLayer}
-        changeOptLayer={changeOptLayer}></SwitchOpt>}
+         changeOptLayer={changeOptLayer}></SwitchOpt>}
         {open['Climatic Risks'] === true && <SwitchRisk2 activeCrop={activeCrop} changeRisk={changeRisk} activeScenario={activeScenario} CurrRisk={CurrRisk}></SwitchRisk2>}
-        {open['Impact'] === true && <SwitchImpact activeImpact={activeImpact} changeImpact={changeImpact}></SwitchImpact>}
+        {open['Impact'] === true && <SwitchImpact activeImpact={activeImpact} changeImpact={changeImpact} activeCrop={activeCrop}></SwitchImpact>}
         {open['Go to Home'] === true && (window.location.href = "/")}
         {open['Select Scenario'] === true && <SwitchScenario activeScenario={activeScenario} changeScenario={changeScenario}></SwitchScenario>}
         </Drawer>

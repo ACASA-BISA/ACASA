@@ -15,9 +15,11 @@ import GeoJSON from 'ol/format/GeoJSON.js';
 import TileLayer2 from 'ol/layer/Tile';
 import BingMaps from 'ol/source/BingMaps';
 import tilesource from 'ol/source/TileJSON';
-import {ZoomToExtent, FullScreen, defaults as defaultControls} from 'ol/control.js';
+import {Control, ZoomToExtent, FullScreen, Zoom} from 'ol/control.js';
 import './olsm.css';
 import { Tooltip,Typography,Box } from '@mui/material';
+import ReactDOMServer from 'react-dom/server';
+import DownloadIcon from '@mui/icons-material/Download';
 
 const optcode = {'Stress Tolerant Variety':'ADVAR','Early Sowing':'ADPTI','Precision Land Levelling':'LASLV','Zero Tillage with residues':'ZTILL','Broad Bed and Furrow':'BBFIB',
   'Direct Seeded Rice - Dry':'DSDRY','Direct Seeded Rice - Wet':'DSWET','System of Rice Intensification':'SRIUT','Supplemental Irrigation':'WHSRC','Microirrigation':'MICIR','Precision Water Management':'PWMGT',
@@ -28,7 +30,7 @@ const optcode = {'Stress Tolerant Variety':'ADVAR','Early Sowing':'ADPTI','Preci
 
 export default function Map_Option({
   activeCrop, focus='Region', activeRegion,
-  activeOpt, area_dict
+  activeOpt, area_dict, activeScenario
 }) {
     const ref = useRef(null);
     const mapRef = useRef(null);
@@ -110,18 +112,96 @@ export default function Map_Option({
       4648992.169943628
     ];
 
+    let filename = "";
+
+    if(activeOpt!==''){
+      filename = activeCrop+"_"+activeOpt+"_"+activeScenario+'.tiff';
+    }
+    else{
+      filename = activeCrop+"_CropMask_"+activeScenario+".tiff";
+    }
+
+    // Use React to create an MUI icon element
+    const iconElement = (
+      <DownloadIcon
+        style={{
+          fontSize: '16px', 
+          verticalAlign: 'middle',
+        }}
+      />
+    );
+
+    // Define the download control
+  class DownloadControl extends Control {
+    constructor(options = {}) {
+      const button = document.createElement('button');
+      button.innerHTML = ReactDOMServer.renderToString(iconElement);;
+      button.title = 'Download GeoTIFF Layer';
+
+      const element = document.createElement('div');
+      element.className = 'ol-control custom-download-control download-button';
+      element.appendChild(button);
+
+      super({
+        element: element,
+        target: options.target,
+      });
+
+      // Add event listener for the button click
+      button.addEventListener('click', this.handleDownload.bind(this), false);
+    }
+
+    handleDownload() {
+      const map = this.getMap(); // Get the map instance
+      const layers = map.getLayers().getArray(); // Get all layers on the map
+
+      // Find the GeoTIFF layer
+      const geoTiffLayer = layers.find(
+        (layer) => layer.getSource() instanceof GeoTIFF
+      );
+
+      if (geoTiffLayer) {
+        const source_tiff = geoTiffLayer.getSource();
+        // Access the URL from the `key_` property
+        const geoTiffUrl = source_tiff.key_;
+        if (geoTiffUrl) {
+          this.downloadFile(geoTiffUrl, filename); // Trigger the download
+        } else {
+          alert('No URL found for the GeoTIFF layer.');
+        }
+      } else {
+        alert('No GeoTIFF layer is currently displayed on the map.');
+      }
+    }
+
+    downloadFile(url, filename) {
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+  }
+
     useEffect(() => {
       if (ref.current && !mapRef.current) {
         mapRef.current = new Map({
-          controls: defaultControls().extend([
-            new ZoomToExtent({
-              extent: defext,
-              className: 'ol-zoomtoextenty'
-            }),
-            new FullScreen({
-              className: 'ol-fullscreeny'
-            }),
-          ]),
+          controls: [
+                      new ZoomToExtent({
+                        extent: defext,
+                        className: 'ol-zoomtoextenty'
+                      }),
+                    new Zoom({
+                      className: 'ol-zoom-comp' 
+                    }),
+                      new FullScreen({
+                        className: 'ol-fullscreeny'
+                      }),
+                      new DownloadControl({
+                        className: 'download-button'
+                      })
+                    ],
           target: ref.current,
           layers: [BingMapNew],
           view: ViewV,

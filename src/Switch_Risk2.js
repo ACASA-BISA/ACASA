@@ -21,11 +21,14 @@ export default function SwitchRisk2({
   const switchChild = ['Measured Risk','Estimated Risk'];
   const switchChildID = ['pr','ipcc'];
 
-  const switchIPCC = ['Hazard','Exposure','Vulnerability',"Risk"];
-  const switchIPCCID = ['hazard','exposure','vulner','risk'];
+  const switchIPCC = ['Base climate','Hazard','Exposure','Vulnerability',"Risk indices"];
+  const switchIPCCID = ['basic','hazard','exposure','vulner','risk'];
 
   const switchRisk = ['Risk Index','Hazard Index','Vulnerability Index','Exposure Index'];
   const switchRiskID = ['riskindex','HINDEX','vulne','expoindex'];
+  
+  const switchBasic = ['Seasonal Rainfall','Maximum Temperature','Minimum Temperature'];
+  const switchBasicID = ['seasonalrain','maxtemp','mintemp'];
 
   const MasterHazard = ['Hazard Index','Low temperature induced spikelet sterility',"Untimely Rainfall",'Low temperature induced pollen sterility',
     'High temperature induced pollen sterility','Heat Stress','Heat Stress','High temperature induced spikelet sterility','Cold Stress',
@@ -61,10 +64,10 @@ export default function SwitchRisk2({
     fullList.forEach((comm,id) => {
         if(activeCrop[comm]===true){
             sname = comm;
-            cropname = Common[id];
-            switchIPCC[0] += " of " + cropname;
+            cropname = Common[id].toLowerCase();
             switchIPCC[1] += " of " + cropname;
             switchIPCC[2] += " of " + cropname;
+            switchIPCC[3] += " of " + cropname;
         }
     })
         if(sname==='rice'){
@@ -142,13 +145,13 @@ export default function SwitchRisk2({
 
   const CurrHazardName = HazardName();
   
-  const switchVulner = ['Irrigation',"Income","Rural infrastructure","Socio-economic Development Indicator"];
+  const switchVulner = ['Irrigation',"Income","Rural infrastructure","Economic Development Indicator"];
   const switchVulnerID = ['irrigation','GDP','ROAD','HDI'];
 
-/*   const switchvul_Livestock = ['Vulnerability Index',"Feed/Fodder","Income","Rural infrastructure","Socio-economic Development Indicator"];
+/*   const switchvul_Livestock = ['Vulnerability Index',"Feed/Fodder","Income","Rural infrastructure","Economic Development Indicator"];
   const switchvul_LivestockID = ['vulne',"CROPRES","GDP","ROAD",'HDI']; */
 
-  const switchvul_Livestock = ["Feed/Fodder","Income","Socio-economic Development Indicator","Rural infrastructure"];
+  const switchvul_Livestock = ["Feed/Fodder","Income","Economic Development Indicator","Rural infrastructure"];
   const switchvul_LivestockID = ["CROPRES","GDP",'HDI','ROAD'];
 
   const switchvul_Fisheries = [];
@@ -174,7 +177,7 @@ export default function SwitchRisk2({
       'Flood','Lodging','Biotic',"Excess Rainfall",,"Temperature-Humidity Index","Hot days","Cold days","Extreme Rainfall days",
       "Rainfall Deficit","Cyclone",'Cold stress in reproductive stage','Heat stress in reproductive stage',
       'Heat stress during boll formation','Cold stress during flowering','High tempearture during flowering','Number of Animals per grid',
-      'Vulnerability Index','Irrigation','Soil Water Holding Capacity','Soil Organic Carbon','Income','Rural infrastructure','Socio-economic Development Indicator',
+      'Vulnerability Index','Irrigation','Soil Water Holding Capacity','Soil Organic Carbon','Agriculture Income','Rural infrastructure','Economic Development Indicator',
       "Feed/Fodder",'Exposure Index','Cropped Area','Biotic Stress'];
 
   function createInitialP2() {
@@ -337,7 +340,7 @@ export default function SwitchRisk2({
    <div>
     <Box sx={{display:'flex',flexDirection:'column'}}>
         <FormLabel sx={{paddingBottom:1,textAlign:'left'}}>
-        <Typography sx={{color:'black',fontWeight:'bold',fontSize:14,paddingTop:1,paddingLeft:2}}>Climatic Risks of {cropname}</Typography>
+        <Typography sx={{color:'black',fontWeight:'bold',fontSize:14,paddingTop:1,paddingLeft:2}}>Base climate and climatic risks of {cropname.toLowerCase()}</Typography>
         </FormLabel>
         { true && (
         <FormControl component="" variant="standard" sx={{paddingBottom:1, paddingLeft:3}}>
@@ -447,7 +450,25 @@ export default function SwitchRisk2({
                                                 />}
                                                 disabled={false}
                                                 key={(switchRiskID[idxr])}
-                                                label={<Typography fontSize='13px' sx={{paddingLeft:'3px'}}>{sn1r}</Typography>}
+                                                label={<Typography fontSize='13px' sx={{paddingLeft:'3px'}}>{sn1r.charAt(0).toUpperCase()+sn1r.toLowerCase().slice(1)}</Typography>}
+                                                />
+                                            </FormGroup>
+                                            ))
+                                        } 
+                                        </FormControl>
+                                    )}
+                                    {P3aipcc[switchIPCCID[idx]] && switchIPCCID[idx]==='basic' && (
+                                        <FormControl component="fieldset" variant="standard" sx={{paddingBottom:1,paddingLeft:5}}>
+                                            {
+                                            switchBasic.map((sn1r,idxr)=>(
+                                            <FormGroup>
+                                                <CustomFormControlLabel
+                                                control = {<AntSwitch inputProps={{'aria-label':'ant design'}} checked={P3[(switchBasicID[idxr])]}
+                                                onChange={handleChangeP3((switchBasicID[idxr]))} name={(switchBasicID[idxr])}
+                                                />}
+                                                disabled={false}
+                                                key={(switchBasicID[idxr])}
+                                                label={<Typography fontSize='13px' sx={{paddingLeft:'3px'}}>{sn1r.charAt(0).toUpperCase()+sn1r.toLowerCase().slice(1)}</Typography>}
                                                 />
                                             </FormGroup>
                                             ))

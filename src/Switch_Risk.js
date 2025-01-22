@@ -45,15 +45,15 @@ export default function SwitchRisk({
   'LODGE','FROST','SPICO','SPIHE','SPIRA'];
 
 
-  const switchVulner = ['Hazard Index','Groundwater Level','Irrigation','Wealth Index','Fertilizer','Income','Literacy','Gender Inclusiveness','Road Density','Slope',
+  const switchVulner = ['Hazard Index','Groundwater Level','Irrigation','Wealth Index','Fertilizer','Agriculture Income','Literacy','Gender Inclusiveness','Road Density','Slope',
   'Water Holding Capacity','Soil Organic Carbon'];
-  const switchVulnerID = ['hindex2','groundwater','irrigation','wealth','fertilizer','income','literacy','gender','road','slope','waterhold','carbon'];
+  const switchVulnerID = ['hindex2','groundwater','irrigation','wealth','fertilizer','Agriculture Income','literacy','gender','road','slope','waterhold','carbon'];
 
   const switchExposure = ['Exposure Index','Number of Farmers','Cropped Area'];
   const switchExposureID = ['expoindex','rural','c-area'];
 
   const switchCombId = ['dl','dr','riskindex','hindex','DEMON','TEMLO','TEMUP','COLLO','RAINF','HIRHI','DRYSP','DROMO','DROSE',
-  'LODGE','FROST','SPICO','SPIHE','SPIRA','hindex2','groundwater','irrigation','wealth','fertilizer','income','literacy','gender',
+  'LODGE','FROST','SPICO','SPIHE','SPIRA','hindex2','groundwater','irrigation','wealth','fertilizer','Agriculture Income','literacy','gender',
   'road','slope','waterhold','carbon','expoindex','rural','c-area',
   'dl2','dr2','riskindex2','hindex2','DEMON2','TEMLO2','TEMUP2','COLLO2','RAINF2','HIRHI2','DRYSP2','DROMO2','DROSE2',
   'LODGE2','FROST2','SPICO2','SPIHE2','SPIRA2',

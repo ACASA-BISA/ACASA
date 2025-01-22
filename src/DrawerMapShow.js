@@ -40,8 +40,10 @@ import Summary_Statistics from './Summary_Statistics.js';
 import Selection_bar from './Selection_bar.js';
 import HazardGlance from "./HazardGlance.js";
 import Adaptation_Analytics from "./Adaptation_Analytics.js";
+import Adaptation_Analytics2 from "./Adaptation_Analytics2.js";
 import Summ_Scenario from './Summ_Scenario';
 import Summ_Model from './Summ_Model';
+import Summ_Adaptation_Indicator from "./Summ_Adaptation_Indicators.js";
 // import AdaptationGlance from './AdaptationGlance';
 //import Summ1 from './Summary1';
 
@@ -120,7 +122,7 @@ export default function DrawerMapShow({ activeBar }) {
     'freshwater','bracklish','marine','coldwater',
     'potato','onion','tomato','chilli','mango','banana'];
 
-    const switchscenario = ['Baseline','SSP 2-4.5 2050s','SSP 5-8.5 2050s'];
+    const switchscenario = ['Baseline','SSP 2-4.5','SSP 5-8.5'];
     const switchscenarioid = ['baseline','ssp245','ssp585'];
 
     const Comm = ['Rice','Wheat','Maize','Barley','Sorghum','Finger Millet','Pearl Millet',
@@ -161,7 +163,7 @@ export default function DrawerMapShow({ activeBar }) {
     "Heat Stress Management",
   ];
 
-  const impact = ["Impact on Productivity", "Value of Production"];
+  const impact = ["Productivity","Resilience","Value of Production"];
 
   const Risk = [
     "District Level",
@@ -206,7 +208,7 @@ export default function DrawerMapShow({ activeBar }) {
     "Soil Organic Carbon",
     "Income",
     "Rural infrastructure",
-    "Socio-economic Development Indicator",
+    "Economic Development Indicator",
     "Feed/Fodder",
     "Exposure Index",
     "Cropped Area",
@@ -263,101 +265,101 @@ export default function DrawerMapShow({ activeBar }) {
     "BIOTIC2",
   ];
 
-    function createInitialCrops() {
-        const initialTodos = {};
-        fullList.forEach((sname) => {
-          initialTodos[sname] = sname===Homecrop? true:false;
-        });
-        return initialTodos;
-        };
-    
-    function IntialOptions() {
-            const initialTodos = {};
-            opt.forEach((sname) => {
-              initialTodos[sname] = false;
-            });
-            return initialTodos;
-        };
-
-    const [opt2,setopt2] = React.useState("Precision Fertilizer Management");
-    const [opt3,setopt3] = React.useState("Early Sowing");
-    const [opt4,setopt4] = React.useState("ICT linked Input Management");
-    const [opt5,setopt5] = React.useState("Microirrigation");
-    const [opt6,setopt6] = React.useState("Zero Tillage with residues");
-    const [opt7,setopt7] = React.useState("Fertilizer rating and timing");
-    const [acc,setacc] = React.useState(false);
-
-    function InitialHazard() {
-        const haz = {};
-        switchCombId.forEach((sname) => {
-          haz[sname] = false;
-        });
-        return haz;
+  function createInitialCrops() {
+      const initialTodos = {};
+      fullList.forEach((sname) => {
+        initialTodos[sname] = sname===Homecrop? true:false;
+      });
+      return initialTodos;
+      };
+  
+  function IntialOptions() {
+          const initialTodos = {};
+          opt.forEach((sname) => {
+            initialTodos[sname] = false;
+          });
+          return initialTodos;
       };
 
-    function InitialImpact() {
-        const imp = {};
-        impact.forEach((sname) => {
-          imp[sname] = false;
-        });
-        return imp;
-      };
+  const [opt2,setopt2] = React.useState("Precision Fertilizer Management");
+  const [opt3,setopt3] = React.useState("Early Sowing");
+  const [opt4,setopt4] = React.useState("ICT linked Input Management");
+  const [opt5,setopt5] = React.useState("Microirrigation");
+  const [opt6,setopt6] = React.useState("Zero Tillage with residues");
+  const [opt7,setopt7] = React.useState("Fertilizer rating and timing");
+  const [acc,setacc] = React.useState(false);
 
-    function InitialHazard2() {
-        const haz = {};
-        switchCombId.forEach((sname) => {
-          haz[sname] = false;
-        });
-        haz['DRYSP'] = true;
-        return haz;
-      };
-    
-    function createInitialScenario() {
-        const initialTodos = {};
-        switchscenarioid.forEach((sname) => {
-          initialTodos[sname] = false;
-        });
-        initialTodos['baseline'] = true;
-        return initialTodos;
-    }
-      
-    const [scenario, setscenario] = React.useState(
-          createInitialScenario
-    );
-    
-    const [NameScenario, setNameScenario] = React.useState('Baseline');
-      
-    const handleScenarioChange = (name) => (event) => {
-        const oldscenario = {...scenario};
-        switchscenarioid.forEach((sname,index) => {
-            oldscenario[sname] = sname === name;
-            if(sname===name){
-              setNameScenario(switchscenario[index]);
-            }
-        })
-        setscenario(oldscenario);
+  function InitialHazard() {
+      const haz = {};
+      switchCombId.forEach((sname) => {
+        haz[sname] = false;
+      });
+      return haz;
     };
 
-    const [crop, setCrop] = React.useState(
-        createInitialCrops
-    );
+  function InitialImpact() {
+      const imp = {};
+      impact.forEach((sname) => {
+        imp[sname] = false;
+      });
+      return imp;
+    };
+
+  function InitialHazard2() {
+      const haz = {};
+      switchCombId.forEach((sname) => {
+        haz[sname] = false;
+      });
+      haz['DRYSP'] = true;
+      return haz;
+    };
+  
+  function createInitialScenario() {
+      const initialTodos = {};
+      switchscenarioid.forEach((sname) => {
+        initialTodos[sname] = false;
+      });
+      initialTodos['baseline'] = true;
+      return initialTodos;
+  }
     
-    const [crop2, setCrop2] = React.useState(
-      'Rice'
-    );
-    const [cropid, setCropid] = React.useState(
-      'rice'
-    );
+  const [scenario, setscenario] = React.useState(
+        createInitialScenario
+  );
+  
+  const [NameScenario, setNameScenario] = React.useState('Baseline');
+    
+  const handleScenarioChange = (name) => (event) => {
+      const oldscenario = {...scenario};
+      switchscenarioid.forEach((sname,index) => {
+          oldscenario[sname] = sname === name;
+          if(sname===name){
+            setNameScenario(switchscenario[index]);
+          }
+      })
+      setscenario(oldscenario);
+  };
+
+  const [crop, setCrop] = React.useState(
+      createInitialCrops
+  );
+  
+  const [crop2, setCrop2] = React.useState(
+    'Rice'
+  );
+  const [cropid, setCropid] = React.useState(
+    'rice'
+  );
 
   const [crop3, setCrop3] = React.useState(createInitialCrops);
 
-    const [option, setOption] = React.useState(
-        IntialOptions
-    );
+  const [option, setOption] = React.useState(
+      IntialOptions
+  );
 
-    const [optionlayer, setOptionLayer] = React.useState(
-      {'Technical Suitability':false,'Socio-Economic':false,'Scalibility':false}
-    );
+  const [optionlayer, setOptionLayer] = React.useState(
+    {'Biophysical Suitability':false,'Gender':false,'Technical Suitability':false,'Economic':false,'Scalibility':false}
+  );
 
   function initialCrop() {
     let namee = "";
@@ -379,46 +381,134 @@ export default function DrawerMapShow({ activeBar }) {
 
   const [RiskName, setRiskName] = React.useState("");
 
-    const [CurrImpact, setImpact] = React.useState(InitialImpact);
-    const [ImpactName, setImpactName] = React.useState('');
+  const [CurrImpact, setImpact] = React.useState(InitialImpact);
+  const [ImpactName, setImpactName] = React.useState('');
 
-    //without event for three map structure we use dropdowm menu
+  //without event for three map structure we use dropdowm menu
 
-    const changeImpact_CMP = (name) => {
-      const oldimpt = {...CurrImpact};
-      impact.map((sname) => {
-        oldimpt[sname] = sname === name;
-      })
-      setImpact(oldimpt);
-      setImpactName(name);
+  const changeImpact_CMP = (name) => {
+    const oldimpt = {...CurrImpact};
+    impact.map((sname) => {
+      oldimpt[sname] = sname === name;
+    })
+    setImpact(oldimpt);
+    setImpactName(name);
+    setOption(IntialOptions);
+    setCurrOpt('');
+    setRisk(InitialHazard);
+    setRiskName(''); 
+  };
+
+  //without event for three map structure we use dropdowm menu
+
+  const handleChange_CMP = (name) => {
+      const newState = { ...crop};
+      fullList.map((sname,index) => {
+        newState[sname] = sname === name;
+        if(sname===name){
+            setCurrCrop(Comm[index]);
+        }
+      });
+      setCrop(newState);
       setOption(IntialOptions);
       setCurrOpt('');
       setRisk(InitialHazard);
-      setRiskName(''); 
+      setRiskName('');
+      setImpact(InitialImpact);
+      setImpactName('');
+  };
+
+  //without event for three map structure we use dropdowm menu
+
+  const handleChangeOpt_CMP = (name) => {
+    const newState = { ...option};
+    opt.map((sname) => {
+      newState[sname] = sname === name;
+      if(sname===name){
+          setCurrOpt(name);
+      }
+    });
+    if(name===''){
+      setCurrOpt('');
+    }
+    setOption(newState);
+    setRisk(InitialHazard);
+    setRiskName('');
+    setImpact(InitialImpact);
+    setImpactName('');
+  };
+
+    // with event for switch click event in linear structure
+
+  const changeImpact = (name) => (event) => {
+    const oldimpt = {...CurrImpact};
+    impact.map((sname) => {
+      oldimpt[sname] = sname === name;
+    })
+    setImpact(oldimpt);
+    setImpactName(name);
+    setOption(IntialOptions);
+    setCurrOpt('');
+    setRisk(InitialHazard);
+    setRiskName(''); 
+  };
+
+  const handleChange = (name) => (event) => {
+      const newState = { ...crop};
+      fullList.map((sname,index) => {
+        newState[sname] = sname === name;
+        if(sname===name){
+            setCurrCrop(Comm[index]);
+        }
+      });
+      setCrop(newState);
+      setOption(IntialOptions);
+      setCurrOpt('');
+      setRisk(InitialHazard);
+      setRiskName('');
+      setImpact(InitialImpact);
+      setImpactName('');
+  };
+
+  const handleChangeSumm = (name) => {
+    const newState = { ...crop};
+      fullList.map((sname,index) => {
+        newState[sname] = sname === name;
+        if(sname===name){
+          setCrop2(Comm[index]);
+        }
+      });
+      setCrop3(newState);
+      setCropid(name);
     };
-
-    //without event for three map structure we use dropdowm menu
-
-    const handleChange_CMP = (name) => {
-        const newState = { ...crop};
-        fullList.map((sname,index) => {
-          newState[sname] = sname === name;
-          if(sname===name){
-              setCurrCrop(Comm[index]);
-          }
-        });
-        setCrop(newState);
-        setOption(IntialOptions);
-        setCurrOpt('');
-        setRisk(InitialHazard);
+    
+  const changeRisk = (name) => {
+      const old = {...CurrRisk};
+      switchCombId.forEach((sname,index) => {
+        old[sname] = sname===name;
+        if(sname===name){
+          setRiskName(Risk[index%Risk.length]);
+        }
+      });
+      if(name===''){
         setRiskName('');
-        setImpact(InitialImpact);
-        setImpactName('');
-    };
+      }
+      setRisk(old);
+      setOption(IntialOptions);
+      setCurrOpt('');
+      setImpact(InitialImpact);
+      setImpactName('');
+  }
 
-    //without event for three map structure we use dropdowm menu
+  const changeRiskSumm = (name) => {
+    const old = {...CurrRisk2};
+    switchCombId.forEach((sname) => {
+      old[sname] = sname===name;
+    });
+    setRisk2(old);
+  }
 
-    const handleChangeOpt_CMP = (name) => {
+  const handleChangeOpt = (name) => (event) => {
       const newState = { ...option};
       opt.map((sname) => {
         newState[sname] = sname === name;
@@ -429,113 +519,35 @@ export default function DrawerMapShow({ activeBar }) {
       if(name===''){
         setCurrOpt('');
       }
+      setOptionLayer({
+        ...optionlayer,
+        'Biophysical Suitability':false,
+        'Gender':false,
+        'Technical Suitability':false,
+        'Economic':false,
+        'Scalibility':false
+      });
       setOption(newState);
       setRisk(InitialHazard);
       setRiskName('');
       setImpact(InitialImpact);
       setImpactName('');
-    };
+  };
 
-    // with event for switch click event in linear structure
+  const changeOptLayer = (event) => {
+    setOptionLayer({
+      ...optionlayer,
+      [event.target.name]: event.target.checked,
+    });
+  };
 
-    const changeImpact = (name) => (event) => {
-      const oldimpt = {...CurrImpact};
-      impact.map((sname) => {
-        oldimpt[sname] = sname === name;
-      })
-      setImpact(oldimpt);
-      setImpactName(name);
-      setOption(IntialOptions);
-      setCurrOpt('');
-      setRisk(InitialHazard);
-      setRiskName(''); 
-    };
+  const [optionlayer2, setOptionLayer2] = React.useState(
+    'Biophysical Suitability'
+  );
 
-    const handleChange = (name) => (event) => {
-        const newState = { ...crop};
-        fullList.map((sname,index) => {
-          newState[sname] = sname === name;
-          if(sname===name){
-              setCurrCrop(Comm[index]);
-          }
-        });
-        setCrop(newState);
-        setOption(IntialOptions);
-        setCurrOpt('');
-        setRisk(InitialHazard);
-        setRiskName('');
-        setImpact(InitialImpact);
-        setImpactName('');
-    };
-
-    const handleChangeSumm = (name) => {
-      const newState = { ...crop};
-        fullList.map((sname,index) => {
-          newState[sname] = sname === name;
-          if(sname===name){
-            setCrop2(Comm[index]);
-          }
-        });
-        setCrop3(newState);
-        setCropid(name);
-      };
-    
-    const changeRisk = (name) => {
-        const old = {...CurrRisk};
-        switchCombId.forEach((sname,index) => {
-          old[sname] = sname===name;
-          if(sname===name){
-            setRiskName(Risk[index%Risk.length]);
-          }
-        });
-        if(name===''){
-          setRiskName('');
-        }
-        setRisk(old);
-        setOption(IntialOptions);
-        setCurrOpt('');
-        setImpact(InitialImpact);
-        setImpactName('');
-    }
-
-    const changeRiskSumm = (name) => {
-      const old = {...CurrRisk2};
-      switchCombId.forEach((sname) => {
-        old[sname] = sname===name;
-      });
-      setRisk2(old);
-    }
-
-    const handleChangeOpt = (name) => (event) => {
-        const newState = { ...option};
-        opt.map((sname) => {
-          newState[sname] = sname === name;
-          if(sname===name){
-              setCurrOpt(name);
-          }
-        });
-        if(name===''){
-          setCurrOpt('');
-        }
-        setOptionLayer({
-          ...optionlayer,
-          'Technical Suitability':false,
-          'Socio-Economic':false,
-          'Scalibility':false
-        });
-        setOption(newState);
-        setRisk(InitialHazard);
-        setRiskName('');
-        setImpact(InitialImpact);
-        setImpactName('');
-    };
-
-    const changeOptLayer = (event) => {
-      setOptionLayer({
-        ...optionlayer,
-        [event.target.name]: event.target.checked,
-      });
-    };
+  const changeOptLayer2 = (sname) => {
+    setOptionLayer2(sname);
+  };
 
   const handleChangeOptSumm = (name) => {
     setopt2(name);
@@ -678,16 +690,22 @@ export default function DrawerMapShow({ activeBar }) {
     //Extra
     //Extra
     //Extra
+
+    const [exploreType, setExploreType] = React.useState('Commodity');
+
+    const handleExploreTypeChange = (name) => (event) => {
+      setExploreType(name);
+    };
     
-        const handleScenario = (name) => {
-            setNameScenario(name);
-          };
+    const handleScenario = (name) => {
+        setNameScenario(name);
+      };
     
-        const [NameModel, setNameModel] = React.useState('CANESM5');
+    const [NameModel, setNameModel] = React.useState('CHC');
     
-        const handleModel = (name) => {
-            setNameModel(name);
-          };
+    const handleModel = (name) => {
+        setNameModel(name);
+      };
     return (
         <div>
         <Box sx={{display:{xs:'none',md:'block'}}}>
@@ -701,13 +719,15 @@ export default function DrawerMapShow({ activeBar }) {
 
         {activeBar==='future' && <DrawerV activeCrop={crop} changeCrop={handleChange} LocationData={countryStateMap} activeRegion={activeRegion} changeRegion={ActiveRegionChange} CurrRisk={RiskName}
         activeOpt={option} changeOpt={handleChangeOpt} changeRisk={changeRisk} activeImpact={CurrImpact} changeImpact={changeImpact} activeScenario={scenario} changeScenario={handleScenarioChange}
-        activeOptLayer={optionlayer} changeOptLayer={changeOptLayer}></DrawerV>}
+        activeOptLayer={optionlayer} changeOptLayer={changeOptLayer} exploreType={exploreType} handleExploreTypeChange={handleExploreTypeChange}></DrawerV>}
         
         {activeBar==='timeline' && <ImageTimeline></ImageTimeline>}
         {activeBar==='hazards' && <HazardGlance handleChangeSumm={handleChangeSumm} cropid={cropid} focus2={focus2} activeRegion2={activeRegion2} ActiveRegionChange2={ActiveRegionChange2}
         crop2={crop2} CurrRisk2={CurrRisk2}></HazardGlance>}
 
         {activeBar==='adaptation' && <Adaptation_Analytics cropid={cropid} focus2={focus2} activeRegion2={activeRegion2} activeOpt={CurrOpt}></Adaptation_Analytics>}
+        {activeBar==='adaptation2' && <Adaptation_Analytics2 cropid={cropid} focus2={focus2} activeRegion2={activeRegion2} activeOpt={CurrOpt}
+        ActiveRegionChange2={ActiveRegionChange2} handleChangeSumm={handleChangeSumm}></Adaptation_Analytics2>}
 
         {activeBar==='summary' && <Summary_Statistics></Summary_Statistics>}
 
@@ -757,7 +777,7 @@ export default function DrawerMapShow({ activeBar }) {
           aria-controls="panel1-content"
           id="panel1-header"
           sx={{justifyItems:'center',alignContent:'center',marginY:'-5px',backgroundColor:'#F7F7F7'}}
-        > <Typography sx={{ fontSize: 15, fontWeight:'bold', color:'#143200',marginLeft:'4px'}}>Adaptation layers at a glance</Typography>
+        > <Typography sx={{ fontSize: 15, fontWeight:'bold', color:'#143200',marginLeft:'4px'}}>Adaptation at a glance</Typography>
         </AccordionSummary>
         <AccordionDetails sx={{marginY:'-5px'}}>This overview page allows you to select a specific crop and region of your choice, and explore the associated adaptation options
            comprehensively on one page.
@@ -770,21 +790,25 @@ export default function DrawerMapShow({ activeBar }) {
         <Box sx={{height:'40px'}}></Box>
         <Box sx={{display:'flex',flexDirection:'column',gap:'2px'}}>
         <Box sx={{paddingX:'8px',paddingY:'4px',display:'flex',flexDirection:'row',justifyContent:'center',gap:'4px',alignItems:'center',width:'23vw',backgroundColor:'#F7F7F7',border:'0px solid black'}}>
-        <Typography sx={{fontSize:14,fontWeight:'bold'}}>Commodity: </Typography>
-        <Summ_Comm changeComm={handleChangeSumm} comm={cropid}></Summ_Comm>
-        <Typography sx={{marginLeft:'5px',fontSize:14,fontWeight:'bold'}}>Location: </Typography>
-        <Summ_Loc focus={focus2} activeRegion={activeRegion2} changeReg={ActiveRegionChange2}></Summ_Loc>
+          <Typography sx={{fontSize:14,fontWeight:'bold'}}>Location: </Typography>
+          <Summ_Loc focus={focus2} activeRegion={activeRegion2} changeReg={ActiveRegionChange2}></Summ_Loc>
+          <Typography sx={{marginLeft:'5px',fontSize:14,fontWeight:'bold'}}>Commodity: </Typography>
+          <Summ_Comm changeComm={handleChangeSumm} comm={cropid}></Summ_Comm>
         </Box>
         <Box sx={{paddingX:'8px',paddingY:'4px',display:'flex',flexDirection:'row',justifyContent:'center',gap:'4px',alignItems:'center',width:'23vw',backgroundColor:'#F7F7F7',border:'0px solid black'}}>
-                            <Typography sx={{fontSize:13,fontWeight:'bold'}}>Scenario: </Typography>
-                            <Summ_Scenario handleScenario={handleScenario}></Summ_Scenario>
-                            <Typography sx={{marginLeft:'5px',fontSize:13,fontWeight:'bold'}}>Model: </Typography>
-                            <Summ_Model handleModel={handleModel}></Summ_Model>
-                        </Box>
-                        </Box>
+            <Typography sx={{fontSize:13,fontWeight:'bold'}}>Scenario: </Typography>
+            <Summ_Scenario handleScenario={handleScenario}></Summ_Scenario>
+            <Typography sx={{marginLeft:'5px',fontSize:13,fontWeight:'bold'}}>Model: </Typography>
+            <Summ_Model handleModel={handleModel}></Summ_Model>
+        </Box>
+        <Box sx={{paddingX:'8px',paddingY:'4px',display:'flex',flexDirection:'row',justifyContent:'center',gap:'4px',alignItems:'center',width:'23vw',backgroundColor:'#F7F7F7',border:'0px solid black'}}>
+          <Typography sx={{fontSize:13,fontWeight:'bold'}}>Adaptation Indicator: </Typography>
+          <Summ_Adaptation_Indicator handleIndicator={changeOptLayer2}></Summ_Adaptation_Indicator>
+        </Box>
+        </Box>
         <Box sx={{display:'flex',flexDirection:'row',gap:'2vh'}}> 
           <Box sx={{display:'flex',flexDirection:'column'}}>
-          <Box sx={{display:'flex',flexDirection:'row',justifyContent:'center'}}>
+      {/*  <Box sx={{display:'flex',flexDirection:'row',justifyContent:'center'}}>
                     <Box sx={{width: 10,height: 10,borderRadius: 1,bgcolor: "#FF0000",margin:'4px'}}/>
                     <Typography sx={{ fontSize: 10, margin:'2px' }} color="text.secondary" gutterBottom> 
                     Extreme
@@ -805,7 +829,7 @@ export default function DrawerMapShow({ activeBar }) {
                     <Typography sx={{ fontSize: 10, margin:'2px' }} color="text.secondary" gutterBottom> 
                     Low
                     </Typography>
-          </Box>
+          </Box> */}
         <Paper elevation={1}>
         <Map_Risk activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} CurrRisk={CurrRisk2}></Map_Risk>
         </Paper>
@@ -839,7 +863,7 @@ export default function DrawerMapShow({ activeBar }) {
                     </Box>
          </Box>
         <Paper elevation={1} sx={{width:'21vw'}}>
-        <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt2} area_dict={area_dict}></Map_Option>
+        <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt2} area_dict={area_dict} activeScenario={NameScenario}></Map_Option>
         </Paper>
         </div>
         <div>
@@ -867,7 +891,7 @@ export default function DrawerMapShow({ activeBar }) {
                     </Box>
          </Box>
         <Paper elevation={1} sx={{width:'21vw'}}>
-        <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt3} area_dict={area_dict}></Map_Option>
+        <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt3} area_dict={area_dict}  activeScenario={NameScenario}></Map_Option>
         </Paper>
         </div>
         </Box>
@@ -897,7 +921,7 @@ export default function DrawerMapShow({ activeBar }) {
                     </Box>
          </Box>
         <Paper elevation={1} sx={{width:'21vw'}}>
-        <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt4} area_dict={area_dict}></Map_Option>
+        <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt4} area_dict={area_dict}  activeScenario={NameScenario}></Map_Option>
         </Paper>
         </div>
         <div>
@@ -925,7 +949,7 @@ export default function DrawerMapShow({ activeBar }) {
                     </Box>
          </Box>
         <Paper elevation={1} sx={{width:'21vw'}}>
-        <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt5} area_dict={area_dict}></Map_Option>
+        <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt5} area_dict={area_dict}  activeScenario={NameScenario}></Map_Option>
         </Paper>
         </div>
         </Box>
@@ -955,7 +979,7 @@ export default function DrawerMapShow({ activeBar }) {
                     </Box>
          </Box>
         <Paper elevation={1} sx={{width:'21vw'}}>
-        <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt6} area_dict={area_dict}></Map_Option>
+        <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt6} area_dict={area_dict}  activeScenario={NameScenario}></Map_Option>
         </Paper>
         </div>
         <div>
@@ -983,7 +1007,7 @@ export default function DrawerMapShow({ activeBar }) {
                     </Box>
          </Box>
         <Paper elevation={1} sx={{width:'21vw'}}>
-        <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt7} area_dict={area_dict}></Map_Option>
+        <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt7} area_dict={area_dict}  activeScenario={NameScenario}></Map_Option>
         </Paper>
         </div>
         </Box>

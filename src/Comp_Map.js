@@ -28,7 +28,7 @@ import DownloadIcon from '@mui/icons-material/Download';
 export default function MApp({
   activeCrop, focus='Region', activeRegion,
   activeOpt, CurrRisk, activeImpact,activeScenario,
-  sharedView,handleviewchange,activeOptLayer
+  sharedView,handleviewchange,activeOptLayer,ImpactName
 }) {
 
     const ref = useRef(null);
@@ -57,7 +57,7 @@ export default function MApp({
     else if(CurrRisk!==''){
       filename = activeCrop+"_"+CurrRisk+"_"+activeScenario+".tiff";
     }
-    else if(activeImpact['Impact on Productivity'] || activeImpact['Value of Production']){
+    else if(activeImpact['Productivity'] || activeImpact['Value of Production']){
       filename = activeCrop+"_Impact_"+activeScenario+".tiff";
     }
     else{
@@ -820,7 +820,7 @@ class DownloadControl extends Control {
                 const extentt = polyy.getExtent(); 
                 const sizee = mapRef.current.getSize();
                 let x = 0;
-                if(CurrRisk!==""||activeOpt!==""){
+                if(CurrRisk!==""||activeOpt!==""||ImpactName!==''){
                   x = 90;
                 }
                 mapRef.current.getView().fit(extentt,{size:[sizee[0]*0.9,sizee[1]*0.9],padding:[0,0,x,0]});
@@ -931,7 +931,7 @@ useEffect(() => {
       'High tempearture during flowering':'High tempearture during flowering','Biotic Stress':'Biotic stress',"Vulnerability Index":'Vulnerability Index',
       "Feed/Fodder":'Residue',"Rural infrastructure":'Road network density',"Cyclone":'Cyclone',"Rainfall Deficit":"Rainfall deficit",
       "Extreme Rainfall days":"Extreme Rainfall Days","Cold days":"Cold Stress","Hot days":"Heat stress or hot days","Temperature-Humidity Index":'THI',
-      "Socio-economic Development Indicator":"Human development index"};
+      "Economic Development Indicator":"Human development index"};
 
     if(activeOpt!==''){
       opt=2;
@@ -977,10 +977,10 @@ useEffect(() => {
       settiffFilePath(urlstr);
       source1 = new GeoTIFF({sources: [{ url: urlstr}],sourceOptions:{allowFullFile:true}});
     }
-    else if(activeImpact['Impact on Productivity'] || activeImpact['Value of Production']){
+    else if(activeImpact['Productivity'] || activeImpact['Value of Production']){
       let urlstr = "xyz.tif";
       opt=3;
-      if(activeImpact['Impact on Productivity']){
+      if(activeImpact['Productivity']){
         urlstr = "./Impact/"+activeCrop+"_DR.tif";
       }
       settiffFilePath(urlstr);
@@ -1077,7 +1077,7 @@ useEffect(() => {
          source_adapt = new GeoTIFF({sources: [{ url: urlstr}],sourceOptions:{allowFullFile:true}});
       }
       
-      if(!(Sociolayer) && activeOptLayer['Socio-Economic']){
+      if(!(Sociolayer) && activeOptLayer['Economic']){
         found = true;
         if(activeScenario==='baseline'){
           urlstr = "./Adap/"+activeCrop+"/Baseline/Socio/Suitability_"+activeCrop+"_"+optcode[activeOpt]+".tif";
@@ -1115,7 +1115,7 @@ useEffect(() => {
     mapRef.current.removeLayer(Adaptlayer);
     setAdaptLayer(null);
   }
-  if(activeOptLayer['Socio-Economic']===false && Sociolayer){
+  if(activeOptLayer['Economic']===false && Sociolayer){
     mapRef.current.removeLayer(Sociolayer);
     setSocioLayer(null);
   }
@@ -1145,7 +1145,7 @@ useEffect(() => {
       setAdaptLayer(newOverl);
     }
   } 
-  if (activeOptLayer['Socio-Economic'] && source_socio) {
+  if (activeOptLayer['Economic'] && source_socio) {
     const newOverl = new TileLayer({
       source: source_socio,
       opacity: 0.80,

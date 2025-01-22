@@ -16,9 +16,9 @@ export default function Summ_Risk({
   'LODGE','FROST','SPICO','SPIHE','SPIRA'];
 
 
-  const switchVulner = ['Hazard Index','Groundwater Level','Irrigation','Wealth Index','Fertilizer','Income','Literacy','Gender Inclusiveness','Road Density','Slope',
+  const switchVulner = ['Hazard Index','Groundwater Level','Irrigation','Wealth Index','Fertilizer','Agriculture Income','Literacy','Gender Inclusiveness','Road Density','Slope',
   'Water Holding Capacity','Soil Organic Carbon'];
-  const switchVulnerID = ['hindex2','groundwater','irrigation','wealth','fertilizer','income','literacy','gender','road','slope','waterhold','carbon'];
+  const switchVulnerID = ['hindex2','groundwater','irrigation','wealth','fertilizer','Agriculture Income','literacy','gender','road','slope','waterhold','carbon'];
 
   const switchExposure = ['Exposure Index','Rural Population','Cropped Area'];
   const switchExposureID = ['expoindex','rural','c-area'];

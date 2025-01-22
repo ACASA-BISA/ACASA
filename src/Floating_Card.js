@@ -61,9 +61,9 @@ const unitrisk = {'Risk Index': 'The risk index is derived from hazard, exposure
    'Number of Animals per grid': 'Total number of animals per grid [~5 X 5 km]', 
    'Vulnerability Index': 'Integrated index which combines multiple vulnerability layers',
    'Irrigation': 'Area under irrigation per grid, %', 'Soil Water Holding Capacity': 'Available Water in mm/m', 
-   'Soil Organic Carbon': 'Soil Organic Carbon in %', 'Income': 'Agricultural GDP as proxy for income. Agricultural Gross Domestic Product data in US $ per grid [~5 X 5 km]', 
+   'Soil Organic Carbon': 'Soil Organic Carbon in %', 'Agriculture Income': 'Agricultural GDP as proxy for income. Agricultural Gross Domestic Product data in US $ per grid [~5 X 5 km]', 
    'Rural infrastructure': 'Road density used as proxy for rural infrastructure. Road density is length of rural roads per grid, km/grid', 
-   'Socio-economic Development Indicator': 'HDI used as proxy. Global estimates of the United Nations Human Development Index',
+   'Economic Development Indicator': 'HDI used as proxy. Global estimates of the United Nations Human Development Index',
    'Feed/Fodder': 'Production and Usage of cereal residues in tonnes per grid [~5 X 5 km]',
    'Cropped Area': 'Area under crop in hectares per grid [~5 X 5 km]'};
 
@@ -109,7 +109,7 @@ export default function LocationCard({
       'High tempearture during flowering':'High tempearture during flowering','Biotic Stress':'Biotic stress',"Vulnerability Index":'Vulnerability Index',
       "Feed/Fodder":'Residue',"Rural infrastructure":'Road network density',"Cyclone":'Cyclone',"Rainfall Deficit":"Rainfall deficit",
       "Extreme Rainfall days":"Extreme Rainfall Days","Cold days":"Cold Stress","Hot days":"Heat stress or hot days","Temperature-Humidity Index":'THI',
-      "Socio-economic Development Indicator":"Human development index"};
+      "Economic Development Indicator":"Human development index"};
 
 
       function checkcrop() {
@@ -326,8 +326,8 @@ export default function LocationCard({
     if(RiskName==='Exposure Index'||RiskName==='Number of Animals per grid'||RiskName==='Cropped Area') {
       str = 'Exposure';
     }
-    if(RiskName==='Vulnerability Index'||RiskName==='Irrigation'||RiskName==='Soil Water Holding Capacity'||RiskName==='Income'||RiskName==='Soil Organic Carbon'
-    ||RiskName==='Feed/Fodder'||RiskName==='Rural infrastructure'||RiskName==='Socio-economic Development Indicator') {
+    if(RiskName==='Vulnerability Index'||RiskName==='Irrigation'||RiskName==='Soil Water Holding Capacity'||RiskName==='Agriculture Income'||RiskName==='Soil Organic Carbon'
+    ||RiskName==='Feed/Fodder'||RiskName==='Rural infrastructure'||RiskName==='Economic Development Indicator') {
       str = 'Vulnerability';
     }
     return str;
@@ -525,7 +525,7 @@ export default function LocationCard({
                     </Box> */}
                     </Box>
                     }
-                    {(RiskName === "Hazard Index" && checkcrop() && (commodity!=='Rice'||commodity!=='Wheat'||commodity!=='Barley'||commodity!=='Soybean'||commodity!=='Cotton'||commodity!=='Chickpea'||commodity!=='Maize'||commodity!=='Mustard'))||((ImpactName==='Impact on Productivity') && commodity==='Rice') && <Box sx={{marginTop:'2px',marginBottom:'-5px'}}>
+                    {(RiskName === "Hazard Index" && checkcrop() && (commodity!=='Rice'||commodity!=='Wheat'||commodity!=='Barley'||commodity!=='Soybean'||commodity!=='Cotton'||commodity!=='Chickpea'||commodity!=='Maize'||commodity!=='Mustard'))||((ImpactName==='Productivity') && commodity==='Rice') && <Box sx={{marginTop:'2px',marginBottom:'-5px'}}>
                     <Box sx={{display:'flex',flexDirection:'row',width:'100%',gap:'1px'}}>
                     <Box sx={{display:'flex',flexDirection:'row',width:'100%'}}>
                     <Box sx={{width: 16,height: 16,borderRadius: 1,bgcolor: "#FF0000",marginY:'4px',marginX:'2px'}}/>

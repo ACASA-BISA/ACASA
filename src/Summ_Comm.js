@@ -51,7 +51,7 @@ export default function Summ_Comm({
         {switchcoid.map((naam,idx) => (
             <MenuItem value={naam} sx={{fontSize:13,paddingY:'2px'}}>{switchco[idx]}</MenuItem>
         ))}
-        <Typography variant="subtitle1" sx={{paddingLeft:1,fontSize:13,fontWeight:'bold'}}>Legumes</Typography>
+        <Typography variant="subtitle1" sx={{paddingLeft:1,fontSize:13,fontWeight:'bold'}}>Pulses</Typography>
         {switchhcid.map((naam,idx) => (
                 <MenuItem value={naam} sx={{fontSize:13,paddingY:'2px'}}>{switchhc[idx]}</MenuItem>
         ))}
@@ -71,10 +71,10 @@ export default function Summ_Comm({
         {switchlsid.map((naam,idx) => (
             <MenuItem value={naam} sx={{fontSize:13,paddingY:'2px'}}>{switchls[idx]}</MenuItem>
         ))}
-        <Typography variant="subtitle1" sx={{paddingLeft:1,fontSize:13,fontWeight:'bold'}}>Fisheries</Typography>
+        {/* <Typography variant="subtitle1" sx={{paddingLeft:1,fontSize:13,fontWeight:'bold'}}>Fisheries</Typography>
         {switchfishid.map((naam,idx) => (
             <MenuItem value={naam} sx={{fontSize:13,paddingY:'2px'}}>{switchfish[idx]}</MenuItem>
-        ))}
+        ))} */}
     </Select>
     </FormControl>
   );

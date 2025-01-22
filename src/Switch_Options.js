@@ -17,6 +17,7 @@ export default function SwitchOpt({
     changeOptLayer
 }) {
   const switchh = ['Planting Technology','Water Management','Fertilizer Management'];
+  const switchh_pulses = ['Planting Technology','Water Management'];
   const directswitch = ['Stress Tolerant Variety'];
   const directswitchdown = ['ICT linked Input Management','Crop Insurance'];
 
@@ -52,6 +53,29 @@ export default function SwitchOpt({
   const livestock_standalone = ["Reproductive management: Estrous confirmation and synchronisation",
     "Adoption of climate resillient breeds",
     "Weather forecasts/THI advisory services","Livestock insurance","Diversification"];
+
+    const fullList = ['rice','wheat','maize','barley','sorghum','fmillet','pmillet',
+      'safflower','sunflower','rapeseed','sesame','groundnut',
+      'soyabean','chickpea','ppea','bgram','ggram','lentil',
+      'cotton','jute','rubber','sugarcane','tea','coconut',
+      'cattle','buffalo','goat','sheep','pig','poultry',
+      'freshwater','bracklish','marine','coldwater',
+      'potato','onion','tomato','chilli','mango','banana'];
+    
+    const Common = ['Rice','Wheat','Maize','Barley','Sorghum','Finger Millet','Pearl Millet',
+      'Safflower','Sunflower','Rapeseed/Mustard','Sesame','Groundnut',
+      'Soybean','Chickpea','Pigeonpea','Black Gram','Green Gram','Lentil',
+      'Cotton','Jute','Rubber','Sugarcane','Tea','Coconut',
+      'Cattle','Buffalo','Goat','Sheep','Pig','Poultry',
+      'Freshwater','Bracklish','Marine','Cold water',
+      'Potato','Onion','Tomato','Chillies','Mango','Banana'];
+  
+    let cropname = 'Rice';
+    fullList.forEach((sname,indx) => {
+      if(activeCrop[sname]===true){
+        cropname = Common[indx];
+      }
+    });
 
 /*   const opt2 = ['Weather Services','Laser Land Levelling','Zero Tillage','BBR/FIRB','Early Sowing',
     'DSR (Dry Seed)','DSR (Wet Seed)','SRI','Insurance',
@@ -146,6 +170,17 @@ export default function SwitchOpt({
     return ans;
   };
 
+  function checkpulses(){
+    const cropwithoutfertilizer = ['soyabean','chickpea','ppea','groundnut'];
+    let ans = false;
+    cropwithoutfertilizer.forEach((sname) => {
+      if(activeCrop[sname]===true){
+        ans = true;
+      }
+    })
+    return ans;
+  }
+
   function createInitialLivestockSwitches() {
     const initialTodos = {};
     livestock.forEach((sname) => {
@@ -229,27 +264,37 @@ export default function SwitchOpt({
   return (
     <FormControl component="fieldset" variant="standard"  sx={{paddingTop:1, paddingLeft:3}}>
       <FormLabel sx={{display:'flex',paddingBottom:1}}>
-        <Typography sx={{color:'black',fontWeight:'bold',fontSize:14,paddingTop:1,}}>Select Layer(s)</Typography>
+        <Typography sx={{color:'black',fontWeight:'bold',fontSize:14,paddingTop:1}}>Select adaptation indicator for {cropname.toLowerCase()}:</Typography>
         </FormLabel>
         <FormGroup>
+        <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Biophysical Suitability']} name="Suitability" 
+            onChange={changeOptLayer}
+            color="success" sx={{padding:0,marginLeft:1,marginRight:'2px'}}/>} 
+            label={<Typography variant="body2" align='left'  sx={{peddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
+            whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>Biophysical suitability</Typography>}/>
         <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Technical Suitability']} name="Technical Suitability" 
             onChange={changeOptLayer}
-            color="success" sx={{padding:0,marginLeft:1}}/>} 
+            color="success" sx={{padding:0,marginLeft:1,marginRight:'2px'}}/>} 
             label={<Typography variant="body2" align='left'  sx={{peddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
-            whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>Adaptation Benefits</Typography>}/>
-        <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Socio-Economic']}  name="Socio-Economic" 
+            whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>Adaptation benefits</Typography>}/>
+        <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Economic']}  name="Economic" 
             onChange={changeOptLayer}
-            color="success" sx={{padding:0,marginLeft:1}}/>} 
+            color="success" sx={{padding:0,marginLeft:1,marginRight:'2px'}}/>} 
             label={<Typography variant="body2" align='left'  sx={{peddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
-            whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>Socio-Economic Benefits</Typography>}/>
+            whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>Economic benefits</Typography>}/>
         <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Scalibility']} name="Scalibility" 
             onChange={changeOptLayer}
-            color="success" sx={{padding:0,marginLeft:1}}/>} 
+            color="success" sx={{padding:0,marginLeft:1,marginRight:'2px'}}/>} 
             label={<Typography variant="body2" align='left'  sx={{peddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
             whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>Scalability</Typography>}/>
+             <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Gender']} name="Gender" 
+            onChange={changeOptLayer}
+            color="success" sx={{padding:0,marginLeft:1,marginRight:'2px'}}/>} 
+            label={<Typography variant="body2" align='left'  sx={{peddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
+            whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>Gender suitability</Typography>}/>
         </FormGroup>
       <FormLabel sx={{display:'flex',paddingBottom:1}}>
-        <Typography sx={{color:'black',fontWeight:'bold',fontSize:14,paddingTop:1,}}>Select Adaptation Option</Typography>
+        <Typography sx={{color:'black',fontWeight:'bold',fontSize:14,paddingTop:1}}>Select adaptation option for {cropname.toLowerCase()}</Typography>
         </FormLabel>
       {(checkcrop()===true || activeCrop['rice']===true) && directswitch.map((sname) => (
               <FormGroup>
@@ -266,7 +311,7 @@ export default function SwitchOpt({
               />
            </FormGroup>
             ))}
-      {checkcrop()===true && switchh.map((sname1) => (
+      {checkcrop()===true && (checkpulses()===false) && switchh.map((sname1) => (
         <FormGroup>
         <FormControlLabel
         control={
@@ -295,7 +340,7 @@ export default function SwitchOpt({
            </FormGroup>
             ))}
           </FormControl>)}
-        {state[sname1] && sname1 === 'Fertilizer Management' && (
+        {state[sname1] && sname1 === 'Fertilizer Management' && (checkpulses()===false) && (
             <FormControl component="fieldset" variant="standard"  sx={{paddingBottom:1, paddingLeft:6}}>
             {fertilizer.map((sname) => (
               <FormGroup>
@@ -305,6 +350,55 @@ export default function SwitchOpt({
                 onChange={changeOpt(sname)} name={sname} 
                 />
               }
+              disabled={false}
+              key={sname}
+              label={<Typography variant="body2" align='left'  sx={{peddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
+                whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sname.charAt(0).toUpperCase()+sname.slice(1,4)+sname.toLowerCase().slice(4)}</Typography>}
+              />
+           </FormGroup>
+            ))}
+          </FormControl>)}
+        {state[sname1] && sname1 === 'Water Management' && (
+            <FormControl component="fieldset" variant="standard"  sx={{paddingBottom:1, paddingLeft:6}}>
+            {water.map((sname) => (
+              <FormGroup>
+              <CustomFormControlLabel
+              control={
+                <AntSwitch inputProps={{ 'aria-label': 'ant design' }} checked={activeOpt[sname]} 
+                onChange={changeOpt(sname)} name={sname} 
+                />
+              } 
+              disabled={false}
+              key={sname}
+              label={<Typography variant="body2" align='left' sx={{peddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
+                whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sname.charAt(0).toUpperCase()+sname.slice(1,4)+sname.toLowerCase().slice(4)}</Typography>}
+              />
+           </FormGroup>
+            ))}
+          </FormControl>)}
+        </FormGroup>
+      ))}
+      {checkcrop()===true && (checkpulses()===true) && switchh_pulses.map((sname1) => (
+        <FormGroup>
+        <FormControlLabel
+        control={
+          <AntSwitch inputProps={{ 'aria-label': 'ant design' }} checked={state[sname1]} 
+          onChange={handleChange(sname1)} name={sname1} />
+        } 
+        key={sname1}
+        label={<Typography variant="body2" align='left' sx={{peddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
+          whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sname1.charAt(0).toUpperCase()+sname1.slice(1,4)+sname1.toLowerCase().slice(4)}</Typography>}
+        />
+        {state[sname1] && sname1 === 'Planting Technology' && (
+            <FormControl component="fieldset" variant="standard"  sx={{paddingBottom:1, paddingLeft:6}}>
+            {planting.map((sname) => (
+              <FormGroup>
+              <CustomFormControlLabel
+              control={
+                <AntSwitch inputProps={{ 'aria-label': 'ant design' }} checked={activeOpt[sname]} 
+                onChange={changeOpt(sname)} name={sname} 
+                />
+              } 
               disabled={false}
               key={sname}
               label={<Typography variant="body2" align='left'  sx={{peddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 

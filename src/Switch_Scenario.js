@@ -11,13 +11,13 @@ export default function SwitchScenario({
   activeScenario,
   changeScenario,
 }) {
-  const switchh = ['SSP 2-4.5','SSP 5-8.5'];
-  const switchid = ['ssp245','ssp585'];
+  const switchh = ['Baseline','SSP 2-4.5','SSP 5-8.5'];
+  const switchid = ['baseline','ssp245','ssp585'];
   const disvar ={'baseline':false,'ssp245':false,'ssp585':false};
 
-  const switchh2 = ["CANESM5", "CNRM-CM6-1", "CNRM-ESM-1"," EC-Earth3", "MIROC6"];
-  const switchid2 = ["CANESM5", "CNRM-CM6-1", "CNRM-ESM-1"," EC-Earth3", "MIROC6"];
-  const disvar2 ={"CANESM5":true, "CNRM-CM6-1":false, "CNRM-ESM-1":false," EC-Earth3":false, "MIROC6":false};
+  const switchh2 = ["CHC","CANESM5", "CNRM-CM6-1", "CNRM-ESM-1"," EC-Earth3", "MIROC6"];
+  const switchid2 = ["CHC","CANESM5", "CNRM-CM6-1", "CNRM-ESM-1"," EC-Earth3", "MIROC6"];
+  const disvar2 ={"CHC":false,"CANESM5":false, "CNRM-CM6-1":false, "CNRM-ESM-1":false," EC-Earth3":false, "MIROC6":false};
   const padd = 8;
 
   const AntSwitch = styled(Switch)(({ theme }) => ({
@@ -74,7 +74,7 @@ export default function SwitchScenario({
   return (
     <FormControl component="fieldset" variant="standard"  sx={{paddingBottom:1, paddingLeft:3}}>
       <FormLabel sx={{display:'flex',paddingBottom:1}}>
-        <Typography sx={{color:'black',fontWeight:'bold',fontSize:14,paddingTop:2,}}>Select Scenario</Typography><br/>
+        <Typography sx={{color:'black',fontWeight:'bold',fontSize:14,paddingTop:2,}}>Select scenario</Typography><br/>
         </FormLabel>
       {switchh.map((sname,index) => (
         <FormGroup>
@@ -90,7 +90,7 @@ export default function SwitchScenario({
      </FormGroup>
       ))}
       <FormLabel sx={{display:'flex',paddingBottom:1}}>
-        <Typography sx={{color:'black',fontWeight:'bold',fontSize:14,paddingTop:2,}}>Select Model</Typography><br/>
+        <Typography sx={{color:'black',fontWeight:'bold',fontSize:14,paddingTop:2,}}>Select model</Typography><br/>
         </FormLabel>
       {switchh2.map((sname,index) => (
         <FormGroup>
@@ -100,7 +100,7 @@ export default function SwitchScenario({
           name={switchid2[index]}/>
         }
         key={switchid2[index]}
-        disabled={disvar[switchid2[index]]}
+        disabled={disvar2[switchid2[index]]}
         label={<Typography variant="body2" sx={{paddingLeft:1}}>{sname}</Typography>}
         />
      </FormGroup>

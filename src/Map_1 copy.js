@@ -172,7 +172,7 @@ export default function MApp({
         else if(activeOpt['Microirrigation']){source1 = new GeoTIFF({sources: [{ url: './Multiplicative_with_zeros/EveryHazard2_Multiplicative_Suitability_Rice_MICIR.tif' }],});}
         else if(activeOpt['Precision Management']){source1 = new GeoTIFF({sources: [{ url: './Multiplicative_with_zeros/EveryHazard2_Multiplicative_Suitability_Rice_PWMGT.tif' }],});}
         else if(activeOpt['Farm Pond']){source1 = new GeoTIFF({sources: [{ url: './Multiplicative_with_zeros/EveryHazard2_Multiplicative_Suitability_Rice_WHSRC.tif' }],});}
-        else if(activeImpact['Impact on Productivity']){source1 = new GeoTIFF({sources: [{ url: './Multiplicative_with_zeros/Rice_y.tif' }],});}
+        else if(activeImpact['Productivity']){source1 = new GeoTIFF({sources: [{ url: './Multiplicative_with_zeros/Rice_y.tif' }],});}
         else if(activeImpact['Value of Production']){source1 = new GeoTIFF({sources: [{ url: './Multiplicative_with_zeros/Rice_x.tif' }],});}
         else{
           source1 = new GeoTIFF({sources: [{ url: './Crop Masks/New1/New_ACASA_RICE_MASK.tif' }] });
