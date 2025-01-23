@@ -266,7 +266,7 @@ export default function Legend_Small({
                 <span style={{ color: '#AA5486', fontWeight: 'bold' }}>farm households</span>
                 &nbsp;and&nbsp;
                 <span style={{ color: '#859F3D', fontWeight: 'bold' }}>cropped area</span>
-                &nbsp;for suitability of&nbsp;{adaption.charAt(0).toUpperCase()+adaption.slice(1,4)+adaption.toLowerCase().slice(4)}:
+                &nbsp;for {AdaptLayerName.toLowerCase()} of&nbsp;{adaption.charAt(0).toUpperCase()+adaption.slice(1,4)+adaption.toLowerCase().slice(4)}:
             </Typography>
           </Box>
         </div>}
@@ -389,7 +389,7 @@ export default function Legend_Small({
                       ))} */}
                       </div> 
                     }
-                    {(((RiskName !== "" && RiskType()==="Vulnerability"))) &&
+                    {/* {(((RiskName !== "" && RiskType()==="Vulnerability"))) &&
                     <div>
                       <Box sx={{width:'100%', display:'flex',flexDirection:'row',padding:0,justifyItems:'center',marginTop:'1px'}}>   
                       {rowshzd.map((row,index) => (
@@ -442,7 +442,7 @@ export default function Legend_Small({
                       ))}
                       </Box>
                     </div>
-                    }
+                    } */}
         </Typography>
         </Paper>
       </div>

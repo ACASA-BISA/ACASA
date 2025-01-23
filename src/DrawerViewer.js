@@ -18,6 +18,7 @@ import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import SwitchRisk2 from './Switch_Risk2';
 import SwitchImpact from './Switch_Impact';
 import SwitchScenario from './Switch_Scenario';
+import SwitchScale from './Switch_Scale';
 import { styled } from '@mui/material/styles';
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import './font.css';
@@ -25,8 +26,8 @@ import './font2.css';
 
 const top_margin = 95;
 let extra = 0;
-const Items = ['Go to Home', 'Select Region','Select Commodity','Select Scenario','Climatic Risks','Impact','Adaptation Options'];
-const Items2 = ['Home', 'Region','Commodity','Scenario','Risks','Impact','Adaptation'];
+const Items = ['Go to Home', 'Select Region','Analysis & Scale','Select Commodity','Select Scenario','Climatic Risks','Impact','Adaptation Options'];
+const Items2 = ['Home', 'Region','Scale','Commodity','Scenario','Risks','Impact','Adaptation'];
 
 export default function DrawerV({
   activeCrop,
@@ -45,7 +46,11 @@ export default function DrawerV({
   activeOptLayer,
   changeOptLayer,
   exploreType,
-  handleExploreTypeChange
+  handleExploreTypeChange,
+  activeModel,
+  changeModel,
+  activeScale,
+  changeScale
 }) {
     function createInitialTodos() {
     const initialTodos = {};
@@ -193,12 +198,12 @@ export default function DrawerV({
               { index===6 && <LightTooltip title="Adaptation Options" placement="top" arrow><TuneIcon sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/></LightTooltip>} */} 
               { index===0 && <HomeOutlined sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>}
               { index===1 && <LocationOnOutlined sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>}
-              { index===2 && <GrassOutlined sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>}
-              { index===4 && <WarningAmberIcon sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>} 
-              { index===3 && <AccessTimeOutlined sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>} 
-              {/* index===2 && <YardOutlinedIcon sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/> */}
-              { index===5 && <AutoAwesomeIcon sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>} 
-              { index===6 && <TuneIcon sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>} 
+              { index===2 && <YardOutlinedIcon sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>}
+              { index===3 && <GrassOutlined sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>}
+              { index===4 && <AccessTimeOutlined sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>} 
+              { index===5 && <WarningAmberIcon sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>} 
+              { index===6 && <AutoAwesomeIcon sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>} 
+              { index===7 && <TuneIcon sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>} 
               {/* index===7 && <PollOutlined sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>*/}  
               { DrOpen===false && <Typography sx={{fontSize: '13px',fontWeight:'bold',marginLeft:1.5,padding:0,fontFamily:'Karla'}}>{Item}</Typography>}
            </Box>
@@ -245,14 +250,17 @@ export default function DrawerV({
         }}
         >
         {open['Select Commodity'] === true && <SwitchCom activeCrop={activeCrop} changeCrop={changeCrop}></SwitchCom>}
+        {open['Analysis & Scale'] === true && <SwitchScale exploreType={exploreType} handleExploreTypeChange={handleExploreTypeChange}
+        activeScale={activeScale} changeScale={changeScale}></SwitchScale>}
         {open['Select Region'] === true && <SwitchLoc activeRegion={activeRegion} changeRegion={changeRegion} countryStateMap={LocationData}
          exploreType={exploreType} handleExploreTypeChange={handleExploreTypeChange}></SwitchLoc>}
         {open['Adaptation Options'] === true && <SwitchOpt activeCrop={activeCrop} activeOpt={activeOpt} changeOpt={changeOpt} activeOptLayer={activeOptLayer}
-         changeOptLayer={changeOptLayer}></SwitchOpt>}
-        {open['Climatic Risks'] === true && <SwitchRisk2 activeCrop={activeCrop} changeRisk={changeRisk} activeScenario={activeScenario} CurrRisk={CurrRisk}></SwitchRisk2>}
-        {open['Impact'] === true && <SwitchImpact activeImpact={activeImpact} changeImpact={changeImpact} activeCrop={activeCrop}></SwitchImpact>}
+         changeOptLayer={changeOptLayer} exploreType={exploreType}></SwitchOpt>}
+        {open['Climatic Risks'] === true && <SwitchRisk2 activeCrop={activeCrop} changeRisk={changeRisk} activeScenario={activeScenario} CurrRisk={CurrRisk}
+        exploreType={exploreType}></SwitchRisk2>}
+        {open['Impact'] === true && <SwitchImpact activeImpact={activeImpact} changeImpact={changeImpact} activeCrop={activeCrop} exploreType={exploreType}></SwitchImpact>}
         {open['Go to Home'] === true && (window.location.href = "/")}
-        {open['Select Scenario'] === true && <SwitchScenario activeScenario={activeScenario} changeScenario={changeScenario}></SwitchScenario>}
+        {open['Select Scenario'] === true && <SwitchScenario activeScenario={activeScenario} changeScenario={changeScenario} activeModel={activeModel} changeModel={changeModel}></SwitchScenario>}
         </Drawer>
         </Fade>
         </div>

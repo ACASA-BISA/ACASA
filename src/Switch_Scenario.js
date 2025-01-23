@@ -10,6 +10,8 @@ import { styled } from '@mui/material/styles';
 export default function SwitchScenario({
   activeScenario,
   changeScenario,
+  activeModel,
+  changeModel
 }) {
   const switchh = ['Baseline','SSP 2-4.5','SSP 5-8.5'];
   const switchid = ['baseline','ssp245','ssp585'];
@@ -96,7 +98,7 @@ export default function SwitchScenario({
         <FormGroup>
         <CustomFormControlLabel
         control={
-          <AntSwitch inputProps={{ 'aria-label': 'ant design' }} checked={activeScenario[switchid2[index]]} onChange={changeScenario(switchid[index])} 
+          <AntSwitch inputProps={{ 'aria-label': 'ant design' }} checked={switchid2[index]===activeModel} onChange={changeModel(switchid2[index])} 
           name={switchid2[index]}/>
         }
         key={switchid2[index]}

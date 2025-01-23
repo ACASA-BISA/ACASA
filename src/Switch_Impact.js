@@ -13,7 +13,8 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 export default function SwitchImpact({
   activeImpact,
   changeImpact,
-  activeCrop
+  activeCrop,
+  exploreType
 }) {
   const switchh = ['Productivity','Resilience','Value of Production'];
 
@@ -112,9 +113,12 @@ export default function SwitchImpact({
 
   return (
     <FormControl component="fieldset" variant="standard"  sx={{paddingBottom:1, paddingLeft:3}}>
-      <FormLabel sx={{display:'flex',paddingBottom:1}}>
+      {exploreType==='Commodity' && <FormLabel sx={{display:'flex',paddingBottom:1}}>
         <Typography sx={{color:'black',fontWeight:'bold',fontSize:14,paddingTop:2,}}>Select Impact on {cropname.toLowerCase()}</Typography><br/>
-        </FormLabel>
+        </FormLabel>}
+        {exploreType==='Regional' && <FormLabel sx={{display:'flex',paddingBottom:1}}>
+        <Typography sx={{color:'black',fontWeight:'bold',fontSize:14,paddingTop:2,}}>Select Impact</Typography><br/>
+        </FormLabel>}
       {switchh.map((sname,index) => (
         <FormGroup>
         <CustomFormControlLabel

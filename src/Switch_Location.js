@@ -11,7 +11,7 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 
-export default function BasicSelect({
+export default function SwitchLoc({
   activeRegion,
   changeRegion,
   countryStateMap,
@@ -131,7 +131,6 @@ export default function BasicSelect({
     },
   }));
 
-  console.log(exploreType);
   return (
     <div>
     <Box sx={{width: '240px',paddingTop:2,paddingLeft:3 }}>
@@ -191,7 +190,7 @@ export default function BasicSelect({
        
       </FormControl>
     </Box>
-    <Box sx={{width: '240px',paddingTop:2,paddingLeft:3 }}>
+    {/* <Box sx={{width: '240px',paddingTop:2,paddingLeft:3 }}>
     <Typography sx={{color:'black',fontWeight:'bold',fontSize:14}}>Select analysis type</Typography>
     </Box>
     <FormControl component="fieldset" variant="standard"  sx={{paddingBottom:1, paddingLeft:3,paddingTop:1}}>
@@ -210,7 +209,7 @@ export default function BasicSelect({
         />
       </FormGroup>
         ))}
-    </FormControl>
+    </FormControl> */}
     </div>
   );
 }

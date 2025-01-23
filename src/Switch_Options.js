@@ -14,7 +14,8 @@ export default function SwitchOpt({
     activeOpt,
     changeOpt,
     activeOptLayer,
-    changeOptLayer
+    changeOptLayer,
+    exploreType
 }) {
   const switchh = ['Planting Technology','Water Management','Fertilizer Management'];
   const switchh_pulses = ['Planting Technology','Water Management'];
@@ -54,28 +55,32 @@ export default function SwitchOpt({
     "Adoption of climate resillient breeds",
     "Weather forecasts/THI advisory services","Livestock insurance","Diversification"];
 
-    const fullList = ['rice','wheat','maize','barley','sorghum','fmillet','pmillet',
-      'safflower','sunflower','rapeseed','sesame','groundnut',
-      'soyabean','chickpea','ppea','bgram','ggram','lentil',
-      'cotton','jute','rubber','sugarcane','tea','coconut',
-      'cattle','buffalo','goat','sheep','pig','poultry',
-      'freshwater','bracklish','marine','coldwater',
-      'potato','onion','tomato','chilli','mango','banana'];
-    
-    const Common = ['Rice','Wheat','Maize','Barley','Sorghum','Finger Millet','Pearl Millet',
-      'Safflower','Sunflower','Rapeseed/Mustard','Sesame','Groundnut',
-      'Soybean','Chickpea','Pigeonpea','Black Gram','Green Gram','Lentil',
-      'Cotton','Jute','Rubber','Sugarcane','Tea','Coconut',
-      'Cattle','Buffalo','Goat','Sheep','Pig','Poultry',
-      'Freshwater','Bracklish','Marine','Cold water',
-      'Potato','Onion','Tomato','Chillies','Mango','Banana'];
+  const fullList = ['rice','wheat','maize','barley','sorghum','fmillet','pmillet',
+    'safflower','sunflower','rapeseed','sesame','groundnut',
+    'soyabean','chickpea','ppea','bgram','ggram','lentil',
+    'cotton','jute','rubber','sugarcane','tea','coconut',
+    'cattle','buffalo','goat','sheep','pig','poultry',
+    'freshwater','bracklish','marine','coldwater',
+    'potato','onion','tomato','chilli','mango','banana'];
   
-    let cropname = 'Rice';
-    fullList.forEach((sname,indx) => {
-      if(activeCrop[sname]===true){
-        cropname = Common[indx];
-      }
-    });
+  const Common = ['Rice','Wheat','Maize','Barley','Sorghum','Finger Millet','Pearl Millet',
+    'Safflower','Sunflower','Rapeseed/Mustard','Sesame','Groundnut',
+    'Soybean','Chickpea','Pigeonpea','Black Gram','Green Gram','Lentil',
+    'Cotton','Jute','Rubber','Sugarcane','Tea','Coconut',
+    'Cattle','Buffalo','Goat','Sheep','Pig','Poultry',
+    'Freshwater','Bracklish','Marine','Cold water',
+    'Potato','Onion','Tomato','Chillies','Mango','Banana'];
+
+  const RegionalAdaptation = ["Stress tolerant varieties","Diversification to legumes","Zero tillage and residues","Precision land leveling","Microirrigation",
+    "ICT-linked Precision water management","ICT-linked Precision fertilizer management","ICT-linked Precision input management","Nature-based agriculture",
+    "Climate-smart agriculture","Insurance"];
+
+  let cropname = 'Rice';
+  fullList.forEach((sname,indx) => {
+    if(activeCrop[sname]===true){
+      cropname = Common[indx];
+    }
+  });
 
 /*   const opt2 = ['Weather Services','Laser Land Levelling','Zero Tillage','BBR/FIRB','Early Sowing',
     'DSR (Dry Seed)','DSR (Wet Seed)','SRI','Insurance',
@@ -263,11 +268,14 @@ export default function SwitchOpt({
 
   return (
     <FormControl component="fieldset" variant="standard"  sx={{paddingTop:1, paddingLeft:3}}>
-      <FormLabel sx={{display:'flex',paddingBottom:1}}>
-        <Typography sx={{color:'black',fontWeight:'bold',fontSize:14,paddingTop:1}}>Select adaptation indicator for {cropname.toLowerCase()}:</Typography>
-        </FormLabel>
+      {exploreType==='Commodity' && <FormLabel sx={{display:'flex',paddingBottom:1}}>
+        <Typography sx={{color:'black',fontWeight:'bold',fontSize:14,paddingTop:1}}>Select adaptation indicator for {cropname.toLowerCase()}</Typography>
+        </FormLabel>}
+        {exploreType==='Regional' && <FormLabel sx={{display:'flex',paddingBottom:1}}>
+        <Typography sx={{color:'black',fontWeight:'bold',fontSize:14,paddingTop:1}}>Select adaptation indicator</Typography>
+        </FormLabel>}
         <FormGroup>
-        <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Biophysical Suitability']} name="Suitability" 
+        <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Biophysical Suitability']} name="Biophysical Suitability" 
             onChange={changeOptLayer}
             color="success" sx={{padding:0,marginLeft:1,marginRight:'2px'}}/>} 
             label={<Typography variant="body2" align='left'  sx={{peddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
@@ -293,10 +301,31 @@ export default function SwitchOpt({
             label={<Typography variant="body2" align='left'  sx={{peddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
             whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>Gender suitability</Typography>}/>
         </FormGroup>
-      <FormLabel sx={{display:'flex',paddingBottom:1}}>
+        {exploreType==='Regional' && <div> <FormLabel sx={{display:'flex',paddingBottom:1}}>
+        <Typography sx={{color:'black',fontWeight:'bold',fontSize:14,paddingTop:1}}>Select adaptation option</Typography>
+        </FormLabel>
+        <FormControl component="fieldset" variant="standard"  sx={{paddingBottom:1, paddingLeft:1}}>
+            {RegionalAdaptation.map((sname) => (
+              <FormGroup>
+              <CustomFormControlLabel
+              control={
+                <AntSwitch inputProps={{ 'aria-label': 'ant design' }} checked={activeOpt[sname]} 
+                onChange={changeOpt(sname)} name={sname} 
+                />
+              }
+              disabled={false}
+              key={sname}
+              label={<Typography variant="body2" align='left'  sx={{peddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
+                whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{sname.charAt(0).toUpperCase()+sname.slice(1,4)+sname.toLowerCase().slice(4)}</Typography>}
+              />
+           </FormGroup>
+            ))}
+          </FormControl>
+        </div>}
+      {exploreType==='Commodity' && <div> <FormLabel sx={{display:'flex',paddingBottom:1}}>
         <Typography sx={{color:'black',fontWeight:'bold',fontSize:14,paddingTop:1}}>Select adaptation option for {cropname.toLowerCase()}</Typography>
         </FormLabel>
-      {(checkcrop()===true || activeCrop['rice']===true) && directswitch.map((sname) => (
+        {(checkcrop()===true || activeCrop['rice']===true) && directswitch.map((sname) => (
               <FormGroup>
               <CustomFormControlLabel
               control={
@@ -578,6 +607,7 @@ export default function SwitchOpt({
             {(checkcrop()===false && activeCrop['rice']===false && checknotFish()===false) && marine.map((sname) => (
               <div><Box sx={{display:'flex',flexDirection:'column',textAlign:'left'}}>To be updated</Box></div>
             ))}
+          </div>}
     </FormControl>
   );
 }

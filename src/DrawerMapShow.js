@@ -161,6 +161,9 @@ export default function DrawerMapShow({ activeBar }) {
     "Manure Management",
     "Information Use",
     "Heat Stress Management",
+    "Stress tolerant varieties","Diversification to legumes","Zero tillage and residues","Precision land leveling",
+    "ICT-linked Precision water management","ICT-linked Precision fertilizer management","ICT-linked Precision input management","Nature-based agriculture",
+    "Climate-smart agriculture","Insurance"
   ];
 
   const impact = ["Productivity","Resilience","Value of Production"];
@@ -213,6 +216,9 @@ export default function DrawerMapShow({ activeBar }) {
     "Exposure Index",
     "Cropped Area",
     "Biotic Stress",
+    "Marginal Farmers",
+    "Holding size",
+    "Fertilizer consumption"
   ];
 
   const switchCombId = [
@@ -263,6 +269,9 @@ export default function DrawerMapShow({ activeBar }) {
     "expoindex",
     "c-area",
     "BIOTIC2",
+    "FARMERS",
+    "HSIZE",
+    "FERTILIZER"
   ];
 
   function createInitialCrops() {
@@ -696,7 +705,19 @@ export default function DrawerMapShow({ activeBar }) {
     const handleExploreTypeChange = (name) => (event) => {
       setExploreType(name);
     };
+
+    const [vis_scale, setVisScale] = React.useState('Pixel Level');
+
+    const handleVisScaleChange = (name) => (event) => {
+      setVisScale(name);
+    };
     
+    const [Model,setModel] = React.useState('CHC');
+
+    const handleModelchange = (name) => (event) => {
+      setModel(name);
+    };
+
     const handleScenario = (name) => {
         setNameScenario(name);
       };
@@ -710,8 +731,8 @@ export default function DrawerMapShow({ activeBar }) {
         <div>
         <Box sx={{display:{xs:'none',md:'block'}}}>
 
-        {(activeBar==='future'||activeBar==='viewer') && <Selection_bar location={activeRegion} commodity={Currcrop} adaption={CurrOpt}
-        RiskName={RiskName} scenario={NameScenario} ImpactName={ImpactName}></Selection_bar>}
+        {(activeBar==='future'||activeBar==='viewer') && <Selection_bar location={activeRegion} commodity={Currcrop} adaption={CurrOpt} exploreType={exploreType} 
+        RiskName={RiskName} scenario={NameScenario} ImpactName={ImpactName} modelName={Model}></Selection_bar>}
 
         {activeBar==='future' && <CompV activeCrop={Currcrop} changeCrop={handleChange_CMP} LocationData={countryStateMap} focus={focus} activeRegion={activeRegion} changeRegion={ActiveRegionChange} CurrRisk={RiskName}
         activeOpt={CurrOpt} changeOpt={handleChangeOpt_CMP} changeRisk={changeRisk} activeImpact={CurrImpact} changeImpact={changeImpact_CMP} activeScenario={scenario} changeScenario={handleScenarioChange}
@@ -719,7 +740,8 @@ export default function DrawerMapShow({ activeBar }) {
 
         {activeBar==='future' && <DrawerV activeCrop={crop} changeCrop={handleChange} LocationData={countryStateMap} activeRegion={activeRegion} changeRegion={ActiveRegionChange} CurrRisk={RiskName}
         activeOpt={option} changeOpt={handleChangeOpt} changeRisk={changeRisk} activeImpact={CurrImpact} changeImpact={changeImpact} activeScenario={scenario} changeScenario={handleScenarioChange}
-        activeOptLayer={optionlayer} changeOptLayer={changeOptLayer} exploreType={exploreType} handleExploreTypeChange={handleExploreTypeChange}></DrawerV>}
+        activeOptLayer={optionlayer} changeOptLayer={changeOptLayer} exploreType={exploreType} handleExploreTypeChange={handleExploreTypeChange} activeModel={Model}
+        changeModel={handleModelchange} activeScale={vis_scale} changeScale={handleVisScaleChange}></DrawerV>}
         
         {activeBar==='timeline' && <ImageTimeline></ImageTimeline>}
         {activeBar==='hazards' && <HazardGlance handleChangeSumm={handleChangeSumm} cropid={cropid} focus2={focus2} activeRegion2={activeRegion2} ActiveRegionChange2={ActiveRegionChange2}
