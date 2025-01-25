@@ -142,8 +142,8 @@ export default function SwitchRisk2({
 
   const CurrHazardName = HazardName();
   
-  const switchVulner = ['Irrigation',"Income","Rural infrastructure","Socio-economic Development Indicator"];
-  const switchVulnerID = ['irrigation','GDP','ROAD','HDI'];
+  const switchVulner = ["Income","Rural infrastructure","Socio-economic Development Indicator", "Electricity Availability", "Diesel Availability"];
+  const switchVulnerID = ['GDP','ROAD','HDI', 'electricity', 'diesel'];
 
 /*   const switchvul_Livestock = ['Vulnerability Index',"Feed/Fodder","Income","Rural infrastructure","Socio-economic Development Indicator"];
   const switchvul_LivestockID = ['vulne',"CROPRES","GDP","ROAD",'HDI']; */

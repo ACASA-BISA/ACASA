@@ -1,0 +1,273 @@
+* {
+  text-decoration: none;
+}
+
+/*.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 16px;
+  justify-items: stretch;
+  padding: 0.5rem;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+}*/
+
+.filter-container {
+  position: sticky;
+  top: 0;
+  z-index: 1000; /* Ensure it is above other content */
+}
+
+.card-filters {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 10px;
+  margin-top: 15px;
+  justify-content: flex-start;
+  background-color: #f1f1f1;
+  padding: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+.card-filters select {
+  flex: 0 0 150px; 
+  padding: 8px 12px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.card-filters input {
+  flex: 1; 
+  padding: 8px 12px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+/* Grid Container for Cards */
+.card-grid {
+  display: grid;
+  grid-gap: 1rem;
+  padding: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+}
+
+@media (min-width: 2000px) {
+  .card-grid {
+    grid-template-columns: repeat(5, 1fr); /* Cap at 5 cards for larger monitors */
+  }
+}
+
+/* Card Container Styling */
+.card-container {
+  position: relative;
+  aspect-ratio: 1; /* Ensure a square layout */
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border: 2px solid #ddd; /* Initial light border */
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.card-container:hover {
+  border-color: #b9b9b9; /* Darken the border on hover */
+}
+
+/* Card Background */
+.card-background {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  transition: background-color 0.3s ease;
+}
+
+/* Tags and Title (always visible) */
+.card-footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 8px;
+  z-index: 1;
+}
+
+.card-tags {
+  margin: 8px 0;
+}
+
+.tag {
+  background-color: rgb(75, 160, 70, 0.8); /* Green background */
+  color: white; /* White text */
+  padding: 2px 8px;
+  border-radius: 0.5rem;
+  display: inline-block;
+}
+
+
+.card-title {
+  margin: 4px 0;
+  font-size: 14px;
+  color: #333;
+}
+
+/* Hover Content (hidden by default) */
+.card-hover-content {
+  position: absolute;
+  bottom: -100%; /* Initially hide it */
+  width: 100%;
+  background-color: rgba(255, 255, 255);
+  padding: 8px;
+  transition: bottom 0.4s ease, opacity 0.4s ease;
+  opacity: 0;
+  z-index: 2;
+}
+
+.card-container:hover .card-hover-content {
+  bottom: 0; /* Slide it into view */
+  opacity: 1;
+}
+
+.card-source {
+  color: #8e918f;
+  text-decoration: none;
+}
+
+.card-source:hover {
+  text-decoration: underline;
+}
+
+/* Download Icon */
+.download-icon {
+  position: absolute;
+  top: 8px;
+  right: 20px;
+  cursor:pointer;
+  background-color: rgb(75, 160, 70, 0.8);
+  color: rgb(255, 255, 255, 1);
+  border-radius: 1rem;
+}
+
+/* This was the styling before
+.card-container {
+  flex: 1 1 calc(10% - 0.5rem);
+  max-width: calc(10% - 0.5rem);
+  min-width: 16.6rem;
+  border-radius: 0.5rem;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin: 0.5rem 1.5rem 1rem 0;
+  background-color: white;
+  height: max-content;
+  border: 1px #999;
+  overflow: hidden;
+}
+
+.card-img {
+  height: auto;
+  width: 100%;
+  border-radius: 0.3rem;
+  object-fit: cover;
+}
+
+.card-img:hover {
+  transform: scale(1.15);
+  transition: 0.5s ease;
+}
+
+.card-tags {
+  background-color: #e9f5d666;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  object-fit: cover;
+  height: auto; 
+  width: 100%;
+}
+
+.vertical-separator {
+  width: 0.8px; 
+  background-color: #333; 
+  margin: 0 8px; 
+  height: 100%;  
+  display: block;
+
+}
+
+.card-title {
+  margin-top: 0.5 10%;
+}
+
+.card-description,
+.card-model {
+  margin: 0 0.5rem 1rem 0.5rem 10%;
+}
+
+.card-source {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%; 
+}
+
+.card-btn {
+  text-align: center;
+  width: 95%;
+  height: 30px; 
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  background-color: #e9f5d666;
+  color: #4ba046;
+  text-decoration: none;
+  margin: 0.5rem 0.5rem;
+}
+  */
+
+/* All the styling below this is for the download button that allows for grouped downloads */
+.download-icon-button {
+  position: relative;
+}
+
+.button-text {
+  visibility: hidden; /* Initially hide the text */
+  position: absolute;
+  top: 100%; /* Position it below the icon */
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 5px;
+  background-color: #4ba046;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 0.5rem;
+  font-size: 12px;
+  text-align: center;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.button-text::before {
+  content: '';
+  position: absolute;
+  top: -6px; /* Adjust this for the position of the arrow */
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #4ba046; /* Match the background color */
+}
+
+.download-icon-button:hover .button-text {
+  visibility: visible; /* Show text on hover */
+}
+
+.download-icon-button:hover {
+  background-color: transparent; /* Keep the button transparent on hover */
+}

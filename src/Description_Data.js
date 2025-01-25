@@ -1,100 +1,121 @@
 import * as React from "react";
 import {
-  Card,
-  CardContent,
-  CardActions,
   Paper,
   Button,
   Typography,
   Box,
   Grid,
+  IconButton,
 } from "@mui/material";
-
-/*
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import InputLabel from "@mui/material/InputLabel";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-*/
+import DownloadIcon from "@mui/icons-material/Download";
 
 // Importing the DataCatalog function to create card components
 import { DataCatalog } from "./Data_Catalog/Data_Catalog";
+// Import JSZip as grouped downloads require zipping
+import JSZip from "jszip";
+import { create } from "ol/transform";
 
-// Mapping of adaptation options to codes
-const optcode = {'Stress Tolerant Variety':'ADVAR','Early Sowing':'ADPTI','Precision Land Levelling':'LASLV','Zero Tillage with residues':'ZTILL','Broad Bed and Furrow':'BBFIB',
-  'Direct Seeded Rice - Dry':'DSDRY','Direct Seeded Rice - Wet':'DSWET','System of Rice Intensification':'SRIUT','Supplemental Irrigation':'WHSRC','Microirrigation':'MICIR','Precision Water Management':'PWMGT',
-  'Precision Fertilizer Management':'PNMLT','Precision Fertilizer Management - High tech':'PNMHT','Deep Placement of Urea':'DR',
-  'ICT linked Input Management':'WEAGA','Crop Insurance':'INSUR','Land Management':'LMGT','Feed Management':'FMGT','Herd Management':'HMGT',
-  'Animal Health':'ANHLT','Animal Productivity':'ANPRO','Mulching':'MULCH','Alternate Wetting and Drying':'AWD','Fertilizer rating and timing':'FRT',
-  'Manure Management':'MNMGT','Information Use':'INFO','Heat Stress Management':'HSMGT'};
+// Mapping for different layer types
+const layerMappings = {
+  // Mapping of adaptation options to codes
+  optcode: {
+    "Stress Tolerant Variety": "ADVAR",
+    "Early Sowing": "ADPTI",
+    "Precision Land Levelling": "LASLV",
+    "Zero Tillage with residues": "ZTILL",
+    "Broad Bed and Furrow": "BBFIB",
+    "Direct Seeded Rice - Dry": "DSDRY",
+    "Direct Seeded Rice - Wet": "DSWET",
+    "System of Rice Intensification": "SRIUT",
+    "Supplemental Irrigation": "WHSRC",
+    Microirrigation: "MICIR",
+    "Precision Water Management": "PWMGT",
+    "Precision Fertilizer Management": "PNMLT",
+    "Precision Fertilizer Management - High tech": "PNMHT",
+    "Deep Placement of Urea": "DR",
+    "ICT linked Input Management": "WEAGA",
+    "Crop Insurance": "INSUR",
+    "Land Management": "LMGT",
+    "Feed Management": "FMGT",
+    "Herd Management": "HMGT",
+    "Animal Health": "ANHLT",
+    "Animal Productivity": "ANPRO",
+    Mulching: "MULCH",
+    "Alternate Wetting and Drying": "AWD",
+    "Fertilizer rating and timing": "FRT",
+    "Manure Management": "MNMGT",
+    "Information Use": "INFO",
+    "Heat Stress Management": "HSMGT",
+  },
 
-// Mapping of hazard names to descriptions
-const hazardname = {
-  "District Level": "District Level",
-  "Downscaled Risk": "Downscaled Risk",
-  "Risk Index": "Risk Index",
-  "Hazard Index": "Hazard Index",
-  "Low temperature induced spikelet sterility":
-    "Low temperature induced spikelet sterility",
-  "Low temperature induced pollen sterility":
-    "Low temperature induced pollen sterility",
-  "High temperature induced pollen sterility":
-    "High temperature induced pollen sterility",
-  "Heat Stress": "Heat stress",
-  "High temperature induced spikelet sterility":
-    "High temperature induced spikelet sterility",
-  "Cold Stress": "Cold stress",
-  "Low temperature induced tuberization failure":
-    "Low temperature induced tuberization failure",
-  "Untimely Rainfall": "Untimely rainfall",
-  "Terminal Heat": "Terminal heat",
-  "Days of Frost": "Days of Frost",
-  "Excess Rainfall and Waterlogging": "Excess rain and waterlogging",
-  "Delayed Monsoon": "Delayed monsoon",
-  "Drought": "Drought",
-  "Dry Spell": "Number of dry spells",
-  "Flood": "Flood",
-  "Lodging": "Rain and wind causing lodging",
-  "Biotic": "High humidity and temperature for blight",
-  "Irrigation": "Irrigation",
-  "Water Holding": "Water Holding",
-  "Income": "Income",
-  "Access to Credit": "Access to Credit",
-  "Access to Market": "Access to Market",
-  "Elevation": "Elevation",
-  "Access to Knowledge": "Access to Knowledge",
-  "Exposure Index": "Exposure Index",
-  "Number of Farmers": "Number of Farmers",
-  "Cropped Area": "Cropped Area",
-  "Excess Rainfall": "Excess rainfall",
-  "Cold stress in reproductive stage": "Cold stress in reproductive stage",
-  "Heat stress in reproductive stage": "Heat stress in reproductive stage",
-  "Heat stress during boll formation": "Heat stress during boll formation",
-  "Cold stress during flowering": "Cold stress during flowering",
-  "High tempearture during flowering": "High tempearture during flowering",
-  "Biotic Stress": "Biotic stress",
+  // Mapping of hazard names to descriptions
+  hazardname: {
+    "District Level": "District Level",
+    "Downscaled Risk": "Downscaled Risk",
+    "Risk Index": "Risk Index",
+    "Hazard Index": "Hazard Index",
+    "Low temperature induced spikelet sterility":
+      "Low temperature induced spikelet sterility",
+    "Low temperature induced pollen sterility":
+      "Low temperature induced pollen sterility",
+    "High temperature induced pollen sterility":
+      "High temperature induced pollen sterility",
+    "Heat Stress": "Heat stress",
+    "High temperature induced spikelet sterility":
+      "High temperature induced spikelet sterility",
+    "Cold Stress": "Cold stress",
+    "Low temperature induced tuberization failure":
+      "Low temperature induced tuberization failure",
+    "Untimely Rainfall": "Untimely rainfall",
+    "Terminal Heat": "Terminal heat",
+    "Days of Frost": "Days of Frost",
+    "Excess Rainfall and Waterlogging": "Excess rain and waterlogging",
+    "Delayed Monsoon": "Delayed monsoon",
+    Drought: "Drought",
+    "Dry Spell": "Number of dry spells",
+    Flood: "Flood",
+    Lodging: "Rain and wind causing lodging",
+    Biotic: "High humidity and temperature for blight",
+    Irrigation: "Irrigation",
+    "Water Holding": "Water Holding",
+    Income: "Income",
+    "Access to Credit": "Access to Credit",
+    "Access to Market": "Access to Market",
+    Elevation: "Elevation",
+    "Access to Knowledge": "Access to Knowledge",
+    "Exposure Index": "Exposure Index",
+    "Number of Farmers": "Number of Farmers",
+    "Cropped Area": "Cropped Area",
+    "Excess Rainfall": "Excess rainfall",
+    "Cold stress in reproductive stage": "Cold stress in reproductive stage",
+    "Heat stress in reproductive stage": "Heat stress in reproductive stage",
+    "Heat stress during boll formation": "Heat stress during boll formation",
+    "Cold stress during flowering": "Cold stress during flowering",
+    "High tempearture during flowering": "High tempearture during flowering",
+    "Biotic Stress": "Biotic stress",
+  },
 };
 
 //Function to create a data row for the tables
-function createData(Crop, Hazard, Method, Source, Action) {
-  return { Crop, Hazard, Method, Source, Action };
+function createData(
+  Commodity,
+  Scenario,
+  LayerType,
+  Title,
+  Description,
+  Source,
+  Action
+) {
+  return { Commodity, Scenario, LayerType, Title, Description, Source, Action };
 }
 
 // Hazard data
-const itemsHazard = [
+const data = [
+  // Hazard data
   createData(
     "Rice",
+    "Baseline",
+    "Hazard",
     "High temperature induced spikelet sterility",
     "High temperature stress leads to spikelet sterility (55 to 65 days after transplanting/upland direct seeded need to be corrected by adding 30 days) where Tday > 37",
     "http://data.chc.ucsb.edu/products/CHIRTSdaily/",
@@ -102,6 +123,8 @@ const itemsHazard = [
   ),
   createData(
     "Rice",
+    "Baseline",
+    "Hazard",
     "Heat Stress",
     "High temperature stress during entire life cycle where Tmax > 43",
     "https://www.chc.ucsb.edu/data/chirps",
@@ -109,6 +132,8 @@ const itemsHazard = [
   ),
   createData(
     "Rice",
+    "Baseline",
+    "Hazard",
     "Low temperature induced spikelet sterility",
     "Low temperature stress leads to spikelet sterility (55 to 65 days after transplanting/upland direct seeded need to be corrected by adding 30 days) where Tmin < 15",
     "https://global-flood-database.cloudtostreet.info/",
@@ -116,6 +141,8 @@ const itemsHazard = [
   ),
   createData(
     "Rice",
+    "Baseline",
+    "Hazard",
     "Delayed Monsoon",
     "Number of events of delayed monsoon where delay is more than 15 days",
     "https://www.chc.ucsb.edu/data/chirps",
@@ -123,6 +150,8 @@ const itemsHazard = [
   ),
   createData(
     "Rice",
+    "Baseline",
+    "Hazard",
     "Drought",
     "SPI below -1 (moderate and severe drought)",
     "http://data.chc.ucsb.edu/products/CHIRTSdaily/",
@@ -130,6 +159,8 @@ const itemsHazard = [
   ),
   createData(
     "Rice",
+    "Baseline",
+    "Hazard",
     "Dry Spell",
     "Number of dry spells with length of 15 days or more in a season",
     "https://www.chc.ucsb.edu/data/chirps",
@@ -137,6 +168,8 @@ const itemsHazard = [
   ),
   createData(
     "Rice",
+    "Baseline",
+    "Hazard",
     "Flood",
     "Flood layer",
     "https://www.chc.ucsb.edu/data/chirps",
@@ -144,6 +177,8 @@ const itemsHazard = [
   ),
   createData(
     "Wheat",
+    "Baseline",
+    "Hazard",
     "High temperature induced pollen sterility",
     "High temperature during pollination: Tday > 28 for two days",
     "http://data.chc.ucsb.edu/products/CHIRTSdaily/",
@@ -151,6 +186,8 @@ const itemsHazard = [
   ),
   createData(
     "Wheat",
+    "Baseline",
+    "Hazard",
     "Terminal Heat",
     "GDD concept (degrees above normal GDD) [tbase=8 degrees] during grain filling",
     "http://data.chc.ucsb.edu/products/CHIRTSdaily/",
@@ -158,6 +195,8 @@ const itemsHazard = [
   ),
   createData(
     "Wheat",
+    "Baseline",
+    "Hazard",
     "Days of Frost",
     "Minimum temperature less than zero degree for more than three days",
     "https://www.chc.ucsb.edu/data/chirps",
@@ -165,6 +204,8 @@ const itemsHazard = [
   ),
   createData(
     "Wheat",
+    "Baseline",
+    "Hazard",
     "Untimely Rainfall",
     "Whole season consecutive two-day rainfall > 100 mm ",
     "https://www.chc.ucsb.edu/data/chirps",
@@ -172,6 +213,8 @@ const itemsHazard = [
   ),
   createData(
     "Wheat",
+    "Baseline",
+    "Hazard",
     "Drought",
     "Sept/Oct/Nov and season drought",
     "http://data.chc.ucsb.edu/products/CHIRTSdaily/",
@@ -179,29 +222,102 @@ const itemsHazard = [
   ),
   createData(
     "Wheat",
+    "Baseline",
+    "Hazard",
     "Lodging",
     "Windspeed and rainfall criteria after booting (85 to 115 days)",
     "http://data.chc.ucsb.edu/products/CHIRTSdaily/",
     "Download"
   ),
-];
+  createData(
+    "Pig",
+    "Baseline",
+    "Hazard",
+    "Temperature-Humidity Index (THI)",
+    "The average number of days when THI exceeds a threshold (79)",
+    "",
+    "Download"
+  ),
+  createData(
+    "Pig",
+    "Baseline",
+    "Hazard",
+    "Heat wave",
+    "Sudden change in temperature by 4°C (during APR to June/July)",
+    "",
+    "Download"
+  ),
+  createData(
+    "Pig",
+    "Baseline",
+    "Hazard",
+    "Cold stress",
+    "Lower critical temperature (LCT)  limit for the thermoneutral zone goes below (15) degrees C",
+    "",
+    "Download"
+  ),
+  createData(
+    "Pig",
+    "Baseline",
+    "Hazard",
+    "Extreme rainfall days",
+    "The average number of days when daily rainfall exceeds 115 mm",
+    "",
+    "Download"
+  ),
+  createData(
+    "Pig",
+    "Baseline",
+    "Hazard",
+    "Rainfall deficit",
+    "Meteorological drought in any area occurs when the rainfall deficiency is more than 26% of its long-term average",
+    "",
+    "Download"
+  ),
+  createData(
+    "Pig",
+    "Baseline",
+    "Hazard",
+    "Cyclone proneness",
+    "This layer represents the cyclone hazard in terms of classes, with one denoting low hazard and 5 denoting very high hazard. These classes were developed using the cyclone-prone district information for India sourced from the NDMA report and Abdul Awal 2015 for Bangladesh",
+    "",
+    "Download"
+  ),
+  createData(
+    "Pig",
+    "Baseline",
+    "Hazard",
+    "Flood events",
+    "We used flood event data from the Global Flood Database, documented by the Dartmouth Flood Observatory (DFO) from 2000 to 2018. We computed the average annual count of flood events per pixel to represent the flood hazard",
+    "",
+    "Download"
+  ),
 
-// Risk data
-const itemsRisk = [
+  // Risk data
   createData(
     "Rice",
+    "Baseline",
+    "Risk",
     "Downscaled risk",
     "Analyzed",
     "Crop statistics, crop mask and primary productivity",
     "Download"
   ),
-  createData("Rice", "Insurance", "Analyzed", "Heurisitic Model", "Download"),
-];
-
-// Adaptation data
-const itemsAdaptation = [
   createData(
     "Rice",
+    "Baseline",
+    "Risk",
+    "Insurance",
+    "Analyzed",
+    "Heurisitic Model",
+    "Download"
+  ),
+
+  // Adaptation data
+  createData(
+    "Rice",
+    "Baseline",
+    "Adaptation",
     "DSR (Dry Seed)",
     "Analyzed",
     "Heurisitic Model",
@@ -209,6 +325,8 @@ const itemsAdaptation = [
   ),
   createData(
     "Rice",
+    "Baseline",
+    "Adaptation",
     "DSR (Wet Seed)",
     "Analyzed",
     "Heurisitic Model",
@@ -216,6 +334,8 @@ const itemsAdaptation = [
   ),
   createData(
     "Rice",
+    "Baseline",
+    "Adaptation",
     "System of Rice Intensification",
     "Analyzed",
     "Heurisitic Model",
@@ -223,6 +343,8 @@ const itemsAdaptation = [
   ),
   createData(
     "Rice",
+    "Baseline",
+    "Adaptation",
     "Alternate wetting and drying",
     "Analyzed",
     "Heurisitic Model",
@@ -230,6 +352,8 @@ const itemsAdaptation = [
   ),
   createData(
     "Rice",
+    "Baseline",
+    "Adaptation",
     "Early Sowing",
     "Analyzed",
     "Heurisitic Model",
@@ -237,6 +361,8 @@ const itemsAdaptation = [
   ),
   createData(
     "Rice",
+    "Baseline",
+    "Adaptation",
     "Zero Tillage with residue",
     "Analyzed",
     "Heurisitic Model",
@@ -244,6 +370,8 @@ const itemsAdaptation = [
   ),
   createData(
     "Rice",
+    "Baseline",
+    "Adaptation",
     "Precision Land Levelling",
     "Analyzed",
     "Heurisitic Model",
@@ -251,6 +379,8 @@ const itemsAdaptation = [
   ),
   createData(
     "Rice",
+    "Baseline",
+    "Adaptation",
     "Precision Water Management",
     "Analyzed",
     "Heurisitic Model",
@@ -258,6 +388,8 @@ const itemsAdaptation = [
   ),
   createData(
     "Rice",
+    "Baseline",
+    "Adaptation",
     "Microirrigation",
     "Analyzed",
     "Heurisitic Model",
@@ -265,6 +397,8 @@ const itemsAdaptation = [
   ),
   createData(
     "Rice",
+    "Baseline",
+    "Adaptation",
     "Supplemental Irrigation",
     "Analyzed",
     "Heurisitic Model",
@@ -272,6 +406,8 @@ const itemsAdaptation = [
   ),
   createData(
     "Rice",
+    "Baseline",
+    "Adaptation",
     "Stress Tolerant Variety",
     "Analyzed",
     "Heurisitic Model",
@@ -279,6 +415,8 @@ const itemsAdaptation = [
   ),
   createData(
     "Rice",
+    "Baseline",
+    "Adaptation",
     "Fertilizer rating and timing",
     "Analyzed",
     "Heurisitic Model",
@@ -286,6 +424,8 @@ const itemsAdaptation = [
   ),
   createData(
     "Rice",
+    "Baseline",
+    "Adaptation",
     "Low Tech Precision Technology",
     "Analyzed",
     "Heurisitic Model",
@@ -293,6 +433,8 @@ const itemsAdaptation = [
   ),
   createData(
     "Rice",
+    "Baseline",
+    "Adaptation",
     "High Tech Precision Technology",
     "Analyzed",
     "Heurisitic Model",
@@ -300,6 +442,8 @@ const itemsAdaptation = [
   ),
   createData(
     "Rice",
+    "Baseline",
+    "Adaptation",
     "ICT Agro Advisory",
     "Analyzed",
     "Heurisitic Model",
@@ -307,6 +451,8 @@ const itemsAdaptation = [
   ),
   createData(
     "Rice",
+    "Baseline",
+    "Adaptation",
     "Crop Insurance",
     "Analyzed",
     "Heurisitic Model",
@@ -314,6 +460,8 @@ const itemsAdaptation = [
   ),
   createData(
     "Wheat",
+    "Baseline",
+    "Adaptation",
     "Stress Tolerant Variety",
     "Analyzed",
     "Heurisitic Model",
@@ -321,6 +469,8 @@ const itemsAdaptation = [
   ),
   createData(
     "Wheat",
+    "Baseline",
+    "Adaptation",
     "Early Sowing",
     "Analyzed",
     "Heurisitic Model",
@@ -328,6 +478,8 @@ const itemsAdaptation = [
   ),
   createData(
     "Wheat",
+    "Baseline",
+    "Adaptation",
     "Zero Tillage with residues",
     "Analyzed",
     "Heurisitic Model",
@@ -335,17 +487,19 @@ const itemsAdaptation = [
   ),
   createData(
     "Wheat",
+    "Baseline",
+    "Adaptation",
     "Fertilizer rating and timing",
     "Analyzed",
     "Heurisitic Model",
     "Download"
   ),
-];
 
-// Direct adaptation data
-const itemsDirectAdaptation = [
+  // Direct Adaptation data
   createData(
     "Rice",
+    "Baseline",
+    "Direct Adaptation",
     "Direct seeded rice",
     "Analyzed",
     "Heurisitic Model",
@@ -353,6 +507,8 @@ const itemsDirectAdaptation = [
   ),
   createData(
     "Rice",
+    "Baseline",
+    "Direct Adaptation",
     "Precision water management",
     "Analyzed",
     "Heurisitic Model",
@@ -360,6 +516,8 @@ const itemsDirectAdaptation = [
   ),
   createData(
     "Wheat",
+    "Baseline",
+    "Direct Adaptation",
     "Stress tolerant variety",
     "Analyzed",
     "Heurisitic Model",
@@ -367,6 +525,8 @@ const itemsDirectAdaptation = [
   ),
   createData(
     "Wheat",
+    "Baseline",
+    "Direct Adaptation",
     "Early Sowing",
     "Analyzed",
     "Heurisitic Model",
@@ -376,6 +536,9 @@ const itemsDirectAdaptation = [
 
 // Main component function
 export default function Description() {
+  {
+    /* The download logic initially was available as two separate functions 
+
   // Function to handle button clicks for hazard data download
   function onButtonClick(haz, crp) {
     const urlstr = "./Downloadables/" + crp + "/" + haz + ".tif";
@@ -410,747 +573,357 @@ export default function Description() {
       });
     });
   }
+    */
+  }
 
-  /*  
-//Function to filter the table
-function filterTable() {
+  // Filter logic
+  const [selectedCommodity, setSelectedCommodity] = React.useState("");
+  const [selectedScenario, setSelectedScenario] = React.useState("");
+  const [selectedLayerType, setSelectedLayerType] = React.useState("");
+  const [searchTerm, setSearchTerm] = React.useState("");
 
-}
+  const filteredData = (data || []).filter((item) => {
+    const matchesCommodity = selectedCommodity
+      ? item.Commodity === selectedCommodity
+      : true;
+    const matchesScenario = selectedScenario
+      ? item.Scenario === selectedScenario
+      : true;
+    const matchesLayerType = selectedLayerType
+      ? item.LayerType === selectedLayerType
+      : true;
+    const matchesSearchTerm = searchTerm
+      ? item.Title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.Description?.toLowerCase().includes(searchTerm.toLowerCase())
+      : true;
+    return (
+      matchesCommodity &&
+      matchesScenario &&
+      matchesLayerType &&
+      matchesSearchTerm
+    );
+  });
 
-//Function to create a select feature.
-function DialogSelect() {
-  const [open, setOpen] = React.useState(false);
-  const [crop, setCrop] = React.useState('');
-
-  const handleChange = (event) => {
-    setCrop(Number(event.target.value) || '');
-  };
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = (event, reason) => {
-    if (reason !== 'backdropClick') {
-      setOpen(false);
-    }
-  };
-
-  return (
-    <div>
-      <Button onClick={handleClickOpen} sx={{display: "flex", flexWrap: "wrap", fontWeight: "bold", color:"#000000"}}>Filter table</Button>
-      <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
-      <DialogTitle>Select</DialogTitle>
-        <DialogContent>
-          <Box component="form" sx={{ display: 'flex', flexWrap: 'wrap' }}>
-            <FormControl sx={{ m: 1, minWidth: 120 }}>
-              <InputLabel htmlFor="demo-dialog-native">Crop</InputLabel>
-              <Select
-                native
-                value={crop}
-                onChange={handleChange}
-                input={<OutlinedInput label="Crop" id="demo-dialog-native" />}
-              >
-                <option aria-label="None" value="" />
-                <option>Rice</option>
-                <option>Wheat</option>
-              </Select>
-            </FormControl>
-            <FormControl sx={{ m: 1, minWidth: 120 }}>
-              <InputLabel id="demo-dialog-select-label">Crop</InputLabel>
-              <Select
-                labelId="demo-dialog-select-label"
-                id="demo-dialog-select"
-                value={crop}
-                onChange={handleChange}
-                input={<OutlinedInput label="Crop" />}
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem>Rice</MenuItem>
-                <MenuItem>Wheat</MenuItem>
-              </Select>
-            </FormControl>
-          </Box>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} sx={{color:"#000000"}}>Cancel</Button>
-          <Button onClick={handleClose} sx={{color:"#000000"}}>Ok</Button>
-        </DialogActions>
-      </Dialog>
-    </div>
-  );
-}
-*/
-
-  return (
-    <div>
-      <Box sx={{ textAlign: "left", marginLeft: "150px", marginRight: "40px" }}>
-        <Typography
-          sx={{
-            fontSize: "22px",
-            fontWeight: "bold",
-            marginTop: "5px",
-            color: "#333333",
-            fontFamily: "revert",
-          }}
-        >
-          Data Catalogue
-        </Typography>
-        <Typography
-          sx={{
-            fontWeight: "normal",
-            marginTop: "5px",
-            color: "#333333",
-            fontFamily: "revert",
-          }}
-        >
-          The datasets are prepared primarily from open source databases. To
-          extract each variable standard methodologies applied. All the datasets
-          are geo-tiff format and in 0.05 degree resolution (EPSG:4326 - WGS 84,
-          Geographic latitude and longitude).
-        </Typography>
-        <Typography
-          sx={{
-            fontWeight: "normal",
-            marginTop: "8px",
-            color: "#333333",
-            fontFamily: "revert",
-          }}
-        >
-          The details of the data source and method is described below.
-        </Typography>
-
-        <hr />
-
-        <Typography
-          sx={{
-            fontSize: "20px",
-            fontWeight: "bold",
-            marginTop: "10px",
-            marginBottom: "10px",
-            color: "#333333",
-            fontFamily: "revert",
-          }}
-        >
-          Hazard Data
-        </Typography>
-
-        <div> 
-        {itemsHazard.map((item, index) => (
-          <DataCatalog
-            imgSrc="Topo.png"
-            imgAlt="Hazard"
-            title={item.Hazard}
-            method={item.Method}
-            source={item.Source}
-            buttonText={item.Action}
-            link={<Button
-              onClick={() =>
-                onButtonClick(hazardname[item.Hazard], item.Crop)
-              }
-            >
-            </Button>} // You can provide the actual link or additional logic here
-          />
-        ))}
-        </div>
-
-        {/*<DataCatalog
-          imgSrc="Topo.png"
-          imgAlt="Rice Hazard"
-          title="High Temperature Induced Spikelet Sterility"
-          method="High temperature stress leads to spikelet sterility (55 to 65 days after transplanting/upland direct seeded need to be corrected by adding 30 days) where Tday > 37"
-          source="http://data.chc.ucsb.edu/products/CHIRTSdaily/"
-          buttonText="Download"
-          link=""
-        />
-
-        <DataCatalog
-          imgSrc="Topo.png"
-          imgAlt="Rice Hazard"
-          title="Heat Stress"
-          method="High temperature stress during entire life cycle where Tmax > 43"
-          source="https://www.chc.ucsb.edu/data/chirps"
-          buttonText="Download"
-          link=""
-        />
-
-        <DataCatalog
-          imgSrc="Topo.png"
-          imgAlt="Rice Hazard"
-          title="Low Temperature Induced Spikelet Sterility"
-          method="Low temperature stress leads to spikelet sterility (55 to 65 days after transplanting/upland direct seeded need to be corrected by adding 30 days) where Tmin < 15"
-          source="https://global-flood-database.cloudtostreet.info/"
-          buttonText="Download"
-          link=""
-        />
-
-        <DataCatalog
-          imgSrc="Topo.png"
-          imgAlt="Rice Hazard"
-          title="Delayed Monsoon"
-          method="Number of events of delayed monsoon where delay is more than 15 days"
-          source="https://www.chc.ucsb.edu/data/chirps"
-          buttonText="Download"
-          link=""
-        />
-
-        <DataCatalog
-          imgSrc="Topo.png"
-          imgAlt="Rice Hazard"
-          title="Drought"
-          method="SPI below -1 (moderate and severe drought)"
-          source="http://data.chc.ucsb.edu/products/CHIRTSdaily/"
-          buttonText="Download"
-          link=""
-        />
-
-        <DataCatalog
-          imgSrc="Topo.png"
-          imgAlt="Rice Hazard"
-          title="Dry Spell"
-          method="Number of dry spells with length of 15 days or more in a season"
-          source="https://www.chc.ucsb.edu/data/chirps"
-          buttonText="Download"
-          link=""
-        />
-
-        <DataCatalog
-          imgSrc="Topo.png"
-          imgAlt="Rice Hazard"
-          title="Flood"
-          method="Flood Layer"
-          source="https://www.chc.ucsb.edu/data/chirps"
-          buttonText="Download"
-          link=""
-        />
-
-        <hr />
-
-        <Typography
-          sx={{
-            fontSize: "20px",
-            fontWeight: "bold",
-            marginTop: "10px",
-            marginBottom: "10px",
-            color: "#333333",
-            fontFamily: "revert",
-          }}
-        >
-          Hazard Data For Wheat
-        </Typography>
-
-        <DataCatalog
-          imgSrc="Topo.png"
-          imgAlt="Wheat Hazard"
-          title="High Temperature Induced Pollen Sterility"
-          method="High temperature during pollination: Tday > 28 for two days"
-          source="http://data.chc.ucsb.edu/products/CHIRTSdaily/"
-          buttonText="Download"
-          link=""
-        />
-
-        <DataCatalog
-          imgSrc="Topo.png"
-          imgAlt="Wheat Hazard"
-          title="Terminal Heat"
-          method="GDD concept (degrees above normal GDD) [tbase=8 degrees] during grain filling"
-          source="http://data.chc.ucsb.edu/products/CHIRTSdaily/"
-          buttonText="Download"
-          link=""
-        />
-
-        <DataCatalog
-          imgSrc="Topo.png"
-          imgAlt="Wheat Hazard"
-          title="Days Of Frost"
-          method="Minimum temperature less than zero degree for more than three days"
-          source="https://www.chc.ucsb.edu/data/chirps"
-          buttonText="Download"
-          link=""
-        />
-
-        <DataCatalog
-          imgSrc="Topo.png"
-          imgAlt="Wheat Hazard"
-          title="Untimely Rainfall"
-          method="Whole season consecutive two-day rainfall > 100 mm"
-          source="https://www.chc.ucsb.edu/data/chirps"
-          buttonText="Download"
-          link=""
-        />
-
-        <DataCatalog
-          imgSrc="Topo.png"
-          imgAlt="Wheat Hazard"
-          title="Drought"
-          method="Sept/Oct/Nov and season drought"
-          source="http://data.chc.ucsb.edu/products/CHIRTSdaily/"
-          buttonText="Download"
-          link=""
-        />
-
-        <DataCatalog
-          imgSrc="Topo.png"
-          imgAlt="Wheat Hazard"
-          title="Lodging"
-          method="Windspeed and rainfall criteria after booting (85 to 115 days)"
-          source="http://data.chc.ucsb.edu/products/CHIRTSdaily/"
-          buttonText="Download"
-          link=""
-        />
-        */}
-
-        <hr />
-
-        <Typography
-          sx={{
-            fontSize: "20px",
-            fontWeight: "bold",
-            marginTop: "10px",
-            marginBottom: "10px",
-            color: "#333333",
-            fontFamily: "revert",
-          }}
-        >
-          Adaptation Data
-        </Typography>
-
-        <div>
-          {itemsAdaptation.map((item) => (
-            <DataCatalog
-              imgSrc="Topo.png"
-              imgAlt="Adaptation"
-              title={item.Hazard}
-              method={item.Method}
-              model={item.Source}
-              buttonText={item.Action}
-              link= {<Button
-                      onClick={() =>
-                        onButtonClickOpt(optcode[item.Hazard], item.Crop)
-                      }
-                    >
-                    </Button>}
-            />
-          ))
+  // Function to download files dynamically and zip them (only for grouped downloads)
+  function downloadZippedFiles(filePaths, fileNames, zipFileName) {
+    const zip = new JSZip();
+  
+    // Create an array of promises for fetching files
+    const fetchPromises = filePaths.map((filePath, index) =>
+      fetch(filePath)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`Failed to fetch: ${filePath}`);
           }
-        </div>
+          return response.blob();
+        })
+        .then((blob) => {
+          zip.file(fileNames[index], blob); // Add the fetched file to the zip
+        })
+        .catch((err) => {
+          console.error("Error fetching file:", err);
+        })
+    );
+  
+    // Wait for all fetch requests to complete
+    Promise.all(fetchPromises)
+      .then(() => {
+        // Generate the zip file and trigger the download
+        return zip.generateAsync({ type: "blob" });
+      })
+      .then((content) => {
+        const fileURL = window.URL.createObjectURL(content);
+        const link = document.createElement("a");
+        link.href = fileURL;
+        link.download = zipFileName;
+        link.click();
+      })
+      .catch((err) => {
+        console.error("Error generating zip file:", err);
+      });
+  }  
 
-        {/*<DataCatalog
-          imgSrc="Topo.png"
-          imgAlt="Rice Adaptation"
-          title="DSR (Dry Seed)"
-          method="Analyzed"
-          model="Heuristic Model"
-          buttonText="Download"
-          link=""
-        />
+  // Get unique values from the data array
+  const getUniqueValues = (key) => [...new Set(data.map((item) => item[key]))];
 
-        <DataCatalog
-          imgSrc="Topo.png"
-          imgAlt="Rice Adaptation"
-          title="DSR (Wet Seed)"
-          method="Analyzed"
-          model="Heuristic Model"
-          buttonText="Download"
-          link=""
-        />
+  // Generate file paths dynamically (with dynamic file names)
+  function getFilePathsAndNames(filters) {
+    const filePaths = [];
+    const fileNames = [];
 
-        <DataCatalog
-          imgSrc="Topo.png"
-          imgAlt="Rice Adaptation"
-          title="System of Rice Intensification"
-          method="Analyzed"
-          model="Heuristic Model"
-          buttonText="Download"
-          link=""
-        />
+    // Generate file paths and names dynamically based on filtered data
+    filteredData.forEach((item) => {
+      // Resolve file name based on layer type mapping
+      let resolvedTitle;
+      if (
+        item.LayerType === "Adaptation" &&
+        layerMappings.optcode[item.Title]
+      ) {
+        resolvedTitle = layerMappings.optcode[item.Title]; // Adaptation code
+      } else if (
+        item.LayerType === "Hazard" &&
+        layerMappings.hazardname[item.Title]
+      ) {
+        resolvedTitle = layerMappings.hazardname[item.Title]; // Hazard description
+      } else {
+        resolvedTitle = item.Title; // Default to Title if no mapping exists
+      }
 
-        <DataCatalog
-          imgSrc="Topo.png"
-          imgAlt="Rice Adaptation"
-          title="Alternate Wetting and Drying"
-          method="Analyzed"
-          model="Heuristic Model"
-          buttonText="Download"
-          link=""
-        />
+      // Construct file path and name
+      const filePath = `./Downloadables/${item.Commodity}/${item.Scenario}/${item.LayerType}/${resolvedTitle}.tif`;
+      const fileName = `${item.Commodity}_${item.Scenario}_${item.LayerType}_${resolvedTitle}.tif`;
 
-        <DataCatalog
-          imgSrc="Topo.png"
-          imgAlt="Rice Adaptation"
-          title="Early Sowing"
-          method="Analyzed"
-          model="Heuristic Model"
-          buttonText="Download"
-          link=""
-        />
+      filePaths.push(filePath);
+      fileNames.push(fileName);
+    });
 
-        <DataCatalog
-          imgSrc="Topo.png"
-          imgAlt="Rice Adaptation"
-          title="Zero Tillage with Residue"
-          method="Analyzed"
-          model="Heuristic Model"
-          buttonText="Download"
-          link=""
-        />
+    return { filePaths, fileNames };
+  }
 
-        <DataCatalog
-          imgSrc="Topo.png"
-          imgAlt="Rice Adaptation"
-          title="Precision Land Leveling"
-          method="Analyzed"
-          model="Heuristic Model"
-          buttonText="Download"
-          link=""
-        />
+  // Handle grouped download (with mapping logic)
+  function handleGroupedDownload() {
+    const { filePaths, fileNames } = getFilePathsAndNames();
 
-        <DataCatalog
-          imgSrc="Topo.png"
-          imgAlt="Rice Adaptation"
-          title="Precision Water Management"
-          method="Analyzed"
-          model="Heuristic Model"
-          buttonText="Download"
-          link=""
-        />
+    if (filePaths.length === 0) {
+      console.warn("No files found for the selected filters.");
+      return;
+    }
 
-        <DataCatalog
-          imgSrc="Topo.png"
-          imgAlt="Rice Adaptation"
-          title="Microirrigation"
-          method="Analyzed"
-          model="Heuristic Model"
-          buttonText="Download"
-          link=""
-        />
+    const zipFileName = `${selectedCommodity}_${selectedScenario}_${selectedLayerType}.zip`;
 
-        <DataCatalog
-          imgSrc="Topo.png"
-          imgAlt="Rice Adaptation"
-          title="Supplemental Irrigation"
-          method="Analyzed"
-          model="Heuristic Model"
-          buttonText="Download"
-          link=""
-        />
+    downloadZippedFiles(filePaths, fileNames, zipFileName);
+  }
 
-        <DataCatalog
-          imgSrc="Topo.png"
-          imgAlt="Rice Adaptation"
-          title="Stress Tolerant Variety"
-          method="Analyzed"
-          model="Heuristic Model"
-          buttonText="Download"
-          link=""
-        />
+  // Handle individual download (with mapping logic)
+  function handleIndividualDownload(item) {
+    // Resolve file name using mapping
+    let resolvedTitle;
+    if (item.LayerType === "Adaptation" && layerMappings.optcode[item.Title]) {
+      resolvedTitle = layerMappings.optcode[item.Title];
+    } else if (
+      item.LayerType === "Hazard" &&
+      layerMappings.hazardname[item.Title]
+    ) {
+      resolvedTitle = layerMappings.hazardname[item.Title];
+    } else {
+      resolvedTitle = item.Title;
+    }
 
-        <DataCatalog
-          imgSrc="Topo.png"
-          imgAlt="Rice Adaptation"
-          title="Fertilizer Rating and Timing"
-          method="Analyzed"
-          model="Heuristic Model"
-          buttonText="Download"
-          link=""
-        />
+    const filePath = `./Downloadables/${item.Commodity}/${item.Scenario}/${item.LayerType}/${resolvedTitle}.tif`;
+    const fileName = `${item.Commodity}_${item.Scenario}_${item.LayerType}_${resolvedTitle}.tif`;
 
-        <DataCatalog
-          imgSrc="Topo.png"
-          imgAlt="Rice Adaptation"
-          title="Low Tech Precision Technology"
-          method="Analyzed"
-          model="Heuristic Model"
-          buttonText="Download"
-          link=""
-        />
+    // Direct file download
+    fetch(filePath)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Failed to fetch: ${filePath}`);
+        }
+        return response.blob();
+      })
+      .then((blob) => {
+        const fileURL = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = fileURL;
+        link.download = fileName;
+        link.click();
+      })
+      .catch((err) => {
+        console.error("Error downloading file:", err);
+      });
+  }
 
-        <DataCatalog
-          imgSrc="Topo.png"
-          imgAlt="Rice Adaptation"
-          title="High Tech Precision Technology"
-          method="Analyzed"
-          model="Heuristic Model"
-          buttonText="Download"
-          link=""
-        />
-
-        <DataCatalog
-          imgSrc="Topo.png"
-          imgAlt="Rice Adaptation"
-          title="ICT Agro Advisory"
-          method="Analyzed"
-          model="Heuristic Model"
-          buttonText="Download"
-          link=""
-        />
-
-        <DataCatalog
-          imgSrc="Topo.png"
-          imgAlt="Rice Adaptation"
-          title="Crop Insurance"
-          method="Analyzed"
-          model="Heuristic Model"
-          buttonText="Download"
-          link=""
-        />
-
-        <hr />
-
-        <Typography
-          sx={{
-            fontSize: "20px",
-            fontWeight: "bold",
-            marginTop: "10px",
-            marginBottom: "10px",
-            color: "#333333",
-            fontFamily: "revert",
-          }}
+  //The page structure
+  return (
+    <div>
+      <Paper>
+        <Box
+          sx={{ textAlign: "left", marginLeft: "150px", marginRight: "40px" }}
         >
-          Adaptation Data For Wheat
-        </Typography>
+          <Typography
+            sx={{
+              fontSize: "20px",
+              fontWeight: "bold",
+              marginTop: "5px",
+              color: "#333333",
+              /*fontFamily: "revert",*/
+            }}
+          >
+            Data Catalogue
+          </Typography>
+          <Typography
+            sx={{
+              fontSize: "15px",
+              marginTop: "5px",
+              color: "#333333",
+              /*fontFamily: "revert",*/
+            }}
+          >
+            The datasets are prepared primarily from open source databases. To
+            extract each variable standard methodologies applied. All the
+            datasets are geo-tiff format and in 0.05 degree resolution
+            (EPSG:4326 - WGS 84, Geographic latitude and longitude).
+          </Typography>
+          <Typography
+            sx={{
+              fontSize: "15px",
+              marginTop: "8px",
+              color: "#333333",
+              /*fontFamily: "revert",*/
+            }}
+          >
+            The details of the data source and method is described below.
+          </Typography>
 
-        <DataCatalog
-          imgSrc="Topo.png"
-          imgAlt="Wheat Adaptation"
-          title="Stress Tolerant Variety"
-          method="Analyzed"
-          model="Heuristic Model"
-          buttonText="Download"
-          link=""
-        />
+          <div className="filter-container">
+            <div className="card-filters">
+              <IconButton
+                onClick={handleGroupedDownload}
+                className="download-icon-button"
+              >
+                <DownloadIcon />
+                <span className="button-text">
+                  <Typography>Download Group</Typography>
+                </span>
+              </IconButton>
+              <select
+                value={selectedCommodity}
+                onChange={(e) => setSelectedCommodity(e.target.value)}
+              >
+                <option value="">Commodity</option>
+                <optgroup label="Cereals">
+                  <option value="Rice">Rice</option>
+                  <option value="Wheat">Wheat</option>
+                  <option value="Maize">Maize</option>
+                  <option value="Barley">Barley</option>
+                  <option value="Finger Millet">Finger Millet</option>
+                  <option value="Pearl Millet">Pearl Millet</option>
+                </optgroup>
 
-        <DataCatalog
-          imgSrc="Topo.png"
-          imgAlt="Wheat Adaptation"
-          title="Early Sowing"
-          method="Analyzed"
-          model="Heuristic Model"
-          buttonText="Download"
-          link=""
-        />
+                <optgroup label="Legumes">
+                  <option value="Chickpea">Chickpea</option>
+                  <option value="Pigeonpea">Pigeonpea</option>
+                  <option value="Black Gram">Black Gram</option>
+                  <option value="Green Gram">Green Gram</option>
+                  <option value="Lentil">lentil</option>
+                </optgroup>
 
-        <DataCatalog
-          imgSrc="Topo.png"
-          imgAlt="Wheat Adaptation"
-          title="Zero Tillage with Residue"
-          method="Analyzed"
-          model="Heuristic Model"
-          buttonText="Download"
-          link=""
-        />
+                <optgroup label="Oilseeds">
+                  <option value="Soybean">Soybean</option>
+                  <option value="Safflower">Safflower</option>
+                  <option value="Sunflower">Sunflower</option>
+                  <option value="Mustard">Mustard</option>
+                  <option value="Sesame">Sesame</option>
+                  <option value="Groundnut">Groundnut</option>
+                </optgroup>
 
-        <DataCatalog
-          imgSrc="Topo.png"
-          imgAlt="Wheat Adaptation"
-          title="Fertilizer Rating and Timing"
-          method="Analyzed"
-          model="Heuristic Model"
-          buttonText="Download"
-          link=""
-        />
-        */}
-      </Box>
-    </div>
-  )
+                <optgroup label="Fruits & Vegetables">
+                  <option value="Potato">Potato</option>
+                  <option value="Onion">Onion</option>
+                  <option value="Tomato">Tomato</option>
+                  <option value="Chillies">Chillies</option>
+                  <option value="Mango">Mango</option>
+                  <option value="Banana">Banana</option>
+                </optgroup>
 
+                <optgroup label="Industrial">
+                  <option value="Cotton">Cotton</option>
+                  <option value="Jute">Jute</option>
+                  <option value="Rubber">Rubber</option>
+                  <option value="Sugarcane">Sugarcane</option>
+                  <option value="Tea">Tea</option>
+                  <option value="Coconut">Coconut</option>
+                </optgroup>
 
-    /* Uncomment to add tables
+                <optgroup label="Livestock">
+                  <option value="Cattle">Cattle</option>
+                  <option value="Buffalo">Buffalo</option>
+                  <option value="Goat">Goat</option>
+                  <option value="Sheep">Sheep</option>
+                  <option value="Pig">Pig</option>
+                  <option value="Poultry">Poultry</option>
+                </optgroup>
+              </select>
 
-        <TableContainer
-          component={Paper}
-          sx={{
-            marginTop: "7px",
-            "td,th": { border: "1px solid rgba(224, 224, 224, 1)" },
-          }}
-        >
-          <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-            <TableHead sx={{ backgroundColor: "#eeeeee" }}>
-              <TableRow>
-                <TableCell
-                  colSpan={5}
-                  sx={{
-                    fontWeight: "bold",
-                    backgroundColor: "#4b9e44",
-                    color: "#ffffff",
-                  }}
+              <select
+                value={selectedScenario}
+                onChange={(e) => setSelectedScenario(e.target.value)}
+              >
+                <option value="">Scenario</option>
+                <option value="Baseline">Baseline</option>
+                <option value="SSP 2-4.5">SSP 2-4.5</option>
+                <option value="SSP 5-8.5">SSP 5-8.5</option>
+              </select>
+
+              <select
+                value={selectedLayerType}
+                onChange={(e) => setSelectedLayerType(e.target.value)}
+              >
+                <option value="">Layer Type</option>
+                <option value="Hazard">Hazard</option>
+                <option value="Risk">Risk</option>
+                <option value="Adaptation">Adaptation</option>
+                <option value="Direct Adaptation">Direct Adaptation</option>
+                <option value="Exposure">Exposure</option>
+                <option value="Vulnerability">Vulnerability</option>
+              </select>
+
+              <input
+                type="text"
+                placeholder="Search"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+          </div>
+
+          <div
+            className="scrollable-container"
+            style={{ overflowY: "scroll", height: "80vh" }}
+          >
+            {filteredData.length > 0 ? (
+              <div className="card-grid">
+                {filteredData.map((item, index) => (
+                  <DataCatalog
+                    commodity={item.Commodity}
+                    scenario={item.Scenario}
+                    layertype={item.LayerType}
+                    imgSrc="Topo-photoroom.png"
+                    imgAlt={`${item.Commodity}-${item.Title}`}
+                    title={item.Title}
+                    description={item.Description}
+                    source={item.Source}
+                    buttonText={item.Action}
+                    onButtonClick={() => handleIndividualDownload(item)}
+                  />
+                ))}
+              </div>
+            ) : (
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  height: "100%",
+                  color: "#555",
+                  fontSize: "18px",
+                  textAlign: "center",
+                }}
+              >
+                <Typography variant="h6" sx={{ color: "#777" }}>
+                  No data available for the selected filters
+                </Typography>
+                <Typography
+                  variant="body1"
+                  sx={{ color: "#999", marginTop: "8px" }}
                 >
-                  Hazard
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell
-                  colSpan={5}>
-                  <DialogSelect>
-                  </DialogSelect>
-                
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell align="left" sx={{ fontWeight: "bold" }}>
-                  Crop
-                </TableCell>
-                <TableCell align="left" sx={{ fontWeight: "bold" }}>
-                  Hazard
-                </TableCell>
-                <TableCell align="left" sx={{ fontWeight: "bold" }}>
-                  Method
-                </TableCell>
-                <TableCell align="left" sx={{ fontWeight: "bold" }}>
-                  Primary&nbsp;Data&nbsp;Source
-                </TableCell>
-                <TableCell align="left" sx={{ fontWeight: "bold" }}>
-                  Action
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map((row) => (
-                <TableRow key={row.name}>
-                  <TableCell component="th" scope="row" align="left">
-                    {row.Crop}
-                  </TableCell>
-                  <TableCell align="left">{row.Hazard}</TableCell>
-                  <TableCell align="left">{row.Method}</TableCell>
-                  <TableCell align="left">
-                    <a
-                      target="_blank"
-                      href={row.Source}
-                      style={{ textDecoration: "none", color: "inherit" }}
-                    >
-                      {row.Source}
-                    </a>
-                  </TableCell>
-                  <TableCell align="left">
-                    <Button
-                      disabled={true}
-                      onClick={() =>
-                        onButtonClick(hazardname[row.Hazard], row.Crop)
-                      }
-                      style={{ textDecoration: "none", textTransform: "none" }}
-                    >
-                      {row.Action}
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-
-            
-            <TableHead sx={{backgroundColor: '#eeeeee'}}>
-                            <TableRow>
-                                <TableCell colSpan={5} sx={{fontWeight: 'bold', backgroundColor: '#4b9e44', color: '#ffffff'}}>
-                                    Risk
-                                </TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell align="left" sx={{fontWeight: 'bold'}}>Crop</TableCell>
-                                <TableCell align="left" sx={{fontWeight: 'bold'}}>Layer</TableCell>
-                                <TableCell align="left" sx={{fontWeight: 'bold'}}>Method</TableCell>
-                                <TableCell align="left" sx={{fontWeight: 'bold'}}>Primary&nbsp;Source</TableCell>
-                                <TableCell align="left" sx={{fontWeight: 'bold'}}>Action</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {rows1.map((row) => (
-                                <TableRow key={row.name}>
-                                    <TableCell component="th" scope="row" align="left">
-                                        {row.Crop}
-                                    </TableCell>
-                                    <TableCell align="left">{row.Hazard}</TableCell>
-                                    <TableCell align="left">{row.Method}</TableCell>
-                                    <TableCell align="left">
-                                        <a target='_blank' href='javascript:void(0);' style={{ textDecoration: 'none', color: 'inherit' }}>
-                                            {row.Source}
-                                        </a>
-                                    </TableCell>
-                                    <TableCell align="left">
-                                        <a href='javascript:void(0);' style={{ textDecoration: 'none' }}>
-                                            {row.Action}
-                                        </a>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-
-            <TableHead sx={{ backgroundColor: "#eeeeee" }}>
-              <TableRow>
-                <TableCell
-                  colSpan={5}
-                  sx={{
-                    fontWeight: "bold",
-                    backgroundColor: "#4b9e44",
-                    color: "#ffffff",
-                  }}
-                >
-                  Adaptation
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell
-                  colSpan={5}
-                  sx={{
-                    fontWeight: "bold"
-                  }}>
-                    <DialogSelect>
-
-                    </DialogSelect>
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell align="left" sx={{ fontWeight: "bold" }}>
-                  Crop
-                </TableCell>
-                <TableCell align="left" sx={{ fontWeight: "bold" }}>
-                  Layer
-                </TableCell>
-                <TableCell align="left" sx={{ fontWeight: "bold" }}>
-                  Method
-                </TableCell>
-                <TableCell align="left" sx={{ fontWeight: "bold" }}>
-                  Primary&nbsp;Source
-                </TableCell>
-                <TableCell align="left" sx={{ fontWeight: "bold" }}>
-                  Action
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows2.map((row) => (
-                <TableRow key={row.name}>
-                  <TableCell component="th" scope="row" align="left">
-                    {row.Crop}
-                  </TableCell>
-                  <TableCell align="left">{row.Hazard}</TableCell>
-                  <TableCell align="left">{row.Method}</TableCell>
-                  <TableCell align="left">
-                    <a
-                      target="_blank"
-                      href="javascript:void(0);"
-                      style={{ textDecoration: "none", color: "inherit" }}
-                    >
-                      {row.Source}
-                    </a>
-                  </TableCell>
-                  <TableCell align="left">
-                    <Button
-                      disabled={true}
-                      onClick={() =>
-                        onButtonClickOpt(optcode[row.Hazard], row.Crop)
-                      }
-                      style={{ textDecoration: "none", textTransform: "none" }}
-                    >
-                      {row.Action}
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Box>
+                  Try adjusting your filters or clearing the search term
+                </Typography>
+              </Box>
+            )}
+          </div>
+        </Box>
+      </Paper>
     </div>
   );
 }

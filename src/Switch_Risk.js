@@ -46,7 +46,7 @@ export default function SwitchRisk({
 
 
   const switchVulner = ['Hazard Index','Groundwater Level','Irrigation','Wealth Index','Fertilizer','Income','Literacy','Gender Inclusiveness','Road Density','Slope',
-  'Water Holding Capacity','Soil Organic Carbon'];
+  'Soil Water Holding Capacity', 'Soil Organic Carbon'];
   const switchVulnerID = ['hindex2','groundwater','irrigation','wealth','fertilizer','income','literacy','gender','road','slope','waterhold','carbon'];
 
   const switchExposure = ['Exposure Index','Number of Farmers','Cropped Area'];
