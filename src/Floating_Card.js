@@ -633,7 +633,6 @@ export default function LocationCard({
                     Low
                     </Typography>
                     </Box>
-                    
                     </Box> */}
                     <Box sx={{width:'100%', display:'flex',alignItems:'center',flexDirection:'column'}}>
                     <PieChart
