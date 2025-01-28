@@ -17,10 +17,30 @@ export default function SwitchScenario({
   const switchid = ['baseline','ssp245','ssp585'];
   const disvar ={'baseline':false,'ssp245':false,'ssp585':false};
 
-  const switchh2 = ["CHC","CANESM5", "CNRM-CM6-1", "CNRM-ESM-1"," EC-Earth3", "MIROC6"];
-  const switchid2 = ["CHC","CANESM5", "CNRM-CM6-1", "CNRM-ESM-1"," EC-Earth3", "MIROC6"];
-  const disvar2 ={"CHC":false,"CANESM5":false, "CNRM-CM6-1":false, "CNRM-ESM-1":false," EC-Earth3":false, "MIROC6":false};
+  const parents = ["ISIMIP"];
+  const switchh2 = ["CHC"];
+  const switchid2 = ["CHC"];
+
+  const switchh3 = ["CANESM5", "CNRM-CM6-1", "CNRM-ESM-1"," EC-Earth3", "MIROC6","Ensemble"];
+  const switchid3 = ["CANESM5", "CNRM-CM6-1", "CNRM-ESM-1"," EC-Earth3", "MIROC6","Ensemble"];
+  const disvar2 ={"CHC":false,"ISIMIP":false,"CANESM5":false, "CNRM-CM6-1":false, "CNRM-ESM-1":false," EC-Earth3":false, "MIROC6":false};
   const padd = 8;
+
+  function createInitialPRT() {
+      const initialTodos = {};
+      parents.forEach((sname) => {
+          initialTodos[sname] = false;
+      });
+      return initialTodos;
+  };
+
+  const [PRT, setPRT] = React.useState(
+      createInitialPRT
+  );
+
+  const handleChangePRT = (name) => (event) => {
+      setPRT({ ...PRT, [name]: event.target.checked });
+  };
 
   const AntSwitch = styled(Switch)(({ theme }) => ({
     width: 32+padd,
@@ -105,6 +125,36 @@ export default function SwitchScenario({
         disabled={disvar2[switchid2[index]]}
         label={<Typography variant="body2" sx={{paddingLeft:1}}>{sname}</Typography>}
         />
+     </FormGroup>
+      ))}
+      {parents.map((sname,index) => (
+        <FormGroup>
+        <CustomFormControlLabel
+        control={
+          <AntSwitch inputProps={{ 'aria-label': 'ant design' }} checked={PRT[sname]} onChange={handleChangePRT(sname)} 
+          name={parents[index]}/>
+        }
+        key={parents[index]}
+        disabled={disvar2[sname]}
+        label={<Typography variant="body2" sx={{paddingLeft:1}}>{sname}</Typography>}
+        />
+        {PRT['ISIMIP']===true && <FormControl component="fieldset" variant="standard" sx={{paddingBottom:1,paddingLeft:5}}>
+            {
+            switchh3.map((sname,index)=>(
+              <FormGroup>
+                <CustomFormControlLabel
+                control={
+                  <AntSwitch inputProps={{ 'aria-label': 'ant design' }} checked={switchid3[index]===activeModel} onChange={changeModel(switchid3[index])} 
+                  name={switchid3[index]}/>
+                }
+                key={switchid3[index]}
+                disabled={disvar2[switchid3[index]]}
+                label={<Typography variant="body2" sx={{paddingLeft:1}}>{sname}</Typography>}
+                />
+              </FormGroup>
+            ))
+        } 
+        </FormControl>}
      </FormGroup>
       ))}
     </FormControl>

@@ -133,7 +133,8 @@ export default function SwitchImpact({
         <IconButton sx={{padding:0,margin:0,paddingX:'4px'}}>
         <InfoOutlinedIcon sx={{fontSize:'12px',padding:0,margin:0}} />
         </IconButton>
-        </LightTooltip>}</Typography>}
+        </LightTooltip>}
+        </Typography>}
         />
      </FormGroup>
       ))}
