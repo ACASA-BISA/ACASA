@@ -22,7 +22,7 @@ export default function SwitchRisk2({
   const switchChild = ['Measured Risk','Estimated Risk'];
   const switchChildID = ['pr','ipcc'];
 
-  const switchIPCC = ['Base climate','Hazard','Exposure','Vulnerability',"Risk indices"];
+  const switchIPCC = ['Base climate','Hazard','Exposure','Vulnerability',"Indices"];
   const switchRegional = ['Base climate','Hazard','Exposure','Vulnerability',"Risk indices"];
   const switchIPCCID = ['basic','hazard','exposure','vulner','risk'];
 

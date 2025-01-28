@@ -558,7 +558,7 @@ export default function Map_Option({
         },
       },}}
     >
-        <div ref={ref} style={{height:'calc(48vh - 92px)',width:'21vw',marginLeft:0,marginRight:0}} className="map-container" />
+        <div ref={ref} style={{height:'calc(48vh - 72px)',width:'21vw',marginLeft:0,marginRight:0}} className="map-container" />
         </Tooltip> 
       </div>
     );

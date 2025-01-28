@@ -90,22 +90,22 @@ export default function Summary_Statistics({
 
     const data = [
         {
-            title: 'Card 1',
+            title: 'People impacted',
             content: 'This is the content for Card 1.',
         },
         {
-            title: 'Card 2',
+            title: 'Increase in vulnerability',
             content: 'This is the content for Card 2.',
         },
         {
-            title: 'Card 3',
+            title: 'Adaptation Practices',
             content: 'This is the content for Card 3.',
         },
     ];
 
     return(
         <div style={{marginTop:'95px'}}>
-            <Box sx={{display:'flex',flexDirection:'row',width:'100%',alignContent:'center',alignItems:'center',justifyContent:'center'}}>
+            {/* <Box sx={{display:'flex',flexDirection:'row',width:'100%',alignContent:'center',alignItems:'center',justifyContent:'center'}}>
             <Typography sx={{fontFamily:'Karla'}} fontSize={40}>
                 Summary Statistics for&nbsp;
             </Typography>
@@ -138,7 +138,7 @@ export default function Summary_Statistics({
                 <MenuItem value='MV' sx={{fontSize:'20px',fontFamily:'Karla'}}>Maldives</MenuItem>
             </Select>
             </FormControl>
-            </Box>
+            </Box> */}
             <Box sx={{display:'flex',flexDirection:'row',width:'100%',alignContent:'center',alignItems:'center',justifyContent:'center'}}>
                 <Box
                     sx={{

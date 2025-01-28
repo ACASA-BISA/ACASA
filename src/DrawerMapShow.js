@@ -90,6 +90,43 @@ async function fetchCsv5() {
   return await response.json();
 }
 
+const legendComp = (
+  <Paper elevation={1}>
+      <Box sx={{display:'flex',flexDirection:'column',border:'1px solid #aaa',justifyContent:'top',alignItems:'left',
+          height:'100%',padding:'2px',paddingLeft:'2px',paddingRight:'3px',gap:'0px',backgroundColor:'#ddd'}}>
+          <Box sx={{display:'flex',flexDirection:'row',justifyContent:'left',alignItems:'center',gap:'2px'}}>
+              <Box sx={{width: 50, height: 15, borderRadius: 0, bgcolor: '#059212'}}>
+              <Typography fontSize='0.62rem' color='white' align='left' fontWeight='bold' sx={{paddingLeft:'3px'}}>Very Low</Typography>
+              </Box>
+              <Typography fontSize='0.62rem' align='left' fontWeight='bold' sx={{paddingLeft:'2px'}}>NaN</Typography>
+          </Box>
+          <Box sx={{display:'flex',flexDirection:'row',justifyContent:'left',alignItems:'center',gap:'2px'}}>
+              <Box sx={{width: 50, height: 15, borderRadius: 0, bgcolor: '#00FF00'}}>
+              <Typography fontSize='0.62rem' color='white' align='left' fontWeight='bold' sx={{paddingLeft:'3px'}}>Low</Typography>
+              </Box>
+              <Typography fontSize='0.62rem' align='left' fontWeight='bold' sx={{paddingLeft:'2px'}}>NaN</Typography>
+          </Box>
+          <Box sx={{display:'flex',flexDirection:'row',justifyContent:'left',alignItems:'center',gap:'2px'}}>
+              <Box sx={{width: 50, height: 15, borderRadius: 0, bgcolor: '#FFDE4D'}}>
+              <Typography fontSize='0.62rem' color='white' align='left' fontWeight='bold' sx={{paddingLeft:'3px'}}>Medium</Typography>
+              </Box>
+              <Typography fontSize='0.62rem' align='left' fontWeight='bold' sx={{paddingLeft:'2px'}}>NaN</Typography>
+          </Box>
+          <Box sx={{display:'flex',flexDirection:'row',justifyContent:'left',alignItems:'center',gap:'2px'}}>
+              <Box sx={{width: 50, height: 15, borderRadius: 0, bgcolor: '#FFA500'}}>
+              <Typography fontSize='0.62rem' color='white' align='left' fontWeight='bold' sx={{paddingLeft:'3px'}}>High</Typography>
+              </Box>
+              <Typography fontSize='0.62rem' align='left' fontWeight='bold' sx={{paddingLeft:'2px'}}>NaN</Typography>
+          </Box>
+          <Box sx={{display:'flex',flexDirection:'row',justifyContent:'left',alignItems:'center',gap:'2px'}}>
+              <Box sx={{width: 50, height: 15, borderRadius: 0, bgcolor: '#E4003A'}}>
+              <Typography fontSize='0.62rem' color='white' align='left' fontWeight='bold' sx={{paddingLeft:'3px'}}>Very High</Typography>
+              </Box>
+              <Typography fontSize='0.62rem' align='left' fontWeight='bold' sx={{paddingLeft:'2px'}}>NaN</Typography>
+          </Box>
+      </Box>
+   </Paper>);
+
 export default function DrawerMapShow({ activeBar }) {
   let Homecrop = "rice";
   let Homefocus = "Region";
@@ -727,6 +764,14 @@ export default function DrawerMapShow({ activeBar }) {
     const handleModel = (name) => {
         setNameModel(name);
       };
+
+      const box1 = React.useRef(null);
+              const box2 = React.useRef(null);
+              const box3 = React.useRef(null);
+              const box4 = React.useRef(null);
+              const box5 = React.useRef(null);
+              const box6 = React.useRef(null);
+
     return (
         <div>
         <Box sx={{display:{xs:'none',md:'block'}}}>
@@ -778,7 +823,7 @@ export default function DrawerMapShow({ activeBar }) {
         activeOpt={option} changeOpt={handleChangeOpt} changeRisk={changeRisk} activeImpact={CurrImpact} changeImpact={changeImpact} activeScenario={scenario} changeScenario={handleScenarioChange}
         activeOptLayer={optionlayer} changeOptLayer={changeOptLayer}></DrawerV>}
         
-        {(activeBar==='viewer') && <div ref={container}><LocationCard location={activeRegion} commodity={Currcrop} adaption={CurrOpt} setHeight1={setHeight1}
+        {(activeBar==='future' && NameScenario==='Baseline') && <div ref={container}><LocationCard location={activeRegion} commodity={Currcrop} adaption={CurrOpt} setHeight1={setHeight1}
         RiskName={RiskName} scenario={NameScenario} ImpactName={ImpactName} area_data={area_dict} area_data2={area_dict2}></LocationCard></div>}
         
         {(activeBar==='viewer') && (RiskName!==""||CurrOpt!=="") && <LegendCard location={activeRegion} commodity={Currcrop} adaption={CurrOpt}
@@ -861,10 +906,10 @@ export default function DrawerMapShow({ activeBar }) {
         
         <Box sx={{display:'flex',flexDirection:'column',gap:'1vh',marginTop:'3px'}}>
         <div>
-        <Box sx={{paddingX:'8px',paddingY:'4px',display:'flex',flexDirection:'row',justifyContent:'center',gap:'4px',alignItems:'center'}}><Typography sx={{fontSize:12}}>Adaptation: </Typography>
+        <Box sx={{paddingX:'8px',paddingY:'4px',display:'flex',flexDirection:'row',justifyContent:'center',gap:'4px',alignItems:'center'}}><Typography sx={{fontSize:12, fontWeight:'bold'}}>Adaptation: </Typography>
         <Summ_Adapt activv={opt2} changeOption={handleChangeOptSumm} activeCrop={crop3}></Summ_Adapt>
         </Box>
-        <Box sx={{display:'flex',flexDirection:'row', width:'100%',justifyContent:'center', gap:'4px'}}>
+        {/* <Box sx={{display:'flex',flexDirection:'row', width:'100%',justifyContent:'center', gap:'4px'}}>
                     <Box sx={{display:'flex',flexDirection:'row'}}>
                     <Box sx={{width: 10,height: 10,borderRadius: 1,bgcolor: 'rgba(180, 70, 109, 1)',margin:'2px'}}/>
                     <Typography sx={{ fontSize: 10}} color="text.secondary" gutterBottom> 
@@ -883,16 +928,32 @@ export default function DrawerMapShow({ activeBar }) {
                     Adaptation benefits
                     </Typography>
                     </Box>
-         </Box>
-        <Paper elevation={1} sx={{width:'21vw'}}>
+         </Box> */}
+        <Paper elevation={1} sx={{width:'21vw'}} ref={box1}>
         <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt2} area_dict={area_dict} activeScenario={NameScenario}></Map_Option>
         </Paper>
+        <Popper
+                            open={true} // Always open
+                            anchorEl={box1.current} // Anchor to the Grid container
+                            placement="bottom" // Position it at the bottom
+                            disablePortal={true} // Stay within the DOM hierarchy
+                            modifiers={[
+                                {
+                                name: "offset",
+                                options: {
+                                    offset: [90,-85], // Adjust distance from the container
+                                },
+                                },
+                            ]}
+                            >
+                            {legendComp}
+                            </Popper>
         </div>
         <div>
-        <Box sx={{paddingX:'8px',paddingY:'4px',display:'flex',flexDirection:'row',justifyContent:'center',gap:'4px',alignItems:'center'}}><Typography sx={{fontSize:12}}>Adaptation: </Typography>
+        <Box sx={{paddingX:'8px',paddingY:'4px',display:'flex',flexDirection:'row',justifyContent:'center',gap:'4px',alignItems:'center'}}><Typography sx={{fontSize:12, fontWeight:'bold'}}>Adaptation: </Typography>
         <Summ_Adapt2 activv={opt3} changeOption={handleChangeOptSumm2} activeCrop={crop3}></Summ_Adapt2>
         </Box>
-        <Box sx={{display:'flex',flexDirection:'row', width:'100%',justifyContent:'center', gap:'4px'}}>
+        {/* <Box sx={{display:'flex',flexDirection:'row', width:'100%',justifyContent:'center', gap:'4px'}}>
                     <Box sx={{display:'flex',flexDirection:'row'}}>
                     <Box sx={{width: 10,height: 10,borderRadius: 1,bgcolor: 'rgba(180, 70, 109, 1)',margin:'2px'}}/>
                     <Typography sx={{ fontSize: 10}} color="text.secondary" gutterBottom> 
@@ -911,18 +972,34 @@ export default function DrawerMapShow({ activeBar }) {
                     Adaptation benefits
                     </Typography>
                     </Box>
-         </Box>
-        <Paper elevation={1} sx={{width:'21vw'}}>
+         </Box> */}
+        <Paper elevation={1} sx={{width:'21vw'}} ref={box2}>
         <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt3} area_dict={area_dict}  activeScenario={NameScenario}></Map_Option>
         </Paper>
+        <Popper
+                            open={true} // Always open
+                            anchorEl={box2.current} // Anchor to the Grid container
+                            placement="bottom" // Position it at the bottom
+                            disablePortal={true} // Stay within the DOM hierarchy
+                            modifiers={[
+                                {
+                                name: "offset",
+                                options: {
+                                    offset: [90,-85], // Adjust distance from the container
+                                },
+                                },
+                            ]}
+                            >
+                            {legendComp}
+                            </Popper>
         </div>
         </Box>
         <Box sx={{display:'flex',flexDirection:'column',gap:'1vh',marginTop:'3px'}}>
         <div>
-        <Box sx={{paddingX:'8px',paddingY:'4px',display:'flex',flexDirection:'row',justifyContent:'center',gap:'4px',alignItems:'center'}}><Typography sx={{fontSize:12}}>Adaptation: </Typography>
+        <Box sx={{paddingX:'8px',paddingY:'4px',display:'flex',flexDirection:'row',justifyContent:'center',gap:'4px',alignItems:'center'}}><Typography sx={{fontSize:12, fontWeight:'bold'}}>Adaptation: </Typography>
         <Summ_Adapt3 activv={opt4} changeOption={handleChangeOptSumm3} activeCrop={crop3}></Summ_Adapt3>
         </Box>
-        <Box sx={{display:'flex',flexDirection:'row', width:'100%',justifyContent:'center', gap:'4px'}}>
+        {/* <Box sx={{display:'flex',flexDirection:'row', width:'100%',justifyContent:'center', gap:'4px'}}>
                     <Box sx={{display:'flex',flexDirection:'row'}}>
                     <Box sx={{width: 10,height: 10,borderRadius: 1,bgcolor: 'rgba(180, 70, 109, 1)',margin:'2px'}}/>
                     <Typography sx={{ fontSize: 10}} color="text.secondary" gutterBottom> 
@@ -941,16 +1018,32 @@ export default function DrawerMapShow({ activeBar }) {
                     Adaptation benefits
                     </Typography>
                     </Box>
-         </Box>
-        <Paper elevation={1} sx={{width:'21vw'}}>
+         </Box> */}
+        <Paper elevation={1} sx={{width:'21vw'}} ref={box3}>
         <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt4} area_dict={area_dict}  activeScenario={NameScenario}></Map_Option>
         </Paper>
+        <Popper
+                            open={true} // Always open
+                            anchorEl={box3.current} // Anchor to the Grid container
+                            placement="bottom" // Position it at the bottom
+                            disablePortal={true} // Stay within the DOM hierarchy
+                            modifiers={[
+                                {
+                                name: "offset",
+                                options: {
+                                    offset: [90,-85], // Adjust distance from the container
+                                },
+                                },
+                            ]}
+                            >
+                            {legendComp}
+                            </Popper>
         </div>
         <div>
-        <Box sx={{paddingX:'8px',paddingY:'4px',display:'flex',flexDirection:'row',justifyContent:'center',gap:'4px',alignItems:'center'}}><Typography sx={{fontSize:12}}>Adaptation: </Typography>
+        <Box sx={{paddingX:'8px',paddingY:'4px',display:'flex',flexDirection:'row',justifyContent:'center',gap:'4px',alignItems:'center'}}><Typography sx={{fontSize:12, fontWeight:'bold'}}>Adaptation: </Typography>
         <Summ_Adapt4 activv={opt5} changeOption={handleChangeOptSumm4} activeCrop={crop3}></Summ_Adapt4>
         </Box>
-        <Box sx={{display:'flex',flexDirection:'row', width:'100%',justifyContent:'center', gap:'4px'}}>
+        {/* <Box sx={{display:'flex',flexDirection:'row', width:'100%',justifyContent:'center', gap:'4px'}}>
                     <Box sx={{display:'flex',flexDirection:'row'}}>
                     <Box sx={{width: 10,height: 10,borderRadius: 1,bgcolor: 'rgba(180, 70, 109, 1)',margin:'2px'}}/>
                     <Typography sx={{ fontSize: 10}} color="text.secondary" gutterBottom> 
@@ -969,18 +1062,34 @@ export default function DrawerMapShow({ activeBar }) {
                     Adaptation benefits
                     </Typography>
                     </Box>
-         </Box>
-        <Paper elevation={1} sx={{width:'21vw'}}>
+         </Box> */}
+        <Paper elevation={1} sx={{width:'21vw'}} ref={box4}>
         <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt5} area_dict={area_dict}  activeScenario={NameScenario}></Map_Option>
         </Paper>
+        <Popper
+                            open={true} // Always open
+                            anchorEl={box4.current} // Anchor to the Grid container
+                            placement="bottom" // Position it at the bottom
+                            disablePortal={true} // Stay within the DOM hierarchy
+                            modifiers={[
+                                {
+                                name: "offset",
+                                options: {
+                                    offset: [90,-85], // Adjust distance from the container
+                                },
+                                },
+                            ]}
+                            >
+                            {legendComp}
+                            </Popper>
         </div>
         </Box>
         <Box sx={{display:'flex',flexDirection:'column',gap:'1vh',marginTop:'3px'}}>
         <div>
-        <Box sx={{paddingX:'8px',paddingY:'4px',display:'flex',flexDirection:'row',justifyContent:'center',gap:'4px',alignItems:'center'}}><Typography sx={{fontSize:12}}>Adaptation: </Typography>
+        <Box sx={{paddingX:'8px',paddingY:'4px',display:'flex',flexDirection:'row',justifyContent:'center',gap:'4px',alignItems:'center'}}><Typography sx={{fontSize:12, fontWeight:'bold'}}>Adaptation: </Typography>
         <Summ_Adapt5 activv={opt6} changeOption={handleChangeOptSumm5} activeCrop={crop3}></Summ_Adapt5>
         </Box>
-        <Box sx={{display:'flex',flexDirection:'row', width:'100%',justifyContent:'center', gap:'4px'}}>
+        {/* <Box sx={{display:'flex',flexDirection:'row', width:'100%',justifyContent:'center', gap:'4px'}}>
                     <Box sx={{display:'flex',flexDirection:'row'}}>
                     <Box sx={{width: 10,height: 10,borderRadius: 1,bgcolor: 'rgba(180, 70, 109, 1)',margin:'2px'}}/>
                     <Typography sx={{ fontSize: 10}} color="text.secondary" gutterBottom> 
@@ -999,16 +1108,32 @@ export default function DrawerMapShow({ activeBar }) {
                     Adaptation benefits
                     </Typography>
                     </Box>
-         </Box>
-        <Paper elevation={1} sx={{width:'21vw'}}>
+         </Box> */}
+        <Paper elevation={1} sx={{width:'21vw'}} ref={box5}>
         <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt6} area_dict={area_dict}  activeScenario={NameScenario}></Map_Option>
         </Paper>
+        <Popper
+                            open={true} // Always open
+                            anchorEl={box5.current} // Anchor to the Grid container
+                            placement="bottom" // Position it at the bottom
+                            disablePortal={true} // Stay within the DOM hierarchy
+                            modifiers={[
+                                {
+                                name: "offset",
+                                options: {
+                                    offset: [90,-85], // Adjust distance from the container
+                                },
+                                },
+                            ]}
+                            >
+                            {legendComp}
+                            </Popper>
         </div>
         <div>
-        <Box sx={{paddingX:'8px',paddingY:'4px',display:'flex',flexDirection:'row',justifyContent:'center',gap:'4px',alignItems:'center'}}><Typography sx={{fontSize:12}}>Adaptation: </Typography>
+        <Box sx={{paddingX:'8px',paddingY:'4px',display:'flex',flexDirection:'row',justifyContent:'center',gap:'4px',alignItems:'center'}}><Typography sx={{fontSize:12, fontWeight:'bold'}}>Adaptation: </Typography>
         <Summ_Adapt6 activv={opt7} changeOption={handleChangeOptSumm6} activeCrop={crop3}></Summ_Adapt6>
         </Box>
-        <Box sx={{display:'flex',flexDirection:'row', width:'100%',justifyContent:'center', gap:'4px'}}>
+        {/* <Box sx={{display:'flex',flexDirection:'row', width:'100%',justifyContent:'center', gap:'4px'}}>
                     <Box sx={{display:'flex',flexDirection:'row'}}>
                     <Box sx={{width: 10,height: 10,borderRadius: 1,bgcolor: 'rgba(180, 70, 109, 1)',margin:'2px'}}/>
                     <Typography sx={{ fontSize: 10}} color="text.secondary" gutterBottom> 
@@ -1027,10 +1152,26 @@ export default function DrawerMapShow({ activeBar }) {
                     Adaptation benefits
                     </Typography>
                     </Box>
-         </Box>
-        <Paper elevation={1} sx={{width:'21vw'}}>
+         </Box> */}
+        <Paper elevation={1} sx={{width:'21vw'}} ref={box6}>
         <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt7} area_dict={area_dict}  activeScenario={NameScenario}></Map_Option>
         </Paper>
+        <Popper
+                            open={true} // Always open
+                            anchorEl={box6.current} // Anchor to the Grid container
+                            placement="bottom" // Position it at the bottom
+                            disablePortal={true} // Stay within the DOM hierarchy
+                            modifiers={[
+                                {
+                                name: "offset",
+                                options: {
+                                    offset: [90,-85], // Adjust distance from the container
+                                },
+                                },
+                            ]}
+                            >
+                            {legendComp}
+                            </Popper>
         </div>
         </Box>
         </Box>

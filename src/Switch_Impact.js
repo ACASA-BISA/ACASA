@@ -114,7 +114,7 @@ export default function SwitchImpact({
   return (
     <FormControl component="fieldset" variant="standard"  sx={{paddingBottom:1, paddingLeft:3}}>
       {exploreType==='Commodity' && <FormLabel sx={{display:'flex',paddingBottom:1}}>
-        <Typography sx={{color:'black',fontWeight:'bold',fontSize:14,paddingTop:2,}}>Select Impact on {cropname.toLowerCase()}</Typography><br/>
+        <Typography sx={{color:'black',fontWeight:'bold',fontSize:14,paddingTop:2,}}>Select impact on {cropname.toLowerCase()}</Typography><br/>
         </FormLabel>}
         {exploreType==='Regional' && <FormLabel sx={{display:'flex',paddingBottom:1}}>
         <Typography sx={{color:'black',fontWeight:'bold',fontSize:14,paddingTop:2,}}>Select Impact</Typography><br/>
