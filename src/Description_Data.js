@@ -5,8 +5,15 @@ import {
   Typography,
   Box,
   Grid,
+  FormControl, 
+  InputLabel, 
+  Select, 
+  MenuItem, 
   IconButton,
+  TextField,
+  InputAdornment,
 } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 import DownloadIcon from "@mui/icons-material/Download";
 
 // Importing the DataCatalog function to create card components
@@ -607,7 +614,7 @@ export default function Description() {
   // Function to download files dynamically and zip them (only for grouped downloads)
   function downloadZippedFiles(filePaths, fileNames, zipFileName) {
     const zip = new JSZip();
-  
+
     // Create an array of promises for fetching files
     const fetchPromises = filePaths.map((filePath, index) =>
       fetch(filePath)
@@ -624,7 +631,7 @@ export default function Description() {
           console.error("Error fetching file:", err);
         })
     );
-  
+
     // Wait for all fetch requests to complete
     Promise.all(fetchPromises)
       .then(() => {
@@ -641,7 +648,7 @@ export default function Description() {
       .catch((err) => {
         console.error("Error generating zip file:", err);
       });
-  }  
+  }
 
   // Get unique values from the data array
   const getUniqueValues = (key) => [...new Set(data.map((item) => item[key]))];
@@ -785,9 +792,15 @@ export default function Description() {
                   <Typography>Download Group</Typography>
                 </span>
               </IconButton>
+
+              
               <select
                 value={selectedCommodity}
-                onChange={(e) => setSelectedCommodity(e.target.value)}
+                onChange={(e) => {
+                  setSelectedCommodity(e.target.value);
+                  setSelectedScenario(""); // Resets the scenario
+                  setSelectedLayerType(""); // Resets the layer type
+                }}
               >
                 <option value="">Commodity</option>
                 <optgroup label="Cereals">
