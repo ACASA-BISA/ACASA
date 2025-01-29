@@ -155,7 +155,15 @@ export const DataCatalog = ({
               {title}
             </Typography>
           )}
-        </div>
+           <div className="download-icon" onClick={onButtonClick}>
+            <Tooltip title="Download" arrow>
+            <IconButton>
+              <DownloadIcon sx={{ fontSize: 18, color: "white", padding: 0}}/>
+            </IconButton>
+            </Tooltip>
+
+          </div>
+        
 
         {/* Hover Content */}
         <div className="card-hover-content">
@@ -198,15 +206,7 @@ export const DataCatalog = ({
               {model}
             </Typography>
           )}
-          
-          <div className="download-icon" onClick={onButtonClick}>
-            <Tooltip title="Download" arrow>
-            <IconButton>
-              <DownloadIcon sx={{ fontSize: 18, color: "white", padding: 0}}/>
-            </IconButton>
-            </Tooltip>
-
-          </div>
+        </div>
         </div>
       </div>
     </div>

@@ -785,22 +785,13 @@ export default function Description() {
 
           <div className="filter-container">
             <div className="card-filters">
-              <IconButton
-                onClick={handleGroupedDownload}
-                className="download-icon-button"
-              >
-                <DownloadIcon />
-                <span className="button-text">
-                  <Typography>Download Group</Typography>
-                </span>
-              </IconButton>
 
               <FormControl
                 sx={{
                   minWidth: 130,
                   "& .MuiOutlinedInput-root": {
                     "& fieldset": {
-                      borderColor: "#ccc"
+                      borderColor: "#ccc", 
                     },
                     "&:hover fieldset": {
                       borderColor: "#ccc",
@@ -970,6 +961,16 @@ export default function Description() {
                   <MenuItem value="Vulnerability">Vulnerability</MenuItem>
                 </Select>
               </FormControl>
+
+              <IconButton
+                onClick={handleGroupedDownload}
+                className="download-icon-button"
+              >
+                <DownloadIcon />
+                <span className="button-text">
+                  <Typography>Download Group</Typography>
+                </span>
+              </IconButton>
 
               <TextField
                 variant="outlined"
