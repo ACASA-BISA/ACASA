@@ -5,13 +5,15 @@ import {
   Typography,
   Box,
   Grid,
-  FormControl, 
-  InputLabel, 
-  Select, 
-  MenuItem, 
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
   IconButton,
   TextField,
   InputAdornment,
+  Menu,
+  ListSubheader,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import DownloadIcon from "@mui/icons-material/Download";
@@ -24,7 +26,7 @@ import { create } from "ol/transform";
 
 // Mapping for different layer types
 const layerMappings = {
-  // Mapping of adaptation options to codes
+  // Mapping of adaptation MenuItems to codes
   optcode: {
     "Stress Tolerant Variety": "ADVAR",
     "Early Sowing": "ADPTI",
@@ -793,99 +795,221 @@ export default function Description() {
                 </span>
               </IconButton>
 
-              
-              <select
-                value={selectedCommodity}
-                onChange={(e) => {
-                  setSelectedCommodity(e.target.value);
-                  setSelectedScenario(""); // Resets the scenario
-                  setSelectedLayerType(""); // Resets the layer type
+              <FormControl
+                sx={{
+                  minWidth: 130,
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: "#ccc"
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "#ccc",
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "#ccc", 
+                      borderWidth: 1, 
+                    },
+                  },
+                  "& .MuiInputLabel-root": {
+                    color: "#666", 
+                  },
+                  "& .MuiInputLabel-root.Mui-focused": {
+                    color: "#666", 
+                  },
                 }}
+                size="small"
               >
-                <option value="">Commodity</option>
-                <optgroup label="Cereals">
-                  <option value="Rice">Rice</option>
-                  <option value="Wheat">Wheat</option>
-                  <option value="Maize">Maize</option>
-                  <option value="Barley">Barley</option>
-                  <option value="Finger Millet">Finger Millet</option>
-                  <option value="Pearl Millet">Pearl Millet</option>
-                </optgroup>
+                <InputLabel id="demo-select-small-label">Commodity</InputLabel>
+                <Select
+                  labelId="demo-select-small-label"
+                  id="demo-select-small"
+                  value={selectedCommodity}
+                  onChange={(e) => {
+                    setSelectedCommodity(e.target.value);
+                    setSelectedScenario(""); // Resets the scenario
+                    setSelectedLayerType(""); // Resets the layer type
+                  }}
+                  label="Commodity"
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
 
-                <optgroup label="Legumes">
-                  <option value="Chickpea">Chickpea</option>
-                  <option value="Pigeonpea">Pigeonpea</option>
-                  <option value="Black Gram">Black Gram</option>
-                  <option value="Green Gram">Green Gram</option>
-                  <option value="Lentil">lentil</option>
-                </optgroup>
+                  <ListSubheader>Cereals</ListSubheader>
+                  <MenuItem value="Rice">Rice</MenuItem>
+                  <MenuItem value="Wheat">Wheat</MenuItem>
+                  <MenuItem value="Maize">Maize</MenuItem>
+                  <MenuItem value="Barley">Barley</MenuItem>
+                  <MenuItem value="Finger Millet">Finger Millet</MenuItem>
+                  <MenuItem value="Pearl Millet">Pearl Millet</MenuItem>
 
-                <optgroup label="Oilseeds">
-                  <option value="Soybean">Soybean</option>
-                  <option value="Safflower">Safflower</option>
-                  <option value="Sunflower">Sunflower</option>
-                  <option value="Mustard">Mustard</option>
-                  <option value="Sesame">Sesame</option>
-                  <option value="Groundnut">Groundnut</option>
-                </optgroup>
+                  <ListSubheader>Legumes</ListSubheader>
+                  <MenuItem value="Chickpea">Chickpea</MenuItem>
+                  <MenuItem value="Pigeonpea">Pigeonpea</MenuItem>
+                  <MenuItem value="Black Gram">Black Gram</MenuItem>
+                  <MenuItem value="Green Gram">Green Gram</MenuItem>
+                  <MenuItem value="Lentil">lentil</MenuItem>
 
-                <optgroup label="Fruits & Vegetables">
-                  <option value="Potato">Potato</option>
-                  <option value="Onion">Onion</option>
-                  <option value="Tomato">Tomato</option>
-                  <option value="Chillies">Chillies</option>
-                  <option value="Mango">Mango</option>
-                  <option value="Banana">Banana</option>
-                </optgroup>
+                  <ListSubheader>Oilseeds</ListSubheader>
+                  <MenuItem value="Soybean">Soybean</MenuItem>
+                  <MenuItem value="Safflower">Safflower</MenuItem>
+                  <MenuItem value="Sunflower">Sunflower</MenuItem>
+                  <MenuItem value="Mustard">Mustard</MenuItem>
+                  <MenuItem value="Sesame">Sesame</MenuItem>
+                  <MenuItem value="Groundnut">Groundnut</MenuItem>
 
-                <optgroup label="Industrial">
-                  <option value="Cotton">Cotton</option>
-                  <option value="Jute">Jute</option>
-                  <option value="Rubber">Rubber</option>
-                  <option value="Sugarcane">Sugarcane</option>
-                  <option value="Tea">Tea</option>
-                  <option value="Coconut">Coconut</option>
-                </optgroup>
+                  <ListSubheader>Fruits & Vegetables</ListSubheader>
+                  <MenuItem value="Potato">Potato</MenuItem>
+                  <MenuItem value="Onion">Onion</MenuItem>
+                  <MenuItem value="Tomato">Tomato</MenuItem>
+                  <MenuItem value="Chillies">Chillies</MenuItem>
+                  <MenuItem value="Mango">Mango</MenuItem>
+                  <MenuItem value="Banana">Banana</MenuItem>
 
-                <optgroup label="Livestock">
-                  <option value="Cattle">Cattle</option>
-                  <option value="Buffalo">Buffalo</option>
-                  <option value="Goat">Goat</option>
-                  <option value="Sheep">Sheep</option>
-                  <option value="Pig">Pig</option>
-                  <option value="Poultry">Poultry</option>
-                </optgroup>
-              </select>
+                  <ListSubheader>Industrial</ListSubheader>
+                  <MenuItem value="Cotton">Cotton</MenuItem>
+                  <MenuItem value="Jute">Jute</MenuItem>
+                  <MenuItem value="Rubber">Rubber</MenuItem>
+                  <MenuItem value="Sugarcane">Sugarcane</MenuItem>
+                  <MenuItem value="Tea">Tea</MenuItem>
+                  <MenuItem value="Coconut">Coconut</MenuItem>
 
-              <select
-                value={selectedScenario}
-                onChange={(e) => setSelectedScenario(e.target.value)}
+                  <ListSubheader>Livestock</ListSubheader>
+                  <MenuItem value="Cattle">Cattle</MenuItem>
+                  <MenuItem value="Buffalo">Buffalo</MenuItem>
+                  <MenuItem value="Goat">Goat</MenuItem>
+                  <MenuItem value="Sheep">Sheep</MenuItem>
+                  <MenuItem value="Pig">Pig</MenuItem>
+                  <MenuItem value="Poultry">Poultry</MenuItem>
+                </Select>
+              </FormControl>
+
+              <FormControl
+                sx={{
+                  minWidth: 120,
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: "#ccc", 
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "#ccc", 
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "#ccc", 
+                      borderWidth: 1, 
+                    },
+                  },
+                  "& .MuiInputLabel-root": {
+                    color: "#666", 
+                  },
+                  "& .MuiInputLabel-root.Mui-focused": {
+                    color: "#666", 
+                  },
+                }}
+                size="small"
               >
-                <option value="">Scenario</option>
-                <option value="Baseline">Baseline</option>
-                <option value="SSP 2-4.5">SSP 2-4.5</option>
-                <option value="SSP 5-8.5">SSP 5-8.5</option>
-              </select>
+                <InputLabel id="demo-select-small-label">Scenario</InputLabel>
+                <Select
+                  labelId="demo-select-small-label"
+                  id="demo-select-small"
+                  value={selectedScenario}
+                  onChange={(e) => setSelectedScenario(e.target.value)}
+                  label="Scenario"
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  <MenuItem value="Baseline">Baseline</MenuItem>
+                  <MenuItem value="SSP 2-4.5">SSP 2-4.5</MenuItem>
+                  <MenuItem value="SSP 5-8.5">SSP 5-8.5</MenuItem>
+                </Select>
+              </FormControl>
 
-              <select
-                value={selectedLayerType}
-                onChange={(e) => setSelectedLayerType(e.target.value)}
+              <FormControl
+                sx={{
+                  minWidth: 120,
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: "#ccc", 
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "#ccc", 
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "#ccc", 
+                      borderWidth: 1, 
+                    },
+                  },
+                  "& .MuiInputLabel-root": {
+                    color: "#666", 
+                  },
+                  "& .MuiInputLabel-root.Mui-focused": {
+                    color: "#666", 
+                  },
+                }}
+                size="small"
               >
-                <option value="">Layer Type</option>
-                <option value="Hazard">Hazard</option>
-                <option value="Risk">Risk</option>
-                <option value="Adaptation">Adaptation</option>
-                <option value="Direct Adaptation">Direct Adaptation</option>
-                <option value="Exposure">Exposure</option>
-                <option value="Vulnerability">Vulnerability</option>
-              </select>
+                <InputLabel id="demo-select-small-label">Layer Type</InputLabel>
+                <Select
+                  labelId="demo-select-small-label"
+                  id="demo-select-small"
+                  value={selectedLayerType}
+                  onChange={(e) => setSelectedLayerType(e.target.value)}
+                  label="Layer Type"
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  <MenuItem value="Hazard">Hazard</MenuItem>
+                  <MenuItem value="Risk">Risk</MenuItem>
+                  <MenuItem value="Adaptation">Adaptation</MenuItem>
+                  <MenuItem value="Direct Adaptation">
+                    Direct Adaptation
+                  </MenuItem>
+                  <MenuItem value="Exposure">Exposure</MenuItem>
+                  <MenuItem value="Vulnerability">Vulnerability</MenuItem>
+                </Select>
+              </FormControl>
 
+              <TextField
+                variant="outlined"
+                size="small"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon />
+                    </InputAdornment>
+                  ),
+                }}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: "#ccc", // Light border color by default
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "#ccc", // Same border on hover
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "#ccc", // Prevent blue focus outline
+                      borderWidth: 1, // Maintain same width on focus
+                    },
+                  },
+                }}
+                style={{ width: "100%" }}
+                inputProps={{
+                  "aria-label": "search", // Accessibility
+                }}
+              />
+
+              {/* Simple search bar
               <input
                 type="text"
                 placeholder="Search"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-              />
+              />*/}
             </div>
           </div>
 
