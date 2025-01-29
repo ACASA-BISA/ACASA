@@ -26,8 +26,8 @@ export default function SwitchRisk2({
   const switchRegional = ['Base climate','Hazard','Exposure','Vulnerability',"Risk indices"];
   const switchIPCCID = ['basic','hazard','exposure','vulner','risk'];
 
-  const switchRisk = ['Risk Index','Hazard Index','Vulnerability Index','Exposure Index'];
-  const switchRiskID = ['riskindex','HINDEX','vulne','expoindex'];
+  const switchRisk = ['Risk Index','Hazard Index','Exposure Index','Vulnerability Index'];
+  const switchRiskID = ['riskindex','HINDEX','expoindex','vulne'];
   
   const switchBasic = ['Seasonal Rainfall','Maximum Temperature','Minimum Temperature'];
   const switchBasicID = ['seasonalrain','maxtemp','mintemp'];

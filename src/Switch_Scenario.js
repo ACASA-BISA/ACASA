@@ -112,7 +112,7 @@ export default function SwitchScenario({
      </FormGroup>
       ))}
       <FormLabel sx={{display:'flex',paddingBottom:1}}>
-        <Typography sx={{color:'black',fontWeight:'bold',fontSize:14,paddingTop:2,}}>Select model</Typography><br/>
+        <Typography sx={{color:'black',fontWeight:'bold',fontSize:14,paddingTop:2,}}>Select data source</Typography><br/>
         </FormLabel>
       {switchh2.map((sname,index) => (
         <FormGroup>
