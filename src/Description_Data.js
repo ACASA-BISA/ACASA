@@ -613,6 +613,39 @@ export default function Description() {
     );
   });
 
+  const [totalFileSize, setTotalFileSize] = React.useState(0);
+
+  // Function to calculate total file size before downloading
+  function calculateTotalSize(filePaths) {
+    let totalSize = 0;
+    let failed = false;
+
+    const fetchPromises = filePaths.map((filePath) =>
+      fetch(filePath)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`Failed to fetch: ${filePath}`);
+          }
+          return response.blob();
+        })
+        .then((blob) => {
+          totalSize += blob.size;
+        })
+        .catch((err) => {
+          console.error("Error fetching file:", err);
+          failed = true;
+        })
+    );
+
+    Promise.all(fetchPromises).then(() => {
+      if (failed) {
+        console.error("One or more files failed to fetch.");
+        return;
+      }
+      setTotalFileSize(totalSize);
+    });
+  }
+
   // Function to download files dynamically and zip them (only for grouped downloads)
   function downloadZippedFiles(filePaths, fileNames, zipFileName) {
     const zip = new JSZip();
@@ -741,6 +774,15 @@ export default function Description() {
       });
   }
 
+  // Utility function to format file size
+  function formatFileSize(size) {
+    if (size < 1024) return `${size} B`;
+    if (size < 1024 * 1024) return `${(size / 1024).toFixed(2)} KB`;
+    if (size < 1024 * 1024 * 1024)
+      return `${(size / (1024 * 1024)).toFixed(2)} MB`;
+    return `${(size / (1024 * 1024 * 1024)).toFixed(2)} GB`;
+  }
+
   //The page structure
   return (
     <div>
@@ -785,27 +827,26 @@ export default function Description() {
 
           <div className="filter-container">
             <div className="card-filters">
-
               <FormControl
                 sx={{
                   minWidth: 130,
                   "& .MuiOutlinedInput-root": {
                     "& fieldset": {
-                      borderColor: "#ccc", 
+                      borderColor: "#ccc",
                     },
                     "&:hover fieldset": {
                       borderColor: "#ccc",
                     },
                     "&.Mui-focused fieldset": {
-                      borderColor: "#ccc", 
-                      borderWidth: 1, 
+                      borderColor: "#ccc",
+                      borderWidth: 1,
                     },
                   },
                   "& .MuiInputLabel-root": {
-                    color: "#666", 
+                    color: "#666",
                   },
                   "& .MuiInputLabel-root.Mui-focused": {
-                    color: "#666", 
+                    color: "#666",
                   },
                 }}
                 size="small"
@@ -880,21 +921,21 @@ export default function Description() {
                   minWidth: 120,
                   "& .MuiOutlinedInput-root": {
                     "& fieldset": {
-                      borderColor: "#ccc", 
+                      borderColor: "#ccc",
                     },
                     "&:hover fieldset": {
-                      borderColor: "#ccc", 
+                      borderColor: "#ccc",
                     },
                     "&.Mui-focused fieldset": {
-                      borderColor: "#ccc", 
-                      borderWidth: 1, 
+                      borderColor: "#ccc",
+                      borderWidth: 1,
                     },
                   },
                   "& .MuiInputLabel-root": {
-                    color: "#666", 
+                    color: "#666",
                   },
                   "& .MuiInputLabel-root.Mui-focused": {
-                    color: "#666", 
+                    color: "#666",
                   },
                 }}
                 size="small"
@@ -921,21 +962,21 @@ export default function Description() {
                   minWidth: 120,
                   "& .MuiOutlinedInput-root": {
                     "& fieldset": {
-                      borderColor: "#ccc", 
+                      borderColor: "#ccc",
                     },
                     "&:hover fieldset": {
-                      borderColor: "#ccc", 
+                      borderColor: "#ccc",
                     },
                     "&.Mui-focused fieldset": {
-                      borderColor: "#ccc", 
-                      borderWidth: 1, 
+                      borderColor: "#ccc",
+                      borderWidth: 1,
                     },
                   },
                   "& .MuiInputLabel-root": {
-                    color: "#666", 
+                    color: "#666",
                   },
                   "& .MuiInputLabel-root.Mui-focused": {
-                    color: "#666", 
+                    color: "#666",
                   },
                 }}
                 size="small"
@@ -963,12 +1004,22 @@ export default function Description() {
               </FormControl>
 
               <IconButton
+                onMouseEnter={() => {
+                  const { filePaths } = getFilePathsAndNames();
+                  if (filePaths.length > 0) {
+                    calculateTotalSize(filePaths);
+                  }
+                }}
                 onClick={handleGroupedDownload}
                 className="download-icon-button"
               >
                 <DownloadIcon />
                 <span className="button-text">
-                  <Typography>Download Group</Typography>
+                  <Typography>
+                    {totalFileSize === 0
+                      ? "Download Group - Calculating..."
+                      : `Download Group - ${formatFileSize(totalFileSize)}`}
+                  </Typography>
                 </span>
               </IconButton>
 
