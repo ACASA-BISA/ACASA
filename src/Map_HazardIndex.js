@@ -433,7 +433,7 @@ export default function Map_Index({
       }}
       PopperProps={{style:{zIndex:0}}}
     >
-        <div ref={ref} style={{position:'relative',height:'calc(100vh - 218px)',width:'auto',marginLeft:0,marginRight:0}} className="map-container" />
+        <div ref={ref} style={{position:'relative',height:'calc(100vh - 208px)',width:'auto',marginLeft:0,marginRight:0}} className="map-container" />
         </Tooltip>
 
     <Popper

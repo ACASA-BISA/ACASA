@@ -14,9 +14,11 @@ import GeoTIFF from 'ol/source/GeoTIFF.js';
 import GeoJSON from 'ol/format/GeoJSON.js';
 import TileLayer2 from 'ol/layer/Tile';
 import tilesource from 'ol/source/TileJSON';
-import {ZoomToExtent, FullScreen, defaults as defaultControls} from 'ol/control.js';
+import {Control, ZoomToExtent, FullScreen, Zoom} from 'ol/control.js';
 import './olsm.css';
 import { Tooltip,Typography,Box } from '@mui/material';
+import ReactDOMServer from 'react-dom/server';
+import DownloadIcon from '@mui/icons-material/Download';
 
 const optcode = {'Stress Tolerant Variety':'ADVAR','Early Sowing':'ADPTI','Precision Land Levelling':'LASLV','Zero Tillage with residues':'ZTILL','Broad Bed and Furrow':'BBFIB',
   'Direct Seeded Rice - Dry':'DSDRY','Direct Seeded Rice - Wet':'DSWET','System of Rice Intensification':'SRIUT','Supplemental Irrigation':'WHSRC','Microirrigation':'MICIR','Precision Water Management':'PWMGT',
@@ -27,7 +29,7 @@ const optcode = {'Stress Tolerant Variety':'ADVAR','Early Sowing':'ADPTI','Preci
 
 export default function Map_Adaptation({
   activeCrop, focus='Region', activeRegion,
-  activeOpt
+  activeOpt, activeScenario
 }) {
     const ref = useRef(null);
     const mapRef = useRef(null);
@@ -76,6 +78,78 @@ export default function Map_Adaptation({
 
     const key = 'TrN2dn4maoO3C2x0sUpH';
 
+    let filename = "";
+
+    if(activeOpt!==''){
+      filename = activeCrop+"_"+activeOpt+"_"+activeScenario+'.tiff';
+    }
+    else{
+      filename = activeCrop+"_CropMask_"+activeScenario+".tiff";
+    }
+
+    // Use React to create an MUI icon element
+    const iconElement = (
+      <DownloadIcon
+        style={{
+          fontSize: '12px', 
+          verticalAlign: 'middle',
+        }}
+      />
+    );
+
+    // Define the download control
+  class DownloadControl extends Control {
+    constructor(options = {}) {
+      const button = document.createElement('button');
+      button.innerHTML = ReactDOMServer.renderToString(iconElement);;
+      button.title = 'Download GeoTIFF Layer';
+
+      const element = document.createElement('div');
+      element.className = 'ol-control custom-download-control download-button';
+      element.appendChild(button);
+
+      super({
+        element: element,
+        target: options.target,
+      });
+
+      // Add event listener for the button click
+      button.addEventListener('click', this.handleDownload.bind(this), false);
+    }
+
+    handleDownload() {
+      const map = this.getMap(); // Get the map instance
+      const layers = map.getLayers().getArray(); // Get all layers on the map
+
+      // Find the GeoTIFF layer
+      const geoTiffLayer = layers.find(
+        (layer) => layer.getSource() instanceof GeoTIFF
+      );
+
+      if (geoTiffLayer) {
+        const source_tiff = geoTiffLayer.getSource();
+        // Access the URL from the `key_` property
+        const geoTiffUrl = source_tiff.key_;
+        if (geoTiffUrl) {
+          this.downloadFile(geoTiffUrl, filename); // Trigger the download
+        } else {
+          alert('No URL found for the GeoTIFF layer.');
+        }
+      } else {
+        alert('No GeoTIFF layer is currently displayed on the map.');
+      }
+    }
+
+    downloadFile(url, filename) {
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+  }
+
 
     const sourcemap = new tilesource({
       url: `https://api.maptiler.com/maps/bright-v2/tiles.json?key=${key}`, // source URL
@@ -89,18 +163,6 @@ export default function Map_Adaptation({
     zIndex:10,
   });
 
-/*     const BingMapNew = new TileLayer2({
-      preload: Infinity,
-      source: new BingMaps({
-        key: 'AvUc2NPj5dHI1yefH-oLqI4_EzAKBjyYTg3dM9c9lUrZglsLsvB1usgVz330xsZC',
-        imagerySet: 'RoadOnDemand',
-        // use maxZoom 19 to see stretched tiles instead of the BingMaps
-        // "no photos at this zoom level" tiles
-        // maxZoom: 19
-      }),
-      opacity:0.8,
-      zIndex:10,
-    }); */
     let defext = [
       6731721.531032621,
       -79003.34768295793,
@@ -111,15 +173,21 @@ export default function Map_Adaptation({
     useEffect(() => {
       if (ref.current && !mapRef.current) {
         mapRef.current = new Map({
-          controls: defaultControls().extend([
+          controls: [
             new ZoomToExtent({
               extent: defext,
               className: 'ol-zoomtoextenty'
             }),
+          new Zoom({
+            className: 'ol-zoom-comp' 
+          }),
             new FullScreen({
               className: 'ol-fullscreeny'
             }),
-          ]),
+            new DownloadControl({
+              className: 'download-button'
+            })
+          ],
           target: ref.current,
           layers: [BingMapNew],
           view: ViewV,
@@ -408,7 +476,7 @@ export default function Map_Adaptation({
 
     return (
       <div>
-        <div ref={ref} style={{height:'calc(33vh - 40px)',width:'auto',marginBottom:'-29px'}} className="map-container" />
+        <div ref={ref} style={{height:'calc(50vh - 60px)',width:'auto',marginBottom:'-29px'}} className="map-container" />
       </div>
     );
 }

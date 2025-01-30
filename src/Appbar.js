@@ -27,7 +27,7 @@ import Feedback1 from './Feedback';
 import Translate from "./Translate"; // Import Translate component
 
 const pages = ['Guide','Explore Data', 'Data at a glance','Data Access','Use Cases','Resources','About Us'];
-const pageid = ['guide','viewer', 'analytics','access','usecase','resources','about'];
+const pageid = ['guide','exploredata', 'adaptationataglance','access','usecase','resources','about'];
 const AppBarHeight = '85px';
 
 function ResponsiveAppBar({}) {
@@ -41,11 +41,11 @@ function ResponsiveAppBar({}) {
       if (strr !== "") {
         setflag(strr);
       }
-      if (strr === 'hazards'){
-        setflag('analytics');
+      if (strr === 'hazardataglance'){
+        setflag('adaptationataglance');
       }
       if (strr === "future"){
-        setflag('viewer');
+        setflag('exploredata');
       }
     };
     handleUrlChange();
@@ -238,7 +238,7 @@ function ResponsiveAppBar({}) {
                     //MenuListProps={{ onMouseLeave: handleCloseUserMenu }}
                   >
                     
-                      <a href="/#/viewer" style={{textDecoration: 'none'}}>
+                      <a href="/#/exploredata" style={{textDecoration: 'none'}}>
                       <MenuItem onClick={handleClick}>
                         <Typography textAlign="center" fontSize={13} color='#222222' sx={{fontFamily:"Karla",fontWeight:350}}>Linear Exploration</Typography>
                       </MenuItem>
@@ -291,36 +291,41 @@ function ResponsiveAppBar({}) {
                     //MenuListProps={{ onMouseLeave: handleCloseUserMenu }}
                   >
                     {/* {opts.map((setting) => (<div></div>))} */}
-                      <a href="/#/hazards" style={{textDecoration: 'none'}}>
+                      <a href="/#/hazardataglance" style={{textDecoration: 'none'}}>
                       <MenuItem onClick={handleClick}>
                         <Typography textAlign="center" fontSize={13} color='#222222' sx={{fontFamily:"Karla",fontWeight:350}}>Hazards at a glance</Typography>
                       </MenuItem>
                       </a>
-                      <a href="/#/analytics" style={{textDecoration: 'none'}}>
+                      <a href="/#/adaptationataglance" style={{textDecoration: 'none'}}>
                       <MenuItem onClick={handleClick}>
                           <Typography textAlign="center" fontSize={13} color='#222222' sx={{fontFamily:"Karla",fontWeight:350}}>Adaptation at a glance</Typography>  
                       </MenuItem>
                       </a>
-                      <a href="/#/summary" style={{textDecoration: 'none'}}>
+                      {/* <a href="/#/summary" style={{textDecoration: 'none'}}>
                       <MenuItem onClick={handleClick}>
                         <Typography textAlign="center" fontSize={13} color='#222222' sx={{fontFamily:"Karla",fontWeight:350}}>Summary Statistics</Typography>
                       </MenuItem>
-                      </a>
-                      <a href="/#/comparison" style={{textDecoration: 'none'}}>
+                      </a> */}
+                      {/* <a href="/#/comparison" style={{textDecoration: 'none'}}>
                       <MenuItem onClick={handleClick}>
                         <Typography textAlign="center" fontSize={13} color='#222222' sx={{fontFamily:"Karla",fontWeight:350}}>Comparison</Typography>
                       </MenuItem>
-                      </a>
-                      <a href="/#/timeline" style={{textDecoration: 'none'}}>
+                      </a> */}
+                      {/* <a href="/#/timeline" style={{textDecoration: 'none'}}>
                       <MenuItem onClick={handleClick}>
                         <Typography textAlign="center" fontSize={13} color='#222222' sx={{fontFamily:"Karla",fontWeight:350}}>Timeline</Typography>
                       </MenuItem>
-                      </a>
-                      <a href="/#/adaptation" style={{textDecoration: 'none'}}>
+                      </a> */}
+                      {/* <a href="/#/adaptation" style={{textDecoration: 'none'}}>
                       <MenuItem onClick={handleClick}>
                         <Typography textAlign="center" fontSize={13} color='#222222' sx={{fontFamily:"Karla",fontWeight:350}}>Adaptation Analytics</Typography>
                       </MenuItem>
-                      </a>
+                      </a> */}
+                      {/* <a href="/#/adaptation2" style={{textDecoration: 'none'}}>
+                      <MenuItem onClick={handleClick}>
+                        <Typography textAlign="center" fontSize={13} color='#222222' sx={{fontFamily:"Karla",fontWeight:350}}>Adaptation Analytics</Typography>
+                      </MenuItem>
+                      </a> */}
                   </Menu>
                 </div>}
               </div>
@@ -359,11 +364,11 @@ function ResponsiveAppBar({}) {
                             element={<DrawerMapShow activeBar='about'/>}
                         ></Route>
                         <Route
-                            path="/viewer"
+                            path="/exploredata"
                             element={<DrawerMapShow activeBar='future'/>}
                         ></Route>
                         <Route
-                            path="/analytics"
+                            path="/adaptationataglance"
                             element={<DrawerMapShow activeBar='analytics'/>}
                         ></Route>
                         <Route
@@ -383,7 +388,7 @@ function ResponsiveAppBar({}) {
                             element={<DrawerMapShow activeBar='guide'/>}
                         ></Route>
                         <Route
-                            path="/hazards"
+                            path="/hazardataglance"
                             element={<DrawerMapShow activeBar='hazards'/>}
                         ></Route>
                         <Route
@@ -405,6 +410,10 @@ function ResponsiveAppBar({}) {
                         <Route
                             path="/adaptation"
                             element={<DrawerMapShow activeBar='adaptation'/>}
+                        ></Route>
+                        <Route
+                            path="/adaptation2"
+                            element={<DrawerMapShow activeBar='adaptation2'/>}
                         ></Route>
                         <Route
                             path="/feedback"

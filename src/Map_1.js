@@ -752,7 +752,7 @@ export default function MApp({
     setOverl2(null);
   }
 
-  if(activeOpt!=='' || CurrRisk!=='' || activeImpact['Impact on Productivity'] || activeImpact['Value of Production']) {
+  if(activeOpt!=='' || CurrRisk!=='' || activeImpact['Productivity'] || activeImpact['Value of Production']) {
 
   if (source1) {
     const newOverl2 = new TileLayer({
@@ -796,7 +796,7 @@ useEffect(() => {
       'High tempearture during flowering':'High tempearture during flowering','Biotic Stress':'Biotic stress',"Vulnerability Index":'Vulnerability Index',
       "Feed/Fodder":'Residue',"Rural infrastructure":'Road network density',"Cyclone":'Cyclone',"Rainfall Deficit":"Rainfall deficit",
       "Extreme Rainfall days":"Extreme Rainfall Days","Cold days":"Cold Stress","Hot days":"Heat stress or hot days","Temperature-Humidity Index":'THI',
-      "Socio-economic Development Indicator":"Human development index"};
+      "Economic Development Indicator":"Human development index"};
 
     if (activeCrop === "" || activeCrop === "blank"){
       settiffFilePath("");
@@ -833,10 +833,10 @@ useEffect(() => {
       settiffFilePath(urlstr);
       source1 = new GeoTIFF({sources: [{ url: urlstr}],sourceOptions:{allowFullFile:true}});
     }
-    else if(activeImpact['Impact on Productivity'] || activeImpact['Value of Production']){
+    else if(activeImpact['Productivity'] || activeImpact['Value of Production']){
       let urlstr = "xyz.tif";
       opt=3;
-      if(activeImpact['Impact on Productivity']){
+      if(activeImpact['Productivity']){
         urlstr = "./Impact/"+activeCrop+"_DR.tif";
       }
       settiffFilePath(urlstr);

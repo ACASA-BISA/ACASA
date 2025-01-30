@@ -10,7 +10,9 @@ export default function Selection_bar({
     adaption,
     RiskName,
     scenario,
-    ImpactName
+    ImpactName,
+    modelName,
+    exploreType
 }) {
   
 
@@ -33,8 +35,8 @@ export default function Selection_bar({
         if(RiskName==='Exposure Index'||RiskName==='Number of Animals per grid'||RiskName==='Cropped Area') {
         str = 'Exposure';
         }
-        if(RiskName==='Vulnerability Index'||RiskName==='Irrigation'||RiskName==='Soil Water Holding Capacity'||RiskName==='Income'||RiskName==='Soil Organic Carbon'
-        ||RiskName==='Feed/Fodder'||RiskName==='Rural infrastructure'||RiskName==='Socio-economic Development Indicator') {
+        if(RiskName==='Vulnerability Index'||RiskName==='Irrigation'||RiskName==='Soil Water Holding Capacity'||RiskName==='Agriculture Income'||RiskName==='Soil Organic Carbon'
+        ||RiskName==='Feed/Fodder'||RiskName==='Rural infrastructure'||RiskName==='Economic Development Indicator') {
         str = 'Vulnerability';
         }
         return str;
@@ -50,15 +52,16 @@ export default function Selection_bar({
                 {location}
                 </Typography>
             </Box>
-            <ChevronRightIcon/>
-            <Box sx={{display:'flex',flexDirection:'row'}}>
+            
+            {exploreType === 'Commodity' && <Box sx={{display:'flex',flexDirection:'row'}}>
+              <ChevronRightIcon/>
                 <Typography sx={{ fontSize: 14 }} color="black" gutterBottom>
                 Commodity:&nbsp;
                 </Typography>
                 <Typography sx={{ fontSize: 14, }} color="text.secondary" >
                 {commodity}
                 </Typography>
-            </Box>
+            </Box>}
             <ChevronRightIcon/>
             <Box sx={{display:'flex',flexDirection:'row'}}>
                 <Typography sx={{ fontSize: 14 }} color="black" gutterBottom>
@@ -66,6 +69,15 @@ export default function Selection_bar({
                 </Typography>
                 <Typography sx={{ fontSize: 14 }} color="text.secondary" >
                 {scenario}
+                </Typography>
+            </Box>
+            <ChevronRightIcon/>
+            <Box sx={{display:'flex',flexDirection:'row'}}>
+                <Typography sx={{ fontSize: 14 }} color="black" gutterBottom>
+                Model:&nbsp;
+                </Typography>
+                <Typography sx={{ fontSize: 14 }} color="text.secondary" >
+                {modelName}
                 </Typography>
             </Box>
             {adaption !== '' &&

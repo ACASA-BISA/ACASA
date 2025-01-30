@@ -71,7 +71,7 @@ const partnersData = {
     name: "Sri Lanka",
     menuItems: [
         "Department of Agriculture - Natural Resources Management Center (NRMC) | Peradeniya",
-        "Department of Agriculture - Socio-Economic Planning Center) | Peradeniya",
+        "Department of Agriculture - Economic Planning Center) | Peradeniya",
         "Department of Agriculture - Fruit Crop Research and Development Institute | Gannoruwa",
         "Department of Agriculture - Field Crop Research and Development Institute | Mahailluppallama",
         "Department of Agriculture - Rice Research and Development Institute | Bathalagoda",

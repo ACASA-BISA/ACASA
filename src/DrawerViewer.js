@@ -18,6 +18,7 @@ import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import SwitchRisk2 from './Switch_Risk2';
 import SwitchImpact from './Switch_Impact';
 import SwitchScenario from './Switch_Scenario';
+import SwitchScale from './Switch_Scale';
 import { styled } from '@mui/material/styles';
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import './font.css';
@@ -25,8 +26,8 @@ import './font2.css';
 
 const top_margin = 95;
 let extra = 0;
-const Items = ['Go to Home', 'Select Region','Select Commodity','Select Scenario','Climatic Risks','Impact','Adaptation Options'];
-const Items2 = ['Home', 'Region','Commodity','Scenario','Risks','Impact','Adaptation'];
+const Items = ['Go to Home', 'Select Region','Analysis & Scale','Select Commodity','Select Scenario','Climatic Risks','Impact','Adaptation Options'];
+const Items2 = ['Home', 'Region','Scale','Commodity','Scenario','Risks','Impact','Adaptation'];
 
 export default function DrawerV({
   activeCrop,
@@ -43,7 +44,13 @@ export default function DrawerV({
   activeImpact,
   changeImpact,
   activeOptLayer,
-  changeOptLayer
+  changeOptLayer,
+  exploreType,
+  handleExploreTypeChange,
+  activeModel,
+  changeModel,
+  activeScale,
+  changeScale
 }) {
     function createInitialTodos() {
     const initialTodos = {};
@@ -86,6 +93,9 @@ export default function DrawerV({
       if(newState['Go to Home']===true){
         setDrOpen(false);
       }
+      else if((exploreType==='Regional' &&  name==='Select Commodity')){
+        setDrOpen(false);
+      }
       else{
       setDrOpen(true);
       }
@@ -94,6 +104,9 @@ export default function DrawerV({
       let normally = 'rgba(14, 33, 1, 0.0)';
       if(open[Item]){
         normally = 'rgba(10, 30, 1, 0.9)';
+      }
+      if( (exploreType==='Regional' &&  Item==='Select Commodity')){
+        normally = 'rgba(180, 200, 180, 0.7)';
       }
       return normally;
     };
@@ -167,8 +180,10 @@ export default function DrawerV({
         {Items.map((Item,index)=>(
           <Popper open={true}>
           <div style={{position:'relative',zIndex:(theme) => theme.zIndex.map + 1,left:10,top:topmarg(index),margin:4,padding:2,
-          boxShadow:'0px 0px 0px #aaa',backgroundColor: 'rgba(14, 33, 1, 0.7)', border: '0px solid black', width:widthh, height:heightdrawer, borderRadius:'3px' }}>
-          <ListItem key={Item} onClick={toggleList(Item)} disablePadding sx={{color:'#ffffff', '&:hover': { backgroundColor: '#fece2f' },backgroundColor:colorofbutton(Item),height:'100%'}}>
+          boxShadow:'0px 0px 0px #aaa',backgroundColor: ((exploreType==='Regional'&&Items2[index]==='Commodity')?'rgba(140, 150, 140, 0.7)':'rgba(14, 33, 1, 0.7)'), border: '0px solid black', width:widthh, height:heightdrawer, borderRadius:'3px' }}>
+          <ListItem key={Item} onClick={toggleList(Item)} disablePadding sx={{color:'#ffffff', 
+            '&:hover': { backgroundColor: ((exploreType==='Regional'&&Items2[index]==='Commodity')?'rgba(140, 150, 140, 0.7)':'#fece2f') },
+            backgroundColor:colorofbutton(Item),height:'100%'}}>
            <ListItemButton>
            <Box  sx={{ display:'flex', flexDirection: 'row'}}>
               { //index===0 && <LightTooltip open={(isShown1&&DrOpen)} title="Home" placement="top" arrow><HomeOutlined onMouseEnter={() => setIsShown1(true)} onMouseLeave={() => setIsShown1(false)}
@@ -183,12 +198,12 @@ export default function DrawerV({
               { index===6 && <LightTooltip title="Adaptation Options" placement="top" arrow><TuneIcon sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/></LightTooltip>} */} 
               { index===0 && <HomeOutlined sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>}
               { index===1 && <LocationOnOutlined sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>}
-              { index===2 && <GrassOutlined sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>}
-              { index===4 && <WarningAmberIcon sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>} 
-              { index===3 && <AccessTimeOutlined sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>} 
-              {/* index===5 && <YardOutlinedIcon  sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}></YardOutlinedIcon>*/}
-              { index===5 && <AutoAwesomeIcon sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>} 
-              { index===6 && <TuneIcon sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>} 
+              { index===2 && <YardOutlinedIcon sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>}
+              { index===3 && <GrassOutlined sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>}
+              { index===4 && <AccessTimeOutlined sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>} 
+              { index===5 && <WarningAmberIcon sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>} 
+              { index===6 && <AutoAwesomeIcon sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>} 
+              { index===7 && <TuneIcon sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>} 
               {/* index===7 && <PollOutlined sx={{marginY:'auto',padding:0,fontSize:'20px',color:'#ffffff'}}/>*/}  
               { DrOpen===false && <Typography sx={{fontSize: '13px',fontWeight:'bold',marginLeft:1.5,padding:0,fontFamily:'Karla'}}>{Item}</Typography>}
            </Box>
@@ -201,8 +216,8 @@ export default function DrawerV({
 
       { DrOpen===true &&  <List>
         {Items2.map((Item,index)=>(
-          <Popper open={DrOpen} transition='fade'>
-          <div style={{position:'relative',zIndex:(theme) => theme.zIndex.map + 1,left:1,top:topmarg(index)+heightdrawer,margin:4,padding:3, 
+        <Popper open={DrOpen} transition='fade'>
+        <div style={{position:'relative',zIndex:(theme) => theme.zIndex.map + 1,left:1,top:topmarg(index)+heightdrawer,margin:4,padding:3, 
           boxShadow:'0px 1px 0px #aaa',backgroundColor: 'rgba(220, 220, 220, 1)', border: '0px solid #fece2f', width:'72px', height:'15px', borderRadius:'3px' }}>
           <ListItem key={Item}  disablePadding sx={{color:'#000000', height:'100%'}}>
            <Box  sx={{ display:'flex', flexDirection: 'row',width:'100%'}}>
@@ -235,13 +250,17 @@ export default function DrawerV({
         }}
         >
         {open['Select Commodity'] === true && <SwitchCom activeCrop={activeCrop} changeCrop={changeCrop}></SwitchCom>}
-        {open['Select Region'] === true && <SwitchLoc activeRegion={activeRegion} changeRegion={changeRegion} countryStateMap={LocationData}></SwitchLoc>}
+        {open['Analysis & Scale'] === true && <SwitchScale exploreType={exploreType} handleExploreTypeChange={handleExploreTypeChange}
+        activeScale={activeScale} changeScale={changeScale}></SwitchScale>}
+        {open['Select Region'] === true && <SwitchLoc activeRegion={activeRegion} changeRegion={changeRegion} countryStateMap={LocationData}
+         exploreType={exploreType} handleExploreTypeChange={handleExploreTypeChange}></SwitchLoc>}
         {open['Adaptation Options'] === true && <SwitchOpt activeCrop={activeCrop} activeOpt={activeOpt} changeOpt={changeOpt} activeOptLayer={activeOptLayer}
-        changeOptLayer={changeOptLayer}></SwitchOpt>}
-        {open['Climatic Risks'] === true && <SwitchRisk2 activeCrop={activeCrop} changeRisk={changeRisk} activeScenario={activeScenario} CurrRisk={CurrRisk}></SwitchRisk2>}
-        {open['Impact'] === true && <SwitchImpact activeImpact={activeImpact} changeImpact={changeImpact}></SwitchImpact>}
+         changeOptLayer={changeOptLayer} exploreType={exploreType}></SwitchOpt>}
+        {open['Climatic Risks'] === true && <SwitchRisk2 activeCrop={activeCrop} changeRisk={changeRisk} activeScenario={activeScenario} CurrRisk={CurrRisk}
+        exploreType={exploreType}></SwitchRisk2>}
+        {open['Impact'] === true && <SwitchImpact activeImpact={activeImpact} changeImpact={changeImpact} activeCrop={activeCrop} exploreType={exploreType}></SwitchImpact>}
         {open['Go to Home'] === true && (window.location.href = "/")}
-        {open['Select Scenario'] === true && <SwitchScenario activeScenario={activeScenario} changeScenario={changeScenario}></SwitchScenario>}
+        {open['Select Scenario'] === true && <SwitchScenario activeScenario={activeScenario} changeScenario={changeScenario} activeModel={activeModel} changeModel={changeModel}></SwitchScenario>}
         </Drawer>
         </Fade>
         </div>

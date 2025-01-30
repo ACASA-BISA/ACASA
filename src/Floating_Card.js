@@ -19,8 +19,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow'; */
 
 const size = {
-  width: 170,
-  height: 170,
+  width: 150,
+  height: 150,
 };
 
 const palette = ['rgba(180, 70, 109, 1)','#FF9A00','#06D001'];
@@ -61,9 +61,9 @@ const unitrisk = {'Risk Index': 'The risk index is derived from hazard, exposure
    'Number of Animals per grid': 'Total number of animals per grid [~5 X 5 km]', 
    'Vulnerability Index': 'Integrated index which combines multiple vulnerability layers',
    'Irrigation': 'Area under irrigation per grid, %', 'Soil Water Holding Capacity': 'Available Water in mm/m', 
-   'Soil Organic Carbon': 'Soil Organic Carbon in %', 'Income': 'Agricultural GDP as proxy for income. Agricultural Gross Domestic Product data in US $ per grid [~5 X 5 km]', 
+   'Soil Organic Carbon': 'Soil Organic Carbon in %', 'Agriculture Income': 'Agricultural GDP as proxy for income. Agricultural Gross Domestic Product data in US $ per grid [~5 X 5 km]', 
    'Rural infrastructure': 'Road density used as proxy for rural infrastructure. Road density is length of rural roads per grid, km/grid', 
-   'Socio-economic Development Indicator': 'HDI used as proxy. Global estimates of the United Nations Human Development Index',
+   'Economic Development Indicator': 'HDI used as proxy. Global estimates of the United Nations Human Development Index',
    'Feed/Fodder': 'Production and Usage of cereal residues in tonnes per grid [~5 X 5 km]',
    'Cropped Area': 'Area under crop in hectares per grid [~5 X 5 km]'};
 
@@ -109,7 +109,7 @@ export default function LocationCard({
       'High tempearture during flowering':'High tempearture during flowering','Biotic Stress':'Biotic stress',"Vulnerability Index":'Vulnerability Index',
       "Feed/Fodder":'Residue',"Rural infrastructure":'Road network density',"Cyclone":'Cyclone',"Rainfall Deficit":"Rainfall deficit",
       "Extreme Rainfall days":"Extreme Rainfall Days","Cold days":"Cold Stress","Hot days":"Heat stress or hot days","Temperature-Humidity Index":'THI',
-      "Socio-economic Development Indicator":"Human development index"};
+      "Economic Development Indicator":"Human development index"};
 
 
       function checkcrop() {
@@ -326,8 +326,8 @@ export default function LocationCard({
     if(RiskName==='Exposure Index'||RiskName==='Number of Animals per grid'||RiskName==='Cropped Area') {
       str = 'Exposure';
     }
-    if(RiskName==='Vulnerability Index'||RiskName==='Irrigation'||RiskName==='Soil Water Holding Capacity'||RiskName==='Income'||RiskName==='Soil Organic Carbon'
-    ||RiskName==='Feed/Fodder'||RiskName==='Rural infrastructure'||RiskName==='Socio-economic Development Indicator') {
+    if(RiskName==='Vulnerability Index'||RiskName==='Irrigation'||RiskName==='Soil Water Holding Capacity'||RiskName==='Agriculture Income'||RiskName==='Soil Organic Carbon'
+    ||RiskName==='Feed/Fodder'||RiskName==='Rural infrastructure'||RiskName==='Economic Development Indicator') {
       str = 'Vulnerability';
     }
     return str;
@@ -337,55 +337,55 @@ export default function LocationCard({
     <Popper
     open={true}
       >
-        <div ref={cardRef} style={{position:'fixed',right:10,top:95, boxShadow:'0px 0px 0px #aaa',backgroundColor: 'white', border: '0px solid black', width:'280px', borderRadius:'15px' }}>
+        <div ref={cardRef} style={{position:'fixed',right:20,top:142, boxShadow:'0px 0px 0px #aaa',backgroundColor: 'white', border: '0px solid black', width:'280px', borderRadius:'15px' }}>
         <Accordion defaultExpanded>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1-content"
           id="panel1-header"
           sx={{justifyItems:'center',alignContent:'center',marginBottom:'-5px'}}
-        > <Typography sx={{ fontSize: 15, fontWeight:'bold', color:'#143200',marginLeft:'4px'}}>Your Selections</Typography>
+        > <Typography sx={{ fontSize: 14, fontWeight:'bold', color:'#143200',marginLeft:'4px'}}>Your Selections</Typography>
         </AccordionSummary>
-        <AccordionDetails sx={{marginTop:-1,marginBottom:0}}>
+        <AccordionDetails sx={{marginTop:-2,marginBottom:0}}>
         <Box sx={{display:'flex',flexDirection:'row'}}>
         <LocationOn fontSize='small' color='inherit' />
-        <Typography sx={{ fontSize: 15, fontWeight:'bold', color:'#143200',marginLeft:'4px'}}>
+        <Typography sx={{ fontSize: 14, fontWeight:'bold', color:'#143200',marginLeft:'4px'}}>
          {location}
         </Typography>
         </Box>
         <Divider sx={{bgcolor:'#e8ffea', borderBottomWidth: 2, marginTop: 0.3, marginBottom: 0.3}}/>
         <Box sx={{display:'flex',flexDirection:'row'}}>
-        <Typography sx={{ fontSize: 14 }} color="black" gutterBottom>
+        <Typography sx={{ fontSize: 13 }} color="black" gutterBottom>
           Commodity:&nbsp;
         </Typography>
-        <Typography sx={{ fontSize: 14, }} color="text.secondary" >
+        <Typography sx={{ fontSize: 13, }} color="text.secondary" >
                     {commodity}
                     </Typography>
         </Box>
-        <Divider sx={{bgcolor:'#e8ffea', borderBottomWidth: 2, marginTop: 0.1, marginBottom: 0.3}}/>
+        <Divider sx={{bgcolor:'#e8ffea', borderBottomWidth: 2, marginTop: '0px', marginBottom: 0.3}}/>
         <Box sx={{display:'flex',flexDirection:'row'}}>
-        <Typography sx={{ fontSize: 14 }} color="black" gutterBottom>
+        <Typography sx={{ fontSize: 13 }} color="black" gutterBottom>
           Scenario:&nbsp;
         </Typography>
-        <Typography sx={{ fontSize: 14, }} color="text.secondary" >
+        <Typography sx={{ fontSize: 13, }} color="text.secondary" >
                     {scenario}
                     </Typography>
         </Box>
-        {adaption !== '' && <div><Divider sx={{bgcolor:'#e8ffea', borderBottomWidth: 2, marginTop: 0.1, marginBottom: 0.3}}/>
+        {adaption !== '' && <div><Divider sx={{bgcolor:'#e8ffea', borderBottomWidth: 2, marginTop: '0px', marginBottom: 0.3}}/>
         <Box sx={{display:'flex'}}>
-        <Typography sx={{ fontSize: 14 }} color="black" flexWrap>
+        <Typography sx={{ fontSize: 13 }} color="black" flexWrap>
           Technical suitability of&nbsp;<strong>{adaption.charAt(0).toUpperCase()+adaption.slice(1,4)+adaption.toLowerCase().slice(4)}</strong> by area %:</Typography>
           </Box>
         </div>}
-        {RiskName !== '' && <div><Divider sx={{bgcolor:'#e8ffea', borderBottomWidth: 2, marginTop: 0.1, marginBottom: 0.3}}/>
+        {RiskName !== '' && <div><Divider sx={{bgcolor:'#e8ffea', borderBottomWidth: 2, marginTop: '0px', marginBottom: 0.3}}/>
         <Box sx={{display:'flex',flexDirection:'row'}}>
-        <Typography sx={{ fontSize: 14 }} color="black" >
+        <Typography sx={{ fontSize: 13 }} color="black" >
           Risk Method:&nbsp;</Typography>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>{RiskMethod()}</Typography>
+        <Typography sx={{ fontSize: 13 }} color="text.secondary" gutterBottom>{RiskMethod()}</Typography>
         </Box>
-        <Typography sx={{ fontSize: 14, whiteSpace: 'pre-wrap' }} color="black">
+        <Typography sx={{ fontSize: 13, whiteSpace: 'pre-wrap' }} color="black">
           {RiskType()}:&nbsp;
-          <Typography component="span" sx={{ fontSize: 14, fontWeight:'bold' }} color='text.secondary'>
+          <Typography component="span" sx={{ fontSize: 13, fontWeight:'bold' }} color='text.secondary'>
             {RiskName.charAt(0).toUpperCase() + RiskName.toLowerCase().slice(1)}&nbsp;
             <Typography component="span" sx={{ fontSize: 12 }}>
               {UnitFind(RiskName)}
@@ -393,48 +393,48 @@ export default function LocationCard({
           </Typography>
         </Typography>
         </div>}
-        {ImpactName !== '' && <div><Divider sx={{bgcolor:'#e8ffea', borderBottomWidth: 2, marginTop: 0.1, marginBottom: 0.3}}/>
+        {ImpactName !== '' && <div><Divider sx={{bgcolor:'#e8ffea', borderBottomWidth: 2, marginTop: '0px', marginBottom: 0.3}}/>
         <Box sx={{display:'flex',flexDirection:'row'}}>
-        <Typography sx={{ fontSize: 14 }} color="black" >
+        <Typography sx={{ fontSize: 13 }} color="black" >
           Impact:&nbsp;</Typography>
-                    <Typography sx={{ fontSize: 14 }} color="text.secondary" >
+                    <Typography sx={{ fontSize: 13 }} color="text.secondary" >
                     {ImpactName.charAt(0).toUpperCase() + ImpactName.toLowerCase().slice(1)}
                     </Typography></Box>
         </div>}
         
-        <Typography sx={{ fontSize: 14 }} color="black" >
+        <Typography sx={{ fontSize: 13 }} color="black" >
             
                     { adaption === '' && RiskName === '' && ImpactName==='' && <Box sx={{marginTop:'2px',marginBottom:'-5px'}}>
-                    <Divider sx={{bgcolor:'#e8ffea', borderBottomWidth: 2, marginTop: 0.1, marginBottom: 0.3}}/>
+                    <Divider sx={{bgcolor:'#e8ffea', borderBottomWidth: 2, marginTop: '0px', marginBottom: 0.3}}/>
                     <Box sx={{display:'flex',flexDirection:'row',width:'100%'}}>
                     {(checkcrop() && (commodity!=='Rice'&&commodity!=='Wheat'&&commodity!=='Barley'&&commodity!=='Soybean'&&commodity!=='Cotton'&&commodity!=='Chickpea'&&commodity!=='Maize'&&commodity!=='Mustard')) && <Box sx={{width: 20,height: 20,borderRadius: 1,bgcolor: color_comm[commodity],margin:'4px'}}/>}
-                    {(checkcrop() && (commodity!=='Rice'&&commodity!=='Wheat'&&commodity!=='Barley'&&commodity!=='Soybean'&&commodity!=='Cotton'&&commodity!=='Chickpea'&&commodity!=='Maize'&&commodity!=='Mustard')) && <Typography sx={{ fontSize: 14, margin:'4px' }} color="text.secondary" > 
+                    {(checkcrop() && (commodity!=='Rice'&&commodity!=='Wheat'&&commodity!=='Barley'&&commodity!=='Soybean'&&commodity!=='Cotton'&&commodity!=='Chickpea'&&commodity!=='Maize'&&commodity!=='Mustard')) && <Typography sx={{ fontSize: 13, margin:'4px' }} color="text.secondary" > 
                      Area under {commodity.toLowerCase()}
                     </Typography>}
                     {(checkcrop()===false || (commodity==='Rice'||commodity==='Wheat'||commodity==='Barley'||commodity==='Soybean'||commodity==='Cotton'||commodity==='Chickpea'||commodity==='Maize'||commodity==='Mustard')) && 
                     <div>
-                    {checkcrop()===false && <Typography sx={{ fontSize: 14, margin:'4px',fontWeight:'bold' }} color="text.secondary" > 
+                    {checkcrop()===false && <Typography sx={{ fontSize: 13, margin:'4px',fontWeight:'bold' }} color="text.secondary" > 
                      Region having {commodity.toLowerCase()} population
                     </Typography>}
-                    {(commodity==='Rice'||commodity==='Wheat'||commodity==='Barley'||commodity==='Soybean'||commodity==='Cotton'||commodity==='Chickpea'||commodity==='Maize'||commodity==='Mustard') && <Typography sx={{ fontSize: 14, margin:'4px',fontWeight:'bold'}} color="text.secondary" > 
+                    {(commodity==='Rice'||commodity==='Wheat'||commodity==='Barley'||commodity==='Soybean'||commodity==='Cotton'||commodity==='Chickpea'||commodity==='Maize'||commodity==='Mustard') && <Typography sx={{ fontSize: 13, margin:'4px',fontWeight:'bold'}} color="text.secondary" > 
                     Area under {commodity.toLowerCase()}
                     </Typography>}
                     <Box sx={{display:'flex',flexDirection:'row',width:'100%',alignItems:'center'}}>
                     <Box sx={{width: 20,height: 110,borderRadius: 1,background: 'linear-gradient(to top, rgba(255, 249, 196, 1), rgba(255, 230, 128, 1), rgba(255, 215, 0, 1), rgba(218, 165, 32, 1), rgba(160, 82, 45, 1), rgba(107, 61, 27, 1))',margin:'4px',marginLeft:'10px'}}/>
                     <Box sx={{display:'flex',flexDirection:'column'}}>
-                    <Typography sx={{ fontSize: 14, marginX:'4px',marginY:'1px' }} color="text.secondary" gutterBottom> 
+                    <Typography sx={{ fontSize: 13, marginX:'4px',marginY:'1px' }} color="text.secondary" gutterBottom> 
                     Very high
                     </Typography>
-                    <Typography sx={{ fontSize: 14, marginX:'4px' ,marginY:'1px' }} color="text.secondary" gutterBottom> 
+                    <Typography sx={{ fontSize: 13, marginX:'4px' ,marginY:'1px' }} color="text.secondary" gutterBottom> 
                     High
                     </Typography>
-                    <Typography sx={{ fontSize: 14, marginX:'4px',marginY:'1px'  }} color="text.secondary" gutterBottom> 
+                    <Typography sx={{ fontSize: 13, marginX:'4px',marginY:'1px'  }} color="text.secondary" gutterBottom> 
                     Medium
                     </Typography>
-                    <Typography sx={{ fontSize: 14, marginX:'4px' ,marginY:'1px' }} color="text.secondary" gutterBottom> 
+                    <Typography sx={{ fontSize: 13, marginX:'4px' ,marginY:'1px' }} color="text.secondary" gutterBottom> 
                     Low
                     </Typography>
-                    <Typography sx={{ fontSize: 14, marginX:'4px' ,marginY:'1px' }} color="text.secondary" gutterBottom> 
+                    <Typography sx={{ fontSize: 13, marginX:'4px' ,marginY:'1px' }} color="text.secondary" gutterBottom> 
                     Very Low
                     </Typography>
                     </Box>
@@ -447,7 +447,7 @@ export default function LocationCard({
                     {adaption !== '' && <Box sx={{marginTop:'2px',marginBottom:'-5px'}}>
                     {/* <Box sx={{display:'flex',flexDirection:'row',width:'100%'}}>
                     <Box sx={{width: 20,height: 20,borderRadius: 1,bgcolor: "#bbb",margin:'4px'}}/>
-                    <Typography sx={{ fontSize: 14, margin:'4px' }} color="text.secondary" gutterBottom> 
+                    <Typography sx={{ fontSize: 13, margin:'4px' }} color="text.secondary" gutterBottom> 
                     {commodity} mask
                     </Typography>
                     </Box> */}
@@ -507,25 +507,25 @@ export default function LocationCard({
                     </Box>
                     {/* <Box sx={{display:'flex',flexDirection:'row',width:'100%'}}>
                     <Box sx={{width: 20,height: 20,borderRadius: 1,bgcolor: 'rgba(180, 70, 109, 1)',margin:'4px'}}/>
-                    <Typography sx={{ fontSize: 14, margin:'4px' }} color="text.secondary" gutterBottom> 
+                    <Typography sx={{ fontSize: 13, margin:'4px' }} color="text.secondary" gutterBottom> 
                     Unsuitable
                     </Typography>
                     </Box>
                     <Box sx={{display:'flex',flexDirection:'row',width:'100%'}}>
                     <Box sx={{width: 20,height: 20,borderRadius: 1,bgcolor: '#FF9A00',margin:'4px'}}/>
-                    <Typography sx={{ fontSize: 14, margin:'4px' }} color="text.secondary" gutterBottom> 
+                    <Typography sx={{ fontSize: 13, margin:'4px' }} color="text.secondary" gutterBottom> 
                     Suitable
                     </Typography>
                     </Box>
                     <Box sx={{display:'flex',flexDirection:'row',width:'100%'}}>
                     <Box sx={{width: 20,height: 20,borderRadius: 1,bgcolor: "#06D001",margin:'4px'}}/>
-                    <Typography sx={{ fontSize: 14, margin:'4px' }} color="text.secondary" gutterBottom> 
+                    <Typography sx={{ fontSize: 13, margin:'4px' }} color="text.secondary" gutterBottom> 
                     Suitable with adaptation benefits
                     </Typography>
                     </Box> */}
                     </Box>
                     }
-                    {(RiskName === "Hazard Index" && checkcrop() && (commodity!=='Rice'||commodity!=='Wheat'||commodity!=='Barley'||commodity!=='Soybean'||commodity!=='Cotton'||commodity!=='Chickpea'||commodity!=='Maize'||commodity!=='Mustard'))||((ImpactName==='Impact on Productivity') && commodity==='Rice') && <Box sx={{marginTop:'2px',marginBottom:'-5px'}}>
+                    {(RiskName === "Hazard Index" && checkcrop() && (commodity!=='Rice'||commodity!=='Wheat'||commodity!=='Barley'||commodity!=='Soybean'||commodity!=='Cotton'||commodity!=='Chickpea'||commodity!=='Maize'||commodity!=='Mustard'))||((ImpactName==='Productivity') && commodity==='Rice') && <Box sx={{marginTop:'2px',marginBottom:'-5px'}}>
                     <Box sx={{display:'flex',flexDirection:'row',width:'100%',gap:'1px'}}>
                     <Box sx={{display:'flex',flexDirection:'row',width:'100%'}}>
                     <Box sx={{width: 16,height: 16,borderRadius: 1,bgcolor: "#FF0000",marginY:'4px',marginX:'2px'}}/>
@@ -571,16 +571,16 @@ export default function LocationCard({
                       <Box sx={{display:'flex',flexDirection:'row',width:'100%',alignItems:'center'}}>
                       <Box sx={{width: 20,height: 85,borderRadius: 1,background: 'linear-gradient(to bottom, rgba(255,0,0,1),rgba(255, 165, 0,1),rgba(255, 255, 0,1),rgba(0, 255, 0,1),rgba(5, 146, 18,1) )',margin:'4px',marginLeft:'10px'}}/>
                       <Box sx={{display:'flex',flexDirection:'column'}}>
-                      <Typography sx={{ fontSize: 14, marginX:'4px',marginY:'1px' }} color="text.secondary" gutterBottom> 
+                      <Typography sx={{ fontSize: 13, marginX:'4px',marginY:'1px' }} color="text.secondary" gutterBottom> 
                       Very high
                       </Typography>
-                      <Typography sx={{ fontSize: 14, marginX:'4px' ,marginY:'1px' }} color="text.secondary" gutterBottom> 
+                      <Typography sx={{ fontSize: 13, marginX:'4px' ,marginY:'1px' }} color="text.secondary" gutterBottom> 
                       High
                       </Typography>
-                      <Typography sx={{ fontSize: 14, marginX:'4px',marginY:'1px'  }} color="text.secondary" gutterBottom> 
+                      <Typography sx={{ fontSize: 13, marginX:'4px',marginY:'1px'  }} color="text.secondary" gutterBottom> 
                       Medium
                       </Typography>
-                      <Typography sx={{ fontSize: 14, marginX:'4px' ,marginY:'1px' }} color="text.secondary" gutterBottom> 
+                      <Typography sx={{ fontSize: 13, marginX:'4px' ,marginY:'1px' }} color="text.secondary" gutterBottom> 
                       Low
                       </Typography>
                       </Box>
@@ -613,27 +613,26 @@ export default function LocationCard({
                     </Box> */}
                     {/* <Box sx={{display:'flex',flexDirection:'row',width:'100%'}}>
                     <Box sx={{width: 20,height: 20,borderRadius: 1,bgcolor: "#bbb",margin:'4px'}}/>
-                    <Typography sx={{ fontSize: 14, margin:'4px' }} color="text.secondary" gutterBottom> 
+                    <Typography sx={{ fontSize: 13, margin:'4px' }} color="text.secondary" gutterBottom> 
                     {commodity} mask
                     </Typography>
                     </Box> */}
                     {/* <Box sx={{display:'flex',flexDirection:'row',width:'100%',alignItems:'center'}}>
                     <Box sx={{width: 20,height: 85,borderRadius: 1,background: 'linear-gradient(to bottom, rgba(255,0,0,1),rgba(255, 165, 0,1),rgba(255, 255, 0,1),rgba(0, 255, 0,1),rgba(5, 146, 18,1) )',margin:'4px',marginLeft:'10px'}}/>
                     <Box sx={{display:'flex',flexDirection:'column'}}>
-                    <Typography sx={{ fontSize: 14, marginX:'4px',marginY:'1px' }} color="text.secondary" gutterBottom> 
+                    <Typography sx={{ fontSize: 13, marginX:'4px',marginY:'1px' }} color="text.secondary" gutterBottom> 
                     Very high
                     </Typography>
-                    <Typography sx={{ fontSize: 14, marginX:'4px' ,marginY:'1px' }} color="text.secondary" gutterBottom> 
+                    <Typography sx={{ fontSize: 13, marginX:'4px' ,marginY:'1px' }} color="text.secondary" gutterBottom> 
                     High
                     </Typography>
-                    <Typography sx={{ fontSize: 14, marginX:'4px',marginY:'1px'  }} color="text.secondary" gutterBottom> 
+                    <Typography sx={{ fontSize: 13, marginX:'4px',marginY:'1px'  }} color="text.secondary" gutterBottom> 
                     Medium
                     </Typography>
-                    <Typography sx={{ fontSize: 14, marginX:'4px' ,marginY:'1px' }} color="text.secondary" gutterBottom> 
+                    <Typography sx={{ fontSize: 13, marginX:'4px' ,marginY:'1px' }} color="text.secondary" gutterBottom> 
                     Low
                     </Typography>
                     </Box>
-                    
                     </Box> */}
                     <Box sx={{width:'100%', display:'flex',alignItems:'center',flexDirection:'column'}}>
                     <PieChart

@@ -36,9 +36,9 @@ export default function UnitCard({
      'Number of Animals per grid': 'Total number of animals per grid [~5 X 5 km]', 
      'Vulnerability Index': 'Integrated index which combines multiple vulnerability layers',
      'Irrigation': 'Area under irrigation per grid, %', 'Soil Water Holding Capacity': 'Available Water in mm/m ', 
-     'Soil Organic Carbon': 'Soil Organic Carbon in % ', 'Income': 'Agricultural GDP as proxy for income. Agricultural Gross Domestic Product data in US $ per grid [~5 X 5 km]', 
+     'Soil Organic Carbon': 'Soil Organic Carbon in % ', 'Agriculture Income': 'Agricultural GDP as proxy for income. Agricultural Gross Domestic Product data in US $ per grid [~5 X 5 km]', 
      'Rural infrastructure': 'Road density used as proxy for rural infrastructure. Road density is length of rural roads per grid, km/grid', 
-     'Socio-economic Development Indicator': 'HDI used as proxy. Global estimates of the United Nations Human Development Index',
+     'Economic Development Indicator': 'HDI used as proxy. Global estimates of the United Nations Human Development Index',
      'Feed/Fodder': 'Production and Usage of cereal residues in tonnes per grid [~5 X 5 km]',
      'Cropped Area': 'Area under crop in hectares per grid [~5 X 5 km]'};
 

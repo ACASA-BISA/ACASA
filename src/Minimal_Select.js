@@ -51,7 +51,7 @@ export function SelectMinimal({
         {switchcoid.map((naam,idx) => (
             <MenuItem value={naam}>{switchco[idx]}</MenuItem>
         ))}
-        <Typography variant="subtitle1" sx={{paddingLeft:1,fontWeight:'bold'}}>Legumes</Typography>
+        <Typography variant="subtitle1" sx={{paddingLeft:1,fontWeight:'bold'}}>Pulses</Typography>
         {switchhcid.map((naam,idx) => (
                 <MenuItem value={naam}>{switchhc[idx]}</MenuItem>
         ))}

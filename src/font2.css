@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,300;1,300&family=Mulish:ital,wght@0,300;1,300&family=Quicksand:wght@300..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jura:wght@300..700&family=Playwrite+VN:wght@100..400&family=Rubik+Mono+One&display=swap');
 
   .karla-light {
     font-family: "Karla", sans-serif;
@@ -18,5 +19,25 @@
     font-family: "Mulish", sans-serif;
     font-optical-sizing: auto;
     font-weight: 300;
+    font-style: normal;
+  }
+
+  .rubik-mono-one-regular {
+    font-family: "Rubik Mono One", serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  .jura-custom {
+    font-family: "Jura", serif;
+    font-optical-sizing: auto;
+    font-weight: 450;
+    font-style: normal;
+  }
+
+  .playwrite-vn-custom {
+    font-family: "Playwrite VN", serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
     font-style: normal;
   }

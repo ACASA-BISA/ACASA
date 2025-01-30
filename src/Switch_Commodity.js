@@ -7,7 +7,7 @@ import Switch from '@mui/material/Switch';
 import { Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import SwitchCereals from './Commodity Switches/SwitchListCO';
-import SwitchLegumes from './Commodity Switches/SwitchListHC';
+import SwitchPulses from './Commodity Switches/SwitchListHC';
 import SwitchFruits from './Commodity Switches/SwitchListFFP';
 import SwitchLivestock from './Commodity Switches/SwitchListLS';
 import SwitchFish from './Commodity Switches/SwitchListFISH';
@@ -18,9 +18,9 @@ export default function SwitchesGroup({
     activeCrop,
     changeCrop
 }) {
-  const switchh = ['Cereals','Legumes','Oilseeds','Fruits and Vegetables','Industrial Crops',"Livestock"];
-  const switchid = ['cereals', 'legumes', 'oilseeds', 'fruits', 'industrial', 'livestock'];
-  const disvar = {'cereals':false, 'legumes':false, 'oilseeds':false, 'fruits':false, 'industrial':false, 'livestock':false};
+  const switchh = ['Cereals','Pulses','Oilseeds','Fruits and vegetables','Industrial crops',"Livestock"];
+  const switchid = ['cereals', 'Pulses', 'oilseeds', 'fruits', 'industrial', 'livestock'];
+  const disvar = {'cereals':false, 'Pulses':false, 'oilseeds':false, 'fruits':false, 'industrial':false, 'livestock':false};
   
   function createInitialTodos() {
   const initialTodos = {};
@@ -96,7 +96,7 @@ export default function SwitchesGroup({
   return (
     <FormControl component="fieldset" variant="standard"  sx={{paddingTop:1, paddingLeft:3}}>
       <FormLabel sx={{display:'flex',paddingBottom:1}}>
-        <Typography sx={{color:'black',fontWeight:'bold',fontSize:14,paddingTop:1,}}>Select Commodity</Typography>
+        <Typography sx={{color:'black',fontWeight:'bold',fontSize:14,paddingTop:1,}}>Select commodity</Typography>
         </FormLabel>
       
       {switchid.map((sname,index) => (
@@ -112,8 +112,8 @@ export default function SwitchesGroup({
         />
         {state[sname] && sname === 'cereals' && (
             <SwitchCereals activeCrop={activeCrop} changeCrop={changeCrop} />)}
-        {state[sname] && sname === 'legumes' && (
-            <SwitchLegumes activeCrop={activeCrop} changeCrop={changeCrop}/>)}
+        {state[sname] && sname === 'Pulses' && (
+            <SwitchPulses activeCrop={activeCrop} changeCrop={changeCrop}/>)}
         {state[sname] && sname === 'oilseeds' && (
             <SwitchOilseeds activeCrop={activeCrop} changeCrop={changeCrop}/>)}
         {state[sname] && sname === 'fruits' && (
@@ -126,6 +126,20 @@ export default function SwitchesGroup({
             <SwitchFish activeCrop={activeCrop} changeCrop={changeCrop} />)}
         </FormGroup>
       ))}
+      {/* <FormLabel sx={{display:'flex',paddingBottom:1}}>
+        <Typography sx={{color:'black',fontWeight:'bold',fontSize:14,paddingTop:1,}}>Select Regional Risk</Typography>
+        </FormLabel>
+        <FormGroup>
+          <CustomFormControlLabel
+          control={
+            <AntSwitch inputProps={{ 'aria-label': 'ant design' }} checked={false} 
+            onChange={handleChange('regional')} name='regional' />
+          } 
+          key='regional'
+          disabled={false}
+          label={<Typography variant="body2" sx={{paddingLeft:1}}>Regional analysis</Typography>}
+          />
+          </FormGroup> */}
     </FormControl>
   );
 }
