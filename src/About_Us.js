@@ -1014,6 +1014,16 @@ export default function AboutUs() {
               >
                 10. Uttam Puri Goswami, Data Analyst
               </Typography>
+              <Typography
+                sx={{
+                  color: "#111111",
+                  fontWeight: "normal",
+                  fontSize: "14px",
+                  fontFamily: "revert",
+                }}
+              >
+                11. Purvanii Pragya, WebGIS Consultant
+              </Typography>
             </Box>
           </Box>
         </Box>

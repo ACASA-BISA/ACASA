@@ -70,7 +70,7 @@ export default function TabsData({ activeTab = 0 }) {
           value={tabIndex}
           onChange={(e, index) => setTabIndex(index)}
           sx={{
-            marginTop: "85px",
+            marginTop: "35px", //Was 85px before
             marginRight: "70px",
             marginLeft: "70px",
             width: "calc(100vw - 140px)",
@@ -86,7 +86,7 @@ export default function TabsData({ activeTab = 0 }) {
       <TabItem disableRipple label={"Risk"} />
       <TabItem disableRipple label={"Adaptation"} /> */}
           {/* <TabItem disableRipple disabled={true} label={"Analytics"} /> */}
-          <TabItem disableRipple label={"Data Description"} />
+         {/* <TabItem disableRipple label={"Data Catalogue"} /> */}
         </Tabs>
         {/* {tabIndex===0 && <Hazards_Data></Hazards_Data>}
     {tabIndex===1 && <Risk_Data></Risk_Data>}

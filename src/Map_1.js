@@ -798,7 +798,12 @@ useEffect(() => {
       "Extreme Rainfall days":"Extreme Rainfall Days","Cold days":"Cold Stress","Hot days":"Heat stress or hot days","Temperature-Humidity Index":'THI',
       "Economic Development Indicator":"Human development index"};
 
-    if(activeOpt!==''){
+    if (activeCrop === "" || activeCrop === "blank"){
+      settiffFilePath("");
+      return;
+    }
+
+    else if(activeOpt!==''){
       opt=2;
       let urlstr = "xyz.tif";
       if(activeScenario['baseline']){
