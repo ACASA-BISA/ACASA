@@ -3,7 +3,7 @@ import FormControl from '@mui/material/FormControl';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import { Typography } from '@mui/material';
+import { Typography, Link } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
@@ -96,7 +96,22 @@ export default function SwitchPulses({
         key={sname}
         disabled={disvar[sname]}
         label={<Typography variant="body2" sx={{paddingLeft:1}}>{switchh[index]}
-        {disvar[sname]===false && <LightTooltip title={season[index]} placement="top" arrow>
+        {disvar[sname]===false && <LightTooltip title={
+                      <>
+                        <span>{season[index]}</span>
+                        <br />
+                        <Link
+                          href="#/resources/?tab=4"
+                          target="_blank"
+                          sx={{
+                            color: "white",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          Read More
+                        </Link>
+                      </>
+                    } placement="top" arrow>
         <IconButton sx={{padding:0,margin:0,paddingX:'4px'}}>
         <InfoOutlinedIcon sx={{fontSize:'12px',padding:0,margin:0}} />
         </IconButton>

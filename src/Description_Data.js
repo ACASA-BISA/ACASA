@@ -23,6 +23,7 @@ import { DataCatalog } from "./Data_Catalog/Data_Catalog";
 // Import JSZip as grouped downloads require zipping
 import JSZip from "jszip";
 import { create } from "ol/transform";
+import { disable } from "ol/rotationconstraint";
 
 // Mapping for different layer types
 const layerMappings = {
