@@ -5,9 +5,9 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import { Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import LightTooltip from "../LightTooltip";
 
 export default function SwitchFish({ activeCrop, changeCrop }) {
   const switchh = ["Freshwater", "Brackish", "Marine", "Cold water"];
@@ -22,17 +22,6 @@ export default function SwitchFish({ activeCrop, changeCrop }) {
     "Season information to be updated",
     "Season information to be updated",
   ];
-
-  const LightTooltip = styled(({ className, ...props }) => (
-    <Tooltip {...props} classes={{ popper: className }} />
-  ))(({ theme }) => ({
-    [`& .${tooltipClasses.tooltip}`]: {
-      backgroundColor: theme.palette.common.white,
-      color: "rgba(0, 0, 0, 0.87)",
-      boxShadow: theme.shadows[1],
-      fontSize: 13,
-    },
-  }));
 
   const AntSwitch = styled(Switch)(({ theme }) => ({
     width: 32 + padd,
