@@ -134,7 +134,7 @@ export default function SwitchCereals({ activeCrop, changeCrop }) {
                         <span>{season[index]}</span>
                         <br />
                         <Link
-                          href="#/resources/?tab=4"
+                          href={`#/resources?tab=4&term=${switchh[index].toLowerCase()}`} // Use MUI Link
                           target="_blank"
                           sx={{
                             color: "white",

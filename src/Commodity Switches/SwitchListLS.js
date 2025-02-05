@@ -12,6 +12,14 @@ import LightTooltip from "../LightTooltip";
 export default function SwitchLivestock({ activeCrop, changeCrop }) {
   const switchh = ["Cattle", "Buffalo", "Goat", "Sheep", "Pig", "Poultry"];
   const switchid = ["cattle", "buffalo", "goat", "sheep", "pig", "poultry"];
+  const disvar = {
+    cattle: false,
+    buffalo: false,
+    goat: false,
+    sheep: false,
+    pig: false,
+    poultry: false,
+  };
 
   const padd = 8;
   const season = [
@@ -73,6 +81,13 @@ export default function SwitchLivestock({ activeCrop, changeCrop }) {
       },
     },
   }));
+
+  const CustomFormControlLabel = styled(FormControlLabel)(({ theme }) => ({
+    "&.Mui-disabled .MuiTypography-body2": {
+      color: "#ccc", // Color for the label text when disabled
+    },
+  }));
+
   return (
     <FormControl
       component="fieldset"
@@ -80,20 +95,49 @@ export default function SwitchLivestock({ activeCrop, changeCrop }) {
       sx={{ paddingBottom: 1, paddingLeft: 6 }}
     >
       <FormGroup>
-        {switchid.map((sname, index) => (
-          <FormControlLabel
+        {switchh.map((sname, index) => (
+          <CustomFormControlLabel
             control={
               <AntSwitch
                 inputProps={{ "aria-label": "ant design" }}
-                checked={activeCrop[sname]}
-                onChange={changeCrop(sname)}
-                name={sname}
+                checked={activeCrop[switchid[index]]}
+                onChange={changeCrop(switchid[index])}
+                name={switchid[index]}
               />
             }
-            key={sname}
+            key={switchid[index]}
+            disabled={disvar[switchid[index]]}
             label={
               <Typography variant="body2" sx={{ paddingLeft: 1 }}>
-                {switchh[index]}
+                {sname}
+                {disvar[switchid[index]] === false && (
+                  <LightTooltip
+                    title={
+                      <>
+                        <span>{season[index]}</span>
+                        <br />
+                        <Link
+                          href="#/resources/?tab=4"
+                          target="_blank"
+                          sx={{
+                            color: "white",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          Read More
+                        </Link>
+                      </>
+                    }
+                    placement="top"
+                    arrow
+                  >
+                    <IconButton sx={{ padding: 0, margin: 0, paddingX: "4px" }}>
+                      <InfoOutlinedIcon
+                        sx={{ fontSize: "12px", padding: 0, margin: 0 }}
+                      />
+                    </IconButton>
+                  </LightTooltip>
+                )}
               </Typography>
             }
           />

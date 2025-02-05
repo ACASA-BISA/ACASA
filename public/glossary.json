@@ -1,207 +1,183 @@
 [
   {
-    "letter": "A",
-    "terms": [
+    "A": [
       { "term": "ACASA", "definition": "Atlas of Climatic Adaptation for South Asian Agriculture" },
       { "term": "", "definition": "" },
       { "term": "", "definition": "" }
     ]
   },
   {
-    "letter": "B",
-    "terms": [
-      { "term": "", "definition": "" },
+    "B": [
+      { "term": "Baseline", "definition": "" },
       { "term": "", "definition": "" },
       { "term": "", "definition": "" }
     ]
   },
   {
-    "letter": "C",
-    "terms": [
+    "C": [
       { "term": "CHC", "definition": "The Climate Hazards Center is an alliance of multidisciplinary scientists and food security analysts utilizing climate and crop models, satellite-based earth observations, and socioeconomic data sets to predict and monitor droughts and food shortages among the world's most vulnerable populations. Through partnerships with USAID, USGS, and FEWS NET, the CHC provides early warning to save lives and secure livelihoods." },
-      { "term": "", "definition": "" },
-      { "term": "", "definition": "" }
+      { "term": "CANESM5", "definition": "" },
+      { "term": "CNRM-CM6-1", "definition": "" },
+      { "term": "CNRM-ESM-1", "definition": "" },
+      { "term": "Cold Stress", "definition": "" }
     ]
   },
   {
-    "letter": "D",
-    "terms": [
-      { "term": "", "definition": "" },
-      { "term": "", "definition": "" },
-      { "term": "", "definition": "" }
-    ]
-  },
-  {
-    "letter": "E",
-    "terms": [
+    "D": [
       { "term": "", "definition": "" },
       { "term": "", "definition": "" },
       { "term": "", "definition": "" }
     ]
   },
   {
-    "letter": "F",
-    "terms": [
+    "E": [
       { "term": "", "definition": "" },
       { "term": "", "definition": "" },
       { "term": "", "definition": "" }
     ]
   },
   {
-    "letter": "G",
-    "terms": [
+    "F": [
       { "term": "", "definition": "" },
       { "term": "", "definition": "" },
       { "term": "", "definition": "" }
     ]
   },
   {
-    "letter": "H",
-    "terms": [
+    "G": [
       { "term": "", "definition": "" },
       { "term": "", "definition": "" },
       { "term": "", "definition": "" }
     ]
   },
   {
-    "letter": "I",
-    "terms": [
+    "H": [
       { "term": "", "definition": "" },
       { "term": "", "definition": "" },
       { "term": "", "definition": "" }
     ]
   },
   {
-    "letter": "J",
-    "terms": [
+    "I": [
       { "term": "", "definition": "" },
       { "term": "", "definition": "" },
       { "term": "", "definition": "" }
     ]
   },
   {
-    "letter": "K",
-    "terms": [
+    "J": [
       { "term": "", "definition": "" },
       { "term": "", "definition": "" },
       { "term": "", "definition": "" }
     ]
   },
   {
-    "letter": "L",
-    "terms": [
+    "K": [
       { "term": "", "definition": "" },
       { "term": "", "definition": "" },
       { "term": "", "definition": "" }
     ]
   },
   {
-    "letter": "M",
-    "terms": [
+    "L": [
       { "term": "", "definition": "" },
       { "term": "", "definition": "" },
       { "term": "", "definition": "" }
     ]
   },
   {
-    "letter": "N",
-    "terms": [
+    "M": [
       { "term": "", "definition": "" },
       { "term": "", "definition": "" },
       { "term": "", "definition": "" }
     ]
   },
   {
-    "letter": "O",
-    "terms": [
+    "N": [
       { "term": "", "definition": "" },
       { "term": "", "definition": "" },
       { "term": "", "definition": "" }
     ]
   },
   {
-    "letter": "P",
-    "terms": [
+    "O": [
       { "term": "", "definition": "" },
       { "term": "", "definition": "" },
       { "term": "", "definition": "" }
     ]
   },
   {
-    "letter": "Q",
-    "terms": [
+    "P": [
       { "term": "", "definition": "" },
       { "term": "", "definition": "" },
       { "term": "", "definition": "" }
     ]
   },
   {
-    "letter": "R",
-    "terms": [
+    "Q": [
       { "term": "", "definition": "" },
       { "term": "", "definition": "" },
       { "term": "", "definition": "" }
     ]
   },
   {
-    "letter": "S",
-    "terms": [
+    "R": [
       { "term": "", "definition": "" },
       { "term": "", "definition": "" },
       { "term": "", "definition": "" }
     ]
   },
   {
-    "letter": "T",
-    "terms": [
+    "S": [
       { "term": "", "definition": "" },
       { "term": "", "definition": "" },
       { "term": "", "definition": "" }
     ]
   },
   {
-    "letter": "U",
-    "terms": [
+    "T": [
       { "term": "", "definition": "" },
       { "term": "", "definition": "" },
       { "term": "", "definition": "" }
     ]
   },
   {
-    "letter": "V",
-    "terms": [
+    "U": [
       { "term": "", "definition": "" },
       { "term": "", "definition": "" },
       { "term": "", "definition": "" }
     ]
   },
   {
-    "letter": "W",
-    "terms": [
+    "V": [
       { "term": "", "definition": "" },
       { "term": "", "definition": "" },
       { "term": "", "definition": "" }
     ]
   },
   {
-    "letter": "X",
-    "terms": [
+    "W": [
       { "term": "", "definition": "" },
       { "term": "", "definition": "" },
       { "term": "", "definition": "" }
     ]
   },
   {
-    "letter": "Y",
-    "terms": [
+    "X": [
       { "term": "", "definition": "" },
       { "term": "", "definition": "" },
       { "term": "", "definition": "" }
     ]
   },
   {
-    "letter": "Z",
-    "terms": [
+    "Y": [
+      { "term": "", "definition": "" },
+      { "term": "", "definition": "" },
+      { "term": "", "definition": "" }
+    ]
+  },
+  {
+    "Z": [
       { "term": "", "definition": "" },
       { "term": "", "definition": "" },
       { "term": "", "definition": "" }
