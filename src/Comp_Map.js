@@ -24,6 +24,7 @@ import Slide from '@mui/material/Slide';
 import BoxLegend from './BoxLegend';
 import ReactDOMServer from 'react-dom/server';
 import DownloadIcon from '@mui/icons-material/Download';
+import FillPattern from 'ol-ext/style/FillPattern.js';
 
 export default function MApp({
   activeCrop, focus='Region', activeRegion,
@@ -401,23 +402,102 @@ const iconElement = (
   />
 );
 
-// Define the download control
+class DownloadControl extends Control {
+  constructor(options = {}) {
+    const button = document.createElement('button');
+    button.innerHTML = ReactDOMServer.renderToString(iconElement);
+    //button.title = 'Download Options';
+    button.classList.add('download-button');
+
+    // Create dropdown container
+    const dropdown = document.createElement('div');
+    dropdown.className = 'download-dropdown';
+    dropdown.style.display = 'none';
+    dropdown.style.position = 'absolute';
+    dropdown.style.background = 'white';
+    dropdown.style.borderRadius = '5px';
+    dropdown.style.padding = '5px';
+    dropdown.style.boxShadow = '2px 2px 5px rgba(0,0,0,0.3)';
+    dropdown.style.zIndex = '1000';
+
+    // Create GeoTIFF download option
+    const geoTiffOption = document.createElement('div');
+    geoTiffOption.innerText = 'Download GeoTIFF';
+    geoTiffOption.style.cursor = 'pointer';
+    geoTiffOption.onclick = () => this.handleDownloadGeoTIFF();
+
+    // Create CSV download option
+    const csvOption = document.createElement('div');
+    csvOption.innerText = 'Download Table';
+    csvOption.style.cursor = 'pointer';
+    csvOption.onclick = () => this.handleDownloadCSV();
+
+    const divider_custom = document.createElement('div');
+    divider_custom.style.width = '150px';
+    divider_custom.style.height = '1px';
+    divider_custom.style.backgroundColor = '#ccc';
+    divider_custom.style.marginTop = '4px';
+
+    // Append options to dropdown
+    dropdown.appendChild(geoTiffOption);
+    dropdown.appendChild(divider_custom);
+    dropdown.appendChild(csvOption);
+
+    // Create control container
+    const element = document.createElement('div');
+    element.className = 'ol-control';
+    element.appendChild(button);
+    element.appendChild(dropdown);
+
+    super({ element: element, target: options.target });
+
+    // Show/hide dropdown on hover
+    button.addEventListener('mouseenter', () => (dropdown.style.display = 'block'));
+    element.addEventListener('mouseleave', () => (dropdown.style.display = 'none'));
+  }
+
+  handleDownloadGeoTIFF() {
+    const map = this.getMap();
+    const layers = map.getLayers().getArray();
+    const geoTiffLayer = layers.find(layer => layer.getSource() instanceof GeoTIFF);
+
+    if (geoTiffLayer) {
+      const source_tiff = geoTiffLayer.getSource();
+      const geoTiffUrl = source_tiff.key_;
+      if (geoTiffUrl) {
+        this.downloadFile(geoTiffUrl, 'map_data.tiff');
+      } else {
+        alert('No URL found for the GeoTIFF layer.');
+      }
+    } else {
+      alert('No GeoTIFF layer is currently displayed on the map.');
+    }
+  }
+
+  handleDownloadCSV() {
+    const csvContent = 'Column1,Column2,Column3\nValue1,Value2,Value3\n'; // Replace with real table data
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    this.downloadFile(url, 'data_table.csv');
+    URL.revokeObjectURL(url);
+  }
+
+  downloadFile(url, filename) {
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+}
+
+/* // Define the download control
 class DownloadControl extends Control {
   constructor(options = {}) {
     const button = document.createElement('button');
     button.innerHTML = ReactDOMServer.renderToString(iconElement);;
     button.title = 'Download GeoTIFF Layer';
-
-    // Style the button
-    /* button.style.cssText = `
-      width: 40px;
-      height: 40px;
-      font-size: 18px;
-      border: 1px solid black;
-      background-color: white;
-      cursor: pointer;
-      border-radius: 5px;
-    `; */
 
     // Create a container for the control
     const element = document.createElement('div');
@@ -464,7 +544,7 @@ class DownloadControl extends Control {
     a.click();
     document.body.removeChild(a);
   }
-}
+} */
 
       const sourcemap = new tilesource({
         url: `https://api.maptiler.com/maps/bright-v2/tiles.json?key=${key}`, // source URL
@@ -1146,7 +1226,7 @@ useEffect(() => {
     }
   } 
   if (activeOptLayer['Economic'] && source_socio) {
-    const newOverl = new TileLayer({
+    /* const newOverl = new TileLayer({
       source: source_socio,
       opacity: 0.80,
       zIndex: 93,
@@ -1160,7 +1240,31 @@ useEffect(() => {
       if(checkcrop()===false){
         newOverl.setStyle(colorGradientEx);
       }
+    } */
+
+    const newOverl = new TileLayer({
+      source: source_socio,
+      opacity: 0.80,
+      zIndex: 93,
+    });
+
+    const hatchStyle = new FillPattern({
+      pattern: 'hatch',
+      angle: 45, // Angle of the hatch lines
+      spacing: 10, // Spacing between the hatch lines
+      lineWidth: 2, // Width of the hatch lines
+      color: 'rgba(255, 0, 0, 0.8)', // Color of the hatch lines
+      background: 'rgba(0, 0, 255, 0.2)', // Background color
+    });
+
+    if (opt === 2) {
+      // Apply hatching style along with the hazard color
+      newOverl.setStyle([hatchStyle]);
+    } else {
+      // Apply hatching style along with the default color
+      newOverl.setStyle([hatchStyle]);
     }
+
     if (mapRef.current) {
       mapRef.current.addLayer(newOverl);
       setSocioLayer(newOverl);

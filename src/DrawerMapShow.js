@@ -824,7 +824,7 @@ export default function DrawerMapShow({ activeBar }) {
         activeOptLayer={optionlayer} changeOptLayer={changeOptLayer}></DrawerV>}
         
         {(activeBar==='future' && NameScenario==='Baseline') && <div ref={container}><LocationCard location={activeRegion} commodity={Currcrop} adaption={CurrOpt} setHeight1={setHeight1}
-        RiskName={RiskName} scenario={NameScenario} ImpactName={ImpactName} area_data={area_dict} area_data2={area_dict2}></LocationCard></div>}
+        RiskName={RiskName} scenario={NameScenario} ImpactName={ImpactName} area_data={area_dict} area_data2={area_dict2}  exploreType={exploreType}></LocationCard></div>}
         
         {(activeBar==='viewer') && (RiskName!==""||CurrOpt!=="") && <LegendCard location={activeRegion} commodity={Currcrop} adaption={CurrOpt}
         RiskName={RiskName} scenario={NameScenario} ImpactName={ImpactName} area_data={area_dict} area_data2={area_dict2}></LegendCard>}

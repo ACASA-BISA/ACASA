@@ -21,7 +21,7 @@ export default function SwitchCereals({
   'The analysis for wheat (except for Afghanistan) is done for Rabi/winter season with planting time around mid-November.  For Afghanistan, wheat season starts around April.',
   'Maize is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as \'Kharif\') and \'Maha\' in Sri Lanka',
   'The analysis for barley is done for Rabi/winter season',
-  'Sorghum is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as \'Kharif\').',
+  'Sorghum is planted in multiple seasons in different countries. Here this analysis is for winter season (also known as \'Rabi\').',
   'Finger Millet is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as \'Kharif\').',
   'Pearl Millet is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as \'Kharif\').'];
 

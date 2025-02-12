@@ -171,8 +171,7 @@ function ResponsiveAppBar({}) {
              <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
               <Avatar variant="square" alt="Remy Sharp" src="./Acasa_Logo_colored 2.svg" sx={{width:'auto',height:'60px'}}/>
               </Link>
-            </Button>
-            
+            </Button>   
         </Box>
         
         <Box display="flex"
@@ -355,70 +354,70 @@ function ResponsiveAppBar({}) {
         </Box>
     </AppBar>
     <Routes>
-                        <Route
-                            path="/"
-                            element={<Home></Home>}
-                        ></Route>
-                        <Route
-                            path="/about"
-                            element={<DrawerMapShow activeBar='about'/>}
-                        ></Route>
-                        <Route
-                            path="/exploredata"
-                            element={<DrawerMapShow activeBar='future'/>}
-                        ></Route>
-                        <Route
-                            path="/adaptationataglance"
-                            element={<DrawerMapShow activeBar='analytics'/>}
-                        ></Route>
-                        <Route
-                            path="/access"
-                            element={<DrawerMapShow activeBar='access'/>}
-                        ></Route>
-                        <Route
-                            path="/resources"
-                            element={<DrawerMapShow activeBar='resources'/>}
-                        ></Route>
-                        <Route
-                            path="/usecase"
-                            element={<DrawerMapShow activeBar='usecase'/>}
-                        ></Route>
-                        <Route
-                            path="/guide"
-                            element={<DrawerMapShow activeBar='guide'/>}
-                        ></Route>
-                        <Route
-                            path="/hazardataglance"
-                            element={<DrawerMapShow activeBar='hazards'/>}
-                        ></Route>
-                        <Route
-                            path="/future"
-                            element={<DrawerMapShow activeBar='future'/>}
-                        ></Route>
-                        <Route
-                            path="/comparison"
-                            element={<DrawerMapShow activeBar='comparison'/>}
-                        ></Route>
-                        <Route
-                            path="/summary"
-                            element={<DrawerMapShow activeBar='summary'/>}
-                        ></Route>
-                        <Route
-                            path="/timeline"
-                            element={<DrawerMapShow activeBar='timeline'/>}
-                        ></Route>
-                        <Route
-                            path="/adaptation"
-                            element={<DrawerMapShow activeBar='adaptation'/>}
-                        ></Route>
-                        <Route
-                            path="/adaptation2"
-                            element={<DrawerMapShow activeBar='adaptation2'/>}
-                        ></Route>
-                        <Route
-                            path="/feedback"
-                            element={<Feedback1 />}
-                        ></Route>
+      <Route
+          path="/"
+          element={<Home></Home>}
+      ></Route>
+      <Route
+          path="/about"
+          element={<DrawerMapShow activeBar='about'/>}
+      ></Route>
+      <Route
+          path="/exploredata"
+          element={<DrawerMapShow activeBar='future'/>}
+      ></Route>
+      <Route
+          path="/adaptationataglance"
+          element={<DrawerMapShow activeBar='analytics'/>}
+      ></Route>
+      <Route
+          path="/access"
+          element={<DrawerMapShow activeBar='access'/>}
+      ></Route>
+      <Route
+          path="/resources"
+          element={<DrawerMapShow activeBar='resources'/>}
+      ></Route>
+      <Route
+          path="/usecase"
+          element={<DrawerMapShow activeBar='usecase'/>}
+      ></Route>
+      <Route
+          path="/guide"
+          element={<DrawerMapShow activeBar='guide'/>}
+      ></Route>
+      <Route
+          path="/hazardataglance"
+          element={<DrawerMapShow activeBar='hazards'/>}
+      ></Route>
+      <Route
+          path="/future"
+          element={<DrawerMapShow activeBar='future'/>}
+      ></Route>
+      <Route
+          path="/comparison"
+          element={<DrawerMapShow activeBar='comparison'/>}
+      ></Route>
+      <Route
+          path="/summary"
+          element={<DrawerMapShow activeBar='summary'/>}
+      ></Route>
+      <Route
+          path="/timeline"
+          element={<DrawerMapShow activeBar='timeline'/>}
+      ></Route>
+      <Route
+          path="/adaptation"
+          element={<DrawerMapShow activeBar='adaptation'/>}
+      ></Route>
+      <Route
+          path="/adaptation2"
+          element={<DrawerMapShow activeBar='adaptation2'/>}
+      ></Route>
+      <Route
+          path="/feedback"
+          element={<Feedback1 />}
+      ></Route>
     </Routes>
     
     <ScrollToTop />

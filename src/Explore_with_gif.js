@@ -253,15 +253,15 @@ export default function CompGif({
                 onChange={handleChange}
                 sx={{fontSize:'14px'}}
             >
-                        <MenuItem value='SA' sx={{fontSize:'14px',height:'25px'}}>South Asia</MenuItem>
-                        <MenuItem value='AF' sx={{fontSize:'14px',height:'25px'}}>Afghanistan</MenuItem>
-                        <MenuItem value='BD' sx={{fontSize:'14px',height:'25px'}}>Bangladesh</MenuItem>
-                        <MenuItem value='BT' sx={{fontSize:'14px',height:'25px'}}>Bhutan</MenuItem>
-                        <MenuItem value='IN' sx={{fontSize:'14px',height:'25px'}}>India</MenuItem>
-                        <MenuItem value='NP' sx={{fontSize:'14px',height:'25px'}}>Nepal</MenuItem>
-                        <MenuItem value='PK' sx={{fontSize:'14px',height:'25px'}}>Pakistan</MenuItem>
-                        <MenuItem value='LK' sx={{fontSize:'14px',height:'25px'}}>Sri Lanka</MenuItem>
-                        <MenuItem value='MV' sx={{fontSize:'14px',height:'25px'}}>Maldives</MenuItem>
+                <MenuItem value='SA' sx={{fontSize:'14px',height:'25px'}}>South Asia</MenuItem>
+                <MenuItem value='AF' sx={{fontSize:'14px',height:'25px'}}>Afghanistan</MenuItem>
+                <MenuItem value='BD' sx={{fontSize:'14px',height:'25px'}}>Bangladesh</MenuItem>
+                <MenuItem value='BT' sx={{fontSize:'14px',height:'25px'}}>Bhutan</MenuItem>
+                <MenuItem value='IN' sx={{fontSize:'14px',height:'25px'}}>India</MenuItem>
+                <MenuItem value='NP' sx={{fontSize:'14px',height:'25px'}}>Nepal</MenuItem>
+                <MenuItem value='PK' sx={{fontSize:'14px',height:'25px'}}>Pakistan</MenuItem>
+                <MenuItem value='LK' sx={{fontSize:'14px',height:'25px'}}>Sri Lanka</MenuItem>
+                <MenuItem value='MV' sx={{fontSize:'14px',height:'25px'}}>Maldives</MenuItem>
             </Select>
             </FormControl>
 

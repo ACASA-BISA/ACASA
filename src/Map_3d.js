@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Feature, Map, View } from 'ol';
 import TileLayer from 'ol/layer/WebGLTile';
 import Polygon from 'ol/geom/Polygon.js';
-import OSM from 'ol/source/OSM';
+//import OSM from 'ol/source/OSM';
 import 'ol/ol.css';
 import './index.css';
 import VectorLayer from 'ol/layer/Vector';

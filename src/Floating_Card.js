@@ -76,7 +76,8 @@ export default function LocationCard({
     scenario,
     ImpactName,
     area_data,
-    area_data2
+    area_data2,
+    exploreType
 }) {
   const cardRef = useRef(null);
   const [cardHeight, setCardHeight] = useState(0);
@@ -337,7 +338,7 @@ export default function LocationCard({
     <Popper
     open={true}
       >
-        <div ref={cardRef} style={{position:'fixed',right:20,top:142, boxShadow:'0px 0px 0px #aaa',backgroundColor: 'white', border: '0px solid black', width:'280px', borderRadius:'15px' }}>
+        <div ref={cardRef} style={{position:'fixed',right:50,top:142, boxShadow:'0px 0px 0px #aaa',backgroundColor: 'white', border: '0px solid black', width:'280px', borderRadius:'15px' }}>
         <Accordion defaultExpanded>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -354,7 +355,7 @@ export default function LocationCard({
         </Typography>
         </Box>
         <Divider sx={{bgcolor:'#e8ffea', borderBottomWidth: 2, marginTop: 0.3, marginBottom: 0.3}}/>
-        <Box sx={{display:'flex',flexDirection:'row'}}>
+        {exploreType!=='Regional' && <div><Box sx={{display:'flex',flexDirection:'row'}}>
         <Typography sx={{ fontSize: 13 }} color="black" gutterBottom>
           Commodity:&nbsp;
         </Typography>
@@ -362,7 +363,7 @@ export default function LocationCard({
                     {commodity}
                     </Typography>
         </Box>
-        <Divider sx={{bgcolor:'#e8ffea', borderBottomWidth: 2, marginTop: '0px', marginBottom: 0.3}}/>
+        <Divider sx={{bgcolor:'#e8ffea', borderBottomWidth: 2, marginTop: '0px', marginBottom: 0.3}}/></div>}
         <Box sx={{display:'flex',flexDirection:'row'}}>
         <Typography sx={{ fontSize: 13 }} color="black" gutterBottom>
           Scenario:&nbsp;
