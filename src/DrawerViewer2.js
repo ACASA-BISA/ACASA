@@ -28,7 +28,7 @@ export default function DrawerV({
   const [region, setRegion] = React.useState('South Asia');
   const [commodity, setCommodity] = React.useState('Rice');
   const [futureModel, setFutureModel] = React.useState('Model X');
-  const [layer, setLayer] = React.useState('Technical Suitability');
+  const [layer, setLayer] = React.useState('Adaptation Benefits');
   const [subChoice, setSubChoice] = React.useState('Micro-irrigation');
 
   return (

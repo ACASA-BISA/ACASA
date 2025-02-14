@@ -7,7 +7,7 @@ export default function Summ_Adaptation_Indicator({
   handleIndicator
 }) {
 
-  const switchh2 = ['Biophysical Suitability','Gender','Technical Suitability','Economic','Scalibility'];
+  const switchh2 = ['Biophysical Suitability','Gender','Adaptation Benefits','Economic','Scalability'];
 
   const [val, setVal] = React.useState('Biophysical Suitability');
 
@@ -31,9 +31,9 @@ export default function Summ_Adaptation_Indicator({
     sx={{backgroundColor:'rgba(235, 247, 233,1)', fontSize:13}}
   >
     <MenuItem value='Biophysical Suitability' sx={{fontSize:13,paddingY:'2px'}}>Biophysical Suitability</MenuItem>
-    <MenuItem value='Technical Suitability' sx={{fontSize:13,paddingY:'2px'}}>Adaptation Benefits</MenuItem>
+    <MenuItem value='Adaptation Benefits' sx={{fontSize:13,paddingY:'2px'}}>Adaptation Benefits</MenuItem>
     <MenuItem value='Economic' sx={{fontSize:13,paddingY:'2px'}}>Economic Benefits</MenuItem>
-    <MenuItem value='Scalibility' sx={{fontSize:13,paddingY:'2px'}}>Scalibility</MenuItem>
+    <MenuItem value='Scalability' sx={{fontSize:13,paddingY:'2px'}}>Scalibility</MenuItem>
     <MenuItem value='Gender' sx={{fontSize:13,paddingY:'2px'}}>Gender Suitability</MenuItem>
     </Select>
     </FormControl>

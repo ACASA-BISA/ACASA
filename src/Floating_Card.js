@@ -160,11 +160,13 @@ export default function LocationCard({
           rowstr = commodity+"_"+location+"_Suitability_"+commodity+"_"+optcode[adaption];
         }
         const row_data = area_data[rowstr.toLowerCase()];
-        //console.log(area_data);
-        //console.log("Float");
-        //console.log(rowstr);
-        //console.log(rowstr.toLowerCase());
-        const total = Number(row_data['Unsuitable']) + Number(row_data['Suitable']) + Number(row_data['Adaptation Benefits']);
+        let total = 1;
+          if(row_data){
+            total = Number(row_data['Unsuitable']) + Number(row_data['Suitable']) + Number(row_data['Adaptation Benefits']) + Number(row_data['High']);
+          }
+          else{
+            row_data = {'Unsuitable':NaN,'Suitable':NaN,'Adaptation Benefits':NaN};
+          }
         data = [
           { value: (row_data['Unsuitable']*100/total).toFixed(1), label: 'Unsuitable' },
           { value: (row_data['Suitable']*100/total).toFixed(1), label: 'Suitable' },
@@ -213,16 +215,20 @@ export default function LocationCard({
           rowstr = commodity+"_"+location+"_ZZ_"+hazardname[RiskName];
         }
         const row_data = area_data2[rowstr];
-        //console.log(rowstr);
-        const total = Number(row_data['Very Low']) + Number(row_data['Low']) + Number(row_data['Medium']) + Number(row_data['High']) + Number(row_data['Very High']) + Number(row_data['Nil']);
-        //console.log(total);
+        let total = 1;
+          if(row_data){
+            total = Number(row_data['Very Low']) + Number(row_data['Low']) + Number(row_data['Medium']) + Number(row_data['High']) + Number(row_data['Very High']) + Number(row_data['Nil']);
+          }
+          else{
+            row_data = {'Nil':NaN,'Very Low':NaN,'Low':NaN,'Medium':NaN,'High':NaN,'Very High':NaN};
+          }
         data = [
-          { value: (row_data['Very Low']*100/total).toFixed(1), label: 'Very Low' },
-          { value: (row_data['Low']*100/total).toFixed(1), label: 'Low' },
-          { value: (row_data['Medium']*100/total).toFixed(1), label: 'Medium' },
-          { value: (row_data['High']*100/total).toFixed(1), label: 'High' },
-          { value: (row_data['Very High']*100/total).toFixed(1), label: 'Very High' },
-          { value: (row_data['Nil']*100/total).toFixed(1), label: 'Nil' },
+        { value: (row_data['Very Low']*100/total).toFixed(1), label: 'Very Low' },
+        { value: (row_data['Low']*100/total).toFixed(1), label: 'Low' },
+        { value: (row_data['Medium']*100/total).toFixed(1), label: 'Medium' },
+        { value: (row_data['High']*100/total).toFixed(1), label: 'High' },
+        { value: (row_data['Very High']*100/total).toFixed(1), label: 'Very High' },
+        { value: (row_data['Nil']*100/total).toFixed(1), label: 'Nil' },
         ];
         //console.log(data);
       }
@@ -270,10 +276,13 @@ export default function LocationCard({
           rowstr = commodity+"_"+location+"_Suitability_"+commodity+"_"+optcode[adaption];
         }
         const row_data = area_data[rowstr.toLowerCase()];
-        //console.log("Float");
-        //console.log(rowstr);
-        const total = Number(row_data['Unsuitable']) + Number(row_data['Suitable']) + Number(row_data['Adaptation Benefits']);
-        //console.log(total);
+        let total = 1;
+          if(row_data){
+            total = Number(row_data['Unsuitable']) + Number(row_data['Suitable']) + Number(row_data['Adaptation Benefits']) + Number(row_data['High']);
+          }
+          else{
+            row_data = {'Unsuitable':NaN,'Suitable':NaN,'Adaptation Benefits':NaN};
+          }
         data = 
         [
           createData(<Box sx={{width: 60,height: 13,borderRadius: 1,bgcolor: 'rgba(180, 70, 109, 1)',marginY:'2px'}}/>,'Unsuitable', row_data['Unsuitable']/10, (row_data['Unsuitable']*100/total).toFixed(1), row_data['Unsuitable_Area']/1000000),

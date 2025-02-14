@@ -9,7 +9,6 @@ import './index.css';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import Style from 'ol/style/Style';
-import { styled } from "@mui/material/styles";
 import {fromLonLat} from 'ol/proj';
 import Fill from 'ol/style/Fill';
 import Stroke from 'ol/style/Stroke';
@@ -21,15 +20,14 @@ import './olsm.css';
 import Typography from '@mui/material/Typography';
 import { Popper } from '@mui/material';
 import Slide from '@mui/material/Slide';
-import BoxLegend from './BoxLegend';
 import ReactDOMServer from 'react-dom/server';
 import DownloadIcon from '@mui/icons-material/Download';
-import FillPattern from 'ol-ext/style/FillPattern.js';
 
 export default function MApp({
   activeCrop, focus='Region', activeRegion,
   activeOpt, CurrRisk, activeImpact,activeScenario,
-  sharedView,handleviewchange,activeOptLayer,ImpactName
+  sharedView,handleviewchange,activeOptLayer,ImpactName,
+  displayLayer,activeScale
 }) {
 
     const ref = useRef(null);
@@ -38,6 +36,7 @@ export default function MApp({
     const [Sociolayer, setSocioLayer] = useState(null);
     const [Scalelayer, setScaleLayer] = useState(null);
     const [Adaptlayer, setAdaptLayer] = useState(null);
+    const [Biolayer, setBioLayer] = useState(null);
     const [vectorLayerr, setvectorLayerr] = useState(null);
     const [countryLayer, setcountryLayer] = useState(null);
     const [maskLayer1, setmaskLayer1] = useState(null);
@@ -49,7 +48,7 @@ export default function MApp({
       10843798.383928495,
       4918992.169943628
     ];
-
+    
     let filename = "";
 
     if(activeOpt!==''){
@@ -197,6 +196,36 @@ export default function MApp({
       ]
     };
 
+    const color_hazard2 = {
+      color: [
+        'palette',
+        ['clamp', ['*', ['band', 2], 25], 0, 6],
+        ['rgba(0,0,0,0)', '#059212', '#00FF00', '#FFFF00', '#FFA500', '#FF0000']
+      ]
+    };
+
+    const color_hazard_change = {
+      color: [
+        'palette',
+        [
+          'interpolate',
+          ['linear'],
+          ['*',['band', 2], 250], 
+          0,1,
+          24,2,
+          48,3,
+          72,5,
+          96,6
+        ],
+        ['rgba(0,0,0,0)', 'rgba(150,150,150,0)', 
+        "rgba(128,0,0,1)",   
+        "rgba(255,105,180,1)",   
+        "rgba(255,255,255,0)",  
+        "rgba(135,206,250,1)", 
+        "rgba(0,0,128,1)" ]
+      ]
+    };
+
     const color_hazard_livestock = {
       color: [
         'palette',
@@ -204,20 +233,13 @@ export default function MApp({
         'interpolate',
         ['linear'],
         ['*',['band', 2], 250], 
-        0,
-        1,
-        1,
-        2,
-        2,
-        3,
-        3,
-        4,
-        4,
-        5,
-        5,
-        6,
-        6,
-        7
+        0,1,
+        1,2,
+        2,3,
+        3,4,
+        4,5,
+        5,6,
+        6,7
       ],
       ['rgba(0,0,0,0)','rgba(0,0,0,0)','rgba(150,150,150,1)',"#059212", '#00FF00', "#FFFF00", "#FFA500",'#FF0000', 
       ],
@@ -1009,9 +1031,10 @@ useEffect(() => {
       'Cold stress in reproductive stage':'Cold stress in reproductive stage','Heat stress in reproductive stage':"Heat stress in reproductive stage",
       'Heat stress during boll formation':'Heat stress during boll formation','Cold stress during flowering':'Cold stress during flowering',
       'High tempearture during flowering':'High tempearture during flowering','Biotic Stress':'Biotic stress',"Vulnerability Index":'Vulnerability Index',
-      "Feed/Fodder":'Residue',"Rural infrastructure":'Road network density',"Cyclone":'Cyclone',"Rainfall Deficit":"Rainfall deficit",
+      "Feed/Fodder":'Residue',"Rural infrastructure":'Road network density',"Cyclone":'Cyclone',"Rainfall Deficit":"Rainfall deficit","Rainfall Deficit index":"Rainfall deficit",
       "Extreme Rainfall days":"Extreme Rainfall Days","Cold days":"Cold Stress","Hot days":"Heat stress or hot days","Temperature-Humidity Index":'THI',
-      "Economic Development Indicator":"Human development index"};
+      "Economic Development Indicator":"Human development index",
+      'Seasonal Rainfall':'climatology_prec','Maximum Temperature':'climatology_tmax','Minimum Temperature':'climatology_tmin'};
 
     if(activeOpt!==''){
       opt=2;
@@ -1035,21 +1058,41 @@ useEffect(() => {
     else if(CurrRisk!==''){
       opt=3;
       let urlstr = "xyz.tif";
+      let district_n = "";
+      if(activeScale==='District Level'){
+        district_n = "District/";
+      }
+      if(activeScale==='State Level'){
+        district_n = "State/";
+      }
+      
       if(activeScenario==='baseline'){
-       urlstr = "./Hazards/"+activeCrop+"/Baseline/ZZ_"+hazardname[CurrRisk]+".tif";
+       urlstr = "./Hazards/"+activeCrop+"/Baseline/"+district_n+"ZZ_"+hazardname[CurrRisk]+".tif";
       }
       else if(activeScenario==='ssp245'){
-        urlstr = "./Hazards/"+activeCrop+"/SSP245/ZZ_"+hazardname[CurrRisk]+".tif";
+        urlstr = "./Hazards/"+activeCrop+"/SSP245/"+district_n+"ZZ_"+hazardname[CurrRisk]+".tif";
+        if(displayLayer==='Absolute Change'){
+          opt = 801;
+          urlstr = "./Hazards/"+activeCrop+"/SSP245/"+district_n+"Abs_ZZ_"+hazardname[CurrRisk]+".tif";
+        }
        }
       else{
-        urlstr = "./Hazards/"+activeCrop+"/SSP585/ZZ_"+hazardname[CurrRisk]+".tif";
+        urlstr = "./Hazards/"+activeCrop+"/SSP585/"+district_n+"ZZ_"+hazardname[CurrRisk]+".tif";
+        if(displayLayer==='Absolute Change'){
+          opt = 801;
+          urlstr = "./Hazards/"+activeCrop+"/SSP585/"+district_n+"Abs_ZZ_"+hazardname[CurrRisk]+".tif";
+        }
       }
-      if(CurrRisk==='Hazard Index'){
+      /* if(CurrRisk==='Hazard Index'){
         opt=4;
         urlstr = "./Hazard_index/"+activeCrop+".tif";
-      }
+      } */
       if(CurrRisk==='Flood'){
         opt=99;
+      }
+      if(CurrRisk==='Seasonal Rainfall'||CurrRisk==='Maximum Temperature'||CurrRisk==='Minimum Temperature'){
+        opt=4;
+        urlstr = "./BaseClimate/"+hazardname[CurrRisk]+".tif";
       }
       if(checkcrop2()===false){
         opt=101;
@@ -1057,11 +1100,14 @@ useEffect(() => {
       settiffFilePath(urlstr);
       source1 = new GeoTIFF({sources: [{ url: urlstr}],sourceOptions:{allowFullFile:true}});
     }
-    else if(activeImpact['Productivity'] || activeImpact['Value of Production']){
+    else if(activeImpact['Productivity'] || activeImpact['Value of Production']||activeImpact['Resilience']){
       let urlstr = "xyz.tif";
       opt=3;
       if(activeImpact['Productivity']){
         urlstr = "./Impact/"+activeCrop+"_DR.tif";
+      }
+      if(activeImpact['Resilience']){
+        urlstr = "./Impact/"+activeCrop+"/NT_BS_CV.tif";
       }
       settiffFilePath(urlstr);
       source1 = new GeoTIFF({sources: [{ url: urlstr}],sourceOptions:{allowFullFile:true}});
@@ -1099,7 +1145,7 @@ useEffect(() => {
     });
 
     if(opt===2){
-      newOverl.setStyle(color2);
+      newOverl.setStyle(color_hazard);
     }
     else if(opt===3){
       newOverl.setStyle(color_hazard);
@@ -1107,11 +1153,14 @@ useEffect(() => {
     else if(opt===4){
       newOverl.setStyle(color4);
     }
-    else if(opt==99){
+    else if(opt===99){
       newOverl.setStyle(color_hazard_25);
     }
-    else if(opt==101){
+    else if(opt===101){
       newOverl.setStyle(color_hazard_livestock);
+    }
+    else if(opt===801){
+      newOverl.setStyle(color_hazard_change);
     }
     else{
       newOverl.setStyle(color1);
@@ -1125,15 +1174,16 @@ useEffect(() => {
     }
   }
   
-}, [CurrRisk,activeCrop,activeOpt,activeImpact,mapRef,activeScenario]);
+}, [CurrRisk,activeCrop,activeOpt,activeImpact,mapRef,activeScenario,displayLayer,activeScale]);
 
 useEffect(() => {
+  let source_bio = null;
   let source_adapt = null;
   let source_socio = null;
   let source_scale = null;
   let found = false;
   let opt = 1;
-  const optcode = {'Stress Tolerant Variety':'ADVAR','Early Sowing':'ADPTI','Precision Land Levelling':'LASLV','Zero Tillage with residue':'ZTILL','Broad Bed and Furrow':'BBFIB',
+  const optcode = {'Stress Tolerant Variety':'ADVAR','Early Sowing':'ADPTI','Precision Land Levelling':'LASLV','Zero Tillage with residues':'ZTILL','Broad Bed and Furrow':'BBFIB',
     'DSR (Dry Seed)':'DSDRY','DSR (Wet Seed)':'DSWET','System of Rice Intensification':'SRIUT','Supplemental Irrigation':'WHSRC','Microirrigation':'MICIR','Precision Water Management':'PWMGT',
     'Precision Fertilizer Management':'PNMLT','High-tech Precision Technology':'PNMHT','Deep Placement of Urea':'DR',
     'ICT linked Input Management':'WEAGA','Crop Insurance':'INSUR','Land Management':'LMGT','Feed Management':'FMGT','Herd Management':'HMGT',
@@ -1143,7 +1193,21 @@ useEffect(() => {
     if(activeOpt!==''){
       opt=2;
       let urlstr = "xyz.tif";
-      if(!(Adaptlayer) && activeOptLayer['Technical Suitability']){
+      if(!(Biolayer) && activeOptLayer['Biophysical Suitability']){
+        found = true;
+        if(activeScenario==='baseline'){
+          urlstr = "./Adap/"+activeCrop+"/Baseline/Suitability_"+activeCrop+"_"+optcode[activeOpt]+".tif";
+         }
+         else if(activeScenario==='ssp245'){
+           urlstr = "./Adap/"+activeCrop+"/SSP245/Suitability_"+activeCrop+"_"+optcode[activeOpt]+".tif";
+          }
+         else{
+           urlstr = "./Adap/"+activeCrop+"/SSP585/Suitability_"+activeCrop+"_"+optcode[activeOpt]+".tif";
+         }
+         source_bio = new GeoTIFF({sources: [{ url: urlstr}],sourceOptions:{allowFullFile:true}});
+      }
+
+      if(!(Adaptlayer) && activeOptLayer['Adaptation Benefits']){
         found = true;
         if(activeScenario==='baseline'){
           urlstr = "./Adap/"+activeCrop+"/Baseline/Tech/Suitability_"+activeCrop+"_"+optcode[activeOpt]+".tif";
@@ -1171,8 +1235,9 @@ useEffect(() => {
          source_socio = new GeoTIFF({sources: [{ url: urlstr}],sourceOptions:{allowFullFile:true}});
       }
       
-      if(!(Scalelayer) && activeOptLayer['Scalibility']){
+      if(!(Scalelayer) && activeOptLayer['Scalability']){
         found = true;
+
         if(activeScenario==='baseline'){
           urlstr = "./Adap/"+activeCrop+"/Baseline/Scale/Suitability_"+activeCrop+"_"+optcode[activeOpt]+".tif";
          }
@@ -1191,20 +1256,39 @@ useEffect(() => {
     mapRef.current.removeLayer(overl);
   }
 
-  if(activeOptLayer['Technical Suitability']===false && Adaptlayer){
+  if((activeOptLayer['Biophysical Suitability']===false && Biolayer)||found===false){
+    mapRef.current.removeLayer(Biolayer);
+    setBioLayer(null);
+  }
+  if((activeOptLayer['Adaptation Benefits']===false && Adaptlayer)||found===false){
     mapRef.current.removeLayer(Adaptlayer);
     setAdaptLayer(null);
   }
-  if(activeOptLayer['Economic']===false && Sociolayer){
+  if((activeOptLayer['Economic']===false && Sociolayer)||found===false){
     mapRef.current.removeLayer(Sociolayer);
     setSocioLayer(null);
   }
-  if(activeOptLayer['Scalibility']===false && Scalelayer){
+  if((activeOptLayer['Scalability']===false && Scalelayer)||found===false){
     mapRef.current.removeLayer(Scalelayer);
     setScaleLayer(null);
   }
   
-  if (source_adapt && activeOptLayer['Technical Suitability']) {
+  if (source_bio && activeOptLayer['Biophysical Suitability']) {
+    const newOverl = new TileLayer({
+      source: source_bio,
+      opacity: 0.70,
+      zIndex: 92,
+    });
+
+    if(opt===2){
+      newOverl.setStyle(color_hazard);
+    }
+    if (mapRef.current) {
+      mapRef.current.addLayer(newOverl);
+      setBioLayer(newOverl);
+    }
+  }
+  if (source_adapt && activeOptLayer['Adaptation Benefits']) {
     const newOverl = new TileLayer({
       source: source_adapt,
       opacity: 0.70,
@@ -1214,77 +1298,33 @@ useEffect(() => {
     if(opt===2){
       newOverl.setStyle(color2);
     }
-    else{
-      newOverl.setStyle(color1);
-      if(checkcrop()===false){
-        newOverl.setStyle(colorGradientEx);
-      }
-    }
     if (mapRef.current) {
       mapRef.current.addLayer(newOverl);
       setAdaptLayer(newOverl);
     }
   } 
   if (activeOptLayer['Economic'] && source_socio) {
-    /* const newOverl = new TileLayer({
-      source: source_socio,
-      opacity: 0.80,
-      zIndex: 93,
-    });
-
-    if(opt===2){
-      newOverl.setStyle(color_hazard);
-    }
-    else{
-      newOverl.setStyle(color1);
-      if(checkcrop()===false){
-        newOverl.setStyle(colorGradientEx);
-      }
-    } */
-
     const newOverl = new TileLayer({
       source: source_socio,
       opacity: 0.80,
       zIndex: 93,
     });
-
-    const hatchStyle = new FillPattern({
-      pattern: 'hatch',
-      angle: 45, // Angle of the hatch lines
-      spacing: 10, // Spacing between the hatch lines
-      lineWidth: 2, // Width of the hatch lines
-      color: 'rgba(255, 0, 0, 0.8)', // Color of the hatch lines
-      background: 'rgba(0, 0, 255, 0.2)', // Background color
-    });
-
-    if (opt === 2) {
-      // Apply hatching style along with the hazard color
-      newOverl.setStyle([hatchStyle]);
-    } else {
-      // Apply hatching style along with the default color
-      newOverl.setStyle([hatchStyle]);
+    if(opt===2){
+      newOverl.setStyle(color_hazard2);
     }
-
     if (mapRef.current) {
       mapRef.current.addLayer(newOverl);
       setSocioLayer(newOverl);
     }
   } 
-  if (source_scale && activeOptLayer['Scalibility']) {
+  if (source_scale && activeOptLayer['Scalability']) {
     const newOverl = new TileLayer({
       source: source_scale,
       opacity: 0.90,
       zIndex: 94,
     });
-
     if(opt===2){
       newOverl.setStyle(color_hazard_livestock);
-    }
-    else{
-      newOverl.setStyle(color1);
-      if(checkcrop()===false){
-        newOverl.setStyle(colorGradientEx);
-      }
     }
     if (mapRef.current) {
       mapRef.current.addLayer(newOverl);
@@ -1292,13 +1332,13 @@ useEffect(() => {
     }
   } 
 }, [activeOptLayer,activeOpt,mapRef]);
-
+let optionname = activeOpt;
     return (
     <div style={{overflow:'hidden'}}>
     <div id="popup2" class="ol-popup">
       <div id="popup-content2" style={{textTransform:'capitalize',fontSize:'13px'}}></div>
     </div>
-    <div ref={ref} style={{height:'calc(100vh - 155px)',width:'auto',marginLeft:0,marginBottom:'0px',padding:0}} className="map-container" />
+    <div ref={ref} style={{height:activeOpt===""?'calc(100vh - 155px)':'calc(100vh - 175px)',width:'auto',marginLeft:0,marginBottom:'0px',padding:0}} className="map-container" />
     
     <Popper open={missingSource}>
         <div style={{position:'fixed',right:'330px',top:95, boxShadow:'0px 0px 1px #aaa',backgroundColor: 'rgba(14, 33, 1, 0.6)', border: '0px solid black', width:'180px', borderRadius:'5px',padding:'3px'}}>

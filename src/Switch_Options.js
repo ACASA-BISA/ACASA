@@ -268,7 +268,7 @@ export default function SwitchOpt({
 
   return (
     <FormControl component="fieldset" variant="standard"  sx={{paddingTop:1, paddingLeft:3}}>
-      {exploreType==='Commodity' && <FormLabel sx={{display:'flex',paddingBottom:1}}>
+      {/* {exploreType==='Commodity' && <FormLabel sx={{display:'flex',paddingBottom:1}}>
         <Typography sx={{color:'black',fontWeight:'bold',fontSize:14,paddingTop:1}}>Select adaptation indicator for {cropname.toLowerCase()}</Typography>
         </FormLabel>}
         {exploreType==='Regional' && <FormLabel sx={{display:'flex',paddingBottom:1}}>
@@ -280,7 +280,7 @@ export default function SwitchOpt({
             color="success" sx={{padding:0,marginLeft:1,marginRight:'2px'}}/>} 
             label={<Typography variant="body2" align='left'  sx={{peddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
             whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>Biophysical suitability</Typography>}/>
-        <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Technical Suitability']} name="Technical Suitability" 
+        <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Adaptation Benefits']} name="Adaptation Benefits" 
             onChange={changeOptLayer}
             color="success" sx={{padding:0,marginLeft:1,marginRight:'2px'}}/>} 
             label={<Typography variant="body2" align='left'  sx={{peddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
@@ -290,17 +290,17 @@ export default function SwitchOpt({
             color="success" sx={{padding:0,marginLeft:1,marginRight:'2px'}}/>} 
             label={<Typography variant="body2" align='left'  sx={{peddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
             whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>Economic benefits</Typography>}/>
-        <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Scalibility']} name="Scalibility" 
+        <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Scalability']} name="Scalability" 
             onChange={changeOptLayer}
             color="success" sx={{padding:0,marginLeft:1,marginRight:'2px'}}/>} 
             label={<Typography variant="body2" align='left'  sx={{peddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
             whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>Scalability</Typography>}/>
-             <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Gender']} name="Gender" 
+        <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Gender']} name="Gender" 
             onChange={changeOptLayer}
             color="success" sx={{padding:0,marginLeft:1,marginRight:'2px'}}/>} 
             label={<Typography variant="body2" align='left'  sx={{peddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
             whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>Gender suitability</Typography>}/>
-        </FormGroup>
+        </FormGroup> */}
         {exploreType==='Regional' && <div> <FormLabel sx={{display:'flex',paddingBottom:1}}>
         <Typography sx={{color:'black',fontWeight:'bold',fontSize:14,paddingTop:1}}>Select adaptation option</Typography>
         </FormLabel>

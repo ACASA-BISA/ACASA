@@ -255,7 +255,8 @@ export default function DrawerMapShow({ activeBar }) {
     "Biotic Stress",
     "Marginal Farmers",
     "Holding size",
-    "Fertilizer consumption"
+    "Fertilizer consumption",
+    'Seasonal Rainfall','Maximum Temperature','Minimum Temperature'
   ];
 
   const switchCombId = [
@@ -308,7 +309,8 @@ export default function DrawerMapShow({ activeBar }) {
     "BIOTIC2",
     "FARMERS",
     "HSIZE",
-    "FERTILIZER"
+    "FERTILIZER",
+    'seasonalrain','maxtemp','mintemp'
   ];
 
   function createInitialCrops() {
@@ -404,7 +406,7 @@ export default function DrawerMapShow({ activeBar }) {
   );
 
   const [optionlayer, setOptionLayer] = React.useState(
-    {'Biophysical Suitability':false,'Gender':false,'Technical Suitability':false,'Economic':false,'Scalibility':false}
+    {'Biophysical Suitability':false,'Gender':false,'Adaptation Benefits':false,'Economic':false,'Scalability':false}
   );
 
   function initialCrop() {
@@ -568,10 +570,10 @@ export default function DrawerMapShow({ activeBar }) {
       setOptionLayer({
         ...optionlayer,
         'Biophysical Suitability':false,
-        'Gender':false,
-        'Technical Suitability':false,
+        'Adaptation Benefits':false,
         'Economic':false,
-        'Scalibility':false
+        'Scalability':false,
+        'Gender':false
       });
       setOption(newState);
       setRisk(InitialHazard);
@@ -730,6 +732,10 @@ export default function DrawerMapShow({ activeBar }) {
     setActiveRegion2(rname);
   };
 
+  const [displayLayer, setDisplayLayer] = React.useState(
+    'Absolute Change'
+  );
+
     const container = useRef(null);
     const [height1, setHeight1] = React.useState(null);
 
@@ -781,7 +787,8 @@ export default function DrawerMapShow({ activeBar }) {
 
         {activeBar==='future' && <CompV activeCrop={Currcrop} changeCrop={handleChange_CMP} LocationData={countryStateMap} focus={focus} activeRegion={activeRegion} changeRegion={ActiveRegionChange} CurrRisk={RiskName}
         activeOpt={CurrOpt} changeOpt={handleChangeOpt_CMP} changeRisk={changeRisk} activeImpact={CurrImpact} changeImpact={changeImpact_CMP} activeScenario={scenario} changeScenario={handleScenarioChange}
-        area_dict3={area_dict3} area_dict4={area_dict4} activeOptLayer={optionlayer} changeOptLayer={changeOptLayer} modelName={Model}></CompV>}
+        area_dict3={area_dict3} area_dict4={area_dict4} activeOptLayer={optionlayer} changeOptLayer={changeOptLayer} modelName={Model} displayLayer={displayLayer} setDisplayLayer={setDisplayLayer} 
+        activeScale={vis_scale}></CompV>}
 
         {activeBar==='future' && <DrawerV activeCrop={crop} changeCrop={handleChange} LocationData={countryStateMap} activeRegion={activeRegion} changeRegion={ActiveRegionChange} CurrRisk={RiskName}
         activeOpt={option} changeOpt={handleChangeOpt} changeRisk={changeRisk} activeImpact={CurrImpact} changeImpact={changeImpact} activeScenario={scenario} changeScenario={handleScenarioChange}

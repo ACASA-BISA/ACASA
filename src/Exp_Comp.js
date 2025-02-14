@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Paper, Typography, Box, MenuItem, Select, FormControl, Popper, InputLabel, Slider, IconButton} from '@mui/material';
+import { Grid, Paper, Typography, Box, MenuItem, Select, FormControl, 
+  Popper, InputLabel, Slider, IconButton, Checkbox
+} from '@mui/material';
 import Map_Option from './Comp_Map';  // Assuming this is your map component
 import './font.css';
 import './extra.css';
@@ -7,6 +9,8 @@ import './font2.css';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import { styled } from '@mui/material/styles';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import Legend_Small from './Legend_Small';
 
 // Array of image URLs, one for each year
@@ -59,7 +63,10 @@ export default function CompV({
   area_dict4,
   activeOptLayer,
   changeOptLayer,
-  modelName
+  modelName,
+  displayLayer,
+  setDisplayLayer,
+  activeScale
 }) {
     let scn = 'baseline';
     if(activeScenario['ssp245']){
@@ -68,8 +75,8 @@ export default function CompV({
     else if(activeScenario['ssp585']){
         scn ='ssp585';
     }
-    
-    const [futureModel, setFutureModel] = React.useState('Percentage Change');
+    console.log(scn);
+    const [futureModel, setFutureModel] = React.useState(displayLayer);
     let sec = activeRegion.indexOf(',');
 
     const countryMap1 ={};
@@ -110,8 +117,8 @@ export default function CompV({
     countryMap['MV'] = 'Maldives';
 
     const handleScenariochange = (event) => {
-      changeScenario(event.target.value);
       setFutureModel(event.target.value);
+      setDisplayLayer(event.target.value);
     } 
 
     const [sharedView, setSharedView] = React.useState(null);
@@ -150,7 +157,7 @@ export default function CompV({
     else if(activeOptLayer['Biophysical Suitability']){
       AdaptLayerName = "Biophysical Suitability";
     }
-    else if(activeOptLayer['Technical Suitability']){
+    else if(activeOptLayer['Adaptation Benefits']){
       AdaptLayerName = "Adaptation Benefits";
     }
     else{
@@ -241,42 +248,81 @@ export default function CompV({
       setBoxWidth(gridRefs[1].current.offsetWidth); // Set the width after DOM updates
     }
   }, [gridRefs[1].current]);
+
+    const CustomFormControlLabel = styled(FormControlLabel)(({ theme }) => ({
+      alignItems: 'flex-start', // Align items to the start 
+      '&.Mui-disabled .MuiTypography-body2': {
+        color: '#ccc', // Color for the label text when disabled
+      },
+    }));
     
   return (
     <div className='viewer-container' style={{overflow:'hidden'}}>
+    
     <Grid container sx={{marginTop:'0px',paddingX: '1rem'}} columns={12}>
-      {activeScenario['baseline'] && <Grid item xs={12} key='Only_Baseline' ref={Only_Baseline}>
-      <Box sx={{width:'100%',bgcolor:'#C1E1C1',height:'24px',
-                display:'flex',flexDirection:'row',
-                alignContent:'center',justifyContent:'center',alignItems:'center',
-                gap:'10px'}}>
-                <Typography align="center" sx={{fontSize:'14px',fontWeight:'bold',fontFamily:'Karla'}}>Baseline</Typography>
-              </Box>
-              <Paper elevation={1} sx={{ width: '100%', height: 'calc(100vh - 155px)' }}>
-              <div>
-                  <Map_Option activeCrop={activeCrop} activeScenario='baseline' focus={focus} activeRegion={activeRegion} activeOpt={activeOpt} CurrRisk={CurrRisk} activeImpact={activeImpact}
-                  sharedView={sharedView} handleviewchange={handleviewchange} activeOptLayer={activeOptLayer} ImpactName={NameImpact}></Map_Option>
-                  {(CurrRisk!=='' || activeOpt!==''|| NameImpact!=='') && <Popper
-                  open={true} // Always open
-                  anchorEl={Only_Baseline.current} // Anchor to the Grid container
-                  placement="bottom" // Position it at the bottom
-                  disablePortal={true} // Stay within the DOM hierarchy
-                  modifiers={[
-                    {
-                      name: "offset",
-                      options: {
-                        offset: [3, -130], // Adjust distance from the container
-                      },
-                    },
-                  ]}
-                >
-                  <Paper elevation={1} sx={{ maxWidth: paperWidth,borderRadius: "5px",padding:'3px'}}>
-                  <Legend_Small location={activeRegion} commodity={activeCrop} adaption={activeOpt} RiskName={CurrRisk}
-                      scenario='baseline' ImpactName={NameImpact} area_data3={area_dict3} area_data4={area_dict4} AdaptLayerName={AdaptLayerName}></Legend_Small>
-                  </Paper>
-                </Popper>}
-                </div>
-                </Paper>
+    {activeOpt!=='' && <Box sx={{width:'100%',marginTop:'0px',backgroundColor:'#ddd',marginBottom:'2px'}}>
+        <FormGroup  sx={{display:'flex',flexDirection:'row',flexWrap:'wrap',gap:0.5,marginY:'2px',
+          alignItems:'center',alignContent:'center',justifyItems:'center',justifyContent:'center'}}>
+                <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Biophysical Suitability']} name="Biophysical Suitability" 
+                    onChange={changeOptLayer}
+                    color="success" sx={{padding:0,marginLeft:1,marginRight:'2px'}}/>} 
+                    label={<Typography variant="body2" align='left'  sx={{peddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
+                    whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>Biophysical suitability</Typography>}/>
+                <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Adaptation Benefits']} name="Adaptation Benefits" 
+                    onChange={changeOptLayer}
+                    color="success" sx={{padding:0,marginLeft:1,marginRight:'2px'}}/>} 
+                    label={<Typography variant="body2" align='left'  sx={{peddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
+                    whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>Adaptation benefits</Typography>}/>
+                <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Economic']}  name="Economic" 
+                    onChange={changeOptLayer}
+                    color="success" sx={{padding:0,marginLeft:1,marginRight:'2px'}}/>} 
+                    label={<Typography variant="body2" align='left'  sx={{peddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
+                    whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>Economic benefits</Typography>}/>
+                <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Scalability']} name="Scalability" 
+                    onChange={changeOptLayer}
+                    color="success" sx={{padding:0,marginLeft:1,marginRight:'2px'}}/>} 
+                    label={<Typography variant="body2" align='left'  sx={{peddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
+                    whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>Scalability</Typography>}/>
+                <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Gender']} name="Gender" 
+                    onChange={changeOptLayer}
+                    color="success" sx={{padding:0,marginLeft:1,marginRight:'2px'}}/>} 
+                    label={<Typography variant="body2" align='left'  sx={{peddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
+                    whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>Gender suitability</Typography>}/>
+                </FormGroup>
+      </Box>}
+      {activeScenario['baseline'] && 
+      <Grid item xs={12} key='Only_Baseline' ref={Only_Baseline}>
+        <Box sx={{width:'100%',bgcolor:'#C1E1C1',height:'24px',
+          display:'flex',flexDirection:'row',
+          alignContent:'center',justifyContent:'center',alignItems:'center',
+          gap:'10px'}}>
+          <Typography align="center" sx={{fontSize:'14px',fontWeight:'bold',fontFamily:'Karla'}}>Baseline</Typography>
+        </Box>
+        <Paper elevation={1} sx={{ width: '100%', height:activeOpt===""?'calc(100vh - 155px)':'calc(100vh - 175px)' }}>
+        <div>
+            <Map_Option activeCrop={activeCrop} activeScenario='baseline' focus={focus} activeRegion={activeRegion} activeOpt={activeOpt} CurrRisk={CurrRisk} activeImpact={activeImpact}
+            sharedView={sharedView} handleviewchange={handleviewchange} activeOptLayer={activeOptLayer} ImpactName={NameImpact} displayLayer={displayLayer} activeScale={activeScale}></Map_Option>
+            {(CurrRisk!=='' || activeOpt!==''|| NameImpact!=='') && <Popper
+            open={true} // Always open
+            anchorEl={Only_Baseline.current} // Anchor to the Grid container
+            placement="bottom" // Position it at the bottom
+            disablePortal={true} // Stay within the DOM hierarchy
+            modifiers={[
+              {
+                name: "offset",
+                options: {
+                  offset: [3, -130], // Adjust distance from the container
+                },
+              },
+            ]}
+          >
+            <Paper elevation={1} sx={{ maxWidth: paperWidth,borderRadius: "5px",padding:'3px'}}>
+            <Legend_Small location={activeRegion} commodity={activeCrop} adaption={activeOpt} RiskName={CurrRisk}
+                scenario='baseline' ImpactName={NameImpact} area_data3={area_dict3} area_data4={area_dict4} AdaptLayerName={AdaptLayerName} displayLayer='Absolute'></Legend_Small>
+            </Paper>
+          </Popper>}
+          </div>
+          </Paper>
         </Grid>}
         {(activeScenario['baseline']===false && modelName==='CHC') && <Grid item xs={12}>
         <Grid container spacing={1}>
@@ -300,11 +346,11 @@ export default function CompV({
                 </FormControl>}
               </Box>
               
-              <Paper elevation={1} sx={{ width: '100%', height: 'calc(100vh - 155px)' }}>
+              <Paper elevation={1} sx={{ width: '100%', height:activeOpt===""?'calc(100vh - 155px)':'calc(100vh - 175px)' }}>
                 {label==='Baseline'&&
                 <div>
                   <Map_Option activeCrop={activeCrop} activeScenario='baseline' focus={focus} activeRegion={activeRegion} activeOpt={activeOpt} CurrRisk={CurrRisk} activeImpact={activeImpact}
-                  sharedView={sharedView} handleviewchange={handleviewchange} activeOptLayer={activeOptLayer} ImpactName={NameImpact}></Map_Option>
+                  sharedView={sharedView} handleviewchange={handleviewchange} activeOptLayer={activeOptLayer} ImpactName={NameImpact} displayLayer={displayLayer} activeScale={activeScale}></Map_Option>
                   {(CurrRisk!=='' || activeOpt!==''|| NameImpact!=='') && <Popper
                   open={true} // Always open
                   anchorEl={gridRefs[index].current} // Anchor to the Grid container
@@ -321,15 +367,15 @@ export default function CompV({
                 >
                   <Paper elevation={1} sx={{ maxWidth: boxWidth - 18,borderRadius: "5px",padding:'3px'}}>
                   <Legend_Small location={activeRegion} commodity={activeCrop} adaption={activeOpt} RiskName={CurrRisk}
-                      scenario='baseline' ImpactName={NameImpact} area_data3={area_dict3} area_data4={area_dict4} AdaptLayerName={AdaptLayerName}></Legend_Small>
+                      scenario='baseline' ImpactName={NameImpact} area_data3={area_dict3} area_data4={area_dict4} AdaptLayerName={AdaptLayerName} displayLayer='Absolute'></Legend_Small>
                   </Paper>
                 </Popper>}
 
                 </div>}
                 {label==='2050s'&&
                 <div>
-                  <Map_Option activeCrop={activeCrop} activeScenario='ssp245' focus={focus} activeRegion={activeRegion} activeOpt={activeOpt} CurrRisk={CurrRisk} activeImpact={activeImpact}
-                  sharedView={sharedView} handleviewchange={handleviewchange} activeOptLayer={activeOptLayer} ImpactName={NameImpact}></Map_Option>
+                  <Map_Option activeCrop={activeCrop} activeScenario={scn} focus={focus} activeRegion={activeRegion} activeOpt={activeOpt} CurrRisk={CurrRisk} activeImpact={activeImpact}
+                  sharedView={sharedView} handleviewchange={handleviewchange} activeOptLayer={activeOptLayer} ImpactName={NameImpact} displayLayer={displayLayer} activeScale={activeScale}></Map_Option>
                   {(CurrRisk!=='' || activeOpt!==''|| NameImpact!=='') && <Popper
                   open={true} // Always open
                   anchorEl={gridRefs[index].current} // Anchor to the Grid container
@@ -346,7 +392,7 @@ export default function CompV({
                 >
                   <Paper elevation={1} sx={{ maxWidth: boxWidth - 18,borderRadius: "5px",padding:'3px'}}>
                   <Legend_Small location={activeRegion} commodity={activeCrop} adaption={activeOpt} RiskName={CurrRisk}
-                      scenario='ssp245' ImpactName={NameImpact} area_data3={area_dict3} area_data4={area_dict4} AdaptLayerName={AdaptLayerName}></Legend_Small>
+                      scenario={scn} ImpactName={NameImpact} area_data3={area_dict3} area_data4={area_dict4} AdaptLayerName={AdaptLayerName} displayLayer={displayLayer}></Legend_Small>
                   </Paper>
                 </Popper>}
                 </div>}
@@ -377,11 +423,11 @@ export default function CompV({
                 </FormControl>}
               </Box>
               
-              <Paper elevation={1} sx={{ width: '100%', height: 'calc(100vh - 155px)' }}>
+              <Paper elevation={1} sx={{ width: '100%', height:activeOpt===""?'calc(100vh - 155px)':'calc(100vh - 175px)' }}>
                 {label==='Baseline'&&
                 <div>
                   <Map_Option activeCrop={activeCrop} activeScenario='baseline' focus={focus} activeRegion={activeRegion} activeOpt={activeOpt} CurrRisk={CurrRisk} activeImpact={activeImpact}
-                  sharedView={sharedView} handleviewchange={handleviewchange} activeOptLayer={activeOptLayer} ImpactName={NameImpact}></Map_Option>
+                  sharedView={sharedView} handleviewchange={handleviewchange} activeOptLayer={activeOptLayer} ImpactName={NameImpact} displayLayer={displayLayer} activeScale={activeScale}></Map_Option>
                   {(CurrRisk!=='' || activeOpt!==''|| NameImpact!=='') && <Popper
                   open={true} // Always open
                   anchorEl={gridRefs[index].current} // Anchor to the Grid container
@@ -398,15 +444,15 @@ export default function CompV({
                 >
                   <Paper elevation={1} sx={{ maxWidth: boxWidth - 18,borderRadius: "5px",padding:'3px'}}>
                   <Legend_Small location={activeRegion} commodity={activeCrop} adaption={activeOpt} RiskName={CurrRisk}
-                      scenario='baseline' ImpactName={NameImpact} area_data3={area_dict3} area_data4={area_dict4} AdaptLayerName={AdaptLayerName}></Legend_Small>
+                      scenario='baseline' ImpactName={NameImpact} area_data3={area_dict3} area_data4={area_dict4} AdaptLayerName={AdaptLayerName} displayLayer='Absolute'></Legend_Small>
                   </Paper>
                 </Popper>}
 
                 </div>}
                 {label==='2050s'&&
                 <div>
-                  <Map_Option activeCrop={activeCrop} activeScenario='ssp245' focus={focus} activeRegion={activeRegion} activeOpt={activeOpt} CurrRisk={CurrRisk} activeImpact={activeImpact}
-                  sharedView={sharedView} handleviewchange={handleviewchange} activeOptLayer={activeOptLayer} ImpactName={NameImpact}></Map_Option>
+                  <Map_Option activeCrop={activeCrop} activeScenario={scn} focus={focus} activeRegion={activeRegion} activeOpt={activeOpt} CurrRisk={CurrRisk} activeImpact={activeImpact}
+                  sharedView={sharedView} handleviewchange={handleviewchange} activeOptLayer={activeOptLayer} ImpactName={NameImpact} displayLayer={displayLayer} activeScale={activeScale}></Map_Option>
                   {(CurrRisk!=='' || activeOpt!==''|| NameImpact!=='') && <Popper
                   open={true} // Always open
                   anchorEl={gridRefs[index].current} // Anchor to the Grid container
@@ -423,14 +469,14 @@ export default function CompV({
                 >
                   <Paper elevation={1} sx={{ maxWidth: boxWidth - 18,borderRadius: "5px",padding:'3px'}}>
                   <Legend_Small location={activeRegion} commodity={activeCrop} adaption={activeOpt} RiskName={CurrRisk}
-                      scenario='ssp245' ImpactName={NameImpact} area_data3={area_dict3} area_data4={area_dict4} AdaptLayerName={AdaptLayerName}></Legend_Small>
+                      scenario={scn} ImpactName={NameImpact} area_data3={area_dict3} area_data4={area_dict4} AdaptLayerName={AdaptLayerName} displayLayer={displayLayer}></Legend_Small>
                   </Paper>
                 </Popper>}
                 </div>}
                 {label==='2080s'&&
                 <div>
-                  <Map_Option activeCrop={activeCrop} activeScenario='ssp585' focus={focus} activeRegion={activeRegion} activeOpt={activeOpt} CurrRisk={CurrRisk} activeImpact={activeImpact}
-                  sharedView={sharedView} handleviewchange={handleviewchange} activeOptLayer={activeOptLayer} ImpactName={NameImpact}></Map_Option>
+                  <Map_Option activeCrop={activeCrop} activeScenario={scn} focus={focus} activeRegion={activeRegion} activeOpt={activeOpt} CurrRisk={CurrRisk} activeImpact={activeImpact}
+                  sharedView={sharedView} handleviewchange={handleviewchange} activeOptLayer={activeOptLayer} ImpactName={NameImpact} displayLayer={displayLayer} activeScale={activeScale}></Map_Option>
                   {(CurrRisk!=='' || activeOpt!=='' || NameImpact!=='') && <Popper
                   open={true} // Always open
                   anchorEl={gridRefs[index].current} // Anchor to the Grid container
@@ -447,7 +493,7 @@ export default function CompV({
                 >
                   <Paper elevation={1} sx={{ maxWidth: boxWidth - 18,borderRadius: "5px",padding:'3px'}}>
                   <Legend_Small location={activeRegion} commodity={activeCrop} adaption={activeOpt} RiskName={CurrRisk}
-                      scenario='ssp585' ImpactName={NameImpact} area_data3={area_dict3} area_data4={area_dict4} AdaptLayerName={AdaptLayerName}></Legend_Small>
+                      scenario={scn} ImpactName={NameImpact} area_data3={area_dict3} area_data4={area_dict4} AdaptLayerName={AdaptLayerName} displayLayer={displayLayer}></Legend_Small>
                   </Paper>
                 </Popper>}
                 {/* {(CurrRisk!=='' || activeOpt!=='') && <Popper

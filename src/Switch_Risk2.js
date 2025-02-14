@@ -86,7 +86,7 @@ export default function SwitchRisk2({
             HazardList = ['HEAT STRESS1','HEAT STRESS2','COLD STRESS2','DELMON','SPI','DSN','FLOOD'];
         }
         else if(sname==='wheat'){
-            HazardList = ['HIGH POLLEN','TERMINAL HEAT','FROST','ERWL2','SPI','LODGE'];
+            HazardList = ['HIGH POLLEN','TERMINAL HEAT','FROST','ERWL2','RAINDEF','LODGE'];
         }
         else if(sname==='barley'){
             HazardList = ['HEAT STRESS','TERMINAL HEAT','FROST','ERWL2','SPI','LODGE'];
@@ -181,7 +181,7 @@ export default function SwitchRisk2({
   const switchCombId = ['dl','dr','riskindex','HINDEX','COLD STRESS2',"ERWL2",'LOW POLLEN','HIGH POLLEN','HEAT STRESS','HEAT STRESS1','HEAT STRESS2',
     'COLD STRESS','PCOLD','TERMINAL HEAT','FROST','ERWL','DELMON','SPI','DSN','FLOOD','LODGE','BIOTIC',"ER",,"THI",'HD','CD','ERD',
     'RAINDEF','CYCL','CSTRESS REPRO','HIGH REPRO','HSTRESS BOLL','COLD FLOWER','HIGH FLOWER','animals','vulne','irrigation','waterholding','soil','GDP',
-    'ROAD','HDI',"CROPRES",'expoindex','c-area','BIOTIC2',"FARMERS","HSIZE","FERTILIZER"];
+    'ROAD','HDI',"CROPRES",'expoindex','c-area','BIOTIC2',"FARMERS","HSIZE","FERTILIZER",'seasonalrain','maxtemp','mintemp'];
 
   const Risk = ['District Level','Downscaled Risk','Risk Index','Hazard Index','Low temperature induced spikelet sterility',"Untimely Rainfall",
         'Low temperature induced pollen sterility','High temperature induced pollen sterility','Heat Stress','Heat Stress','High temperature induced spikelet sterility',
@@ -190,7 +190,8 @@ export default function SwitchRisk2({
       "Rainfall Deficit","Cyclone",'Cold stress in reproductive stage','Heat stress in reproductive stage',
       'Heat stress during boll formation','Cold stress during flowering','High tempearture during flowering','Number of Animals per grid',
       'Vulnerability Index','Irrigation','Soil Water Holding Capacity','Soil Organic Carbon','Agriculture Income','Rural infrastructure','Economic Development Indicator',
-      "Feed/Fodder",'Exposure Index','Cropped Area','Biotic Stress',"Marginal Farmers","Holding size","Fertilizer consumption"];
+      "Feed/Fodder",'Exposure Index','Cropped Area','Biotic Stress',"Marginal Farmers","Holding size","Fertilizer consumption",
+      'Seasonal Rainfall','Maximum Temperature','Minimum Temperature'];
 
   function createInitialP2() {
     const initialTodos = {};

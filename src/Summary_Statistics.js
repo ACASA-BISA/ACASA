@@ -1,6 +1,37 @@
 import * as React from 'react';
 import { Popper, Paper, Typography, Box, Select, MenuItem, InputLabel, Button, FormControl, Card, CardContent, Backdrop} from '@mui/material';
 import './font2.css';
+import { PieChart, Pie, Cell, Tooltip } from "recharts";
+
+const data1 = [  // Outer layer (Layer 3)
+    { name: "Class A", value: 30 },
+    { name: "Class B", value: 25 },
+    { name: "Class C", value: 20 },
+    { name: "Class D", value: 15 },
+    { name: "Class E", value: 10 }
+  ];
+  
+const data2 = [  // Middle layer (Layer 2)
+    { name: "Sub A1", value: 15 },
+    { name: "Sub B1", value: 12 },
+    { name: "Sub C1", value: 10 },
+    { name: "Sub D1", value: 7 },
+    { name: "Sub E1", value: 5 }
+    ];
+
+const data3 = [  // Inner layer (Layer 1)
+    { name: "Inner A", value: 10 },
+    { name: "Inner B", value: 10 },
+    { name: "Inner C", value: 10 },
+    { name: "Inner D", value: 10 },
+    { name: "Inner E", value: 10 }
+    ];
+
+const COLORS = ["rgba(4, 114, 14, 1)","rgba(0, 204, 0, 1)","rgba(204, 204, 0, 1)",
+  "rgba(204, 132, 0, 1)","rgba(204, 0, 0, 1)"];
+const COLORS2 = ['#059212', '#00FF00', '#FFFF00', '#FFA500', '#FF0000'];
+const COLORS3 = ["rgba(37, 184, 50, 1)","rgba(102, 255, 102, 1)","rgba(255, 255, 153, 1)",
+  "rgba(255, 199, 102, 1)", "rgba(255, 102, 102, 1)"]; 
 
 const CardWithPopper = ({ title, content }) => {
     const [open, setOpen] = React.useState(false);
@@ -76,6 +107,7 @@ const CardWithPopper = ({ title, content }) => {
                     </Typography>
                 </Box>
             )}
+            
         </>
     );
 };
@@ -157,7 +189,35 @@ export default function Summary_Statistics({
                 />
             ))}
         </Box>
-            </Box>
+      </Box>
+      <Box display="flex" flexDirection="column" alignItems="center">
+      <Typography variant="h6" sx={{ mb: 2 }}>Multi-Level Pie Chart</Typography>
+      <PieChart width={400} height={400}>
+        
+        {/* Outer layer (Largest) */}
+        <Pie data={data1} dataKey="value" cx="50%" cy="50%" outerRadius={120} fill="#8884d8" label>
+          {data1.map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+          ))}
+        </Pie>
+
+        {/* Middle layer */}
+        <Pie data={data2} dataKey="value" cx="50%" cy="50%" innerRadius={50} outerRadius={90} fill="#82ca9d">
+          {data2.map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={COLORS2[index % COLORS2.length]} />
+          ))}
+        </Pie>
+
+        {/* Inner layer (Smallest) */}
+        <Pie data={data3} dataKey="value" cx="50%" cy="50%" innerRadius={0} outerRadius={50} fill="#FFBB28">
+          {data3.map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={COLORS3[index % COLORS3.length]} />
+          ))}
+        </Pie>
+
+        <Tooltip />
+      </PieChart>
+    </Box>
         </div>
     )
 };
