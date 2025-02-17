@@ -787,7 +787,7 @@ export default function Description() {
   //The page structure
   return (
     <div>
-      <Paper>
+      <Paper sx={{ backgroundColor: theme => theme.palette.background.paper, paddingTop: "5px"}}>
         <Box
           sx={{ textAlign: "left", marginLeft: "150px", marginRight: "40px" }}
         >
@@ -796,7 +796,7 @@ export default function Description() {
               fontSize: "20px",
               fontWeight: "bold",
               marginTop: "5px",
-              color: "#333333",
+              color: theme => (theme.palette.mode === "light" ? "#333333" : "#ffffff"), 
               /*fontFamily: "revert",*/
             }}
           >
@@ -806,7 +806,7 @@ export default function Description() {
             sx={{
               fontSize: "15px",
               marginTop: "5px",
-              color: "#333333",
+              color: theme => (theme.palette.mode === "light" ? "#333333" : "#ffffff"), 
               /*fontFamily: "revert",*/
             }}
           >
@@ -819,7 +819,7 @@ export default function Description() {
             sx={{
               fontSize: "15px",
               marginTop: "8px",
-              color: "#333333",
+              color: theme => (theme.palette.mode === "light" ? "#333333" : "#ffffff"), 
               /*fontFamily: "revert",*/
             }}
           >
@@ -829,7 +829,7 @@ export default function Description() {
           <div className="filter-container">
             <div className="card-filters">
               <FormControl
-                sx={{
+                sx={(theme) => ({
                   minWidth: 130,
                   "& .MuiOutlinedInput-root": {
                     "& fieldset": {
@@ -844,12 +844,12 @@ export default function Description() {
                     },
                   },
                   "& .MuiInputLabel-root": {
-                    color: "#666",
+                    color: theme.palette.mode === "dark" ? "#ccc" : "#666",
                   },
                   "& .MuiInputLabel-root.Mui-focused": {
-                    color: "#666",
+                    color: theme.palette.mode === "dark" ? "#fff" : "#666",
                   },
-                }}
+                })}
                 size="small"
               >
                 <InputLabel id="demo-select-small-label">Commodity</InputLabel>
@@ -918,7 +918,7 @@ export default function Description() {
               </FormControl>
 
               <FormControl
-                sx={{
+                sx={(theme) => ({
                   minWidth: 120,
                   "& .MuiOutlinedInput-root": {
                     "& fieldset": {
@@ -933,12 +933,12 @@ export default function Description() {
                     },
                   },
                   "& .MuiInputLabel-root": {
-                    color: "#666",
+                    color: theme.palette.mode === "dark" ? "#ccc" : "#666",
                   },
                   "& .MuiInputLabel-root.Mui-focused": {
-                    color: "#666",
+                    color: theme.palette.mode === "dark" ? "#fff" : "#666",
                   },
-                }}
+                })}
                 size="small"
               >
                 <InputLabel id="demo-select-small-label">Scenario</InputLabel>
@@ -959,7 +959,7 @@ export default function Description() {
               </FormControl>
 
               <FormControl
-                sx={{
+                sx={(theme) => ({
                   minWidth: 120,
                   "& .MuiOutlinedInput-root": {
                     "& fieldset": {
@@ -974,12 +974,12 @@ export default function Description() {
                     },
                   },
                   "& .MuiInputLabel-root": {
-                    color: "#666",
+                    color: theme.palette.mode === "dark" ? "#ccc" : "#666",
                   },
                   "& .MuiInputLabel-root.Mui-focused": {
-                    color: "#666",
+                    color: theme.palette.mode === "dark" ? "#fff" : "#666",
                   },
-                }}
+                })}
                 size="small"
               >
                 <InputLabel id="demo-select-small-label">Layer Type</InputLabel>

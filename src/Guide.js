@@ -8,14 +8,20 @@ import TimelineConnector from "@mui/lab/TimelineConnector";
 import TimelineContent from "@mui/lab/TimelineContent";
 import TimelineOppositeContent from "@mui/lab/TimelineOppositeContent";
 import { ReactTyped } from "react-typed";
+import zIndex from "@mui/material/styles/zIndex";
 
 // Define a component for the heading with a typewriter effect
 const headingA = () => {
   return (
     <Box sx={headingBoxStyle}>
       <Typography
-        sx={{ fontSize: "34px", fontWeight: "bold" }}
-        style={{ fontFamily: "Playfair Display", color: "#4ba046" }}
+        sx={{
+          fontSize: "34px",
+          fontWeight: "bold",
+          fontFamily: "Playfair Display",
+          color: (theme) =>
+            theme.palette.mode === "dark" ? "#6dd769" : "#4ba046",
+        }}
       >
         {" "}
         <ReactTyped
@@ -37,10 +43,13 @@ const headingBoxStyle = {
   top: "-60px",
   left: "10px",
   zIndex: 1000,
-  backgroundColor: "#fff",
+  backgroundColor: (theme) => theme.palette.background.paper,
   padding: "10px",
   borderRadius: "8px",
-  boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
+  boxShadow: (theme) =>
+    theme.palette.mode === "dark"
+      ? "0px 0px 10px rgba(255, 255, 255, 0.1)" // Lighter shadow in dark mode
+      : "0px 0px 10px rgba(0, 0, 0, 0.1)",
 };
 
 // Styles for the timeline event images
@@ -50,22 +59,30 @@ const logoStyle = {
   margin: "10px",
   marginBottom: "8px",
   padding: "5px",
-  border: "3px solid #4b9e44",
+  border: (theme) =>
+    `3px solid ${theme.palette.mode === "dark" ? "#71c96d" : "#4b9e44"}`,
   borderRadius: "8px",
 };
 
 // Base styles for the tooltip boxes
 const tooltipBoxStyleBase = {
   padding: "20px",
-  border: "1px solid #4b9e44",
+  border: (theme) =>
+    `1px solid ${theme.palette.mode === "dark" ? "#71c96d" : "#4b9e44"}`,
   height: "auto",
   width: "25vw",
   position: "relative",
   borderRadius: "8px",
-  boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
+  boxShadow: (theme) =>
+    theme.palette.mode === "dark"
+      ? "0px 0px 10px rgba(255, 255, 255, 0.1)"
+      : "0px 0px 10px rgba(0, 0, 0, 0.1)",
   transition: "0.3s cubic-bezier(.47,1.64,.41,.8)",
   "&:hover": {
-    boxShadow: "0 4px 20px 0 rgba(0,0,0,0.12)",
+    boxShadow: (theme) =>
+      theme.palette.mode === "dark"
+        ? "0 4px 20px rgba(255, 255, 255, 0.15)"
+        : "0 4px 20px rgba(0,0,0,0.12)",
     transform: "scale(1.05)",
   },
 };
@@ -81,8 +98,14 @@ const arrowStyleLeft = {
   height: "0",
   borderTop: "10px solid transparent",
   borderBottom: "10px solid transparent",
-  borderRight: "10px solid #4b9e44",
-  filter: "drop-shadow(-1px 0 1px rgba(0, 0, 0, 0.1))",
+  borderRight: (theme) =>
+    `10px solid ${theme.palette.mode === "dark" ? "#71c96d" : "#4b9e44"}`,
+  filter: (theme) =>
+    `drop-shadow(1px 0 1px ${
+      theme.palette.mode === "dark"
+        ? "rgba(255, 255, 255, 0.1)"
+        : "rgba(0, 0, 0, 0.1)"
+    })`,
 };
 
 // Styles for right-pointing arrow
@@ -96,8 +119,14 @@ const arrowStyleRight = {
   height: "0",
   borderTop: "10px solid transparent",
   borderBottom: "10px solid transparent",
-  borderLeft: "10px solid #4b9e44",
-  filter: "drop-shadow(1px 0 1px rgba(0, 0, 0, 0.1))",
+  borderLeft: (theme) =>
+    `10px solid ${theme.palette.mode === "dark" ? "#71c96d" : "#4b9e44"}`,
+  filter: (theme) =>
+    `drop-shadow(1px 0 1px ${
+      theme.palette.mode === "dark"
+        ? "rgba(255, 255, 255, 0.1)"
+        : "rgba(0, 0, 0, 0.1)"
+    })`,
 };
 
 // Main Guide component to render the timeline with events
@@ -179,89 +208,152 @@ export default function Guidee() {
 
   return (
     <div>
-      <Box sx={{ marginTop: "160px" }}>
-        {headingA()}
-        <Timeline position="alternate">
-          {events.map((event, index) => {
-            const tooltipBoxStyle = {
-              ...tooltipBoxStyleBase,
-              backgroundColor: index % 2 === 0 ? "#fff" : " #e0ebeb",
-            };
-            return (
-              <TimelineItem key={index}>
-                <TimelineOppositeContent
-                  sx={{ mt: "15px" }}
-                  align={index % 2 === 0 ? "right" : "left"}
-                  variant="body2"
-                  color="text.secondary"
-                >
-                  <Typography color={"#111"} fontSize={24}>
-                    <strong>{event.step}</strong>
-                  </Typography>
-                </TimelineOppositeContent>
-                <TimelineSeparator>
-                  <img
-                    src={event.img}
-                    style={logoStyle}
-                    alt={`Timeline${index + 1}`}
-                  />
-                  <TimelineConnector />
-                  <div
-                    style={{
-                      width: "10px",
-                      height: "10px",
-                      backgroundColor: "#4b9e44",
-                      borderRadius: "50%",
-                      marginTop: "8px",
-                    }}
-                  />
-                </TimelineSeparator>
-                <TimelineContent sx={{ py: "12px", px: 2 }}>
-                  <Box sx={tooltipBoxStyle}>
+      <Box
+        sx={{
+          backgroundColor: (theme) => theme.palette.background.paper, // Background for entire screen
+          minHeight: "100vh", // Full viewport height
+          width: "100%", // Ensures full width
+          position: "relative", // Ensures it covers everything
+        }}
+      >
+        <Box sx={{ marginTop: "160px" }}>
+          {headingA()}
+          <Timeline position="alternate">
+            {events.map((event, index) => {
+              const isLeftSide = index % 2 !== 0; // Determines if it's on the left
+
+              const tooltipBoxStyle = {
+                ...tooltipBoxStyleBase,
+                backgroundColor: (theme) =>
+                  theme.palette.mode === "dark"
+                    ? isLeftSide
+                      ? "#4b9e44" // Green background on left in dark mode
+                      : "#25292e" // Dark background on right in dark mode
+                    : index % 2 === 0
+                    ? "#fff"
+                    : "#e0ebeb", // Keep light mode unchanged
+                color: (theme) =>
+                  theme.palette.mode === "dark" && isLeftSide
+                    ? "#fff"
+                    : "inherit",
+              };
+              return (
+                <TimelineItem key={index}>
+                  <TimelineOppositeContent
+                    sx={{ mt: "15px" }}
+                    align={index % 2 === 0 ? "right" : "left"}
+                    variant="body2"
+                    color={(theme) =>
+                      theme.palette.mode === "dark" ? "#ddd" : "text.secondary"
+                    }
+                  >
+                    <Typography
+                      color={(theme) =>
+                        theme.palette.mode === "dark" ? "#fff" : "#111"
+                      }
+                      fontSize={24}
+                    >
+                      <strong>{event.step}</strong>
+                    </Typography>
+                  </TimelineOppositeContent>
+                  <TimelineSeparator>
+                    <img
+                      src={event.img}
+                      style={logoStyle}
+                      alt={`Timeline${index + 1}`}
+                    />
+                    <TimelineConnector />
                     <Box
-                      sx={index % 2 === 0 ? arrowStyleLeft : arrowStyleRight}
-                    ></Box>
-                    <Typography
-                      variant="h5"
-                      component="span"
-                      sx={{ color: "#4b9e44", fontWeight: "bold" }}
-                    >
-                      {event.title}
-                    </Typography>
-                    <Typography
                       sx={{
-                        fontWeight: "bold",
-                        lineHeight: "22px",
-                        fontSize: "18px",
-                        color: "#333333",
-                        mt: "10px",
+                        width: "10px",
+                        height: "10px",
+                        backgroundColor: (theme) =>
+                          theme.palette.mode === "dark" ? "#6dd769" : "#4b9e44",
+                        borderRadius: "50%",
+                        marginTop: "8px",
                       }}
-                    >
-                      {event.subtitle}
-                    </Typography>
-                    <Typography sx={{ mt: "10px", fontSize: "15px" }}>
-                      {event.description}
-                    </Typography>
-                    <Typography sx={{ color: "#444444", marginTop: "10px" }}>
-                      <a
-                        href={event.link}
-                        target="_self"
-                        rel="noopener noreferrer"
-                        style={{
+                    />
+                  </TimelineSeparator>
+                  <TimelineContent sx={{ py: "12px", px: 2 }}>
+                    <Box sx={tooltipBoxStyle}>
+                      <Box
+                        sx={index % 2 === 0 ? arrowStyleLeft : arrowStyleRight}
+                      ></Box>
+                      <Typography
+                        variant="h5"
+                        component="span"
+                        sx={{
+                          color: (theme) =>
+                            theme.palette.mode === "dark"
+                              ? "#81c784"
+                              : "#4b9e44",
                           fontWeight: "bold",
-                          color: "#333333",
-                          textDecoration: "none",
                         }}
                       >
-                        Click Here
-                      </a>
-                    </Typography>
-                  </Box>
-                </TimelineContent>
-              </TimelineItem>
-            );
-          })}
-        </Timeline>
+                        {event.title}
+                      </Typography>
+                      <Typography
+                        sx={{
+                          fontWeight: "bold",
+                          lineHeight: "22px",
+                          fontSize: "18px",
+                          color: (theme) =>
+                            theme.palette.mode === "dark"
+                              ? isLeftSide
+                                ? "#fff" // White text on green background
+                                : "#e0e0e0" // Light gray text on dark background
+                              : "#333333",
+                          mt: "10px",
+                        }}
+                      >
+                        {event.subtitle}
+                      </Typography>
+                      <Typography
+                        sx={{
+                          mt: "10px",
+                          fontSize: "15px",
+                          color: (theme) =>
+                            theme.palette.mode === "dark"
+                              ? isLeftSide
+                                ? "#fff" // White text on green background
+                                : "#e0e0e0" // Light gray text on dark background
+                              : "inherit",
+                        }}
+                      >
+                        {event.description}
+                      </Typography>
+                      <Typography
+                        sx={{
+                          color: (theme) =>
+                            theme.palette.mode === "dark"
+                              ? isLeftSide
+                                ? "#fff" // White text on green background
+                                : "#ddd" // Slightly lighter text on dark background
+                              : "#444444",
+                          marginTop: "10px",
+                        }}
+                      >
+                        <a
+                          href={event.link}
+                          target="_self"
+                          rel="noopener noreferrer"
+                          style={{
+                            fontWeight: "bold",
+                            color: (theme) =>
+                              theme.palette.mode === "dark" ? "#81c784" : "#333333",
+                            textDecoration: "none",
+                          }}
+                        >
+                          Click Here
+                        </a>
+                      </Typography>
+                    </Box>
+                  </TimelineContent>
+                </TimelineItem>
+              );
+            })}
+          </Timeline>
+        </Box>
       </Box>
     </div>
   );

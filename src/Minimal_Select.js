@@ -45,7 +45,7 @@ export function SelectMinimal({
       disableScrollLock: true,
     }}
     variant="standard"
-    sx={{backgroundColor:'rgba(240, 242, 233,1)'}}
+    sx={{backgroundColor: (theme) => theme.palette.mode === "dark" ? 'rgba(35, 40, 32, 1)' : 'rgba(240, 242, 233,1)'}}
   >
         <Typography variant="subtitle1" sx={{paddingLeft:1,fontWeight:'bold'}}>Cereals</Typography>
         {switchcoid.map((naam,idx) => (

@@ -28,7 +28,9 @@ export default function Summ_Adaptation_Indicator({
       disableScrollLock: true,
     }}
     variant="standard"
-    sx={{backgroundColor:'rgba(235, 247, 233,1)', fontSize:13}}
+    sx={(theme) => ({backgroundColor:theme.palette.mode === "dark"
+      ? "rgba(60, 75, 60, 1)" 
+      : "rgba(235, 247, 233, 1)", fontSize:13})}
   >
     <MenuItem value='Biophysical Suitability' sx={{fontSize:13,paddingY:'2px'}}>Biophysical Suitability</MenuItem>
     <MenuItem value='Technical Suitability' sx={{fontSize:13,paddingY:'2px'}}>Adaptation Benefits</MenuItem>

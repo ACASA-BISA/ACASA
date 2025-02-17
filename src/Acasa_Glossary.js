@@ -1,7 +1,6 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 import { Typography, Box, Button, TextField, Paper } from "@mui/material";
-import { defined } from "cesium";
 
 const glossaryData = {
   A: [
@@ -17,33 +16,33 @@ const glossaryData = {
     },
     {
       term: "Barley",
-      definition: "",
+      definition: "The analysis for barley is done for Rabi/winter season",
     },
   ],
   C: [
     {
       term: "CHC",
       definition:
-        "The Climate Hazards Center is an alliance of multidisciplinary scientists and food security analysts utilizing climate and crop models, satellite-based earth observations, and socioeconomic data sets to predict and monitor droughts and food shortages among the world's most vulnerable populations. Through partnerships with USAID, USGS, and FEWS NET, the CHC provides early warning to save lives and secure livelihoods.",
+        "The Climate Hazards Center is an alliance of multidisciplinary scientists and food security analysts utilizing climate and crop models, satellite-based earth observations, and socioeconomic data sets to predict and monitor droughts and food shortages among the world's most vulnerable populations. Through partnerships with USAID, USGS, and FEWS NET, the CHC provides early warning to save lives and secure livelihoods",
     },
     {
       term: "CANESM5",
       definition:
-        "The Canadian Earth System Model version 5 (CanESM5) is a global model developed to simulate historical climate change and variability, to make centennial-scale projections of future climate, and to produce initialized seasonal and decadal predictions. This paper describes the model components and their coupling, as well as various aspects of model development, including tuning, optimization, and a reproducibility strategy.",
+        "The Canadian Earth System Model version 5 (CanESM5) is a global model developed to simulate historical climate change and variability, to make centennial-scale projections of future climate, and to produce initialized seasonal and decadal predictions. This paper describes the model components and their coupling, as well as various aspects of model development, including tuning, optimization, and a reproducibility strategy",
     },
     {
       term: "CNRM",
       definition:
-        "The National Center for Meteorological Research (CNRM) is a Joint Research Unit (UMR 3589) formed by the CNRS and Météo-France. Until the end of 2015, the UMR was also called the Meteorological Atmosphere Study Group.The CNRM is responsible for a large part of the research activities of the Public Administrative Establishment Météo-France, the national meteorological and climatic service.",
+        "The National Center for Meteorological Research (CNRM) is a Joint Research Unit (UMR 3589) formed by the CNRS and Météo-France. Until the end of 2015, the UMR was also called the Meteorological Atmosphere Study Group.The CNRM is responsible for a large part of the research activities of the Public Administrative Establishment Météo-France, the national meteorological and climatic service",
     },
     {
       term: "CERFACS",
       definition:
-        "Centre Européen de Recherche et Formation Avancée en Calcul Scientifique (CERFACS) is a European Center in Research and Advanced Training on Scientific Computing.",
+        "Centre Européen de Recherche et Formation Avancée en Calcul Scientifique (CERFACS) is a European Center in Research and Advanced Training on Scientific Computing",
     },
     {
       term: "CNRM-CM6-1",
-      definition: "",
+      definition: "CNRM-CM6-1 is the climate model developped by the CNRM/CERFACS modelling group for CMIP6. It is the successor of the CNRM-CM5.1 climate model that participates to CMIP5",
     },
     {
       term: "CNRM-ESM-1",
@@ -64,7 +63,7 @@ const glossaryData = {
     {
       term: "ISIMIP",
       definition:
-        "Inter-Sectoral Impact Modal Intercomparison Project (ISIMIP) offers a framework for consistently projecting the impacts of climate change across affected sectors and spatial scales. An international network of climate-impact modellers contribute to a comprehensive and consistent picture of the world under different climate-change scenarios.",
+        "Inter-Sectoral Impact Modal Intercomparison Project (ISIMIP) offers a framework for consistently projecting the impacts of climate change across affected sectors and spatial scales. An international network of climate-impact modellers contribute to a comprehensive and consistent picture of the world under different climate-change scenarios",
     },
   ],
   J: [],
@@ -77,7 +76,7 @@ const glossaryData = {
     },
     {
       term: "Maize",
-      definition: "",
+      definition: "Maize is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif') and 'Maha' in Sri Lanka",
     },
   ],
   N: [],
@@ -96,7 +95,7 @@ const glossaryData = {
   R: [
     {
       term: "Rice",
-      definition: "",
+      definition: "Rice is planted in multiple seasons in different countries. Here this analysis is only for monsoon season (also known as 'Kharif' in India, 'Aman' in Bangladesh,and 'Maha' in Sri Lanka)",
     },
   ],
   S: [
@@ -110,7 +109,7 @@ const glossaryData = {
     },
     {
       term: "Sorghum",
-      definition: "",
+      definition: "Sorghum is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif')",
     },
   ],
   T: [],
@@ -119,7 +118,7 @@ const glossaryData = {
   W: [
     {
       term: "Wheat",
-      definition: "",
+      definition: "The analysis for wheat (except for Afghanistan) is done for Rabi/winter season with planting time around mid-November. For Afghanistan, wheat season starts around April.",
     },
   ],
   X: [],
@@ -175,41 +174,42 @@ export default function Glossary() {
     >
       {/* Left Side - Alphabet & Glossary List */}
       <Box
-        sx={{
+        sx={(theme) => ({
           position: "sticky",
           left: 0,
           top: 175,
           width: "27%",
           height: "100vh",
           padding: 3,
-          backgroundColor: "#f9f9f9",
+          backgroundColor: theme.palette.mode === "dark" ? theme.palette.background.paper : "#f9f9f9",
           borderRadius: 2,
-
-          boxShadow: "2px 0px 10px rgba(0,0,0,0.1)",
-        }}
+          boxShadow: theme.palette.mode === "dark"
+          ? "2px 0px 10px rgba(0,0,0,0.3)"
+          : "2px 0px 10px rgba(0,0,0,0.1)",
+        })}
       >
         {/* Search Bar */}
         <TextField
           variant="outlined"
           placeholder="Search"
           fullWidth
-          sx={{
+          sx={(theme) => ({
             marginBottom: 2,
             "& .MuiOutlinedInput-root": {
-              backgroundColor: "white",
+              backgroundColor: theme.palette.mode === "dark" ? theme.palette.background.paper : "white",
               borderRadius: 1,
               "& fieldset": {
-                borderColor: "#ccc",
+                borderColor: theme.palette.mode === "dark" ? "#666" : "#ccc",
               },
               "&:hover fieldset": {
-                borderColor: "#4ba046",
+                borderColor: theme.palette.mode === "dark" ? "#81c784" : "#4ba046",
               },
               "&.Mui-focused fieldset": {
-                borderColor: "#4ba046",
+                borderColor: theme.palette.mode === "dark" ? "#81c784" : "#4ba046",
                 borderWidth: 2,
               },
             },
-          }}
+          })}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
 
@@ -230,33 +230,59 @@ export default function Glossary() {
               onClick={() =>
                 setSelectedLetter(selectedLetter === letter ? "" : letter)
               }
-              sx={{
+              sx={(theme) => ({
                 width: 40, // Set fixed width
                 height: 40, // Set fixed height (makes it a square)
                 minWidth: 40, // Ensure it stays square even if text is smaller
-                color: selectedLetter === letter ? "white" : "#666",
-                borderColor: selectedLetter === letter ? "white" : "#999",
-                backgroundColor:
-                  selectedLetter === letter ? "#4ba046" : "transparent",
-                transition: "0.2s",
                 fontSize: "1rem",
                 fontWeight: "bold",
                 textTransform: "none",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                color: selectedLetter === letter ? "white" : "#666",
-                borderColor: selectedLetter === letter ? "white" : "#999",
-                backgroundColor:
-                  selectedLetter === letter ? "#4ba046" : "transparent",
                 transition: "0.2s",
+              
+                color: selectedLetter === letter
+                  ? theme.palette.mode === "dark"
+                    ? theme.palette.text.primary
+                    : "white"
+                  : theme.palette.mode === "dark"
+                  ? "#aaa"
+                  : "#666",
+              
+                borderColor: selectedLetter === letter
+                  ? theme.palette.mode === "dark"
+                    ? theme.palette.text.primary
+                    : "white"
+                  : theme.palette.mode === "dark"
+                  ? "#555"
+                  : "#999",
+              
+                backgroundColor: selectedLetter === letter
+                  ? theme.palette.mode === "dark"
+                    ? "#3b8c3b"
+                    : "#4ba046"
+                  : "transparent",
+              
                 "&:hover": {
-                  backgroundColor:
-                    selectedLetter === letter ? "#4ba046" : "#e0e0e0",
-                  borderColor: selectedLetter === letter ? "white" : "#999",
+                  backgroundColor: selectedLetter === letter
+                    ? theme.palette.mode === "dark"
+                      ? "#3b8c3b"
+                      : "#4ba046"
+                    : theme.palette.mode === "dark"
+                    ? "#333"
+                    : "#e0e0e0",
+                    
+                  borderColor: selectedLetter === letter
+                    ? theme.palette.mode === "dark"
+                      ? theme.palette.text.primary
+                      : "white"
+                    : theme.palette.mode === "dark"
+                    ? "#666"
+                    : "#999",
                 },
-              }}
-            >
+              })}
+              >
               {letter}
             </Button>
           ))}
@@ -264,32 +290,43 @@ export default function Glossary() {
 
         {/* Glossary List */}
         <Paper
-          sx={{
+          sx={(theme) => ({
             padding: 3,
             marginTop: 3,
             maxHeight: "65vh",
             overflowY: "auto",
-            backgroundColor: "#fafafa",
             borderRadius: 2,
             boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
+            scrollPaddingBottom: "60px",
+            
+            backgroundColor:
+              theme.palette.mode === "dark"
+                ? theme.palette.background.paper // Dark mode background
+                : "#fafafa", // Light mode background
+          
             scrollbarWidth: "thin",
             msOverflowStyle: "none",
-            "&::-webkit-scrollbar": { width: "10px" },
+          
+            "&::-webkit-scrollbar": {
+              width: "10px",
+            },
+          
             "&::-webkit-scrollbar-thumb": {
-              backgroundColor: "#8BC34A",
+              backgroundColor: theme.palette.mode === "dark" ? "#4ba046" : "#8BC34A",
               borderRadius: "10px",
               transition: "background-color 0.3s ease",
             },
+          
             "&::-webkit-scrollbar-thumb:hover": {
-              backgroundColor: "#7CB342",
+              backgroundColor: theme.palette.mode === "dark" ? "#3d8b3d" : "#7CB342",
             },
+          
             "&::-webkit-scrollbar-track": {
-              background: "#e0e0e0",
+              background: theme.palette.mode === "dark" ? "#333" : "#e0e0e0",
               borderRadius: "10px",
             },
-            scrollPaddingBottom: "60px",
-          }}
-        >
+          })}
+          >
           {Object.entries(glossaryData).map(([letter, terms]) => {
             // Sort terms alphabetically within each letter group
             const sortedTerms = terms.sort((a, b) =>
@@ -311,12 +348,12 @@ export default function Glossary() {
               <Box key={letter} sx={{ marginBottom: 2 }}>
                 <Typography
                   variant="h6"
-                  sx={{
+                  sx={(theme) => ({
                     fontWeight: "bold",
-                    color: "#4ba046",
+                    color: theme.palette.mode === "dark" ? theme.palette.primary.main : "#4ba046",
                     marginBottom: 1,
                     fontSize: "1rem", // Set to a smaller font size for a cleaner look
-                  }}
+                  })}
                 >
                   {letter}
                 </Typography>
@@ -324,11 +361,11 @@ export default function Glossary() {
                   <Typography
                     key={index}
                     id={item.term.toLowerCase()}
-                    sx={{
+                    sx={(theme) => ({
                       marginLeft: 2,
-                      color: "#333",
+                      color: theme.palette.mode === "dark" ? theme.palette.text.primary : "#333",
                       fontSize: "0.95rem",
-                    }}
+                    })}
                   >
                     {item.term}
                   </Typography>
@@ -343,7 +380,7 @@ export default function Glossary() {
             .filter((item) =>
               item.term.toLowerCase().includes(searchTerm.toLowerCase())
             ).length === 0 && (
-            <Typography sx={{ textAlign: "center", color: "#777" }}>
+            <Typography sx={(theme) => ({ textAlign: "center", color: theme.palette.mode === "dark" ? theme.palette.text.secondary : "#777" })}>
               No results found.
             </Typography>
           )}
@@ -363,29 +400,29 @@ export default function Glossary() {
           sortedFilteredTerms.map((item, index) => (
             <Box
               key={index}
-              sx={{
+              sx={(theme) => ({
                 padding: 2,
-                borderLeft: "4px solid #4ba046",
-                backgroundColor: "white",
+                borderLeft: `4px solid ${theme.palette.mode === "dark" ? theme.palette.primary.main : "#4ba046"}`,
+                backgroundColor: theme.palette.mode === "dark" ? theme.palette.background.paper : "white",
                 borderRadius: 1,
-                boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                boxShadow: theme.palette.mode === "dark" ? "0 2px 4px rgba(0,0,0,0.3)" : "0 2px 4px rgba(0,0,0,0.1)",
                 marginBottom: 3,
-              }}
+              })}
               data-term={item.term.toLowerCase()}
             >
               <Typography
                 variant="h6"
-                sx={{ fontWeight: "bold", color: "#333" }}
+                sx={(theme) => ({ fontWeight: "bold", color: theme.palette.mode === "dark" ? theme.palette.text.primary : "#333" })}
               >
                 {item.term}
               </Typography>
-              <Typography variant="body1" sx={{ color: "#555", marginTop: 1 }}>
+              <Typography variant="body1" sx={(theme) => ({ color: theme.palette.mode === "dark" ? theme.palette.text.secondary : "#555", marginTop: 1 })}>
                 {item.definition}
               </Typography>
             </Box>
           ))
         ) : (
-          <Typography variant="body1" sx={{ color: "#777" }}>
+          <Typography variant="body1" sx={(theme) => ({ color: theme.palette.mode === "dark" ? theme.palette.text.disabled : "#777"})}>
             No definitions found.
           </Typography>
         )}

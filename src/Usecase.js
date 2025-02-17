@@ -11,12 +11,20 @@ const StyledButton = styled(Button)(({ theme }) => ({
   margin: "0px 2px",
   border: "0px solid rgba(117, 117, 117, 0.986)",
   borderRadius: "5px",
-  backgroundColor: "#4ba046",
-  color: "#fff",
+  backgroundColor: theme.palette.mode === "dark" ? "#61c258" : "#4ba046",
+  color: theme.palette.mode === "dark" ? "#111" : "#fff",
   minHeight: "40px",
   cursor: "pointer",
-  "&:hover": { backgroundColor: "#c4ecc2", color: "#111" },
-  "&.active": { backgroundColor: "#c4ecc2", color: "#111" },
+  fontWeight: "bold",
+  transition: "0.2s ease-in-out",
+  "&:hover": {
+    backgroundColor: theme.palette.mode === "dark" ? "#b0e3ae" : "#c4ecc2",
+    color: theme.palette.mode === "dark" ? "#2d6b2b" : "#111",
+  },
+  "&.active": {
+    backgroundColor: theme.palette.mode === "dark" ? "#b0e3ae" : "#c4ecc2",
+    color: theme.palette.mode === "dark" ? "#2d6b2b" : "#4ba046",
+  },
 }));
 
 const ButtonBar = [
@@ -46,9 +54,9 @@ const ButtonEffect = ({ activeTab, onTabClick }) => {
   return (
     <Box
       sx={{
-        marginTop: "100px",
+        paddingTop: "100px",
         textAlign: "left",
-        display: { xs: "none", md: "block" }
+        display: { xs: "none", md: "block" },
       }}
     >
       <div className="tabs">
@@ -94,7 +102,10 @@ const Usecase = () => {
   };
 
   return (
-    <div className="carousel-container" style={{ marginBottom: "20px",overflow:'hidden'}}>
+    <div
+      className="carousel-container"
+      style={{ marginBottom: "250px", overflow: "hidden" }}
+    >
       <ButtonEffect activeTab={activeTab} onTabClick={handleTabClick} />
       <Carousel
         selectedItem={activeTab}
@@ -117,20 +128,27 @@ const Usecase = () => {
             </p>
             <ol className="spaced-list">
               <li>
-              The Atlas provides data and analysis to support 
-              &nbsp;<strong>evidence-based policymaking</strong> for climate-resilient agriculture and strategic resource allocation.
+                The Atlas provides data and analysis to support &nbsp;
+                <strong>evidence-based policymaking</strong> for
+                climate-resilient agriculture and strategic resource allocation.
               </li>
               <li>
-              Integrated climate forecasts and historical data can<strong> enhance early warning systems</strong>,
-               aiding in<strong> disaster preparedness</strong> and mitigation to protect agriculture and rural communities.
+                Integrated climate forecasts and historical data can
+                <strong> enhance early warning systems</strong>, aiding in
+                <strong> disaster preparedness</strong> and mitigation to
+                protect agriculture and rural communities.
               </li>
               <li>
-                Localised climate and agricultural data in Atlas can <strong>improve farmer advisory services</strong>, 
-                enabling <strong>adaptive farming</strong> techniques to enhance resilience and productivity.
+                Localised climate and agricultural data in Atlas can{" "}
+                <strong>improve farmer advisory services</strong>, enabling{" "}
+                <strong>adaptive farming</strong> techniques to enhance
+                resilience and productivity.
               </li>
               <li>
-              The Atlas identifies sustainable practices and <strong>resilient farming methods</strong>,
-               supporting rural livelihoods, climate-resilient infrastructure, and economic growth in rural areas.
+                The Atlas identifies sustainable practices and{" "}
+                <strong>resilient farming methods</strong>, supporting rural
+                livelihoods, climate-resilient infrastructure, and economic
+                growth in rural areas.
               </li>
             </ol>
           </div>

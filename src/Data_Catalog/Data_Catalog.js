@@ -133,7 +133,7 @@ export const DataCatalog = ({
               sx={{
                 fontSize: "small",
                 margin: "8px",
-                color: "white",
+                color: theme => (theme.palette.mode === "light" ? "white" : "black"),
                 display: "flex",
               }}
               className="card-tags"
@@ -149,7 +149,7 @@ export const DataCatalog = ({
               sx={{
                 fontSize: "normal",
                 margin: "8px",
-                color: "#333333",
+                color: theme => (theme.palette.mode === "light" ? "#333333" : "#ffffff"), 
               }}
             >
               {title}
@@ -158,7 +158,7 @@ export const DataCatalog = ({
            <div className="download-icon" onClick={onButtonClick}>
             <Tooltip title="Download" arrow>
             <IconButton>
-              <DownloadIcon sx={{ fontSize: 18, color: "white", padding: 0}}/>
+              <DownloadIcon sx={{ fontSize: 18, color: theme => (theme.palette.mode === "light" ? "white" : "#1b1f23"), padding: 0}}/>
             </IconButton>
             </Tooltip>
 
@@ -174,7 +174,7 @@ export const DataCatalog = ({
                 fontSize: 14,
                 margin: "8px",
                 marginRight: "45px",
-                color: "#333333",
+                color: theme => (theme.palette.mode === "light" ? "#333333" : "#ffffff"), 
               }}
             >
               {description}
@@ -188,7 +188,7 @@ export const DataCatalog = ({
               sx={{
                 fontSize: 14,
                 margin: "8px",
-                color: "#8e918f",
+                color: theme => (theme.palette.mode === "light" ? "#8e918f" : "#a8b7a2"), 
               }}
             >
               {source}

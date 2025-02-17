@@ -94,7 +94,7 @@ export default function SwitchScenario({
         "& + .MuiSwitch-track": {
           opacity: 1,
           backgroundColor:
-            theme.palette.mode === "dark" ? "#177ddc" : "#4ba046",
+            theme.palette.mode === "dark" ? "#61c258" : "#4ba046",
         },
       },
     },
@@ -112,27 +112,22 @@ export default function SwitchScenario({
       opacity: 1,
       backgroundColor:
         theme.palette.mode === "dark"
-          ? "rgba(255,255,255,.35)"
+          ? "rgba(255,255,255,.25)"
           : "rgba(0,0,0,.10)",
       boxSizing: "border-box",
     },
-    "&:hover": {
-      backgroundColor: "#ffe89c ",
+    "&:hover .MuiSwitch-track": {
       opacity: 1,
-      borderRadius: 12,
-      "& .MuiSwitch-track": {
-        opacity: 1,
-        backgroundColor:
-          theme.palette.mode === "dark"
-            ? "rgba(255,255,255,.35)"
-            : "rgba(255,255,255,.7)",
-      },
+      backgroundColor:
+        theme.palette.mode === "dark"
+          ? "rgba(255,255,255,.35)"
+          : "rgba(255,255,255,.7)",
     },
   }));
 
   const CustomFormControlLabel = styled(FormControlLabel)(({ theme }) => ({
     "&.Mui-disabled .MuiTypography-body2": {
-      color: "#ccc", // Color for the label text when disabled
+      color: theme.palette.mode === "dark" ? "#888" : "#ccc",
     },
   }));
 
@@ -144,12 +139,12 @@ export default function SwitchScenario({
     >
       <FormLabel sx={{ display: "flex", paddingBottom: 1 }}>
         <Typography
-          sx={{
-            color: "black",
+          sx={(theme) => ({
+            color: theme.palette.mode === "dark" ? "white" : "black",
             fontWeight: "bold",
             fontSize: 14,
             paddingTop: 2,
-          }}
+          })}
         >
           Select scenario
         </Typography>
@@ -178,7 +173,9 @@ export default function SwitchScenario({
                         <span>{scenarioinfo[index]}</span>
                         <br />
                         <Link
-                          href="#/resources/?tab=4"
+                          href={`#/resources?tab=4&term=${switchh[
+                            index
+                          ].toLowerCase()}`}
                           target="_blank"
                           sx={{
                             color: "white",
@@ -206,12 +203,12 @@ export default function SwitchScenario({
       ))}
       <FormLabel sx={{ display: "flex", paddingBottom: 1 }}>
         <Typography
-          sx={{
-            color: "black",
+          sx={(theme) => ({
+            color: theme.palette.mode === "dark" ? "white" : "black",
             fontWeight: "bold",
             fontSize: 14,
             paddingTop: 2,
-          }}
+          })}
         >
           Select data source
         </Typography>
@@ -286,7 +283,9 @@ export default function SwitchScenario({
                                 <span>{datainfo[index]}</span>
                                 <br />
                                 <Link
-                                  href="#/resources/?tab=4"
+                                  href={`#/resources?tab=4&term=${switchh3[
+                                    index
+                                  ].toLowerCase()}`}
                                   target="_blank"
                                   sx={{
                                     color: "white",
@@ -300,7 +299,9 @@ export default function SwitchScenario({
                             placement="top"
                             arrow
                           >
-                            <IconButton sx={{ padding: 0, margin: 0, paddingX: "4px" }}>
+                            <IconButton
+                              sx={{ padding: 0, margin: 0, paddingX: "4px" }}
+                            >
                               <InfoOutlinedIcon
                                 sx={{ fontSize: "12px", padding: 0, margin: 0 }}
                               />

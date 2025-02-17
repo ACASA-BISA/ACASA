@@ -36,7 +36,7 @@ export function SelectMinimal2({
       disableScrollLock: true,
     }}
     variant="standard"
-    sx={{backgroundColor:'rgba(240, 242, 233,1)'}}
+    sx={{backgroundColor: (theme) => theme.palette.mode === "dark" ? 'rgba(35, 40, 32, 1)' : 'rgba(240, 242, 233,1)'}}
   >
     <MenuItem value='SA'>South Asia</MenuItem>
     <MenuItem value='AF'>Afghanistan</MenuItem>

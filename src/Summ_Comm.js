@@ -45,7 +45,9 @@ export default function Summ_Comm({
       disableScrollLock: true,
     }}
     variant="standard"
-    sx={{backgroundColor:'rgba(235, 247, 233,1)', fontSize:13}}
+    sx={(theme) => ({backgroundColor:theme.palette.mode === "dark"
+      ? "rgba(60, 75, 60, 1)" 
+      : "rgba(235, 247, 233, 1)", fontSize:13})}
   >
         <Typography variant="subtitle1" sx={{paddingLeft:1,fontSize:13,fontWeight:'bold'}}>Cereals</Typography>
         {switchcoid.map((naam,idx) => (

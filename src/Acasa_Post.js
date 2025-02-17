@@ -37,25 +37,34 @@ export default function Card_Posts() {
         }}
       >
         <Card
-          sx={{
+          sx={(theme) => ({
             maxWidth: "30%",
-            boxShadow: "0 0 2px 0 rgba(0,0,0,0.12)",
+            boxShadow:
+              theme.palette.mode === "dark"
+                ? "0 0 4px rgba(255,255,255,0.2)"
+                : "0 0 2px rgba(0,0,0,0.12)",
             borderRadius: 0,
             transition: "0.3s cubic-bezier(.47,1.64,.41,.8)",
             "&:hover": {
-              boxShadow: "0 4px 20px 0 rgba(0,0,0,0.12)",
+              boxShadow:
+                theme.palette.mode === "dark"
+                  ? "0 4px 20px rgba(255,255,255,0.2)"
+                  : "0 4px 20px rgba(0,0,0,0.12)",
               transform: "scale(1.04)",
             },
-          }}
+          })}
         >
           <CardMedia
             image="/blognew1.png"
-            sx={{
+            sx={(theme) => ({
               width: "100%",
               height: 0,
               paddingBottom: "56.25%",
-              backgroundColor: "rgba(0, 0, 0, 0.08)",
-            }}
+              backgroundColor:
+                theme.palette.mode === "dark"
+                  ? "rgba(255, 255, 255, 0.12)"
+                  : "rgba(0, 0, 0, 0.08)",
+            })}
           />
           <CardHeader
             titleTypographyProps={{
@@ -63,7 +72,8 @@ export default function Card_Posts() {
               marginTop: 2,
             }}
             subheaderTypographyProps={{
-              color: "#52911f",
+              color: (theme) =>
+                theme.palette.mode === "dark" ? "#81c784" : "#52911f",
               marginTop: 1,
               sx: { fontSize: "12px" },
             }}
@@ -97,25 +107,34 @@ export default function Card_Posts() {
         {/* The component uses a div with styles for margin. */}
         {/* Inner content is wrapped in a Box component with flexbox for responsive layout (different screen sizes). */}
         <Card
-          sx={{
+          sx={(theme) => ({
             maxWidth: "30%",
-            boxShadow: "0 0 2px 0 rgba(0,0,0,0.12)",
+            boxShadow:
+              theme.palette.mode === "dark"
+                ? "0 0 4px rgba(255,255,255,0.2)"
+                : "0 0 2px rgba(0,0,0,0.12)",
             borderRadius: 0,
             transition: "0.3s cubic-bezier(.47,1.64,.41,.8)",
             "&:hover": {
-              boxShadow: "0 4px 20px 0 rgba(0,0,0,0.12)",
+              boxShadow:
+                theme.palette.mode === "dark"
+                  ? "0 4px 20px rgba(255,255,255,0.2)"
+                  : "0 4px 20px rgba(0,0,0,0.12)",
               transform: "scale(1.04)",
             },
-          }}
+          })}
         >
           <CardMedia
             image="/blognew2.jpeg"
-            sx={{
+            sx={(theme) => ({
               width: "100%",
               height: 0,
               paddingBottom: "56.25%",
-              backgroundColor: "rgba(0, 0, 0, 0.08)",
-            }}
+              backgroundColor:
+                theme.palette.mode === "dark"
+                  ? "rgba(255, 255, 255, 0.12)"
+                  : "rgba(0, 0, 0, 0.08)",
+            })}
           />
           <CardHeader
             titleTypographyProps={{
@@ -123,7 +142,8 @@ export default function Card_Posts() {
               marginTop: 2,
             }}
             subheaderTypographyProps={{
-              color: "#52911f",
+              color: (theme) =>
+                theme.palette.mode === "dark" ? "#81c784" : "#52911f",
               marginTop: 1,
               sx: { fontSize: "12px" },
             }}
@@ -160,25 +180,34 @@ If blogs is false, it displays a button "More Blogs" with a down arrow icon.
 Clicking the button triggers a function using onClick that sets blogs to true (showing more posts). */}
 
         <Card
-          sx={{
+          sx={(theme) => ({
             maxWidth: "30%",
-            boxShadow: "0 0 2px 0 rgba(0,0,0,0.12)",
+            boxShadow:
+              theme.palette.mode === "dark"
+                ? "0 0 4px rgba(255,255,255,0.2)"
+                : "0 0 2px rgba(0,0,0,0.12)",
             borderRadius: 0,
             transition: "0.3s cubic-bezier(.47,1.64,.41,.8)",
             "&:hover": {
-              boxShadow: "0 4px 20px 0 rgba(0,0,0,0.12)",
+              boxShadow:
+                theme.palette.mode === "dark"
+                  ? "0 4px 20px rgba(255,255,255,0.2)"
+                  : "0 4px 20px rgba(0,0,0,0.12)",
               transform: "scale(1.04)",
             },
-          }}
+          })}
         >
           <CardMedia
             image="/blognew3.png"
-            sx={{
+            sx={(theme) => ({
               width: "100%",
               height: 0,
               paddingBottom: "56.25%",
-              backgroundColor: "rgba(0, 0, 0, 0.08)",
-            }}
+              backgroundColor:
+                theme.palette.mode === "dark"
+                  ? "rgba(255, 255, 255, 0.12)"
+                  : "rgba(0, 0, 0, 0.08)",
+            })}
           />
           <CardHeader
             titleTypographyProps={{
@@ -186,7 +215,8 @@ Clicking the button triggers a function using onClick that sets blogs to true (s
               marginTop: 2,
             }}
             subheaderTypographyProps={{
-              color: "#52911f",
+              color: (theme) =>
+                theme.palette.mode === "dark" ? "#81c784" : "#52911f",
               marginTop: 1,
               sx: { fontSize: "12px" },
             }}
@@ -228,25 +258,34 @@ Clicking the button triggers a function using onClick that sets blogs to true (s
         }}
       >
         <Card
-          sx={{
+          sx={(theme) => ({
             maxWidth: "30%",
-            boxShadow: "0 0 2px 0 rgba(0,0,0,0.12)",
+            boxShadow:
+              theme.palette.mode === "dark"
+                ? "0 0 4px rgba(255,255,255,0.2)"
+                : "0 0 2px rgba(0,0,0,0.12)",
             borderRadius: 0,
             transition: "0.3s cubic-bezier(.47,1.64,.41,.8)",
             "&:hover": {
-              boxShadow: "0 4px 20px 0 rgba(0,0,0,0.12)",
+              boxShadow:
+                theme.palette.mode === "dark"
+                  ? "0 4px 20px rgba(255,255,255,0.2)"
+                  : "0 4px 20px rgba(0,0,0,0.12)",
               transform: "scale(1.04)",
             },
-          }}
+          })}
         >
           <CardMedia
             image="/blognew4.png"
-            sx={{
+            sx={(theme) => ({
               width: "100%",
               height: 0,
               paddingBottom: "56.25%",
-              backgroundColor: "rgba(0, 0, 0, 0.08)",
-            }}
+              backgroundColor:
+                theme.palette.mode === "dark"
+                  ? "rgba(255, 255, 255, 0.12)"
+                  : "rgba(0, 0, 0, 0.08)",
+            })}
           />
           <CardHeader
             titleTypographyProps={{
@@ -254,7 +293,8 @@ Clicking the button triggers a function using onClick that sets blogs to true (s
               marginTop: 2,
             }}
             subheaderTypographyProps={{
-              color: "#52911f",
+              color: (theme) =>
+                theme.palette.mode === "dark" ? "#81c784" : "#52911f",
               marginTop: 1,
               sx: { fontSize: "12px" },
             }}
@@ -285,25 +325,34 @@ Clicking the button triggers a function using onClick that sets blogs to true (s
           </CardContent>
         </Card>
         <Card
-          sx={{
+          sx={(theme) => ({
             maxWidth: "30%",
-            boxShadow: "0 0 2px 0 rgba(0,0,0,0.12)",
+            boxShadow:
+              theme.palette.mode === "dark"
+                ? "0 0 4px rgba(255,255,255,0.2)"
+                : "0 0 2px rgba(0,0,0,0.12)",
             borderRadius: 0,
             transition: "0.3s cubic-bezier(.47,1.64,.41,.8)",
             "&:hover": {
-              boxShadow: "0 4px 20px 0 rgba(0,0,0,0.12)",
+              boxShadow:
+                theme.palette.mode === "dark"
+                  ? "0 4px 20px rgba(255,255,255,0.2)"
+                  : "0 4px 20px rgba(0,0,0,0.12)",
               transform: "scale(1.04)",
             },
-          }}
+          })}
         >
           <CardMedia
             image="/Blog-5.jpg"
-            sx={{
+            sx={(theme) => ({
               width: "100%",
               height: 0,
               paddingBottom: "56.25%",
-              backgroundColor: "rgba(0, 0, 0, 0.08)",
-            }}
+              backgroundColor:
+                theme.palette.mode === "dark"
+                  ? "rgba(255, 255, 255, 0.12)"
+                  : "rgba(0, 0, 0, 0.08)",
+            })}
           />
           <CardHeader
             titleTypographyProps={{
@@ -311,7 +360,8 @@ Clicking the button triggers a function using onClick that sets blogs to true (s
               marginTop: 2,
             }}
             subheaderTypographyProps={{
-              color: "#52911f",
+              color: (theme) =>
+                theme.palette.mode === "dark" ? "#81c784" : "#52911f",
               marginTop: 1,
               sx: { fontSize: "12px" },
             }}
@@ -343,25 +393,34 @@ Clicking the button triggers a function using onClick that sets blogs to true (s
           </CardContent>
         </Card>
         <Card
-          sx={{
+          sx={(theme) => ({
             maxWidth: "30%",
-            boxShadow: "0 0 2px 0 rgba(0,0,0,0.12)",
+            boxShadow:
+              theme.palette.mode === "dark"
+                ? "0 0 4px rgba(255,255,255,0.2)"
+                : "0 0 2px rgba(0,0,0,0.12)",
             borderRadius: 0,
             transition: "0.3s cubic-bezier(.47,1.64,.41,.8)",
             "&:hover": {
-              boxShadow: "0 4px 20px 0 rgba(0,0,0,0.12)",
+              boxShadow:
+                theme.palette.mode === "dark"
+                  ? "0 4px 20px rgba(255,255,255,0.2)"
+                  : "0 4px 20px rgba(0,0,0,0.12)",
               transform: "scale(1.04)",
             },
-          }}
+          })}
         >
           <CardMedia
             image="/Blog-1.jpg"
-            sx={{
+            sx={(theme) => ({
               width: "100%",
               height: 0,
               paddingBottom: "56.25%",
-              backgroundColor: "rgba(0, 0, 0, 0.08)",
-            }}
+              backgroundColor:
+                theme.palette.mode === "dark"
+                  ? "rgba(255, 255, 255, 0.12)"
+                  : "rgba(0, 0, 0, 0.08)",
+            })}
           />
           <CardHeader
             titleTypographyProps={{
@@ -369,7 +428,8 @@ Clicking the button triggers a function using onClick that sets blogs to true (s
               marginTop: 2,
             }}
             subheaderTypographyProps={{
-              color: "#52911f",
+              color: (theme) =>
+                theme.palette.mode === "dark" ? "#81c784" : "#52911f",
               marginTop: 1,
               sx: { fontSize: "12px" },
             }}
@@ -409,8 +469,8 @@ Clicking the button triggers a function using onClick that sets blogs to true (s
             sx={{ textTransform: "initial" }}
             onClick={() => setBlogs(true)}
           >
-            <Typography sx={{ color: "#222" }}>More Blogs </Typography>
-            <KeyboardArrowDownIcon sx={{ color: "#222" }} />
+            <Typography sx={(theme) => ({ color: (theme) => theme.palette.mode === "dark" ? "#e0e0e0" : "#222"})}>More Blogs </Typography>
+            <KeyboardArrowDownIcon sx={(theme) => ({ color: (theme) => theme.palette.mode === "dark" ? "#e0e0e0" : "#222"})} />
           </Button>
         </Box>
       )}
@@ -425,25 +485,34 @@ Clicking the button triggers a function using onClick that sets blogs to true (s
           }}
         >
           <Card
-            sx={{
+            sx={(theme) => ({
               maxWidth: "30%",
-              boxShadow: "0 0 2px 0 rgba(0,0,0,0.12)",
+              boxShadow:
+                theme.palette.mode === "dark"
+                  ? "0 0 4px rgba(255,255,255,0.2)"
+                  : "0 0 2px rgba(0,0,0,0.12)",
               borderRadius: 0,
               transition: "0.3s cubic-bezier(.47,1.64,.41,.8)",
               "&:hover": {
-                boxShadow: "0 4px 20px 0 rgba(0,0,0,0.12)",
+                boxShadow:
+                  theme.palette.mode === "dark"
+                    ? "0 4px 20px rgba(255,255,255,0.2)"
+                    : "0 4px 20px rgba(0,0,0,0.12)",
                 transform: "scale(1.04)",
               },
-            }}
+            })}
           >
             <CardMedia
               image="/Blog-2.jpg"
-              sx={{
+              sx={(theme) => ({
                 width: "100%",
                 height: 0,
                 paddingBottom: "56.25%",
-                backgroundColor: "rgba(0, 0, 0, 0.08)",
-              }}
+                backgroundColor:
+                  theme.palette.mode === "dark"
+                    ? "rgba(255, 255, 255, 0.12)"
+                    : "rgba(0, 0, 0, 0.08)",
+              })}
             />
             <CardHeader
               titleTypographyProps={{
@@ -484,25 +553,34 @@ Clicking the button triggers a function using onClick that sets blogs to true (s
             </CardContent>
           </Card>
           <Card
-            sx={{
+            sx={(theme) => ({
               maxWidth: "30%",
-              boxShadow: "0 0 2px 0 rgba(0,0,0,0.12)",
+              boxShadow:
+                theme.palette.mode === "dark"
+                  ? "0 0 4px rgba(255,255,255,0.2)"
+                  : "0 0 2px rgba(0,0,0,0.12)",
               borderRadius: 0,
               transition: "0.3s cubic-bezier(.47,1.64,.41,.8)",
               "&:hover": {
-                boxShadow: "0 4px 20px 0 rgba(0,0,0,0.12)",
+                boxShadow:
+                  theme.palette.mode === "dark"
+                    ? "0 4px 20px rgba(255,255,255,0.2)"
+                    : "0 4px 20px rgba(0,0,0,0.12)",
                 transform: "scale(1.04)",
               },
-            }}
+            })}
           >
             <CardMedia
               image="/Blog-3.jpg"
-              sx={{
+              sx={(theme) => ({
                 width: "100%",
                 height: 0,
                 paddingBottom: "56.25%",
-                backgroundColor: "rgba(0, 0, 0, 0.08)",
-              }}
+                backgroundColor:
+                  theme.palette.mode === "dark"
+                    ? "rgba(255, 255, 255, 0.12)"
+                    : "rgba(0, 0, 0, 0.08)",
+              })}
             />
             <CardHeader
               titleTypographyProps={{
@@ -543,25 +621,34 @@ Clicking the button triggers a function using onClick that sets blogs to true (s
             </CardContent>
           </Card>
           <Card
-            sx={{
+            sx={(theme) => ({
               maxWidth: "30%",
-              boxShadow: "0 0 2px 0 rgba(0,0,0,0.12)",
+              boxShadow:
+                theme.palette.mode === "dark"
+                  ? "0 0 4px rgba(255,255,255,0.2)"
+                  : "0 0 2px rgba(0,0,0,0.12)",
               borderRadius: 0,
               transition: "0.3s cubic-bezier(.47,1.64,.41,.8)",
               "&:hover": {
-                boxShadow: "0 4px 20px 0 rgba(0,0,0,0.12)",
+                boxShadow:
+                  theme.palette.mode === "dark"
+                    ? "0 4px 20px rgba(255,255,255,0.2)"
+                    : "0 4px 20px rgba(0,0,0,0.12)",
                 transform: "scale(1.04)",
               },
-            }}
+            })}
           >
             <CardMedia
               image="/Blog-4.jpg"
-              sx={{
+              sx={(theme) => ({
                 width: "100%",
                 height: 0,
                 paddingBottom: "56.25%",
-                backgroundColor: "rgba(0, 0, 0, 0.08)",
-              }}
+                backgroundColor:
+                  theme.palette.mode === "dark"
+                    ? "rgba(255, 255, 255, 0.12)"
+                    : "rgba(0, 0, 0, 0.08)",
+              })}
             />
             <CardHeader
               titleTypographyProps={{

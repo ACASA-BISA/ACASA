@@ -1,22 +1,34 @@
-import React, { useState, useEffect } from 'react';
-import { Grid, Paper, Typography, Box, MenuItem, Select, FormControl, Popper, InputLabel, Slider, IconButton} from '@mui/material';
-import Map_Option from './Comp_Map';  // Assuming this is your map component
-import './font.css';
-import './extra.css';
-import './font2.css';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import PauseIcon from '@mui/icons-material/Pause';
-import { styled } from '@mui/material/styles';
-import Legend_Small from './Legend_Small';
+import React, { useState, useEffect } from "react";
+import {
+  Grid,
+  Paper,
+  Typography,
+  Box,
+  MenuItem,
+  Select,
+  FormControl,
+  Popper,
+  InputLabel,
+  Slider,
+  IconButton,
+} from "@mui/material";
+import Map_Option from "./Comp_Map"; // Assuming this is your map component
+import "./font.css";
+import "./extra.css";
+import "./font2.css";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import PauseIcon from "@mui/icons-material/Pause";
+import { styled } from "@mui/material/styles";
+import Legend_Small from "./Legend_Small";
 
 // Array of image URLs, one for each year
 const images = [
-  { year: 2000, url: 'Timeline/Rice_Delayed monsoon_baseline.png' },
-  { year: 2001, url: 'Timeline/Rice_Delayed monsoon_SSP245.png' },
-  { year: 2002, url: 'Timeline/Rice_Delayed monsoon_SSP585.png' },
-  { year: 2003, url: 'Timeline/Rice_Dry spell number_baseline.png' },
-  { year: 2004, url: 'Timeline/Rice_Dry spell number_SSP245.png' },
-  { year: 2005, url: 'Timeline/Rice_Dry spell number_SSP585.png' },
+  { year: 2000, url: "Timeline/Rice_Delayed monsoon_baseline.png" },
+  { year: 2001, url: "Timeline/Rice_Delayed monsoon_SSP245.png" },
+  { year: 2002, url: "Timeline/Rice_Delayed monsoon_SSP585.png" },
+  { year: 2003, url: "Timeline/Rice_Dry spell number_baseline.png" },
+  { year: 2004, url: "Timeline/Rice_Dry spell number_SSP245.png" },
+  { year: 2005, url: "Timeline/Rice_Dry spell number_SSP585.png" },
   // Add more images as needed
 ];
 
@@ -25,20 +37,20 @@ function useInterval(callback, delay) {
 
   // Remember the latest callback
   useEffect(() => {
-      savedCallback.current = callback;
+    savedCallback.current = callback;
   }, [callback]);
 
   // Set up the interval
   useEffect(() => {
-      function tick() {
-          savedCallback.current();
-      }
-      if (delay !== null) {
-          const id = setInterval(tick, delay);
-          return () => clearInterval(id);
-      }
+    function tick() {
+      savedCallback.current();
+    }
+    if (delay !== null) {
+      const id = setInterval(tick, delay);
+      return () => clearInterval(id);
+    }
   }, [delay]);
-};
+}
 
 export default function CompV({
   activeCrop,
@@ -59,181 +71,171 @@ export default function CompV({
   area_dict4,
   activeOptLayer,
   changeOptLayer,
-  modelName
+  modelName,
 }) {
-    let scn = 'baseline';
-    if(activeScenario['ssp245']){
-        scn ='ssp245';
-    }
-    else if(activeScenario['ssp585']){
-        scn ='ssp585';
-    }
-    
-    const [futureModel, setFutureModel] = React.useState('Percentage Change');
-    let sec = activeRegion.indexOf(',');
+  let scn = "baseline";
+  if (activeScenario["ssp245"]) {
+    scn = "ssp245";
+  } else if (activeScenario["ssp585"]) {
+    scn = "ssp585";
+  }
 
-    const countryMap1 ={};
-    countryMap1['South Asia'] = 'SA';
-    countryMap1['Afghanistan'] = 'AF';
-    countryMap1['Bangladesh'] = 'BD';
-    countryMap1['Bhutan'] = 'BT';
-    countryMap1['India'] = 'IN';
-    countryMap1['Nepal'] = 'NP';
-    countryMap1['Pakistan'] = 'PK';
-    countryMap1['Sri Lanka'] = 'LK';
-    countryMap1['Maldives'] = 'MV';
-  
-    let x = 'SA';
-    let y = '';
-    if (sec>0){
-      x = activeRegion.substring(sec+2);
-      y = activeRegion.substring(0,sec);
-  
-      x = countryMap1[x];
-    }
-    else{
-      x = activeRegion;
-      x = countryMap1[x];
-    }
-    const [reg, setReg] = React.useState(x);
-    const [state, setState] = React.useState(y);
-    
-    const countryMap ={};
-    countryMap['SA'] = 'South Asia';
-    countryMap['AF'] = 'Afghanistan';
-    countryMap['BD'] = 'Bangladesh';
-    countryMap['BT'] = 'Bhutan';
-    countryMap['IN'] = 'India';
-    countryMap['NP'] = 'Nepal';
-    countryMap['PK'] = 'Pakistan';
-    countryMap['LK'] = 'Sri Lanka';
-    countryMap['MV'] = 'Maldives';
+  const [futureModel, setFutureModel] = React.useState("Percentage Change");
+  let sec = activeRegion.indexOf(",");
 
-    const handleScenariochange = (event) => {
-      changeScenario(event.target.value);
-      setFutureModel(event.target.value);
-    } 
+  const countryMap1 = {};
+  countryMap1["South Asia"] = "SA";
+  countryMap1["Afghanistan"] = "AF";
+  countryMap1["Bangladesh"] = "BD";
+  countryMap1["Bhutan"] = "BT";
+  countryMap1["India"] = "IN";
+  countryMap1["Nepal"] = "NP";
+  countryMap1["Pakistan"] = "PK";
+  countryMap1["Sri Lanka"] = "LK";
+  countryMap1["Maldives"] = "MV";
 
-    const [sharedView, setSharedView] = React.useState(null);
+  let x = "SA";
+  let y = "";
+  if (sec > 0) {
+    x = activeRegion.substring(sec + 2);
+    y = activeRegion.substring(0, sec);
 
-    const handleviewchange = (viewx) => {
-      setSharedView({
-        center: viewx.getCenter(),
-        zoom: viewx.getZoom(),
-      });
-    };
+    x = countryMap1[x];
+  } else {
+    x = activeRegion;
+    x = countryMap1[x];
+  }
+  const [reg, setReg] = React.useState(x);
+  const [state, setState] = React.useState(y);
 
-    let NameImpact = '';
-    if(activeImpact['Resilience']){
-      NameImpact = 'Resilience';
-    }
-    else if(activeImpact['Value of Production']){
-      NameImpact = 'Value of Production';
-    }
-    else if(activeImpact['Productivity']){
-      NameImpact = 'Productivity';
-    }
-    else{
-      NameImpact = '';
-    }
+  const countryMap = {};
+  countryMap["SA"] = "South Asia";
+  countryMap["AF"] = "Afghanistan";
+  countryMap["BD"] = "Bangladesh";
+  countryMap["BT"] = "Bhutan";
+  countryMap["IN"] = "India";
+  countryMap["NP"] = "Nepal";
+  countryMap["PK"] = "Pakistan";
+  countryMap["LK"] = "Sri Lanka";
+  countryMap["MV"] = "Maldives";
 
-    let AdaptLayerName = '';
-    if (activeOptLayer['Economic']) {
-      AdaptLayerName = "Economic Benefits";
-    } 
-    else if(activeOptLayer['Gender']){
-      AdaptLayerName = "Gender Suitability";
-    }
-    else if(activeOptLayer['Scalability']){
-      AdaptLayerName = "Scalability";
-    }
-    else if(activeOptLayer['Biophysical Suitability']){
-      AdaptLayerName = "Biophysical Suitability";
-    }
-    else if(activeOptLayer['Technical Suitability']){
-      AdaptLayerName = "Adaptation Benefits";
-    }
-    else{
-      AdaptLayerName = 'suitability';
-    }
+  const handleScenariochange = (event) => {
+    changeScenario(event.target.value);
+    setFutureModel(event.target.value);
+  };
 
-    const gridRefs = [React.useRef(null), React.useRef(null), React.useRef(null)];
-    const Only_Baseline = React.useRef(null);
+  const [sharedView, setSharedView] = React.useState(null);
 
-    const [currentYearIndex, setCurrentYearIndex] = useState(0);
-    const [isPlaying, setIsPlaying] = useState(false);
+  const handleviewchange = (viewx) => {
+    setSharedView({
+      center: viewx.getCenter(),
+      zoom: viewx.getZoom(),
+    });
+  };
 
-    // Auto-play interval, changes image every 1 second (1000ms)
-    useInterval(
-        () => {
-            setCurrentYearIndex((prevIndex) =>
-                prevIndex === images.length - 1 ? 0 : prevIndex + 1
-            );
-        },
-        isPlaying ? 1000 : null
-    );
+  let NameImpact = "";
+  if (activeImpact["Resilience"]) {
+    NameImpact = "Resilience";
+  } else if (activeImpact["Value of Production"]) {
+    NameImpact = "Value of Production";
+  } else if (activeImpact["Productivity"]) {
+    NameImpact = "Productivity";
+  } else {
+    NameImpact = "";
+  }
 
-    // Toggle play/pause
-    const handlePlayPause = () => {
-        setIsPlaying(!isPlaying);
-    };
+  let AdaptLayerName = "";
+  if (activeOptLayer["Economic"]) {
+    AdaptLayerName = "Economic Benefits";
+  } else if (activeOptLayer["Gender"]) {
+    AdaptLayerName = "Gender Suitability";
+  } else if (activeOptLayer["Scalability"]) {
+    AdaptLayerName = "Scalability";
+  } else if (activeOptLayer["Biophysical Suitability"]) {
+    AdaptLayerName = "Biophysical Suitability";
+  } else if (activeOptLayer["Technical Suitability"]) {
+    AdaptLayerName = "Adaptation Benefits";
+  } else {
+    AdaptLayerName = "suitability";
+  }
 
-    // Handle slider change (manual navigation through timeline)
-    const handleSliderChange = (event, newValue) => {
-        setCurrentYearIndex(newValue);
-        setIsPlaying(false); // Stop autoplay when the slider is moved manually
-    };
-    const color_for_button = '#4b9e44';
-    // Display the current image and year
-    const currentImage = images[currentYearIndex];
-    //Color: #52af77
-    const PrettoSlider = styled(Slider)({
-        color: color_for_button,
-        height: 5,
-        '& .MuiSlider-track': {
-          border: 'none',
-        },
-        '& .MuiSlider-thumb': {
-          height: 10,
-          width: 12,
-          borderRadius: 2,
-          backgroundColor: '#fff',
-          border: '1px solid currentColor',
-          '&:focus, &:hover, &.Mui-active, &.Mui-focusVisible': {
-            boxShadow: 'inherit',
-          },
-          '&::before': {
-            display: 'none',
-          },
-        },
-        '& .MuiSlider-valueLabel': {
-          lineHeight: 1.2,
-          fontSize: 12,
-          background: 'unset',
-          padding: 0,
-          width: 32,
-          height: 32,
-          borderRadius: '50% 50% 50% 0',
-          backgroundColor: color_for_button,
-          transformOrigin: 'bottom left',
-          transform: 'translate(50%, -100%) rotate(-45deg) scale(0)',
-          '&::before': { display: 'none' },
-          '&.MuiSlider-valueLabelOpen': {
-            transform: 'translate(50%, -100%) rotate(-45deg) scale(1)',
-          },
-          '& > *': {
-            transform: 'rotate(45deg)',
-          },
-        },
-      });
+  const gridRefs = [React.useRef(null), React.useRef(null), React.useRef(null)];
+  const Only_Baseline = React.useRef(null);
+
+  const [currentYearIndex, setCurrentYearIndex] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  // Auto-play interval, changes image every 1 second (1000ms)
+  useInterval(
+    () => {
+      setCurrentYearIndex((prevIndex) =>
+        prevIndex === images.length - 1 ? 0 : prevIndex + 1
+      );
+    },
+    isPlaying ? 1000 : null
+  );
+
+  // Toggle play/pause
+  const handlePlayPause = () => {
+    setIsPlaying(!isPlaying);
+  };
+
+  // Handle slider change (manual navigation through timeline)
+  const handleSliderChange = (event, newValue) => {
+    setCurrentYearIndex(newValue);
+    setIsPlaying(false); // Stop autoplay when the slider is moved manually
+  };
+  const color_for_button = "#4b9e44";
+  // Display the current image and year
+  const currentImage = images[currentYearIndex];
+  //Color: #52af77
+  const PrettoSlider = styled(Slider)({
+    color: color_for_button,
+    height: 5,
+    "& .MuiSlider-track": {
+      border: "none",
+    },
+    "& .MuiSlider-thumb": {
+      height: 10,
+      width: 12,
+      borderRadius: 2,
+      backgroundColor: "#fff",
+      border: "1px solid currentColor",
+      "&:focus, &:hover, &.Mui-active, &.Mui-focusVisible": {
+        boxShadow: "inherit",
+      },
+      "&::before": {
+        display: "none",
+      },
+    },
+    "& .MuiSlider-valueLabel": {
+      lineHeight: 1.2,
+      fontSize: 12,
+      background: "unset",
+      padding: 0,
+      width: 32,
+      height: 32,
+      borderRadius: "50% 50% 50% 0",
+      backgroundColor: color_for_button,
+      transformOrigin: "bottom left",
+      transform: "translate(50%, -100%) rotate(-45deg) scale(0)",
+      "&::before": { display: "none" },
+      "&.MuiSlider-valueLabelOpen": {
+        transform: "translate(50%, -100%) rotate(-45deg) scale(1)",
+      },
+      "& > *": {
+        transform: "rotate(45deg)",
+      },
+    },
+  });
 
   const [paperWidth, setPaperWidth] = React.useState(0);
   const [boxWidth, setBoxWidth] = React.useState(0);
-  
+
   React.useEffect(() => {
     if (Only_Baseline.current) {
       setPaperWidth(Only_Baseline.current.offsetWidth);
-      }
+    }
   }, []);
 
   React.useLayoutEffect(() => {
@@ -241,216 +243,568 @@ export default function CompV({
       setBoxWidth(gridRefs[1].current.offsetWidth); // Set the width after DOM updates
     }
   }, [gridRefs[1].current]);
-    
+
   return (
-    <div className='viewer-container' style={{overflow:'hidden'}}>
-    <Grid container sx={{marginTop:'0px',paddingX: '1rem'}} columns={12}>
-      {activeScenario['baseline'] && <Grid item xs={12} key='Only_Baseline' ref={Only_Baseline}>
-      <Box sx={{width:'100%',bgcolor:'#C1E1C1',height:'24px',
-                display:'flex',flexDirection:'row',
-                alignContent:'center',justifyContent:'center',alignItems:'center',
-                gap:'10px'}}>
-                <Typography align="center" sx={{fontSize:'14px',fontWeight:'bold',fontFamily:'Karla'}}>Baseline</Typography>
-              </Box>
-              <Paper elevation={1} sx={{ width: '100%', height: 'calc(100vh - 155px)' }}>
+    <div className="viewer-container" style={{ overflow: "hidden" }}>
+      <Grid container sx={{ marginTop: "0px", paddingX: "1rem" }} columns={12}>
+        {activeScenario["baseline"] && (
+          <Grid item xs={12} key="Only_Baseline" ref={Only_Baseline}>
+            <Box
+              sx={(theme) => ({
+                width: "100%",
+                bgcolor: theme.palette.mode === "dark" ? "#2f6742" :"#C1E1C1",
+                height: "24px",
+                display: "flex",
+                flexDirection: "row",
+                alignContent: "center",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: "10px",
+              })}
+            >
+              <Typography
+                align="center"
+                sx={(theme) => ({
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  fontFamily: "Karla",
+                  color : "text.primary"
+                })}
+              >
+                Baseline
+              </Typography>
+            </Box>
+            <Paper
+              elevation={1}
+              sx={{ width: "100%", height: "calc(100vh - 155px)" }}
+            >
               <div>
-                  <Map_Option activeCrop={activeCrop} activeScenario='baseline' focus={focus} activeRegion={activeRegion} activeOpt={activeOpt} CurrRisk={CurrRisk} activeImpact={activeImpact}
-                  sharedView={sharedView} handleviewchange={handleviewchange} activeOptLayer={activeOptLayer} ImpactName={NameImpact}></Map_Option>
-                  {(CurrRisk!=='' || activeOpt!==''|| NameImpact!=='') && <Popper
-                  open={true} // Always open
-                  anchorEl={Only_Baseline.current} // Anchor to the Grid container
-                  placement="bottom" // Position it at the bottom
-                  disablePortal={true} // Stay within the DOM hierarchy
-                  modifiers={[
-                    {
-                      name: "offset",
-                      options: {
-                        offset: [3, -130], // Adjust distance from the container
+                <Map_Option
+                  activeCrop={activeCrop}
+                  activeScenario="baseline"
+                  focus={focus}
+                  activeRegion={activeRegion}
+                  activeOpt={activeOpt}
+                  CurrRisk={CurrRisk}
+                  activeImpact={activeImpact}
+                  sharedView={sharedView}
+                  handleviewchange={handleviewchange}
+                  activeOptLayer={activeOptLayer}
+                  ImpactName={NameImpact}
+                ></Map_Option>
+                {(CurrRisk !== "" || activeOpt !== "" || NameImpact !== "") && (
+                  <Popper
+                    open={true} // Always open
+                    anchorEl={Only_Baseline.current} // Anchor to the Grid container
+                    placement="bottom" // Position it at the bottom
+                    disablePortal={true} // Stay within the DOM hierarchy
+                    modifiers={[
+                      {
+                        name: "offset",
+                        options: {
+                          offset: [3, -130], // Adjust distance from the container
+                        },
                       },
-                    },
-                  ]}
-                >
-                  <Paper elevation={1} sx={{ maxWidth: paperWidth,borderRadius: "5px",padding:'3px'}}>
-                  <Legend_Small location={activeRegion} commodity={activeCrop} adaption={activeOpt} RiskName={CurrRisk}
-                      scenario='baseline' ImpactName={NameImpact} area_data3={area_dict3} area_data4={area_dict4} AdaptLayerName={AdaptLayerName}></Legend_Small>
-                  </Paper>
-                </Popper>}
-                </div>
-                </Paper>
-        </Grid>}
-        {(activeScenario['baseline']===false && modelName==='CHC') && <Grid item xs={12}>
-        <Grid container spacing={1}>
-          {['Baseline', '2050s'].map((label, index) => (
-            <Grid item xs={6} key={index} ref={gridRefs[index]}>
-              <Box sx={{width:'100%',bgcolor:'#C1E1C1',height:'24px',
-                display:'flex',flexDirection:'row',
-                alignContent:'center',justifyContent:'center',alignItems:'center',
-                gap:'10px'}}>
-                <Typography align="center" sx={{fontSize:'14px',fontWeight:'bold',fontFamily:'Karla'}}>{label}</Typography>
-                {(label==='2050s'||label==='2080s') && <FormControl size='small'>
-                <Select labelId="Scenariox"
-                  id="future-model-select-idx"
-                  sx={{fontSize:'14px',height:'20px',fontFamily:'Karla'}}
-                  value={futureModel} onChange={handleScenariochange}>
-                    <MenuItem value="Absolute" sx={{paddingLeft:1,fontSize:'13px',height:'20px',fontWeight:'bold',fontFamily:'Karla'}}>Absolute values</MenuItem>
-                    <Typography variant="subtitle1" sx={{paddingLeft:1,fontSize:'13px',fontWeight:'bold',fontFamily:'Karla'}}>Change in future</Typography>
-                    <MenuItem value="Percentage Change" sx={{fontSize:'13px',height:'20px',fontFamily:'Karla'}}>Percentage change</MenuItem>
-                    <MenuItem value="Absolute Change" sx={{fontSize:'13px',height:'20px',fontFamily:'Karla'}}>Absolute change</MenuItem>
-                </Select>
-                </FormControl>}
-              </Box>
-              
-              <Paper elevation={1} sx={{ width: '100%', height: 'calc(100vh - 155px)' }}>
-                {label==='Baseline'&&
-                <div>
-                  <Map_Option activeCrop={activeCrop} activeScenario='baseline' focus={focus} activeRegion={activeRegion} activeOpt={activeOpt} CurrRisk={CurrRisk} activeImpact={activeImpact}
-                  sharedView={sharedView} handleviewchange={handleviewchange} activeOptLayer={activeOptLayer} ImpactName={NameImpact}></Map_Option>
-                  {(CurrRisk!=='' || activeOpt!==''|| NameImpact!=='') && <Popper
-                  open={true} // Always open
-                  anchorEl={gridRefs[index].current} // Anchor to the Grid container
-                  placement="bottom" // Position it at the bottom
-                  disablePortal={true} // Stay within the DOM hierarchy
-                  modifiers={[
-                    {
-                      name: "offset",
-                      options: {
-                        offset: [3, -130], // Adjust distance from the container
-                      },
-                    },
-                  ]}
-                >
-                  <Paper elevation={1} sx={{ maxWidth: boxWidth - 18,borderRadius: "5px",padding:'3px'}}>
-                  <Legend_Small location={activeRegion} commodity={activeCrop} adaption={activeOpt} RiskName={CurrRisk}
-                      scenario='baseline' ImpactName={NameImpact} area_data3={area_dict3} area_data4={area_dict4} AdaptLayerName={AdaptLayerName}></Legend_Small>
-                  </Paper>
-                </Popper>}
+                    ]}
+                  >
+                    <Paper
+                      elevation={1}
+                      sx={{
+                        maxWidth: paperWidth,
+                        borderRadius: "5px",
+                        padding: "3px",
+                      }}
+                    >
+                      <Legend_Small
+                        location={activeRegion}
+                        commodity={activeCrop}
+                        adaption={activeOpt}
+                        RiskName={CurrRisk}
+                        scenario="baseline"
+                        ImpactName={NameImpact}
+                        area_data3={area_dict3}
+                        area_data4={area_dict4}
+                        AdaptLayerName={AdaptLayerName}
+                      ></Legend_Small>
+                    </Paper>
+                  </Popper>
+                )}
+              </div>
+            </Paper>
+          </Grid>
+        )}
+        {activeScenario["baseline"] === false && modelName === "CHC" && (
+          <Grid item xs={12}>
+            <Grid container spacing={1}>
+              {["Baseline", "2050s"].map((label, index) => (
+                <Grid item xs={6} key={index} ref={gridRefs[index]}>
+                  <Box
+                    sx={(theme) => ({
+                      width: "100%",
+                      bgcolor: theme.palette.mode === "dark" ? "#2f6742" :"#C1E1C1",
+                      height: "24px",
+                      display: "flex",
+                      flexDirection: "row",
+                      alignContent: "center",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      gap: "10px",
+                    })}
+                  >
+                    <Typography
+                      align="center"
+                      sx={{
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                        fontFamily: "Karla",
+                        color: "text.primary"
+                      }}
+                    >
+                      {label}
+                    </Typography>
+                    {(label === "2050s" || label === "2080s") && (
+                      <FormControl size="small">
+                        <Select
+                          labelId="Scenariox"
+                          id="future-model-select-idx"
+                          sx={{
+                            fontSize: "14px",
+                            height: "20px",
+                            fontFamily: "Karla",
+                          }}
+                          value={futureModel}
+                          onChange={handleScenariochange}
+                        >
+                          <MenuItem
+                            value="Absolute"
+                            sx={{
+                              paddingLeft: 1,
+                              fontSize: "13px",
+                              height: "20px",
+                              fontWeight: "bold",
+                              fontFamily: "Karla",
+                            }}
+                          >
+                            Absolute values
+                          </MenuItem>
+                          <Typography
+                            variant="subtitle1"
+                            sx={{
+                              paddingLeft: 1,
+                              fontSize: "13px",
+                              fontWeight: "bold",
+                              fontFamily: "Karla",
+                            }}
+                          >
+                            Change in future
+                          </Typography>
+                          <MenuItem
+                            value="Percentage Change"
+                            sx={{
+                              fontSize: "13px",
+                              height: "20px",
+                              fontFamily: "Karla",
+                            }}
+                          >
+                            Percentage change
+                          </MenuItem>
+                          <MenuItem
+                            value="Absolute Change"
+                            sx={{
+                              fontSize: "13px",
+                              height: "20px",
+                              fontFamily: "Karla",
+                            }}
+                          >
+                            Absolute change
+                          </MenuItem>
+                        </Select>
+                      </FormControl>
+                    )}
+                  </Box>
 
-                </div>}
-                {label==='2050s'&&
-                <div>
-                  <Map_Option activeCrop={activeCrop} activeScenario='ssp245' focus={focus} activeRegion={activeRegion} activeOpt={activeOpt} CurrRisk={CurrRisk} activeImpact={activeImpact}
-                  sharedView={sharedView} handleviewchange={handleviewchange} activeOptLayer={activeOptLayer} ImpactName={NameImpact}></Map_Option>
-                  {(CurrRisk!=='' || activeOpt!==''|| NameImpact!=='') && <Popper
-                  open={true} // Always open
-                  anchorEl={gridRefs[index].current} // Anchor to the Grid container
-                  placement="bottom" // Position it at the bottom
-                  disablePortal={true} // Stay within the DOM hierarchy
-                  modifiers={[
-                    {
-                      name: "offset",
-                      options: {
-                        offset: [3, -130], // Adjust distance from the container
-                      },
-                    },
-                  ]}
-                >
-                  <Paper elevation={1} sx={{ maxWidth: boxWidth - 18,borderRadius: "5px",padding:'3px'}}>
-                  <Legend_Small location={activeRegion} commodity={activeCrop} adaption={activeOpt} RiskName={CurrRisk}
-                      scenario='ssp245' ImpactName={NameImpact} area_data3={area_dict3} area_data4={area_dict4} AdaptLayerName={AdaptLayerName}></Legend_Small>
+                  <Paper
+                    elevation={1}
+                    sx={{ width: "100%", height: "calc(100vh - 155px)" }}
+                  >
+                    {label === "Baseline" && (
+                      <div>
+                        <Map_Option
+                          activeCrop={activeCrop}
+                          activeScenario="baseline"
+                          focus={focus}
+                          activeRegion={activeRegion}
+                          activeOpt={activeOpt}
+                          CurrRisk={CurrRisk}
+                          activeImpact={activeImpact}
+                          sharedView={sharedView}
+                          handleviewchange={handleviewchange}
+                          activeOptLayer={activeOptLayer}
+                          ImpactName={NameImpact}
+                        ></Map_Option>
+                        {(CurrRisk !== "" ||
+                          activeOpt !== "" ||
+                          NameImpact !== "") && (
+                          <Popper
+                            open={true} // Always open
+                            anchorEl={gridRefs[index].current} // Anchor to the Grid container
+                            placement="bottom" // Position it at the bottom
+                            disablePortal={true} // Stay within the DOM hierarchy
+                            modifiers={[
+                              {
+                                name: "offset",
+                                options: {
+                                  offset: [3, -130], // Adjust distance from the container
+                                },
+                              },
+                            ]}
+                          >
+                            <Paper
+                              elevation={1}
+                              sx={{
+                                maxWidth: boxWidth - 18,
+                                borderRadius: "5px",
+                                padding: "3px",
+                              }}
+                            >
+                              <Legend_Small
+                                location={activeRegion}
+                                commodity={activeCrop}
+                                adaption={activeOpt}
+                                RiskName={CurrRisk}
+                                scenario="baseline"
+                                ImpactName={NameImpact}
+                                area_data3={area_dict3}
+                                area_data4={area_dict4}
+                                AdaptLayerName={AdaptLayerName}
+                              ></Legend_Small>
+                            </Paper>
+                          </Popper>
+                        )}
+                      </div>
+                    )}
+                    {label === "2050s" && (
+                      <div>
+                        <Map_Option
+                          activeCrop={activeCrop}
+                          activeScenario="ssp245"
+                          focus={focus}
+                          activeRegion={activeRegion}
+                          activeOpt={activeOpt}
+                          CurrRisk={CurrRisk}
+                          activeImpact={activeImpact}
+                          sharedView={sharedView}
+                          handleviewchange={handleviewchange}
+                          activeOptLayer={activeOptLayer}
+                          ImpactName={NameImpact}
+                        ></Map_Option>
+                        {(CurrRisk !== "" ||
+                          activeOpt !== "" ||
+                          NameImpact !== "") && (
+                          <Popper
+                            open={true} // Always open
+                            anchorEl={gridRefs[index].current} // Anchor to the Grid container
+                            placement="bottom" // Position it at the bottom
+                            disablePortal={true} // Stay within the DOM hierarchy
+                            modifiers={[
+                              {
+                                name: "offset",
+                                options: {
+                                  offset: [3, -130], // Adjust distance from the container
+                                },
+                              },
+                            ]}
+                          >
+                            <Paper
+                              elevation={1}
+                              sx={{
+                                maxWidth: boxWidth - 18,
+                                borderRadius: "5px",
+                                padding: "3px",
+                              }}
+                            >
+                              <Legend_Small
+                                location={activeRegion}
+                                commodity={activeCrop}
+                                adaption={activeOpt}
+                                RiskName={CurrRisk}
+                                scenario="ssp245"
+                                ImpactName={NameImpact}
+                                area_data3={area_dict3}
+                                area_data4={area_dict4}
+                                AdaptLayerName={AdaptLayerName}
+                              ></Legend_Small>
+                            </Paper>
+                          </Popper>
+                        )}
+                      </div>
+                    )}
                   </Paper>
-                </Popper>}
-                </div>}
-              </Paper>
+                </Grid>
+              ))}
             </Grid>
-          ))}
-        </Grid>
-      </Grid>}
-      {(activeScenario['baseline']===false && modelName!=='CHC') && <Grid item xs={12}>
-        <Grid container spacing={1}>
-          {['Baseline', '2050s', '2080s'].map((label, index) => (
-            <Grid item xs={4} key={index} ref={gridRefs[index]}>
-              <Box sx={{width:'100%',bgcolor:'#C1E1C1',height:'24px',
-                display:'flex',flexDirection:'row',
-                alignContent:'center',justifyContent:'center',alignItems:'center',
-                gap:'10px'}}>
-                <Typography align="center" sx={{fontSize:'14px',fontWeight:'bold',fontFamily:'Karla'}}>{label}</Typography>
-                {(label==='2050s'||label==='2080s') && <FormControl size='small'>
-                <Select labelId="Scenariox"
-                  id="future-model-select-idx"
-                  sx={{fontSize:'14px',height:'20px',fontFamily:'Karla'}}
-                  value={futureModel} onChange={handleScenariochange}>
-                    <MenuItem value="Absolute" sx={{paddingLeft:1,fontSize:'13px',height:'20px',fontWeight:'bold',fontFamily:'Karla'}}>Absolute values</MenuItem>
-                    <Typography variant="subtitle1" sx={{paddingLeft:1,fontSize:'13px',fontWeight:'bold',fontFamily:'Karla'}}>Change in future</Typography>
-                    <MenuItem value="Percentage Change" sx={{fontSize:'13px',height:'20px',fontFamily:'Karla'}}>Percentage change</MenuItem>
-                    <MenuItem value="Absolute Change" sx={{fontSize:'13px',height:'20px',fontFamily:'Karla'}}>Absolute change</MenuItem>
-                </Select>
-                </FormControl>}
-              </Box>
-              
-              <Paper elevation={1} sx={{ width: '100%', height: 'calc(100vh - 155px)' }}>
-                {label==='Baseline'&&
-                <div>
-                  <Map_Option activeCrop={activeCrop} activeScenario='baseline' focus={focus} activeRegion={activeRegion} activeOpt={activeOpt} CurrRisk={CurrRisk} activeImpact={activeImpact}
-                  sharedView={sharedView} handleviewchange={handleviewchange} activeOptLayer={activeOptLayer} ImpactName={NameImpact}></Map_Option>
-                  {(CurrRisk!=='' || activeOpt!==''|| NameImpact!=='') && <Popper
-                  open={true} // Always open
-                  anchorEl={gridRefs[index].current} // Anchor to the Grid container
-                  placement="bottom" // Position it at the bottom
-                  disablePortal={true} // Stay within the DOM hierarchy
-                  modifiers={[
-                    {
-                      name: "offset",
-                      options: {
-                        offset: [3, -130], // Adjust distance from the container
-                      },
-                    },
-                  ]}
-                >
-                  <Paper elevation={1} sx={{ maxWidth: boxWidth - 18,borderRadius: "5px",padding:'3px'}}>
-                  <Legend_Small location={activeRegion} commodity={activeCrop} adaption={activeOpt} RiskName={CurrRisk}
-                      scenario='baseline' ImpactName={NameImpact} area_data3={area_dict3} area_data4={area_dict4} AdaptLayerName={AdaptLayerName}></Legend_Small>
-                  </Paper>
-                </Popper>}
+          </Grid>
+        )}
+        {activeScenario["baseline"] === false && modelName !== "CHC" && (
+          <Grid item xs={12}>
+            <Grid container spacing={1}>
+              {["Baseline", "2050s", "2080s"].map((label, index) => (
+                <Grid item xs={4} key={index} ref={gridRefs[index]}>
+                  <Box
+                    sx={{
+                      width: "100%",
+                      bgcolor: "#C1E1C1",
+                      height: "24px",
+                      display: "flex",
+                      flexDirection: "row",
+                      alignContent: "center",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      gap: "10px",
+                    }}
+                  >
+                    <Typography
+                      align="center"
+                      sx={{
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                        fontFamily: "Karla",
+                      }}
+                    >
+                      {label}
+                    </Typography>
+                    {(label === "2050s" || label === "2080s") && (
+                      <FormControl size="small">
+                        <Select
+                          labelId="Scenariox"
+                          id="future-model-select-idx"
+                          sx={{
+                            fontSize: "14px",
+                            height: "20px",
+                            fontFamily: "Karla",
+                          }}
+                          value={futureModel}
+                          onChange={handleScenariochange}
+                        >
+                          <MenuItem
+                            value="Absolute"
+                            sx={{
+                              paddingLeft: 1,
+                              fontSize: "13px",
+                              height: "20px",
+                              fontWeight: "bold",
+                              fontFamily: "Karla",
+                            }}
+                          >
+                            Absolute values
+                          </MenuItem>
+                          <Typography
+                            variant="subtitle1"
+                            sx={{
+                              paddingLeft: 1,
+                              fontSize: "13px",
+                              fontWeight: "bold",
+                              fontFamily: "Karla",
+                            }}
+                          >
+                            Change in future
+                          </Typography>
+                          <MenuItem
+                            value="Percentage Change"
+                            sx={{
+                              fontSize: "13px",
+                              height: "20px",
+                              fontFamily: "Karla",
+                            }}
+                          >
+                            Percentage change
+                          </MenuItem>
+                          <MenuItem
+                            value="Absolute Change"
+                            sx={{
+                              fontSize: "13px",
+                              height: "20px",
+                              fontFamily: "Karla",
+                            }}
+                          >
+                            Absolute change
+                          </MenuItem>
+                        </Select>
+                      </FormControl>
+                    )}
+                  </Box>
 
-                </div>}
-                {label==='2050s'&&
-                <div>
-                  <Map_Option activeCrop={activeCrop} activeScenario='ssp245' focus={focus} activeRegion={activeRegion} activeOpt={activeOpt} CurrRisk={CurrRisk} activeImpact={activeImpact}
-                  sharedView={sharedView} handleviewchange={handleviewchange} activeOptLayer={activeOptLayer} ImpactName={NameImpact}></Map_Option>
-                  {(CurrRisk!=='' || activeOpt!==''|| NameImpact!=='') && <Popper
-                  open={true} // Always open
-                  anchorEl={gridRefs[index].current} // Anchor to the Grid container
-                  placement="bottom" // Position it at the bottom
-                  disablePortal={true} // Stay within the DOM hierarchy
-                  modifiers={[
-                    {
-                      name: "offset",
-                      options: {
-                        offset: [3, -130], // Adjust distance from the container
-                      },
-                    },
-                  ]}
-                >
-                  <Paper elevation={1} sx={{ maxWidth: boxWidth - 18,borderRadius: "5px",padding:'3px'}}>
-                  <Legend_Small location={activeRegion} commodity={activeCrop} adaption={activeOpt} RiskName={CurrRisk}
-                      scenario='ssp245' ImpactName={NameImpact} area_data3={area_dict3} area_data4={area_dict4} AdaptLayerName={AdaptLayerName}></Legend_Small>
-                  </Paper>
-                </Popper>}
-                </div>}
-                {label==='2080s'&&
-                <div>
-                  <Map_Option activeCrop={activeCrop} activeScenario='ssp585' focus={focus} activeRegion={activeRegion} activeOpt={activeOpt} CurrRisk={CurrRisk} activeImpact={activeImpact}
-                  sharedView={sharedView} handleviewchange={handleviewchange} activeOptLayer={activeOptLayer} ImpactName={NameImpact}></Map_Option>
-                  {(CurrRisk!=='' || activeOpt!=='' || NameImpact!=='') && <Popper
-                  open={true} // Always open
-                  anchorEl={gridRefs[index].current} // Anchor to the Grid container
-                  placement="bottom" // Position it at the bottom
-                  disablePortal={true} // Stay within the DOM hierarchy
-                  modifiers={[
-                    {
-                      name: "offset",
-                      options: {
-                        offset: [3, -130], // Adjust distance from the container
-                      },
-                    },
-                  ]}
-                >
-                  <Paper elevation={1} sx={{ maxWidth: boxWidth - 18,borderRadius: "5px",padding:'3px'}}>
-                  <Legend_Small location={activeRegion} commodity={activeCrop} adaption={activeOpt} RiskName={CurrRisk}
-                      scenario='ssp585' ImpactName={NameImpact} area_data3={area_dict3} area_data4={area_dict4} AdaptLayerName={AdaptLayerName}></Legend_Small>
-                  </Paper>
-                </Popper>}
-                {/* {(CurrRisk!=='' || activeOpt!=='') && <Popper
+                  <Paper
+                    elevation={1}
+                    sx={{ width: "100%", height: "calc(100vh - 155px)" }}
+                  >
+                    {label === "Baseline" && (
+                      <div>
+                        <Map_Option
+                          activeCrop={activeCrop}
+                          activeScenario="baseline"
+                          focus={focus}
+                          activeRegion={activeRegion}
+                          activeOpt={activeOpt}
+                          CurrRisk={CurrRisk}
+                          activeImpact={activeImpact}
+                          sharedView={sharedView}
+                          handleviewchange={handleviewchange}
+                          activeOptLayer={activeOptLayer}
+                          ImpactName={NameImpact}
+                        ></Map_Option>
+                        {(CurrRisk !== "" ||
+                          activeOpt !== "" ||
+                          NameImpact !== "") && (
+                          <Popper
+                            open={true} // Always open
+                            anchorEl={gridRefs[index].current} // Anchor to the Grid container
+                            placement="bottom" // Position it at the bottom
+                            disablePortal={true} // Stay within the DOM hierarchy
+                            modifiers={[
+                              {
+                                name: "offset",
+                                options: {
+                                  offset: [3, -130], // Adjust distance from the container
+                                },
+                              },
+                            ]}
+                          >
+                            <Paper
+                              elevation={1}
+                              sx={{
+                                maxWidth: boxWidth - 18,
+                                borderRadius: "5px",
+                                padding: "3px",
+                              }}
+                            >
+                              <Legend_Small
+                                location={activeRegion}
+                                commodity={activeCrop}
+                                adaption={activeOpt}
+                                RiskName={CurrRisk}
+                                scenario="baseline"
+                                ImpactName={NameImpact}
+                                area_data3={area_dict3}
+                                area_data4={area_dict4}
+                                AdaptLayerName={AdaptLayerName}
+                              ></Legend_Small>
+                            </Paper>
+                          </Popper>
+                        )}
+                      </div>
+                    )}
+                    {label === "2050s" && (
+                      <div>
+                        <Map_Option
+                          activeCrop={activeCrop}
+                          activeScenario="ssp245"
+                          focus={focus}
+                          activeRegion={activeRegion}
+                          activeOpt={activeOpt}
+                          CurrRisk={CurrRisk}
+                          activeImpact={activeImpact}
+                          sharedView={sharedView}
+                          handleviewchange={handleviewchange}
+                          activeOptLayer={activeOptLayer}
+                          ImpactName={NameImpact}
+                        ></Map_Option>
+                        {(CurrRisk !== "" ||
+                          activeOpt !== "" ||
+                          NameImpact !== "") && (
+                          <Popper
+                            open={true} // Always open
+                            anchorEl={gridRefs[index].current} // Anchor to the Grid container
+                            placement="bottom" // Position it at the bottom
+                            disablePortal={true} // Stay within the DOM hierarchy
+                            modifiers={[
+                              {
+                                name: "offset",
+                                options: {
+                                  offset: [3, -130], // Adjust distance from the container
+                                },
+                              },
+                            ]}
+                          >
+                            <Paper
+                              elevation={1}
+                              sx={{
+                                maxWidth: boxWidth - 18,
+                                borderRadius: "5px",
+                                padding: "3px",
+                              }}
+                            >
+                              <Legend_Small
+                                location={activeRegion}
+                                commodity={activeCrop}
+                                adaption={activeOpt}
+                                RiskName={CurrRisk}
+                                scenario="ssp245"
+                                ImpactName={NameImpact}
+                                area_data3={area_dict3}
+                                area_data4={area_dict4}
+                                AdaptLayerName={AdaptLayerName}
+                              ></Legend_Small>
+                            </Paper>
+                          </Popper>
+                        )}
+                      </div>
+                    )}
+                    {label === "2080s" && (
+                      <div>
+                        <Map_Option
+                          activeCrop={activeCrop}
+                          activeScenario="ssp585"
+                          focus={focus}
+                          activeRegion={activeRegion}
+                          activeOpt={activeOpt}
+                          CurrRisk={CurrRisk}
+                          activeImpact={activeImpact}
+                          sharedView={sharedView}
+                          handleviewchange={handleviewchange}
+                          activeOptLayer={activeOptLayer}
+                          ImpactName={NameImpact}
+                        ></Map_Option>
+                        {(CurrRisk !== "" ||
+                          activeOpt !== "" ||
+                          NameImpact !== "") && (
+                          <Popper
+                            open={true} // Always open
+                            anchorEl={gridRefs[index].current} // Anchor to the Grid container
+                            placement="bottom" // Position it at the bottom
+                            disablePortal={true} // Stay within the DOM hierarchy
+                            modifiers={[
+                              {
+                                name: "offset",
+                                options: {
+                                  offset: [3, -130], // Adjust distance from the container
+                                },
+                              },
+                            ]}
+                          >
+                            <Paper
+                              elevation={1}
+                              sx={{
+                                maxWidth: boxWidth - 18,
+                                borderRadius: "5px",
+                                padding: "3px",
+                              }}
+                            >
+                              <Legend_Small
+                                location={activeRegion}
+                                commodity={activeCrop}
+                                adaption={activeOpt}
+                                RiskName={CurrRisk}
+                                scenario="ssp585"
+                                ImpactName={NameImpact}
+                                area_data3={area_dict3}
+                                area_data4={area_dict4}
+                                AdaptLayerName={AdaptLayerName}
+                              ></Legend_Small>
+                            </Paper>
+                          </Popper>
+                        )}
+                        {/* {(CurrRisk!=='' || activeOpt!=='') && <Popper
                   open={true} // Always open
                   anchorEl={gridRefs[index].current} // Anchor to the Grid container
                   placement="bottom" // Position it at the bottom
@@ -496,13 +850,15 @@ export default function CompV({
                   />  
               </Box>
               </Popper>} */}
-                </div>}
-              </Paper>
+                      </div>
+                    )}
+                  </Paper>
+                </Grid>
+              ))}
             </Grid>
-          ))}
-        </Grid>
-      </Grid>}
-    </Grid>
+          </Grid>
+        )}
+      </Grid>
     </div>
   );
-};
+}

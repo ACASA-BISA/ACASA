@@ -53,7 +53,7 @@ export default function SwitchCereals({ activeCrop, changeCrop }) {
     height: 14 + padd,
     padding: padd / 2,
     display: "flex",
-
+  
     "& .MuiSwitch-switchBase": {
       padding: 2 + padd / 2,
       "&.Mui-checked": {
@@ -61,9 +61,8 @@ export default function SwitchCereals({ activeCrop, changeCrop }) {
         color: "#fff",
         "& + .MuiSwitch-track": {
           opacity: 1,
-          // 4ba046 and 4aba03 and dea426 and b9f04d
           backgroundColor:
-            theme.palette.mode === "dark" ? "#177ddc" : "#4ba046",
+            theme.palette.mode === "dark" ? "#61c258" : "#4ba046",
         },
       },
     },
@@ -80,30 +79,24 @@ export default function SwitchCereals({ activeCrop, changeCrop }) {
       borderRadius: 14 / 2,
       opacity: 1,
       backgroundColor:
-        theme.palette.mode === "dark"
-          ? "rgba(255,255,255,.35)"
-          : "rgba(0,0,0,.10)",
+        theme.palette.mode === "dark" ? "rgba(255,255,255,.25)" : "rgba(0,0,0,.10)",
       boxSizing: "border-box",
     },
-    "&:hover": {
-      backgroundColor: "#ffe89c ",
+    "&:hover .MuiSwitch-track": {
       opacity: 1,
-      borderRadius: 12,
-      "& .MuiSwitch-track": {
-        opacity: 1,
-        backgroundColor:
-          theme.palette.mode === "dark"
-            ? "rgba(255,255,255,.35)"
-            : "rgba(255,255,255,.7)",
-      },
+      backgroundColor:
+        theme.palette.mode === "dark"
+          ? "rgba(255,255,255,.35)"
+          : "rgba(255,255,255,.7)",
     },
   }));
-
+  
   const CustomFormControlLabel = styled(FormControlLabel)(({ theme }) => ({
     "&.Mui-disabled .MuiTypography-body2": {
-      color: "#ccc", // Color for the label text when disabled
+      color: theme.palette.mode === "dark" ? "#888" : "#ccc",
     },
   }));
+  
 
   return (
     <FormControl
@@ -134,7 +127,7 @@ export default function SwitchCereals({ activeCrop, changeCrop }) {
                         <span>{season[index]}</span>
                         <br />
                         <Link
-                          href={`#/resources?tab=4&term=${switchh[index].toLowerCase()}`} // Use MUI Link
+                          href={`#/resources?tab=4&term=${switchh[index].toLowerCase()}`} 
                           target="_blank"
                           sx={{
                             color: "white",
