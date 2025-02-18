@@ -27,7 +27,7 @@ export default function MApp({
   activeCrop, focus='Region', activeRegion,
   activeOpt, CurrRisk, activeImpact,activeScenario,
   sharedView,handleviewchange,activeOptLayer,ImpactName,
-  displayLayer,activeScale
+  displayLayer,activeScale,exploreType
 }) {
 
     const ref = useRef(null);
@@ -204,6 +204,21 @@ export default function MApp({
       ]
     };
 
+    const color_hazard3 = {
+      color: [
+        'palette',
+        ['clamp', ['*', ['band', 2], 25], 0, 6],
+        ['rgba(0,0,0,0)',  
+        'rgba(150,150,150,0)', 
+        "rgba(0, 100, 0, 1)",
+        "rgba(144, 238, 144, 1)",  
+        "rgba(200,200,200,1)",  
+        "rgba(255,105,180,1)",
+        "rgba(128,0,0,1)"
+         ]
+      ]
+    };
+
     const color_hazard_change = {
       color: [
         'palette',
@@ -220,9 +235,9 @@ export default function MApp({
         ['rgba(0,0,0,0)', 'rgba(150,150,150,0)', 
         "rgba(128,0,0,1)",   
         "rgba(255,105,180,1)",   
-        "rgba(255,255,255,0)",  
-        "rgba(135,206,250,1)", 
-        "rgba(0,0,128,1)" ]
+        "rgba(200,200,200,1)",  
+        "rgba(144, 238, 144, 1)", 
+        "rgba(0, 100, 0, 1)" ]
       ]
     };
 
@@ -1036,100 +1051,117 @@ useEffect(() => {
       "Economic Development Indicator":"Human development index",
       'Seasonal Rainfall':'climatology_prec','Maximum Temperature':'climatology_tmax','Minimum Temperature':'climatology_tmin'};
 
-    if(activeOpt!==''){
-      opt=2;
-      let urlstr = "xyz.tif";
-      if(activeScenario==='baseline'){
-        urlstr = "./Adap/"+activeCrop+"/Baseline/Suitability_"+activeCrop+"_"+optcode[activeOpt]+".tif";
-       }
-       else if(activeScenario==='ssp245'){
-         urlstr = "./Adap/"+activeCrop+"/SSP245/Suitability_"+activeCrop+"_"+optcode[activeOpt]+".tif";
+    if(exploreType==='Commodity'){
+
+      if(activeOpt!==''){
+        opt=2;
+        let urlstr = "xyz.tif";
+        if(activeScenario==='baseline'){
+          urlstr = "./Adap/"+activeCrop+"/Baseline/Suitability_"+activeCrop+"_"+optcode[activeOpt]+".tif";
         }
-       else{
-         urlstr = "./Adap/"+activeCrop+"/SSP585/Suitability_"+activeCrop+"_"+optcode[activeOpt]+".tif";
-       }
-       if(checkcrop2()===false){
+        else if(activeScenario==='ssp245'){
+          urlstr = "./Adap/"+activeCrop+"/SSP245/Suitability_"+activeCrop+"_"+optcode[activeOpt]+".tif";
+          }
+        else{
+          urlstr = "./Adap/"+activeCrop+"/SSP585/Suitability_"+activeCrop+"_"+optcode[activeOpt]+".tif";
+        }
+        if(checkcrop2()===false){
+          opt=3;
+          urlstr = "./Adap/"+activeCrop+"/"+activeOpt+" Baseline.tif";
+        }
+        settiffFilePath(urlstr);
+        source1 = new GeoTIFF({sources: [{ url: urlstr}],sourceOptions:{allowFullFile:true}});
+      }
+      else if(CurrRisk!==''){
         opt=3;
-        urlstr = "./Adap/"+activeCrop+"/"+activeOpt+" Baseline.tif";
-      }
-      settiffFilePath(urlstr);
-      source1 = new GeoTIFF({sources: [{ url: urlstr}],sourceOptions:{allowFullFile:true}});
-    }
-    else if(CurrRisk!==''){
-      opt=3;
-      let urlstr = "xyz.tif";
-      let district_n = "";
-      if(activeScale==='District Level'){
-        district_n = "District/";
-      }
-      if(activeScale==='State Level'){
-        district_n = "State/";
-      }
-      
-      if(activeScenario==='baseline'){
-       urlstr = "./Hazards/"+activeCrop+"/Baseline/"+district_n+"ZZ_"+hazardname[CurrRisk]+".tif";
-      }
-      else if(activeScenario==='ssp245'){
-        urlstr = "./Hazards/"+activeCrop+"/SSP245/"+district_n+"ZZ_"+hazardname[CurrRisk]+".tif";
-        if(displayLayer==='Absolute Change'){
-          opt = 801;
-          urlstr = "./Hazards/"+activeCrop+"/SSP245/"+district_n+"Abs_ZZ_"+hazardname[CurrRisk]+".tif";
+        let urlstr = "xyz.tif";
+        let district_n = "";
+        if(activeScale==='District Level'){
+          district_n = "District/";
         }
-       }
+        if(activeScale==='State Level'){
+          district_n = "State/";
+        }
+        
+        if(activeScenario==='baseline'){
+        urlstr = "./Hazards/"+activeCrop+"/Baseline/"+district_n+"ZZ_"+hazardname[CurrRisk]+".tif";
+        }
+        else if(activeScenario==='ssp245'){
+          
+          if(displayLayer==='Absolute Change'){
+            opt = 102;
+            urlstr = "./Hazards/"+activeCrop+"/SSP245/"+district_n+"Abs_ZZ_"+hazardname[CurrRisk]+".tif";
+          }
+          else if(displayLayer==='Percentage Change'){
+            opt = 102;
+            urlstr = "./Hazards/"+activeCrop+"/Percentage Change/SSP245/"+district_n+"Cat_ZZ_"+hazardname[CurrRisk]+".tif";
+          }
+          else{
+            urlstr = "./Hazards/"+activeCrop+"/SSP245/"+district_n+"ZZ_"+hazardname[CurrRisk]+".tif";
+          }
+        }
+        else{
+          
+          if(displayLayer==='Absolute Change'){
+            opt = 102;
+            urlstr = "./Hazards/"+activeCrop+"/SSP585/"+district_n+"Abs_ZZ_"+hazardname[CurrRisk]+".tif";
+          }
+          else if(displayLayer==='Percentage Change'){
+            opt = 102;
+            urlstr = "./Hazards/"+activeCrop+"/Percentage Change/SSP585/"+district_n+"Cat_ZZ_"+hazardname[CurrRisk]+".tif";
+          }
+          else{
+            urlstr = "./Hazards/"+activeCrop+"/SSP585/"+district_n+"ZZ_"+hazardname[CurrRisk]+".tif";
+          }
+        }
+        /* if(CurrRisk==='Hazard Index'){
+          opt=4;
+          urlstr = "./Hazard_index/"+activeCrop+".tif";
+        } */
+        if(CurrRisk==='Flood'){
+          opt=99;
+        }
+        if(CurrRisk==='Seasonal Rainfall'||CurrRisk==='Maximum Temperature'||CurrRisk==='Minimum Temperature'){
+          opt=4;
+          urlstr = "./BaseClimate/"+hazardname[CurrRisk]+".tif";
+        }
+        if(checkcrop2()===false){
+          opt=101;
+        }
+        settiffFilePath(urlstr);
+        source1 = new GeoTIFF({sources: [{ url: urlstr}],sourceOptions:{allowFullFile:true}});
+      }
+      else if(activeImpact['Productivity'] || activeImpact['Value of Production']||activeImpact['Resilience']){
+        let urlstr = "xyz.tif";
+        opt=3;
+        if(activeImpact['Productivity']){
+          urlstr = "./Impact/"+activeCrop+"_DR.tif";
+        }
+        if(activeImpact['Resilience']){
+          urlstr = "./Impact/"+activeCrop+"/NT_BS_CV.tif";
+        }
+        settiffFilePath(urlstr);
+        source1 = new GeoTIFF({sources: [{ url: urlstr}],sourceOptions:{allowFullFile:true}});
+      }
       else{
-        urlstr = "./Hazards/"+activeCrop+"/SSP585/"+district_n+"ZZ_"+hazardname[CurrRisk]+".tif";
-        if(displayLayer==='Absolute Change'){
-          opt = 801;
-          urlstr = "./Hazards/"+activeCrop+"/SSP585/"+district_n+"Abs_ZZ_"+hazardname[CurrRisk]+".tif";
+        let urlstr = './Crop Masks/AllPix/ZZ_Mask_'+activeCrop+'801.tif';
+        settiffFilePath(urlstr);
+        //console.log(urlstr);
+        if(checkcrop()===false){
+          urlstr = './Crop Masks/Extent/'+activeCrop+'.tif';
         }
+        source1 = new GeoTIFF({sources: [{ url: urlstr }], sourceOptions:{allowFullFile:true} });
       }
-      /* if(CurrRisk==='Hazard Index'){
-        opt=4;
-        urlstr = "./Hazard_index/"+activeCrop+".tif";
-      } */
-      if(CurrRisk==='Flood'){
-        opt=99;
-      }
-      if(CurrRisk==='Seasonal Rainfall'||CurrRisk==='Maximum Temperature'||CurrRisk==='Minimum Temperature'){
-        opt=4;
-        urlstr = "./BaseClimate/"+hazardname[CurrRisk]+".tif";
-      }
-      if(checkcrop2()===false){
-        opt=101;
-      }
-      settiffFilePath(urlstr);
-      source1 = new GeoTIFF({sources: [{ url: urlstr}],sourceOptions:{allowFullFile:true}});
-    }
-    else if(activeImpact['Productivity'] || activeImpact['Value of Production']||activeImpact['Resilience']){
-      let urlstr = "xyz.tif";
-      opt=3;
-      if(activeImpact['Productivity']){
-        urlstr = "./Impact/"+activeCrop+"_DR.tif";
-      }
-      if(activeImpact['Resilience']){
-        urlstr = "./Impact/"+activeCrop+"/NT_BS_CV.tif";
-      }
-      settiffFilePath(urlstr);
-      source1 = new GeoTIFF({sources: [{ url: urlstr}],sourceOptions:{allowFullFile:true}});
-    }
-    else{
-      let urlstr = './Crop Masks/AllPix/ZZ_Mask_'+activeCrop+'801.tif';
-      settiffFilePath(urlstr);
-      //console.log(urlstr);
-      if(checkcrop()===false){
-        urlstr = './Crop Masks/Extent/'+activeCrop+'.tif';
-      }
-      source1 = new GeoTIFF({sources: [{ url: urlstr }], sourceOptions:{allowFullFile:true} });
-    }
     
-    source1.on('change', function() {
-      const state = source1.getState();
-      if (state === 'error') {
-        setmsource(true);
-      } else if (state === 'ready') {
-        setmsource(false);
-      }
-    });
+      source1.on('change', function() {
+        const state = source1.getState();
+        if (state === 'error') {
+          setmsource(true);
+        } else if (state === 'ready') {
+          setmsource(false);
+        }
+      });
+    }
 
   if (mapRef.current && overl) {
     mapRef.current.removeLayer(overl);
@@ -1159,6 +1191,9 @@ useEffect(() => {
     else if(opt===101){
       newOverl.setStyle(color_hazard_livestock);
     }
+    else if(opt===102){
+      newOverl.setStyle(color_hazard3);
+    }
     else if(opt===801){
       newOverl.setStyle(color_hazard_change);
     }
@@ -1174,7 +1209,7 @@ useEffect(() => {
     }
   }
   
-}, [CurrRisk,activeCrop,activeOpt,activeImpact,mapRef,activeScenario,displayLayer,activeScale]);
+}, [CurrRisk,activeCrop,activeOpt,activeImpact,mapRef,activeScenario,displayLayer,activeScale,exploreType]);
 
 useEffect(() => {
   let source_bio = null;
@@ -1237,7 +1272,6 @@ useEffect(() => {
       
       if(!(Scalelayer) && activeOptLayer['Scalability']){
         found = true;
-
         if(activeScenario==='baseline'){
           urlstr = "./Adap/"+activeCrop+"/Baseline/Scale/Suitability_"+activeCrop+"_"+optcode[activeOpt]+".tif";
          }
@@ -1256,19 +1290,19 @@ useEffect(() => {
     mapRef.current.removeLayer(overl);
   }
 
-  if((activeOptLayer['Biophysical Suitability']===false && Biolayer)||found===false){
+  if((activeOptLayer['Biophysical Suitability']===false && Biolayer)){
     mapRef.current.removeLayer(Biolayer);
     setBioLayer(null);
   }
-  if((activeOptLayer['Adaptation Benefits']===false && Adaptlayer)||found===false){
+  if((activeOptLayer['Adaptation Benefits']===false && Adaptlayer)){
     mapRef.current.removeLayer(Adaptlayer);
     setAdaptLayer(null);
   }
-  if((activeOptLayer['Economic']===false && Sociolayer)||found===false){
+  if((activeOptLayer['Economic']===false && Sociolayer)){
     mapRef.current.removeLayer(Sociolayer);
     setSocioLayer(null);
   }
-  if((activeOptLayer['Scalability']===false && Scalelayer)||found===false){
+  if((activeOptLayer['Scalability']===false && Scalelayer)){
     mapRef.current.removeLayer(Scalelayer);
     setScaleLayer(null);
   }
@@ -1292,7 +1326,7 @@ useEffect(() => {
     const newOverl = new TileLayer({
       source: source_adapt,
       opacity: 0.70,
-      zIndex: 92,
+      zIndex: 93,
     });
 
     if(opt===2){
@@ -1306,8 +1340,8 @@ useEffect(() => {
   if (activeOptLayer['Economic'] && source_socio) {
     const newOverl = new TileLayer({
       source: source_socio,
-      opacity: 0.80,
-      zIndex: 93,
+      opacity: 0.70,
+      zIndex: 94,
     });
     if(opt===2){
       newOverl.setStyle(color_hazard2);
@@ -1320,8 +1354,8 @@ useEffect(() => {
   if (source_scale && activeOptLayer['Scalability']) {
     const newOverl = new TileLayer({
       source: source_scale,
-      opacity: 0.90,
-      zIndex: 94,
+      opacity: 0.70,
+      zIndex: 95,
     });
     if(opt===2){
       newOverl.setStyle(color_hazard_livestock);

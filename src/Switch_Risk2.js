@@ -468,6 +468,16 @@ export default function SwitchRisk2({
     { exploreType==='Commodity' && <FormLabel sx={{paddingBottom:1,textAlign:'left'}}>
         <Typography sx={{color:'black',fontWeight:'bold',fontSize:14,paddingTop:1,paddingLeft:2}}>Base climate and climatic risks of {cropname.toLowerCase()}</Typography>
         </FormLabel>}
+        {
+            (exploreType==='Commodity'&&activeCrop['wheat'])&&
+            <Typography sx={{color:'black',fontSize:13,paddingTop:-1,textAlign:'left',paddingLeft:2}}>Season: Winter Season</Typography>
+
+        }
+        {
+            (exploreType==='Commodity'&&activeCrop['rice'])&&
+            <Typography sx={{color:'black',fontSize:13,paddingTop:-1,textAlign:'left',paddingLeft:2}}>Season: Monsoon Season</Typography>
+
+        }
         { exploreType==='Commodity' && (
         <FormControl component="" variant="standard" sx={{paddingBottom:1, paddingLeft:3}}>
             

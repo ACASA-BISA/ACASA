@@ -12,7 +12,8 @@ export default function Selection_bar({
     scenario,
     ImpactName,
     modelName,
-    exploreType
+    exploreType,
+    activeScale
 }) {
   
 
@@ -52,7 +53,12 @@ export default function Selection_bar({
                 {location}
                 </Typography>
             </Box>
-            
+            <ChevronRightIcon/>
+            <Box sx={{display:'flex',flexDirection:'row'}}>
+                <Typography sx={{ fontSize: 14 }} color="text.secondary" >
+                {activeScale.charAt(0).toUpperCase()+activeScale.toLowerCase().slice(1)}
+                </Typography>
+            </Box>
             {exploreType === 'Commodity' && <Box sx={{display:'flex',flexDirection:'row'}}>
               <ChevronRightIcon/>
                 <Typography sx={{ fontSize: 14 }} color="black" gutterBottom>

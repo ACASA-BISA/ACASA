@@ -66,7 +66,8 @@ export default function CompV({
   modelName,
   displayLayer,
   setDisplayLayer,
-  activeScale
+  activeScale,
+  exploreType
 }) {
     let scn = 'baseline';
     if(activeScenario['ssp245']){
@@ -145,22 +146,24 @@ export default function CompV({
     }
 
     let AdaptLayerName = '';
-    if (activeOptLayer['Economic']) {
-      AdaptLayerName = "Economic Benefits";
-    } 
-    else if(activeOptLayer['Gender']){
-      AdaptLayerName = "Gender Suitability";
-    }
-    else if(activeOptLayer['Scalability']){
-      AdaptLayerName = "Scalability";
-    }
-    else if(activeOptLayer['Biophysical Suitability']){
+    if(activeOptLayer['Biophysical Suitability']){
       AdaptLayerName = "Biophysical Suitability";
     }
-    else if(activeOptLayer['Adaptation Benefits']){
+    if(activeOptLayer['Adaptation Benefits']){
       AdaptLayerName = "Adaptation Benefits";
     }
-    else{
+    if(activeOptLayer['Economic']) {
+      AdaptLayerName = "Economic Benefits";
+    }
+    if(activeOptLayer['Scalability']){
+      AdaptLayerName = "Scalability";
+    }
+    if(activeOptLayer['Gender']){
+      AdaptLayerName = "Gender Suitability";
+    }
+    if(activeOptLayer['Biophysical Suitability']===false&&activeOptLayer['Adaptation Benefits']===false&&
+      activeOptLayer['Economic']===false&&activeOptLayer['Scalability']===false&&activeOptLayer['Gender']===false
+    ){
       AdaptLayerName = 'suitability';
     }
 
@@ -265,7 +268,8 @@ export default function CompV({
           alignItems:'center',alignContent:'center',justifyItems:'center',justifyContent:'center'}}>
                 <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Biophysical Suitability']} name="Biophysical Suitability" 
                     onChange={changeOptLayer}
-                    color="success" sx={{padding:0,marginLeft:1,marginRight:'2px'}}/>} 
+                    color="success" sx={{padding:0,marginLeft:1,marginRight:'2px','&.Mui-checked': {
+                    transform: "scale(1.04)"} }}/>} 
                     label={<Typography variant="body2" align='left'  sx={{peddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
                     whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>Biophysical suitability</Typography>}/>
                 <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Adaptation Benefits']} name="Adaptation Benefits" 
@@ -301,7 +305,7 @@ export default function CompV({
         <Paper elevation={1} sx={{ width: '100%', height:activeOpt===""?'calc(100vh - 155px)':'calc(100vh - 175px)' }}>
         <div>
             <Map_Option activeCrop={activeCrop} activeScenario='baseline' focus={focus} activeRegion={activeRegion} activeOpt={activeOpt} CurrRisk={CurrRisk} activeImpact={activeImpact}
-            sharedView={sharedView} handleviewchange={handleviewchange} activeOptLayer={activeOptLayer} ImpactName={NameImpact} displayLayer={displayLayer} activeScale={activeScale}></Map_Option>
+            sharedView={sharedView} handleviewchange={handleviewchange} activeOptLayer={activeOptLayer} ImpactName={NameImpact} displayLayer={displayLayer} exploreType={exploreType} activeScale={activeScale}></Map_Option>
             {(CurrRisk!=='' || activeOpt!==''|| NameImpact!=='') && <Popper
             open={true} // Always open
             anchorEl={Only_Baseline.current} // Anchor to the Grid container
@@ -350,7 +354,7 @@ export default function CompV({
                 {label==='Baseline'&&
                 <div>
                   <Map_Option activeCrop={activeCrop} activeScenario='baseline' focus={focus} activeRegion={activeRegion} activeOpt={activeOpt} CurrRisk={CurrRisk} activeImpact={activeImpact}
-                  sharedView={sharedView} handleviewchange={handleviewchange} activeOptLayer={activeOptLayer} ImpactName={NameImpact} displayLayer={displayLayer} activeScale={activeScale}></Map_Option>
+                  sharedView={sharedView} handleviewchange={handleviewchange} activeOptLayer={activeOptLayer} ImpactName={NameImpact} displayLayer={displayLayer} exploreType={exploreType} activeScale={activeScale}></Map_Option>
                   {(CurrRisk!=='' || activeOpt!==''|| NameImpact!=='') && <Popper
                   open={true} // Always open
                   anchorEl={gridRefs[index].current} // Anchor to the Grid container
@@ -375,7 +379,7 @@ export default function CompV({
                 {label==='2050s'&&
                 <div>
                   <Map_Option activeCrop={activeCrop} activeScenario={scn} focus={focus} activeRegion={activeRegion} activeOpt={activeOpt} CurrRisk={CurrRisk} activeImpact={activeImpact}
-                  sharedView={sharedView} handleviewchange={handleviewchange} activeOptLayer={activeOptLayer} ImpactName={NameImpact} displayLayer={displayLayer} activeScale={activeScale}></Map_Option>
+                  sharedView={sharedView} handleviewchange={handleviewchange} activeOptLayer={activeOptLayer} ImpactName={NameImpact} displayLayer={displayLayer} exploreType={exploreType} activeScale={activeScale}></Map_Option>
                   {(CurrRisk!=='' || activeOpt!==''|| NameImpact!=='') && <Popper
                   open={true} // Always open
                   anchorEl={gridRefs[index].current} // Anchor to the Grid container
@@ -427,7 +431,7 @@ export default function CompV({
                 {label==='Baseline'&&
                 <div>
                   <Map_Option activeCrop={activeCrop} activeScenario='baseline' focus={focus} activeRegion={activeRegion} activeOpt={activeOpt} CurrRisk={CurrRisk} activeImpact={activeImpact}
-                  sharedView={sharedView} handleviewchange={handleviewchange} activeOptLayer={activeOptLayer} ImpactName={NameImpact} displayLayer={displayLayer} activeScale={activeScale}></Map_Option>
+                  sharedView={sharedView} handleviewchange={handleviewchange} activeOptLayer={activeOptLayer} ImpactName={NameImpact} displayLayer={displayLayer} exploreType={exploreType} activeScale={activeScale}></Map_Option>
                   {(CurrRisk!=='' || activeOpt!==''|| NameImpact!=='') && <Popper
                   open={true} // Always open
                   anchorEl={gridRefs[index].current} // Anchor to the Grid container
@@ -452,7 +456,7 @@ export default function CompV({
                 {label==='2050s'&&
                 <div>
                   <Map_Option activeCrop={activeCrop} activeScenario={scn} focus={focus} activeRegion={activeRegion} activeOpt={activeOpt} CurrRisk={CurrRisk} activeImpact={activeImpact}
-                  sharedView={sharedView} handleviewchange={handleviewchange} activeOptLayer={activeOptLayer} ImpactName={NameImpact} displayLayer={displayLayer} activeScale={activeScale}></Map_Option>
+                  sharedView={sharedView} handleviewchange={handleviewchange} activeOptLayer={activeOptLayer} ImpactName={NameImpact} displayLayer={displayLayer} exploreType={exploreType} activeScale={activeScale}></Map_Option>
                   {(CurrRisk!=='' || activeOpt!==''|| NameImpact!=='') && <Popper
                   open={true} // Always open
                   anchorEl={gridRefs[index].current} // Anchor to the Grid container
@@ -476,7 +480,7 @@ export default function CompV({
                 {label==='2080s'&&
                 <div>
                   <Map_Option activeCrop={activeCrop} activeScenario={scn} focus={focus} activeRegion={activeRegion} activeOpt={activeOpt} CurrRisk={CurrRisk} activeImpact={activeImpact}
-                  sharedView={sharedView} handleviewchange={handleviewchange} activeOptLayer={activeOptLayer} ImpactName={NameImpact} displayLayer={displayLayer} activeScale={activeScale}></Map_Option>
+                  sharedView={sharedView} handleviewchange={handleviewchange} activeOptLayer={activeOptLayer} ImpactName={NameImpact} displayLayer={displayLayer} exploreType={exploreType} activeScale={activeScale}></Map_Option>
                   {(CurrRisk!=='' || activeOpt!=='' || NameImpact!=='') && <Popper
                   open={true} // Always open
                   anchorEl={gridRefs[index].current} // Anchor to the Grid container

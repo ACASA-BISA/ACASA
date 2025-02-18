@@ -443,6 +443,14 @@ export default function DrawerMapShow({ activeBar }) {
     setImpactName(name);
     setOption(IntialOptions);
     setCurrOpt('');
+    setOptionLayer({
+      ...optionlayer,
+      'Biophysical Suitability':false,
+      'Adaptation Benefits':false,
+      'Economic':false,
+      'Scalability':false,
+      'Gender':false
+    });
     setRisk(InitialHazard);
     setRiskName(''); 
   };
@@ -460,6 +468,14 @@ export default function DrawerMapShow({ activeBar }) {
       setCrop(newState);
       setOption(IntialOptions);
       setCurrOpt('');
+      setOptionLayer({
+        ...optionlayer,
+        'Biophysical Suitability':false,
+        'Adaptation Benefits':false,
+        'Economic':false,
+        'Scalability':false,
+        'Gender':false
+      });
       setRisk(InitialHazard);
       setRiskName('');
       setImpact(InitialImpact);
@@ -479,6 +495,14 @@ export default function DrawerMapShow({ activeBar }) {
     if(name===''){
       setCurrOpt('');
     }
+    setOptionLayer({
+      ...optionlayer,
+      'Biophysical Suitability':false,
+      'Adaptation Benefits':false,
+      'Economic':false,
+      'Scalability':false,
+      'Gender':false
+    });
     setOption(newState);
     setRisk(InitialHazard);
     setRiskName('');
@@ -497,6 +521,14 @@ export default function DrawerMapShow({ activeBar }) {
     setImpactName(name);
     setOption(IntialOptions);
     setCurrOpt('');
+    setOptionLayer({
+      ...optionlayer,
+      'Biophysical Suitability':false,
+      'Adaptation Benefits':false,
+      'Economic':false,
+      'Scalability':false,
+      'Gender':false
+    });
     setRisk(InitialHazard);
     setRiskName(''); 
   };
@@ -512,6 +544,14 @@ export default function DrawerMapShow({ activeBar }) {
       setCrop(newState);
       setOption(IntialOptions);
       setCurrOpt('');
+      setOptionLayer({
+        ...optionlayer,
+        'Biophysical Suitability':false,
+        'Adaptation Benefits':false,
+        'Economic':false,
+        'Scalability':false,
+        'Gender':false
+      });
       setRisk(InitialHazard);
       setRiskName('');
       setImpact(InitialImpact);
@@ -544,6 +584,14 @@ export default function DrawerMapShow({ activeBar }) {
       setRisk(old);
       setOption(IntialOptions);
       setCurrOpt('');
+      setOptionLayer({
+        ...optionlayer,
+        'Biophysical Suitability':false,
+        'Adaptation Benefits':false,
+        'Economic':false,
+        'Scalability':false,
+        'Gender':false
+      });
       setImpact(InitialImpact);
       setImpactName('');
   }
@@ -783,12 +831,12 @@ export default function DrawerMapShow({ activeBar }) {
         <Box sx={{display:{xs:'none',md:'block'}}}>
 
         {(activeBar==='future'||activeBar==='viewer') && <Selection_bar location={activeRegion} commodity={Currcrop} adaption={CurrOpt} exploreType={exploreType} 
-        RiskName={RiskName} scenario={NameScenario} ImpactName={ImpactName} modelName={Model}></Selection_bar>}
+        RiskName={RiskName} scenario={NameScenario} ImpactName={ImpactName} modelName={Model} activeScale={vis_scale}></Selection_bar>}
 
         {activeBar==='future' && <CompV activeCrop={Currcrop} changeCrop={handleChange_CMP} LocationData={countryStateMap} focus={focus} activeRegion={activeRegion} changeRegion={ActiveRegionChange} CurrRisk={RiskName}
         activeOpt={CurrOpt} changeOpt={handleChangeOpt_CMP} changeRisk={changeRisk} activeImpact={CurrImpact} changeImpact={changeImpact_CMP} activeScenario={scenario} changeScenario={handleScenarioChange}
         area_dict3={area_dict3} area_dict4={area_dict4} activeOptLayer={optionlayer} changeOptLayer={changeOptLayer} modelName={Model} displayLayer={displayLayer} setDisplayLayer={setDisplayLayer} 
-        activeScale={vis_scale}></CompV>}
+        activeScale={vis_scale} exploreType={exploreType}></CompV>}
 
         {activeBar==='future' && <DrawerV activeCrop={crop} changeCrop={handleChange} LocationData={countryStateMap} activeRegion={activeRegion} changeRegion={ActiveRegionChange} CurrRisk={RiskName}
         activeOpt={option} changeOpt={handleChangeOpt} changeRisk={changeRisk} activeImpact={CurrImpact} changeImpact={changeImpact} activeScenario={scenario} changeScenario={handleScenarioChange}

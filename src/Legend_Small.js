@@ -63,25 +63,33 @@ export default function Legend_Small({
         let y ='';
         let x = '';
         let rowstr = "";
+        let opt_suffix = "";
+        if(AdaptLayerName==='Adaptation Benefits'){
+          opt_suffix = "_ADP";
+        }
+        if(AdaptLayerName==='Economic Benefits'){
+          opt_suffix = "_ECO";
+        }
         if (sec>0){
           y = location.substring(0,sec);
           x = location.substring(sec+2);
           let statecode = '';
+          
           if(x==='Bangladesh'){
             statecode = y.substring(0,y.length-9) + 'DIV';
-            rowstr = commodity+"_"+statecode+"_"+optcode[adaption]+"_"+scenario;
+            rowstr = commodity+"_"+statecode+"_"+optcode[adaption]+opt_suffix+"_"+scenario;
           }
           else if(x==='Nepal'){
             statecode = y + 'DIV';
-            rowstr = commodity+"_"+statecode+"_"+optcode[adaption]+"_"+scenario;
+            rowstr = commodity+"_"+statecode+"_"+optcode[adaption]+opt_suffix+"_"+scenario;
           }
           else if(x==='Bhutan'||x==='Maldives'||x==='Afghanistan'||x==='India'||x==='Sri Lanka'||x==='Pakistan'){
             statecode = y;
-            rowstr = commodity+"_"+statecode+"_"+optcode[adaption]+"_"+scenario;
+            rowstr = commodity+"_"+statecode+"_"+optcode[adaption]+opt_suffix+"_"+scenario;
           }
         }
         else{
-          rowstr = "Calculated_"+commodity+"_"+location+"_"+optcode[adaption]+"_"+scenario;
+          rowstr = "Calculated_"+commodity+"_"+location+"_"+optcode[adaption]+opt_suffix+"_"+scenario;
         }
         let row_data = area_data3[rowstr.toLowerCase()];
         let total = 1;
@@ -124,16 +132,16 @@ export default function Legend_Small({
           [
             createData('#969696',
               "No significant "+typrstr(), row_data['Nil'], (row_data['Nil']*100/total).toFixed(2), (row_data['Nil Population']*0.16/1000000)),
-            createData("rgba(128,0,0,1)",
-              'Very low', row_data['Very Low'], (row_data['Very Low']*100/total).toFixed(2), (row_data['Very Low Population']*0.16/1000000)),
-            createData("rgba(255,105,180,1)",
-              'Low', row_data['Low'], (row_data['Low']*100/total).toFixed(2), (row_data['Low Population']*0.16/1000000)),
-            createData("rgba(255,255,255,1)",
+            createData("rgba(0, 100, 0, 1)",
+              'High dcrs', row_data['Very Low'], (row_data['Very Low']*100/total).toFixed(2), (row_data['Very Low Population']*0.16/1000000)),
+            createData("rgba(144, 238, 144, 1)",
+              'Decrease', row_data['Low'], (row_data['Low']*100/total).toFixed(2), (row_data['Low Population']*0.16/1000000)),
+            createData("rgba(200,200,200,1)",
               'No change', row_data['Medium'], (row_data['Medium']*100/total).toFixed(2), (row_data['Medium Population']*0.16/1000000)),
-            createData("rgba(135,206,250,1)",
-              'High', row_data['High'], (row_data['High']*100/total).toFixed(2), (row_data['High Population']*0.16/1000000)),
-            createData("rgba(0,0,128,1)",
-              'Very high', row_data['Very High'], (row_data['Very High']*100/total).toFixed(2), (row_data['Very High Population']*0.16/1000000)),
+            createData("rgba(255,105,180,1)",
+              'Increase', row_data['High'], (row_data['High']*100/total).toFixed(2), (row_data['High Population']*0.16/1000000)),
+            createData("rgba(128,0,0,1)",
+              'High incr', row_data['Very High'], (row_data['Very High']*100/total).toFixed(2), (row_data['Very High Population']*0.16/1000000)),
           ];
         }
         //console.log(data);
@@ -145,6 +153,7 @@ export default function Legend_Small({
     function fetchthedataHzd() {
         let data = [];
         if(RiskName!==''||adaption!==''||ImpactName!==''){
+          if(displayLayer==='Absolute'){
           let sec = location.indexOf(',');
           let y ='';
           let x = '';
@@ -179,7 +188,7 @@ export default function Legend_Small({
             row_data = {'Nil':NaN,'Very Low':NaN,'Low':NaN,'Medium':NaN,'High':NaN,'Very High':NaN};
           }
           //console.log(total);
-          if(displayLayer==='Absolute'){
+          
           data = 
           [
             createData('#969696',
@@ -195,21 +204,155 @@ export default function Legend_Small({
             createData('#E4003A',
               'Very high', row_data['Very High'], (row_data['Very High']*100/total).toFixed(2), (row_data['Very High Population']*0.16/1000000)),
           ];
-        }else{
+        }
+        else if(displayLayer==='Absolute Change'){
+          /* let rowstr2 = "";
+          let scenario2 = 'Baseline';
+          if (sec>0){
+            y = location.substring(0,sec);
+            x = location.substring(sec+2);
+            let statecode = '';
+            if(x==='Bangladesh'){
+              statecode = y.substring(0,y.length-9) + 'DIV';
+              rowstr2 = commodity+"_"+statecode+"_Abs_"+hazardname[RiskName]+"_"+scenario2;
+            }
+            else if(x==='Nepal'){
+              statecode = y + 'DIV';
+              rowstr2 = commodity+"_"+statecode+"_Abs_"+hazardname[RiskName]+"_"+scenario2;
+            }
+            else if(x==='Bhutan'||x==='India'||x==='Sri Lanka'||x==='Pakistan'||x==='Maldives'||x==='Afghanistan'){
+              statecode = y;
+              rowstr2 = commodity+"_"+statecode+"_Abs_"+hazardname[RiskName]+"_"+scenario2;
+            }
+          }
+          else{
+            rowstr2 = "Calculated_"+commodity+"_"+location+"_Abs_"+hazardname[RiskName]+"_"+scenario2;
+          }
+          let row_data2 = area_data4[rowstr2.toLowerCase()];
+          let total = 1;
+          if(row_data2){
+            total = Number(row_data2['Very Low']) + Number(row_data2['Low']) + Number(row_data2['Medium']) + Number(row_data2['High']) + Number(row_data2['Very High']) + Number(row_data2['Nil']);
+          }
+          else{
+            row_data2 = {'Nil':NaN,'Very Low':NaN,'Low':NaN,'Medium':NaN,'High':NaN,'Very High':NaN};
+          } */
+          /* data = 
+          [
+            createData('#969696',
+              "No significant "+typrstr(), row_data['Nil'], (row_data['Nil']*100/total).toFixed(2), (row_data['Nil Population']*0.16/1000000)),
+            createData('#059212',
+              'Very low', row_data['Very Low']-row_data2['Very Low'], (row_data['Very Low']*100/total).toFixed(2), (row_data['Very Low Population']*0.16/1000000)-
+              (row_data2['Very Low Population']*0.16/1000000)),
+            createData('#00FF00',
+              'Low', row_data['Low']-row_data2['Low'], (row_data['Low']*100/total).toFixed(2), (row_data['Low Population']*0.16/1000000)-
+              (row_data2['Low Population']*0.16/1000000)),
+            createData('#FFDE4D',
+              'Medium', row_data['Medium']-row_data2['Medium'], (row_data['Medium']*100/total).toFixed(2), (row_data['Medium Population']*0.16/1000000)-
+              (row_data2['Medium Population']*0.16/1000000)),
+            createData('#FFA500',
+              'High', row_data['High']-row_data2['High'], (row_data['High']*100/total).toFixed(2), (row_data['High Population']*0.16/1000000)-
+              (row_data2['High Population']*0.16/1000000)),
+            createData('#E4003A',
+              'Very high', row_data['Very High']-row_data2['Very High'], (row_data['Very High']*100/total).toFixed(2), (row_data['Very High Population']*0.16/1000000)-
+              (row_data2['Very High Population']*0.16/1000000)),
+          ] */
+              let sec = location.indexOf(',');
+              let y ='';
+              let x = '';
+              let rowstr = "";
+              if (sec>0){
+                y = location.substring(0,sec);
+                x = location.substring(sec+2);
+                let statecode = '';
+                if(x==='Bangladesh'){
+                  statecode = y.substring(0,y.length-9) + 'DIV';
+                  rowstr = commodity+"_"+statecode+"_Abs_"+hazardname[RiskName]+"_"+scenario;
+                }
+                else if(x==='Nepal'){
+                  statecode = y + 'DIV';
+                  rowstr = commodity+"_"+statecode+"_Abs_"+hazardname[RiskName]+"_"+scenario;
+                }
+                else if(x==='Bhutan'||x==='India'||x==='Sri Lanka'||x==='Pakistan'||x==='Maldives'||x==='Afghanistan'){
+                  statecode = y;
+                  rowstr = commodity+"_"+statecode+"_Abs_"+hazardname[RiskName]+"_"+scenario;
+                }
+              }
+              else{
+                rowstr = "Calculated_"+commodity+"_"+location+"_Abs_"+hazardname[RiskName]+"_"+scenario;
+              }
+              
+              let row_data = area_data4[rowstr.toLowerCase()];
+              let total = 1;
+              if(row_data){
+                total = Number(row_data['Very Low']) + Number(row_data['Low']) + Number(row_data['Medium']) + Number(row_data['High']) + Number(row_data['Very High']) + Number(row_data['Nil']);
+              }
+              else{
+                row_data = {'Nil':NaN,'Very Low':NaN,'Low':NaN,'Medium':NaN,'High':NaN,'Very High':NaN};
+              }
           data = 
             [
               createData('#969696',
                 "No significant "+typrstr(), row_data['Nil'], (row_data['Nil']*100/total).toFixed(2), (row_data['Nil Population']*0.16/1000000)),
               createData("rgba(0,0,128,1)",
-                '', row_data['Very Low'], (row_data['Very Low']*100/total).toFixed(2), (row_data['Very Low Population']*0.16/1000000)),
+                'High dcr', row_data['Very Low'], (row_data['Very Low']*100/total).toFixed(2), (row_data['Very Low Population']*0.16/1000000)),
               createData("rgba(135,206,250,1)",
                 'Decrease', row_data['Low'], (row_data['Low']*100/total).toFixed(2), (row_data['Low Population']*0.16/1000000)),
-              createData("rgba(255,255,255,1)",
+              createData("rgba(200,200,200,1)",
                 'No change', row_data['Medium'], (row_data['Medium']*100/total).toFixed(2), (row_data['Medium Population']*0.16/1000000)),
               createData("rgba(255,105,180,1)",
                 'Increase', row_data['High'], (row_data['High']*100/total).toFixed(2), (row_data['High Population']*0.16/1000000)),
               createData("rgba(128,0,0,1)",
-                '', row_data['Very High'], (row_data['Very High']*100/total).toFixed(2), (row_data['Very High Population']*0.16/1000000)),
+                'High incr', row_data['Very High'], (row_data['Very High']*100/total).toFixed(2), (row_data['Very High Population']*0.16/1000000)),
+            ];
+          }
+          else{
+            let sec = location.indexOf(',');
+              let y ='';
+              let x = '';
+              let rowstr = "";
+              if (sec>0){
+                y = location.substring(0,sec);
+                x = location.substring(sec+2);
+                let statecode = '';
+                if(x==='Bangladesh'){
+                  statecode = y.substring(0,y.length-9) + 'DIV';
+                  rowstr = commodity+"_"+statecode+"_Cat_"+hazardname[RiskName]+"_"+scenario;
+                }
+                else if(x==='Nepal'){
+                  statecode = y + 'DIV';
+                  rowstr = commodity+"_"+statecode+"_Cat_"+hazardname[RiskName]+"_"+scenario;
+                }
+                else if(x==='Bhutan'||x==='India'||x==='Sri Lanka'||x==='Pakistan'||x==='Maldives'||x==='Afghanistan'){
+                  statecode = y;
+                  rowstr = commodity+"_"+statecode+"_Cat_"+hazardname[RiskName]+"_"+scenario;
+                }
+              }
+              else{
+                rowstr = "Calculated_"+commodity+"_"+location+"_Cat_"+hazardname[RiskName]+"_"+scenario;
+              }
+              
+              let row_data = area_data4[rowstr.toLowerCase()];
+              let total = 1;
+              if(row_data){
+                total = Number(row_data['Very Low']) + Number(row_data['Low']) + Number(row_data['Medium']) + Number(row_data['High']) + Number(row_data['Very High']) + Number(row_data['Nil']);
+              }
+              else{
+                row_data = {'Nil':NaN,'Very Low':NaN,'Low':NaN,'Medium':NaN,'High':NaN,'Very High':NaN};
+              }
+          data = 
+            [
+              createData('#969696',
+                "No significant "+typrstr(), row_data['Nil'], (row_data['Nil']*100/total).toFixed(2), (row_data['Nil Population']*0.16/1000000)),
+              createData("rgba(0, 100, 0, 1)",
+                'High dcr', row_data['Very Low'], (row_data['Very Low']*100/total).toFixed(2), (row_data['Very Low Population']*0.16/1000000)),
+              createData("rgba(144, 238, 144, 1)",
+                'Decrease', row_data['Low'], (row_data['Low']*100/total).toFixed(2), (row_data['Low Population']*0.16/1000000)),
+              createData("rgba(200,200,200,1)",
+                'No change', row_data['Medium'], (row_data['Medium']*100/total).toFixed(2), (row_data['Medium Population']*0.16/1000000)),
+              createData("rgba(255,105,180,1)",
+                'Increase', row_data['High'], (row_data['High']*100/total).toFixed(2), (row_data['High Population']*0.16/1000000)),
+              createData("rgba(128,0,0,1)",
+                'High incr', row_data['Very High'], (row_data['Very High']*100/total).toFixed(2), (row_data['Very High Population']*0.16/1000000)),
             ];
           }
           //console.log(data);
@@ -222,22 +365,22 @@ export default function Legend_Small({
           return 'None';
         }
         if(popu<0.1){
-          if(checkcrop()){
-          return '<0.1 M';
+          if(displayLayer!=='Absolute'){
+          return Math.round(popu)+' M';
           }
           else{
             return '<0.1 M';
           }
         }
         if(popu<1 && popu>=0.1){
-          if(checkcrop()){
+          if(displayLayer!=='Absolute'){
           return popu.toFixed(1) + ' M';
           }
           else{
             return popu.toFixed(1) + ' M';
           }
         }
-        if(checkcrop()){
+        if(displayLayer!=='Absolute'){
           return Math.round(popu)+' M';
         }
         return Math.round(popu)+' M';
@@ -249,25 +392,26 @@ export default function Legend_Small({
         }
         popu = popu/1000000;
         if(popu<0.1){
-          if(checkcrop()){
-          return '<0.1 Mha';
-          }
+          if(displayLayer!=='Absolute'){
+            return Math.round(popu)+' Mha';
+            }
           else{
-            return '<0.1 million';
+            return '<0.1 Mha';
           }
         }
         if(popu<1 && popu>=0.1){
-          if(checkcrop()){
+          if(displayLayer!=='Absolute'){
           return popu.toFixed(1) + ' Mha';
           }
           else{
-            return popu.toFixed(1) + ' million';
+            return popu.toFixed(1) + ' Mha';
           }
         }
-        if(checkcrop()){
+        //"+" +
+        if(displayLayer!=='Absolute'){
           return Math.round(popu)+' Mha';
         }
-        return Math.round(popu)+' million';
+        return Math.round(popu)+' Mha';
     }
 
     function vulcat(str){
@@ -278,7 +422,7 @@ export default function Legend_Small({
       if(str==='High')
         return 'Low';
       if(str==='Very high')
-      return 'Very Low';
+        return 'Very Low';
       return 'Medium';
     }
     function typrstr(){
@@ -411,7 +555,7 @@ export default function Legend_Small({
                               <div>
                                   <Box sx={{display:'flex',alignItems:'left',flexDirection:'column',width:'100%',gap:'2px'}}>
                                   {checkcrop()===true && <Box sx={{width: 58, height: 18, borderRadius: 0}}>
-                                      <Typography sx={{ fontSize: 10, margin:'2px'}} color="#AA5486" fontWeight='bold'>{displayLayer!=='Absolute' && <>+</>}{calcpop(row.Population)}</Typography>
+                                      <Typography sx={{ fontSize: 10, margin:'2px'}} color="#AA5486" fontWeight='bold'>{calcpop(row.Population)}</Typography>
                                       </Box>}
                                       <Box sx={{width: 58, height: 18, borderRadius: 0, bgcolor:row.color, alignContent:'center'}}>
                                       <Typography sx={{ fontSize: 10, marginY:'auto',marginLeft:'3px'}} color={row.color==="rgba(255,255,255,1)"?"black":"white"} > 
@@ -419,7 +563,7 @@ export default function Legend_Small({
                                       </Typography>
                                       </Box>
                                       <Box sx={{width: 58, height: 18, borderRadius: 0}}>
-                                      <Typography sx={{ fontSize: 10, margin:'2px'}} color="#859F3D" fontWeight='bold'>{displayLayer!=='Absolute' && <>+</>}{calcarea(row.Area)}</Typography>
+                                      <Typography sx={{ fontSize: 10, margin:'2px'}} color="#859F3D" fontWeight='bold'>{calcarea(row.Area)}</Typography>
                                       </Box>
                                   </Box>
                               </div>
