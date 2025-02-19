@@ -13,6 +13,7 @@ export default function Selection_bar({
   ImpactName,
   modelName,
   exploreType,
+  activeScale,
 }) {
   function checkcrop() {
     const diffcrop = ["Cattle", "Buffalo", "Goat", "Sheep", "Pig", "Poultry"];
@@ -74,49 +75,79 @@ export default function Selection_bar({
                 {location}
               </Typography>
             </Box>
-
+            <ChevronRightIcon />
+            <Box sx={{ display: "flex", flexDirection: "row" }}>
+              <Typography sx={{ fontSize: 14 }} color="text.secondary">
+                {activeScale.charAt(0).toUpperCase() +
+                  activeScale.toLowerCase().slice(1)}
+              </Typography>
+            </Box>
             {exploreType === "Commodity" && (
               <Box sx={{ display: "flex", flexDirection: "row" }}>
-                <ChevronRightIcon sx={(theme) => ({ color: theme.palette.text.primary })} />
+                <ChevronRightIcon
+                  sx={(theme) => ({ color: theme.palette.text.primary })}
+                />
                 <Typography
-                  sx={(theme) => ({ fontSize: 14, color: theme.palette.text.primary })}
+                  sx={(theme) => ({
+                    fontSize: 14,
+                    color: theme.palette.text.primary,
+                  })}
                   gutterBottom
                 >
                   Commodity:&nbsp;
                 </Typography>
                 <Typography
-                  sx={(theme) => ({ fontSize: 14, color: theme.palette.text.secondary })}
+                  sx={(theme) => ({
+                    fontSize: 14,
+                    color: theme.palette.text.secondary,
+                  })}
                 >
                   {commodity}
                 </Typography>
               </Box>
             )}
 
-            <ChevronRightIcon sx={(theme) => ({ color: theme.palette.text.primary })} />
+            <ChevronRightIcon
+              sx={(theme) => ({ color: theme.palette.text.primary })}
+            />
             <Box sx={{ display: "flex", flexDirection: "row" }}>
               <Typography
-                sx={(theme) => ({ fontSize: 14, color: theme.palette.text.primary })}
+                sx={(theme) => ({
+                  fontSize: 14,
+                  color: theme.palette.text.primary,
+                })}
                 gutterBottom
               >
                 Scenario:&nbsp;
               </Typography>
               <Typography
-                sx={(theme) => ({ fontSize: 14, color: theme.palette.text.secondary })}
+                sx={(theme) => ({
+                  fontSize: 14,
+                  color: theme.palette.text.secondary,
+                })}
               >
                 {scenario}
               </Typography>
             </Box>
 
-            <ChevronRightIcon sx={(theme) => ({ color: theme.palette.text.primary })} />
+            <ChevronRightIcon
+              sx={(theme) => ({ color: theme.palette.text.primary })}
+            />
             <Box sx={{ display: "flex", flexDirection: "row" }}>
               <Typography
-                sx={(theme) => ({ fontSize: 14, color: theme.palette.text.primary })}
+                sx={(theme) => ({
+                  fontSize: 14,
+                  color: theme.palette.text.primary,
+                })}
                 gutterBottom
               >
                 Model:&nbsp;
               </Typography>
               <Typography
-                sx={(theme) => ({ fontSize: 14, color: theme.palette.text.secondary })}
+                sx={(theme) => ({
+                  fontSize: 14,
+                  color: theme.palette.text.secondary,
+                })}
               >
                 {modelName}
               </Typography>
@@ -124,9 +155,14 @@ export default function Selection_bar({
 
             {adaption !== "" && (
               <Box sx={{ display: "flex", flexDirection: "row" }}>
-                <ChevronRightIcon sx={(theme) => ({ color: theme.palette.text.primary })} />
+                <ChevronRightIcon
+                  sx={(theme) => ({ color: theme.palette.text.primary })}
+                />
                 <Typography
-                  sx={(theme) => ({ fontSize: 14, color: theme.palette.text.primary })}
+                  sx={(theme) => ({
+                    fontSize: 14,
+                    color: theme.palette.text.primary,
+                  })}
                 >
                   <strong>
                     {adaption.charAt(0).toUpperCase() +
@@ -139,15 +175,23 @@ export default function Selection_bar({
 
             {RiskName !== "" && (
               <Box sx={{ display: "flex", flexDirection: "row" }}>
-                <ChevronRightIcon sx={(theme) => ({ color: theme.palette.text.primary })} />
+                <ChevronRightIcon
+                  sx={(theme) => ({ color: theme.palette.text.primary })}
+                />
                 <Typography
-                  sx={(theme) => ({ fontSize: 14, color: theme.palette.text.primary })}
+                  sx={(theme) => ({
+                    fontSize: 14,
+                    color: theme.palette.text.primary,
+                  })}
                   gutterBottom
                 >
                   {RiskType()}:&nbsp;
                 </Typography>
                 <Typography
-                  sx={(theme) => ({ fontSize: 14, color: theme.palette.text.secondary })}
+                  sx={(theme) => ({
+                    fontSize: 14,
+                    color: theme.palette.text.secondary,
+                  })}
                 >
                   {RiskName.charAt(0).toUpperCase() +
                     RiskName.toLowerCase().slice(1)}
@@ -158,14 +202,22 @@ export default function Selection_bar({
 
             {ImpactName !== "" && (
               <Box sx={{ display: "flex", flexDirection: "row" }}>
-                <ChevronRightIcon sx={(theme) => ({ color: theme.palette.text.primary })} />
+                <ChevronRightIcon
+                  sx={(theme) => ({ color: theme.palette.text.primary })}
+                />
                 <Typography
-                  sx={(theme) => ({ fontSize: 14, color: theme.palette.text.primary })}
+                  sx={(theme) => ({
+                    fontSize: 14,
+                    color: theme.palette.text.primary,
+                  })}
                 >
                   Impact:&nbsp;
                 </Typography>
                 <Typography
-                  sx={(theme) => ({ fontSize: 14, color: theme.palette.text.secondary })}
+                  sx={(theme) => ({
+                    fontSize: 14,
+                    color: theme.palette.text.secondary,
+                  })}
                 >
                   {ImpactName.charAt(0).toUpperCase() +
                     ImpactName.toLowerCase().slice(1)}

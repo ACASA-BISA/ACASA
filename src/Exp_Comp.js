@@ -11,6 +11,8 @@ import {
   InputLabel,
   Slider,
   IconButton,
+  Checkbox,
+  Button,
 } from "@mui/material";
 import Map_Option from "./Comp_Map"; // Assuming this is your map component
 import "./font.css";
@@ -19,6 +21,8 @@ import "./font2.css";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
 import { styled } from "@mui/material/styles";
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
 import Legend_Small from "./Legend_Small";
 
 // Array of image URLs, one for each year
@@ -52,6 +56,53 @@ function useInterval(callback, delay) {
   }, [delay]);
 }
 
+const tabs = [
+  "Biophysical suitability",
+  "Adaptation benefits",
+  "Economic viability",
+  "Scalability",
+  "Gender suitability",
+];
+
+const ArrowTab = styled(Button)(({ theme, selected, isLast, isFirst }) => ({
+  position: "relative",
+  padding: "2px 40px 2px 40px",
+  borderRadius: 0,
+  width: "450px",
+  marginLeft: "-35px",
+  clipPath: isLast
+    ? "polygon(0 0, 100% 0, 100% 50%, 100% 100%, 0 100%, 10% 50%)"
+    : "polygon(0 0, 90% 0, 100% 50%, 90% 100%, 0 100%, 10% 50%)",
+  backgroundColor: selected ? "#DDEB9D" : "#5A6C57",
+  color: selected ? "black" : "white",
+  fontWeight: "bold",
+  textTransform: "none",
+  transition: "all 0.3s",
+  "&:first-of-type": {
+    marginLeft: 0,
+    clipPath: "polygon(0 0, 90% 0, 100% 50%, 90% 100%, 0 100%)",
+    paddingLeft: "35px",
+  },
+  "&:hover": {
+    backgroundColor: selected
+      ? theme.palette.grey[300]
+      : theme.palette.grey[500],
+  },
+  "&::before": {
+    content: '""',
+    position: "absolute",
+    width: isFirst ? "0" : "12%",
+    height: "100%",
+    backgroundColor: "white",
+    top: "0px",
+    left: "-2px",
+    right: "0px",
+    bottom: "0px",
+    clipPath: "polygon(0 0, 15% 0, 100% 50%, 15% 100%, 0 100%, 15% 50%)",
+    zIndex: 1,
+  },
+}));
+
 export default function CompV({
   activeCrop,
   activeScenario,
@@ -72,6 +123,10 @@ export default function CompV({
   activeOptLayer,
   changeOptLayer,
   modelName,
+  displayLayer,
+  setDisplayLayer,
+  activeScale,
+  exploreType,
 }) {
   let scn = "baseline";
   if (activeScenario["ssp245"]) {
@@ -79,8 +134,8 @@ export default function CompV({
   } else if (activeScenario["ssp585"]) {
     scn = "ssp585";
   }
-
-  const [futureModel, setFutureModel] = React.useState("Percentage Change");
+  console.log(scn);
+  const [futureModel, setFutureModel] = React.useState(displayLayer);
   let sec = activeRegion.indexOf(",");
 
   const countryMap1 = {};
@@ -145,17 +200,28 @@ export default function CompV({
   }
 
   let AdaptLayerName = "";
+  if (activeOptLayer["Biophysical Suitability"]) {
+    AdaptLayerName = "Biophysical Suitability";
+  }
+  if (activeOptLayer["Adaptation Benefits"]) {
+    AdaptLayerName = "Adaptation Benefits";
+  }
   if (activeOptLayer["Economic"]) {
     AdaptLayerName = "Economic Benefits";
-  } else if (activeOptLayer["Gender"]) {
-    AdaptLayerName = "Gender Suitability";
-  } else if (activeOptLayer["Scalability"]) {
+  }
+  if (activeOptLayer["Scalability"]) {
     AdaptLayerName = "Scalability";
-  } else if (activeOptLayer["Biophysical Suitability"]) {
-    AdaptLayerName = "Biophysical Suitability";
-  } else if (activeOptLayer["Technical Suitability"]) {
-    AdaptLayerName = "Adaptation Benefits";
-  } else {
+  }
+  if (activeOptLayer["Gender"]) {
+    AdaptLayerName = "Gender Suitability";
+  }
+  if (
+    activeOptLayer["Biophysical Suitability"] === false &&
+    activeOptLayer["Adaptation Benefits"] === false &&
+    activeOptLayer["Economic"] === false &&
+    activeOptLayer["Scalability"] === false &&
+    activeOptLayer["Gender"] === false
+  ) {
     AdaptLayerName = "suitability";
   }
 
@@ -165,7 +231,7 @@ export default function CompV({
   const [currentYearIndex, setCurrentYearIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  // Auto-play interval, changes image every 1 second (1000ms)
+  /* // Auto-play interval, changes image every 1 second (1000ms)
   useInterval(
     () => {
       setCurrentYearIndex((prevIndex) =>
@@ -227,7 +293,7 @@ export default function CompV({
         transform: "rotate(45deg)",
       },
     },
-  });
+  }); */
 
   const [paperWidth, setPaperWidth] = React.useState(0);
   const [boxWidth, setBoxWidth] = React.useState(0);
@@ -244,15 +310,115 @@ export default function CompV({
     }
   }, [gridRefs[1].current]);
 
+  const CustomFormControlLabel = styled(FormControlLabel)(({ theme }) => ({
+    alignItems: "flex-start", // Align items to the start
+    "&.Mui-disabled .MuiTypography-body2": {
+      color: "#ccc", // Color for the label text when disabled
+    },
+  }));
+
+  const values = [
+    "Biophysical Suitability",
+    "Adaptation Benefits",
+    "Economic",
+    "Scalability",
+    "Gender",
+  ];
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+
+  const handleSelect = (index) => {
+    setSelectedIndex(index);
+    const updatedState = { ...activeOptLayer }; // Copy existing state
+
+    values.forEach((name, i) => {
+      updatedState[name] = i <= index; // Select all previous & current tabs
+    });
+
+    changeOptLayer(updatedState);
+  };
+
   return (
     <div className="viewer-container" style={{ overflow: "hidden" }}>
       <Grid container sx={{ marginTop: "0px", paddingX: "1rem" }} columns={12}>
+        {activeOpt !== "" && (
+          <Box
+            sx={{
+              width: "100%",
+              marginTop: "0px",
+              backgroundColor: "#ddd",
+              marginBottom: "2px",
+            }}
+          >
+            {/* <FormGroup  sx={{display:'flex',flexDirection:'row',flexWrap:'wrap',gap:0.5,marginY:'2px',
+          alignItems:'center',alignContent:'center',justifyItems:'center',justifyContent:'center'}}>
+            <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Biophysical Suitability']} name="Biophysical Suitability" 
+                onChange={changeOptLayer}
+                color="success" sx={{padding:0,marginLeft:1,marginRight:'2px','&.Mui-checked': {
+                transform: "scale(1.04)"} }}/>} 
+                label={<Typography variant="body2" align='left'  sx={{paddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
+                whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>Biophysical suitability</Typography>}/>
+            <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Adaptation Benefits']} name="Adaptation Benefits" 
+                onChange={changeOptLayer}
+                color="success" sx={{padding:0,marginLeft:1,marginRight:'2px'}}/>} 
+                label={<Typography variant="body2" align='left'  sx={{paddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
+                whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>Adaptation benefits</Typography>}/>
+            <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Economic']}  name="Economic" 
+                onChange={changeOptLayer}
+                color="success" sx={{padding:0,marginLeft:1,marginRight:'2px'}}/>} 
+                label={<Typography variant="body2" align='left'  sx={{paddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
+                whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>Economic benefits</Typography>}/>
+            <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Scalability']} name="Scalability" 
+                onChange={changeOptLayer}
+                color="success" sx={{padding:0,marginLeft:1,marginRight:'2px'}}/>} 
+                label={<Typography variant="body2" align='left'  sx={{paddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
+                whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>Scalability</Typography>}/>
+            <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Gender']} name="Gender" 
+                onChange={changeOptLayer}
+                color="success" sx={{padding:0,marginLeft:1,marginRight:'2px'}}/>} 
+                label={<Typography variant="body2" align='left'  sx={{paddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
+                whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>Gender suitability</Typography>}/>
+            </FormGroup> */}
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: 0,
+                bgcolor: "background.paper",
+              }}
+            >
+              {tabs.map((label, index) => (
+                <ArrowTab
+                  key={label}
+                  selected={index <= selectedIndex}
+                  isLast={index === tabs.length - 1} // Identify last tab
+                  isFirst={index === 0}
+                  onClick={() => handleSelect(index)}
+                  disableRipple
+                >
+                  <Typography
+                    variant="body2"
+                    fontWeight="bold"
+                    sx={{
+                      maxWidth: "250px",
+                      wordBreak: "break-word",
+                      whiteSpace: "normal",
+                    }}
+                    style={{ wordWrap: "break-word" }}
+                  >
+                    {label}
+                  </Typography>
+                </ArrowTab>
+              ))}
+            </Box>
+          </Box>
+        )}
         {activeScenario["baseline"] && (
           <Grid item xs={12} key="Only_Baseline" ref={Only_Baseline}>
             <Box
               sx={(theme) => ({
                 width: "100%",
-                bgcolor: theme.palette.mode === "dark" ? "#2f6742" :"#C1E1C1",
+                bgcolor: theme.palette.mode === "dark" ? "#2f6742" : "#C1E1C1",
                 height: "24px",
                 display: "flex",
                 flexDirection: "row",
@@ -268,7 +434,7 @@ export default function CompV({
                   fontSize: "14px",
                   fontWeight: "bold",
                   fontFamily: "Karla",
-                  color : "text.primary"
+                  color: "text.primary",
                 })}
               >
                 Baseline
@@ -276,7 +442,13 @@ export default function CompV({
             </Box>
             <Paper
               elevation={1}
-              sx={{ width: "100%", height: "calc(100vh - 155px)" }}
+              sx={{
+                width: "100%",
+                height:
+                  activeOpt === ""
+                    ? "calc(100vh - 155px)"
+                    : "calc(100vh - 175px)",
+              }}
             >
               <div>
                 <Map_Option
@@ -291,6 +463,9 @@ export default function CompV({
                   handleviewchange={handleviewchange}
                   activeOptLayer={activeOptLayer}
                   ImpactName={NameImpact}
+                  displayLayer={displayLayer}
+                  exploreType={exploreType}
+                  activeScale={activeScale}
                 ></Map_Option>
                 {(CurrRisk !== "" || activeOpt !== "" || NameImpact !== "") && (
                   <Popper
@@ -325,6 +500,7 @@ export default function CompV({
                         area_data3={area_dict3}
                         area_data4={area_dict4}
                         AdaptLayerName={AdaptLayerName}
+                        displayLayer="Absolute"
                       ></Legend_Small>
                     </Paper>
                   </Popper>
@@ -341,7 +517,8 @@ export default function CompV({
                   <Box
                     sx={(theme) => ({
                       width: "100%",
-                      bgcolor: theme.palette.mode === "dark" ? "#2f6742" :"#C1E1C1",
+                      bgcolor:
+                        theme.palette.mode === "dark" ? "#2f6742" : "#C1E1C1",
                       height: "24px",
                       display: "flex",
                       flexDirection: "row",
@@ -357,75 +534,33 @@ export default function CompV({
                         fontSize: "14px",
                         fontWeight: "bold",
                         fontFamily: "Karla",
-                        color: "text.primary"
+                        color: "text.primary",
                       }}
                     >
                       {label}
                     </Typography>
-                    {(label === "2050s" || label === "2080s") && (
-                      <FormControl size="small">
-                        <Select
-                          labelId="Scenariox"
-                          id="future-model-select-idx"
-                          sx={{
-                            fontSize: "14px",
-                            height: "20px",
-                            fontFamily: "Karla",
-                          }}
-                          value={futureModel}
-                          onChange={handleScenariochange}
-                        >
-                          <MenuItem
-                            value="Absolute"
-                            sx={{
-                              paddingLeft: 1,
-                              fontSize: "13px",
-                              height: "20px",
-                              fontWeight: "bold",
-                              fontFamily: "Karla",
-                            }}
-                          >
-                            Absolute values
-                          </MenuItem>
-                          <Typography
-                            variant="subtitle1"
-                            sx={{
-                              paddingLeft: 1,
-                              fontSize: "13px",
-                              fontWeight: "bold",
-                              fontFamily: "Karla",
-                            }}
-                          >
-                            Change in future
-                          </Typography>
-                          <MenuItem
-                            value="Percentage Change"
-                            sx={{
-                              fontSize: "13px",
-                              height: "20px",
-                              fontFamily: "Karla",
-                            }}
-                          >
-                            Percentage change
-                          </MenuItem>
-                          <MenuItem
-                            value="Absolute Change"
-                            sx={{
-                              fontSize: "13px",
-                              height: "20px",
-                              fontFamily: "Karla",
-                            }}
-                          >
-                            Absolute change
-                          </MenuItem>
-                        </Select>
-                      </FormControl>
-                    )}
+                    {/* {(label==='2050s'||label==='2080s') && <FormControl size='small'>
+                <Select labelId="Scenariox"
+                  id="future-model-select-idx"
+                  sx={{fontSize:'14px',height:'20px',fontFamily:'Karla'}}
+                  value={futureModel} onChange={handleScenariochange}>
+                    <MenuItem value="Absolute" sx={{paddingLeft:1,fontSize:'13px',height:'20px',fontWeight:'bold',fontFamily:'Karla'}}>Absolute values</MenuItem>
+                    <Typography variant="subtitle1" sx={{paddingLeft:1,fontSize:'13px',fontWeight:'bold',fontFamily:'Karla'}}>Change in future</Typography>
+                    <MenuItem value="Percentage Change" sx={{fontSize:'13px',height:'20px',fontFamily:'Karla'}}>Percentage change</MenuItem>
+                    <MenuItem value="Absolute Change" sx={{fontSize:'13px',height:'20px',fontFamily:'Karla'}}>Absolute change</MenuItem>
+                </Select>
+                </FormControl>} */}
                   </Box>
 
                   <Paper
                     elevation={1}
-                    sx={{ width: "100%", height: "calc(100vh - 155px)" }}
+                    sx={{
+                      width: "100%",
+                      height:
+                        activeOpt === ""
+                          ? "calc(100vh - 155px)"
+                          : "calc(100vh - 175px)",
+                    }}
                   >
                     {label === "Baseline" && (
                       <div>
@@ -441,6 +576,9 @@ export default function CompV({
                           handleviewchange={handleviewchange}
                           activeOptLayer={activeOptLayer}
                           ImpactName={NameImpact}
+                          displayLayer={displayLayer}
+                          exploreType={exploreType}
+                          activeScale={activeScale}
                         ></Map_Option>
                         {(CurrRisk !== "" ||
                           activeOpt !== "" ||
@@ -477,6 +615,7 @@ export default function CompV({
                                 area_data3={area_dict3}
                                 area_data4={area_dict4}
                                 AdaptLayerName={AdaptLayerName}
+                                displayLayer="Absolute"
                               ></Legend_Small>
                             </Paper>
                           </Popper>
@@ -487,7 +626,7 @@ export default function CompV({
                       <div>
                         <Map_Option
                           activeCrop={activeCrop}
-                          activeScenario="ssp245"
+                          activeScenario={scn}
                           focus={focus}
                           activeRegion={activeRegion}
                           activeOpt={activeOpt}
@@ -497,6 +636,9 @@ export default function CompV({
                           handleviewchange={handleviewchange}
                           activeOptLayer={activeOptLayer}
                           ImpactName={NameImpact}
+                          displayLayer={displayLayer}
+                          exploreType={exploreType}
+                          activeScale={activeScale}
                         ></Map_Option>
                         {(CurrRisk !== "" ||
                           activeOpt !== "" ||
@@ -528,11 +670,12 @@ export default function CompV({
                                 commodity={activeCrop}
                                 adaption={activeOpt}
                                 RiskName={CurrRisk}
-                                scenario="ssp245"
+                                scenario={scn}
                                 ImpactName={NameImpact}
                                 area_data3={area_dict3}
                                 area_data4={area_dict4}
                                 AdaptLayerName={AdaptLayerName}
+                                displayLayer={displayLayer}
                               ></Legend_Small>
                             </Paper>
                           </Popper>
@@ -573,70 +716,28 @@ export default function CompV({
                     >
                       {label}
                     </Typography>
-                    {(label === "2050s" || label === "2080s") && (
-                      <FormControl size="small">
-                        <Select
-                          labelId="Scenariox"
-                          id="future-model-select-idx"
-                          sx={{
-                            fontSize: "14px",
-                            height: "20px",
-                            fontFamily: "Karla",
-                          }}
-                          value={futureModel}
-                          onChange={handleScenariochange}
-                        >
-                          <MenuItem
-                            value="Absolute"
-                            sx={{
-                              paddingLeft: 1,
-                              fontSize: "13px",
-                              height: "20px",
-                              fontWeight: "bold",
-                              fontFamily: "Karla",
-                            }}
-                          >
-                            Absolute values
-                          </MenuItem>
-                          <Typography
-                            variant="subtitle1"
-                            sx={{
-                              paddingLeft: 1,
-                              fontSize: "13px",
-                              fontWeight: "bold",
-                              fontFamily: "Karla",
-                            }}
-                          >
-                            Change in future
-                          </Typography>
-                          <MenuItem
-                            value="Percentage Change"
-                            sx={{
-                              fontSize: "13px",
-                              height: "20px",
-                              fontFamily: "Karla",
-                            }}
-                          >
-                            Percentage change
-                          </MenuItem>
-                          <MenuItem
-                            value="Absolute Change"
-                            sx={{
-                              fontSize: "13px",
-                              height: "20px",
-                              fontFamily: "Karla",
-                            }}
-                          >
-                            Absolute change
-                          </MenuItem>
-                        </Select>
-                      </FormControl>
-                    )}
+                    {/* {(label==='2050s'||label==='2080s') && <FormControl size='small'>
+<Select labelId="Scenariox"
+id="future-model-select-idx"
+sx={{fontSize:'14px',height:'20px',fontFamily:'Karla'}}
+value={futureModel} onChange={handleScenariochange}>
+  <MenuItem value="Absolute" sx={{paddingLeft:1,fontSize:'13px',height:'20px',fontWeight:'bold',fontFamily:'Karla'}}>Absolute values</MenuItem>
+  <Typography variant="subtitle1" sx={{paddingLeft:1,fontSize:'13px',fontWeight:'bold',fontFamily:'Karla'}}>Change in future</Typography>
+  <MenuItem value="Percentage Change" sx={{fontSize:'13px',height:'20px',fontFamily:'Karla'}}>Percentage change</MenuItem>
+  <MenuItem value="Absolute Change" sx={{fontSize:'13px',height:'20px',fontFamily:'Karla'}}>Absolute change</MenuItem>
+</Select>
+</FormControl>} */}
                   </Box>
 
                   <Paper
                     elevation={1}
-                    sx={{ width: "100%", height: "calc(100vh - 155px)" }}
+                    sx={{
+                      width: "100%",
+                      height:
+                        activeOpt === ""
+                          ? "calc(100vh - 155px)"
+                          : "calc(100vh - 175px)",
+                    }}
                   >
                     {label === "Baseline" && (
                       <div>
@@ -652,6 +753,9 @@ export default function CompV({
                           handleviewchange={handleviewchange}
                           activeOptLayer={activeOptLayer}
                           ImpactName={NameImpact}
+                          displayLayer={displayLayer}
+                          exploreType={exploreType}
+                          activeScale={activeScale}
                         ></Map_Option>
                         {(CurrRisk !== "" ||
                           activeOpt !== "" ||
@@ -688,6 +792,7 @@ export default function CompV({
                                 area_data3={area_dict3}
                                 area_data4={area_dict4}
                                 AdaptLayerName={AdaptLayerName}
+                                displayLayer="Absolute"
                               ></Legend_Small>
                             </Paper>
                           </Popper>
@@ -698,7 +803,7 @@ export default function CompV({
                       <div>
                         <Map_Option
                           activeCrop={activeCrop}
-                          activeScenario="ssp245"
+                          activeScenario={scn}
                           focus={focus}
                           activeRegion={activeRegion}
                           activeOpt={activeOpt}
@@ -708,6 +813,9 @@ export default function CompV({
                           handleviewchange={handleviewchange}
                           activeOptLayer={activeOptLayer}
                           ImpactName={NameImpact}
+                          displayLayer={displayLayer}
+                          exploreType={exploreType}
+                          activeScale={activeScale}
                         ></Map_Option>
                         {(CurrRisk !== "" ||
                           activeOpt !== "" ||
@@ -739,11 +847,12 @@ export default function CompV({
                                 commodity={activeCrop}
                                 adaption={activeOpt}
                                 RiskName={CurrRisk}
-                                scenario="ssp245"
+                                scenario={scn}
                                 ImpactName={NameImpact}
                                 area_data3={area_dict3}
                                 area_data4={area_dict4}
                                 AdaptLayerName={AdaptLayerName}
+                                displayLayer={displayLayer}
                               ></Legend_Small>
                             </Paper>
                           </Popper>
@@ -754,7 +863,7 @@ export default function CompV({
                       <div>
                         <Map_Option
                           activeCrop={activeCrop}
-                          activeScenario="ssp585"
+                          activeScenario={scn}
                           focus={focus}
                           activeRegion={activeRegion}
                           activeOpt={activeOpt}
@@ -764,6 +873,9 @@ export default function CompV({
                           handleviewchange={handleviewchange}
                           activeOptLayer={activeOptLayer}
                           ImpactName={NameImpact}
+                          displayLayer={displayLayer}
+                          exploreType={exploreType}
+                          activeScale={activeScale}
                         ></Map_Option>
                         {(CurrRisk !== "" ||
                           activeOpt !== "" ||
@@ -795,61 +907,62 @@ export default function CompV({
                                 commodity={activeCrop}
                                 adaption={activeOpt}
                                 RiskName={CurrRisk}
-                                scenario="ssp585"
+                                scenario={scn}
                                 ImpactName={NameImpact}
                                 area_data3={area_dict3}
                                 area_data4={area_dict4}
                                 AdaptLayerName={AdaptLayerName}
+                                displayLayer={displayLayer}
                               ></Legend_Small>
                             </Paper>
                           </Popper>
                         )}
                         {/* {(CurrRisk!=='' || activeOpt!=='') && <Popper
-                  open={true} // Always open
-                  anchorEl={gridRefs[index].current} // Anchor to the Grid container
-                  placement="bottom" // Position it at the bottom
-                  disablePortal={true} // Stay within the DOM hierarchy
-                  modifiers={[
-                    {
-                      name: "offset",
-                      options: {
-                        offset: [(gridRefs[index].current.offsetWidth / 3)/2 + 15 - ( gridRefs[index].current.offsetWidth / 2), -(( gridRefs[index].current.offsetWidth / 3 ) + 130 + 50)], // Adjust distance from the container
-                      },
-                    },
-                  ]}
-                >
-                  <Box display="flex" flexDirection="column" alignItems="center" sx={{border:'1px solid #eee'}}>
-                  <Box sx={{width:'90%',bgcolor:'#E4E0E1',height:'18px',marginTop:'1px'}}>
-                      <Typography align="center" sx={{fontSize:'12px',fontWeight:'bold'}}>Year: {currentImage.year}</Typography>
-                  </Box> 
-                  <Box display="flex" flexDirection="row" sx={{width:'100%'}}  alignItems="center" justifyContent="center" gap="8px">
-                      <IconButton onClick={handlePlayPause} sx={{color: color_for_button,border:'1px solid #eee',borderRadius:'8px',padding:'2px'}}>
-                          {isPlaying ? <PauseIcon sx={{fontSize:'15px'}} /> : <PlayArrowIcon sx={{fontSize:'15px'}} />}
-                      </IconButton>
-                      <Box sx={{ width: '60%', mt: 0, mb: 0 }}>
-                          <PrettoSlider
-                              value={currentYearIndex}
-                              min={0}
-                              max={images.length - 1}
-                              step={1}
-                              marks={images.map((img, idx) => ({
-                                  value: idx,
-                                  //label: img.year.toString(),
-                              }))}
-                              onChange={handleSliderChange}
-                              aria-labelledby="timeline-slider"
-                              valueLabelDisplay="auto"
-                          />
-                      </Box>
-                  </Box>
-                  <Box
-                      component="img"
-                      src={currentImage.url}
-                      alt={`Year ${currentImage.year}`}
-                      sx={{ width: '100%', maxWidth: ( gridRefs[index].current.offsetWidth / 3), height: 'auto', mb: 0 }}
-                  />  
-              </Box>
-              </Popper>} */}
+open={true} // Always open
+anchorEl={gridRefs[index].current} // Anchor to the Grid container
+placement="bottom" // Position it at the bottom
+disablePortal={true} // Stay within the DOM hierarchy
+modifiers={[
+  {
+    name: "offset",
+    options: {
+      offset: [(gridRefs[index].current.offsetWidth / 3)/2 + 15 - ( gridRefs[index].current.offsetWidth / 2), -(( gridRefs[index].current.offsetWidth / 3 ) + 130 + 50)], // Adjust distance from the container
+    },
+  },
+]}
+>
+<Box display="flex" flexDirection="column" alignItems="center" sx={{border:'1px solid #eee'}}>
+<Box sx={{width:'90%',bgcolor:'#E4E0E1',height:'18px',marginTop:'1px'}}>
+    <Typography align="center" sx={{fontSize:'12px',fontWeight:'bold'}}>Year: {currentImage.year}</Typography>
+</Box> 
+<Box display="flex" flexDirection="row" sx={{width:'100%'}}  alignItems="center" justifyContent="center" gap="8px">
+    <IconButton onClick={handlePlayPause} sx={{color: color_for_button,border:'1px solid #eee',borderRadius:'8px',padding:'2px'}}>
+        {isPlaying ? <PauseIcon sx={{fontSize:'15px'}} /> : <PlayArrowIcon sx={{fontSize:'15px'}} />}
+    </IconButton>
+    <Box sx={{ width: '60%', mt: 0, mb: 0 }}>
+        <PrettoSlider
+            value={currentYearIndex}
+            min={0}
+            max={images.length - 1}
+            step={1}
+            marks={images.map((img, idx) => ({
+                value: idx,
+                //label: img.year.toString(),
+            }))}
+            onChange={handleSliderChange}
+            aria-labelledby="timeline-slider"
+            valueLabelDisplay="auto"
+        />
+    </Box>
+</Box>
+<Box
+    component="img"
+    src={currentImage.url}
+    alt={`Year ${currentImage.year}`}
+    sx={{ width: '100%', maxWidth: ( gridRefs[index].current.offsetWidth / 3), height: 'auto', mb: 0 }}
+/>  
+</Box>
+</Popper>} */}
                       </div>
                     )}
                   </Paper>

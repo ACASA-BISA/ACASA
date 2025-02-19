@@ -472,7 +472,7 @@ function ResponsiveAppBar({}) {
                 </Button>
 
                 <Tooltip
-                  title={mode === "dark" ? "SWitch to Light Mode" : "Switch to Dark Mode"}
+                  title={mode === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
                   arrow
                   enterDelay={100}
                 >

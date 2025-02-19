@@ -96,7 +96,7 @@ const legendComp = (
       sx={(theme) => ({
         display: "flex",
         flexDirection: "column",
-        border: `1px solid ${theme.palette.mode === "dark" ? "#555" : "#aaa"}`, 
+        border: `1px solid ${theme.palette.mode === "dark" ? "#555" : "#aaa"}`,
         justifyContent: "top",
         alignItems: "left",
         height: "100%",
@@ -104,7 +104,7 @@ const legendComp = (
         paddingLeft: "2px",
         paddingRight: "3px",
         gap: "0px",
-        backgroundColor: theme.palette.mode === "dark" ? "#30363d" : "#ddd", 
+        backgroundColor: theme.palette.mode === "dark" ? "#30363d" : "#ddd",
       })}
     >
       <Box
@@ -123,7 +123,10 @@ const legendComp = (
             fontSize="0.62rem"
             align="left"
             fontWeight="bold"
-            sx={(theme) => ({ paddingLeft: "3px", color: theme.palette.mode === "dark" ? "black" : "white" })}
+            sx={(theme) => ({
+              paddingLeft: "3px",
+              color: theme.palette.mode === "dark" ? "black" : "white",
+            })}
           >
             Very Low
           </Typography>
@@ -153,7 +156,10 @@ const legendComp = (
             fontSize="0.62rem"
             align="left"
             fontWeight="bold"
-            sx={(theme) => ({ paddingLeft: "3px", color: theme.palette.mode === "dark" ? "black" : "white" })}
+            sx={(theme) => ({
+              paddingLeft: "3px",
+              color: theme.palette.mode === "dark" ? "black" : "white",
+            })}
           >
             Low
           </Typography>
@@ -183,7 +189,10 @@ const legendComp = (
             fontSize="0.62rem"
             align="left"
             fontWeight="bold"
-            sx={(theme) => ({ paddingLeft: "3px", color: theme.palette.mode === "dark" ? "black" : "white" })}
+            sx={(theme) => ({
+              paddingLeft: "3px",
+              color: theme.palette.mode === "dark" ? "black" : "white",
+            })}
           >
             Medium
           </Typography>
@@ -213,7 +222,10 @@ const legendComp = (
             fontSize="0.62rem"
             align="left"
             fontWeight="bold"
-            sx={(theme) => ({ paddingLeft: "3px", color: theme.palette.mode === "dark" ? "black" : "white" })}
+            sx={(theme) => ({
+              paddingLeft: "3px",
+              color: theme.palette.mode === "dark" ? "black" : "white",
+            })}
           >
             High
           </Typography>
@@ -243,7 +255,10 @@ const legendComp = (
             fontSize="0.62rem"
             align="left"
             fontWeight="bold"
-            sx={(theme) => ({ paddingLeft: "3px", color: theme.palette.mode === "dark" ? "black" : "white" })}
+            sx={(theme) => ({
+              paddingLeft: "3px",
+              color: theme.palette.mode === "dark" ? "black" : "white",
+            })}
           >
             Very High
           </Typography>
@@ -467,6 +482,9 @@ export default function DrawerMapShow({ activeBar }) {
     "Marginal Farmers",
     "Holding size",
     "Fertilizer consumption",
+    "Seasonal Rainfall",
+    "Maximum Temperature",
+    "Minimum Temperature",
   ];
 
   const switchCombId = [
@@ -520,6 +538,9 @@ export default function DrawerMapShow({ activeBar }) {
     "FARMERS",
     "HSIZE",
     "FERTILIZER",
+    "seasonalrain",
+    "maxtemp",
+    "mintemp",
   ];
 
   function createInitialCrops() {
@@ -607,9 +628,9 @@ export default function DrawerMapShow({ activeBar }) {
   const [optionlayer, setOptionLayer] = React.useState({
     "Biophysical Suitability": false,
     Gender: false,
-    "Technical Suitability": false,
+    "Adaptation Benefits": false,
     Economic: false,
-    Scalibility: false,
+    Scalability: false,
   });
 
   function initialCrop() {
@@ -646,6 +667,14 @@ export default function DrawerMapShow({ activeBar }) {
     setImpactName(name);
     setOption(IntialOptions);
     setCurrOpt("");
+    setOptionLayer({
+      ...optionlayer,
+      "Biophysical Suitability": false,
+      "Adaptation Benefits": false,
+      Economic: false,
+      Scalability: false,
+      Gender: false,
+    });
     setRisk(InitialHazard);
     setRiskName("");
   };
@@ -663,6 +692,14 @@ export default function DrawerMapShow({ activeBar }) {
     setCrop(newState);
     setOption(IntialOptions);
     setCurrOpt("");
+    setOptionLayer({
+      ...optionlayer,
+      "Biophysical Suitability": false,
+      "Adaptation Benefits": false,
+      Economic: false,
+      Scalability: false,
+      Gender: false,
+    });
     setRisk(InitialHazard);
     setRiskName("");
     setImpact(InitialImpact);
@@ -682,6 +719,14 @@ export default function DrawerMapShow({ activeBar }) {
     if (name === "") {
       setCurrOpt("");
     }
+    setOptionLayer({
+      ...optionlayer,
+      "Biophysical Suitability": false,
+      "Adaptation Benefits": false,
+      Economic: false,
+      Scalability: false,
+      Gender: false,
+    });
     setOption(newState);
     setRisk(InitialHazard);
     setRiskName("");
@@ -700,6 +745,14 @@ export default function DrawerMapShow({ activeBar }) {
     setImpactName(name);
     setOption(IntialOptions);
     setCurrOpt("");
+    setOptionLayer({
+      ...optionlayer,
+      "Biophysical Suitability": false,
+      "Adaptation Benefits": false,
+      Economic: false,
+      Scalability: false,
+      Gender: false,
+    });
     setRisk(InitialHazard);
     setRiskName("");
   };
@@ -715,6 +768,14 @@ export default function DrawerMapShow({ activeBar }) {
     setCrop(newState);
     setOption(IntialOptions);
     setCurrOpt("");
+    setOptionLayer({
+      ...optionlayer,
+      "Biophysical Suitability": false,
+      "Adaptation Benefits": false,
+      Economic: false,
+      Scalability: false,
+      Gender: false,
+    });
     setRisk(InitialHazard);
     setRiskName("");
     setImpact(InitialImpact);
@@ -747,6 +808,14 @@ export default function DrawerMapShow({ activeBar }) {
     setRisk(old);
     setOption(IntialOptions);
     setCurrOpt("");
+    setOptionLayer({
+      ...optionlayer,
+      "Biophysical Suitability": false,
+      "Adaptation Benefits": false,
+      Economic: false,
+      Scalability: false,
+      Gender: false,
+    });
     setImpact(InitialImpact);
     setImpactName("");
   };
@@ -773,10 +842,10 @@ export default function DrawerMapShow({ activeBar }) {
     setOptionLayer({
       ...optionlayer,
       "Biophysical Suitability": false,
-      Gender: false,
-      "Technical Suitability": false,
+      "Adaptation Benefits": false,
       Economic: false,
-      Scalibility: false,
+      Scalability: false,
+      Gender: false,
     });
     setOption(newState);
     setRisk(InitialHazard);
@@ -785,11 +854,8 @@ export default function DrawerMapShow({ activeBar }) {
     setImpactName("");
   };
 
-  const changeOptLayer = (event) => {
-    setOptionLayer({
-      ...optionlayer,
-      [event.target.name]: event.target.checked,
-    });
+  const changeOptLayer = (stateinc) => {
+    setOptionLayer(stateinc);
   };
 
   const [optionlayer2, setOptionLayer2] = React.useState(
@@ -935,6 +1001,8 @@ export default function DrawerMapShow({ activeBar }) {
     setActiveRegion2(rname);
   };
 
+  const [displayLayer, setDisplayLayer] = React.useState("Absolute");
+
   const container = useRef(null);
   const [height1, setHeight1] = React.useState(null);
 
@@ -995,6 +1063,7 @@ export default function DrawerMapShow({ activeBar }) {
             scenario={NameScenario}
             ImpactName={ImpactName}
             modelName={Model}
+            activeScale={vis_scale}
           ></Selection_bar>
         )}
 
@@ -1019,6 +1088,10 @@ export default function DrawerMapShow({ activeBar }) {
             activeOptLayer={optionlayer}
             changeOptLayer={changeOptLayer}
             modelName={Model}
+            displayLayer={displayLayer}
+            setDisplayLayer={setDisplayLayer}
+            activeScale={vis_scale}
+            exploreType={exploreType}
           ></CompV>
         )}
 
@@ -1178,6 +1251,7 @@ export default function DrawerMapShow({ activeBar }) {
                 ImpactName={ImpactName}
                 area_data={area_dict}
                 area_data2={area_dict2}
+                exploreType={exploreType}
               ></LocationCard>
             </div>
           )}
@@ -1207,7 +1281,8 @@ export default function DrawerMapShow({ activeBar }) {
                   justifyContent: "center",
                   marginX: "auto",
                   marginTop: "85px",
-                  backgroundColor: theme.palette.mode === "dark" ? "#25292e" : "#fff",
+                  backgroundColor:
+                    theme.palette.mode === "dark" ? "#25292e" : "#fff",
                 })}
                 gap="2vw"
               >
@@ -1235,7 +1310,10 @@ export default function DrawerMapShow({ activeBar }) {
                           justifyItems: "center",
                           alignContent: "center",
                           marginY: "-5px",
-                          backgroundColor: theme.palette.mode === "dark" ? "rgba(235, 247, 233, 0.08)" : "#F7F7F7",
+                          backgroundColor:
+                            theme.palette.mode === "dark"
+                              ? "rgba(235, 247, 233, 0.08)"
+                              : "#F7F7F7",
                         })}
                       >
                         {" "}
@@ -1243,7 +1321,10 @@ export default function DrawerMapShow({ activeBar }) {
                           sx={(theme) => ({
                             fontSize: 15,
                             fontWeight: "bold",
-                            color: theme.palette.mode === "dark" ? "#b0e09e" : "#143200",
+                            color:
+                              theme.palette.mode === "dark"
+                                ? "#b0e09e"
+                                : "#143200",
                             marginLeft: "4px",
                           })}
                         >
@@ -1286,11 +1367,18 @@ export default function DrawerMapShow({ activeBar }) {
                         gap: "4px",
                         alignItems: "center",
                         width: "23vw",
-                        backgroundColor: theme.palette.mode === "dark" ? "#2d3136" : "#F7F7F7",
+                        backgroundColor:
+                          theme.palette.mode === "dark" ? "#2d3136" : "#F7F7F7",
                         border: "0px solid black",
                       })}
                     >
-                      <Typography sx={(theme) => ({ fontSize: 14, fontWeight: "bold", color: theme.palette.text.primary})}>
+                      <Typography
+                        sx={(theme) => ({
+                          fontSize: 14,
+                          fontWeight: "bold",
+                          color: theme.palette.text.primary,
+                        })}
+                      >
                         Location:{" "}
                       </Typography>
                       <Summ_Loc
@@ -1303,7 +1391,7 @@ export default function DrawerMapShow({ activeBar }) {
                           marginLeft: "5px",
                           fontSize: 14,
                           fontWeight: "bold",
-                          color: theme.palette.text.primary
+                          color: theme.palette.text.primary,
                         })}
                       >
                         Commodity:{" "}
@@ -1323,11 +1411,18 @@ export default function DrawerMapShow({ activeBar }) {
                         gap: "4px",
                         alignItems: "center",
                         width: "23vw",
-                        backgroundColor: theme.palette.mode === "dark" ? "#2d3136" : "#F7F7F7",
+                        backgroundColor:
+                          theme.palette.mode === "dark" ? "#2d3136" : "#F7F7F7",
                         border: "0px solid black",
                       })}
                     >
-                      <Typography sx={(theme) => ({ fontSize: 13, fontWeight: "bold", color: theme.palette.text.primary })}>
+                      <Typography
+                        sx={(theme) => ({
+                          fontSize: 13,
+                          fontWeight: "bold",
+                          color: theme.palette.text.primary,
+                        })}
+                      >
                         Scenario:{" "}
                       </Typography>
                       <Summ_Scenario
@@ -1338,7 +1433,7 @@ export default function DrawerMapShow({ activeBar }) {
                           marginLeft: "5px",
                           fontSize: 13,
                           fontWeight: "bold",
-                          color: theme.palette.text.primary
+                          color: theme.palette.text.primary,
                         })}
                       >
                         Model:{" "}
@@ -1355,11 +1450,18 @@ export default function DrawerMapShow({ activeBar }) {
                         gap: "4px",
                         alignItems: "center",
                         width: "23vw",
-                        backgroundColor: theme.palette.mode === "dark" ? "#2d3136" : "#F7F7F7",
+                        backgroundColor:
+                          theme.palette.mode === "dark" ? "#2d3136" : "#F7F7F7",
                         border: "0px solid black",
                       })}
                     >
-                      <Typography sx={(theme) => ({ fontSize: 13, fontWeight: "bold", color: theme.palette.text.primary})}>
+                      <Typography
+                        sx={(theme) => ({
+                          fontSize: 13,
+                          fontWeight: "bold",
+                          color: theme.palette.text.primary,
+                        })}
+                      >
                         Adaptation Indicator:{" "}
                       </Typography>
                       <Summ_Adaptation_Indicator
@@ -1425,7 +1527,13 @@ export default function DrawerMapShow({ activeBar }) {
                         alignItems: "center",
                       }}
                     >
-                      <Typography sx={(theme) => ({ fontSize: 12, fontWeight: "bold", color: theme.palette.text.primary })}>
+                      <Typography
+                        sx={(theme) => ({
+                          fontSize: 12,
+                          fontWeight: "bold",
+                          color: theme.palette.text.primary,
+                        })}
+                      >
                         Adaptation:{" "}
                       </Typography>
                       <Summ_Adapt
@@ -1493,7 +1601,13 @@ export default function DrawerMapShow({ activeBar }) {
                         alignItems: "center",
                       }}
                     >
-                      <Typography sx={(theme) => ({ fontSize: 12, fontWeight: "bold", color: theme.palette.text.primary })}>
+                      <Typography
+                        sx={(theme) => ({
+                          fontSize: 12,
+                          fontWeight: "bold",
+                          color: theme.palette.text.primary,
+                        })}
+                      >
                         Adaptation:{" "}
                       </Typography>
                       <Summ_Adapt2
@@ -1570,7 +1684,13 @@ export default function DrawerMapShow({ activeBar }) {
                         alignItems: "center",
                       }}
                     >
-                      <Typography sx={(theme) => ({ fontSize: 12, fontWeight: "bold", color: theme.palette.text.primary })}>
+                      <Typography
+                        sx={(theme) => ({
+                          fontSize: 12,
+                          fontWeight: "bold",
+                          color: theme.palette.text.primary,
+                        })}
+                      >
                         Adaptation:{" "}
                       </Typography>
                       <Summ_Adapt3
@@ -1638,7 +1758,13 @@ export default function DrawerMapShow({ activeBar }) {
                         alignItems: "center",
                       }}
                     >
-                      <Typography sx={(theme) => ({ fontSize: 12, fontWeight: "bold", color: theme.palette.text.primary })}>
+                      <Typography
+                        sx={(theme) => ({
+                          fontSize: 12,
+                          fontWeight: "bold",
+                          color: theme.palette.text.primary,
+                        })}
+                      >
                         Adaptation:{" "}
                       </Typography>
                       <Summ_Adapt4
@@ -1715,7 +1841,13 @@ export default function DrawerMapShow({ activeBar }) {
                         alignItems: "center",
                       }}
                     >
-                      <Typography sx={(theme) => ({ fontSize: 12, fontWeight: "bold", color: theme.palette.text.primary })}>
+                      <Typography
+                        sx={(theme) => ({
+                          fontSize: 12,
+                          fontWeight: "bold",
+                          color: theme.palette.text.primary,
+                        })}
+                      >
                         Adaptation:{" "}
                       </Typography>
                       <Summ_Adapt5
@@ -1783,7 +1915,13 @@ export default function DrawerMapShow({ activeBar }) {
                         alignItems: "center",
                       }}
                     >
-                      <Typography sx={(theme) => ({ fontSize: 12, fontWeight: "bold", color: theme.palette.text.primary })}>
+                      <Typography
+                        sx={(theme) => ({
+                          fontSize: 12,
+                          fontWeight: "bold",
+                          color: theme.palette.text.primary,
+                        })}
+                      >
                         Adaptation:{" "}
                       </Typography>
                       <Summ_Adapt6

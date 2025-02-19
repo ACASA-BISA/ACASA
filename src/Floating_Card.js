@@ -64,31 +64,6 @@ const color_comm = {
   Barley: "#5ec962",
 };
 
-// Colors for the dark theme
-const color_comm_dark = {
-  Rice: "#3a7f4f",      
-  Wheat: "#bba73e",     
-  Maize: "#d4a600", 
-  Sorghum: "#6b3410", 
-  Soybean: "#6f5c47",   
-  Chickpea: "#8a7945",  
-  Pigeonpea: "#b3654d", 
-  Mustard: "#c9ad3a",  
-  Groundnut: "#a65419", 
-  Potato: "#8c4c34", 
-  Onion: "#6f3f64",   
-  Cotton: "#3d0191",  
-  Cattle: "#6b3410",   
-  Cow: "#8a7042",    
-  Buffalo: "#462507",   
-  Pig: "#c98a97", 
-  Poultry: "#c26d00",
-  Sheep: "#3fa4c2",  
-  Goat: "#5b7e5b", 
-  Barley: "#3a7f4f",  
-};
-
-
 const unitrisk = {
   "Risk Index":
     "The risk index is derived from hazard, exposure and vulnerability indices",
@@ -152,6 +127,7 @@ export default function LocationCard({
   ImpactName,
   area_data,
   area_data2,
+  exploreType,
 }) {
   const cardRef = useRef(null);
   const [cardHeight, setCardHeight] = useState(0);
@@ -334,14 +310,20 @@ export default function LocationCard({
           optcode[adaption];
       }
       const row_data = area_data[rowstr.toLowerCase()];
-      //console.log(area_data);
-      //console.log("Float");
-      //console.log(rowstr);
-      //console.log(rowstr.toLowerCase());
-      const total =
-        Number(row_data["Unsuitable"]) +
-        Number(row_data["Suitable"]) +
-        Number(row_data["Adaptation Benefits"]);
+      let total = 1;
+      if (row_data) {
+        total =
+          Number(row_data["Unsuitable"]) +
+          Number(row_data["Suitable"]) +
+          Number(row_data["Adaptation Benefits"]) +
+          Number(row_data["High"]);
+      } else {
+        row_data = {
+          Unsuitable: NaN,
+          Suitable: NaN,
+          "Adaptation Benefits": NaN,
+        };
+      }
       data = [
         {
           value: ((row_data["Unsuitable"] * 100) / total).toFixed(1),
@@ -394,15 +376,25 @@ export default function LocationCard({
         rowstr = commodity + "_" + location + "_ZZ_" + hazardname[RiskName];
       }
       const row_data = area_data2[rowstr];
-      //console.log(rowstr);
-      const total =
-        Number(row_data["Very Low"]) +
-        Number(row_data["Low"]) +
-        Number(row_data["Medium"]) +
-        Number(row_data["High"]) +
-        Number(row_data["Very High"]) +
-        Number(row_data["Nil"]);
-      //console.log(total);
+      let total = 1;
+      if (row_data) {
+        total =
+          Number(row_data["Very Low"]) +
+          Number(row_data["Low"]) +
+          Number(row_data["Medium"]) +
+          Number(row_data["High"]) +
+          Number(row_data["Very High"]) +
+          Number(row_data["Nil"]);
+      } else {
+        row_data = {
+          Nil: NaN,
+          "Very Low": NaN,
+          Low: NaN,
+          Medium: NaN,
+          High: NaN,
+          "Very High": NaN,
+        };
+      }
       data = [
         {
           value: ((row_data["Very Low"] * 100) / total).toFixed(1),
@@ -521,13 +513,20 @@ export default function LocationCard({
           optcode[adaption];
       }
       const row_data = area_data[rowstr.toLowerCase()];
-      //console.log("Float");
-      //console.log(rowstr);
-      const total =
-        Number(row_data["Unsuitable"]) +
-        Number(row_data["Suitable"]) +
-        Number(row_data["Adaptation Benefits"]);
-      //console.log(total);
+      let total = 1;
+      if (row_data) {
+        total =
+          Number(row_data["Unsuitable"]) +
+          Number(row_data["Suitable"]) +
+          Number(row_data["Adaptation Benefits"]) +
+          Number(row_data["High"]);
+      } else {
+        row_data = {
+          Unsuitable: NaN,
+          Suitable: NaN,
+          "Adaptation Benefits": NaN,
+        };
+      }
       data = [
         createData(
           <Box
@@ -653,15 +652,16 @@ export default function LocationCard({
           position: "fixed",
           right: 20,
           top: 142,
-          boxShadow: (theme) => 
+          boxShadow: (theme) =>
             theme.palette.mode === "dark"
               ? "0px 0px 0px #000"
               : "0px 0px 0px #aaa",
-          backgroundColor: (theme) => theme.palette.mode === "dark" ? "#25292e" : "white", 
+          backgroundColor: (theme) =>
+            theme.palette.mode === "dark" ? "#25292e" : "white",
           border: (theme) =>
             theme.palette.mode === "dark"
               ? "0px solid #444"
-              : "0px solid black", 
+              : "0px solid black",
           width: "280px",
           borderRadius: "15px",
         }}
@@ -682,7 +682,7 @@ export default function LocationCard({
               sx={(theme) => ({
                 fontSize: 14,
                 fontWeight: "bold",
-                color: theme.palette.mode === "dark" ? "#81c784" : "#143200", 
+                color: theme.palette.mode === "dark" ? "#81c784" : "#143200",
                 marginLeft: "4px",
               })}
             >
@@ -691,12 +691,17 @@ export default function LocationCard({
           </AccordionSummary>
           <AccordionDetails sx={{ marginTop: -2, marginBottom: 0 }}>
             <Box sx={{ display: "flex", flexDirection: "row" }}>
-              <LocationOn fontSize="small"  sx={(theme) => ({ color: theme.palette.mode === "dark" ? "#81c784" : "inherit" })}  />
+              <LocationOn
+                fontSize="small"
+                sx={(theme) => ({
+                  color: theme.palette.mode === "dark" ? "#81c784" : "inherit",
+                })}
+              />
               <Typography
                 sx={(theme) => ({
                   fontSize: 14,
                   fontWeight: "bold",
-                  color: theme.palette.mode === "dark" ? "#81c784" : "#143200", 
+                  color: theme.palette.mode === "dark" ? "#81c784" : "#143200",
                   marginLeft: "4px",
                 })}
               >
@@ -705,14 +710,22 @@ export default function LocationCard({
             </Box>
             <Divider
               sx={(theme) => ({
-                bgcolor: theme.palette.mode === "dark" ? "#3a4d3f" : "#e8ffea", 
+                bgcolor: theme.palette.mode === "dark" ? "#3a4d3f" : "#e8ffea",
                 borderBottomWidth: 2,
                 marginTop: 0.3,
                 marginBottom: 0.3,
               })}
             />
+            {exploreType !== "Regional" && (
+            <div>
             <Box sx={{ display: "flex", flexDirection: "row" }}>
-              <Typography sx={(theme) => ({ fontSize: 13, color:theme.palette.mode === "dark" ? "#e0e0e0" : "black"})} gutterBottom>
+              <Typography
+                sx={(theme) => ({
+                  fontSize: 13,
+                  color: theme.palette.mode === "dark" ? "#e0e0e0" : "black",
+                })}
+                gutterBottom
+              >
                 Commodity:&nbsp;
               </Typography>
               <Typography sx={{ fontSize: 13 }} color="text.secondary">
@@ -721,14 +734,22 @@ export default function LocationCard({
             </Box>
             <Divider
               sx={(theme) => ({
-                bgcolor: theme.palette.mode === "dark" ? "#3a4d3f" : "#e8ffea", 
+                bgcolor: theme.palette.mode === "dark" ? "#3a4d3f" : "#e8ffea",
                 borderBottomWidth: 2,
                 marginTop: "0px",
                 marginBottom: 0.3,
               })}
             />
+            </div>
+          )}
             <Box sx={{ display: "flex", flexDirection: "row" }}>
-            <Typography sx={(theme) => ({ fontSize: 13, color:theme.palette.mode === "dark" ? "#e0e0e0" : "black"})} gutterBottom>
+              <Typography
+                sx={(theme) => ({
+                  fontSize: 13,
+                  color: theme.palette.mode === "dark" ? "#e0e0e0" : "black",
+                })}
+                gutterBottom
+              >
                 Scenario:&nbsp;
               </Typography>
               <Typography sx={{ fontSize: 13 }} color="text.secondary">
@@ -739,14 +760,22 @@ export default function LocationCard({
               <div>
                 <Divider
                   sx={(theme) => ({
-                    bgcolor: theme.palette.mode === "dark" ? "#3a4d3f" : "#e8ffea", 
+                    bgcolor:
+                      theme.palette.mode === "dark" ? "#3a4d3f" : "#e8ffea",
                     borderBottomWidth: 2,
                     marginTop: "0px",
                     marginBottom: 0.3,
                   })}
                 />
                 <Box sx={{ display: "flex" }}>
-                  <Typography sx={(theme) => ({ fontSize: 13, color:theme.palette.mode === "dark" ? "#e0e0e0" : "black"})} flexWrap>
+                  <Typography
+                    sx={(theme) => ({
+                      fontSize: 13,
+                      color:
+                        theme.palette.mode === "dark" ? "#e0e0e0" : "black",
+                    })}
+                    flexWrap
+                  >
                     Technical suitability of&nbsp;
                     <strong>
                       {adaption.charAt(0).toUpperCase() +
@@ -762,14 +791,20 @@ export default function LocationCard({
               <div>
                 <Divider
                   sx={(theme) => ({
-                    bgcolor: theme.palette.mode === "dark" ? "#3a4d3f" : "#e8ffea", 
+                    bgcolor:
+                      theme.palette.mode === "dark" ? "#3a4d3f" : "#e8ffea",
                     borderBottomWidth: 2,
                     marginTop: "0px",
                     marginBottom: 0.3,
                   })}
                 />
                 <Box sx={{ display: "flex", flexDirection: "row" }}>
-                  <Typography sx={(theme) => ({ fontSize: 13, color: theme.palette.mode === "dark" ? "white" : "black" })}>
+                  <Typography
+                    sx={(theme) => ({
+                      fontSize: 13,
+                      color: theme.palette.mode === "dark" ? "white" : "black",
+                    })}
+                  >
                     Risk Method:&nbsp;
                   </Typography>
                   <Typography
@@ -781,7 +816,11 @@ export default function LocationCard({
                   </Typography>
                 </Box>
                 <Typography
-                  sx={(theme) => ({ fontSize: 13, whiteSpace: "pre-wrap", color: theme.palette.mode === "dark" ? "white" : "black" })}
+                  sx={(theme) => ({
+                    fontSize: 13,
+                    whiteSpace: "pre-wrap",
+                    color: theme.palette.mode === "dark" ? "white" : "black",
+                  })}
                 >
                   {RiskType()}:&nbsp;
                   <Typography
@@ -803,14 +842,20 @@ export default function LocationCard({
               <div>
                 <Divider
                   sx={(theme) => ({
-                    bgcolor: theme.palette.mode === "dark" ? "#3a4d3f" : "#e8ffea",
+                    bgcolor:
+                      theme.palette.mode === "dark" ? "#3a4d3f" : "#e8ffea",
                     borderBottomWidth: 2,
                     marginTop: "0px",
                     marginBottom: 0.3,
                   })}
                 />
                 <Box sx={{ display: "flex", flexDirection: "row" }}>
-                  <Typography sx={(theme) => ({ fontSize: 13, color: theme.palette.mode === "dark" ? "white" : "black"})}>
+                  <Typography
+                    sx={(theme) => ({
+                      fontSize: 13,
+                      color: theme.palette.mode === "dark" ? "white" : "black",
+                    })}
+                  >
                     Impact:&nbsp;
                   </Typography>
                   <Typography sx={{ fontSize: 13 }} color="text.secondary">
@@ -826,7 +871,8 @@ export default function LocationCard({
                 <Box sx={{ marginTop: "2px", marginBottom: "-5px" }}>
                   <Divider
                     sx={(theme) => ({
-                      bgcolor: theme.palette.mode === "dark" ? "#3a4d3f" : "#e8ffea",
+                      bgcolor:
+                        theme.palette.mode === "dark" ? "#3a4d3f" : "#e8ffea",
                       borderBottomWidth: 2,
                       marginTop: "0px",
                       marginBottom: 0.3,
@@ -853,7 +899,7 @@ export default function LocationCard({
                             width: 20,
                             height: 20,
                             borderRadius: 1,
-                            bgcolor: theme.palette.mode === "dark" ? color_comm_dark[commodity] : color_comm[commodity],
+                            bgcolor: color_comm[commodity],
                             margin: "4px",
                           })}
                         />

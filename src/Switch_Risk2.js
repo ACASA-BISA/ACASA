@@ -23,14 +23,14 @@ export default function SwitchRisk2({
   const switchChildID = ["pr", "ipcc"];
 
   const switchIPCC = [
-    "Base climate",
+    "Climatology",
     "Hazard",
     "Exposure",
     "Vulnerability",
     "Indices",
   ];
   const switchRegional = [
-    "Base climate",
+    "Climatology",
     "Hazard",
     "Exposure",
     "Vulnerability",
@@ -483,6 +483,9 @@ export default function SwitchRisk2({
     "FARMERS",
     "HSIZE",
     "FERTILIZER",
+    "seasonalrain",
+    "maxtemp",
+    "mintemp",
   ];
 
   const Risk = [
@@ -536,6 +539,9 @@ export default function SwitchRisk2({
     "Marginal Farmers",
     "Holding size",
     "Fertilizer consumption",
+    "Seasonal Rainfall",
+    "Maximum Temperature",
+    "Minimum Temperature",
   ];
 
   function createInitialP2() {
@@ -693,7 +699,7 @@ export default function SwitchRisk2({
                 paddingLeft: 2,
               })}
             >
-              Base climate and climatic risks
+              Climatology and climatic risks
             </Typography>
           </FormLabel>
         )}
@@ -926,7 +932,7 @@ export default function SwitchRisk2({
                 paddingLeft: 2,
               })}
             >
-              Base climate and climatic risks of {cropname.toLowerCase()}
+              Climatic risks of {cropname.toLowerCase()}
             </Typography>
           </FormLabel>
         )}

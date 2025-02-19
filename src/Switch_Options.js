@@ -415,6 +415,7 @@ export default function SwitchOpt({
       variant="standard"
       sx={{ paddingTop: 1, paddingLeft: 3 }}
     >
+      {/*
       {exploreType === "Commodity" && (
         <FormLabel sx={{ display: "flex", paddingBottom: 1 }}>
           <Typography
@@ -580,6 +581,7 @@ export default function SwitchOpt({
           }
         />
       </FormGroup>
+      */}
       {exploreType === "Regional" && (
         <div>
           {" "}

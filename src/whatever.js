@@ -1,9 +1,7 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
-import { ThemeContext } from "./ThemeContext";
+import React, { useState, useEffect, useRef } from "react";
 import { Feature, Map, View } from "ol";
 import TileLayer from "ol/layer/WebGLTile";
 import TileLayer2 from "ol/layer/Tile";
-import TileJSON from "ol/source/TileJSON";
 import tilesource from "ol/source/TileJSON";
 import Polygon from "ol/geom/Polygon.js";
 import "ol/ol.css";
@@ -42,17 +40,17 @@ export default function MApp({
   exploreType,
 }) {
   const ref = useRef(null);
-    const mapRef = useRef(null);
-    const [overl, setOverl] = useState(null);
-    const [Sociolayer, setSocioLayer] = useState(null);
-    const [Scalelayer, setScaleLayer] = useState(null);
-    const [Adaptlayer, setAdaptLayer] = useState(null);
-    const [Biolayer, setBioLayer] = useState(null);
-    const [vectorLayerr, setvectorLayerr] = useState(null);
-    const [countryLayer, setcountryLayer] = useState(null);
-    const [maskLayer1, setmaskLayer1] = useState(null);
-    const [tiffFilePath, settiffFilePath] = useState("");
-    const [missingSource, setmsource] = useState(false);
+  const mapRef = useRef(null);
+  const [overl, setOverl] = useState(null);
+  const [Sociolayer, setSocioLayer] = useState(null);
+  const [Scalelayer, setScaleLayer] = useState(null);
+  const [Adaptlayer, setAdaptLayer] = useState(null);
+  const [Biolayer, setBioLayer] = useState(null);
+  const [vectorLayerr, setvectorLayerr] = useState(null);
+  const [countryLayer, setcountryLayer] = useState(null);
+  const [maskLayer1, setmaskLayer1] = useState(null);
+  const [tiffFilePath, settiffFilePath] = useState("");
+  const [missingSource, setmsource] = useState(false);
   let defext = [
     6731721.531032621, -300003.34768295793, 10843798.383928495,
     4918992.169943628,
@@ -73,14 +71,12 @@ export default function MApp({
     filename = activeCrop + "_CropMask_" + activeScenario + ".tiff";
   }
 
-  const { mode } = useContext(ThemeContext);
-
   const fill = new Fill({
-    color: mode === "dark" ? "rgba(0,0,0,0)" : "rgba(255,255,255,0)",
+    color: "rgba(255,255,255,0)",
   });
 
   const stroke = new Stroke({
-    color: mode === "dark" ? "rgba(255,255,255,1)" : "rgba(0,0,0,1)",
+    color: "rgba(0, 0, 0, 1)",
     width: 1,
   });
 
@@ -88,7 +84,7 @@ export default function MApp({
     color: "rgba(255,255,255,0.0)",
   });
   const h_stroke = new Stroke({
-    color: mode === "dark" ? "#e0e0e0" : "#111111",
+    color: "#111111",
     width: 2.5,
   });
 
@@ -524,8 +520,8 @@ export default function MApp({
       position: relative;
       top: 0px;
       left: 00px;
-      background-color: ${mode === "dark" ? "#25292e" : "white"};
-      border: 1px solid ${mode === "dark" ? "#e0e0e0" : "black"};
+      background-color: white;
+      border: 1px solid black;
       padding: 10px;
       border-radius: 5px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -560,7 +556,6 @@ export default function MApp({
         "rgba(50, 205, 50, 1)", // Box 4
         "rgba(255, 255, 0, 1)", // Box 5
       ];
-
       legend.style.display = "none";
       legend.style.gridTemplateColumns = "repeat(5, 30px)";
       legend.style.gridGap = "2px";
@@ -569,9 +564,7 @@ export default function MApp({
         colorBox.style.width = "30px";
         colorBox.style.height = "30px";
         colorBox.style.backgroundColor = color;
-        colorBox.style.border = `1px solid ${
-          mode === "dark" ? "#e0e0e0" : "black"
-        }`;
+        colorBox.style.border = "1px solid black";
         legend.appendChild(colorBox);
       });
 
@@ -596,7 +589,6 @@ export default function MApp({
     />
   );
 
-  // Define the download control
   class DownloadControl extends Control {
     constructor(options = {}) {
       const button = document.createElement("button");
@@ -749,15 +741,27 @@ class DownloadControl extends Control {
   }
 } */
 
+  const sourcemap = new tilesource({
+    url: `https://api.maptiler.com/maps/bright-v2/tiles.json?key=${key}`, // source URL
+    tileSize: 512,
+    crossOrigin: "anonymous",
+  });
+
+  const BingMapNew = new TileLayer2({
+    source: sourcemap,
+    opacity: 0.9,
+    zIndex: 10,
+  });
+
   useEffect(() => {
     const container = document.getElementById("popup2");
     const content = document.getElementById("popup-content2");
-  
+
     if (!container || !content) {
       console.error("Popup elements not found");
       return;
     }
-  
+
     const overlay = new Overlay({
       element: container,
       autoPan: {
@@ -766,27 +770,8 @@ class DownloadControl extends Control {
         },
       },
     });
-  
-    // Ensure the reference exists before proceeding
-    if (!ref.current) return;
-  
-    // Define basemap source based on theme mode
-    const sourcemap = new TileJSON({
-      url: mode === "dark"
-        ? `https://api.maptiler.com/maps/dataviz-dark/tiles.json?key=${key}`
-        : `https://api.maptiler.com/maps/bright-v2/tiles.json?key=${key}`,
-      tileSize: 512,
-      crossOrigin: "anonymous",
-    });
-  
-    const BingMapNew = new TileLayer2({
-      source: sourcemap,
-      opacity: 0.9,
-      zIndex: 10,
-    });
-  
-    if (!mapRef.current) {
-      // Initialize the map if it does not exist
+
+    if (ref.current && !mapRef.current) {
       mapRef.current = new Map({
         controls: [
           new FullScreen({
@@ -798,28 +783,20 @@ class DownloadControl extends Control {
           new ZoomToExtent({
             extent: defext,
             className: "ol-zoomtoextent-comp",
-          }),
+          }) /* 
+          new LegendControl({
+            className: 'box-legend'
+          }), */,
           new DownloadControl({
             className: "download-button",
           }),
         ],
         target: ref.current,
-        layers: [BingMapNew], // Set initial basemap
+        layers: [BingMapNew],
         view: ViewV,
       });
-    } else {
-      // Replace existing basemap when theme mode changes
-      const layers = mapRef.current.getLayers().getArray();
-      
-      layers.forEach((layer) => {
-        if (layer && typeof layer.getSource === "function" && layer.getSource() instanceof TileJSON) {
-          mapRef.current.removeLayer(layer);
-        }
-      });
-  
-      mapRef.current.addLayer(BingMapNew);
     }
-  
+
     const featureOverlay = new VectorLayer({
       source: new VectorSource(),
       map: mapRef.current,
@@ -830,45 +807,74 @@ class DownloadControl extends Control {
         }),
       ],
     });
-  
+
     let highlight;
-  
-    const display_state = (pixel) => {
-      const feature = mapRef.current.forEachFeatureAtPixel(pixel, (feature) => feature);
+    const display_state = function (pixel) {
+      const feature = mapRef.current.forEachFeatureAtPixel(
+        pixel,
+        function (feature) {
+          return feature;
+        }
+      );
       let state = null;
-  
       if (feature) {
-        state = feature.get("D_NAME_1") || feature.get("STATE");
+        if (feature.get("D_NAME_1")) {
+          state = feature.get("D_NAME_1");
+        } else {
+          state = feature.get("STATE");
+        }
       }
-  
       if (feature !== highlight) {
-        if (highlight) featureOverlay.getSource().removeFeature(highlight);
-        if (feature && state) featureOverlay.getSource().addFeature(feature);
+        if (highlight) {
+          featureOverlay.getSource().removeFeature(highlight);
+        }
+        if (feature) {
+          if (state) {
+            featureOverlay.getSource().addFeature(feature);
+          }
+        }
         highlight = feature;
       }
-  
       return state;
     };
-  
+
     function getCentroidOfPolygon(geometry) {
       const extentt = geometry.getExtent();
-      return [(extentt[0] + extentt[2]) / 2, (extentt[1] + extentt[3]) / 2];
+      let x = 0,
+        y = 0;
+      x = (extentt[0] + extentt[2]) / 2;
+      y = (extentt[1] + extentt[3]) / 2;
+      return [x, y];
     }
-  
-    const LocationofEvent = (pixel) => {
-      const feature = mapRef.current.forEachFeatureAtPixel(pixel, (feature) => feature);
-      return feature ? getCentroidOfPolygon(feature.getGeometry()) : null;
+
+    const LocationofEvent = function (pixel) {
+      const feature = mapRef.current.forEachFeatureAtPixel(
+        pixel,
+        function (feature) {
+          return feature;
+        }
+      );
+      let cordinates = null;
+      if (feature) {
+        const geometry = feature.getGeometry();
+        cordinates = getCentroidOfPolygon(geometry);
+      }
+      return cordinates;
     };
-  
+
     if (mapRef.current) {
-      mapRef.current.on("pointermove", (evt) => {
-        if (evt.dragging) return;
-  
+      mapRef.current.on("pointermove", function (evt) {
+        if (evt.dragging) {
+          return;
+        }
+        //const coordinate = evt.coordinate;
         const pixel = mapRef.current.getEventPixel(evt.originalEvent);
         const contentofbox = display_state(pixel);
-  
         if (contentofbox) {
-          content.innerHTML = contentofbox.toLowerCase();
+          if (content) {
+            content.innerHTML = contentofbox.toLowerCase();
+          }
+          //console.log(overlay);
           overlay.setPosition(LocationofEvent(pixel));
           mapRef.current.addOverlay(overlay);
         } else {
@@ -876,15 +882,9 @@ class DownloadControl extends Control {
         }
       });
     }
-  
-    // Ensure the map resizes properly
-    mapRef.current.updateSize();
-  }, [mode, ref, mapRef]); // Re-run effect when `mode` changes
-  
+  }, [ref, mapRef]);
 
   useEffect(() => {
-    console.log("Theme: ", mode); // Debugging
-
     let sourcet;
     let countryboundary;
     if (focus === "Region") {
@@ -1085,7 +1085,7 @@ class DownloadControl extends Control {
             stroke: stroke,
           }),
         ],
-        opacity: mode === "dark" ? 0.8 : 0.9,
+        opacity: 0.9,
         zIndex: 205,
       });
 
@@ -1107,10 +1107,12 @@ class DownloadControl extends Control {
               if (CurrRisk !== "" || activeOpt !== "" || ImpactName !== "") {
                 x = 90;
               }
-              mapRef.current.getView().fit(extentt, {
-                size: [sizee[0] * 0.9, sizee[1] * 0.9],
-                padding: [0, 0, x, 0],
-              });
+              mapRef.current
+                .getView()
+                .fit(extentt, {
+                  size: [sizee[0] * 0.9, sizee[1] * 0.9],
+                  padding: [0, 0, x, 0],
+                });
               defext = extentt;
             }
           }
@@ -1126,7 +1128,7 @@ class DownloadControl extends Control {
             stroke: stroke,
           }),
         ],
-        opacity: mode === "dark" ? 0.8 : 0.9,
+        opacity: 0.9,
         zIndex: 220,
       });
 
@@ -1178,18 +1180,14 @@ class DownloadControl extends Control {
                 }),
                 style: new Style({
                   fill: new Fill({
-                    color:
-                      mode === "dark"
-                        ? "rgba(37, 41, 46, 1)"
-                        : "rgba(255,255,255,1)",
+                    color: "rgba(255,255,255,1)",
                   }),
                 }),
-                opacity: mode === "dark" ? 0.4 : 0.6,
+                opacity: 0.6,
                 zIndex: 100,
               });
 
               if (maskLayer1) {
-                console.log("Removing old mask layer");
                 mapRef.current.removeLayer(maskLayer1);
                 setmaskLayer1(null);
               }
@@ -1200,13 +1198,13 @@ class DownloadControl extends Control {
         });
       }
     }
-  }, [mode, activeRegion, focus, mapRef, activeOpt, CurrRisk]);
+  }, [activeRegion, focus, mapRef, activeOpt, CurrRisk]);
 
   useEffect(() => {
     let source1 = null;
     let opt = 1;
     const optcode = {
-     "Stress Tolerant Variety": "ADVAR",
+      "Stress Tolerant Variety": "ADVAR",
       "Early Sowing": "ADPTI",
       "Precision Land Levelling": "LASLV",
       "Zero Tillage with residues": "ZTILL",
@@ -1236,7 +1234,7 @@ class DownloadControl extends Control {
     };
 
     const hazardname = {
-"District Level": "District Level",
+      "District Level": "District Level",
       "Downscaled Risk": "Downscaled Risk",
       "Risk Index": "Risk index",
       "Hazard Index": "Hazard Index",
