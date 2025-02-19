@@ -385,7 +385,6 @@ export default function Legend_Small({
         }
         return Math.round(popu)+' M';
     }
-
     function calcarea(popu){
         if(popu===0){
           return 'None';
@@ -413,7 +412,6 @@ export default function Legend_Small({
         }
         return Math.round(popu)+' Mha';
     }
-
     function vulcat(str){
       if(str==='Very low')
         return 'Very high';

@@ -21,8 +21,8 @@ export default function SwitchScale({
   const switch_type = ['Commodity specific analysis','Regional analysis (non-commodity specific)'];
   const switch_type_id = ['Commodity','Regional'];
 
-  const switch_type2 = ['Pixel level','District level','State level'];
-  const switch_type_id2 = ['Pixel Level','District Level','State Level'];
+  const switch_type2 = ['Pixel level','District level'];
+  const switch_type_id2 = ['Pixel Level','District Level'];
   
   const padd = 8;
 

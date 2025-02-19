@@ -22,8 +22,8 @@ export default function SwitchRisk2({
   const switchChild = ['Measured Risk','Estimated Risk'];
   const switchChildID = ['pr','ipcc'];
 
-  const switchIPCC = ['Base climate','Hazard','Exposure','Vulnerability',"Indices"];
-  const switchRegional = ['Base climate','Hazard','Exposure','Vulnerability',"Risk indices"];
+  const switchIPCC = ['Climatology','Hazard','Exposure','Vulnerability',"Indices"];
+  const switchRegional = ['Climatology','Hazard','Exposure','Vulnerability',"Risk indices"];
   const switchIPCCID = ['basic','hazard','exposure','vulner','risk'];
 
   const switchRisk = ['Risk Index','Hazard Index','Exposure Index','Vulnerability Index'];
@@ -353,7 +353,7 @@ export default function SwitchRisk2({
    <div>
     <Box sx={{display:'flex',flexDirection:'column'}}>
     { exploreType==='Regional' && <FormLabel sx={{paddingBottom:1,textAlign:'left'}}>
-        <Typography sx={{color:'black',fontWeight:'bold',fontSize:14,paddingTop:1,paddingLeft:2}}>Base climate and climatic risks</Typography>
+        <Typography sx={{color:'black',fontWeight:'bold',fontSize:14,paddingTop:1,paddingLeft:2}}>Climatology and climatic risks</Typography>
         </FormLabel>}
         { exploreType==='Regional' && (
         <FormControl component="" variant="standard" sx={{paddingBottom:1, paddingLeft:3}}>
@@ -466,11 +466,11 @@ export default function SwitchRisk2({
                     </FormControl>}
         </FormControl>)}
     { exploreType==='Commodity' && <FormLabel sx={{paddingBottom:1,textAlign:'left'}}>
-        <Typography sx={{color:'black',fontWeight:'bold',fontSize:14,paddingTop:1,paddingLeft:2}}>Base climate and climatic risks of {cropname.toLowerCase()}</Typography>
+        <Typography sx={{color:'black',fontWeight:'bold',fontSize:14,paddingTop:1,paddingLeft:2}}>Climatic risks of {cropname.toLowerCase()}</Typography>
         </FormLabel>}
         {
             (exploreType==='Commodity'&&activeCrop['wheat'])&&
-            <Typography sx={{color:'black',fontSize:13,paddingTop:-1,textAlign:'left',paddingLeft:2}}>Season: Winter Season</Typography>
+            <Typography sx={{color:'black',fontSize:13,paddingTop:-1,textAlign:'left',paddingLeft:2}}>Season: Spring wheat</Typography>
 
         }
         {

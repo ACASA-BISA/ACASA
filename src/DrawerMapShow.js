@@ -630,11 +630,8 @@ export default function DrawerMapShow({ activeBar }) {
       setImpactName('');
   };
 
-  const changeOptLayer = (event) => {
-    setOptionLayer({
-      ...optionlayer,
-      [event.target.name]: event.target.checked,
-    });
+  const changeOptLayer = (stateinc) => {
+    setOptionLayer(stateinc);
   };
 
   const [optionlayer2, setOptionLayer2] = React.useState(
@@ -737,7 +734,7 @@ export default function DrawerMapShow({ activeBar }) {
   // The initial states for crops, options, scenarios, hazards, and impacts are set up using predefined lists (fullList, opt, impact, switchscenarioid, etc.).
   // Event handlers are used to manage the state changes based on user interactions.
 
-    const [area_data3, setarea_data3] = React.useState([]);
+  const [area_data3, setarea_data3] = React.useState([]);
 
   React.useEffect(() => {
     async function fetchData4() {
@@ -781,50 +778,50 @@ export default function DrawerMapShow({ activeBar }) {
   };
 
   const [displayLayer, setDisplayLayer] = React.useState(
-    'Absolute Change'
+    'Absolute'
   );
 
-    const container = useRef(null);
-    const [height1, setHeight1] = React.useState(null);
+  const container = useRef(null);
+  const [height1, setHeight1] = React.useState(null);
 
-    //Extra
-    //Extra
-    //Extra
+  //Extra
+  //Extra
+  //Extra
 
-    const [exploreType, setExploreType] = React.useState('Commodity');
+  const [exploreType, setExploreType] = React.useState('Commodity');
 
-    const handleExploreTypeChange = (name) => (event) => {
-      setExploreType(name);
+  const handleExploreTypeChange = (name) => (event) => {
+    setExploreType(name);
+  };
+
+  const [vis_scale, setVisScale] = React.useState('Pixel Level');
+
+  const handleVisScaleChange = (name) => (event) => {
+    setVisScale(name);
+  };
+  
+  const [Model,setModel] = React.useState('CHC');
+
+  const handleModelchange = (name) => (event) => {
+    setModel(name);
+  };
+
+  const handleScenario = (name) => {
+      setNameScenario(name);
+    };
+  
+  const [NameModel, setNameModel] = React.useState('CHC');
+  
+  const handleModel = (name) => {
+      setNameModel(name);
     };
 
-    const [vis_scale, setVisScale] = React.useState('Pixel Level');
-
-    const handleVisScaleChange = (name) => (event) => {
-      setVisScale(name);
-    };
-    
-    const [Model,setModel] = React.useState('CHC');
-
-    const handleModelchange = (name) => (event) => {
-      setModel(name);
-    };
-
-    const handleScenario = (name) => {
-        setNameScenario(name);
-      };
-    
-    const [NameModel, setNameModel] = React.useState('CHC');
-    
-    const handleModel = (name) => {
-        setNameModel(name);
-      };
-
-      const box1 = React.useRef(null);
-              const box2 = React.useRef(null);
-              const box3 = React.useRef(null);
-              const box4 = React.useRef(null);
-              const box5 = React.useRef(null);
-              const box6 = React.useRef(null);
+  const box1 = React.useRef(null);
+          const box2 = React.useRef(null);
+          const box3 = React.useRef(null);
+          const box4 = React.useRef(null);
+          const box5 = React.useRef(null);
+          const box6 = React.useRef(null);
 
     return (
         <div>

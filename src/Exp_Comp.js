@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Grid, Paper, Typography, Box, MenuItem, Select, FormControl, 
-  Popper, InputLabel, Slider, IconButton, Checkbox
+  Popper, InputLabel, Slider, IconButton, Checkbox, Button
 } from '@mui/material';
 import Map_Option from './Comp_Map';  // Assuming this is your map component
 import './font.css';
@@ -43,6 +43,45 @@ function useInterval(callback, delay) {
       }
   }, [delay]);
 };
+
+const tabs = ["Biophysical suitability", "Adaptation benefits", "Economic viability", "Scalability", "Gender suitability"];
+
+const ArrowTab = styled(Button)(({ theme, selected, isLast, isFirst }) => ({
+  position: 'relative',
+  padding: '2px 40px 2px 40px',
+  borderRadius: 0,
+  width:'450px',
+  marginLeft: '-35px',
+  clipPath: isLast
+  ? 'polygon(0 0, 100% 0, 100% 50%, 100% 100%, 0 100%, 10% 50%)'
+  : "polygon(0 0, 90% 0, 100% 50%, 90% 100%, 0 100%, 10% 50%)",
+  backgroundColor: selected ? "#DDEB9D" : "#5A6C57" ,
+  color: selected ? "black" : "white",
+  fontWeight: 'bold',
+  textTransform: "none",
+  transition: 'all 0.3s',
+  '&:first-of-type': {
+    marginLeft: 0,
+    clipPath: 'polygon(0 0, 90% 0, 100% 50%, 90% 100%, 0 100%)',
+    paddingLeft: '35px'
+  },
+  '&:hover': {
+    backgroundColor: selected ? theme.palette.grey[300] : theme.palette.grey[500],
+  },
+  '&::before': {
+    content: '""',
+    position: 'absolute',
+    width:  isFirst? '0': '12%',
+    height: '100%',
+    backgroundColor: "white",
+    top: "0px",
+    left: "-2px",
+    right: "0px",
+    bottom: "0px",
+    clipPath: "polygon(0 0, 15% 0, 100% 50%, 15% 100%, 0 100%, 15% 50%)",
+    zIndex: 1
+  }
+}));
 
 export default function CompV({
   activeCrop,
@@ -173,7 +212,7 @@ export default function CompV({
     const [currentYearIndex, setCurrentYearIndex] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
 
-    // Auto-play interval, changes image every 1 second (1000ms)
+/*     // Auto-play interval, changes image every 1 second (1000ms)
     useInterval(
         () => {
             setCurrentYearIndex((prevIndex) =>
@@ -235,7 +274,7 @@ export default function CompV({
             transform: 'rotate(45deg)',
           },
         },
-      });
+      }); */
 
   const [paperWidth, setPaperWidth] = React.useState(0);
   const [boxWidth, setBoxWidth] = React.useState(0);
@@ -252,47 +291,82 @@ export default function CompV({
     }
   }, [gridRefs[1].current]);
 
-    const CustomFormControlLabel = styled(FormControlLabel)(({ theme }) => ({
-      alignItems: 'flex-start', // Align items to the start 
-      '&.Mui-disabled .MuiTypography-body2': {
-        color: '#ccc', // Color for the label text when disabled
-      },
-    }));
+  const CustomFormControlLabel = styled(FormControlLabel)(({ theme }) => ({
+    alignItems: 'flex-start', // Align items to the start 
+    '&.Mui-disabled .MuiTypography-body2': {
+      color: '#ccc', // Color for the label text when disabled
+    },
+  }));
+
+  const values = ["Biophysical Suitability", "Adaptation Benefits", "Economic", "Scalability", "Gender"];
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+
+  const handleSelect = (index) => {
+    setSelectedIndex(index);
+    const updatedState = { ...activeOptLayer }; // Copy existing state
+
+    values.forEach((name, i) => {
+      updatedState[name] = i <= index; // Select all previous & current tabs
+    });
+
+    changeOptLayer(updatedState);
+    };
     
   return (
     <div className='viewer-container' style={{overflow:'hidden'}}>
     
     <Grid container sx={{marginTop:'0px',paddingX: '1rem'}} columns={12}>
     {activeOpt!=='' && <Box sx={{width:'100%',marginTop:'0px',backgroundColor:'#ddd',marginBottom:'2px'}}>
-        <FormGroup  sx={{display:'flex',flexDirection:'row',flexWrap:'wrap',gap:0.5,marginY:'2px',
+        {/* <FormGroup  sx={{display:'flex',flexDirection:'row',flexWrap:'wrap',gap:0.5,marginY:'2px',
           alignItems:'center',alignContent:'center',justifyItems:'center',justifyContent:'center'}}>
-                <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Biophysical Suitability']} name="Biophysical Suitability" 
-                    onChange={changeOptLayer}
-                    color="success" sx={{padding:0,marginLeft:1,marginRight:'2px','&.Mui-checked': {
-                    transform: "scale(1.04)"} }}/>} 
-                    label={<Typography variant="body2" align='left'  sx={{peddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
-                    whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>Biophysical suitability</Typography>}/>
-                <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Adaptation Benefits']} name="Adaptation Benefits" 
-                    onChange={changeOptLayer}
-                    color="success" sx={{padding:0,marginLeft:1,marginRight:'2px'}}/>} 
-                    label={<Typography variant="body2" align='left'  sx={{peddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
-                    whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>Adaptation benefits</Typography>}/>
-                <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Economic']}  name="Economic" 
-                    onChange={changeOptLayer}
-                    color="success" sx={{padding:0,marginLeft:1,marginRight:'2px'}}/>} 
-                    label={<Typography variant="body2" align='left'  sx={{peddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
-                    whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>Economic benefits</Typography>}/>
-                <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Scalability']} name="Scalability" 
-                    onChange={changeOptLayer}
-                    color="success" sx={{padding:0,marginLeft:1,marginRight:'2px'}}/>} 
-                    label={<Typography variant="body2" align='left'  sx={{peddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
-                    whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>Scalability</Typography>}/>
-                <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Gender']} name="Gender" 
-                    onChange={changeOptLayer}
-                    color="success" sx={{padding:0,marginLeft:1,marginRight:'2px'}}/>} 
-                    label={<Typography variant="body2" align='left'  sx={{peddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
-                    whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>Gender suitability</Typography>}/>
-                </FormGroup>
+            <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Biophysical Suitability']} name="Biophysical Suitability" 
+                onChange={changeOptLayer}
+                color="success" sx={{padding:0,marginLeft:1,marginRight:'2px','&.Mui-checked': {
+                transform: "scale(1.04)"} }}/>} 
+                label={<Typography variant="body2" align='left'  sx={{paddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
+                whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>Biophysical suitability</Typography>}/>
+            <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Adaptation Benefits']} name="Adaptation Benefits" 
+                onChange={changeOptLayer}
+                color="success" sx={{padding:0,marginLeft:1,marginRight:'2px'}}/>} 
+                label={<Typography variant="body2" align='left'  sx={{paddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
+                whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>Adaptation benefits</Typography>}/>
+            <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Economic']}  name="Economic" 
+                onChange={changeOptLayer}
+                color="success" sx={{padding:0,marginLeft:1,marginRight:'2px'}}/>} 
+                label={<Typography variant="body2" align='left'  sx={{paddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
+                whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>Economic benefits</Typography>}/>
+            <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Scalability']} name="Scalability" 
+                onChange={changeOptLayer}
+                color="success" sx={{padding:0,marginLeft:1,marginRight:'2px'}}/>} 
+                label={<Typography variant="body2" align='left'  sx={{paddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
+                whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>Scalability</Typography>}/>
+            <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Gender']} name="Gender" 
+                onChange={changeOptLayer}
+                color="success" sx={{padding:0,marginLeft:1,marginRight:'2px'}}/>} 
+                label={<Typography variant="body2" align='left'  sx={{paddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
+                whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>Gender suitability</Typography>}/>
+            </FormGroup> */}
+            <Box sx={{ 
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent:'center',
+              padding: 0,
+              bgcolor: 'background.paper'
+            }}>
+              {tabs.map((label, index) => (
+                <ArrowTab
+                  key={label}
+                  selected={index <= selectedIndex}
+                  isLast={index === (tabs.length - 1)} // Identify last tab
+                  isFirst={index === 0}
+                  onClick={() => handleSelect(index)}
+                  disableRipple
+                >
+                  <Typography variant="body2"  fontWeight='bold' sx={{maxWidth:'250px',wordBreak:'break-word', 
+                  whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>{label}</Typography>
+                </ArrowTab>
+              ))}
+            </Box>
       </Box>}
       {activeScenario['baseline'] && 
       <Grid item xs={12} key='Only_Baseline' ref={Only_Baseline}>
@@ -337,7 +411,7 @@ export default function CompV({
                 alignContent:'center',justifyContent:'center',alignItems:'center',
                 gap:'10px'}}>
                 <Typography align="center" sx={{fontSize:'14px',fontWeight:'bold',fontFamily:'Karla'}}>{label}</Typography>
-                {(label==='2050s'||label==='2080s') && <FormControl size='small'>
+                {/* {(label==='2050s'||label==='2080s') && <FormControl size='small'>
                 <Select labelId="Scenariox"
                   id="future-model-select-idx"
                   sx={{fontSize:'14px',height:'20px',fontFamily:'Karla'}}
@@ -347,7 +421,7 @@ export default function CompV({
                     <MenuItem value="Percentage Change" sx={{fontSize:'13px',height:'20px',fontFamily:'Karla'}}>Percentage change</MenuItem>
                     <MenuItem value="Absolute Change" sx={{fontSize:'13px',height:'20px',fontFamily:'Karla'}}>Absolute change</MenuItem>
                 </Select>
-                </FormControl>}
+                </FormControl>} */}
               </Box>
               
               <Paper elevation={1} sx={{ width: '100%', height:activeOpt===""?'calc(100vh - 155px)':'calc(100vh - 175px)' }}>
@@ -414,7 +488,7 @@ export default function CompV({
                 alignContent:'center',justifyContent:'center',alignItems:'center',
                 gap:'10px'}}>
                 <Typography align="center" sx={{fontSize:'14px',fontWeight:'bold',fontFamily:'Karla'}}>{label}</Typography>
-                {(label==='2050s'||label==='2080s') && <FormControl size='small'>
+                {/* {(label==='2050s'||label==='2080s') && <FormControl size='small'>
                 <Select labelId="Scenariox"
                   id="future-model-select-idx"
                   sx={{fontSize:'14px',height:'20px',fontFamily:'Karla'}}
@@ -424,7 +498,7 @@ export default function CompV({
                     <MenuItem value="Percentage Change" sx={{fontSize:'13px',height:'20px',fontFamily:'Karla'}}>Percentage change</MenuItem>
                     <MenuItem value="Absolute Change" sx={{fontSize:'13px',height:'20px',fontFamily:'Karla'}}>Absolute change</MenuItem>
                 </Select>
-                </FormControl>}
+                </FormControl>} */}
               </Box>
               
               <Paper elevation={1} sx={{ width: '100%', height:activeOpt===""?'calc(100vh - 155px)':'calc(100vh - 175px)' }}>
