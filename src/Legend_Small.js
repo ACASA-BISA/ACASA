@@ -446,14 +446,14 @@ export default function Legend_Small({
 
     function RiskType(){
         let str = 'Hazard';
-        if(RiskName==='Risk Index'||RiskName==='Exposure Index'||RiskName==='Vulnerability Index'||RiskName==='District Level'||RiskName==='Downscaled Risk'){
-          str = 'Risk';
+        if(RiskName==='Risk Index'||RiskName==='Exposure Index'||RiskName==='Vulnerability Index'||RiskName==='District Level'||RiskName==='Downscaled Risk'||RiskName==='Hazard Index'){
+          str = 'Indices';
         }
         if(RiskName==='Number of Animals per grid'||RiskName==='Cropped Area') {
           str = 'Exposure';
         }
         if(RiskName==='Irrigation'||RiskName==='Soil Water Holding Capacity'||RiskName==='Agriculture Income'||RiskName==='Soil Organic Carbon'
-        ||RiskName==='Feed/Fodder'||RiskName==='Rural infrastructure'||RiskName==='Economic Development Indicator') {
+        ||RiskName==='Feed/Fodder'||RiskName==='Rural infrastructure'||RiskName==='Economic Development Indicator'||RiskName==='Income') {
           str = 'Vulnerability';
         }
         return str;
@@ -502,20 +502,26 @@ export default function Legend_Small({
             </Typography>
             </Box>
         </div>}
-        {((RiskName !== "" && RiskType()==="Vulnerability" && ((commodity==='Rice'||commodity==='Wheat'||commodity==='Barley'||commodity==='Soybean'||commodity==='Cotton'||commodity==='Chickpea'||commodity==='Maize'||commodity==='Mustard')))) && <div>
-        <Box sx={{display:'flex'}}>
-        <Typography  sx={{ fontSize: 11, marginBottom:'2px'}} color="black">
-        Farm households under different categories of {RiskName.toLowerCase()}
+        {((RiskName !== "" && (RiskType()==="Vulnerability"||RiskType()==='Indices') && ((commodity==='Rice'||commodity==='Wheat'||commodity==='Barley'||commodity==='Soybean'||commodity==='Cotton'||commodity==='Chickpea'||commodity==='Maize'||commodity==='Mustard')))) && <div>
+          <Box sx={{ display: 'flex' }}>
+            <Typography sx={{ fontSize: 11, marginBottom: '2px' }} color="black">
+                <span style={{ color: '#AA5486', fontWeight: 'bold' }}>Farm households</span>
+                &nbsp;and&nbsp;
+                <span style={{ color: '#859F3D', fontWeight: 'bold' }}>cropped area</span>
+                &nbsp;under different categories of {RiskName.toLowerCase()}:
             </Typography>
-        </Box>
+            </Box>
         </div>
         }
         {((RiskName !== "" && RiskType()==="Exposure" && ((commodity==='Rice'||commodity==='Wheat'||commodity==='Barley'||commodity==='Soybean'||commodity==='Cotton'||commodity==='Chickpea'||commodity==='Maize'||commodity==='Mustard')))) && <div>
-        {/* <Box sx={{display:'flex'}}>
-        <Typography  sx={{ fontSize: 13, marginBottom:'2px'}} color="black">
-        Number of farm households affected by this {typrstr().toLowerCase()} in {commodity.toLowerCase()}
+          <Box sx={{ display: 'flex' }}>
+            <Typography sx={{ fontSize: 11, marginBottom: '2px' }} color="black">
+                <span style={{ color: '#AA5486', fontWeight: 'bold' }}>Farm households</span>
+                &nbsp;and&nbsp;
+                <span style={{ color: '#859F3D', fontWeight: 'bold' }}>cropped area</span>
+                :
             </Typography>
-        </Box> */}
+            </Box>
         </div>
         }
         <Typography sx={{ fontSize: 12 }} color="black" >
