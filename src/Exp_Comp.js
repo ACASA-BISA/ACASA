@@ -298,7 +298,6 @@ export default function CompV({
   const [paperWidth, setPaperWidth] = React.useState(0);
   const [boxWidth, setBoxWidth] = React.useState(0);
   const [boxHeight, setBoxHeight] = React.useState(0);
-
   React.useEffect(() => {
     if (Only_Baseline.current) {
       setPaperWidth(Only_Baseline.current.offsetWidth);

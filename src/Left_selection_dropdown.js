@@ -185,7 +185,7 @@ const [climprj, setClimprj] = React.useState('');
               <MenuItem value="CYCL" sx={{fontSize:'14px',height:'25px'}}>Cyclone</MenuItem>
           </Select>
           </FormControl>}
-      {layer==='Technical Suitability' &&
+      {layer==='Adaptation Benefits' &&
           <FormControl fullWidth sx={{ marginBottom: '1.2rem' }} size='small'>
           <InputLabel id="Adaptation Category" sx={{fontSize:'14px'}}>Adaptation Category</InputLabel>
           {(activeCrop==='Sheep'||activeCrop==='Goat'||activeCrop==='Poultry') && <Select

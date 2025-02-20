@@ -476,9 +476,17 @@ export default function Legend_Small({
             total = Number(row_data2['Very Low']) + Number(row_data2['Low']) + Number(row_data2['Medium']) + Number(row_data2['High']) + Number(row_data2['Very High']) + Number(row_data2['Nil']);
           }
           else{
+<<<<<<< HEAD
             row_data2 = {'Nil':NaN,'Very Low':NaN,'Low':NaN,'Medium':NaN,'High':NaN,'Very High':NaN};
           } */
         /* data = 
+=======
+            row_data = {'Nil':NaN,'Very Low':NaN,'Low':NaN,'Medium':NaN,'High':NaN,'Very High':NaN};
+          }
+          //console.log(total);
+          
+          data = 
+>>>>>>> fe1b01034b7d28d3d70ec25b2e91ea3bc8194100
           [
             createData('#969696',
               "No significant "+typrstr(), row_data['Nil'], (row_data['Nil']*100/total).toFixed(2), (row_data['Nil Population']*0.16/1000000)),
