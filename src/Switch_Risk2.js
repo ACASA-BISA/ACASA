@@ -936,6 +936,32 @@ export default function SwitchRisk2({
             </Typography>
           </FormLabel>
         )}
+                {exploreType === "Commodity" && activeCrop["wheat"] && (
+                  <Typography
+                    sx={(theme) => ({
+                      color: theme.palette.mode === "dark" ? "white" : "black",
+                      fontSize: 13,
+                      paddingTop: -1,
+                      textAlign: "left",
+                      paddingLeft: 2,
+                    })}
+                  >
+                    Season: Spring wheat
+                  </Typography>
+                )}
+                {exploreType === "Commodity" && activeCrop["rice"] && (
+                  <Typography
+                    sx={(theme) => ({
+                      color:  theme.palette.mode === "dark" ? "white" : "black",
+                      fontSize: 13,
+                      paddingTop: -1,
+                      textAlign: "left",
+                      paddingLeft: 2,
+                    })}
+                  >
+                    Season: Monsoon Season
+                  </Typography>
+                )}
         {exploreType === "Commodity" && (
           <FormControl
             component=""
