@@ -18,7 +18,7 @@ export default function SwitchScale({
   changeScale
 }) {
 
-  const switch_type = ['Commodity specific analysis','Regional analysis (non-commodity specific)'];
+  const switch_type = ['Commodity specific','Regional (non-commodity specific)'];
   const switch_type_id = ['Commodity','Regional'];
 
   const switch_type2 = ['Pixel level','District level'];
@@ -84,7 +84,7 @@ export default function SwitchScale({
     <div>
     <FormControl component="fieldset" variant="standard"  sx={{paddingBottom:1, paddingLeft:3,paddingTop:1}}>
       <FormLabel sx={{display:'flex',paddingBottom:1}}>
-        <Typography sx={{color:'black',fontWeight:'bold',fontSize:14,paddingTop:2,}}>Select analysis type</Typography><br/>
+        <Typography sx={{color:'black',fontWeight:'bold',fontSize:14,paddingTop:2,}}>Select analysis scope</Typography><br/>
       </FormLabel>
       {switch_type_id.map((sname,indexx) => (
         <FormGroup>

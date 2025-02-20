@@ -203,6 +203,13 @@ export default function MApp({
         ['rgba(0,0,0,0)', '#059212', '#00FF00', '#FFFF00', '#FFA500', '#FF0000']
       ]
     };
+    const color_hazard4 = {
+      color: [
+        'palette',
+        ['clamp', ['*', ['band', 2], 250], 0, 4],
+        ['rgba(0,0,0,0)','rgba(0,0,0,0)', '#059212', '#00FF00', '#FFFF00', '#FFA500', '#FF0000']
+      ]
+    };
 
     const color_hazard3 = {
       color: [
@@ -1054,7 +1061,7 @@ useEffect(() => {
     if(exploreType==='Commodity'){
 
       if(activeOpt!==''){
-        opt=2;
+        opt=333;
         let urlstr = "xyz.tif";
         if(activeScenario==='baseline'){
           urlstr = "./Adap/"+activeCrop+"/Baseline/Suitability_"+activeCrop+"_"+optcode[activeOpt]+".tif";
@@ -1066,7 +1073,7 @@ useEffect(() => {
           urlstr = "./Adap/"+activeCrop+"/SSP585/Suitability_"+activeCrop+"_"+optcode[activeOpt]+".tif";
         }
         if(checkcrop2()===false){
-          opt=3;
+          opt=333;
           urlstr = "./Adap/"+activeCrop+"/"+activeOpt+" Baseline.tif";
         }
         settiffFilePath(urlstr);
@@ -1181,6 +1188,9 @@ useEffect(() => {
     }
     else if(opt===3){
       newOverl.setStyle(color_hazard);
+    }
+    else if(opt===333){
+      newOverl.setStyle(color_hazard4);
     }
     else if(opt===4){
       newOverl.setStyle(color4);

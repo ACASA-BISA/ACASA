@@ -18,7 +18,8 @@ export default function Legend_Small({
     area_data3,
     area_data4,
     AdaptLayerName,
-    displayLayer
+    displayLayer,
+    activeScale
 }) {
 
   function checkcrop() {
@@ -152,6 +153,11 @@ export default function Legend_Small({
 
     function fetchthedataHzd() {
         let data = [];
+        let urlstr = "";
+        
+        if(activeScale==='District Level'){
+          urlstr = "DISTRICT_";
+        }
         if(RiskName!==''||adaption!==''||ImpactName!==''){
           if(displayLayer==='Absolute'){
           let sec = location.indexOf(',');
@@ -164,19 +170,19 @@ export default function Legend_Small({
             let statecode = '';
             if(x==='Bangladesh'){
               statecode = y.substring(0,y.length-9) + 'DIV';
-              rowstr = commodity+"_"+statecode+"_"+hazardname[RiskName]+"_"+scenario;
+              rowstr = commodity+"_"+statecode+"_"+urlstr+hazardname[RiskName]+"_"+scenario;
             }
             else if(x==='Nepal'){
               statecode = y + 'DIV';
-              rowstr = commodity+"_"+statecode+"_"+hazardname[RiskName]+"_"+scenario;
+              rowstr = commodity+"_"+statecode+"_"+urlstr+hazardname[RiskName]+"_"+scenario;
             }
             else if(x==='Bhutan'||x==='India'||x==='Sri Lanka'||x==='Pakistan'||x==='Maldives'||x==='Afghanistan'){
               statecode = y;
-              rowstr = commodity+"_"+statecode+"_"+hazardname[RiskName]+"_"+scenario;
+              rowstr = commodity+"_"+statecode+"_"+urlstr+hazardname[RiskName]+"_"+scenario;
             }
           }
           else{
-            rowstr = "Calculated_"+commodity+"_"+location+"_"+hazardname[RiskName]+"_"+scenario;
+            rowstr = "Calculated_"+commodity+"_"+location+"_"+urlstr+hazardname[RiskName]+"_"+scenario;
           }
           
           let row_data = area_data4[rowstr.toLowerCase()];
@@ -469,7 +475,7 @@ export default function Legend_Small({
                 <span style={{ color: '#AA5486', fontWeight: 'bold' }}>farm households</span>
                 &nbsp;and&nbsp;
                 <span style={{ color: '#859F3D', fontWeight: 'bold' }}>cropped area</span>
-                &nbsp;for {AdaptLayerName.toLowerCase()} of&nbsp;{adaption.charAt(0).toUpperCase()+adaption.slice(1,4)+adaption.toLowerCase().slice(4)}:
+                &nbsp;for {AdaptLayerName.toLowerCase()} of&nbsp;<strong>{adaption.charAt(0).toUpperCase()+adaption.slice(1,4)+adaption.toLowerCase().slice(4)}</strong>:
             </Typography>
           </Box>
         </div>}
@@ -485,11 +491,10 @@ export default function Legend_Small({
         {((RiskName !== "" && RiskType()==="Hazard" && checkcrop())) && <div>
             <Box sx={{ display: 'flex' }}>
             <Typography sx={{ fontSize: 11, marginBottom: '2px' }} color="black">
-                Affected&nbsp;
-                <span style={{ color: '#AA5486', fontWeight: 'bold' }}>farm households</span>
+                <span style={{ color: '#AA5486', fontWeight: 'bold' }}>Farm households</span>
                 &nbsp;and&nbsp;
                 <span style={{ color: '#859F3D', fontWeight: 'bold' }}>cropped area</span>
-                &nbsp;for {RiskName.toLowerCase()}:
+                &nbsp;under different categories of {RiskName.toLowerCase()}:
             </Typography>
             </Box>
         </div>}

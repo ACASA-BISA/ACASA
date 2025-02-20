@@ -413,7 +413,7 @@ export default function CompV({
           >
             <Paper elevation={1} sx={{ maxWidth: paperWidth,borderRadius: "5px",padding:'3px'}}>
             <Legend_Small location={activeRegion} commodity={activeCrop} adaption={activeOpt} RiskName={CurrRisk}
-                scenario='baseline' ImpactName={NameImpact} area_data3={area_dict3} area_data4={area_dict4} AdaptLayerName={AdaptLayerName} displayLayer='Absolute'></Legend_Small>
+                scenario='baseline' ImpactName={NameImpact} area_data3={area_dict3} area_data4={area_dict4} AdaptLayerName={AdaptLayerName} displayLayer='Absolute' activeScale={activeScale}></Legend_Small>
             </Paper>
           </Popper>}
           </div>
@@ -462,7 +462,7 @@ export default function CompV({
                 >
                   <Paper elevation={1} sx={{ maxWidth: boxWidth - 18,borderRadius: "5px",padding:'3px'}}>
                   <Legend_Small location={activeRegion} commodity={activeCrop} adaption={activeOpt} RiskName={CurrRisk}
-                      scenario='baseline' ImpactName={NameImpact} area_data3={area_dict3} area_data4={area_dict4} AdaptLayerName={AdaptLayerName} displayLayer='Absolute'></Legend_Small>
+                      scenario='baseline' ImpactName={NameImpact} area_data3={area_dict3} area_data4={area_dict4} AdaptLayerName={AdaptLayerName} displayLayer='Absolute' activeScale={activeScale}></Legend_Small>
                   </Paper>
                 </Popper>}
 
@@ -488,10 +488,10 @@ export default function CompV({
                 >
                   <Paper elevation={1} sx={{ maxWidth: boxWidth - 18,borderRadius: "5px",padding:'3px'}}>
                   <Legend_Small location={activeRegion} commodity={activeCrop} adaption={activeOpt} RiskName={CurrRisk}
-                      scenario={scn} ImpactName={NameImpact} area_data3={area_dict3} area_data4={area_dict4} AdaptLayerName={AdaptLayerName} displayLayer={displayLayer}></Legend_Small>
+                      scenario={scn} ImpactName={NameImpact} area_data3={area_dict3} area_data4={area_dict4} AdaptLayerName={AdaptLayerName} displayLayer={displayLayer} activeScale={activeScale}></Legend_Small>
                   </Paper>
                 </Popper>}
-                {(RiskType()==='Vulnerability'||RiskType()==='Exposure') && <Popper
+                {(RiskType()==='Vulnerability'||RiskType()==='Exposure'||CurrRisk==='Exposure Index'||CurrRisk==='Vulnerability Index') && <Popper
                   open={true} // Always open
                   anchorEl={gridRefs[index].current} // Anchor to the Grid container
                   placement="bottom" // Position it at the bottom
@@ -501,8 +501,8 @@ export default function CompV({
                       options: {
                         offset: [4,32-boxHeight], // Adjust distance from the container
                       },},]}>
-                  <Box sx={{height:boxHeight-30,width:boxWidth-10,bgcolor:"rgba(200, 200, 200, 0.9)"}}>
-                  <Typography align="center" sx={{fontSize:'14px',fontWeight:'bold',fontFamily:'Karla'}}>Data not available for future scenario</Typography>
+                  <Box sx={{height:boxHeight-30,width:boxWidth-10,bgcolor:"rgba(200, 200, 200, 0.9)",alignContent:'center',alignItems:'center'}}>
+                  <Typography align="center" sx={{fontSize:'14px',fontWeight:'bold',fontFamily:'Karla'}}>No data is currently available for this future scenario</Typography>
                   </Box>
                 </Popper>}
                 </div>}
@@ -554,7 +554,7 @@ export default function CompV({
                 >
                   <Paper elevation={1} sx={{ maxWidth: boxWidth - 18,borderRadius: "5px",padding:'3px'}}>
                   <Legend_Small location={activeRegion} commodity={activeCrop} adaption={activeOpt} RiskName={CurrRisk}
-                      scenario='baseline' ImpactName={NameImpact} area_data3={area_dict3} area_data4={area_dict4} AdaptLayerName={AdaptLayerName} displayLayer='Absolute'></Legend_Small>
+                      scenario='baseline' ImpactName={NameImpact} area_data3={area_dict3} area_data4={area_dict4} AdaptLayerName={AdaptLayerName} displayLayer='Absolute' activeScale={activeScale}></Legend_Small>
                   </Paper>
                 </Popper>}
 
@@ -579,7 +579,7 @@ export default function CompV({
                 >
                   <Paper elevation={1} sx={{ maxWidth: boxWidth - 18,borderRadius: "5px",padding:'3px'}}>
                   <Legend_Small location={activeRegion} commodity={activeCrop} adaption={activeOpt} RiskName={CurrRisk}
-                      scenario={scn} ImpactName={NameImpact} area_data3={area_dict3} area_data4={area_dict4} AdaptLayerName={AdaptLayerName} displayLayer={displayLayer}></Legend_Small>
+                      scenario={scn} ImpactName={NameImpact} area_data3={area_dict3} area_data4={area_dict4} AdaptLayerName={AdaptLayerName} displayLayer={displayLayer} activeScale={activeScale}></Legend_Small>
                   </Paper>
                 </Popper>}
                 </div>}
@@ -603,7 +603,7 @@ export default function CompV({
                 >
                   <Paper elevation={1} sx={{ maxWidth: boxWidth - 18,borderRadius: "5px",padding:'3px'}}>
                   <Legend_Small location={activeRegion} commodity={activeCrop} adaption={activeOpt} RiskName={CurrRisk}
-                      scenario={scn} ImpactName={NameImpact} area_data3={area_dict3} area_data4={area_dict4} AdaptLayerName={AdaptLayerName} displayLayer={displayLayer}></Legend_Small>
+                      scenario={scn} ImpactName={NameImpact} area_data3={area_dict3} area_data4={area_dict4} AdaptLayerName={AdaptLayerName} displayLayer={displayLayer} activeScale={activeScale}></Legend_Small>
                   </Paper>
                 </Popper>}
                 {/* {(CurrRisk!=='' || activeOpt!=='') && <Popper

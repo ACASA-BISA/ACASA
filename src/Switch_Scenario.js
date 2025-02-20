@@ -96,7 +96,7 @@ export default function SwitchScenario({
   return (
     <FormControl component="fieldset" variant="standard"  sx={{paddingBottom:1, paddingLeft:3}}>
       <FormLabel sx={{display:'flex',paddingBottom:1}}>
-        <Typography sx={{color:'black',fontWeight:'bold',fontSize:14,paddingTop:2,}}>Select scenario</Typography><br/>
+        <Typography sx={{color:'black',fontWeight:'bold',fontSize:14,paddingTop:2,}}>Select climate change scenario</Typography><br/>
         </FormLabel>
       {switchh.map((sname,index) => (
         <FormGroup>
