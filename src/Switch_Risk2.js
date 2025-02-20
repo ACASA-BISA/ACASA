@@ -936,7 +936,7 @@ export default function SwitchRisk2({
             </Typography>
           </FormLabel>
         )}
-                {exploreType === "Commodity" && activeCrop["wheat"] && (
+                {/*{exploreType === "Commodity" && activeCrop["wheat"] && (
                   <Typography
                     sx={(theme) => ({
                       color: theme.palette.mode === "dark" ? "white" : "black",
@@ -948,7 +948,7 @@ export default function SwitchRisk2({
                   >
                     Season: Spring wheat
                   </Typography>
-                )}
+                )}*/}
                 {exploreType === "Commodity" && activeCrop["rice"] && (
                   <Typography
                     sx={(theme) => ({

@@ -297,6 +297,7 @@ export default function CompV({
 
   const [paperWidth, setPaperWidth] = React.useState(0);
   const [boxWidth, setBoxWidth] = React.useState(0);
+  const [boxHeight, setBoxHeight] = React.useState(0);
 
   React.useEffect(() => {
     if (Only_Baseline.current) {
@@ -306,7 +307,8 @@ export default function CompV({
 
   React.useLayoutEffect(() => {
     if (gridRefs[1].current) {
-      setBoxWidth(gridRefs[1].current.offsetWidth); // Set the width after DOM updates
+      setBoxWidth(gridRefs[1].current.offsetWidth);
+      setBoxHeight(gridRefs[1].current.offsetHeight);
     }
   }, [gridRefs[1].current]);
 
@@ -336,6 +338,38 @@ export default function CompV({
 
     changeOptLayer(updatedState);
   };
+
+  function RiskType() {
+    let str = "Hazard";
+    if (
+      CurrRisk === "Risk Index" ||
+      CurrRisk === "Exposure Index" ||
+      CurrRisk === "Vulnerability Index" ||
+      CurrRisk === "District Level" ||
+      CurrRisk === "Downscaled Risk"
+    ) {
+      str = "Indices";
+    }
+    if (
+      CurrRisk === "Number of Animals per grid" ||
+      CurrRisk === "Cropped Area"
+    ) {
+      str = "Exposure";
+    }
+    if (
+      CurrRisk === "Irrigation" ||
+      CurrRisk === "Soil Water Holding Capacity" ||
+      CurrRisk === "Agriculture Income" ||
+      CurrRisk === "Soil Organic Carbon" ||
+      CurrRisk === "Feed/Fodder" ||
+      CurrRisk === "Rural infrastructure" ||
+      CurrRisk === "Economic Development Indicator" ||
+      CurrRisk === "Income"
+    ) {
+      str = "Vulnerability";
+    }
+    return str;
+  }
 
   return (
     <div className="viewer-container" style={{ overflow: "hidden" }}>
@@ -642,7 +676,48 @@ export default function CompV({
                         ></Map_Option>
                         {(CurrRisk !== "" ||
                           activeOpt !== "" ||
-                          NameImpact !== "") && (
+                          NameImpact !== "") &&
+                          RiskType() !== "Vulnerability" &&
+                          RiskType() !== "Exposure" && (
+                            <Popper
+                              open={true} // Always open
+                              anchorEl={gridRefs[index].current} // Anchor to the Grid container
+                              placement="bottom" // Position it at the bottom
+                              disablePortal={true} // Stay within the DOM hierarchy
+                              modifiers={[
+                                {
+                                  name: "offset",
+                                  options: {
+                                    offset: [3, -130], // Adjust distance from the container
+                                  },
+                                },
+                              ]}
+                            >
+                              <Paper
+                                elevation={1}
+                                sx={{
+                                  maxWidth: boxWidth - 18,
+                                  borderRadius: "5px",
+                                  padding: "3px",
+                                }}
+                              >
+                                <Legend_Small
+                                  location={activeRegion}
+                                  commodity={activeCrop}
+                                  adaption={activeOpt}
+                                  RiskName={CurrRisk}
+                                  scenario={scn}
+                                  ImpactName={NameImpact}
+                                  area_data3={area_dict3}
+                                  area_data4={area_dict4}
+                                  AdaptLayerName={AdaptLayerName}
+                                  displayLayer={displayLayer}
+                                ></Legend_Small>
+                              </Paper>
+                            </Popper>
+                          )}
+                        {(RiskType() === "Vulnerability" ||
+                          RiskType() === "Exposure") && (
                           <Popper
                             open={true} // Always open
                             anchorEl={gridRefs[index].current} // Anchor to the Grid container
@@ -652,32 +727,31 @@ export default function CompV({
                               {
                                 name: "offset",
                                 options: {
-                                  offset: [3, -130], // Adjust distance from the container
+                                  offset: [4, 32 - boxHeight], // Adjust distance from the container
                                 },
                               },
                             ]}
                           >
-                            <Paper
-                              elevation={1}
+                            <Box
                               sx={{
-                                maxWidth: boxWidth - 18,
-                                borderRadius: "5px",
-                                padding: "3px",
+                                height: boxHeight - 30,
+                                width: boxWidth - 10,
+                                bgcolor: "rgba(200, 200, 200, 0.9)",
                               }}
                             >
-                              <Legend_Small
-                                location={activeRegion}
-                                commodity={activeCrop}
-                                adaption={activeOpt}
-                                RiskName={CurrRisk}
-                                scenario={scn}
-                                ImpactName={NameImpact}
-                                area_data3={area_dict3}
-                                area_data4={area_dict4}
-                                AdaptLayerName={AdaptLayerName}
-                                displayLayer={displayLayer}
-                              ></Legend_Small>
-                            </Paper>
+                              <Typography
+                                align="center"
+                                sx={{
+                                  fontSize: "14px",
+                                  fontWeight: "bold",
+                                  fontFamily: "Karla",
+                                  alignItems: "center",
+                                  justifyItems: "center"
+                                }}
+                              >
+                                No data is currently available for this future scenario
+                              </Typography>
+                            </Box>
                           </Popper>
                         )}
                       </div>

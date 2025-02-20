@@ -18,8 +18,8 @@ export default function SwitchScale({
   changeScale,
 }) {
   const switch_type = [
-    "Commodity specific analysis",
-    "Regional analysis (non-commodity specific)",
+    "Commodity specific",
+    "Regional (non-commodity specific)",
   ];
   const switch_type_id = ["Commodity", "Regional"];
 
@@ -95,7 +95,7 @@ export default function SwitchScale({
               paddingTop: 2,
             })}
           >
-            Select analysis type
+            Select analysis scope
           </Typography>
           <br />
         </FormLabel>

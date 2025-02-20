@@ -40,7 +40,7 @@ export default function UnitCard({
      'Rural infrastructure': 'Road density used as proxy for rural infrastructure. Road density is length of rural roads per grid, km/grid', 
      'Economic Development Indicator': 'HDI used as proxy. Global estimates of the United Nations Human Development Index',
      'Feed/Fodder': 'Production and Usage of cereal residues in tonnes per grid [~5 X 5 km]',
-     'Cropped Area': 'Area under crop in hectares per grid [~5 X 5 km]'};
+     '': 'Area under crop in hectares per grid [~5 X 5 km]'};
 
   return (
     <Popper
