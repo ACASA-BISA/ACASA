@@ -1,19 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Grid,
-  Paper,
-  Typography,
-  Box,
-  MenuItem,
-  Select,
-  FormControl,
-  Popper,
-  InputLabel,
-  Slider,
-  IconButton,
-  Checkbox,
-  Button,
-} from "@mui/material";
+import { Grid, Paper, Typography, Box, MenuItem, Select, FormControl, Popper, InputLabel, Slider, IconButton, Checkbox, Button } from "@mui/material";
 import Map_Option from "./Comp_Map"; // Assuming this is your map component
 import "./font.css";
 import "./extra.css";
@@ -56,13 +42,7 @@ function useInterval(callback, delay) {
   }, [delay]);
 }
 
-const tabs = [
-  "Biophysical suitability",
-  "Adaptation benefits",
-  "Economic viability",
-  "Scalability",
-  "Gender suitability",
-];
+const tabs = ["Biophysical suitability", "Adaptation benefits", "Economic viability", "Scalability", "Gender suitability"];
 
 const ArrowTab = styled(Button)(({ theme, selected, isLast, isFirst }) => ({
   position: "relative",
@@ -70,9 +50,7 @@ const ArrowTab = styled(Button)(({ theme, selected, isLast, isFirst }) => ({
   borderRadius: 0,
   width: "450px",
   marginLeft: "-35px",
-  clipPath: isLast
-    ? "polygon(0 0, 100% 0, 100% 50%, 100% 100%, 0 100%, 10% 50%)"
-    : "polygon(0 0, 90% 0, 100% 50%, 90% 100%, 0 100%, 10% 50%)",
+  clipPath: isLast ? "polygon(0 0, 100% 0, 100% 50%, 100% 100%, 0 100%, 10% 50%)" : "polygon(0 0, 90% 0, 100% 50%, 90% 100%, 0 100%, 10% 50%)",
   backgroundColor: selected ? "#DDEB9D" : "#5A6C57",
   color: selected ? "black" : "white",
   fontWeight: "bold",
@@ -84,9 +62,7 @@ const ArrowTab = styled(Button)(({ theme, selected, isLast, isFirst }) => ({
     paddingLeft: "35px",
   },
   "&:hover": {
-    backgroundColor: selected
-      ? theme.palette.grey[300]
-      : theme.palette.grey[500],
+    backgroundColor: selected ? theme.palette.grey[300] : theme.palette.grey[500],
   },
   "&::before": {
     content: '""',
@@ -318,13 +294,7 @@ export default function CompV({
     },
   }));
 
-  const values = [
-    "Biophysical Suitability",
-    "Adaptation Benefits",
-    "Economic",
-    "Scalability",
-    "Gender",
-  ];
+  const values = ["Biophysical Suitability", "Adaptation Benefits", "Economic", "Scalability", "Gender"];
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
   const handleSelect = (index) => {
@@ -340,19 +310,10 @@ export default function CompV({
 
   function RiskType() {
     let str = "Hazard";
-    if (
-      CurrRisk === "Risk Index" ||
-      CurrRisk === "Exposure Index" ||
-      CurrRisk === "Vulnerability Index" ||
-      CurrRisk === "District Level" ||
-      CurrRisk === "Downscaled Risk"
-    ) {
+    if (CurrRisk === "Risk Index" || CurrRisk === "Exposure Index" || CurrRisk === "Vulnerability Index" || CurrRisk === "District Level" || CurrRisk === "Downscaled Risk") {
       str = "Indices";
     }
-    if (
-      CurrRisk === "Number of Animals per grid" ||
-      CurrRisk === "Cropped Area"
-    ) {
+    if (CurrRisk === "Number of Animals per grid" || CurrRisk === "Cropped Area") {
       str = "Exposure";
     }
     if (
@@ -477,10 +438,7 @@ export default function CompV({
               elevation={1}
               sx={{
                 width: "100%",
-                height:
-                  activeOpt === ""
-                    ? "calc(100vh - 155px)"
-                    : "calc(100vh - 175px)",
+                height: activeOpt === "" ? "calc(100vh - 155px)" : "calc(100vh - 175px)",
               }}
             >
               <div>
@@ -534,6 +492,7 @@ export default function CompV({
                         area_data4={area_dict4}
                         AdaptLayerName={AdaptLayerName}
                         displayLayer="Absolute"
+                        activeScale={activeScale}
                       ></Legend_Small>
                     </Paper>
                   </Popper>
@@ -550,8 +509,7 @@ export default function CompV({
                   <Box
                     sx={(theme) => ({
                       width: "100%",
-                      bgcolor:
-                        theme.palette.mode === "dark" ? "#2f6742" : "#C1E1C1",
+                      bgcolor: theme.palette.mode === "dark" ? "#2f6742" : "#C1E1C1",
                       height: "24px",
                       display: "flex",
                       flexDirection: "row",
@@ -589,10 +547,7 @@ export default function CompV({
                     elevation={1}
                     sx={{
                       width: "100%",
-                      height:
-                        activeOpt === ""
-                          ? "calc(100vh - 155px)"
-                          : "calc(100vh - 175px)",
+                      height: activeOpt === "" ? "calc(100vh - 155px)" : "calc(100vh - 175px)",
                     }}
                   >
                     {label === "Baseline" && (
@@ -613,9 +568,7 @@ export default function CompV({
                           exploreType={exploreType}
                           activeScale={activeScale}
                         ></Map_Option>
-                        {(CurrRisk !== "" ||
-                          activeOpt !== "" ||
-                          NameImpact !== "") && (
+                        {(CurrRisk !== "" || activeOpt !== "" || NameImpact !== "") && (
                           <Popper
                             open={true} // Always open
                             anchorEl={gridRefs[index].current} // Anchor to the Grid container
@@ -649,6 +602,7 @@ export default function CompV({
                                 area_data4={area_dict4}
                                 AdaptLayerName={AdaptLayerName}
                                 displayLayer="Absolute"
+                                activeScale={activeScale}
                               ></Legend_Small>
                             </Paper>
                           </Popper>
@@ -673,50 +627,46 @@ export default function CompV({
                           exploreType={exploreType}
                           activeScale={activeScale}
                         ></Map_Option>
-                        {(CurrRisk !== "" ||
-                          activeOpt !== "" ||
-                          NameImpact !== "") &&
-                          RiskType() !== "Vulnerability" &&
-                          RiskType() !== "Exposure" && (
-                            <Popper
-                              open={true} // Always open
-                              anchorEl={gridRefs[index].current} // Anchor to the Grid container
-                              placement="bottom" // Position it at the bottom
-                              disablePortal={true} // Stay within the DOM hierarchy
-                              modifiers={[
-                                {
-                                  name: "offset",
-                                  options: {
-                                    offset: [3, -130], // Adjust distance from the container
-                                  },
+                        {(CurrRisk !== "" || activeOpt !== "" || NameImpact !== "") && RiskType() !== "Vulnerability" && RiskType() !== "Exposure" && (
+                          <Popper
+                            open={true} // Always open
+                            anchorEl={gridRefs[index].current} // Anchor to the Grid container
+                            placement="bottom" // Position it at the bottom
+                            disablePortal={true} // Stay within the DOM hierarchy
+                            modifiers={[
+                              {
+                                name: "offset",
+                                options: {
+                                  offset: [3, -130], // Adjust distance from the container
                                 },
-                              ]}
+                              },
+                            ]}
+                          >
+                            <Paper
+                              elevation={1}
+                              sx={{
+                                maxWidth: boxWidth - 18,
+                                borderRadius: "5px",
+                                padding: "3px",
+                              }}
                             >
-                              <Paper
-                                elevation={1}
-                                sx={{
-                                  maxWidth: boxWidth - 18,
-                                  borderRadius: "5px",
-                                  padding: "3px",
-                                }}
-                              >
-                                <Legend_Small
-                                  location={activeRegion}
-                                  commodity={activeCrop}
-                                  adaption={activeOpt}
-                                  RiskName={CurrRisk}
-                                  scenario={scn}
-                                  ImpactName={NameImpact}
-                                  area_data3={area_dict3}
-                                  area_data4={area_dict4}
-                                  AdaptLayerName={AdaptLayerName}
-                                  displayLayer={displayLayer}
-                                ></Legend_Small>
-                              </Paper>
-                            </Popper>
-                          )}
-                        {(RiskType() === "Vulnerability" ||
-                          RiskType() === "Exposure") && (
+                              <Legend_Small
+                                location={activeRegion}
+                                commodity={activeCrop}
+                                adaption={activeOpt}
+                                RiskName={CurrRisk}
+                                scenario={scn}
+                                ImpactName={NameImpact}
+                                area_data3={area_dict3}
+                                area_data4={area_dict4}
+                                AdaptLayerName={AdaptLayerName}
+                                displayLayer={displayLayer}
+                                activeScale={activeScale}
+                              ></Legend_Small>
+                            </Paper>
+                          </Popper>
+                        )}
+                        {(RiskType() === "Vulnerability" || RiskType() === "Exposure" || CurrRisk === "Exposure Index" || CurrRisk === "Vulnerability Index") && (
                           <Popper
                             open={true} // Always open
                             anchorEl={gridRefs[index].current} // Anchor to the Grid container
@@ -736,6 +686,8 @@ export default function CompV({
                                 height: boxHeight - 30,
                                 width: boxWidth - 10,
                                 bgcolor: "rgba(200, 200, 200, 0.9)",
+                                alignContent: "center",
+                                alignItems: "center",
                               }}
                             >
                               <Typography
@@ -744,8 +696,6 @@ export default function CompV({
                                   fontSize: "14px",
                                   fontWeight: "bold",
                                   fontFamily: "Karla",
-                                  alignItems: "center",
-                                  justifyItems: "center"
                                 }}
                               >
                                 No data is currently available for this future scenario
@@ -806,10 +756,7 @@ value={futureModel} onChange={handleScenariochange}>
                     elevation={1}
                     sx={{
                       width: "100%",
-                      height:
-                        activeOpt === ""
-                          ? "calc(100vh - 155px)"
-                          : "calc(100vh - 175px)",
+                      height: activeOpt === "" ? "calc(100vh - 155px)" : "calc(100vh - 175px)",
                     }}
                   >
                     {label === "Baseline" && (
@@ -830,9 +777,7 @@ value={futureModel} onChange={handleScenariochange}>
                           exploreType={exploreType}
                           activeScale={activeScale}
                         ></Map_Option>
-                        {(CurrRisk !== "" ||
-                          activeOpt !== "" ||
-                          NameImpact !== "") && (
+                        {(CurrRisk !== "" || activeOpt !== "" || NameImpact !== "") && (
                           <Popper
                             open={true} // Always open
                             anchorEl={gridRefs[index].current} // Anchor to the Grid container
@@ -890,9 +835,7 @@ value={futureModel} onChange={handleScenariochange}>
                           exploreType={exploreType}
                           activeScale={activeScale}
                         ></Map_Option>
-                        {(CurrRisk !== "" ||
-                          activeOpt !== "" ||
-                          NameImpact !== "") && (
+                        {(CurrRisk !== "" || activeOpt !== "" || NameImpact !== "") && (
                           <Popper
                             open={true} // Always open
                             anchorEl={gridRefs[index].current} // Anchor to the Grid container
@@ -926,6 +869,7 @@ value={futureModel} onChange={handleScenariochange}>
                                 area_data4={area_dict4}
                                 AdaptLayerName={AdaptLayerName}
                                 displayLayer={displayLayer}
+                                activeScale={activeScale}
                               ></Legend_Small>
                             </Paper>
                           </Popper>
@@ -950,9 +894,7 @@ value={futureModel} onChange={handleScenariochange}>
                           exploreType={exploreType}
                           activeScale={activeScale}
                         ></Map_Option>
-                        {(CurrRisk !== "" ||
-                          activeOpt !== "" ||
-                          NameImpact !== "") && (
+                        {(CurrRisk !== "" || activeOpt !== "" || NameImpact !== "") && (
                           <Popper
                             open={true} // Always open
                             anchorEl={gridRefs[index].current} // Anchor to the Grid container

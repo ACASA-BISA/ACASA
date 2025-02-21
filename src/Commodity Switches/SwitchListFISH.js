@@ -37,8 +37,7 @@ export default function SwitchFish({ activeCrop, changeCrop }) {
         "& + .MuiSwitch-track": {
           opacity: 1,
           // 4ba046 and 4aba03 and dea426 and b9f04d
-          backgroundColor:
-            theme.palette.mode === "dark" ? "#177ddc" : "#4ba046",
+          backgroundColor: theme.palette.mode === "dark" ? "#177ddc" : "#4ba046",
         },
       },
     },
@@ -54,10 +53,7 @@ export default function SwitchFish({ activeCrop, changeCrop }) {
     "& .MuiSwitch-track": {
       borderRadius: 14 / 2,
       opacity: 1,
-      backgroundColor:
-        theme.palette.mode === "dark"
-          ? "rgba(255,255,255,.35)"
-          : "rgba(0,0,0,.10)",
+      backgroundColor: theme.palette.mode === "dark" ? "rgba(255,255,255,.35)" : "rgba(0,0,0,.10)",
       boxSizing: "border-box",
     },
     "&:hover": {
@@ -66,30 +62,16 @@ export default function SwitchFish({ activeCrop, changeCrop }) {
       borderRadius: 12,
       "& .MuiSwitch-track": {
         opacity: 1,
-        backgroundColor:
-          theme.palette.mode === "dark"
-            ? "rgba(255,255,255,.35)"
-            : "rgba(255,255,255,.7)",
+        backgroundColor: theme.palette.mode === "dark" ? "rgba(255,255,255,.35)" : "rgba(255,255,255,.7)",
       },
     },
   }));
   return (
-    <FormControl
-      component="fieldset"
-      variant="standard"
-      sx={{ paddingBottom: 1, paddingLeft: 6 }}
-    >
+    <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
       <FormGroup>
         {switchid.map((sname, index) => (
           <FormControlLabel
-            control={
-              <AntSwitch
-                inputProps={{ "aria-label": "ant design" }}
-                checked={activeCrop[sname]}
-                onChange={changeCrop(sname)}
-                name={sname}
-              />
-            }
+            control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeCrop[sname]} onChange={changeCrop(sname)} name={sname} />}
             key={sname}
             label={
               <Typography variant="body2" sx={{ paddingLeft: 1 }}>

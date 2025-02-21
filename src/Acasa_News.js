@@ -29,8 +29,7 @@ export default function News() {
         {/* Container for the first news item */}
         <Box
           sx={(theme) => ({
-            backgroundColor:
-              theme.palette.mode === "dark" ? "#1b1f23" : "#f1f1f1",
+            backgroundColor: theme.palette.mode === "dark" ? "#1b1f23" : "#f1f1f1",
             borderRadius: "8px",
             display: "flex",
             flexDirection: "row",
@@ -61,8 +60,7 @@ export default function News() {
               Issue 02
             </Typography>
             <Typography sx={(theme) => ({ color: theme.palette.text.primary })}>
-              ACASA second newsletter - our progress and development, events,
-              posts, data and methods, and media presence...
+              ACASA second newsletter - our progress and development, events, posts, data and methods, and media presence...
               {/* Link to read more about the first news item */}
               <Typography
                 component="a"
@@ -70,8 +68,7 @@ export default function News() {
                 target="_blank"
                 sx={{
                   fontWeight: "bold",
-                  color: (theme) =>
-                    theme.palette.mode === "dark" ? "text.secondary" : "#333333",
+                  color: (theme) => (theme.palette.mode === "dark" ? "text.secondary" : "#333333"),
                   textDecoration: "none",
                   "&:hover": {
                     textDecoration: "underline",
@@ -84,8 +81,7 @@ export default function News() {
             </Typography>
             <Typography
               sx={(theme) => ({
-                color:
-                  theme.palette.mode === "dark" ? "text.secondary" : "#444444",
+                color: theme.palette.mode === "dark" ? "text.secondary" : "#444444",
                 marginTop: "20px",
               })}
             >
@@ -97,8 +93,7 @@ export default function News() {
         {/* Container for the second news item */}
         <Box
           sx={(theme) => ({
-            backgroundColor:
-              theme.palette.mode === "dark" ? "#1b1f23" : "#f1f1f1",
+            backgroundColor: theme.palette.mode === "dark" ? "#1b1f23" : "#f1f1f1",
             borderRadius: "8px",
             display: "flex",
             flexDirection: "row",
@@ -129,9 +124,7 @@ export default function News() {
               Issue 01
             </Typography>
             <Typography sx={(theme) => ({ color: theme.palette.text.primary })}>
-              ACASA inaugural newsletter - our mission, vision, approach,
-              events, partner expectations, advisory panel, data and methods,
-              and media presence...
+              ACASA inaugural newsletter - our mission, vision, approach, events, partner expectations, advisory panel, data and methods, and media presence...
               {/* Link to read more about the second news item */}
               <Typography
                 component="a"
@@ -139,8 +132,7 @@ export default function News() {
                 target="_blank"
                 sx={{
                   fontWeight: "bold",
-                  color: (theme) =>
-                    theme.palette.mode === "dark" ? "text.secondary" : "#333333",
+                  color: (theme) => (theme.palette.mode === "dark" ? "text.secondary" : "#333333"),
                   textDecoration: "none",
                   "&:hover": {
                     textDecoration: "underline",
@@ -153,8 +145,7 @@ export default function News() {
             </Typography>
             <Typography
               sx={(theme) => ({
-                color:
-                  theme.palette.mode === "dark" ? "text.secondary" : "#444444",
+                color: theme.palette.mode === "dark" ? "text.secondary" : "#444444",
                 marginTop: "20px",
               })}
             >

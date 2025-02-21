@@ -10,42 +10,19 @@ import IconButton from "@mui/material/IconButton";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import LightTooltip from "./LightTooltip";
 
-export default function SwitchScenario({
-  activeScenario,
-  changeScenario,
-  activeModel,
-  changeModel,
-}) {
+export default function SwitchScenario({ activeScenario, changeScenario, activeModel, changeModel }) {
   const switchh = ["Baseline", "SSP 2-4.5", "SSP 5-8.5"];
   const switchid = ["baseline", "ssp245", "ssp585"];
   const disvar = { baseline: false, ssp245: false, ssp585: false };
-  const scenarioinfo = [
-    "To be updated later.",
-    "To be updated later.",
-    "To be updated later.",
-  ];
+  const scenarioinfo = ["To be updated later.", "To be updated later.", "To be updated later."];
 
   const parents = ["ISIMIP"];
   const switchh2 = ["CHC"];
   const switchid2 = ["CHC"];
   const parentinfo = ["To be updated later.", "To be updated later."];
 
-  const switchh3 = [
-    "CANESM5",
-    "CNRM-CM6-1",
-    "CNRM-ESM-1",
-    " EC-Earth3",
-    "MIROC6",
-    "Ensemble",
-  ];
-  const switchid3 = [
-    "CANESM5",
-    "CNRM-CM6-1",
-    "CNRM-ESM-1",
-    " EC-Earth3",
-    "MIROC6",
-    "Ensemble",
-  ];
+  const switchh3 = ["CANESM5", "CNRM-CM6-1", "CNRM-ESM-1", " EC-Earth3", "MIROC6", "Ensemble"];
+  const switchid3 = ["CANESM5", "CNRM-CM6-1", "CNRM-ESM-1", " EC-Earth3", "MIROC6", "Ensemble"];
   const disvar2 = {
     CHC: false,
     ISIMIP: false,
@@ -56,14 +33,7 @@ export default function SwitchScenario({
     MIROC6: false,
     Ensemble: false,
   };
-  const datainfo = [
-    "To be updated later.",
-    "To be updated later.",
-    "To be updated later.",
-    "To be updated later.",
-    "To be updated later.",
-    "To be updated later.",
-  ];
+  const datainfo = ["To be updated later.", "To be updated later.", "To be updated later.", "To be updated later.", "To be updated later.", "To be updated later."];
   const padd = 8;
 
   function createInitialPRT() {
@@ -93,8 +63,7 @@ export default function SwitchScenario({
         color: "#fff",
         "& + .MuiSwitch-track": {
           opacity: 1,
-          backgroundColor:
-            theme.palette.mode === "dark" ? "#61c258" : "#4ba046",
+          backgroundColor: theme.palette.mode === "dark" ? "#61c258" : "#4ba046",
         },
       },
     },
@@ -110,33 +79,29 @@ export default function SwitchScenario({
     "& .MuiSwitch-track": {
       borderRadius: 14 / 2,
       opacity: 1,
-      backgroundColor:
-        theme.palette.mode === "dark"
-          ? "rgba(255,255,255,.25)"
-          : "rgba(0,0,0,.10)",
+      backgroundColor: theme.palette.mode === "dark" ? "rgba(255,255,255,.25)" : "rgba(0,0,0,.10)",
       boxSizing: "border-box",
     },
-    "&:hover .MuiSwitch-track": {
+    "&:hover": {
+      backgroundColor: theme.palette.mode === "dark" ? "#554d38" : "#ffe89c",
       opacity: 1,
-      backgroundColor:
-        theme.palette.mode === "dark"
-          ? "rgba(255,255,255,.35)"
-          : "rgba(255,255,255,.7)",
+      borderRadius: 12,
+      "& .MuiSwitch-track": {
+        opacity: 1,
+        backgroundColor: theme.palette.mode === "dark" ? "rgba(255,255,255,.25)" : "rgba(255,255,255,.7)",
+      },
     },
   }));
 
   const CustomFormControlLabel = styled(FormControlLabel)(({ theme }) => ({
+    alignItems: "flex-start",
     "&.Mui-disabled .MuiTypography-body2": {
       color: theme.palette.mode === "dark" ? "#888" : "#ccc",
     },
   }));
 
   return (
-    <FormControl
-      component="fieldset"
-      variant="standard"
-      sx={{ paddingBottom: 1, paddingLeft: 3 }}
-    >
+    <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 3 }}>
       <FormLabel sx={{ display: "flex", paddingBottom: 1 }}>
         <Typography
           sx={(theme) => ({
@@ -146,21 +111,14 @@ export default function SwitchScenario({
             paddingTop: 2,
           })}
         >
-          Select scenario
+          Select climate change scenario
         </Typography>
         <br />
       </FormLabel>
       {switchh.map((sname, index) => (
         <FormGroup>
           <CustomFormControlLabel
-            control={
-              <AntSwitch
-                inputProps={{ "aria-label": "ant design" }}
-                checked={activeScenario[switchid[index]]}
-                onChange={changeScenario(switchid[index])}
-                name={switchid[index]}
-              />
-            }
+            control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeScenario[switchid[index]]} onChange={changeScenario(switchid[index])} name={switchid[index]} />}
             key={switchid[index]}
             disabled={disvar[switchid[index]]}
             label={
@@ -173,9 +131,7 @@ export default function SwitchScenario({
                         <span>{scenarioinfo[index]}</span>
                         <br />
                         <Link
-                          href={`#/resources?tab=4&term=${switchh[
-                            index
-                          ].toLowerCase()}`}
+                          href={`#/resources?tab=4&term=${switchh[index].toLowerCase()}`}
                           target="_blank"
                           sx={{
                             color: "white",
@@ -190,9 +146,7 @@ export default function SwitchScenario({
                     arrow
                   >
                     <IconButton sx={{ padding: 0, margin: 0, paddingX: "4px" }}>
-                      <InfoOutlinedIcon
-                        sx={{ fontSize: "12px", padding: 0, margin: 0 }}
-                      />
+                      <InfoOutlinedIcon sx={{ fontSize: "12px", padding: 0, margin: 0 }} />
                     </IconButton>
                   </LightTooltip>
                 )}
@@ -217,14 +171,7 @@ export default function SwitchScenario({
       {switchh2.map((sname, index) => (
         <FormGroup>
           <CustomFormControlLabel
-            control={
-              <AntSwitch
-                inputProps={{ "aria-label": "ant design" }}
-                checked={switchid2[index] === activeModel}
-                onChange={changeModel(switchid2[index])}
-                name={switchid2[index]}
-              />
-            }
+            control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={switchid2[index] === activeModel} onChange={changeModel(switchid2[index])} name={switchid2[index]} />}
             key={switchid2[index]}
             disabled={disvar2[switchid2[index]]}
             label={
@@ -238,14 +185,7 @@ export default function SwitchScenario({
       {parents.map((sname, index) => (
         <FormGroup>
           <CustomFormControlLabel
-            control={
-              <AntSwitch
-                inputProps={{ "aria-label": "ant design" }}
-                checked={PRT[sname]}
-                onChange={handleChangePRT(sname)}
-                name={parents[index]}
-              />
-            }
+            control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={PRT[sname]} onChange={handleChangePRT(sname)} name={parents[index]} />}
             key={parents[index]}
             disabled={disvar2[sname]}
             label={
@@ -255,22 +195,11 @@ export default function SwitchScenario({
             }
           />
           {PRT["ISIMIP"] === true && (
-            <FormControl
-              component="fieldset"
-              variant="standard"
-              sx={{ paddingBottom: 1, paddingLeft: 5 }}
-            >
+            <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 5 }}>
               {switchh3.map((sname, index) => (
                 <FormGroup>
                   <CustomFormControlLabel
-                    control={
-                      <AntSwitch
-                        inputProps={{ "aria-label": "ant design" }}
-                        checked={switchid3[index] === activeModel}
-                        onChange={changeModel(switchid3[index])}
-                        name={switchid3[index]}
-                      />
-                    }
+                    control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={switchid3[index] === activeModel} onChange={changeModel(switchid3[index])} name={switchid3[index]} />}
                     key={switchid3[index]}
                     disabled={disvar2[switchid3[index]]}
                     label={
@@ -283,9 +212,7 @@ export default function SwitchScenario({
                                 <span>{datainfo[index]}</span>
                                 <br />
                                 <Link
-                                  href={`#/resources?tab=4&term=${switchh3[
-                                    index
-                                  ].toLowerCase()}`}
+                                  href={`#/resources?tab=4&term=${switchh3[index].toLowerCase()}`}
                                   target="_blank"
                                   sx={{
                                     color: "white",
@@ -299,12 +226,8 @@ export default function SwitchScenario({
                             placement="top"
                             arrow
                           >
-                            <IconButton
-                              sx={{ padding: 0, margin: 0, paddingX: "4px" }}
-                            >
-                              <InfoOutlinedIcon
-                                sx={{ fontSize: "12px", padding: 0, margin: 0 }}
-                              />
+                            <IconButton sx={{ padding: 0, margin: 0, paddingX: "4px" }}>
+                              <InfoOutlinedIcon sx={{ fontSize: "12px", padding: 0, margin: 0 }} />
                             </IconButton>
                           </LightTooltip>
                         )}

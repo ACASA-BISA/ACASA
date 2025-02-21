@@ -10,24 +10,8 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import LightTooltip from "../LightTooltip";
 
 export default function SwitchCereals({ activeCrop, changeCrop }) {
-  const switchh = [
-    "Rice",
-    "Wheat",
-    "Maize",
-    "Barley",
-    "Sorghum",
-    "Finger Millet",
-    "Pearl Millet",
-  ];
-  const switchid = [
-    "rice",
-    "wheat",
-    "maize",
-    "barley",
-    "sorghum",
-    "fmillet",
-    "pmillet",
-  ];
+  const switchh = ["Rice", "Wheat", "Maize", "Barley", "Sorghum", "Finger Millet", "Pearl Millet"];
+  const switchid = ["rice", "wheat", "maize", "barley", "sorghum", "fmillet", "pmillet"];
   const disvar = {
     rice: false,
     wheat: false,
@@ -53,7 +37,7 @@ export default function SwitchCereals({ activeCrop, changeCrop }) {
     height: 14 + padd,
     padding: padd / 2,
     display: "flex",
-  
+
     "& .MuiSwitch-switchBase": {
       padding: 2 + padd / 2,
       "&.Mui-checked": {
@@ -61,8 +45,7 @@ export default function SwitchCereals({ activeCrop, changeCrop }) {
         color: "#fff",
         "& + .MuiSwitch-track": {
           opacity: 1,
-          backgroundColor:
-            theme.palette.mode === "dark" ? "#61c258" : "#4ba046",
+          backgroundColor: theme.palette.mode === "dark" ? "#61c258" : "#4ba046",
         },
       },
     },
@@ -78,43 +61,34 @@ export default function SwitchCereals({ activeCrop, changeCrop }) {
     "& .MuiSwitch-track": {
       borderRadius: 14 / 2,
       opacity: 1,
-      backgroundColor:
-        theme.palette.mode === "dark" ? "rgba(255,255,255,.25)" : "rgba(0,0,0,.10)",
+      backgroundColor: theme.palette.mode === "dark" ? "rgba(255,255,255,.25)" : "rgba(0,0,0,.10)",
       boxSizing: "border-box",
     },
-    "&:hover .MuiSwitch-track": {
+    "&:hover": {
+      backgroundColor: theme.palette.mode === "dark" ? "#554d38" : "#ffe89c",
       opacity: 1,
-      backgroundColor:
-        theme.palette.mode === "dark"
-          ? "rgba(255,255,255,.35)"
-          : "rgba(255,255,255,.7)",
+      borderRadius: 12,
+      "& .MuiSwitch-track": {
+        opacity: 1,
+        backgroundColor: theme.palette.mode === "dark" ? "rgba(255,255,255,.25)" : "rgba(255,255,255,.7)",
+      },
     },
   }));
-  
+
   const CustomFormControlLabel = styled(FormControlLabel)(({ theme }) => ({
+    alignItems: "flex-start",
     "&.Mui-disabled .MuiTypography-body2": {
+      alignItems: "flex-start",
       color: theme.palette.mode === "dark" ? "#888" : "#ccc",
     },
   }));
-  
 
   return (
-    <FormControl
-      component="fieldset"
-      variant="standard"
-      sx={{ paddingBottom: 1, paddingLeft: 6 }}
-    >
+    <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
       {switchh.map((sname, index) => (
         <FormGroup>
           <CustomFormControlLabel
-            control={
-              <AntSwitch
-                inputProps={{ "aria-label": "ant design" }}
-                checked={activeCrop[switchid[index]]}
-                onChange={changeCrop(switchid[index])}
-                name={switchid[index]}
-              />
-            }
+            control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeCrop[switchid[index]]} onChange={changeCrop(switchid[index])} name={switchid[index]} />}
             key={switchid[index]}
             disabled={disvar[switchid[index]]}
             label={
@@ -127,7 +101,7 @@ export default function SwitchCereals({ activeCrop, changeCrop }) {
                         <span>{season[index]}</span>
                         <br />
                         <Link
-                          href={`#/resources?tab=4&term=${switchh[index].toLowerCase()}`} 
+                          href={`#/resources?tab=4&term=${switchh[index].toLowerCase()}`}
                           target="_blank"
                           sx={{
                             color: "white",
@@ -142,9 +116,7 @@ export default function SwitchCereals({ activeCrop, changeCrop }) {
                     arrow
                   >
                     <IconButton sx={{ padding: 0, margin: 0, paddingX: "4px" }}>
-                      <InfoOutlinedIcon
-                        sx={{ fontSize: "12px", padding: 0, margin: 0 }}
-                      />
+                      <InfoOutlinedIcon sx={{ fontSize: "12px", padding: 0, margin: 0 }} />
                     </IconButton>
                   </LightTooltip>
                 )}

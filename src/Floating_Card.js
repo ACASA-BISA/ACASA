@@ -650,7 +650,7 @@ export default function LocationCard({
         ref={cardRef}
         style={{
           position: "fixed",
-          right: 20,
+          right: 50,
           top: 142,
           boxShadow: (theme) =>
             theme.palette.mode === "dark"

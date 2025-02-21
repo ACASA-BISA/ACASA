@@ -11,16 +11,8 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 
-export default function SwitchScale({
-  exploreType,
-  handleExploreTypeChange,
-  activeScale,
-  changeScale,
-}) {
-  const switch_type = [
-    "Commodity specific",
-    "Regional (non-commodity specific)",
-  ];
+export default function SwitchScale({ exploreType, handleExploreTypeChange, activeScale, changeScale }) {
+  const switch_type = ["Commodity specific", "Regional (non-commodity specific)"];
   const switch_type_id = ["Commodity", "Regional"];
 
   const switch_type2 = ["Pixel level", "District level", "State level"];
@@ -41,8 +33,7 @@ export default function SwitchScale({
         color: "#fff",
         "& + .MuiSwitch-track": {
           opacity: 1,
-          backgroundColor:
-            theme.palette.mode === "dark" ? "#61c258" : "#4ba046",
+          backgroundColor: theme.palette.mode === "dark" ? "#61c258" : "#4ba046",
         },
       },
     },
@@ -58,22 +49,22 @@ export default function SwitchScale({
     "& .MuiSwitch-track": {
       borderRadius: 14 / 2,
       opacity: 1,
-      backgroundColor:
-        theme.palette.mode === "dark"
-          ? "rgba(255,255,255,.25)"
-          : "rgba(0,0,0,.10)",
+      backgroundColor: theme.palette.mode === "dark" ? "rgba(255,255,255,.25)" : "rgba(0,0,0,.10)",
       boxSizing: "border-box",
     },
-    "&:hover .MuiSwitch-track": {
+    "&:hover": {
+      backgroundColor: theme.palette.mode === "dark" ? "#554d38" : "#ffe89c",
       opacity: 1,
-      backgroundColor:
-        theme.palette.mode === "dark"
-          ? "rgba(255,255,255,.35)"
-          : "rgba(255,255,255,.7)",
+      borderRadius: 12,
+      "& .MuiSwitch-track": {
+        opacity: 1,
+        backgroundColor: theme.palette.mode === "dark" ? "rgba(255,255,255,.25)" : "rgba(255,255,255,.7)",
+      },
     },
   }));
 
   const CustomFormControlLabel = styled(FormControlLabel)(({ theme }) => ({
+    alignItems: "flex-start",
     "&.Mui-disabled .MuiTypography-body2": {
       color: theme.palette.mode === "dark" ? "#888" : "#CCC",
     },
@@ -81,11 +72,7 @@ export default function SwitchScale({
 
   return (
     <div>
-      <FormControl
-        component="fieldset"
-        variant="standard"
-        sx={{ paddingBottom: 1, paddingLeft: 3, paddingTop: 1 }}
-      >
+      <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 3, paddingTop: 1 }}>
         <FormLabel sx={{ display: "flex", paddingBottom: 1 }}>
           <Typography
             sx={(theme) => ({
@@ -102,14 +89,7 @@ export default function SwitchScale({
         {switch_type_id.map((sname, indexx) => (
           <FormGroup>
             <CustomFormControlLabel
-              control={
-                <AntSwitch
-                  inputProps={{ "aria-label": "ant design" }}
-                  checked={sname === exploreType ? true : false}
-                  onChange={handleExploreTypeChange(sname)}
-                  name={sname}
-                />
-              }
+              control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={sname === exploreType ? true : false} onChange={handleExploreTypeChange(sname)} name={sname} />}
               disabled={false}
               key={sname}
               label={
@@ -147,14 +127,7 @@ export default function SwitchScale({
         {switch_type_id2.map((sname, indexx) => (
           <FormGroup>
             <CustomFormControlLabel
-              control={
-                <AntSwitch
-                  inputProps={{ "aria-label": "ant design" }}
-                  checked={sname === activeScale ? true : false}
-                  onChange={changeScale(sname)}
-                  name={sname}
-                />
-              }
+              control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={sname === activeScale ? true : false} onChange={changeScale(sname)} name={sname} />}
               disabled={false}
               key={sname}
               label={

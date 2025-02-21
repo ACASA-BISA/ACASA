@@ -4,12 +4,7 @@ import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
-import {
-  GrassOutlined,
-  HomeOutlined,
-  LocationOnOutlined,
-  AccessTimeOutlined,
-} from "@mui/icons-material";
+import { GrassOutlined, HomeOutlined, LocationOnOutlined, AccessTimeOutlined } from "@mui/icons-material";
 import YardOutlinedIcon from "@mui/icons-material/YardOutlined";
 import SwitchCom from "./Switch_Commodity";
 import { ClickAwayListener } from "@mui/base/ClickAwayListener";
@@ -31,26 +26,8 @@ import "./font2.css";
 
 const top_margin = 95;
 let extra = 0;
-const Items = [
-  "Go to Home",
-  "Select Region",
-  "Analysis & Scale",
-  "Select Commodity",
-  "Select Scenario",
-  "Climatic Risks",
-  "Impact",
-  "Adaptation Options",
-];
-const Items2 = [
-  "Home",
-  "Region",
-  "Scale",
-  "Commodity",
-  "Scenario",
-  "Risks",
-  "Impact",
-  "Adaptation",
-];
+const Items = ["Go to Home", "Select Region", "Analysis & Scale", "Select Commodity", "Select Scenario", "Climatic Risks", "Impact", "Adaptation Options"];
+const Items2 = ["Home", "Region", "Scale", "Commodity", "Scenario", "Risks", "Impact", "Adaptation"];
 
 export default function DrawerV({
   activeCrop,
@@ -120,24 +97,17 @@ export default function DrawerV({
   };
   function colorofbutton(Item, theme) {
     if (!theme) return "rgba(14, 33, 1, 0.0)"; // Fallback to prevent errors
-  
+
     if (open[Item]) {
-      return theme.palette.mode === "dark"
-        ?  "rgba(115, 190, 115, 1)" 
-        : "rgba(10, 30, 1, 0.9)";
+      return theme.palette.mode === "dark" ? "rgba(115, 190, 115, 1)" : "rgba(10, 30, 1, 0.9)";
     }
-  
+
     if (exploreType === "Regional" && Item === "Select Commodity") {
-      return theme.palette.mode === "dark"
-        ? "rgba(130, 205, 130, 1)" 
-        : "rgba(180, 200, 180, 0.7)";
+      return theme.palette.mode === "dark" ? "rgba(130, 205, 130, 1)" : "rgba(180, 200, 180, 0.7)";
     }
-  
-    return theme.palette.mode === "dark"
-      ? "rgba(105, 170, 105, 0.75)"
-      : "rgba(14, 33, 1, 0.0)";
+
+    return theme.palette.mode === "dark" ? "rgba(105, 170, 105, 0.75)" : "rgba(14, 33, 1, 0.0)";
   }
-  
 
   const handleClickAway = () => {
     const newState = { ...open };
@@ -185,63 +155,48 @@ export default function DrawerV({
     return marg;
   }
 
-  const LightTooltip = styled(({ className, ...props }) => (
-    <Tooltip {...props} classes={{ popper: className }} />
-  ))(({ theme }) => ({
+  const LightTooltip = styled(({ className, ...props }) => <Tooltip {...props} classes={{ popper: className }} />)(({ theme }) => ({
     [`& .${tooltipClasses.tooltip}`]: {
-      backgroundColor:
-        theme.palette.mode === "dark" ? "#25292e" : theme.palette.common.white,
+      backgroundColor: theme.palette.mode === "dark" ? "#25292e" : theme.palette.common.white,
       color: theme.palette.mode === "dark" ? "#e0e0e0" : "rgba(0, 0, 0, 0.87)",
       boxShadow: theme.shadows[1],
       fontSize: 13,
-      border:
-        theme.palette.mode === "dark"
-          ? "1px solid rgba(255, 255, 255, 0.1)"
-          : "none",
+      border: theme.palette.mode === "dark" ? "1px solid rgba(255, 255, 255, 0.1)" : "none",
     },
   }));
 
   return (
     <div style={{ overflow: "hidden", height: "auto" }}>
-      <ClickAwayListener
-        mouseEvent="onMouseDown"
-        touchEvent="onTouchStart"
-        onClickAway={handleClickAway}
-      >
+      <ClickAwayListener mouseEvent="onMouseDown" touchEvent="onTouchStart" onClickAway={handleClickAway}>
         <div style={{ overflow: "hidden" }}>
           <List>
             {Items.map((Item, index) => (
               <Popper open={true}>
-                <div
+                <Box
                   style={{
                     position: "relative",
-                    zIndex: 1000 /*(theme) => theme.zIndex.map + 1, (I am hardcoding this as it is causing some issue with the dark theme implementaion)*/,
+                    zIndex: (theme) => theme.zIndex.map + 1,
                     left: 10,
                     top: topmarg(index),
                     margin: 4,
                     padding: 2,
                     boxShadow: "0px 0px 0px #aaa",
-                    backgroundColor: ((exploreType==='Regional'&&Items2[index]==='Commodity')?'rgba(140, 150, 140, 0.7)':'rgba(14, 33, 1, 0.7)'), 
-                    border: (theme) =>
-                      `0px solid ${
-                        theme.palette.mode === "dark" ? "#b99b30" : "#fece2f"
-                      }`,
+                    backgroundColor: exploreType === "Regional" && Items2[index] === "Commodity" ? "rgba(140, 150, 140, 0.7)" : "rgba(14, 33, 1, 0.7)",
                     width: widthh,
                     height: heightdrawer,
                     borderRadius: "3px",
                   }}
+                  sx={{ border: (theme) => `0px solid ${theme.palette.mode === "dark" ? "#b99b30" : "#fece2f"}` }}
                 >
                   <ListItem
                     key={Item}
                     onClick={toggleList(Item)}
                     disablePadding
                     sx={(theme) => ({
-                      color:
-                        theme.palette.mode === "dark" ? "#000000" : "#ffffff",
+                      color: theme.palette.mode === "dark" ? "#000000" : "#ffffff",
                       "&:hover": {
                         backgroundColor:
-                          exploreType === "Regional" &&
-                          Items2[index] === "Commodity"
+                          exploreType === "Regional" && Items2[index] === "Commodity"
                             ? theme.palette.mode === "dark"
                               ? "rgba(100, 110, 100, 0.5)"
                               : "rgba(140, 150, 140, 0.7)"
@@ -249,7 +204,7 @@ export default function DrawerV({
                             ? "#b99b30"
                             : "#fece2f",
                       },
-                      backgroundColor: colorofbutton(Item, theme), 
+                      backgroundColor: colorofbutton(Item, theme),
                       height: "100%",
                     })}
                   >
@@ -272,10 +227,7 @@ export default function DrawerV({
                               marginY: "auto",
                               padding: 0,
                               fontSize: "20px",
-                              color:
-                                theme.palette.mode === "dark"
-                                  ? "#000000"
-                                  : "#ffffff",
+                              color: theme.palette.mode === "dark" ? "#000000" : "#ffffff",
                             })}
                           />
                         )}
@@ -285,10 +237,7 @@ export default function DrawerV({
                               marginY: "auto",
                               padding: 0,
                               fontSize: "20px",
-                              color:
-                                theme.palette.mode === "dark"
-                                  ? "#000000"
-                                  : "#ffffff",
+                              color: theme.palette.mode === "dark" ? "#000000" : "#ffffff",
                             })}
                           />
                         )}
@@ -298,10 +247,7 @@ export default function DrawerV({
                               marginY: "auto",
                               padding: 0,
                               fontSize: "20px",
-                              color:
-                                theme.palette.mode === "dark"
-                                  ? "#000000"
-                                  : "#ffffff",
+                              color: theme.palette.mode === "dark" ? "#000000" : "#ffffff",
                             })}
                           />
                         )}
@@ -311,10 +257,7 @@ export default function DrawerV({
                               marginY: "auto",
                               padding: 0,
                               fontSize: "20px",
-                              color:
-                                theme.palette.mode === "dark"
-                                  ? "#000000"
-                                  : "#ffffff",
+                              color: theme.palette.mode === "dark" ? "#000000" : "#ffffff",
                             })}
                           />
                         )}
@@ -324,10 +267,7 @@ export default function DrawerV({
                               marginY: "auto",
                               padding: 0,
                               fontSize: "20px",
-                              color:
-                                theme.palette.mode === "dark"
-                                  ? "#000000"
-                                  : "#ffffff",
+                              color: theme.palette.mode === "dark" ? "#000000" : "#ffffff",
                             })}
                           />
                         )}
@@ -337,10 +277,7 @@ export default function DrawerV({
                               marginY: "auto",
                               padding: 0,
                               fontSize: "20px",
-                              color:
-                                theme.palette.mode === "dark"
-                                  ? "#000000"
-                                  : "#ffffff",
+                              color: theme.palette.mode === "dark" ? "#000000" : "#ffffff",
                             })}
                           />
                         )}
@@ -350,10 +287,7 @@ export default function DrawerV({
                               marginY: "auto",
                               padding: 0,
                               fontSize: "20px",
-                              color:
-                                theme.palette.mode === "dark"
-                                  ? "#000000"
-                                  : "#ffffff",
+                              color: theme.palette.mode === "dark" ? "#000000" : "#ffffff",
                             })}
                           />
                         )}
@@ -363,10 +297,7 @@ export default function DrawerV({
                               marginY: "auto",
                               padding: 0,
                               fontSize: "20px",
-                              color:
-                                theme.palette.mode === "dark"
-                                  ? "#000000"
-                                  : "#ffffff",
+                              color: theme.palette.mode === "dark" ? "#000000" : "#ffffff",
                             })}
                           />
                         )}
@@ -387,7 +318,7 @@ export default function DrawerV({
                       </Box>
                     </ListItemButton>
                   </ListItem>
-                </div>
+                </Box>
               </Popper>
             ))}
           </List>
@@ -396,34 +327,29 @@ export default function DrawerV({
             <List>
               {Items2.map((Item, index) => (
                 <Popper open={DrOpen} transition="fade">
-                  <div
+                  <Box
                     style={{
                       position: "relative",
-                      zIndex: 1000 /*Hardcoded this as well to avoid any override issues while implementing dark theme*/,
+                      zIndex: (theme) => theme.zIndex.map + 1,
                       left: 1,
                       top: topmarg(index) + heightdrawer,
                       margin: 4,
                       padding: 3,
                       boxShadow: "0px 1px 0px #aaa",
-                      backgroundColor: (theme) =>
-                        theme.palette.mode === "dark"
-                          ? "rgba(60, 60, 60, 1)"
-                          : "rgba(220, 220, 220, 1)",
-                      border: (theme) =>
-                        `0px solid ${
-                          theme.palette.mode === "dark" ? "#b99b30" : "#fece2f"
-                        }`,
                       width: "72px",
                       height: "15px",
                       borderRadius: "3px",
+                    }}
+                    sx={{
+                      backgroundColor: (theme) => (theme.palette.mode === "dark" ? "rgba(60, 60, 60, 1)" : "rgba(220, 220, 220, 1)"),
+                      border: (theme) => `0px solid ${theme.palette.mode === "dark" ? "#b99b30" : "#fece2f"}`,
                     }}
                   >
                     <ListItem
                       key={Item}
                       disablePadding
                       sx={(theme) => ({
-                        color:
-                          theme.palette.mode === "dark" ? "#e0e0e0" : "#000000",
+                        color: theme.palette.mode === "dark" ? "#e0e0e0" : "#000000",
                         height: "100%",
                       })}
                     >
@@ -447,7 +373,7 @@ export default function DrawerV({
                         </Typography>
                       </Box>
                     </ListItem>
-                  </div>
+                  </Box>
                 </Popper>
               ))}
             </List>
@@ -471,29 +397,15 @@ export default function DrawerV({
                   marginTop: "95px",
                   marginBottom: "0px",
                   borderLeft: 5,
-                  borderLeftColor:
-                    theme.palette.mode === "dark" ? "#b99b30" : "#fece2f",
-                  background:
-                    theme.palette.mode === "dark"
-                      ? "rgba(37, 41, 46, 0.9)"
-                      : "rgba(255, 255, 255, 0.8)",
+                  borderLeftColor: theme.palette.mode === "dark" ? "#b99b30" : "#fece2f",
+                  background: theme.palette.mode === "dark" ? "rgba(37, 41, 46, 0.9)" : "rgba(255, 255, 255, 0.8)",
                   borderRadius: "10px",
                 },
               })}
             >
-              {open["Select Commodity"] === true && (
-                <SwitchCom
-                  activeCrop={activeCrop}
-                  changeCrop={changeCrop}
-                ></SwitchCom>
-              )}
+              {open["Select Commodity"] === true && <SwitchCom activeCrop={activeCrop} changeCrop={changeCrop}></SwitchCom>}
               {open["Analysis & Scale"] === true && (
-                <SwitchScale
-                  exploreType={exploreType}
-                  handleExploreTypeChange={handleExploreTypeChange}
-                  activeScale={activeScale}
-                  changeScale={changeScale}
-                ></SwitchScale>
+                <SwitchScale exploreType={exploreType} handleExploreTypeChange={handleExploreTypeChange} activeScale={activeScale} changeScale={changeScale}></SwitchScale>
               )}
               {open["Select Region"] === true && (
                 <SwitchLoc
@@ -505,40 +417,15 @@ export default function DrawerV({
                 ></SwitchLoc>
               )}
               {open["Adaptation Options"] === true && (
-                <SwitchOpt
-                  activeCrop={activeCrop}
-                  activeOpt={activeOpt}
-                  changeOpt={changeOpt}
-                  activeOptLayer={activeOptLayer}
-                  changeOptLayer={changeOptLayer}
-                  exploreType={exploreType}
-                ></SwitchOpt>
+                <SwitchOpt activeCrop={activeCrop} activeOpt={activeOpt} changeOpt={changeOpt} activeOptLayer={activeOptLayer} changeOptLayer={changeOptLayer} exploreType={exploreType}></SwitchOpt>
               )}
               {open["Climatic Risks"] === true && (
-                <SwitchRisk2
-                  activeCrop={activeCrop}
-                  changeRisk={changeRisk}
-                  activeScenario={activeScenario}
-                  CurrRisk={CurrRisk}
-                  exploreType={exploreType}
-                ></SwitchRisk2>
+                <SwitchRisk2 activeCrop={activeCrop} changeRisk={changeRisk} activeScenario={activeScenario} CurrRisk={CurrRisk} exploreType={exploreType}></SwitchRisk2>
               )}
-              {open["Impact"] === true && (
-                <SwitchImpact
-                  activeImpact={activeImpact}
-                  changeImpact={changeImpact}
-                  activeCrop={activeCrop}
-                  exploreType={exploreType}
-                ></SwitchImpact>
-              )}
+              {open["Impact"] === true && <SwitchImpact activeImpact={activeImpact} changeImpact={changeImpact} activeCrop={activeCrop} exploreType={exploreType}></SwitchImpact>}
               {open["Go to Home"] === true && (window.location.href = "/")}
               {open["Select Scenario"] === true && (
-                <SwitchScenario
-                  activeScenario={activeScenario}
-                  changeScenario={changeScenario}
-                  activeModel={activeModel}
-                  changeModel={changeModel}
-                ></SwitchScenario>
+                <SwitchScenario activeScenario={activeScenario} changeScenario={changeScenario} activeModel={activeModel} changeModel={changeModel}></SwitchScenario>
               )}
             </Drawer>
           </Fade>

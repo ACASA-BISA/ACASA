@@ -37,8 +37,7 @@ const glossaryData = {
     },
     {
       term: "CERFACS",
-      definition:
-        "Centre Européen de Recherche et Formation Avancée en Calcul Scientifique (CERFACS) is a European Center in Research and Advanced Training on Scientific Computing",
+      definition: "Centre Européen de Recherche et Formation Avancée en Calcul Scientifique (CERFACS) is a European Center in Research and Advanced Training on Scientific Computing",
     },
     {
       term: "CNRM-CM6-1",
@@ -95,7 +94,8 @@ const glossaryData = {
   R: [
     {
       term: "Rice",
-      definition: "Rice is planted in multiple seasons in different countries. Here this analysis is only for monsoon season (also known as 'Kharif' in India, 'Aman' in Bangladesh,and 'Maha' in Sri Lanka)",
+      definition:
+        "Rice is planted in multiple seasons in different countries. Here this analysis is only for monsoon season (also known as 'Kharif' in India, 'Aman' in Bangladesh,and 'Maha' in Sri Lanka)",
     },
   ],
   S: [
@@ -133,32 +133,23 @@ export default function Glossary() {
   const Ref = React.useRef(null);
 
   const filteredTerms =
-    glossaryData[selectedLetter]?.filter((item) =>
-      item.term.toLowerCase().includes(searchTerm.toLowerCase())
-    ) ||
+    glossaryData[selectedLetter]?.filter((item) => item.term.toLowerCase().includes(searchTerm.toLowerCase())) ||
     Object.values(glossaryData)
       .flat()
-      .filter((item) =>
-        item.term.toLowerCase().includes(searchTerm.toLowerCase())
-      );
+      .filter((item) => item.term.toLowerCase().includes(searchTerm.toLowerCase()));
 
   // Sort filtered terms alphabetically
-  const sortedFilteredTerms = filteredTerms.sort((a, b) =>
-    a.term.localeCompare(b.term)
-  );
+  const sortedFilteredTerms = filteredTerms.sort((a, b) => a.term.localeCompare(b.term));
 
   React.useEffect(() => {
-    const term = new URLSearchParams(
-      window.location.hash.replace("#", "?")
-    ).get("term");
+    const term = new URLSearchParams(window.location.hash.replace("#", "?")).get("term");
 
     if (term) {
       // Find the term in the glossary and scroll into view
       const termElement = Ref.current.querySelector(`[data-term="${term}"]`);
       if (termElement) {
-        const yOffset = -110; 
-        const y =
-          termElement.getBoundingClientRect().top + window.scrollY + yOffset;
+        const yOffset = -110;
+        const y = termElement.getBoundingClientRect().top + window.scrollY + yOffset;
         window.scrollTo({ top: y, behavior: "smooth" });
       }
     }
@@ -183,9 +174,7 @@ export default function Glossary() {
           padding: 3,
           backgroundColor: theme.palette.mode === "dark" ? theme.palette.background.paper : "#f9f9f9",
           borderRadius: 2,
-          boxShadow: theme.palette.mode === "dark"
-          ? "2px 0px 10px rgba(0,0,0,0.3)"
-          : "2px 0px 10px rgba(0,0,0,0.1)",
+          boxShadow: theme.palette.mode === "dark" ? "2px 0px 10px rgba(0,0,0,0.3)" : "2px 0px 10px rgba(0,0,0,0.1)",
         })}
       >
         {/* Search Bar */}
@@ -227,9 +216,7 @@ export default function Glossary() {
             <Button
               key={letter}
               variant={selectedLetter === letter ? "contained" : "outlined"}
-              onClick={() =>
-                setSelectedLetter(selectedLetter === letter ? "" : letter)
-              }
+              onClick={() => setSelectedLetter(selectedLetter === letter ? "" : letter)}
               sx={(theme) => ({
                 width: 40, // Set fixed width
                 height: 40, // Set fixed height (makes it a square)
@@ -241,48 +228,20 @@ export default function Glossary() {
                 alignItems: "center",
                 justifyContent: "center",
                 transition: "0.2s",
-              
-                color: selectedLetter === letter
-                  ? theme.palette.mode === "dark"
-                    ? theme.palette.text.primary
-                    : "white"
-                  : theme.palette.mode === "dark"
-                  ? "#aaa"
-                  : "#666",
-              
-                borderColor: selectedLetter === letter
-                  ? theme.palette.mode === "dark"
-                    ? theme.palette.text.primary
-                    : "white"
-                  : theme.palette.mode === "dark"
-                  ? "#555"
-                  : "#999",
-              
-                backgroundColor: selectedLetter === letter
-                  ? theme.palette.mode === "dark"
-                    ? "#3b8c3b"
-                    : "#4ba046"
-                  : "transparent",
-              
+
+                color: selectedLetter === letter ? (theme.palette.mode === "dark" ? theme.palette.text.primary : "white") : theme.palette.mode === "dark" ? "#aaa" : "#666",
+
+                borderColor: selectedLetter === letter ? (theme.palette.mode === "dark" ? theme.palette.text.primary : "white") : theme.palette.mode === "dark" ? "#555" : "#999",
+
+                backgroundColor: selectedLetter === letter ? (theme.palette.mode === "dark" ? "#3b8c3b" : "#4ba046") : "transparent",
+
                 "&:hover": {
-                  backgroundColor: selectedLetter === letter
-                    ? theme.palette.mode === "dark"
-                      ? "#3b8c3b"
-                      : "#4ba046"
-                    : theme.palette.mode === "dark"
-                    ? "#333"
-                    : "#e0e0e0",
-                    
-                  borderColor: selectedLetter === letter
-                    ? theme.palette.mode === "dark"
-                      ? theme.palette.text.primary
-                      : "white"
-                    : theme.palette.mode === "dark"
-                    ? "#666"
-                    : "#999",
+                  backgroundColor: selectedLetter === letter ? (theme.palette.mode === "dark" ? "#3b8c3b" : "#4ba046") : theme.palette.mode === "dark" ? "#333" : "#e0e0e0",
+
+                  borderColor: selectedLetter === letter ? (theme.palette.mode === "dark" ? theme.palette.text.primary : "white") : theme.palette.mode === "dark" ? "#666" : "#999",
                 },
               })}
-              >
+            >
               {letter}
             </Button>
           ))}
@@ -298,49 +257,42 @@ export default function Glossary() {
             borderRadius: 2,
             boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
             scrollPaddingBottom: "60px",
-            
+
             backgroundColor:
               theme.palette.mode === "dark"
                 ? theme.palette.background.paper // Dark mode background
                 : "#fafafa", // Light mode background
-          
+
             scrollbarWidth: "thin",
             msOverflowStyle: "none",
-          
+
             "&::-webkit-scrollbar": {
               width: "10px",
             },
-          
+
             "&::-webkit-scrollbar-thumb": {
               backgroundColor: theme.palette.mode === "dark" ? "#4ba046" : "#8BC34A",
               borderRadius: "10px",
               transition: "background-color 0.3s ease",
             },
-          
+
             "&::-webkit-scrollbar-thumb:hover": {
               backgroundColor: theme.palette.mode === "dark" ? "#3d8b3d" : "#7CB342",
             },
-          
+
             "&::-webkit-scrollbar-track": {
               background: theme.palette.mode === "dark" ? "#333" : "#e0e0e0",
               borderRadius: "10px",
             },
           })}
-          >
+        >
           {Object.entries(glossaryData).map(([letter, terms]) => {
             // Sort terms alphabetically within each letter group
-            const sortedTerms = terms.sort((a, b) =>
-              a.term.localeCompare(b.term)
-            );
+            const sortedTerms = terms.sort((a, b) => a.term.localeCompare(b.term));
 
-            const filteredTerms = sortedTerms.filter((item) =>
-              item.term.toLowerCase().includes(searchTerm.toLowerCase())
-            );
+            const filteredTerms = sortedTerms.filter((item) => item.term.toLowerCase().includes(searchTerm.toLowerCase()));
 
-            if (
-              (selectedLetter && letter !== selectedLetter) ||
-              filteredTerms.length === 0
-            ) {
+            if ((selectedLetter && letter !== selectedLetter) || filteredTerms.length === 0) {
               return null;
             }
 
@@ -377,12 +329,8 @@ export default function Glossary() {
           {/* No results found message */}
           {Object.values(glossaryData)
             .flat()
-            .filter((item) =>
-              item.term.toLowerCase().includes(searchTerm.toLowerCase())
-            ).length === 0 && (
-            <Typography sx={(theme) => ({ textAlign: "center", color: theme.palette.mode === "dark" ? theme.palette.text.secondary : "#777" })}>
-              No results found.
-            </Typography>
+            .filter((item) => item.term.toLowerCase().includes(searchTerm.toLowerCase())).length === 0 && (
+            <Typography sx={(theme) => ({ textAlign: "center", color: theme.palette.mode === "dark" ? theme.palette.text.secondary : "#777" })}>No results found.</Typography>
           )}
         </Paper>
       </Box>
@@ -410,10 +358,7 @@ export default function Glossary() {
               })}
               data-term={item.term.toLowerCase()}
             >
-              <Typography
-                variant="h6"
-                sx={(theme) => ({ fontWeight: "bold", color: theme.palette.mode === "dark" ? theme.palette.text.primary : "#333" })}
-              >
+              <Typography variant="h6" sx={(theme) => ({ fontWeight: "bold", color: theme.palette.mode === "dark" ? theme.palette.text.primary : "#333" })}>
                 {item.term}
               </Typography>
               <Typography variant="body1" sx={(theme) => ({ color: theme.palette.mode === "dark" ? theme.palette.text.secondary : "#555", marginTop: 1 })}>
@@ -422,7 +367,7 @@ export default function Glossary() {
             </Box>
           ))
         ) : (
-          <Typography variant="body1" sx={(theme) => ({ color: theme.palette.mode === "dark" ? theme.palette.text.disabled : "#777"})}>
+          <Typography variant="body1" sx={(theme) => ({ color: theme.palette.mode === "dark" ? theme.palette.text.disabled : "#777" })}>
             No definitions found.
           </Typography>
         )}

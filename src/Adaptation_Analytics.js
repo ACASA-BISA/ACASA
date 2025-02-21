@@ -7,12 +7,7 @@ import Summ_Loc from "./Summ_Loc";
 import Summ_Scenario from "./Summ_Scenario";
 import Summ_Model from "./Summ_Model";
 
-export default function Adaptation_Analytics({
-  cropid,
-  focus2,
-  activeRegion2,
-  activeOpt,
-}) {
+export default function Adaptation_Analytics({ cropid, focus2, activeRegion2, activeOpt }) {
   const paperwidth = React.useRef(null);
   const [paperHeight, setPaperHeight] = React.useState(0);
 
@@ -25,12 +20,7 @@ export default function Adaptation_Analytics({
 
   return (
     <div style={{ overflow: "hidden" }}>
-      <Grid
-        container
-        sx={{ marginTop: "85px", marginBottom: "2px", paddingX: "1rem" }}
-        columns={12}
-        spacing={1}
-      >
+      <Grid container sx={{ marginTop: "85px", marginBottom: "2px", paddingX: "1rem" }} columns={12} spacing={1}>
         <Grid item xs={4} key="Side_Bar">
           <Box
             sx={{
@@ -45,22 +35,14 @@ export default function Adaptation_Analytics({
               gap: "10px",
             }}
           >
-            <Typography
-              align="center"
-              sx={{ fontSize: "14px", fontWeight: "bold", fontFamily: "Karla" }}
-            >
+            <Typography align="center" sx={{ fontSize: "14px", fontWeight: "bold", fontFamily: "Karla" }}>
               Technical Suitability
             </Typography>
           </Box>
           <Grid container>
             <Grid item xs={9}>
               <Paper elevation={1} sx={{ marginLeft: "25px" }} ref={paperwidth}>
-                <Map_Adaptation
-                  activeCrop={cropid}
-                  focus={focus2}
-                  activeRegion={activeRegion2}
-                  activeOpt={activeOpt}
-                ></Map_Adaptation>
+                <Map_Adaptation activeCrop={cropid} focus={focus2} activeRegion={activeRegion2} activeOpt={activeOpt}></Map_Adaptation>
                 <Typography
                   sx={{
                     transform: "rotate(-90deg)",
@@ -112,11 +94,7 @@ export default function Adaptation_Analytics({
                   />
                   <Typography fontSize="12px">Very Low</Typography>
                 </Box>
-                <Typography
-                  fontSize="12px"
-                  align="left"
-                  sx={{ marginLeft: "15px" }}
-                >
+                <Typography fontSize="12px" align="left" sx={{ marginLeft: "15px" }}>
                   Area:
                 </Typography>
                 <Box
@@ -138,11 +116,7 @@ export default function Adaptation_Analytics({
                   />
                   <Typography fontSize="12px">Low</Typography>
                 </Box>
-                <Typography
-                  fontSize="12px"
-                  align="left"
-                  sx={{ marginLeft: "15px" }}
-                >
+                <Typography fontSize="12px" align="left" sx={{ marginLeft: "15px" }}>
                   Area:
                 </Typography>
                 <Box
@@ -164,11 +138,7 @@ export default function Adaptation_Analytics({
                   />
                   <Typography fontSize="12px">Medium</Typography>
                 </Box>
-                <Typography
-                  fontSize="12px"
-                  align="left"
-                  sx={{ marginLeft: "15px" }}
-                >
+                <Typography fontSize="12px" align="left" sx={{ marginLeft: "15px" }}>
                   Area:
                 </Typography>
                 <Box
@@ -190,11 +160,7 @@ export default function Adaptation_Analytics({
                   />
                   <Typography fontSize="12px">High</Typography>
                 </Box>
-                <Typography
-                  fontSize="12px"
-                  align="left"
-                  sx={{ marginLeft: "15px" }}
-                >
+                <Typography fontSize="12px" align="left" sx={{ marginLeft: "15px" }}>
                   Area:
                 </Typography>
                 <Box
@@ -216,11 +182,7 @@ export default function Adaptation_Analytics({
                   />
                   <Typography fontSize="12px">Very High</Typography>
                 </Box>
-                <Typography
-                  fontSize="12px"
-                  align="left"
-                  sx={{ marginLeft: "15px" }}
-                >
+                <Typography fontSize="12px" align="left" sx={{ marginLeft: "15px" }}>
                   Area:
                 </Typography>
               </Box>
@@ -241,22 +203,14 @@ export default function Adaptation_Analytics({
               gap: "10px",
             }}
           >
-            <Typography
-              align="center"
-              sx={{ fontSize: "14px", fontWeight: "bold", fontFamily: "Karla" }}
-            >
+            <Typography align="center" sx={{ fontSize: "14px", fontWeight: "bold", fontFamily: "Karla" }}>
               Economic Benefits
             </Typography>
           </Box>
           <Grid container>
             <Grid item xs={9}>
               <Paper elevation={1} sx={{ marginLeft: "25px" }} ref={paperwidth}>
-                <Map_Adaptation
-                  activeCrop={cropid}
-                  focus={focus2}
-                  activeRegion={activeRegion2}
-                  activeOpt={activeOpt}
-                ></Map_Adaptation>
+                <Map_Adaptation activeCrop={cropid} focus={focus2} activeRegion={activeRegion2} activeOpt={activeOpt}></Map_Adaptation>
                 <Typography
                   sx={{
                     transform: "rotate(-90deg)",
@@ -308,11 +262,7 @@ export default function Adaptation_Analytics({
                   />
                   <Typography fontSize="12px">Very Low</Typography>
                 </Box>
-                <Typography
-                  fontSize="12px"
-                  align="left"
-                  sx={{ marginLeft: "15px" }}
-                >
+                <Typography fontSize="12px" align="left" sx={{ marginLeft: "15px" }}>
                   Area:
                 </Typography>
                 <Box
@@ -334,11 +284,7 @@ export default function Adaptation_Analytics({
                   />
                   <Typography fontSize="12px">Low</Typography>
                 </Box>
-                <Typography
-                  fontSize="12px"
-                  align="left"
-                  sx={{ marginLeft: "15px" }}
-                >
+                <Typography fontSize="12px" align="left" sx={{ marginLeft: "15px" }}>
                   Area:
                 </Typography>
                 <Box
@@ -360,11 +306,7 @@ export default function Adaptation_Analytics({
                   />
                   <Typography fontSize="12px">Medium</Typography>
                 </Box>
-                <Typography
-                  fontSize="12px"
-                  align="left"
-                  sx={{ marginLeft: "15px" }}
-                >
+                <Typography fontSize="12px" align="left" sx={{ marginLeft: "15px" }}>
                   Area:
                 </Typography>
                 <Box
@@ -386,11 +328,7 @@ export default function Adaptation_Analytics({
                   />
                   <Typography fontSize="12px">High</Typography>
                 </Box>
-                <Typography
-                  fontSize="12px"
-                  align="left"
-                  sx={{ marginLeft: "15px" }}
-                >
+                <Typography fontSize="12px" align="left" sx={{ marginLeft: "15px" }}>
                   Area:
                 </Typography>
                 <Box
@@ -412,11 +350,7 @@ export default function Adaptation_Analytics({
                   />
                   <Typography fontSize="12px">Very High</Typography>
                 </Box>
-                <Typography
-                  fontSize="12px"
-                  align="left"
-                  sx={{ marginLeft: "15px" }}
-                >
+                <Typography fontSize="12px" align="left" sx={{ marginLeft: "15px" }}>
                   Area:
                 </Typography>
               </Box>
@@ -437,22 +371,14 @@ export default function Adaptation_Analytics({
               gap: "10px",
             }}
           >
-            <Typography
-              align="center"
-              sx={{ fontSize: "14px", fontWeight: "bold", fontFamily: "Karla" }}
-            >
+            <Typography align="center" sx={{ fontSize: "14px", fontWeight: "bold", fontFamily: "Karla" }}>
               Scalability
             </Typography>
           </Box>
           <Grid container>
             <Grid item xs={9}>
               <Paper elevation={1} sx={{ marginLeft: "25px" }} ref={paperwidth}>
-                <Map_Adaptation
-                  activeCrop={cropid}
-                  focus={focus2}
-                  activeRegion={activeRegion2}
-                  activeOpt={activeOpt}
-                ></Map_Adaptation>
+                <Map_Adaptation activeCrop={cropid} focus={focus2} activeRegion={activeRegion2} activeOpt={activeOpt}></Map_Adaptation>
                 <Typography
                   sx={{
                     transform: "rotate(-90deg)",
@@ -504,11 +430,7 @@ export default function Adaptation_Analytics({
                   />
                   <Typography fontSize="12px">Very Low</Typography>
                 </Box>
-                <Typography
-                  fontSize="12px"
-                  align="left"
-                  sx={{ marginLeft: "15px" }}
-                >
+                <Typography fontSize="12px" align="left" sx={{ marginLeft: "15px" }}>
                   Area:
                 </Typography>
                 <Box
@@ -530,11 +452,7 @@ export default function Adaptation_Analytics({
                   />
                   <Typography fontSize="12px">Low</Typography>
                 </Box>
-                <Typography
-                  fontSize="12px"
-                  align="left"
-                  sx={{ marginLeft: "15px" }}
-                >
+                <Typography fontSize="12px" align="left" sx={{ marginLeft: "15px" }}>
                   Area:
                 </Typography>
                 <Box
@@ -556,11 +474,7 @@ export default function Adaptation_Analytics({
                   />
                   <Typography fontSize="12px">Medium</Typography>
                 </Box>
-                <Typography
-                  fontSize="12px"
-                  align="left"
-                  sx={{ marginLeft: "15px" }}
-                >
+                <Typography fontSize="12px" align="left" sx={{ marginLeft: "15px" }}>
                   Area:
                 </Typography>
                 <Box
@@ -582,11 +496,7 @@ export default function Adaptation_Analytics({
                   />
                   <Typography fontSize="12px">High</Typography>
                 </Box>
-                <Typography
-                  fontSize="12px"
-                  align="left"
-                  sx={{ marginLeft: "15px" }}
-                >
+                <Typography fontSize="12px" align="left" sx={{ marginLeft: "15px" }}>
                   Area:
                 </Typography>
                 <Box
@@ -608,11 +518,7 @@ export default function Adaptation_Analytics({
                   />
                   <Typography fontSize="12px">Very High</Typography>
                 </Box>
-                <Typography
-                  fontSize="12px"
-                  align="left"
-                  sx={{ marginLeft: "15px" }}
-                >
+                <Typography fontSize="12px" align="left" sx={{ marginLeft: "15px" }}>
                   Area:
                 </Typography>
               </Box>
@@ -623,12 +529,7 @@ export default function Adaptation_Analytics({
           <Grid container>
             <Grid item xs={9}>
               <Paper elevation={1} sx={{ marginLeft: "25px" }} ref={paperwidth}>
-                <Map_Adaptation
-                  activeCrop={cropid}
-                  focus={focus2}
-                  activeRegion={activeRegion2}
-                  activeOpt={activeOpt}
-                ></Map_Adaptation>
+                <Map_Adaptation activeCrop={cropid} focus={focus2} activeRegion={activeRegion2} activeOpt={activeOpt}></Map_Adaptation>
                 <Typography
                   sx={{
                     transform: "rotate(-90deg)",
@@ -680,11 +581,7 @@ export default function Adaptation_Analytics({
                   />
                   <Typography fontSize="12px">Very Low</Typography>
                 </Box>
-                <Typography
-                  fontSize="12px"
-                  align="left"
-                  sx={{ marginLeft: "15px" }}
-                >
+                <Typography fontSize="12px" align="left" sx={{ marginLeft: "15px" }}>
                   Area:
                 </Typography>
                 <Box
@@ -706,11 +603,7 @@ export default function Adaptation_Analytics({
                   />
                   <Typography fontSize="12px">Low</Typography>
                 </Box>
-                <Typography
-                  fontSize="12px"
-                  align="left"
-                  sx={{ marginLeft: "15px" }}
-                >
+                <Typography fontSize="12px" align="left" sx={{ marginLeft: "15px" }}>
                   Area:
                 </Typography>
                 <Box
@@ -732,11 +625,7 @@ export default function Adaptation_Analytics({
                   />
                   <Typography fontSize="12px">Medium</Typography>
                 </Box>
-                <Typography
-                  fontSize="12px"
-                  align="left"
-                  sx={{ marginLeft: "15px" }}
-                >
+                <Typography fontSize="12px" align="left" sx={{ marginLeft: "15px" }}>
                   Area:
                 </Typography>
                 <Box
@@ -758,11 +647,7 @@ export default function Adaptation_Analytics({
                   />
                   <Typography fontSize="12px">High</Typography>
                 </Box>
-                <Typography
-                  fontSize="12px"
-                  align="left"
-                  sx={{ marginLeft: "15px" }}
-                >
+                <Typography fontSize="12px" align="left" sx={{ marginLeft: "15px" }}>
                   Area:
                 </Typography>
                 <Box
@@ -784,11 +669,7 @@ export default function Adaptation_Analytics({
                   />
                   <Typography fontSize="12px">Very High</Typography>
                 </Box>
-                <Typography
-                  fontSize="12px"
-                  align="left"
-                  sx={{ marginLeft: "15px" }}
-                >
+                <Typography fontSize="12px" align="left" sx={{ marginLeft: "15px" }}>
                   Area:
                 </Typography>
               </Box>
@@ -799,12 +680,7 @@ export default function Adaptation_Analytics({
           <Grid container>
             <Grid item xs={9}>
               <Paper elevation={1} sx={{ marginLeft: "25px" }} ref={paperwidth}>
-                <Map_Adaptation
-                  activeCrop={cropid}
-                  focus={focus2}
-                  activeRegion={activeRegion2}
-                  activeOpt={activeOpt}
-                ></Map_Adaptation>
+                <Map_Adaptation activeCrop={cropid} focus={focus2} activeRegion={activeRegion2} activeOpt={activeOpt}></Map_Adaptation>
                 <Typography
                   sx={{
                     transform: "rotate(-90deg)",
@@ -856,11 +732,7 @@ export default function Adaptation_Analytics({
                   />
                   <Typography fontSize="12px">Very Low</Typography>
                 </Box>
-                <Typography
-                  fontSize="12px"
-                  align="left"
-                  sx={{ marginLeft: "15px" }}
-                >
+                <Typography fontSize="12px" align="left" sx={{ marginLeft: "15px" }}>
                   Area:
                 </Typography>
                 <Box
@@ -882,11 +754,7 @@ export default function Adaptation_Analytics({
                   />
                   <Typography fontSize="12px">Low</Typography>
                 </Box>
-                <Typography
-                  fontSize="12px"
-                  align="left"
-                  sx={{ marginLeft: "15px" }}
-                >
+                <Typography fontSize="12px" align="left" sx={{ marginLeft: "15px" }}>
                   Area:
                 </Typography>
                 <Box
@@ -908,11 +776,7 @@ export default function Adaptation_Analytics({
                   />
                   <Typography fontSize="12px">Medium</Typography>
                 </Box>
-                <Typography
-                  fontSize="12px"
-                  align="left"
-                  sx={{ marginLeft: "15px" }}
-                >
+                <Typography fontSize="12px" align="left" sx={{ marginLeft: "15px" }}>
                   Area:
                 </Typography>
                 <Box
@@ -934,11 +798,7 @@ export default function Adaptation_Analytics({
                   />
                   <Typography fontSize="12px">High</Typography>
                 </Box>
-                <Typography
-                  fontSize="12px"
-                  align="left"
-                  sx={{ marginLeft: "15px" }}
-                >
+                <Typography fontSize="12px" align="left" sx={{ marginLeft: "15px" }}>
                   Area:
                 </Typography>
                 <Box
@@ -960,11 +820,7 @@ export default function Adaptation_Analytics({
                   />
                   <Typography fontSize="12px">Very High</Typography>
                 </Box>
-                <Typography
-                  fontSize="12px"
-                  align="left"
-                  sx={{ marginLeft: "15px" }}
-                >
+                <Typography fontSize="12px" align="left" sx={{ marginLeft: "15px" }}>
                   Area:
                 </Typography>
               </Box>
@@ -975,12 +831,7 @@ export default function Adaptation_Analytics({
           <Grid container>
             <Grid item xs={9}>
               <Paper elevation={1} sx={{ marginLeft: "25px" }} ref={paperwidth}>
-                <Map_Adaptation
-                  activeCrop={cropid}
-                  focus={focus2}
-                  activeRegion={activeRegion2}
-                  activeOpt={activeOpt}
-                ></Map_Adaptation>
+                <Map_Adaptation activeCrop={cropid} focus={focus2} activeRegion={activeRegion2} activeOpt={activeOpt}></Map_Adaptation>
                 <Typography
                   sx={{
                     transform: "rotate(-90deg)",
@@ -1032,11 +883,7 @@ export default function Adaptation_Analytics({
                   />
                   <Typography fontSize="12px">Very Low</Typography>
                 </Box>
-                <Typography
-                  fontSize="12px"
-                  align="left"
-                  sx={{ marginLeft: "15px" }}
-                >
+                <Typography fontSize="12px" align="left" sx={{ marginLeft: "15px" }}>
                   Area:
                 </Typography>
                 <Box
@@ -1058,11 +905,7 @@ export default function Adaptation_Analytics({
                   />
                   <Typography fontSize="12px">Low</Typography>
                 </Box>
-                <Typography
-                  fontSize="12px"
-                  align="left"
-                  sx={{ marginLeft: "15px" }}
-                >
+                <Typography fontSize="12px" align="left" sx={{ marginLeft: "15px" }}>
                   Area:
                 </Typography>
                 <Box
@@ -1084,11 +927,7 @@ export default function Adaptation_Analytics({
                   />
                   <Typography fontSize="12px">Medium</Typography>
                 </Box>
-                <Typography
-                  fontSize="12px"
-                  align="left"
-                  sx={{ marginLeft: "15px" }}
-                >
+                <Typography fontSize="12px" align="left" sx={{ marginLeft: "15px" }}>
                   Area:
                 </Typography>
                 <Box
@@ -1110,11 +949,7 @@ export default function Adaptation_Analytics({
                   />
                   <Typography fontSize="12px">High</Typography>
                 </Box>
-                <Typography
-                  fontSize="12px"
-                  align="left"
-                  sx={{ marginLeft: "15px" }}
-                >
+                <Typography fontSize="12px" align="left" sx={{ marginLeft: "15px" }}>
                   Area:
                 </Typography>
                 <Box
@@ -1136,11 +971,7 @@ export default function Adaptation_Analytics({
                   />
                   <Typography fontSize="12px">Very High</Typography>
                 </Box>
-                <Typography
-                  fontSize="12px"
-                  align="left"
-                  sx={{ marginLeft: "15px" }}
-                >
+                <Typography fontSize="12px" align="left" sx={{ marginLeft: "15px" }}>
                   Area:
                 </Typography>
               </Box>

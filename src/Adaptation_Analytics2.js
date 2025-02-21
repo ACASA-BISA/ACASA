@@ -7,14 +7,7 @@ import Summ_Loc from "./Summ_Loc";
 import Summ_Scenario from "./Summ_Scenario";
 import Summ_Model from "./Summ_Model";
 
-export default function Adaptation_Analytics2({
-  cropid,
-  focus2,
-  activeRegion2,
-  activeOpt,
-  ActiveRegionChange2,
-  handleChangeSumm,
-}) {
+export default function Adaptation_Analytics2({ cropid, focus2, activeRegion2, activeOpt, ActiveRegionChange2, handleChangeSumm }) {
   const paperwidth = React.useRef(null);
   const [paperHeight, setPaperHeight] = React.useState(0);
   const [paperWidth, setPaperWidth] = React.useState(0);
@@ -46,12 +39,7 @@ export default function Adaptation_Analytics2({
 
   return (
     <div style={{ overflow: "hidden" }}>
-      <Grid
-        container
-        sx={{ marginTop: "85px", marginBottom: "2px", paddingX: "1rem" }}
-        columns={14}
-        spacing={1}
-      >
+      <Grid container sx={{ marginTop: "85px", marginBottom: "2px", paddingX: "1rem" }} columns={14} spacing={1}>
         <Grid item xs={14} key="Side_Maps" sx={{ marginLeft: "60px" }}>
           <Grid container spacing={1}>
             <Grid item xs={4} key="Side_Bar">
@@ -81,17 +69,8 @@ export default function Adaptation_Analytics2({
               </Box>
               <Grid container>
                 <Grid item xs={12}>
-                  <Paper
-                    elevation={1}
-                    sx={{ marginLeft: "25px" }}
-                    ref={paperwidth}
-                  >
-                    <Map_Adaptation
-                      activeCrop={cropid}
-                      focus={focus2}
-                      activeRegion={activeRegion2}
-                      activeOpt={activeOpt}
-                    ></Map_Adaptation>
+                  <Paper elevation={1} sx={{ marginLeft: "25px" }} ref={paperwidth}>
+                    <Map_Adaptation activeCrop={cropid} focus={focus2} activeRegion={activeRegion2} activeOpt={activeOpt}></Map_Adaptation>
                     <Typography
                       sx={{
                         transform: "rotate(-90deg)",
@@ -134,11 +113,7 @@ export default function Adaptation_Analytics2({
                           paddingLeft: "5px",
                         }}
                       >
-                        <Typography
-                          fontSize="0.62rem"
-                          fontWeight="bold"
-                          align="left"
-                        >
+                        <Typography fontSize="0.62rem" fontWeight="bold" align="left">
                           Legend Title and Area:
                         </Typography>
                         <Box
@@ -270,12 +245,7 @@ export default function Adaptation_Analytics2({
               <Grid container>
                 <Grid item xs={12}>
                   <Paper elevation={1} sx={{ marginLeft: "25px" }} ref={box2}>
-                    <Map_Adaptation
-                      activeCrop={cropid}
-                      focus={focus2}
-                      activeRegion={activeRegion2}
-                      activeOpt={activeOpt}
-                    ></Map_Adaptation>
+                    <Map_Adaptation activeCrop={cropid} focus={focus2} activeRegion={activeRegion2} activeOpt={activeOpt}></Map_Adaptation>
                     <Typography
                       sx={{
                         transform: "rotate(-90deg)",
@@ -318,11 +288,7 @@ export default function Adaptation_Analytics2({
                           paddingLeft: "5px",
                         }}
                       >
-                        <Typography
-                          fontSize="0.62rem"
-                          fontWeight="bold"
-                          align="left"
-                        >
+                        <Typography fontSize="0.62rem" fontWeight="bold" align="left">
                           Legend Title and Area:
                         </Typography>
                         <Box
@@ -454,12 +420,7 @@ export default function Adaptation_Analytics2({
               <Grid container>
                 <Grid item xs={12}>
                   <Paper elevation={1} sx={{ marginLeft: "25px" }} ref={box3}>
-                    <Map_Adaptation
-                      activeCrop={cropid}
-                      focus={focus2}
-                      activeRegion={activeRegion2}
-                      activeOpt={activeOpt}
-                    ></Map_Adaptation>
+                    <Map_Adaptation activeCrop={cropid} focus={focus2} activeRegion={activeRegion2} activeOpt={activeOpt}></Map_Adaptation>
                     <Typography
                       sx={{
                         transform: "rotate(-90deg)",
@@ -502,11 +463,7 @@ export default function Adaptation_Analytics2({
                           paddingLeft: "5px",
                         }}
                       >
-                        <Typography
-                          fontSize="0.62rem"
-                          fontWeight="bold"
-                          align="left"
-                        >
+                        <Typography fontSize="0.62rem" fontWeight="bold" align="left">
                           Legend Title and Area:
                         </Typography>
                         <Box
@@ -614,12 +571,7 @@ export default function Adaptation_Analytics2({
               <Grid container>
                 <Grid item xs={12}>
                   <Paper elevation={1} sx={{ marginLeft: "25px" }} ref={box4}>
-                    <Map_Adaptation
-                      activeCrop={cropid}
-                      focus={focus2}
-                      activeRegion={activeRegion2}
-                      activeOpt={activeOpt}
-                    ></Map_Adaptation>
+                    <Map_Adaptation activeCrop={cropid} focus={focus2} activeRegion={activeRegion2} activeOpt={activeOpt}></Map_Adaptation>
                     <Typography
                       sx={{
                         transform: "rotate(-90deg)",
@@ -662,11 +614,7 @@ export default function Adaptation_Analytics2({
                           paddingLeft: "5px",
                         }}
                       >
-                        <Typography
-                          fontSize="0.62rem"
-                          fontWeight="bold"
-                          align="left"
-                        >
+                        <Typography fontSize="0.62rem" fontWeight="bold" align="left">
                           Legend Title and Area:
                         </Typography>
                         <Box
@@ -774,12 +722,7 @@ export default function Adaptation_Analytics2({
               <Grid container>
                 <Grid item xs={12}>
                   <Paper elevation={1} sx={{ marginLeft: "25px" }} ref={box5}>
-                    <Map_Adaptation
-                      activeCrop={cropid}
-                      focus={focus2}
-                      activeRegion={activeRegion2}
-                      activeOpt={activeOpt}
-                    ></Map_Adaptation>
+                    <Map_Adaptation activeCrop={cropid} focus={focus2} activeRegion={activeRegion2} activeOpt={activeOpt}></Map_Adaptation>
                     <Typography
                       sx={{
                         transform: "rotate(-90deg)",
@@ -822,11 +765,7 @@ export default function Adaptation_Analytics2({
                           paddingLeft: "5px",
                         }}
                       >
-                        <Typography
-                          fontSize="0.62rem"
-                          fontWeight="bold"
-                          align="left"
-                        >
+                        <Typography fontSize="0.62rem" fontWeight="bold" align="left">
                           Legend Title and Area:
                         </Typography>
                         <Box
@@ -934,12 +873,7 @@ export default function Adaptation_Analytics2({
               <Grid container>
                 <Grid item xs={12}>
                   <Paper elevation={1} sx={{ marginLeft: "25px" }} ref={box6}>
-                    <Map_Adaptation
-                      activeCrop={cropid}
-                      focus={focus2}
-                      activeRegion={activeRegion2}
-                      activeOpt={activeOpt}
-                    ></Map_Adaptation>
+                    <Map_Adaptation activeCrop={cropid} focus={focus2} activeRegion={activeRegion2} activeOpt={activeOpt}></Map_Adaptation>
                     <Typography
                       sx={{
                         transform: "rotate(-90deg)",
@@ -982,11 +916,7 @@ export default function Adaptation_Analytics2({
                           paddingLeft: "5px",
                         }}
                       >
-                        <Typography
-                          fontSize="0.62rem"
-                          fontWeight="bold"
-                          align="left"
-                        >
+                        <Typography fontSize="0.62rem" fontWeight="bold" align="left">
                           Legend Title and Area:
                         </Typography>
                         <Box
@@ -1111,9 +1041,7 @@ export default function Adaptation_Analytics2({
               alignItems: "center",
             }}
           >
-            <Typography sx={{ fontSize: 14, fontWeight: "bold" }}>
-              Adaptation Analytics
-            </Typography>
+            <Typography sx={{ fontSize: 14, fontWeight: "bold" }}>Adaptation Analytics</Typography>
           </Box>
           <Box
             sx={{
@@ -1128,30 +1056,14 @@ export default function Adaptation_Analytics2({
               border: "0px solid black",
             }}
           >
-            <Typography sx={{ fontSize: 13, fontWeight: "bold" }}>
-              Scenario:{" "}
-            </Typography>
+            <Typography sx={{ fontSize: 13, fontWeight: "bold" }}>Scenario: </Typography>
             <Summ_Scenario handleScenario={handleScenario}></Summ_Scenario>
-            <Typography
-              sx={{ marginLeft: "5px", fontSize: 13, fontWeight: "bold" }}
-            >
-              Model:{" "}
-            </Typography>
+            <Typography sx={{ marginLeft: "5px", fontSize: 13, fontWeight: "bold" }}>Model: </Typography>
             <Summ_Model handleModel={handleModel}></Summ_Model>
-            <Typography sx={{ fontSize: 13, fontWeight: "bold" }}>
-              Commodity:{" "}
-            </Typography>
+            <Typography sx={{ fontSize: 13, fontWeight: "bold" }}>Commodity: </Typography>
             <Summ_Comm changeComm={handleChangeSumm} comm={cropid}></Summ_Comm>
-            <Typography
-              sx={{ marginLeft: "5px", fontSize: 13, fontWeight: "bold" }}
-            >
-              Location:{" "}
-            </Typography>
-            <Summ_Loc
-              focus={focus2}
-              activeRegion={activeRegion2}
-              changeReg={ActiveRegionChange2}
-            ></Summ_Loc>
+            <Typography sx={{ marginLeft: "5px", fontSize: 13, fontWeight: "bold" }}>Location: </Typography>
+            <Summ_Loc focus={focus2} activeRegion={activeRegion2} changeReg={ActiveRegionChange2}></Summ_Loc>
           </Box>
         </Box>
       </Grid>

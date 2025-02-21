@@ -15,12 +15,7 @@ import { useNavigate } from "react-router-dom";
 // adapOption: The adaptation option title to be displayed
 // heightnext: The height of a previous element for positioning
 
-export default function AdaptationCard({
-  activeCrop,
-  activeRegion,
-  adapOption,
-  heightnext,
-}) {
+export default function AdaptationCard({ activeCrop, activeRegion, adapOption, heightnext }) {
   // Hook:
   // The useNavigate hook is used to handle navigation within the React application.
 
@@ -72,17 +67,9 @@ export default function AdaptationCard({
             </Typography>
           </AccordionSummary>
           <AccordionDetails sx={{ marginBottom: -1 }}>
-            <Typography
-              sx={{ fontSize: 14, marginTop: "-10px" }}
-              color="black"
-              gutterBottom
-            >
+            <Typography sx={{ fontSize: 14, marginTop: "-10px" }} color="black" gutterBottom>
               Details:{" "}
-              <Typography
-                sx={{ fontSize: 14 }}
-                color="text.secondary"
-                gutterBottom
-              >
+              <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                 This map has been derived by consideration of
                 {/* <a href='/access' style={{color:'inherit'}}>yield gap</a>,  */}
                 &nbsp;

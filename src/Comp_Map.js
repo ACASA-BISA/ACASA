@@ -42,21 +42,18 @@ export default function MApp({
   exploreType,
 }) {
   const ref = useRef(null);
-    const mapRef = useRef(null);
-    const [overl, setOverl] = useState(null);
-    const [Sociolayer, setSocioLayer] = useState(null);
-    const [Scalelayer, setScaleLayer] = useState(null);
-    const [Adaptlayer, setAdaptLayer] = useState(null);
-    const [Biolayer, setBioLayer] = useState(null);
-    const [vectorLayerr, setvectorLayerr] = useState(null);
-    const [countryLayer, setcountryLayer] = useState(null);
-    const [maskLayer1, setmaskLayer1] = useState(null);
-    const [tiffFilePath, settiffFilePath] = useState("");
-    const [missingSource, setmsource] = useState(false);
-  let defext = [
-    6731721.531032621, -300003.34768295793, 10843798.383928495,
-    4918992.169943628,
-  ];
+  const mapRef = useRef(null);
+  const [overl, setOverl] = useState(null);
+  const [Sociolayer, setSocioLayer] = useState(null);
+  const [Scalelayer, setScaleLayer] = useState(null);
+  const [Adaptlayer, setAdaptLayer] = useState(null);
+  const [Biolayer, setBioLayer] = useState(null);
+  const [vectorLayerr, setvectorLayerr] = useState(null);
+  const [countryLayer, setcountryLayer] = useState(null);
+  const [maskLayer1, setmaskLayer1] = useState(null);
+  const [tiffFilePath, settiffFilePath] = useState("");
+  const [missingSource, setmsource] = useState(false);
+  let defext = [6731721.531032621, -300003.34768295793, 10843798.383928495, 4918992.169943628];
 
   let filename = "";
 
@@ -64,10 +61,7 @@ export default function MApp({
     filename = activeCrop + "_" + activeOpt + "_" + activeScenario + ".tiff";
   } else if (CurrRisk !== "") {
     filename = activeCrop + "_" + CurrRisk + "_" + activeScenario + ".tiff";
-  } else if (
-    activeImpact["Productivity"] ||
-    activeImpact["Value of Production"]
-  ) {
+  } else if (activeImpact["Productivity"] || activeImpact["Value of Production"]) {
     filename = activeCrop + "_Impact_" + activeScenario + ".tiff";
   } else {
     filename = activeCrop + "_CropMask_" + activeScenario + ".tiff";
@@ -103,22 +97,7 @@ export default function MApp({
   });
 
   function checkcrop() {
-    const diffcrop = [
-      "Cattle",
-      "Buffalo",
-      "Goat",
-      "Sheep",
-      "Pig",
-      "Poultry",
-      "Rice",
-      "Wheat",
-      "Maize",
-      "Mustard",
-      "Cotton",
-      "Soybean",
-      "Chickpea",
-      "Barley",
-    ];
+    const diffcrop = ["Cattle", "Buffalo", "Goat", "Sheep", "Pig", "Poultry", "Rice", "Wheat", "Maize", "Mustard", "Cotton", "Soybean", "Chickpea", "Barley"];
     let ans = true;
     diffcrop.forEach((sname) => {
       if (activeCrop === sname) {
@@ -171,19 +150,7 @@ export default function MApp({
     Barley: "#5ec962",
   };
   const color1 = {
-    color: [
-      "palette",
-      [
-        "interpolate",
-        ["linear"],
-        ["/", ["-", nir, green], ["+", nir, blue]],
-        -0.1,
-        0,
-        3,
-        10,
-      ],
-      ["rgba(98, 181, 209, 0)", color_comm[activeCrop]],
-    ],
+    color: ["palette", ["interpolate", ["linear"], ["/", ["-", nir, green], ["+", nir, blue]], -0.1, 0, 3, 10], ["rgba(98, 181, 209, 0)", color_comm[activeCrop]]],
   };
 
   const color2 = {
@@ -202,14 +169,7 @@ export default function MApp({
         3,
         5,
       ],
-      [
-        "rgba(0,0,0,0)",
-        "rgba(0,0,0,0)",
-        "rgba(180, 70, 109, 1)",
-        "#FF9A00",
-        "#06D001",
-        "rgba(0,0,0,0)",
-      ],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(180, 70, 109, 1)", "#FF9A00", "#06D001", "rgba(0,0,0,0)"],
     ],
   };
 
@@ -231,124 +191,42 @@ export default function MApp({
         5,
         6,
       ],
-      [
-        "rgba(0,0,0,0)",
-        "rgba(0,0,0,0)",
-        "#059212",
-        "#00FF00",
-        "#FFFF00",
-        "#FFA500",
-        "#FF0000",
-        "#3b528b",
-        "#21918c",
-        "#5ec962",
-        "#fde725",
-      ],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "#059212", "#00FF00", "#FFFF00", "#FFA500", "#FF0000", "#3b528b", "#21918c", "#5ec962", "#fde725"],
     ],
   };
 
   const color_hazard = {
-    color: [
-      "palette",
-      ["clamp", ["*", ["band", 2], 25], 0, 6],
-      [
-        "rgba(0,0,0,0)",
-        "rgba(150,150,150,1)",
-        "#059212",
-        "#00FF00",
-        "#FFFF00",
-        "#FFA500",
-        "#FF0000",
-      ],
-    ],
+    color: ["palette", ["clamp", ["*", ["band", 2], 25], 0, 6], ["rgba(0,0,0,0)", "rgba(150,150,150,1)", "#059212", "#00FF00", "#FFFF00", "#FFA500", "#FF0000"]],
   };
 
   const color_hazard2 = {
-    color: [
-      "palette",
-      ["clamp", ["*", ["band", 2], 25], 0, 6],
-      ["rgba(0,0,0,0)", "#059212", "#00FF00", "#FFFF00", "#FFA500", "#FF0000"],
-    ],
+    color: ["palette", ["clamp", ["*", ["band", 2], 25], 0, 6], ["rgba(0,0,0,0)", "#059212", "#00FF00", "#FFFF00", "#FFA500", "#FF0000"]],
+  };
+  const color_hazard4 = {
+    color: ["palette", ["clamp", ["*", ["band", 2], 250], 0, 4], ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "#059212", "#00FF00", "#FFFF00", "#FFA500", "#FF0000"]],
   };
 
   const color_hazard3 = {
     color: [
       "palette",
       ["clamp", ["*", ["band", 2], 25], 0, 6],
-      [
-        "rgba(0,0,0,0)",
-        "rgba(150,150,150,0)",
-        "rgba(0, 100, 0, 1)",
-        "rgba(144, 238, 144, 1)",
-        "rgba(200,200,200,1)",
-        "rgba(255,105,180,1)",
-        "rgba(128,0,0,1)",
-      ],
+      ["rgba(0,0,0,0)", "rgba(150,150,150,0)", "rgba(0, 100, 0, 1)", "rgba(144, 238, 144, 1)", "rgba(200,200,200,1)", "rgba(255,105,180,1)", "rgba(128,0,0,1)"],
     ],
   };
 
   const color_hazard_change = {
     color: [
       "palette",
-      [
-        "interpolate",
-        ["linear"],
-        ["*", ["band", 2], 250],
-        0,
-        1,
-        24,
-        2,
-        48,
-        3,
-        72,
-        5,
-        96,
-        6,
-      ],
-      [
-        "rgba(0,0,0,0)",
-        "rgba(150,150,150,0)",
-        "rgba(128,0,0,1)",
-        "rgba(255,105,180,1)",
-        "rgba(200,200,200,1)",
-        "rgba(144, 238, 144, 1)",
-        "rgba(0, 100, 0, 1)",
-      ],
+      ["interpolate", ["linear"], ["*", ["band", 2], 250], 0, 1, 24, 2, 48, 3, 72, 5, 96, 6],
+      ["rgba(0,0,0,0)", "rgba(150,150,150,0)", "rgba(128,0,0,1)", "rgba(255,105,180,1)", "rgba(200,200,200,1)", "rgba(144, 238, 144, 1)", "rgba(0, 100, 0, 1)"],
     ],
   };
 
   const color_hazard_livestock = {
     color: [
       "palette",
-      [
-        "interpolate",
-        ["linear"],
-        ["*", ["band", 2], 250],
-        0,
-        1,
-        1,
-        2,
-        2,
-        3,
-        3,
-        4,
-        4,
-        5,
-        5,
-        6,
-        6,
-        7,
-      ],
-      [
-        "rgba(0,0,0,0)",
-        "rgba(0,0,0,0)",
-        "rgba(150,150,150,1)",
-        "#059212",
-        "#00FF00",
-        "#FFFF00",
-        "#FFA500",
-        "#FF0000",
-      ],
+      ["interpolate", ["linear"], ["*", ["band", 2], 250], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#059212", "#00FF00", "#FFFF00", "#FFA500", "#FF0000"],
     ],
   };
 
@@ -445,45 +323,11 @@ export default function MApp({
   };
 
   const colorGradientEx = {
-    color: [
-      "interpolate",
-      ["linear"],
-      ["*", ["band", 1], 310],
-      0,
-      "rgba(0,0,0,0)",
-      10,
-      "#FFF9C4",
-      20,
-      "#FFE680",
-      30,
-      "#FFD700",
-      40,
-      "#DAA520",
-      50,
-      "#A0522D",
-      60,
-      "#6B3D1B",
-    ],
+    color: ["interpolate", ["linear"], ["*", ["band", 1], 310], 0, "rgba(0,0,0,0)", 10, "#FFF9C4", 20, "#FFE680", 30, "#FFD700", 40, "#DAA520", 50, "#A0522D", 60, "#6B3D1B"],
   };
 
   const colorGradient2 = {
-    color: [
-      "interpolate",
-      ["linear"],
-      ["*", ["band", 1], 310],
-      0,
-      "rgba(0,0,0,0)",
-      1,
-      "#059212",
-      3,
-      "#00FF00",
-      5,
-      "#FFFF00",
-      7,
-      "#FFA500",
-      11,
-      "#FF0000",
-    ],
+    color: ["interpolate", ["linear"], ["*", ["band", 1], 310], 0, "rgba(0,0,0,0)", 1, "#059212", 3, "#00FF00", 5, "#FFFF00", 7, "#FFA500", 11, "#FF0000"],
   };
 
   const key = "TrN2dn4maoO3C2x0sUpH";
@@ -569,16 +413,13 @@ export default function MApp({
         colorBox.style.width = "30px";
         colorBox.style.height = "30px";
         colorBox.style.backgroundColor = color;
-        colorBox.style.border = `1px solid ${
-          mode === "dark" ? "#e0e0e0" : "black"
-        }`;
+        colorBox.style.border = `1px solid ${mode === "dark" ? "#e0e0e0" : "black"}`;
         legend.appendChild(colorBox);
       });
 
       // Toggle legend visibility on button click
       button.addEventListener("click", () => {
-        legend.style.display =
-          legend.style.display === "none" ? "grid" : "none";
+        legend.style.display = legend.style.display === "none" ? "grid" : "none";
       });
 
       // Append legend to the control element
@@ -647,22 +488,14 @@ export default function MApp({
       super({ element: element, target: options.target });
 
       // Show/hide dropdown on hover
-      button.addEventListener(
-        "mouseenter",
-        () => (dropdown.style.display = "block")
-      );
-      element.addEventListener(
-        "mouseleave",
-        () => (dropdown.style.display = "none")
-      );
+      button.addEventListener("mouseenter", () => (dropdown.style.display = "block"));
+      element.addEventListener("mouseleave", () => (dropdown.style.display = "none"));
     }
 
     handleDownloadGeoTIFF() {
       const map = this.getMap();
       const layers = map.getLayers().getArray();
-      const geoTiffLayer = layers.find(
-        (layer) => layer.getSource() instanceof GeoTIFF
-      );
+      const geoTiffLayer = layers.find((layer) => layer.getSource() instanceof GeoTIFF);
 
       if (geoTiffLayer) {
         const source_tiff = geoTiffLayer.getSource();
@@ -752,12 +585,12 @@ class DownloadControl extends Control {
   useEffect(() => {
     const container = document.getElementById("popup2");
     const content = document.getElementById("popup-content2");
-  
+
     if (!container || !content) {
       console.error("Popup elements not found");
       return;
     }
-  
+
     const overlay = new Overlay({
       element: container,
       autoPan: {
@@ -766,25 +599,23 @@ class DownloadControl extends Control {
         },
       },
     });
-  
+
     // Ensure the reference exists before proceeding
     if (!ref.current) return;
-  
+
     // Define basemap source based on theme mode
     const sourcemap = new TileJSON({
-      url: mode === "dark"
-        ? `https://api.maptiler.com/maps/dataviz-dark/tiles.json?key=${key}`
-        : `https://api.maptiler.com/maps/bright-v2/tiles.json?key=${key}`,
+      url: mode === "dark" ? `https://api.maptiler.com/maps/dataviz-dark/tiles.json?key=${key}` : `https://api.maptiler.com/maps/bright-v2/tiles.json?key=${key}`,
       tileSize: 512,
       crossOrigin: "anonymous",
     });
-  
+
     const BingMapNew = new TileLayer2({
       source: sourcemap,
       opacity: 0.9,
       zIndex: 10,
     });
-  
+
     if (!mapRef.current) {
       // Initialize the map if it does not exist
       mapRef.current = new Map({
@@ -810,16 +641,16 @@ class DownloadControl extends Control {
     } else {
       // Replace existing basemap when theme mode changes
       const layers = mapRef.current.getLayers().getArray();
-      
+
       layers.forEach((layer) => {
         if (layer && typeof layer.getSource === "function" && layer.getSource() instanceof TileJSON) {
           mapRef.current.removeLayer(layer);
         }
       });
-  
+
       mapRef.current.addLayer(BingMapNew);
     }
-  
+
     const featureOverlay = new VectorLayer({
       source: new VectorSource(),
       map: mapRef.current,
@@ -830,43 +661,43 @@ class DownloadControl extends Control {
         }),
       ],
     });
-  
+
     let highlight;
-  
+
     const display_state = (pixel) => {
       const feature = mapRef.current.forEachFeatureAtPixel(pixel, (feature) => feature);
       let state = null;
-  
+
       if (feature) {
         state = feature.get("D_NAME_1") || feature.get("STATE");
       }
-  
+
       if (feature !== highlight) {
         if (highlight) featureOverlay.getSource().removeFeature(highlight);
         if (feature && state) featureOverlay.getSource().addFeature(feature);
         highlight = feature;
       }
-  
+
       return state;
     };
-  
+
     function getCentroidOfPolygon(geometry) {
       const extentt = geometry.getExtent();
       return [(extentt[0] + extentt[2]) / 2, (extentt[1] + extentt[3]) / 2];
     }
-  
+
     const LocationofEvent = (pixel) => {
       const feature = mapRef.current.forEachFeatureAtPixel(pixel, (feature) => feature);
       return feature ? getCentroidOfPolygon(feature.getGeometry()) : null;
     };
-  
+
     if (mapRef.current) {
       mapRef.current.on("pointermove", (evt) => {
         if (evt.dragging) return;
-  
+
         const pixel = mapRef.current.getEventPixel(evt.originalEvent);
         const contentofbox = display_state(pixel);
-  
+
         if (contentofbox) {
           content.innerHTML = contentofbox.toLowerCase();
           overlay.setPosition(LocationofEvent(pixel));
@@ -876,11 +707,10 @@ class DownloadControl extends Control {
         }
       });
     }
-  
+
     // Ensure the map resizes properly
     mapRef.current.updateSize();
   }, [mode, ref, mapRef]); // Re-run effect when `mode` changes
-  
 
   useEffect(() => {
     console.log("Theme: ", mode); // Debugging
@@ -977,10 +807,8 @@ class DownloadControl extends Control {
         x = activeRegion.substring(sec + 2);
       }
       if (x === "Bangladesh") {
-        let urlsourcestr =
-          "./DistrictBoundary/BD/" + y.substring(0, y.length - 9) + "DIV.json";
-        let urlcountrystr =
-          "./StateBoundary/BD/" + y.substring(0, y.length - 9) + "ST.json";
+        let urlsourcestr = "./DistrictBoundary/BD/" + y.substring(0, y.length - 9) + "DIV.json";
+        let urlcountrystr = "./StateBoundary/BD/" + y.substring(0, y.length - 9) + "ST.json";
         sourcet = new VectorSource({
           url: urlsourcestr,
           format: new GeoJSON(),
@@ -1002,8 +830,7 @@ class DownloadControl extends Control {
         });
       } else if (x === "Afghanistan") {
         let urlsourcestr = "./DistrictBoundary/AF/" + y.toUpperCase() + ".json";
-        let urlcountrystr =
-          "./StateBoundary/AF/STATE_" + y.toUpperCase() + ".json";
+        let urlcountrystr = "./StateBoundary/AF/STATE_" + y.toUpperCase() + ".json";
         sourcet = new VectorSource({
           url: urlsourcestr,
           format: new GeoJSON(),
@@ -1013,10 +840,8 @@ class DownloadControl extends Control {
           format: new GeoJSON(),
         });
       } else if (x === "India") {
-        let urlsourcestr =
-          "./DistrictBoundary/IN/STATE_" + y.toUpperCase() + ".json";
-        let urlcountrystr =
-          "./StateBoundary/IN/STATE_" + y.toUpperCase() + ".json";
+        let urlsourcestr = "./DistrictBoundary/IN/STATE_" + y.toUpperCase() + ".json";
+        let urlcountrystr = "./StateBoundary/IN/STATE_" + y.toUpperCase() + ".json";
         sourcet = new VectorSource({
           url: urlsourcestr,
           format: new GeoJSON(),
@@ -1026,10 +851,8 @@ class DownloadControl extends Control {
           format: new GeoJSON(),
         });
       } else if (x === "Sri Lanka") {
-        let urlsourcestr =
-          "./DistrictBoundary/SL/STATE_" + y.toUpperCase() + ".json";
-        let urlcountrystr =
-          "./StateBoundary/SL/STATE_" + y.toUpperCase() + ".json";
+        let urlsourcestr = "./DistrictBoundary/SL/STATE_" + y.toUpperCase() + ".json";
+        let urlcountrystr = "./StateBoundary/SL/STATE_" + y.toUpperCase() + ".json";
         sourcet = new VectorSource({
           url: urlsourcestr,
           format: new GeoJSON(),
@@ -1039,10 +862,8 @@ class DownloadControl extends Control {
           format: new GeoJSON(),
         });
       } else if (x === "Pakistan") {
-        let urlsourcestr =
-          "./DistrictBoundary/PK/STATE_" + y.toUpperCase() + ".json";
-        let urlcountrystr =
-          "./StateBoundary/PK/STATE_" + y.toUpperCase() + ".json";
+        let urlsourcestr = "./DistrictBoundary/PK/STATE_" + y.toUpperCase() + ".json";
+        let urlcountrystr = "./StateBoundary/PK/STATE_" + y.toUpperCase() + ".json";
         sourcet = new VectorSource({
           url: urlsourcestr,
           format: new GeoJSON(),
@@ -1052,8 +873,7 @@ class DownloadControl extends Control {
           format: new GeoJSON(),
         });
       } else if (x === "Maldives") {
-        let urlsourcestr =
-          "./DistrictBoundary/MV/STATE_" + y.toUpperCase() + ".json";
+        let urlsourcestr = "./DistrictBoundary/MV/STATE_" + y.toUpperCase() + ".json";
         let urlcountrystr = "./StateBoundary/MV/" + y.toUpperCase() + ".json";
         sourcet = new VectorSource({
           url: urlsourcestr,
@@ -1178,10 +998,7 @@ class DownloadControl extends Control {
                 }),
                 style: new Style({
                   fill: new Fill({
-                    color:
-                      mode === "dark"
-                        ? "rgba(37, 41, 46, 1)"
-                        : "rgba(255,255,255,1)",
+                    color: mode === "dark" ? "rgba(37, 41, 46, 1)" : "rgba(255,255,255,1)",
                   }),
                 }),
                 opacity: mode === "dark" ? 0.4 : 0.6,
@@ -1206,7 +1023,7 @@ class DownloadControl extends Control {
     let source1 = null;
     let opt = 1;
     const optcode = {
-     "Stress Tolerant Variety": "ADVAR",
+      "Stress Tolerant Variety": "ADVAR",
       "Early Sowing": "ADPTI",
       "Precision Land Levelling": "LASLV",
       "Zero Tillage with residues": "ZTILL",
@@ -1236,22 +1053,17 @@ class DownloadControl extends Control {
     };
 
     const hazardname = {
-"District Level": "District Level",
+      "District Level": "District Level",
       "Downscaled Risk": "Downscaled Risk",
       "Risk Index": "Risk index",
       "Hazard Index": "Hazard Index",
-      "Low temperature induced spikelet sterility":
-        "Low temperature induced spikelet sterility",
-      "Low temperature induced pollen sterility":
-        "Low temperature induced pollen sterility",
-      "High temperature induced pollen sterility":
-        "High temperature induced pollen sterility",
+      "Low temperature induced spikelet sterility": "Low temperature induced spikelet sterility",
+      "Low temperature induced pollen sterility": "Low temperature induced pollen sterility",
+      "High temperature induced pollen sterility": "High temperature induced pollen sterility",
       "Heat Stress": "Heat stress",
-      "High temperature induced spikelet sterility":
-        "High temperature induced spikelet sterility",
+      "High temperature induced spikelet sterility": "High temperature induced spikelet sterility",
       "Cold Stress": "Cold stress",
-      "Low temperature induced tuberization failure":
-        "Low temperature induced tuberization failure",
+      "Low temperature induced tuberization failure": "Low temperature induced tuberization failure",
       "Untimely Rainfall": "Untimely rainfall",
       "Terminal Heat": "Terminal heat",
       "Days of Frost": "Days of frost",
@@ -1299,38 +1111,17 @@ class DownloadControl extends Control {
 
     if (exploreType === "Commodity") {
       if (activeOpt !== "") {
-        opt = 2;
+        opt = 333;
         let urlstr = "xyz.tif";
         if (activeScenario === "baseline") {
-          urlstr =
-            "./Adap/" +
-            activeCrop +
-            "/Baseline/Suitability_" +
-            activeCrop +
-            "_" +
-            optcode[activeOpt] +
-            ".tif";
+          urlstr = "./Adap/" + activeCrop + "/Baseline/Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
         } else if (activeScenario === "ssp245") {
-          urlstr =
-            "./Adap/" +
-            activeCrop +
-            "/SSP245/Suitability_" +
-            activeCrop +
-            "_" +
-            optcode[activeOpt] +
-            ".tif";
+          urlstr = "./Adap/" + activeCrop + "/SSP245/Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
         } else {
-          urlstr =
-            "./Adap/" +
-            activeCrop +
-            "/SSP585/Suitability_" +
-            activeCrop +
-            "_" +
-            optcode[activeOpt] +
-            ".tif";
+          urlstr = "./Adap/" + activeCrop + "/SSP585/Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
         }
         if (checkcrop2() === false) {
-          opt = 3;
+          opt = 333;
           urlstr = "./Adap/" + activeCrop + "/" + activeOpt + " Baseline.tif";
         }
         settiffFilePath(urlstr);
@@ -1350,75 +1141,26 @@ class DownloadControl extends Control {
         }
 
         if (activeScenario === "baseline") {
-          urlstr =
-            "./Hazards/" +
-            activeCrop +
-            "/Baseline/" +
-            district_n +
-            "ZZ_" +
-            hazardname[CurrRisk] +
-            ".tif";
+          urlstr = "./Hazards/" + activeCrop + "/Baseline/" + district_n + "ZZ_" + hazardname[CurrRisk] + ".tif";
         } else if (activeScenario === "ssp245") {
           if (displayLayer === "Absolute Change") {
             opt = 102;
-            urlstr =
-              "./Hazards/" +
-              activeCrop +
-              "/SSP245/" +
-              district_n +
-              "Abs_ZZ_" +
-              hazardname[CurrRisk] +
-              ".tif";
+            urlstr = "./Hazards/" + activeCrop + "/SSP245/" + district_n + "Abs_ZZ_" + hazardname[CurrRisk] + ".tif";
           } else if (displayLayer === "Percentage Change") {
             opt = 102;
-            urlstr =
-              "./Hazards/" +
-              activeCrop +
-              "/Percentage Change/SSP245/" +
-              district_n +
-              "Cat_ZZ_" +
-              hazardname[CurrRisk] +
-              ".tif";
+            urlstr = "./Hazards/" + activeCrop + "/Percentage Change/SSP245/" + district_n + "Cat_ZZ_" + hazardname[CurrRisk] + ".tif";
           } else {
-            urlstr =
-              "./Hazards/" +
-              activeCrop +
-              "/SSP245/" +
-              district_n +
-              "ZZ_" +
-              hazardname[CurrRisk] +
-              ".tif";
+            urlstr = "./Hazards/" + activeCrop + "/SSP245/" + district_n + "ZZ_" + hazardname[CurrRisk] + ".tif";
           }
         } else {
           if (displayLayer === "Absolute Change") {
             opt = 102;
-            urlstr =
-              "./Hazards/" +
-              activeCrop +
-              "/SSP585/" +
-              district_n +
-              "Abs_ZZ_" +
-              hazardname[CurrRisk] +
-              ".tif";
+            urlstr = "./Hazards/" + activeCrop + "/SSP585/" + district_n + "Abs_ZZ_" + hazardname[CurrRisk] + ".tif";
           } else if (displayLayer === "Percentage Change") {
             opt = 102;
-            urlstr =
-              "./Hazards/" +
-              activeCrop +
-              "/Percentage Change/SSP585/" +
-              district_n +
-              "Cat_ZZ_" +
-              hazardname[CurrRisk] +
-              ".tif";
+            urlstr = "./Hazards/" + activeCrop + "/Percentage Change/SSP585/" + district_n + "Cat_ZZ_" + hazardname[CurrRisk] + ".tif";
           } else {
-            urlstr =
-              "./Hazards/" +
-              activeCrop +
-              "/SSP585/" +
-              district_n +
-              "ZZ_" +
-              hazardname[CurrRisk] +
-              ".tif";
+            urlstr = "./Hazards/" + activeCrop + "/SSP585/" + district_n + "ZZ_" + hazardname[CurrRisk] + ".tif";
           }
         }
         /* if(CurrRisk==='Hazard Index'){
@@ -1428,11 +1170,7 @@ class DownloadControl extends Control {
         if (CurrRisk === "Flood") {
           opt = 99;
         }
-        if (
-          CurrRisk === "Seasonal Rainfall" ||
-          CurrRisk === "Maximum Temperature" ||
-          CurrRisk === "Minimum Temperature"
-        ) {
+        if (CurrRisk === "Seasonal Rainfall" || CurrRisk === "Maximum Temperature" || CurrRisk === "Minimum Temperature") {
           opt = 4;
           urlstr = "./BaseClimate/" + hazardname[CurrRisk] + ".tif";
         }
@@ -1444,11 +1182,7 @@ class DownloadControl extends Control {
           sources: [{ url: urlstr }],
           sourceOptions: { allowFullFile: true },
         });
-      } else if (
-        activeImpact["Productivity"] ||
-        activeImpact["Value of Production"] ||
-        activeImpact["Resilience"]
-      ) {
+      } else if (activeImpact["Productivity"] || activeImpact["Value of Production"] || activeImpact["Resilience"]) {
         let urlstr = "xyz.tif";
         opt = 3;
         if (activeImpact["Productivity"]) {
@@ -1522,17 +1256,7 @@ class DownloadControl extends Control {
         setOverl(newOverl);
       }
     }
-  }, [
-    CurrRisk,
-    activeCrop,
-    activeOpt,
-    activeImpact,
-    mapRef,
-    activeScenario,
-    displayLayer,
-    activeScale,
-    exploreType,
-  ]);
+  }, [CurrRisk, activeCrop, activeOpt, activeImpact, mapRef, activeScenario, displayLayer, activeScale, exploreType]);
 
   useEffect(() => {
     let source_bio = null;
@@ -1577,32 +1301,11 @@ class DownloadControl extends Control {
       if (!Biolayer && activeOptLayer["Biophysical Suitability"]) {
         found = true;
         if (activeScenario === "baseline") {
-          urlstr =
-            "./Adap/" +
-            activeCrop +
-            "/Baseline/Suitability_" +
-            activeCrop +
-            "_" +
-            optcode[activeOpt] +
-            ".tif";
+          urlstr = "./Adap/" + activeCrop + "/Baseline/Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
         } else if (activeScenario === "ssp245") {
-          urlstr =
-            "./Adap/" +
-            activeCrop +
-            "/SSP245/Suitability_" +
-            activeCrop +
-            "_" +
-            optcode[activeOpt] +
-            ".tif";
+          urlstr = "./Adap/" + activeCrop + "/SSP245/Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
         } else {
-          urlstr =
-            "./Adap/" +
-            activeCrop +
-            "/SSP585/Suitability_" +
-            activeCrop +
-            "_" +
-            optcode[activeOpt] +
-            ".tif";
+          urlstr = "./Adap/" + activeCrop + "/SSP585/Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
         }
         source_bio = new GeoTIFF({
           sources: [{ url: urlstr }],
@@ -1613,32 +1316,11 @@ class DownloadControl extends Control {
       if (!Adaptlayer && activeOptLayer["Adaptation Benefits"]) {
         found = true;
         if (activeScenario === "baseline") {
-          urlstr =
-            "./Adap/" +
-            activeCrop +
-            "/Baseline/Tech/Suitability_" +
-            activeCrop +
-            "_" +
-            optcode[activeOpt] +
-            ".tif";
+          urlstr = "./Adap/" + activeCrop + "/Baseline/Tech/Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
         } else if (activeScenario === "ssp245") {
-          urlstr =
-            "./Adap/" +
-            activeCrop +
-            "/SSP245/Tech/Suitability_" +
-            activeCrop +
-            "_" +
-            optcode[activeOpt] +
-            ".tif";
+          urlstr = "./Adap/" + activeCrop + "/SSP245/Tech/Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
         } else {
-          urlstr =
-            "./Adap/" +
-            activeCrop +
-            "/SSP585/Tech/Suitability_" +
-            activeCrop +
-            "_" +
-            optcode[activeOpt] +
-            ".tif";
+          urlstr = "./Adap/" + activeCrop + "/SSP585/Tech/Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
         }
         source_adapt = new GeoTIFF({
           sources: [{ url: urlstr }],
@@ -1649,32 +1331,11 @@ class DownloadControl extends Control {
       if (!Sociolayer && activeOptLayer["Economic"]) {
         found = true;
         if (activeScenario === "baseline") {
-          urlstr =
-            "./Adap/" +
-            activeCrop +
-            "/Baseline/Socio/Suitability_" +
-            activeCrop +
-            "_" +
-            optcode[activeOpt] +
-            ".tif";
+          urlstr = "./Adap/" + activeCrop + "/Baseline/Socio/Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
         } else if (activeScenario === "ssp245") {
-          urlstr =
-            "./Adap/" +
-            activeCrop +
-            "/SSP245/Socio/Suitability_" +
-            activeCrop +
-            "_" +
-            optcode[activeOpt] +
-            ".tif";
+          urlstr = "./Adap/" + activeCrop + "/SSP245/Socio/Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
         } else {
-          urlstr =
-            "./Adap/" +
-            activeCrop +
-            "/SSP585/Socio/Suitability_" +
-            activeCrop +
-            "_" +
-            optcode[activeOpt] +
-            ".tif";
+          urlstr = "./Adap/" + activeCrop + "/SSP585/Socio/Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
         }
         source_socio = new GeoTIFF({
           sources: [{ url: urlstr }],
@@ -1685,32 +1346,11 @@ class DownloadControl extends Control {
       if (!Scalelayer && activeOptLayer["Scalability"]) {
         found = true;
         if (activeScenario === "baseline") {
-          urlstr =
-            "./Adap/" +
-            activeCrop +
-            "/Baseline/Scale/Suitability_" +
-            activeCrop +
-            "_" +
-            optcode[activeOpt] +
-            ".tif";
+          urlstr = "./Adap/" + activeCrop + "/Baseline/Scale/Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
         } else if (activeScenario === "ssp245") {
-          urlstr =
-            "./Adap/" +
-            activeCrop +
-            "/SSP245/Scale/Suitability_" +
-            activeCrop +
-            "_" +
-            optcode[activeOpt] +
-            ".tif";
+          urlstr = "./Adap/" + activeCrop + "/SSP245/Scale/Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
         } else {
-          urlstr =
-            "./Adap/" +
-            activeCrop +
-            "/SSP585/Scale/Suitability_" +
-            activeCrop +
-            "_" +
-            optcode[activeOpt] +
-            ".tif";
+          urlstr = "./Adap/" + activeCrop + "/SSP585/Scale/Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
         }
         source_scale = new GeoTIFF({
           sources: [{ url: urlstr }],
@@ -1803,16 +1443,12 @@ class DownloadControl extends Control {
   return (
     <div style={{ overflow: "hidden" }}>
       <div id="popup2" class="ol-popup">
-        <div
-          id="popup-content2"
-          style={{ textTransform: "capitalize", fontSize: "13px" }}
-        ></div>
+        <div id="popup-content2" style={{ textTransform: "capitalize", fontSize: "13px" }}></div>
       </div>
       <div
         ref={ref}
         style={{
-          height:
-            activeOpt === "" ? "calc(100vh - 155px)" : "calc(100vh - 175px)",
+          height: activeOpt === "" ? "calc(100vh - 155px)" : "calc(100vh - 175px)",
           width: "auto",
           marginLeft: 0,
           marginBottom: "0px",

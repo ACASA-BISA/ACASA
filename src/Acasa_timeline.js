@@ -41,11 +41,7 @@ export default function Timeline2() {
     <div>
       <Timeline position="alternate">
         <TimelineItem>
-          <TimelineOppositeContent
-            sx={{ mt: "15px" }}
-            variant="body2"
-            color="text.secondary"
-          >
+          <TimelineOppositeContent sx={{ mt: "15px" }} variant="body2" color="text.secondary">
             <Typography>13th December, 2023</Typography>
             <Typography>Nepal</Typography>
           </TimelineOppositeContent>
@@ -63,11 +59,7 @@ export default function Timeline2() {
                 width: "25vw",
               }}
             >
-              <Typography
-                variant="h5"
-                component="span"
-                sx={{ color: "#4b9e44", fontWeight: "bold" }}
-              >
+              <Typography variant="h5" component="span" sx={{ color: "#4b9e44", fontWeight: "bold" }}>
                 TV Today
               </Typography>
               <Typography
@@ -82,9 +74,7 @@ export default function Timeline2() {
                 Partners Interview
               </Typography>
               <Typography sx={{ mt: "10px", fontSize: "15px" }}>
-                In frame: Hon’ble Secretary (Livestock Development), MoALD,
-                Nepal; Dhruba Raj Bhattarai, NARC, Nepal; Pramod Aggarwal,
-                BISA-CIMMYT, India; Tess Russo, BMGF, Seattle; Roshan B Ojha,
+                In frame: Hon’ble Secretary (Livestock Development), MoALD, Nepal; Dhruba Raj Bhattarai, NARC, Nepal; Pramod Aggarwal, BISA-CIMMYT, India; Tess Russo, BMGF, Seattle; Roshan B Ojha,
                 NARC; Amar Bahadur Pun, NARC talks ACASA.
               </Typography>
               <Typography sx={{ color: "#444444", marginTop: "10px" }}>
@@ -105,11 +95,7 @@ export default function Timeline2() {
           </TimelineContent>
         </TimelineItem>
         <TimelineItem>
-          <TimelineOppositeContent
-            sx={{ mt: "15px" }}
-            variant="body2"
-            color="text.secondary"
-          >
+          <TimelineOppositeContent sx={{ mt: "15px" }} variant="body2" color="text.secondary">
             <Typography>12th December, 2023</Typography>
             <Typography>Nepal</Typography>
           </TimelineOppositeContent>
@@ -129,11 +115,7 @@ export default function Timeline2() {
                 textAlign: "right",
               }}
             >
-              <Typography
-                variant="h5"
-                component="span"
-                sx={{ color: "#4b9e44", fontWeight: "bold" }}
-              >
+              <Typography variant="h5" component="span" sx={{ color: "#4b9e44", fontWeight: "bold" }}>
                 Kantipur TV
               </Typography>
               <Typography
@@ -147,10 +129,7 @@ export default function Timeline2() {
               >
                 Regular News Time
               </Typography>
-              <Typography sx={{ mt: "10px", fontSize: "15px" }}>
-                Coverage for ACASA Annual Project Review and Planning Meet 2023
-                conducted at Kathmandu, Nepal
-              </Typography>
+              <Typography sx={{ mt: "10px", fontSize: "15px" }}>Coverage for ACASA Annual Project Review and Planning Meet 2023 conducted at Kathmandu, Nepal</Typography>
               <Typography sx={{ color: "#444444", marginTop: "10px" }}>
                 <a
                   href="https://kantipurtv.com/business/2023/12/12/1702374469.html"
@@ -183,11 +162,7 @@ export default function Timeline2() {
           </TimelineContent>
         </TimelineItem>
         <TimelineItem>
-          <TimelineOppositeContent
-            sx={{ mt: "15px" }}
-            variant="body2"
-            color="text.secondary"
-          >
+          <TimelineOppositeContent sx={{ mt: "15px" }} variant="body2" color="text.secondary">
             <Typography>15th December, 2023</Typography>
             <Typography>Nepal</Typography>
             <Typography></Typography>
@@ -206,11 +181,7 @@ export default function Timeline2() {
                 width: "25vw",
               }}
             >
-              <Typography
-                variant="h5"
-                component="span"
-                sx={{ color: "#4b9e44", fontWeight: "bold" }}
-              >
+              <Typography variant="h5" component="span" sx={{ color: "#4b9e44", fontWeight: "bold" }}>
                 Ujyaalo Online
               </Typography>
               <Typography
@@ -225,9 +196,7 @@ export default function Timeline2() {
                 Partner Radio Interview
               </Typography>
               <Typography sx={{ mt: "10px", fontSize: "15px" }}>
-                Roshan B Ojha, ACASA country lead, Nepal, discusses the
-                collaboration of Nepal Agricultural Research Council (NARC) and
-                ACASA for enabling the development of effective mitigation and
+                Roshan B Ojha, ACASA country lead, Nepal, discusses the collaboration of Nepal Agricultural Research Council (NARC) and ACASA for enabling the development of effective mitigation and
                 adaptation options in the country.
               </Typography>
               <Typography sx={{ color: "#444444", marginTop: "10px" }}>
@@ -248,11 +217,7 @@ export default function Timeline2() {
           </TimelineContent>
         </TimelineItem>
         <TimelineItem>
-          <TimelineOppositeContent
-            sx={{ mt: "15px" }}
-            variant="body2"
-            color="text.secondary"
-          >
+          <TimelineOppositeContent sx={{ mt: "15px" }} variant="body2" color="text.secondary">
             <Typography>21st August, 2023</Typography>
             <Typography>India</Typography>
           </TimelineOppositeContent>
@@ -270,11 +235,7 @@ export default function Timeline2() {
                 width: "25vw",
               }}
             >
-              <Typography
-                variant="h5"
-                component="span"
-                sx={{ color: "#4b9e44", fontWeight: "bold" }}
-              >
+              <Typography variant="h5" component="span" sx={{ color: "#4b9e44", fontWeight: "bold" }}>
                 ICAR
               </Typography>
               <Typography
@@ -286,15 +247,11 @@ export default function Timeline2() {
                   mt: "10px",
                 }}
               >
-                National Workshop on Atlas of Climate Adaptation in South Asian
-                Agriculture (ACASA) inaugurated
+                National Workshop on Atlas of Climate Adaptation in South Asian Agriculture (ACASA) inaugurated
               </Typography>
               <Typography sx={{ mt: "10px", fontSize: "15px" }}>
-                A two-day national workshop on Atlas of Climate Adaptation in
-                South Asian Agriculture (ACASA), a collaborative project between
-                ICAR and BISA-CIMMYT was inaugurated by Dr S.K. Chaudhari,
-                Deputy Director General (NRM), ICAR at ICAR- Central Research
-                Institute for Dryland Agriculture, Hyderabad.
+                A two-day national workshop on Atlas of Climate Adaptation in South Asian Agriculture (ACASA), a collaborative project between ICAR and BISA-CIMMYT was inaugurated by Dr S.K.
+                Chaudhari, Deputy Director General (NRM), ICAR at ICAR- Central Research Institute for Dryland Agriculture, Hyderabad.
               </Typography>
               <Typography sx={{ color: "#444444", marginTop: "10px" }}>
                 <a
@@ -314,11 +271,7 @@ export default function Timeline2() {
           </TimelineContent>
         </TimelineItem>
         <TimelineItem>
-          <TimelineOppositeContent
-            sx={{ mt: "15px" }}
-            variant="body2"
-            color="text.secondary"
-          >
+          <TimelineOppositeContent sx={{ mt: "15px" }} variant="body2" color="text.secondary">
             <Typography>25th – 27th April, 2023</Typography>
             <Typography>India</Typography>
           </TimelineOppositeContent>
@@ -338,11 +291,7 @@ export default function Timeline2() {
                 textAlign: "left",
               }}
             >
-              <Typography
-                variant="h5"
-                component="span"
-                sx={{ color: "#4b9e44", fontWeight: "bold" }}
-              >
+              <Typography variant="h5" component="span" sx={{ color: "#4b9e44", fontWeight: "bold" }}>
                 ICAR
               </Typography>
               <Typography
@@ -357,11 +306,8 @@ export default function Timeline2() {
                 Project on Climate Adaptation Atlas for South Asia Launched
               </Typography>
               <Typography sx={{ mt: "10px", fontSize: "15px" }}>
-                The ICAR in collaboration with the Borlaug Institute for South
-                Asia (BISA-CIMMYT) and the national agricultural research
-                systems of Bangladesh, Nepal and Sri Lanka launched the project
-                Atlas of Climate Adaptation in South Asian Agriculture (ACASA)
-                marking a significant step in south-south cooperation.
+                The ICAR in collaboration with the Borlaug Institute for South Asia (BISA-CIMMYT) and the national agricultural research systems of Bangladesh, Nepal and Sri Lanka launched the project
+                Atlas of Climate Adaptation in South Asian Agriculture (ACASA) marking a significant step in south-south cooperation.
               </Typography>
               <Typography sx={{ color: "#444444", marginTop: "10px" }}>
                 <a
@@ -381,11 +327,7 @@ export default function Timeline2() {
           </TimelineContent>
         </TimelineItem>
         <TimelineItem>
-          <TimelineOppositeContent
-            sx={{ mt: "15px" }}
-            variant="body2"
-            color="text.secondary"
-          >
+          <TimelineOppositeContent sx={{ mt: "15px" }} variant="body2" color="text.secondary">
             <Typography>26th April, 2023</Typography>
             <Typography></Typography>
           </TimelineOppositeContent>
@@ -404,11 +346,7 @@ export default function Timeline2() {
                 width: "25vw",
               }}
             >
-              <Typography
-                variant="h5"
-                component="span"
-                sx={{ color: "#4b9e44", fontWeight: "bold" }}
-              >
+              <Typography variant="h5" component="span" sx={{ color: "#4b9e44", fontWeight: "bold" }}>
                 AgroSpectrum Asia
               </Typography>
               <Typography
@@ -420,19 +358,12 @@ export default function Timeline2() {
                   mt: "10px",
                 }}
               >
-                South Asia to get its first Climate Adaptation Atlas in
-                Agriculture
+                South Asia to get its first Climate Adaptation Atlas in Agriculture
               </Typography>
+              <Typography sx={{ mt: "10px", fontSize: "15px" }}>BISA-CIMMYT in collaboration with NARS to develop its first Atlas of Climate Adaptation in South Asian Agriculture</Typography>
               <Typography sx={{ mt: "10px", fontSize: "15px" }}>
-                BISA-CIMMYT in collaboration with NARS to develop its first
-                Atlas of Climate Adaptation in South Asian Agriculture
-              </Typography>
-              <Typography sx={{ mt: "10px", fontSize: "15px" }}>
-                South Asia has diverse climatic zones given its vast physical
-                landscape. However, the region constantly displays the impact of
-                climate change, where the melting of the glaciers, rising sea
-                levels, soil erosion, water intrusion, and forest fires are
-                worsening the overall situation.
+                South Asia has diverse climatic zones given its vast physical landscape. However, the region constantly displays the impact of climate change, where the melting of the glaciers, rising
+                sea levels, soil erosion, water intrusion, and forest fires are worsening the overall situation.
               </Typography>
               <Typography sx={{ color: "#444444", marginTop: "10px" }}>
                 <a

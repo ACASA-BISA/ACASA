@@ -100,14 +100,9 @@ export default function AboutUs() {
                   marginTop: 2,
                 })}
               >
-                Increasing climatic risks make it imperative to identify spatial
-                and temporal risks that are likely to impact agriculture.
-                Adaptation options are thus needed to mitigate the negative
-                impacts. Considering this, with support from the Bill & Melinda
-                Gates Foundation (BMGF), the Borlaug Institute for South Asia
-                (BISA) is working with national agriculture research systems in
-                South Asia to develop the Atlas of Climate Adaptation in South
-                Asian Agriculture (ACASA).
+                Increasing climatic risks make it imperative to identify spatial and temporal risks that are likely to impact agriculture. Adaptation options are thus needed to mitigate the negative
+                impacts. Considering this, with support from the Bill & Melinda Gates Foundation (BMGF), the Borlaug Institute for South Asia (BISA) is working with national agriculture research
+                systems in South Asia to develop the Atlas of Climate Adaptation in South Asian Agriculture (ACASA).
               </Typography>
               <Typography
                 sx={(theme) => ({
@@ -117,21 +112,11 @@ export default function AboutUs() {
                   marginTop: 2,
                 })}
               >
-                This comprehensive Atlas aims to provide granular-scale
-                information for South Asian countries at the village scale by
-                integrating various spatially explicit data sets together. It
-                covers climate hazards, the exposure of smallholder populations,
-                farms, and crop and livestock enterprises to hazards. It will
-                also look into the vulnerability of these populations to
-                climatic risks, impacts on critical commodities in the region,
-                and evidence of the effectiveness of different climate
-                adaptation interventions. The ACASA offers a unique set of tools
-                that can facilitate improved investment targeting and priority
-                setting, and support stakeholders' decision-making and
-                investments in agricultural technologies, climate information
-                services, and policies. The intended beneficiaries of this Atlas
-                include governments, insurance and agri-food industries,
-                international and national donors, and adaptation-focused
+                This comprehensive Atlas aims to provide granular-scale information for South Asian countries at the village scale by integrating various spatially explicit data sets together. It
+                covers climate hazards, the exposure of smallholder populations, farms, and crop and livestock enterprises to hazards. It will also look into the vulnerability of these populations to
+                climatic risks, impacts on critical commodities in the region, and evidence of the effectiveness of different climate adaptation interventions. The ACASA offers a unique set of tools
+                that can facilitate improved investment targeting and priority setting, and support stakeholders' decision-making and investments in agricultural technologies, climate information
+                services, and policies. The intended beneficiaries of this Atlas include governments, insurance and agri-food industries, international and national donors, and adaptation-focused
                 entities.
               </Typography>
               <Typography
@@ -152,14 +137,8 @@ export default function AboutUs() {
                   fontSize: "16px",
                 })}
               >
-                <Link
-                  href="https://www.cimmyt.org/projects/atlas-of-climate-adaptation-in-south-asian-agriculture-acasa/"
-                  underline="none"
-                  color="#4b9e44"
-                  target="_blank"
-                >
-                  Atlas of Climate Adaptation in South Asian Agriculture (ACASA)
-                  – CIMMYT
+                <Link href="https://www.cimmyt.org/projects/atlas-of-climate-adaptation-in-south-asian-agriculture-acasa/" underline="none" color="#4b9e44" target="_blank">
+                  Atlas of Climate Adaptation in South Asian Agriculture (ACASA) – CIMMYT
                 </Link>
               </Typography>
               <Typography
@@ -169,12 +148,7 @@ export default function AboutUs() {
                   fontSize: "16px",
                 })}
               >
-                <Link
-                  href="ACASA Brochure.pdf"
-                  underline="none"
-                  color="#4b9e44"
-                  target="_blank"
-                >
+                <Link href="ACASA Brochure.pdf" underline="none" color="#4b9e44" target="_blank">
                   ACASA Brochure
                 </Link>
               </Typography>
@@ -199,10 +173,7 @@ export default function AboutUs() {
                 Workstreams
               </Typography>
               <Zoom in={true} style={{ transitionDelay: "100ms" }}>
-                <Paper
-                  sx={{ mt: 0, width: "99%", height: "auto" }}
-                  elevation={0}
-                >
+                <Paper sx={{ mt: 0, width: "99%", height: "auto" }} elevation={0}>
                   <Box
                     sx={{
                       display: "flex",
@@ -210,11 +181,7 @@ export default function AboutUs() {
                       alignItems: "center",
                     }}
                   >
-                    <img
-                      src={"work-stream1.svg"}
-                      style={logoStyle}
-                      alt="risk"
-                    />
+                    <img src={"work-stream1.svg"} style={logoStyle} alt="risk" />
                     <Typography
                       sx={(theme) => ({
                         color: theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",
@@ -224,18 +191,13 @@ export default function AboutUs() {
                         marginRight: 3,
                       })}
                     >
-                      Gridded risk analysis using historical crop yield data and
-                      satellite signatures; indicators of current and future
-                      hazards, exposure, and vulnerabilities
+                      Gridded risk analysis using historical crop yield data and satellite signatures; indicators of current and future hazards, exposure, and vulnerabilities
                     </Typography>
                   </Box>
                 </Paper>
               </Zoom>
               <Zoom in={true} style={{ transitionDelay: "500ms" }}>
-                <Paper
-                  sx={{ mt: 0, width: "99%", height: "auto" }}
-                  elevation={0}
-                >
+                <Paper sx={{ mt: 0, width: "99%", height: "auto" }} elevation={0}>
                   <Box
                     sx={{
                       display: "flex",
@@ -243,11 +205,7 @@ export default function AboutUs() {
                       alignItems: "center",
                     }}
                   >
-                    <img
-                      src={"work-stream2.svg"}
-                      style={logoStyle}
-                      alt="risk"
-                    />
+                    <img src={"work-stream2.svg"} style={logoStyle} alt="risk" />
                     <Typography
                       sx={(theme) => ({
                         color: theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",
@@ -257,17 +215,13 @@ export default function AboutUs() {
                         marginRight: 3,
                       })}
                     >
-                      Climate impact on commodities under current and future
-                      climate
+                      Climate impact on commodities under current and future climate
                     </Typography>
                   </Box>
                 </Paper>
               </Zoom>
               <Zoom in={true} style={{ transitionDelay: "900ms" }}>
-                <Paper
-                  sx={{ mt: 0, width: "99%", height: "auto" }}
-                  elevation={0}
-                >
+                <Paper sx={{ mt: 0, width: "99%", height: "auto" }} elevation={0}>
                   <Box
                     sx={{
                       display: "flex",
@@ -275,11 +229,7 @@ export default function AboutUs() {
                       alignItems: "center",
                     }}
                   >
-                    <img
-                      src={"work-stream3.svg"}
-                      style={logoStyle}
-                      alt="risk"
-                    />
+                    <img src={"work-stream3.svg"} style={logoStyle} alt="risk" />
                     <Typography
                       sx={(theme) => ({
                         color: theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",
@@ -289,17 +239,13 @@ export default function AboutUs() {
                         marginRight: 3,
                       })}
                     >
-                      Heuristic models, crop/livestock models, statistical and
-                      econometric models, and expert consultations
+                      Heuristic models, crop/livestock models, statistical and econometric models, and expert consultations
                     </Typography>
                   </Box>
                 </Paper>
               </Zoom>
               <Zoom in={true} style={{ transitionDelay: "1300ms" }}>
-                <Paper
-                  sx={{ mt: 0, width: "99%", height: "auto" }}
-                  elevation={0}
-                >
+                <Paper sx={{ mt: 0, width: "99%", height: "auto" }} elevation={0}>
                   <Box
                     sx={{
                       display: "flex",
@@ -307,11 +253,7 @@ export default function AboutUs() {
                       alignItems: "center",
                     }}
                   >
-                    <img
-                      src={"work-stream4.svg"}
-                      style={logoStyle}
-                      alt="risk"
-                    />
+                    <img src={"work-stream4.svg"} style={logoStyle} alt="risk" />
                     <Typography
                       sx={(theme) => ({
                         color: theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",
@@ -321,8 +263,7 @@ export default function AboutUs() {
                         marginRight: 3,
                       })}
                     >
-                      An open-source, web-enabled, interactive, and dynamic
-                      Atlas development
+                      An open-source, web-enabled, interactive, and dynamic Atlas development
                     </Typography>
                   </Box>
                 </Paper>
@@ -337,7 +278,7 @@ export default function AboutUs() {
             width: { xs: "100%", sm: "100%" },
             paddingBottom: 5,
             paddinTop: 5,
-            backgroundColor: theme.palette.mode === "dark" ? "#30363d"  : "#f7f7f7",
+            backgroundColor: theme.palette.mode === "dark" ? "#30363d" : "#f7f7f7",
           })}
         >
           <Box sx={{ marginLeft: 7, marginRight: 7, marginTop: 4 }}>
@@ -363,11 +304,7 @@ export default function AboutUs() {
             >
               Supported By
             </Typography>
-            <Link
-              href="https://www.gatesfoundation.org/"
-              underline="none"
-              target="_blank"
-            >
+            <Link href="https://www.gatesfoundation.org/" underline="none" target="_blank">
               <Paper
                 sx={(theme) => ({
                   m: 1,
@@ -376,9 +313,7 @@ export default function AboutUs() {
                   height: 200,
                   transition: "0.3s cubic-bezier(.47,1.64,.41,.8)",
                   "&:hover": {
-                    boxShadow: theme.palette.mode === "dark" 
-  ? "0 4px 15px 0 rgba(255, 255, 255, 0.08)" 
-  : "0 4px 20px 0 rgba(0,0,0,0.12)",
+                    boxShadow: theme.palette.mode === "dark" ? "0 4px 15px 0 rgba(255, 255, 255, 0.08)" : "0 4px 20px 0 rgba(0,0,0,0.12)",
                     transform: "scale(1.04)",
                   },
                 })}
@@ -426,11 +361,7 @@ export default function AboutUs() {
               }}
               gap="1vw"
             >
-              <Link
-                href="https://barc.gov.bd/"
-                underline="none"
-                target="_blank"
-              >
+              <Link href="https://barc.gov.bd/" underline="none" target="_blank">
                 <Paper
                   sx={(theme) => ({
                     m: 1,
@@ -439,9 +370,7 @@ export default function AboutUs() {
                     height: 200,
                     transition: "0.3s cubic-bezier(.47,1.64,.41,.8)",
                     "&:hover": {
-                      boxShadow: theme.palette.mode === "dark" 
-  ? "0 4px 15px 0 rgba(255, 255, 255, 0.08)" 
-  : "0 4px 20px 0 rgba(0,0,0,0.12)",
+                      boxShadow: theme.palette.mode === "dark" ? "0 4px 15px 0 rgba(255, 255, 255, 0.08)" : "0 4px 20px 0 rgba(0,0,0,0.12)",
                       transform: "scale(1.04)",
                     },
                   })}
@@ -454,11 +383,7 @@ export default function AboutUs() {
                       textAlign: { sm: "center", md: "center" },
                     }}
                   >
-                    <img
-                      src={"south-asia-1.png"}
-                      style={logoStyle3}
-                      alt="risk"
-                    />
+                    <img src={"south-asia-1.png"} style={logoStyle3} alt="risk" />
                     <Typography
                       sx={(theme) => ({
                         color: theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",
@@ -474,11 +399,7 @@ export default function AboutUs() {
                   </Box>
                 </Paper>
               </Link>
-              <Link
-                href="https://icar.org.in/"
-                underline="none"
-                target="_blank"
-              >
+              <Link href="https://icar.org.in/" underline="none" target="_blank">
                 <Paper
                   sx={(theme) => ({
                     m: 1,
@@ -487,9 +408,7 @@ export default function AboutUs() {
                     height: 200,
                     transition: "0.3s cubic-bezier(.47,1.64,.41,.8)",
                     "&:hover": {
-                      boxShadow: theme.palette.mode === "dark" 
-  ? "0 4px 15px 0 rgba(255, 255, 255, 0.08)" 
-  : "0 4px 20px 0 rgba(0,0,0,0.12)",
+                      boxShadow: theme.palette.mode === "dark" ? "0 4px 15px 0 rgba(255, 255, 255, 0.08)" : "0 4px 20px 0 rgba(0,0,0,0.12)",
                       transform: "scale(1.04)",
                     },
                   })}
@@ -502,11 +421,7 @@ export default function AboutUs() {
                       textAlign: { sm: "center", md: "center" },
                     }}
                   >
-                    <img
-                      src={"south-asia-6.svg"}
-                      style={logoStyle3}
-                      alt="risk"
-                    />
+                    <img src={"south-asia-6.svg"} style={logoStyle3} alt="risk" />
                     <Typography
                       sx={(theme) => ({
                         color: theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",
@@ -522,11 +437,7 @@ export default function AboutUs() {
                   </Box>
                 </Paper>
               </Link>
-              <Link
-                href="https://narc.gov.np/"
-                underline="none"
-                target="_blank"
-              >
+              <Link href="https://narc.gov.np/" underline="none" target="_blank">
                 <Paper
                   sx={(theme) => ({
                     m: 1,
@@ -535,9 +446,7 @@ export default function AboutUs() {
                     height: 200,
                     transition: "0.3s cubic-bezier(.47,1.64,.41,.8)",
                     "&:hover": {
-                      boxShadow: theme.palette.mode === "dark" 
-  ? "0 4px 15px 0 rgba(255, 255, 255, 0.08)" 
-  : "0 4px 20px 0 rgba(0,0,0,0.12)",
+                      boxShadow: theme.palette.mode === "dark" ? "0 4px 15px 0 rgba(255, 255, 255, 0.08)" : "0 4px 20px 0 rgba(0,0,0,0.12)",
                       transform: "scale(1.04)",
                     },
                   })}
@@ -550,11 +459,7 @@ export default function AboutUs() {
                       textAlign: { sm: "center", md: "center" },
                     }}
                   >
-                    <img
-                      src={"south-asia-7.svg"}
-                      style={logoStyle3}
-                      alt="risk"
-                    />
+                    <img src={"south-asia-7.svg"} style={logoStyle3} alt="risk" />
                     <Typography
                       sx={(theme) => ({
                         color: theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",
@@ -570,11 +475,7 @@ export default function AboutUs() {
                   </Box>
                 </Paper>
               </Link>
-              <Link
-                href="https://doa.gov.lk/NRMC/"
-                underline="none"
-                target="_blank"
-              >
+              <Link href="https://doa.gov.lk/NRMC/" underline="none" target="_blank">
                 <Paper
                   sx={(theme) => ({
                     m: 1,
@@ -583,9 +484,7 @@ export default function AboutUs() {
                     height: 200,
                     transition: "0.3s cubic-bezier(.47,1.64,.41,.8)",
                     "&:hover": {
-                      boxShadow: theme.palette.mode === "dark" 
-  ? "0 4px 15px 0 rgba(255, 255, 255, 0.08)" 
-  : "0 4px 20px 0 rgba(0,0,0,0.12)",
+                      boxShadow: theme.palette.mode === "dark" ? "0 4px 15px 0 rgba(255, 255, 255, 0.08)" : "0 4px 20px 0 rgba(0,0,0,0.12)",
                       transform: "scale(1.04)",
                     },
                   })}
@@ -598,11 +497,7 @@ export default function AboutUs() {
                       textAlign: { sm: "center", md: "center" },
                     }}
                   >
-                    <img
-                      src={"south-asia-4.svg"}
-                      style={logoStyle3}
-                      alt="risk"
-                    />
+                    <img src={"south-asia-4.svg"} style={logoStyle3} alt="risk" />
                     <Typography
                       sx={(theme) => ({
                         color: theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",
@@ -639,11 +534,7 @@ export default function AboutUs() {
               }}
               gap="1vw"
             >
-              <Link
-                href="https://www.columbia.edu/"
-                underline="none"
-                target="_blank"
-              >
+              <Link href="https://www.columbia.edu/" underline="none" target="_blank">
                 <Paper
                   sx={(theme) => ({
                     m: 1,
@@ -652,9 +543,7 @@ export default function AboutUs() {
                     height: 200,
                     transition: "0.3s cubic-bezier(.47,1.64,.41,.8)",
                     "&:hover": {
-                      boxShadow: theme.palette.mode === "dark" 
-  ? "0 4px 15px 0 rgba(255, 255, 255, 0.08)" 
-  : "0 4px 20px 0 rgba(0,0,0,0.12)",
+                      boxShadow: theme.palette.mode === "dark" ? "0 4px 15px 0 rgba(255, 255, 255, 0.08)" : "0 4px 20px 0 rgba(0,0,0,0.12)",
                       transform: "scale(1.04)",
                     },
                   })}
@@ -667,11 +556,7 @@ export default function AboutUs() {
                       textAlign: { sm: "center", md: "center" },
                     }}
                   >
-                    <img
-                      src={"south-asia-10.svg"}
-                      style={logoStyle3}
-                      alt="risk"
-                    />
+                    <img src={"south-asia-10.svg"} style={logoStyle3} alt="risk" />
                     <Typography
                       sx={(theme) => ({
                         color: theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",
@@ -687,11 +572,7 @@ export default function AboutUs() {
                   </Box>
                 </Paper>
               </Link>
-              <Link
-                href="https://www.ufl.edu/"
-                underline="none"
-                target="_blank"
-              >
+              <Link href="https://www.ufl.edu/" underline="none" target="_blank">
                 <Paper
                   sx={(theme) => ({
                     m: 1,
@@ -700,9 +581,7 @@ export default function AboutUs() {
                     height: 200,
                     transition: "0.3s cubic-bezier(.47,1.64,.41,.8)",
                     "&:hover": {
-                      boxShadow: theme.palette.mode === "dark" 
-  ? "0 4px 15px 0 rgba(255, 255, 255, 0.08)" 
-  : "0 4px 20px 0 rgba(0,0,0,0.12)",
+                      boxShadow: theme.palette.mode === "dark" ? "0 4px 15px 0 rgba(255, 255, 255, 0.08)" : "0 4px 20px 0 rgba(0,0,0,0.12)",
 
                       transform: "scale(1.04)",
                     },
@@ -716,11 +595,7 @@ export default function AboutUs() {
                       textAlign: { sm: "center", md: "center" },
                     }}
                   >
-                    <img
-                      src={"south-asia-11.svg"}
-                      style={logoStyle4}
-                      alt="risk"
-                    />
+                    <img src={"south-asia-11.svg"} style={logoStyle4} alt="risk" />
                     <Typography
                       sx={(theme) => ({
                         color: theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",
@@ -736,11 +611,7 @@ export default function AboutUs() {
                   </Box>
                 </Paper>
               </Link>
-              <Link
-                href="https://www.washington.edu/"
-                underline="none"
-                target="_blank"
-              >
+              <Link href="https://www.washington.edu/" underline="none" target="_blank">
                 <Paper
                   sx={(theme) => ({
                     m: 1,
@@ -749,9 +620,7 @@ export default function AboutUs() {
                     height: 200,
                     transition: "0.3s cubic-bezier(.47,1.64,.41,.8)",
                     "&:hover": {
-                      boxShadow: theme.palette.mode === "dark" 
-  ? "0 4px 15px 0 rgba(255, 255, 255, 0.08)" 
-  : "0 4px 20px 0 rgba(0,0,0,0.12)",
+                      boxShadow: theme.palette.mode === "dark" ? "0 4px 15px 0 rgba(255, 255, 255, 0.08)" : "0 4px 20px 0 rgba(0,0,0,0.12)",
 
                       transform: "scale(1.04)",
                     },
@@ -765,11 +634,7 @@ export default function AboutUs() {
                       textAlign: { sm: "center", md: "center" },
                     }}
                   >
-                    <img
-                      src={"south-asia-12.svg"}
-                      style={logoStyle4}
-                      alt="risk"
-                    />
+                    <img src={"south-asia-12.svg"} style={logoStyle4} alt="risk" />
                     <Typography
                       sx={(theme) => ({
                         color: theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",
@@ -822,9 +687,7 @@ export default function AboutUs() {
             width: { xs: "100%", sm: "100%" },
             paddingBottom: 5,
             paddinTop: 5,
-            backgroundColor: theme.palette.mode === "dark" 
-            ? theme.palette.background.paper 
-            : "#ffffff",          
+            backgroundColor: theme.palette.mode === "dark" ? theme.palette.background.paper : "#ffffff",
           })}
         >
           <Box sx={{ marginLeft: 7, marginRight: 7, marginTop: 4 }}>
@@ -847,9 +710,7 @@ export default function AboutUs() {
                 marginBottom: 2,
               })}
             >
-              The advisory panel established under ACASA will have the
-              scientific advisory committee that will identify potential users,
-              use cases in different countries, and guide and review Atlas’
+              The advisory panel established under ACASA will have the scientific advisory committee that will identify potential users, use cases in different countries, and guide and review Atlas’
               progress.
             </Typography>
             <Box
@@ -900,8 +761,7 @@ export default function AboutUs() {
                       mb: 2,
                     })}
                   >
-                    Ex-Director- International Food Policy Research Institute
-                    (IFPRI), India
+                    Ex-Director- International Food Policy Research Institute (IFPRI), India
                   </Typography>
                 </Box>
               </Paper>
@@ -945,8 +805,7 @@ export default function AboutUs() {
                       mb: 2,
                     })}
                   >
-                    Evans School of Public Policy and Governance, University of
-                    Washington, Seattle
+                    Evans School of Public Policy and Governance, University of Washington, Seattle
                   </Typography>
                 </Box>
               </Paper>
@@ -990,8 +849,7 @@ export default function AboutUs() {
                       mb: 2,
                     })}
                   >
-                    Professor of Risk Management and Resilience, Wageningen
-                    University, Netherlands
+                    Professor of Risk Management and Resilience, Wageningen University, Netherlands
                   </Typography>
                 </Box>
               </Paper>
@@ -1035,8 +893,7 @@ export default function AboutUs() {
                       mb: 2,
                     })}
                   >
-                    Principal Natural Resources and Agriculture Specialist, Asia
-                    Development Bank (ADB), Manila
+                    Principal Natural Resources and Agriculture Specialist, Asia Development Bank (ADB), Manila
                   </Typography>
                 </Box>
               </Paper>
@@ -1133,8 +990,7 @@ export default function AboutUs() {
                       mb: 2,
                     })}
                   >
-                    Co-Director, Climate Impacts Group, NASA Goddard Institute
-                    for Space Studies (GISS)
+                    Co-Director, Climate Impacts Group, NASA Goddard Institute for Space Studies (GISS)
                   </Typography>
                 </Box>
               </Paper>
@@ -1178,8 +1034,7 @@ export default function AboutUs() {
                       mb: 2,
                     })}
                   >
-                    Senior Program Officer, Bill & Melinda Gates Foundation
-                    (BMGF), Seattle
+                    Senior Program Officer, Bill & Melinda Gates Foundation (BMGF), Seattle
                   </Typography>
                 </Box>
               </Paper>
@@ -1223,8 +1078,7 @@ export default function AboutUs() {
                       mb: 2,
                     })}
                   >
-                    Project Leader, ACASA; Regional Program Leader, BISA-CIMMYT,
-                    Delhi
+                    Project Leader, ACASA; Regional Program Leader, BISA-CIMMYT, Delhi
                   </Typography>
                 </Box>
               </Paper>
@@ -1333,8 +1187,7 @@ export default function AboutUs() {
                       mb: 2,
                     })}
                   >
-                    Principal Scientist, ICAR-Central Research Institute for
-                    Dryland Agriculture (CRIDA), India
+                    Principal Scientist, ICAR-Central Research Institute for Dryland Agriculture (CRIDA), India
                   </Typography>
                 </Box>
               </Paper>
@@ -1378,8 +1231,7 @@ export default function AboutUs() {
                       mb: 2,
                     })}
                   >
-                    Soil Scientist, National Agricultural Environment Research
-                    Centre, NARC, Nepal
+                    Soil Scientist, National Agricultural Environment Research Centre, NARC, Nepal
                   </Typography>
                 </Box>
               </Paper>
@@ -1457,8 +1309,7 @@ export default function AboutUs() {
                   fontWeight: "bold",
                 })}
               >
-                1. Pramod Aggarwal, Project Leader, ACASA; Regional Program
-                Leader
+                1. Pramod Aggarwal, Project Leader, ACASA; Regional Program Leader
               </Typography>
               <Typography
                 sx={(theme) => ({
@@ -1488,8 +1339,7 @@ export default function AboutUs() {
                   fontFamily: "revert",
                 })}
               >
-                4. Sanjoy Bandopadhyay, Sr. Agronomist & Climate Adaptation
-                Expert
+                4. Sanjoy Bandopadhyay, Sr. Agronomist & Climate Adaptation Expert
               </Typography>
               <Typography
                 sx={(theme) => ({
@@ -1576,9 +1426,7 @@ export default function AboutUs() {
           display: { xs: "flex", md: "none" },
         }}
       >
-        <Typography>
-          This website is designed for desktop. Please view in a bigger screen.
-        </Typography>
+        <Typography>This website is designed for desktop. Please view in a bigger screen.</Typography>
       </Box>
     </div>
   );
