@@ -152,3 +152,4 @@ export default function SwitchScale({ exploreType, handleExploreTypeChange, acti
     </div>
   );
 }
+

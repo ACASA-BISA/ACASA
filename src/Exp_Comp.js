@@ -295,7 +295,7 @@ export default function CompV({
   }));
 
   const values = ["Biophysical Suitability", "Adaptation Benefits", "Economic", "Scalability", "Gender"];
-  const [selectedIndex, setSelectedIndex] = useState(-1);
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
   const handleSelect = (index) => {
     setSelectedIndex(index);
@@ -811,6 +811,7 @@ value={futureModel} onChange={handleScenariochange}>
                                 area_data4={area_dict4}
                                 AdaptLayerName={AdaptLayerName}
                                 displayLayer="Absolute"
+                                activeScale={activeScale}
                               ></Legend_Small>
                             </Paper>
                           </Popper>
@@ -928,6 +929,7 @@ value={futureModel} onChange={handleScenariochange}>
                                 area_data4={area_dict4}
                                 AdaptLayerName={AdaptLayerName}
                                 displayLayer={displayLayer}
+                                activeScale={activeScale}
                               ></Legend_Small>
                             </Paper>
                           </Popper>
