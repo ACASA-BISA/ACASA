@@ -696,9 +696,9 @@ export default function DrawerMapShow({ activeBar }) {
       ...optionlayer,
       "Biophysical Suitability": false,
       "Adaptation Benefits": false,
-      Economic: false,
-      Scalability: false,
-      Gender: false,
+      "Economic": false,
+      "Scalability": false,
+      "Gender": false,
     });
     setRisk(InitialHazard);
     setRiskName("");
@@ -723,9 +723,9 @@ export default function DrawerMapShow({ activeBar }) {
       ...optionlayer,
       "Biophysical Suitability": false,
       "Adaptation Benefits": false,
-      Economic: false,
-      Scalability: false,
-      Gender: false,
+      "Economic": false,
+      "Scalability": false,
+      "Gender": false,
     });
     setOption(newState);
     setRisk(InitialHazard);
@@ -749,9 +749,9 @@ export default function DrawerMapShow({ activeBar }) {
       ...optionlayer,
       "Biophysical Suitability": false,
       "Adaptation Benefits": false,
-      Economic: false,
-      Scalability: false,
-      Gender: false,
+      "Economic": false,
+      "Scalability": false,
+      "Gender": false,
     });
     setRisk(InitialHazard);
     setRiskName("");
@@ -772,9 +772,9 @@ export default function DrawerMapShow({ activeBar }) {
       ...optionlayer,
       "Biophysical Suitability": false,
       "Adaptation Benefits": false,
-      Economic: false,
-      Scalability: false,
-      Gender: false,
+      "Economic": false,
+      "Scalability": false,
+      "Gender": false,
     });
     setRisk(InitialHazard);
     setRiskName("");
@@ -812,9 +812,9 @@ export default function DrawerMapShow({ activeBar }) {
       ...optionlayer,
       "Biophysical Suitability": false,
       "Adaptation Benefits": false,
-      Economic: false,
-      Scalability: false,
-      Gender: false,
+      "Economic": false,
+      "Scalability": false,
+      "Gender": false,
     });
     setImpact(InitialImpact);
     setImpactName("");
@@ -843,9 +843,9 @@ export default function DrawerMapShow({ activeBar }) {
       ...optionlayer,
       "Biophysical Suitability": false,
       "Adaptation Benefits": false,
-      Economic: false,
-      Scalability: false,
-      Gender: false,
+      "Economic": false,
+      "Scalability": false,
+      "Gender": false,
     });
     setOption(newState);
     setRisk(InitialHazard);
