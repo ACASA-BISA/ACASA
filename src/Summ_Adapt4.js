@@ -69,7 +69,12 @@ export default function Summ_Adapt4({
         disableScrollLock: true,
       }}
       variant="standard"
-      sx={{backgroundColor:'rgba(240, 242, 233,1)', fontSize:12}}
+      sx={(theme) => ({
+        backgroundColor: theme.palette.mode === "dark" 
+          ? "rgba(50, 55, 50, 1)"  
+          : "rgba(240, 242, 233, 1)",
+        fontSize: 12,
+      })}
     >
         {(checkcrop()===true || activeCrop['rice']===true) && directswitch.map((naam,idx) => (
             <MenuItem value={naam} sx={{fontSize:12}}>{directswitch[idx]}</MenuItem>

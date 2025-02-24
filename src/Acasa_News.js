@@ -3,6 +3,7 @@ import { Paper, Button } from "@mui/material"; // Import Paper and Button compon
 import Box from "@mui/material/Box"; // Import Box component from Material UI
 import { styled } from "@mui/material/styles"; // Import styled function from Material UI
 import Typography from "@mui/material/Typography"; // Import Typography component from Material UI
+import { TempleBuddhist } from "@mui/icons-material";
 
 // Define a style object for the logo images
 const logoStyle = {
@@ -27,12 +28,12 @@ export default function News() {
       >
         {/* Container for the first news item */}
         <Box
-          sx={{
-            backgroundColor: "#f1f1f1",
+          sx={(theme) => ({
+            backgroundColor: theme.palette.mode === "dark" ? "#1b1f23" : "#f1f1f1",
             borderRadius: "8px",
             display: "flex",
             flexDirection: "row",
-          }}
+          })}
         >
           <Box sx={{ marginLeft: "20px" }}>
             {/* Logo for the first news item */}
@@ -49,27 +50,41 @@ export default function News() {
               marginY: "20px",
             }}
           >
-            <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+            <Typography
+              variant="h6"
+              sx={(theme) => ({
+                color: theme.palette.text.primary,
+                fontWeight: "bold",
+              })}
+            >
               Issue 02
             </Typography>
-            <Typography>
-              ACASA second newsletter - our progress and development, events,
-              posts, data and methods, and media presence...
+            <Typography sx={(theme) => ({ color: theme.palette.text.primary })}>
+              ACASA second newsletter - our progress and development, events, posts, data and methods, and media presence...
               {/* Link to read more about the first news item */}
-              <a
+              <Typography
+                component="a"
                 href="https://mailchi.mp/cgiar.org/acasa-strides_issue02-bisa?e=3233d543a1"
                 target="_blank"
-                style={{
+                sx={{
                   fontWeight: "bold",
-                  color: "#333333",
+                  color: (theme) => (theme.palette.mode === "dark" ? "text.secondary" : "#333333"),
                   textDecoration: "none",
+                  "&:hover": {
+                    textDecoration: "underline",
+                  },
                 }}
               >
                 {" "}
                 Read More
-              </a>
+              </Typography>
             </Typography>
-            <Typography sx={{ color: "#444444", marginTop: "20px" }}>
+            <Typography
+              sx={(theme) => ({
+                color: theme.palette.mode === "dark" ? "text.secondary" : "#444444",
+                marginTop: "20px",
+              })}
+            >
               June 2024
             </Typography>
           </Box>
@@ -77,12 +92,12 @@ export default function News() {
 
         {/* Container for the second news item */}
         <Box
-          sx={{
-            backgroundColor: "#f1f1f1",
+          sx={(theme) => ({
+            backgroundColor: theme.palette.mode === "dark" ? "#1b1f23" : "#f1f1f1",
             borderRadius: "8px",
             display: "flex",
             flexDirection: "row",
-          }}
+          })}
         >
           <Box sx={{ marginLeft: "20px" }}>
             {/* Logo for the second news item */}
@@ -99,28 +114,41 @@ export default function News() {
               marginY: "20px",
             }}
           >
-            <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+            <Typography
+              variant="h6"
+              sx={(theme) => ({
+                color: theme.palette.text.primary,
+                fontWeight: "bold",
+              })}
+            >
               Issue 01
             </Typography>
-            <Typography>
-              ACASA inaugural newsletter - our mission, vision, approach,
-              events, partner expectations, advisory panel, data and methods,
-              and media presence...
+            <Typography sx={(theme) => ({ color: theme.palette.text.primary })}>
+              ACASA inaugural newsletter - our mission, vision, approach, events, partner expectations, advisory panel, data and methods, and media presence...
               {/* Link to read more about the second news item */}
-              <a
+              <Typography
+                component="a"
                 href="https://mailchi.mp/cgiar/south-asias-first-climate-adaptation-atlas?e=7dab12cfe5"
                 target="_blank"
-                style={{
+                sx={{
                   fontWeight: "bold",
-                  color: "#333333",
+                  color: (theme) => (theme.palette.mode === "dark" ? "text.secondary" : "#333333"),
                   textDecoration: "none",
+                  "&:hover": {
+                    textDecoration: "underline",
+                  },
                 }}
               >
                 {" "}
                 Read More
-              </a>
+              </Typography>
             </Typography>
-            <Typography sx={{ color: "#444444", marginTop: "20px" }}>
+            <Typography
+              sx={(theme) => ({
+                color: theme.palette.mode === "dark" ? "text.secondary" : "#444444",
+                marginTop: "20px",
+              })}
+            >
               November 2023
             </Typography>
           </Box>

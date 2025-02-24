@@ -31,9 +31,9 @@ const logoStyle4 = {
   marginTop: 10,
   marginBottom: 10,
 };
-const thumbstyle ={
-  width:'100vw',
-}
+const thumbstyle = {
+  width: "100vw",
+};
 const logoStyle6 = { height: "88%", margin: "auto" };
 const logoStyle8 = { height: "55%", margin: "auto" };
 const logoStyle7 = { width: "90%", margin: "auto" };
@@ -109,8 +109,12 @@ const Home = (props) => {
         position: "absolute",
         top: 10,
         right: 10,
-        backgroundColor: "rgba(0, 0, 0, 0.7)",
-        color: "white",
+        backgroundColor: (theme) =>
+          theme.palette.mode === "dark"
+            ? "rgba(255, 255, 255, 0.1)"
+            : "rgba(0, 0, 0, 0.7)",
+        color: (theme) =>
+          theme.palette.mode === "dark" ? "#e0e0e0" : "#ffffff",
         padding: "10px",
         borderRadius: "5px",
         width: "250px",
@@ -120,7 +124,7 @@ const Home = (props) => {
     >
       <Typography variant="body2" fontStyle={"italic"}>
         {" "}
-        <GppMaybeIcon fontSize="11px" sx={{marginX:'2px',marginY:0}}/>
+        <GppMaybeIcon fontSize="11px" sx={{ marginX: "2px", marginY: 0 }} />
         Disclaimer: This is an internal test version of ACASA. Please do not
         cite or quote the data.
       </Typography>
@@ -158,10 +162,17 @@ const Home = (props) => {
             flexDirection: "row",
             width: "95vw",
             margin: "auto",
-            boxShadow: "0px 1px 5px #aaa",
-            border: "9px solid #f8faf0",
+            boxShadow: (theme) =>
+              theme.palette.mode === "dark"
+                ? "0px 1px 5px rgba(0, 0, 0, 0.5)"
+                : "0px 1px 5px #aaa",
+            border: (theme) =>
+              `9px solid ${
+                theme.palette.mode === "dark" ? "#2d3238" : "#f8faf0"
+              }`,
             borderRadius: "10px",
-            backgroundColor: "#f8faf0",
+            backgroundColor: (theme) =>
+              theme.palette.mode === "dark" ? "#2d3238" : "#f8faf0",
             height: "auto",
             marginTop: -5,
             zIndex: 200,
@@ -178,12 +189,26 @@ const Home = (props) => {
             <img src={"srilanka.png"} style={logoStyle4} alt="srilanka" />
           </Box>
 
-          <Box sx={{ marginRight: 2, marginLeft: 2 }}>
+          <Box
+            sx={{
+              marginRight: 2,
+              marginLeft: 2,
+              color: (theme) =>
+                theme.palette.mode === "dark" ? "#fff" : "000",
+            }}
+          >
             <Typography>Region of Interest:</Typography>
             <SelectMinimal2 changeReg={handlecountrychange}></SelectMinimal2>
           </Box>
 
-          <Box sx={{ marginRight: 2, marginLeft: 2 }}>
+          <Box
+            sx={{
+              marginRight: 2,
+              marginLeft: 2,
+              color: (theme) =>
+                theme.palette.mode === "dark" ? "#fff" : "000",
+            }}
+          >
             <Typography>Commodity:</Typography>
             <SelectMinimal changeComm={handlecommoditychange}></SelectMinimal>
           </Box>
@@ -195,10 +220,15 @@ const Home = (props) => {
               height: "32px",
               margin: 2,
               fontSize: "16px",
-              color: "#ffffff",
+              color: (theme) =>
+                theme.palette.mode === "dark" ? "#000" : "#fff",
               textTransform: "none",
-              backgroundColor: "#4b9e44",
-              "&:hover": { backgroundColor: "#4b9e44" },
+              backgroundColor: (theme) =>
+                theme.palette.mode === "dark" ? "#388e3c" : "#4b9e44",
+              "&:hover": {
+                backgroundColor: (theme) =>
+                  theme.palette.mode === "dark" ? "#2e7d32" : "#4b9e44",
+              },
             }}
           >
             <a
@@ -265,8 +295,8 @@ const Home = (props) => {
             >
               The functionalities of the Atlas can be best utilized in the
               following order: start by visualizing the data layers in detail in
-              the Explore Data tab. The Adaptation at a glance tab is then used to look at
-              multiple data layers at once. The Data Access tab gives
+              the Explore Data tab. The Adaptation at a glance tab is then used
+              to look at multiple data layers at once. The Data Access tab gives
               information about the data and their download links. The Use Cases
               tab discusses several possible uses of the ACASA Atlas.
               Additionally, visit the Resources and About Us tab to know more

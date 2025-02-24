@@ -25,14 +25,14 @@
   margin-bottom: 10px;
   margin-top: 15px;
   justify-content: flex-start;
-  background-color: #f3f3f3;
+  background-color: var(--card-filter-light);
   padding: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
 }
 
 .card-filters select {
-  flex: 0 0 150px; 
+  flex: 0 0 150px;
   padding: 8px 12px;
   border-radius: 5px;
   border: 1px solid #ccc;
@@ -40,7 +40,7 @@
 }
 
 .card-filters input {
-  flex: 1; 
+  flex: 1;
   padding: 8px 12px;
   border-radius: 5px;
   border: 1px solid #ccc;
@@ -52,7 +52,7 @@
   display: grid;
   grid-gap: 1rem;
   padding: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }
 
 @media (min-width: 2000px) {
@@ -67,13 +67,13 @@
   aspect-ratio: 1; /* Ensure a square layout */
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  border: 2px solid #ddd; /* Initial light border */
+  box-shadow: var(--container-shadow-light);
+  border: 2px solid var(--container-border-light);
   transition: box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 .card-container:hover {
-  border-color: #b9b9b9; /* Darken the border on hover */
+  border-color: var(--container-hover-light);
 }
 
 /* Card Background */
@@ -92,15 +92,14 @@
   position: absolute;
   bottom: 0;
   width: 100%;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: var(--card-footer-light);
   padding: 8px;
   z-index: 1;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   max-height: fit-content; /* Allow expansion */
-  transition: max-height 0.6s ease-in-out, 
-  opacity 0.4s ease-in-out;
+  transition: max-height 0.6s ease-in-out, opacity 0.4s ease-in-out;
 }
 
 /* Initially, only show the title & tags */
@@ -108,8 +107,7 @@
   opacity: 0;
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.6s ease-in-out, 
-  opacity 0.4s ease-in-out;
+  transition: max-height 0.6s ease-in-out, opacity 0.4s ease-in-out;
 }
 
 /* On hover, expand smoothly */
@@ -123,8 +121,8 @@
 }
 
 .tag {
-  background-color: rgb(75, 160, 70, 0.8); /* Green background */
-  color: white; /* White text */
+  background-color: var(--tag-background-light);
+  color: var(--tag-text-light);
   padding: 2px 8px;
   border-radius: 0.5rem;
   display: inline-block;
@@ -133,7 +131,7 @@
 .card-title {
   margin: 4px 0;
   font-size: 14px;
-  color: #333;
+  color: var(--card-title-light);
 }
 
 .card-source {
@@ -150,9 +148,9 @@
   position: absolute;
   top: 8px;
   right: 20px;
-  cursor:pointer;
-  background-color: rgb(75, 160, 70, 0.8);
-  color: rgb(255, 255, 255, 1);
+  cursor: pointer;
+  background-color: var(--button-background-light);
+  color: var(--button-text-light);
   border-radius: 1rem;
 }
 
@@ -246,24 +244,24 @@
   left: 50%;
   transform: translateX(-50%);
   margin-top: 5px;
-  background-color: #8e918f;
-  color: white;
+  background-color: var(--grouped-button-bgcolor);
+  color: var(--grouped-button-color);
   padding: 2px 8px;
   border-radius: 0.5rem;
   font-size: 12px;
   text-align: center;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--grouped-button-boxshadow);
 }
 
 .button-text::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -6px; /* Adjust this for the position of the arrow */
   left: 50%;
   transform: translateX(-50%);
   border-left: 6px solid transparent;
   border-right: 6px solid transparent;
-  border-top: 6px solid #8e918f; /* Match the background color */
+  border-top: var(--grouped-button-arrow);
 }
 
 .download-icon-button:hover .button-text {

@@ -14,15 +14,15 @@
 }
   /* Track */
   ::-webkit-scrollbar-track {
-    background: #f1f1f1; 
+    background: var(--webkit-scrollbar-track);
   }
    
   /* Handle */
   ::-webkit-scrollbar-thumb {
-    background: #aaa; 
+    background: var(--webkit-scrollbar-thumb);
   }
   
   /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
-    background: #888; 
+    background: var(--webkit-scrollbar-thumbhover);
   }

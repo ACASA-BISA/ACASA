@@ -26,7 +26,9 @@ export default function Summ_Scenario({
       disableScrollLock: true,
     }}
     variant="standard"
-    sx={{backgroundColor:'rgba(235, 247, 233,1)', fontSize:13}}
+    sx={(theme) => ({backgroundColor: theme.palette.mode === "dark"
+      ? "rgba(60, 75, 60, 1)" 
+      : "rgba(235, 247, 233, 1)",fontSize:13})}
   >
     <MenuItem value='baseline' sx={{fontSize:13,paddingY:'2px'}}>Baseline</MenuItem>
     <MenuItem value='ssp245' sx={{fontSize:13,paddingY:'2px'}}>SSP 2-4.5</MenuItem>

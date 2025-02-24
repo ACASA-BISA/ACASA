@@ -133,7 +133,7 @@ export const DataCatalog = ({
               sx={{
                 fontSize: "small",
                 margin: "8px",
-                color: "white",
+                color: (theme) => (theme.palette.mode === "light" ? "white" : "black"),
                 display: "flex",
               }}
               className="card-tags"
@@ -149,64 +149,62 @@ export const DataCatalog = ({
               sx={{
                 fontSize: "normal",
                 margin: "8px",
-                color: "#333333",
+                color: (theme) => (theme.palette.mode === "light" ? "#333333" : "#ffffff"),
               }}
             >
               {title}
             </Typography>
           )}
-           <div className="download-icon" onClick={onButtonClick}>
+          <div className="download-icon" onClick={onButtonClick}>
             <Tooltip title="Download" arrow>
-            <IconButton>
-              <DownloadIcon sx={{ fontSize: 18, color: "white", padding: 0}}/>
-            </IconButton>
+              <IconButton>
+                <DownloadIcon sx={{ fontSize: 18, color: (theme) => (theme.palette.mode === "light" ? "white" : "#1b1f23"), padding: 0 }} />
+              </IconButton>
             </Tooltip>
-
           </div>
-        
 
-        {/* Hover Content */}
-        <div className="card-hover-content">
-          {description && (
-            <Typography
-              className="card-description"
-              sx={{
-                fontSize: 14,
-                margin: "8px",
-                marginRight: "45px",
-                color: "#333333",
-              }}
-            >
-              {description}
-            </Typography>
-          )}
-          {source && (
-            <Typography
-              component="a"
-              href={source}
-              className="card-source"
-              sx={{
-                fontSize: 14,
-                margin: "8px",
-                color: "#8e918f",
-              }}
-            >
-              {source}
-            </Typography>
-          )}
-          {model && (
-            <Typography
-              sx={{
-                fontSize: 14,
-                margin: "8px",
-                color: "#8e918f",
-              }}
-              className="card-model"
-            >
-              {model}
-            </Typography>
-          )}
-        </div>
+          {/* Hover Content */}
+          <div className="card-hover-content">
+            {description && (
+              <Typography
+                className="card-description"
+                sx={{
+                  fontSize: 14,
+                  margin: "8px",
+                  marginRight: "45px",
+                  color: (theme) => (theme.palette.mode === "light" ? "#333333" : "#ffffff"),
+                }}
+              >
+                {description}
+              </Typography>
+            )}
+            {source && (
+              <Typography
+                component="a"
+                href={source}
+                className="card-source"
+                sx={{
+                  fontSize: 14,
+                  margin: "8px",
+                  color: (theme) => (theme.palette.mode === "light" ? "#8e918f" : "#a8b7a2"),
+                }}
+              >
+                {source}
+              </Typography>
+            )}
+            {model && (
+              <Typography
+                sx={{
+                  fontSize: 14,
+                  margin: "8px",
+                  color: "#8e918f",
+                }}
+                className="card-model"
+              >
+                {model}
+              </Typography>
+            )}
+          </div>
         </div>
       </div>
     </div>

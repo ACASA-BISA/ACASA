@@ -67,18 +67,18 @@ export default function SwitchAnalytics({
       boxSizing: 'border-box',
     },
     '&:hover': { 
-        backgroundColor: '#ffe89c ',
-        opacity:1,
-        borderRadius: 12,
-        '& .MuiSwitch-track': {
-            opacity: 1,
-            backgroundColor:
-              theme.palette.mode === 'dark' ? 'rgba(255,255,255,.35)' : 'rgba(255,255,255,.7)',
-          },
-     },
+      backgroundColor: theme.palette.mode === 'dark' ? '#554d38' : '#ffe89c', 
+      opacity: 1,
+      borderRadius: 12,
+      '& .MuiSwitch-track': {
+          opacity: 1,
+          backgroundColor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,.25)' : 'rgba(255,255,255,.7)',
+      },
+  },
   }));
 
   const CustomFormControlLabel = styled(FormControlLabel)(({ theme }) => ({
+    alignItems: "flex-start",
     '&.Mui-disabled .MuiTypography-body2': {
       color: '#E8E8E8', // Color for the label text when disabled
     },
