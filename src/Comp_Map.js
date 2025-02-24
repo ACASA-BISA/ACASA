@@ -734,7 +734,7 @@ class DownloadControl extends Control {
   }, [mode, ref, mapRef]); // Re-run effect when `mode` changes
 
   useEffect(() => {
-    console.log("Theme: ", mode); // Debugging
+    //console.log("Theme: ", mode); // Debugging
 
     let sourcet;
     let countryboundary;
@@ -1028,7 +1028,7 @@ class DownloadControl extends Control {
               });
 
               if (maskLayer1) {
-                console.log("Removing old mask layer");
+                //console.log("Removing old mask layer");
                 mapRef.current.removeLayer(maskLayer1);
                 setmaskLayer1(null);
               }

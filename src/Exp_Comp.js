@@ -197,6 +197,7 @@ export default function CompV({
       AdaptLayerName = "Biophysical Suitability";
     }
 
+  const Adapt_Title = ["Yield benefits in current climate (Baseline)","Adaptation Benefits (2050s)","Adaptation Benefits (2080s)"]
   const gridRefs = [React.useRef(null), React.useRef(null), React.useRef(null)];
   const Only_Baseline = React.useRef(null);
 
@@ -303,6 +304,15 @@ export default function CompV({
 
     changeOptLayer(updatedState);
   };
+
+  useEffect(() => {
+    if(activeOptLayer['Biophysical Suitability']===false&&activeOptLayer['Adaptation Benefits']===false&&
+      activeOptLayer['Economic']===false&&activeOptLayer['Scalability']===false&&activeOptLayer['Gender']===false
+    )
+    {
+      setSelectedIndex(0);
+    }
+  },[activeOptLayer]);
 
   function RiskType() {
     let str = "Hazard";
@@ -515,7 +525,19 @@ export default function CompV({
                       gap: "10px",
                     })}
                   >
+                  {AdaptLayerName === "Adaptation Benefits" &&
                     <Typography
+                    align="center"
+                    sx={{
+                      fontSize: "14px",
+                      fontWeight: "bold",
+                      fontFamily: "Karla",
+                      color: "text.primary",
+                    }}
+                  >
+                    {Adapt_Title[index]}
+                  </Typography>}
+                    {AdaptLayerName !== "Adaptation Benefits" && <Typography
                       align="center"
                       sx={{
                         fontSize: "14px",
@@ -525,7 +547,7 @@ export default function CompV({
                       }}
                     >
                       {label}
-                    </Typography>
+                    </Typography>}
                     {/* {(label==='2050s'||label==='2080s') && <FormControl size='small'>
                 <Select labelId="Scenariox"
                   id="future-model-select-idx"

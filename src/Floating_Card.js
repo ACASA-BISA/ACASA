@@ -148,7 +148,7 @@ export default function LocationCard({
     "Direct Seeded Rice - Wet": "DSWET",
     "System of Rice Intensification": "SRIUT",
     "Supplemental Irrigation": "WHSRC",
-    Microirrigation: "MICIR",
+    "Microirrigation": "MICIR",
     "Precision Water Management": "PWMGT",
     "Precision Fertilizer Management": "PNMLT",
     "Precision Fertilizer Management - High tech": "PNMHT",
@@ -160,7 +160,7 @@ export default function LocationCard({
     "Herd Management": "HMGT",
     "Animal Health": "ANHLT",
     "Animal Productivity": "ANPRO",
-    Mulching: "MULCH",
+    "Mulching": "MULCH",
     "Alternate Wetting and Drying": "AWD",
     "Fertilizer rating and timing": "FRT",
     "Manure Management": "MNMGT",
@@ -651,7 +651,7 @@ export default function LocationCard({
         style={{
           position: "fixed",
           right: 50,
-          top: 142,
+          top: (adaption===""?142:170),
           boxShadow: (theme) =>
             theme.palette.mode === "dark"
               ? "0px 0px 0px #000"
@@ -666,6 +666,7 @@ export default function LocationCard({
           borderRadius: "15px",
         }}
       >
+        {console.log(adaption)}
         <Accordion defaultExpanded>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
