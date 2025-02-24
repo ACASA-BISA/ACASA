@@ -61,7 +61,7 @@ export default function MApp({
     filename = activeCrop + "_" + activeOpt + "_" + activeScenario + ".tiff";
   } else if (CurrRisk !== "") {
     filename = activeCrop + "_" + CurrRisk + "_" + activeScenario + ".tiff";
-  } else if (activeImpact["Productivity"] || activeImpact["Value of Production"]) {
+  } else if (activeImpact["Productivity"] || activeImpact["Value of Production']||activeImpact['Resilience"]) {
     filename = activeCrop + "_Impact_" + activeScenario + ".tiff";
   } else {
     filename = activeCrop + "_CropMask_" + activeScenario + ".tiff";
@@ -191,34 +191,55 @@ export default function MApp({
         5,
         6,
       ],
-      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "#059212", "#00FF00", "#FFFF00", "#FFA500", "#FF0000", "#3b528b", "#21918c", "#5ec962", "#fde725"],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "#059212", "#00FF00", "#FFDE4D", "#FFA500", "#FF0000", "#3b528b", "#21918c", "#5ec962", "#fde725"],
     ],
   };
 
   const color_hazard = {
-    color: ["palette", ["clamp", ["*", ["band", 2], 25], 0, 6], ["rgba(0,0,0,0)", "rgba(150,150,150,1)", "#059212", "#00FF00", "#FFFF00", "#FFA500", "#FF0000"]],
+    color: ["palette", ["clamp", ["*", ["band", 2], 25], 0, 6], ["rgba(0,0,0,0)", "rgba(150,150,150,1)", "#059212", "#00FF00", "#FFDE4D", "#FFA500", "#FF0000"]],
   };
 
   const color_hazard2 = {
-    color: ["palette", ["clamp", ["*", ["band", 2], 25], 0, 6], ["rgba(0,0,0,0)", "#059212", "#00FF00", "#FFFF00", "#FFA500", "#FF0000"]],
+    color: ["palette", ["clamp", ["*", ["band", 2], 25], 0, 6], ["rgba(0,0,0,0)", "#059212", "#00FF00", "#FFDE4D", "#FFA500", "#FF0000"]],
   };
+    //Old Yellow: '#FFFF00'
   const color_hazard4 = {
-    color: ["palette", ["clamp", ["*", ["band", 2], 250], 0, 4], ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "#059212", "#00FF00", "#FFFF00", "#FFA500", "#FF0000"]],
+    color: ["palette", ["clamp", ["*", ["band", 2], 250], 0, 4], ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "#059212", "#00FF00", "#FFDE4D", "#FFA500", "#FF0000"]],
   };
 
-  const color_hazard3 = {
-    color: [
-      "palette",
-      ["clamp", ["*", ["band", 2], 25], 0, 6],
-      ["rgba(0,0,0,0)", "rgba(150,150,150,0)", "rgba(0, 100, 0, 1)", "rgba(144, 238, 144, 1)", "rgba(200,200,200,1)", "rgba(255,105,180,1)", "rgba(128,0,0,1)"],
-    ],
-  };
+    const color_hazard3 = {
+      color: [
+        'palette',
+        ['clamp', ['*', ['band', 2], 25], 0, 6],
+        ['rgba(0,0,0,0)',  
+        'rgba(150,150,150,0)', 
+        "rgba(4, 145, 4, 1)",
+        "rgba(109, 233, 109, 1)",  
+        "rgba(200,200,200,1)",  
+        "rgba(245, 140, 170, 1)",
+        "rgba(184, 23, 23, 1)"
+         ]
+      ]
+    };
+
+    const color_adaptation_change = {
+      color: [
+        'palette',
+        ['clamp', ['*', ['band', 2], 25], 0, 6],
+        ['rgba(0,0,0,0)','rgba(200,200,200,1)', 'rgba(200,200,200,1)',
+        "rgba(184, 23, 23, 1)",   
+        "rgba(245, 140, 170, 1)",   
+        "rgba(200,200,200,1)",  
+        "rgba(109, 233, 109, 1)", 
+        "rgba(4, 145, 4, 1)" ]
+      ]
+    };
 
   const color_hazard_change = {
     color: [
       "palette",
       ["interpolate", ["linear"], ["*", ["band", 2], 250], 0, 1, 24, 2, 48, 3, 72, 5, 96, 6],
-      ["rgba(0,0,0,0)", "rgba(150,150,150,0)", "rgba(128,0,0,1)", "rgba(255,105,180,1)", "rgba(200,200,200,1)", "rgba(144, 238, 144, 1)", "rgba(0, 100, 0, 1)"],
+      ["rgba(0,0,0,0)", "rgba(150,150,150,0)", "rgba(184, 23, 23, 1)", "rgba(245, 140, 170, 1)", "rgba(200,200,200,1)", "rgba(109, 233, 109, 1)", "rgba(4, 145, 4, 1)"],
     ],
   };
 
@@ -226,7 +247,7 @@ export default function MApp({
     color: [
       "palette",
       ["interpolate", ["linear"], ["*", ["band", 2], 250], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7],
-      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#059212", "#00FF00", "#FFFF00", "#FFA500", "#FF0000"],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#059212", "#00FF00", "#FFDE4D", "#FFA500", "#FF0000"],
     ],
   };
 
@@ -327,7 +348,7 @@ export default function MApp({
   };
 
   const colorGradient2 = {
-    color: ["interpolate", ["linear"], ["*", ["band", 1], 310], 0, "rgba(0,0,0,0)", 1, "#059212", 3, "#00FF00", 5, "#FFFF00", 7, "#FFA500", 11, "#FF0000"],
+    color: ["interpolate", ["linear"], ["*", ["band", 1], 310], 0, "rgba(0,0,0,0)", 1, "#059212", 3, "#00FF00", 5, "#FFDE4D", 7, "#FFA500", 11, "#FF0000"],
   };
 
   const key = "TrN2dn4maoO3C2x0sUpH";
@@ -719,7 +740,8 @@ class DownloadControl extends Control {
     let countryboundary;
     if (focus === "Region") {
       sourcet = new VectorSource({
-        url: "./CountryBoundary/SA_Country.json",
+        //url: "./CountryBoundary/SA_Country.json",
+          url: './CountryBoundary/SA_outline.json',
         format: new GeoJSON(),
       });
       countryboundary = new VectorSource({
@@ -1001,7 +1023,7 @@ class DownloadControl extends Control {
                     color: mode === "dark" ? "rgba(37, 41, 46, 1)" : "rgba(255,255,255,1)",
                   }),
                 }),
-                opacity: mode === "dark" ? 0.4 : 0.6,
+                opacity: mode === "dark" ? 0.4 : 0.9,
                 zIndex: 100,
               });
 
@@ -1152,8 +1174,9 @@ class DownloadControl extends Control {
           } else {
             urlstr = "./Hazards/" + activeCrop + "/SSP245/" + district_n + "ZZ_" + hazardname[CurrRisk] + ".tif";
           }
-        } else {
-          if (displayLayer === "Absolute Change") {
+        }
+        else{ 
+          if(displayLayer==='Absolute Change'){
             opt = 102;
             urlstr = "./Hazards/" + activeCrop + "/SSP585/" + district_n + "Abs_ZZ_" + hazardname[CurrRisk] + ".tif";
           } else if (displayLayer === "Percentage Change") {
@@ -1188,8 +1211,11 @@ class DownloadControl extends Control {
         if (activeImpact["Productivity"]) {
           urlstr = "./Impact/" + activeCrop + "_DR.tif";
         }
-        if (activeImpact["Resilience"]) {
-          urlstr = "./Impact/" + activeCrop + "/NT_BS_CV.tif";
+        else if (activeImpact["Resilience"]) {
+          urlstr = "./Impact/" + activeCrop + "/ZZ_NT_"+activeScenario+"_CV.tif";
+        }
+        else{
+          urlstr = "./Impact/"+activeCrop+"/ZZ_"+activeScenario+"_vop_NT_wheat_USD.tif";
         }
         settiffFilePath(urlstr);
         source1 = new GeoTIFF({
@@ -1318,11 +1344,11 @@ class DownloadControl extends Control {
       if (!Adaptlayer && activeOptLayer["Adaptation Benefits"]) {
         found = true;
         if (activeScenario === "baseline") {
-          urlstr = "./Adap/" + activeCrop + "/Baseline/Tech/Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+          urlstr = "./Adap/" + activeCrop + "/Baseline/Tech/ADAP_Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
         } else if (activeScenario === "ssp245") {
-          urlstr = "./Adap/" + activeCrop + "/SSP245/Tech/Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+          urlstr = "./Adap/" + activeCrop + "/SSP245/Tech/ADAP_Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
         } else {
-          urlstr = "./Adap/" + activeCrop + "/SSP585/Tech/Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+          urlstr = "./Adap/" + activeCrop + "/SSP585/Tech/ADAP_Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
         }
         source_adapt = new GeoTIFF({
           sources: [{ url: urlstr }],
@@ -1333,11 +1359,11 @@ class DownloadControl extends Control {
       if (!Sociolayer && activeOptLayer["Economic"]) {
         found = true;
         if (activeScenario === "baseline") {
-          urlstr = "./Adap/" + activeCrop + "/Baseline/Socio/Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+          urlstr = "./Adap/" + activeCrop + "/Baseline/Socio/ECO_Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
         } else if (activeScenario === "ssp245") {
-          urlstr = "./Adap/" + activeCrop + "/SSP245/Socio/Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+          urlstr = "./Adap/" + activeCrop + "/SSP245/Socio/ECO_Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
         } else {
-          urlstr = "./Adap/" + activeCrop + "/SSP585/Socio/Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+          urlstr = "./Adap/" + activeCrop + "/SSP585/Socio/ECO_Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
         }
         source_socio = new GeoTIFF({
           sources: [{ url: urlstr }],
@@ -1348,11 +1374,11 @@ class DownloadControl extends Control {
       if (!Scalelayer && activeOptLayer["Scalability"]) {
         found = true;
         if (activeScenario === "baseline") {
-          urlstr = "./Adap/" + activeCrop + "/Baseline/Scale/Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+          urlstr = "./Adap/" + activeCrop + "/Baseline/Scale/SCA_Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
         } else if (activeScenario === "ssp245") {
-          urlstr = "./Adap/" + activeCrop + "/SSP245/Scale/Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+          urlstr = "./Adap/" + activeCrop + "/SSP245/Scale/SCA_Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
         } else {
-          urlstr = "./Adap/" + activeCrop + "/SSP585/Scale/Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+          urlstr = "./Adap/" + activeCrop + "/SSP585/Scale/SCA_Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
         }
         source_scale = new GeoTIFF({
           sources: [{ url: urlstr }],
@@ -1365,131 +1391,99 @@ class DownloadControl extends Control {
       mapRef.current.removeLayer(overl);
     }
 
-    if (activeOptLayer["Biophysical Suitability"] === false && Biolayer) {
-      mapRef.current.removeLayer(Biolayer);
-      setBioLayer(null);
-    }
-    if (activeOptLayer["Adaptation Benefits"] === false && Adaptlayer) {
-      mapRef.current.removeLayer(Adaptlayer);
-      setAdaptLayer(null);
-    }
-    if (activeOptLayer["Economic"] === false && Sociolayer) {
-      mapRef.current.removeLayer(Sociolayer);
-      setSocioLayer(null);
-    }
-    if (activeOptLayer["Scalability"] === false && Scalelayer) {
-      mapRef.current.removeLayer(Scalelayer);
-      setScaleLayer(null);
-    }
+  if((activeOptLayer['Biophysical Suitability']===false && Biolayer)){
+    mapRef.current.removeLayer(Biolayer);
+    setBioLayer(null);
+  }
+  if((activeOptLayer['Adaptation Benefits']===false && Adaptlayer)){
+    mapRef.current.removeLayer(Adaptlayer);
+    setAdaptLayer(null);
+  }
+  if((activeOptLayer['Economic']===false && Sociolayer)){
+    mapRef.current.removeLayer(Sociolayer);
+    setSocioLayer(null);
+  }
+  if((activeOptLayer['Scalability']===false && Scalelayer)){
+    mapRef.current.removeLayer(Scalelayer);
+    setScaleLayer(null);
+  }
+  
+  if (source_bio && activeOptLayer['Biophysical Suitability']) {
+    const newOverl = new TileLayer({
+      source: source_bio,
+      opacity: 1,
+      zIndex: 92,
+    });
 
-    if (source_bio && activeOptLayer["Biophysical Suitability"]) {
-      const newOverl = new TileLayer({
-        source: source_bio,
-        opacity: 0.7,
-        zIndex: 92,
-      });
+    if(opt===2){
+      newOverl.setStyle(color_hazard4);
+    }
+    if (mapRef.current) {
+      mapRef.current.addLayer(newOverl);
+      setBioLayer(newOverl);
+    }
+  }
+  if (source_adapt && activeOptLayer['Adaptation Benefits']) {
+    const newOverl = new TileLayer({
+      source: source_adapt,
+      opacity: 1,
+      zIndex: 93,
+    });
 
-      if (opt === 2) {
-        newOverl.setStyle(color_hazard);
-      }
-      if (mapRef.current) {
-        mapRef.current.addLayer(newOverl);
-        setBioLayer(newOverl);
-      }
+    if(opt===2){
+      newOverl.setStyle(color_adaptation_change);
     }
-    if (source_adapt && activeOptLayer["Adaptation Benefits"]) {
-      const newOverl = new TileLayer({
-        source: source_adapt,
-        opacity: 0.7,
-        zIndex: 93,
-      });
-
-      if (opt === 2) {
-        newOverl.setStyle(color2);
-      }
-      if (mapRef.current) {
-        mapRef.current.addLayer(newOverl);
-        setAdaptLayer(newOverl);
-      }
+    if (mapRef.current) {
+      mapRef.current.addLayer(newOverl);
+      setAdaptLayer(newOverl);
     }
-    if (activeOptLayer["Economic"] && source_socio) {
-      const newOverl = new TileLayer({
-        source: source_socio,
-        opacity: 0.7,
-        zIndex: 94,
-      });
-      if (opt === 2) {
-        newOverl.setStyle(color_hazard2);
-      }
-      if (mapRef.current) {
-        mapRef.current.addLayer(newOverl);
-        setSocioLayer(newOverl);
-      }
+  } 
+  if (activeOptLayer['Economic'] && source_socio) {
+    const newOverl = new TileLayer({
+      source: source_socio,
+      opacity: 1,
+      zIndex: 94,
+    });
+    if(opt===2){
+      newOverl.setStyle(color_adaptation_change);
     }
-    if (source_scale && activeOptLayer["Scalability"]) {
-      const newOverl = new TileLayer({
-        source: source_scale,
-        opacity: 0.7,
-        zIndex: 95,
-      });
-      if (opt === 2) {
-        newOverl.setStyle(color_hazard_livestock);
-      }
-      if (mapRef.current) {
-        mapRef.current.addLayer(newOverl);
-        setScaleLayer(newOverl);
-      }
+    if (mapRef.current) {
+      mapRef.current.addLayer(newOverl);
+      setSocioLayer(newOverl);
     }
-  }, [activeOptLayer, activeOpt, mapRef]);
-  let optionname = activeOpt;
-  return (
-    <div style={{ overflow: "hidden" }}>
-      <div id="popup2" class="ol-popup">
-        <div id="popup-content2" style={{ textTransform: "capitalize", fontSize: "13px" }}></div>
-      </div>
-      <div
-        ref={ref}
-        style={{
-          height: activeOpt === "" ? "calc(100vh - 155px)" : "calc(100vh - 175px)",
-          width: "auto",
-          marginLeft: 0,
-          marginBottom: "0px",
-          padding: 0,
-        }}
-        className="map-container"
-      />
-
-      <Popper open={missingSource}>
-        <div
-          style={{
-            position: "fixed",
-            right: "330px",
-            top: 95,
-            boxShadow: "0px 0px 1px #aaa",
-            backgroundColor: "rgba(14, 33, 1, 0.6)",
-            border: "0px solid black",
-            width: "180px",
-            borderRadius: "5px",
-            padding: "3px",
-          }}
-        >
-          <Slide direction="down" in={missingSource} mountOnEnter unmountOnExit>
-            <Typography
-              sx={{
-                fontSize: 15,
-                marginLeft: 1,
-                marginY: 0.5,
-                fontWeight: "bold",
-              }}
-              color="white"
-              gutterBottom
-            >
-              Note{" "}
-              <Typography sx={{ fontSize: 14 }} color="white" gutterBottom>
-                Data to be updated soon.
-              </Typography>
-            </Typography>
-          </Slide>
+  } 
+  if (source_scale && activeOptLayer['Scalability']) {
+    const newOverl = new TileLayer({
+      source: source_scale,
+      opacity: 1,
+      zIndex: 95,
+    });
+    if(opt===2){
+      newOverl.setStyle(color_hazard);
+    }
+    if (mapRef.current) {
+      mapRef.current.addLayer(newOverl);
+      setScaleLayer(newOverl);
+    }
+  } 
+}, [activeOptLayer,activeOpt,mapRef]);
+let optionname = activeOpt;
+    return (
+    <div style={{overflow:'hidden'}}>
+    <div id="popup2" class="ol-popup">
+      <div id="popup-content2" style={{textTransform:'capitalize',fontSize:'13px'}}></div>
+    </div>
+    <div ref={ref} style={{height:activeOpt===""?'calc(100vh - 155px)':'calc(100vh - 175px)',width:'auto',marginLeft:0,marginBottom:'0px',padding:0}} className="map-container" />
+    
+    <Popper open={missingSource}>
+        <div style={{position:'fixed',right:'330px',top:95, boxShadow:'0px 0px 1px #aaa',backgroundColor: 'rgba(14, 33, 1, 0.6)', border: '0px solid black', width:'180px', borderRadius:'5px',padding:'3px'}}>
+        <Slide direction="down" in={missingSource} mountOnEnter unmountOnExit>
+        <Typography sx={{fontSize: 15, marginLeft:1, marginY:0.5, fontWeight:'bold'}} color="white" gutterBottom>
+          Note <Typography sx={{fontSize: 14}} color="white" gutterBottom>
+                  Data to be updated soon.
+                    </Typography>
+        </Typography>
+        </Slide>
         </div>
       </Popper>
     </div>

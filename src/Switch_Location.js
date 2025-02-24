@@ -161,14 +161,14 @@ export default function SwitchLoc({
             }}
           >
             <MenuItem value="SA">South Asia</MenuItem>
-            <MenuItem value="AF">Afghanistan</MenuItem>
+            <MenuItem value="AF" disabled={true}>Afghanistan</MenuItem>
             <MenuItem value="BD">Bangladesh</MenuItem>
-            <MenuItem value="BT">Bhutan</MenuItem>
+            <MenuItem value="BT" disabled={true}>Bhutan</MenuItem>
             <MenuItem value="IN">India</MenuItem>
             <MenuItem value="NP">Nepal</MenuItem>
-            <MenuItem value="PK">Pakistan</MenuItem>
+            <MenuItem value="PK" disabled={true}>Pakistan</MenuItem>
             <MenuItem value="LK">Sri Lanka</MenuItem>
-            <MenuItem value="MV">Maldives</MenuItem>
+            <MenuItem value="MV" disabled={true}>Maldives</MenuItem>
           </Select>
         </FormControl>
       </Box>

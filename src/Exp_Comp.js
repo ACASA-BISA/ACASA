@@ -66,9 +66,9 @@ const ArrowTab = styled(Button)(({ theme, selected, isLast, isFirst }) => ({
   },
   "&::before": {
     content: '""',
-    position: "absolute",
-    width: isFirst ? "0" : "12%",
-    height: "100%",
+    position: 'absolute',
+    width:  isFirst? '0':'12%',
+    height: '100%',
     backgroundColor: "white",
     top: "0px",
     left: "-2px",
@@ -110,7 +110,7 @@ export default function CompV({
   } else if (activeScenario["ssp585"]) {
     scn = "ssp585";
   }
-  console.log(scn);
+  
   const [futureModel, setFutureModel] = React.useState(displayLayer);
   let sec = activeRegion.indexOf(",");
 
@@ -175,31 +175,27 @@ export default function CompV({
     NameImpact = "";
   }
 
-  let AdaptLayerName = "";
-  if (activeOptLayer["Biophysical Suitability"]) {
-    AdaptLayerName = "Biophysical Suitability";
-  }
-  if (activeOptLayer["Adaptation Benefits"]) {
-    AdaptLayerName = "Adaptation Benefits";
-  }
-  if (activeOptLayer["Economic"]) {
-    AdaptLayerName = "Economic Benefits";
-  }
-  if (activeOptLayer["Scalability"]) {
-    AdaptLayerName = "Scalability";
-  }
-  if (activeOptLayer["Gender"]) {
-    AdaptLayerName = "Gender Suitability";
-  }
-  if (
-    activeOptLayer["Biophysical Suitability"] === false &&
-    activeOptLayer["Adaptation Benefits"] === false &&
-    activeOptLayer["Economic"] === false &&
-    activeOptLayer["Scalability"] === false &&
-    activeOptLayer["Gender"] === false
-  ) {
-    AdaptLayerName = "suitability";
-  }
+    let AdaptLayerName = '';
+    if(activeOptLayer['Biophysical Suitability']){
+      AdaptLayerName = "Biophysical Suitability";
+    }
+    if(activeOptLayer['Adaptation Benefits']){
+      AdaptLayerName = "Adaptation Benefits";
+    }
+    if(activeOptLayer['Economic']) {
+      AdaptLayerName = "Economic Viability";
+    }
+    if(activeOptLayer['Scalability']){
+      AdaptLayerName = "Scalability";
+    }
+    if(activeOptLayer['Gender']){
+      AdaptLayerName = "Gender Suitability";
+    }
+    if(activeOptLayer['Biophysical Suitability']===false&&activeOptLayer['Adaptation Benefits']===false&&
+      activeOptLayer['Economic']===false&&activeOptLayer['Scalability']===false&&activeOptLayer['Gender']===false
+    ){
+      AdaptLayerName = "Biophysical Suitability";
+    }
 
   const gridRefs = [React.useRef(null), React.useRef(null), React.useRef(null)];
   const Only_Baseline = React.useRef(null);
