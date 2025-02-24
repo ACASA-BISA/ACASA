@@ -36,6 +36,7 @@ export default function Summ_Model({
     <MenuItem value='CNRM-ESM-1' sx={{fontSize:13,paddingY:'2px'}}>CNRM-ESM-1</MenuItem>
     <MenuItem value='EC-Earth3' sx={{fontSize:13,paddingY:'2px'}}>EC-Earth3</MenuItem>
     <MenuItem value='MIROC6' sx={{fontSize:13,paddingY:'2px'}}>MIROC6</MenuItem>
+    <MenuItem value='Ensemble' sx={{fontSize:13,paddingY:'2px'}}>Ensemble</MenuItem>
     </Select>
     </FormControl>
   );

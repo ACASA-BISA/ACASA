@@ -15,8 +15,8 @@ export default function SwitchScale({ exploreType, handleExploreTypeChange, acti
   const switch_type = ["Commodity specific", "Regional (non-commodity specific)"];
   const switch_type_id = ["Commodity", "Regional"];
 
-  const switch_type2 = ["Pixel level", "District level", "State level"];
-  const switch_type_id2 = ["Pixel Level", "District Level", "State Level"];
+  const switch_type2 = ["Pixel level", "District level"];
+  const switch_type_id2 = ["Pixel Level", "District Level"];
 
   const padd = 8;
 
