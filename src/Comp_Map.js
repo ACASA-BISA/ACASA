@@ -206,38 +206,26 @@ export default function MApp({
   const color_hazard2 = {
     color: ["palette", ["clamp", ["*", ["band", 2], 25], 0, 6], ["rgba(0,0,0,0)", "#059212", "#00FF00", "#FFDE4D", "#FFA500", "#FF0000"]],
   };
-    //Old Yellow: '#FFFF00'
+  //Old Yellow: '#FFFF00'
   const color_hazard4 = {
     color: ["palette", ["clamp", ["*", ["band", 2], 250], 0, 4], ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "#059212", "#00FF00", "#FFDE4D", "#FFA500", "#FF0000"]],
   };
 
-    const color_hazard3 = {
-      color: [
-        'palette',
-        ['clamp', ['*', ['band', 2], 25], 0, 6],
-        ['rgba(0,0,0,0)',  
-        'rgba(150,150,150,0)', 
-        "rgba(4, 145, 4, 1)",
-        "rgba(109, 233, 109, 1)",  
-        "rgba(241, 233, 119, 1)",  
-        "rgba(245, 140, 170, 1)",
-        "rgba(184, 23, 23, 1)"
-         ]
-      ]
-    };
+  const color_hazard3 = {
+    color: [
+      "palette",
+      ["clamp", ["*", ["band", 2], 25], 0, 6],
+      ["rgba(0,0,0,0)", "rgba(150,150,150,0)", "rgba(4, 145, 4, 1)", "rgba(109, 233, 109, 1)", "rgba(200,200,200,1)", "rgba(245, 140, 170, 1)", "rgba(184, 23, 23, 1)"],
+    ],
+  };
 
-    const color_adaptation_change = {
-      color: [
-        'palette',
-        ['clamp', ['*', ['band', 2], 25], 0, 6],
-        ['rgba(0,0,0,0)','rgba(200,200,200,1)', 'rgba(200,200,200,1)',
-        "rgba(184, 23, 23, 1)",   
-        "rgba(245, 140, 170, 1)",   
-        "rgba(241, 233, 119, 1)",  
-        "rgba(109, 233, 109, 1)", 
-        "rgba(4, 145, 4, 1)" ]
-      ]
-    };
+  const color_adaptation_change = {
+    color: [
+      "palette",
+      ["clamp", ["*", ["band", 2], 25], 0, 6],
+      ["rgba(0,0,0,0)", "rgba(200,200,200,1)", "rgba(200,200,200,1)", "rgba(184, 23, 23, 1)", "rgba(245, 140, 170, 1)", "rgba(200,200,200,1)", "rgba(109, 233, 109, 1)", "rgba(4, 145, 4, 1)"],
+    ],
+  };
 
   const color_hazard_change = {
     color: [
@@ -745,7 +733,7 @@ class DownloadControl extends Control {
     if (focus === "Region") {
       sourcet = new VectorSource({
         //url: "./CountryBoundary/SA_Country.json",
-          url: './CountryBoundary/SA_outline.json',
+        url: "./CountryBoundary/SA_outline.json",
         format: new GeoJSON(),
       });
       countryboundary = new VectorSource({
@@ -1178,9 +1166,8 @@ class DownloadControl extends Control {
           } else {
             urlstr = "./Hazards/" + activeCrop + "/SSP245/" + district_n + "ZZ_" + hazardname[CurrRisk] + ".tif";
           }
-        }
-        else{ 
-          if(displayLayer==='Absolute Change'){
+        } else {
+          if (displayLayer === "Absolute Change") {
             opt = 102;
             urlstr = "./Hazards/" + activeCrop + "/SSP585/" + district_n + "Abs_ZZ_" + hazardname[CurrRisk] + ".tif";
           } else if (displayLayer === "Percentage Change") {
@@ -1214,12 +1201,10 @@ class DownloadControl extends Control {
         opt = 3;
         if (activeImpact["Productivity"]) {
           urlstr = "./Impact/" + activeCrop + "_DR.tif";
-        }
-        else if (activeImpact["Resilience"]) {
-          urlstr = "./Impact/" + activeCrop + "/ZZ_NT_"+activeScenario+"_CV.tif";
-        }
-        else{
-          urlstr = "./Impact/"+activeCrop+"/ZZ_"+activeScenario+"_vop_NT_wheat_USD.tif";
+        } else if (activeImpact["Resilience"]) {
+          urlstr = "./Impact/" + activeCrop + "/ZZ_NT_" + activeScenario + "_CV.tif";
+        } else {
+          urlstr = "./Impact/" + activeCrop + "/ZZ_" + activeScenario + "_vop_NT_wheat_USD.tif";
         }
         settiffFilePath(urlstr);
         source1 = new GeoTIFF({
@@ -1405,99 +1390,112 @@ class DownloadControl extends Control {
       mapRef.current.removeLayer(overl);
     }
 
-  if((activeOptLayer['Biophysical Suitability']===false && Biolayer)){
-    mapRef.current.removeLayer(Biolayer);
-    setBioLayer(null);
-  }
-  if((activeOptLayer['Adaptation Benefits']===false && Adaptlayer)){
-    mapRef.current.removeLayer(Adaptlayer);
-    setAdaptLayer(null);
-  }
-  if((activeOptLayer['Economic']===false && Sociolayer)){
-    mapRef.current.removeLayer(Sociolayer);
-    setSocioLayer(null);
-  }
-  if((activeOptLayer['Scalability']===false && Scalelayer)){
-    mapRef.current.removeLayer(Scalelayer);
-    setScaleLayer(null);
-  }
-  
-  if (source_bio && activeOptLayer['Biophysical Suitability']) {
-    const newOverl = new TileLayer({
-      source: source_bio,
-      opacity: 1,
-      zIndex: 92,
-    });
+    if (activeOptLayer["Biophysical Suitability"] === false && Biolayer) {
+      mapRef.current.removeLayer(Biolayer);
+      setBioLayer(null);
+    }
+    if (activeOptLayer["Adaptation Benefits"] === false && Adaptlayer) {
+      mapRef.current.removeLayer(Adaptlayer);
+      setAdaptLayer(null);
+    }
+    if (activeOptLayer["Economic"] === false && Sociolayer) {
+      mapRef.current.removeLayer(Sociolayer);
+      setSocioLayer(null);
+    }
+    if (activeOptLayer["Scalability"] === false && Scalelayer) {
+      mapRef.current.removeLayer(Scalelayer);
+      setScaleLayer(null);
+    }
 
-    if(opt===2){
-      newOverl.setStyle(color_hazard4);
-    }
-    if (mapRef.current) {
-      mapRef.current.addLayer(newOverl);
-      setBioLayer(newOverl);
-    }
-  }
-  if (source_adapt && activeOptLayer['Adaptation Benefits']) {
-    const newOverl = new TileLayer({
-      source: source_adapt,
-      opacity: 1,
-      zIndex: 93,
-    });
+    if (source_bio && activeOptLayer["Biophysical Suitability"]) {
+      const newOverl = new TileLayer({
+        source: source_bio,
+        opacity: 1,
+        zIndex: 92,
+      });
 
-    if(opt===2){
-      newOverl.setStyle(color_adaptation_change);
+      if (opt === 2) {
+        newOverl.setStyle(color_hazard4);
+      }
+      if (mapRef.current) {
+        mapRef.current.addLayer(newOverl);
+        setBioLayer(newOverl);
+      }
     }
-    if (mapRef.current) {
-      mapRef.current.addLayer(newOverl);
-      setAdaptLayer(newOverl);
+    if (source_adapt && activeOptLayer["Adaptation Benefits"]) {
+      const newOverl = new TileLayer({
+        source: source_adapt,
+        opacity: 1,
+        zIndex: 93,
+      });
+
+      if (opt === 2) {
+        newOverl.setStyle(color_adaptation_change);
+      }
+      if (mapRef.current) {
+        mapRef.current.addLayer(newOverl);
+        setAdaptLayer(newOverl);
+      }
     }
-  } 
-  if (activeOptLayer['Economic'] && source_socio) {
-    const newOverl = new TileLayer({
-      source: source_socio,
-      opacity: 1,
-      zIndex: 94,
-    });
-    if(opt===2){
-      newOverl.setStyle(color_adaptation_change);
+    if (activeOptLayer["Economic"] && source_socio) {
+      const newOverl = new TileLayer({
+        source: source_socio,
+        opacity: 1,
+        zIndex: 94,
+      });
+      if (opt === 2) {
+        newOverl.setStyle(color_adaptation_change);
+      }
+      if (mapRef.current) {
+        mapRef.current.addLayer(newOverl);
+        setSocioLayer(newOverl);
+      }
     }
-    if (mapRef.current) {
-      mapRef.current.addLayer(newOverl);
-      setSocioLayer(newOverl);
+    if (source_scale && activeOptLayer["Scalability"]) {
+      const newOverl = new TileLayer({
+        source: source_scale,
+        opacity: 1,
+        zIndex: 95,
+      });
+      if (opt === 2) {
+        newOverl.setStyle(color_hazard);
+      }
+      if (mapRef.current) {
+        mapRef.current.addLayer(newOverl);
+        setScaleLayer(newOverl);
+      }
     }
-  } 
-  if (source_scale && activeOptLayer['Scalability']) {
-    const newOverl = new TileLayer({
-      source: source_scale,
-      opacity: 1,
-      zIndex: 95,
-    });
-    if(opt===2){
-      newOverl.setStyle(color_hazard);
-    }
-    if (mapRef.current) {
-      mapRef.current.addLayer(newOverl);
-      setScaleLayer(newOverl);
-    }
-  } 
-}, [activeOptLayer,activeOpt,mapRef]);
-let optionname = activeOpt;
-    return (
-    <div style={{overflow:'hidden'}}>
-    <div id="popup2" class="ol-popup">
-      <div id="popup-content2" style={{textTransform:'capitalize',fontSize:'13px'}}></div>
-    </div>
-    <div ref={ref} style={{height:activeOpt===""?'calc(100vh - 155px)':'calc(100vh - 175px)',width:'auto',marginLeft:0,marginBottom:'0px',padding:0}} className="map-container" />
-    
-    <Popper open={missingSource}>
-        <div style={{position:'fixed',right:'330px',top:95, boxShadow:'0px 0px 1px #aaa',backgroundColor: 'rgba(14, 33, 1, 0.6)', border: '0px solid black', width:'180px', borderRadius:'5px',padding:'3px'}}>
-        <Slide direction="down" in={missingSource} mountOnEnter unmountOnExit>
-        <Typography sx={{fontSize: 15, marginLeft:1, marginY:0.5, fontWeight:'bold'}} color="white" gutterBottom>
-          Note <Typography sx={{fontSize: 14}} color="white" gutterBottom>
-                  Data to be updated soon.
-                    </Typography>
-        </Typography>
-        </Slide>
+  }, [activeOptLayer, activeOpt, mapRef]);
+  let optionname = activeOpt;
+  return (
+    <div style={{ overflow: "hidden" }}>
+      <div id="popup2" class="ol-popup">
+        <div id="popup-content2" style={{ textTransform: "capitalize", fontSize: "13px" }}></div>
+      </div>
+      <div ref={ref} style={{ height: activeOpt === "" ? "calc(100vh - 155px)" : "calc(100vh - 175px)", width: "auto", marginLeft: 0, marginBottom: "0px", padding: 0 }} className="map-container" />
+
+      <Popper open={missingSource}>
+        <div
+          style={{
+            position: "fixed",
+            right: "330px",
+            top: 95,
+            boxShadow: "0px 0px 1px #aaa",
+            backgroundColor: "rgba(14, 33, 1, 0.6)",
+            border: "0px solid black",
+            width: "180px",
+            borderRadius: "5px",
+            padding: "3px",
+          }}
+        >
+          <Slide direction="down" in={missingSource} mountOnEnter unmountOnExit>
+            <Typography sx={{ fontSize: 15, marginLeft: 1, marginY: 0.5, fontWeight: "bold" }} color="white" gutterBottom>
+              Note{" "}
+              <Typography sx={{ fontSize: 14 }} color="white" gutterBottom>
+                Data to be updated soon.
+              </Typography>
+            </Typography>
+          </Slide>
         </div>
       </Popper>
     </div>

@@ -131,7 +131,7 @@ export default function SwitchScenario({ activeScenario, changeScenario, activeM
                         <span>{scenarioinfo[index]}</span>
                         <br />
                         <Link
-                          href={`#/resources?tab=4&term=${switchh[index].toLowerCase()}`}
+                          href={`#/resources?tab=2&term=${switchh[index].toLowerCase()}`}
                           target="_blank"
                           sx={{
                             color: "white",
@@ -212,7 +212,7 @@ export default function SwitchScenario({ activeScenario, changeScenario, activeM
                                 <span>{datainfo[index]}</span>
                                 <br />
                                 <Link
-                                  href={`#/resources?tab=4&term=${switchh3[index].toLowerCase()}`}
+                                  href={`#/resources?tab=2&term=${switchh3[index].toLowerCase()}`}
                                   target="_blank"
                                   sx={{
                                     color: "white",
