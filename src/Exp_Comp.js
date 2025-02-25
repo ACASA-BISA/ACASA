@@ -45,17 +45,17 @@ function useInterval(callback, delay) {
 const tabs = ["Biophysical suitability", "Adaptation benefits", "Economic viability", "Scalability", "Gender suitability"];
 
 const ArrowTab = styled(Button)(({ theme, selected, isLast, isFirst }) => ({
-  position: "relative",
-  padding: "2px 40px 2px 40px",
-  borderRadius: 0,
-  width: "450px",
-  marginLeft: "-35px",
-  clipPath: isLast ? "polygon(0 0, 100% 0, 100% 50%, 100% 100%, 0 100%, 10% 50%)" : "polygon(0 0, 90% 0, 100% 50%, 90% 100%, 0 100%, 10% 50%)",
-  backgroundColor: selected ? "#BFD77A" : "#A0A0A0",
-  color: selected ? "black" : "white",
-  fontWeight: "bold",
-  textTransform: "none",
-  transition: "all 0.3s",
+  "position": "relative",
+  "padding": "2px 40px 2px 40px",
+  "borderRadius": 0,
+  "width": "450px",
+  "marginLeft": "-35px",
+  "clipPath": isLast ? "polygon(0 0, 100% 0, 100% 50%, 100% 100%, 0 100%, 10% 50%)" : "polygon(0 0, 90% 0, 100% 50%, 90% 100%, 0 100%, 10% 50%)",
+  "backgroundColor": selected ? "#BFD77A" : "#A0A0A0",
+  "color": selected ? "black" : "white",
+  "fontWeight": "bold",
+  "textTransform": "none",
+  "transition": "all 0.3s",
   "&:first-of-type": {
     marginLeft: 0,
     clipPath: "polygon(0 0, 90% 0, 100% 50%, 90% 100%, 0 100%)",
@@ -67,9 +67,9 @@ const ArrowTab = styled(Button)(({ theme, selected, isLast, isFirst }) => ({
   },
   "&::before": {
     content: '""',
-    position: 'absolute',
-    width:  isFirst? '0':'12%',
-    height: '100%',
+    position: "absolute",
+    width: isFirst ? "0" : "12%",
+    height: "100%",
     backgroundColor: "white",
     top: "0px",
     left: "-2px",
@@ -111,7 +111,7 @@ export default function CompV({
   } else if (activeScenario["ssp585"]) {
     scn = "ssp585";
   }
-  
+
   const [futureModel, setFutureModel] = React.useState(displayLayer);
   let sec = activeRegion.indexOf(",");
 
@@ -176,29 +176,33 @@ export default function CompV({
     NameImpact = "";
   }
 
-    let AdaptLayerName = '';
-    if(activeOptLayer['Biophysical Suitability']){
-      AdaptLayerName = "Biophysical Suitability";
-    }
-    if(activeOptLayer['Adaptation Benefits']){
-      AdaptLayerName = "Adaptation Benefits";
-    }
-    if(activeOptLayer['Economic']) {
-      AdaptLayerName = "Economic Viability";
-    }
-    if(activeOptLayer['Scalability']){
-      AdaptLayerName = "Scalability";
-    }
-    if(activeOptLayer['Gender']){
-      AdaptLayerName = "Gender Suitability";
-    }
-    if(activeOptLayer['Biophysical Suitability']===false&&activeOptLayer['Adaptation Benefits']===false&&
-      activeOptLayer['Economic']===false&&activeOptLayer['Scalability']===false&&activeOptLayer['Gender']===false
-    ){
-      AdaptLayerName = "Biophysical Suitability";
-    }
+  let AdaptLayerName = "";
+  if (activeOptLayer["Biophysical Suitability"]) {
+    AdaptLayerName = "Biophysical Suitability";
+  }
+  if (activeOptLayer["Adaptation Benefits"]) {
+    AdaptLayerName = "Adaptation Benefits";
+  }
+  if (activeOptLayer["Economic"]) {
+    AdaptLayerName = "Economic Viability";
+  }
+  if (activeOptLayer["Scalability"]) {
+    AdaptLayerName = "Scalability";
+  }
+  if (activeOptLayer["Gender"]) {
+    AdaptLayerName = "Gender Suitability";
+  }
+  if (
+    activeOptLayer["Biophysical Suitability"] === false &&
+    activeOptLayer["Adaptation Benefits"] === false &&
+    activeOptLayer["Economic"] === false &&
+    activeOptLayer["Scalability"] === false &&
+    activeOptLayer["Gender"] === false
+  ) {
+    AdaptLayerName = "Biophysical Suitability";
+  }
 
-  const Adapt_Title = ["Yield benefits in current climate (Baseline)","Adaptation Benefits (2050s)","Adaptation Benefits (2080s)"]
+  const Adapt_Title = ["Yield benefits in current climate (Baseline)", "Adaptation Benefits (2050s)", "Adaptation Benefits (2080s)"];
   const gridRefs = [React.useRef(null), React.useRef(null), React.useRef(null)];
   const Only_Baseline = React.useRef(null);
 
@@ -286,7 +290,7 @@ export default function CompV({
   }, [gridRefs[1].current]);
 
   const CustomFormControlLabel = styled(FormControlLabel)(({ theme }) => ({
-    alignItems: "flex-start", // Align items to the start
+    "alignItems": "flex-start", // Align items to the start
     "&.Mui-disabled .MuiTypography-body2": {
       color: "#ccc", // Color for the label text when disabled
     },
@@ -307,13 +311,16 @@ export default function CompV({
   };
 
   useEffect(() => {
-    if(activeOptLayer['Biophysical Suitability']===false&&activeOptLayer['Adaptation Benefits']===false&&
-      activeOptLayer['Economic']===false&&activeOptLayer['Scalability']===false&&activeOptLayer['Gender']===false
-    )
-    {
+    if (
+      activeOptLayer["Biophysical Suitability"] === false &&
+      activeOptLayer["Adaptation Benefits"] === false &&
+      activeOptLayer["Economic"] === false &&
+      activeOptLayer["Scalability"] === false &&
+      activeOptLayer["Gender"] === false
+    ) {
       setSelectedIndex(0);
     }
-  },[activeOptLayer]);
+  }, [activeOptLayer]);
 
   function RiskType() {
     let str = "Hazard";
@@ -526,29 +533,32 @@ export default function CompV({
                       gap: "10px",
                     })}
                   >
-                  {AdaptLayerName === "Adaptation Benefits" &&
-                    <Typography
-                    align="center"
-                    sx={{
-                      fontSize: "14px",
-                      fontWeight: "bold",
-                      fontFamily: "Karla",
-                      color: "text.primary",
-                    }}
-                  >
-                    {Adapt_Title[index]}
-                  </Typography>}
-                    {AdaptLayerName !== "Adaptation Benefits" && <Typography
-                      align="center"
-                      sx={{
-                        fontSize: "14px",
-                        fontWeight: "bold",
-                        fontFamily: "Karla",
-                        color: "text.primary",
-                      }}
-                    >
-                      {label}
-                    </Typography>}
+                    {AdaptLayerName === "Adaptation Benefits" && (
+                      <Typography
+                        align="center"
+                        sx={{
+                          fontSize: "14px",
+                          fontWeight: "bold",
+                          fontFamily: "Karla",
+                          color: "text.primary",
+                        }}
+                      >
+                        {Adapt_Title[index]}
+                      </Typography>
+                    )}
+                    {AdaptLayerName !== "Adaptation Benefits" && (
+                      <Typography
+                        align="center"
+                        sx={{
+                          fontSize: "14px",
+                          fontWeight: "bold",
+                          fontFamily: "Karla",
+                          color: "text.primary",
+                        }}
+                      >
+                        {label}
+                      </Typography>
+                    )}
                     {/* {(label==='2050s'||label==='2080s') && <FormControl size='small'>
                 <Select labelId="Scenariox"
                   id="future-model-select-idx"

@@ -25,14 +25,7 @@ const size = {
 
 const palette = ["rgba(180, 70, 109, 1)", "#FF9A00", "#06D001"];
 
-const palette2 = [
-  "#059212",
-  "#00FF00",
-  "#FFDE4D",
-  "#FFA500",
-  "#FF0000",
-  "#969696",
-];
+const palette2 = ["#059212", "#00FF00", "#FFDE4D", "#FFA500", "#FF0000", "#969696"];
 
 function createData(color, Cat, Area, AreaPerc, Population) {
   return { color, Cat, Area, AreaPerc, Population };
@@ -65,70 +58,45 @@ const color_comm = {
 };
 
 const unitrisk = {
-  "Risk Index":
-    "The risk index is derived from hazard, exposure and vulnerability indices",
+  "Risk Index": "The risk index is derived from hazard, exposure and vulnerability indices",
   "Hazard Index": "Integrated index which combines multiple hazards",
-  "Low temperature induced spikelet sterility":
-    "Number of days with low temperature during anthesis period leading to spikelet sterility",
-  "Untimely Rainfall":
-    "Number of untimely rainfall days during the crop season",
-  "Low temperature induced pollen sterility":
-    "Number of days with low temperature during pollination under leading to pollen sterility",
-  "High temperature induced pollen sterility":
-    "Number of days with high temperature during pollination under leading to pollen sterility",
+  "Low temperature induced spikelet sterility": "Number of days with low temperature during anthesis period leading to spikelet sterility",
+  "Untimely Rainfall": "Number of untimely rainfall days during the crop season",
+  "Low temperature induced pollen sterility": "Number of days with low temperature during pollination under leading to pollen sterility",
+  "High temperature induced pollen sterility": "Number of days with high temperature during pollination under leading to pollen sterility",
   "Heat Stress": "Number of days with high temperature",
-  "High temperature induced spikelet sterility":
-    "Number of days with high temperature during anthesis period leading to spikelet sterility",
+  "High temperature induced spikelet sterility": "Number of days with high temperature during anthesis period leading to spikelet sterility",
   "Cold Stress": "Number of days with low temperature",
-  "Low temperature induced tuberization failure":
-    "Number of days with low temperature leading to tuberization failure",
-  "Terminal Heat":
-    "Number of days with high temperature during grain-filling phase",
+  "Low temperature induced tuberization failure": "Number of days with low temperature leading to tuberization failure",
+  "Terminal Heat": "Number of days with high temperature during grain-filling phase",
   "Days of Frost": "Number of frost days",
-  "Excess Rainfall and Waterlogging":
-    "Number of excess rainfall days leading to waterlogging",
+  "Excess Rainfall and Waterlogging": "Number of excess rainfall days leading to waterlogging",
   "Delayed Monsoon": "Percentage of years with delayed monsoon",
-  Drought: "Number of years with moderate or severe drought",
+  "Drought": "Number of years with moderate or severe drought",
   "Dry Spell": "Number of dry spells",
-  Flood: "Number of flood events",
-  Lodging: "Number of days under high wind and rainfall after booting phase",
-  Biotic: "Number of days with high temperature and humidity leading to blight",
+  "Flood": "Number of flood events",
+  "Lodging": "Number of days under high wind and rainfall after booting phase",
+  "Biotic": "Number of days with high temperature and humidity leading to blight",
   "Excess Rainfall": "Number of excess rainfall days during the crop season",
   "Temperature-Humidity Index": "Number of days with high THI",
   "Hot days": "Number of days with high temperature",
   "Cold days": "Number of days with low temperature",
   "Extreme Rainfall days": " Number of excess rainfall days",
   "Rainfall Deficit": "Percentage of years with rainfall deficit",
-  Cyclone: "Degree of cyclone proneness",
+  "Cyclone": "Degree of cyclone proneness",
   "Number of Animals per grid": "Total number of animals per grid [~5 X 5 km]",
-  "Vulnerability Index":
-    "Integrated index which combines multiple vulnerability layers",
-  Irrigation: "Area under irrigation per grid, %",
+  "Vulnerability Index": "Integrated index which combines multiple vulnerability layers",
+  "Irrigation": "Area under irrigation per grid, %",
   "Soil Water Holding Capacity": "Available Water in mm/m",
   "Soil Organic Carbon": "Soil Organic Carbon in %",
-  "Agriculture Income":
-    "Agricultural GDP as proxy for income. Agricultural Gross Domestic Product data in US $ per grid [~5 X 5 km]",
-  "Rural infrastructure":
-    "Road density used as proxy for rural infrastructure. Road density is length of rural roads per grid, km/grid",
-  "Economic Development Indicator":
-    "HDI used as proxy. Global estimates of the United Nations Human Development Index",
-  "Feed/Fodder":
-    "Production and Usage of cereal residues in tonnes per grid [~5 X 5 km]",
+  "Agriculture Income": "Agricultural GDP as proxy for income. Agricultural Gross Domestic Product data in US $ per grid [~5 X 5 km]",
+  "Rural infrastructure": "Road density used as proxy for rural infrastructure. Road density is length of rural roads per grid, km/grid",
+  "Economic Development Indicator": "HDI used as proxy. Global estimates of the United Nations Human Development Index",
+  "Feed/Fodder": "Production and Usage of cereal residues in tonnes per grid [~5 X 5 km]",
   "Cropped Area": "Area under crop in hectares per grid [~5 X 5 km]",
 };
 
-export default function LocationCard({
-  location,
-  commodity,
-  adaption,
-  setHeight1,
-  RiskName,
-  scenario,
-  ImpactName,
-  area_data,
-  area_data2,
-  exploreType,
-}) {
+export default function LocationCard({ location, commodity, adaption, setHeight1, RiskName, scenario, ImpactName, area_data, area_data2, exploreType }) {
   const cardRef = useRef(null);
   const [cardHeight, setCardHeight] = useState(0);
   useEffect(() => {
@@ -173,35 +141,30 @@ export default function LocationCard({
     "Downscaled Risk": "Downscaled Risk",
     "Risk Index": "Risk index",
     "Hazard Index": "Hazard Index",
-    "Low temperature induced spikelet sterility":
-      "Low temperature induced spikelet sterility",
-    "Low temperature induced pollen sterility":
-      "Low temperature induced pollen sterility",
-    "High temperature induced pollen sterility":
-      "High temperature induced pollen sterility",
+    "Low temperature induced spikelet sterility": "Low temperature induced spikelet sterility",
+    "Low temperature induced pollen sterility": "Low temperature induced pollen sterility",
+    "High temperature induced pollen sterility": "High temperature induced pollen sterility",
     "Heat Stress": "Heat stress",
-    "High temperature induced spikelet sterility":
-      "High temperature induced spikelet sterility",
+    "High temperature induced spikelet sterility": "High temperature induced spikelet sterility",
     "Cold Stress": "Cold stress",
-    "Low temperature induced tuberization failure":
-      "Low temperature induced tuberization failure",
+    "Low temperature induced tuberization failure": "Low temperature induced tuberization failure",
     "Untimely Rainfall": "Untimely rainfall",
     "Terminal Heat": "Terminal heat",
     "Days of Frost": "Days of frost",
     "Excess Rainfall and Waterlogging": "Excess rain and waterlogging",
     "Delayed Monsoon": "Delayed monsoon",
-    Drought: "Drought",
+    "Drought": "Drought",
     "Dry Spell": "Number of dry spells",
-    Flood: "Flood",
+    "Flood": "Flood",
     "Soil Organic Carbon": "Soil organic carbon",
-    Lodging: "Rain and wind causing lodging",
-    Biotic: "High humidity and temperature for blight",
-    Irrigation: "Irrigation",
+    "Lodging": "Rain and wind causing lodging",
+    "Biotic": "High humidity and temperature for blight",
+    "Irrigation": "Irrigation",
     "Soil Water Holding Capacity": "Water holding capacity",
-    Income: "Agricultural GDP",
+    "Income": "Agricultural GDP",
     "Access to Credit": "Access to Credit",
     "Access to Market": "Access to Market",
-    Elevation: "Elevation",
+    "Elevation": "Elevation",
     "Access to Knowledge": "Access to Knowledge",
     "Exposure Index": "Exposure Index",
     "Number of Farmers": "Number of Farmers",
@@ -217,7 +180,7 @@ export default function LocationCard({
     "Vulnerability Index": "Vulnerability Index",
     "Feed/Fodder": "Residue",
     "Rural infrastructure": "Road network density",
-    Cyclone: "Cyclone",
+    "Cyclone": "Cyclone",
     "Rainfall Deficit": "Rainfall deficit",
     "Extreme Rainfall days": "Extreme Rainfall Days",
     "Cold days": "Cold Stress",
@@ -250,77 +213,31 @@ export default function LocationCard({
         let statecode = "";
         if (x === "Bangladesh") {
           statecode = y.substring(0, y.length - 9) + "DIV";
-          rowstr =
-            commodity +
-            "_" +
-            statecode +
-            "_Suitability_" +
-            commodity +
-            "_" +
-            optcode[adaption];
+          rowstr = commodity + "_" + statecode + "_Suitability_" + commodity + "_" + optcode[adaption];
         } else if (x === "Nepal") {
           statecode = y + "DIV";
-          rowstr =
-            commodity +
-            "_" +
-            statecode +
-            "_Suitability_" +
-            commodity +
-            "_" +
-            optcode[adaption];
+          rowstr = commodity + "_" + statecode + "_Suitability_" + commodity + "_" + optcode[adaption];
         } else if (x === "India" || x === "Sri Lanka" || x === "Pakistan") {
           statecode = "STATE_" + y.toUpperCase();
-          rowstr =
-            commodity +
-            "_" +
-            statecode +
-            "_Suitability_" +
-            commodity +
-            "_" +
-            optcode[adaption];
+          rowstr = commodity + "_" + statecode + "_Suitability_" + commodity + "_" + optcode[adaption];
         } else if (x === "Maldives" || x === "Afghanistan") {
           statecode = y.toUpperCase();
-          rowstr =
-            commodity +
-            "_" +
-            statecode +
-            "_Suitability_" +
-            commodity +
-            "_" +
-            optcode[adaption];
+          rowstr = commodity + "_" + statecode + "_Suitability_" + commodity + "_" + optcode[adaption];
         } else if (x === "Bhutan") {
           statecode = y;
-          rowstr =
-            commodity +
-            "_" +
-            statecode +
-            "_Suitability_" +
-            commodity +
-            "_" +
-            optcode[adaption];
+          rowstr = commodity + "_" + statecode + "_Suitability_" + commodity + "_" + optcode[adaption];
         }
       } else {
-        rowstr =
-          commodity +
-          "_" +
-          location +
-          "_Suitability_" +
-          commodity +
-          "_" +
-          optcode[adaption];
+        rowstr = commodity + "_" + location + "_Suitability_" + commodity + "_" + optcode[adaption];
       }
       const row_data = area_data[rowstr.toLowerCase()];
       let total = 1;
       if (row_data) {
-        total =
-          Number(row_data["Unsuitable"]) +
-          Number(row_data["Suitable"]) +
-          Number(row_data["Adaptation Benefits"]) +
-          Number(row_data["High"]);
+        total = Number(row_data["Unsuitable"]) + Number(row_data["Suitable"]) + Number(row_data["Adaptation Benefits"]) + Number(row_data["High"]);
       } else {
         row_data = {
-          Unsuitable: NaN,
-          Suitable: NaN,
+          "Unsuitable": NaN,
+          "Suitable": NaN,
           "Adaptation Benefits": NaN,
         };
       }
@@ -378,20 +295,14 @@ export default function LocationCard({
       const row_data = area_data2[rowstr];
       let total = 1;
       if (row_data) {
-        total =
-          Number(row_data["Very Low"]) +
-          Number(row_data["Low"]) +
-          Number(row_data["Medium"]) +
-          Number(row_data["High"]) +
-          Number(row_data["Very High"]) +
-          Number(row_data["Nil"]);
+        total = Number(row_data["Very Low"]) + Number(row_data["Low"]) + Number(row_data["Medium"]) + Number(row_data["High"]) + Number(row_data["Very High"]) + Number(row_data["Nil"]);
       } else {
         row_data = {
-          Nil: NaN,
+          "Nil": NaN,
           "Very Low": NaN,
-          Low: NaN,
-          Medium: NaN,
-          High: NaN,
+          "Low": NaN,
+          "Medium": NaN,
+          "High": NaN,
           "Very High": NaN,
         };
       }
@@ -419,9 +330,7 @@ export default function LocationCard({
 
   let data3 = [];
   if (
-    (RiskName !== "" &&
-      RiskName !== "Hazard Index" &&
-      RiskType() === "Hazard") ||
+    (RiskName !== "" && RiskName !== "Hazard Index" && RiskType() === "Hazard") ||
     (RiskName !== "" &&
       RiskName !== "District Level" &&
       RiskName !== "Downscaled Risk" &&
@@ -434,8 +343,7 @@ export default function LocationCard({
         commodity === "Chickpea" ||
         commodity === "Maize" ||
         commodity === "Mustard")) ||
-    ((RiskName === "District Level" || RiskName === "Downscaled Risk") &&
-      commodity === "Rice")
+    ((RiskName === "District Level" || RiskName === "Downscaled Risk") && commodity === "Rice")
   ) {
     data3 = fetchthedataPieHzd();
   }
@@ -453,77 +361,31 @@ export default function LocationCard({
         let statecode = "";
         if (x === "Bangladesh") {
           statecode = y.substring(0, y.length - 9) + "DIV";
-          rowstr =
-            commodity +
-            "_" +
-            statecode +
-            "_Suitability_" +
-            commodity +
-            "_" +
-            optcode[adaption];
+          rowstr = commodity + "_" + statecode + "_Suitability_" + commodity + "_" + optcode[adaption];
         } else if (x === "Nepal") {
           statecode = y + "DIV";
-          rowstr =
-            commodity +
-            "_" +
-            statecode +
-            "_Suitability_" +
-            commodity +
-            "_" +
-            optcode[adaption];
+          rowstr = commodity + "_" + statecode + "_Suitability_" + commodity + "_" + optcode[adaption];
         } else if (x === "India" || x === "Sri Lanka" || x === "Pakistan") {
           statecode = "STATE_" + y.toUpperCase();
-          rowstr =
-            commodity +
-            "_" +
-            statecode +
-            "_Suitability_" +
-            commodity +
-            "_" +
-            optcode[adaption];
+          rowstr = commodity + "_" + statecode + "_Suitability_" + commodity + "_" + optcode[adaption];
         } else if (x === "Maldives" || x === "Afghanistan") {
           statecode = y.toUpperCase();
-          rowstr =
-            commodity +
-            "_" +
-            statecode +
-            "_Suitability_" +
-            commodity +
-            "_" +
-            optcode[adaption];
+          rowstr = commodity + "_" + statecode + "_Suitability_" + commodity + "_" + optcode[adaption];
         } else if (x === "Bhutan") {
           statecode = y;
-          rowstr =
-            commodity +
-            "_" +
-            statecode +
-            "_Suitability_" +
-            commodity +
-            "_" +
-            optcode[adaption];
+          rowstr = commodity + "_" + statecode + "_Suitability_" + commodity + "_" + optcode[adaption];
         }
       } else {
-        rowstr =
-          commodity +
-          "_" +
-          location +
-          "_Suitability_" +
-          commodity +
-          "_" +
-          optcode[adaption];
+        rowstr = commodity + "_" + location + "_Suitability_" + commodity + "_" + optcode[adaption];
       }
       const row_data = area_data[rowstr.toLowerCase()];
       let total = 1;
       if (row_data) {
-        total =
-          Number(row_data["Unsuitable"]) +
-          Number(row_data["Suitable"]) +
-          Number(row_data["Adaptation Benefits"]) +
-          Number(row_data["High"]);
+        total = Number(row_data["Unsuitable"]) + Number(row_data["Suitable"]) + Number(row_data["Adaptation Benefits"]) + Number(row_data["High"]);
       } else {
         row_data = {
-          Unsuitable: NaN,
-          Suitable: NaN,
+          "Unsuitable": NaN,
+          "Suitable": NaN,
           "Adaptation Benefits": NaN,
         };
       }
@@ -615,18 +477,10 @@ export default function LocationCard({
 
   function RiskType() {
     let str = "Hazard";
-    if (
-      RiskName === "Risk Index" ||
-      RiskName === "District Level" ||
-      RiskName === "Downscaled Risk"
-    ) {
+    if (RiskName === "Risk Index" || RiskName === "District Level" || RiskName === "Downscaled Risk") {
       str = "Risk";
     }
-    if (
-      RiskName === "Exposure Index" ||
-      RiskName === "Number of Animals per grid" ||
-      RiskName === "Cropped Area"
-    ) {
+    if (RiskName === "Exposure Index" || RiskName === "Number of Animals per grid" || RiskName === "Cropped Area") {
       str = "Exposure";
     }
     if (
@@ -651,17 +505,10 @@ export default function LocationCard({
         style={{
           position: "fixed",
           right: 50,
-          top: (adaption===""?142:170),
-          boxShadow: (theme) =>
-            theme.palette.mode === "dark"
-              ? "0px 0px 0px #000"
-              : "0px 0px 0px #aaa",
-          backgroundColor: (theme) =>
-            theme.palette.mode === "dark" ? "#25292e" : "white",
-          border: (theme) =>
-            theme.palette.mode === "dark"
-              ? "0px solid #444"
-              : "0px solid black",
+          top: adaption === "" ? 142 : 170,
+          boxShadow: (theme) => (theme.palette.mode === "dark" ? "0px 0px 0px #000" : "0px 0px 0px #aaa"),
+          backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#25292e" : "white"),
+          border: (theme) => (theme.palette.mode === "dark" ? "0px solid #444" : "0px solid black"),
           width: "280px",
           borderRadius: "15px",
         }}
@@ -718,31 +565,31 @@ export default function LocationCard({
               })}
             />
             {exploreType !== "Regional" && (
-            <div>
-            <Box sx={{ display: "flex", flexDirection: "row" }}>
-              <Typography
-                sx={(theme) => ({
-                  fontSize: 13,
-                  color: theme.palette.mode === "dark" ? "#e0e0e0" : "black",
-                })}
-                gutterBottom
-              >
-                Commodity:&nbsp;
-              </Typography>
-              <Typography sx={{ fontSize: 13 }} color="text.secondary">
-                {commodity}
-              </Typography>
-            </Box>
-            <Divider
-              sx={(theme) => ({
-                bgcolor: theme.palette.mode === "dark" ? "#3a4d3f" : "#e8ffea",
-                borderBottomWidth: 2,
-                marginTop: "0px",
-                marginBottom: 0.3,
-              })}
-            />
-            </div>
-          )}
+              <div>
+                <Box sx={{ display: "flex", flexDirection: "row" }}>
+                  <Typography
+                    sx={(theme) => ({
+                      fontSize: 13,
+                      color: theme.palette.mode === "dark" ? "#e0e0e0" : "black",
+                    })}
+                    gutterBottom
+                  >
+                    Commodity:&nbsp;
+                  </Typography>
+                  <Typography sx={{ fontSize: 13 }} color="text.secondary">
+                    {commodity}
+                  </Typography>
+                </Box>
+                <Divider
+                  sx={(theme) => ({
+                    bgcolor: theme.palette.mode === "dark" ? "#3a4d3f" : "#e8ffea",
+                    borderBottomWidth: 2,
+                    marginTop: "0px",
+                    marginBottom: 0.3,
+                  })}
+                />
+              </div>
+            )}
             <Box sx={{ display: "flex", flexDirection: "row" }}>
               <Typography
                 sx={(theme) => ({
@@ -761,8 +608,7 @@ export default function LocationCard({
               <div>
                 <Divider
                   sx={(theme) => ({
-                    bgcolor:
-                      theme.palette.mode === "dark" ? "#3a4d3f" : "#e8ffea",
+                    bgcolor: theme.palette.mode === "dark" ? "#3a4d3f" : "#e8ffea",
                     borderBottomWidth: 2,
                     marginTop: "0px",
                     marginBottom: 0.3,
@@ -772,18 +618,12 @@ export default function LocationCard({
                   <Typography
                     sx={(theme) => ({
                       fontSize: 13,
-                      color:
-                        theme.palette.mode === "dark" ? "#e0e0e0" : "black",
+                      color: theme.palette.mode === "dark" ? "#e0e0e0" : "black",
                     })}
                     flexWrap
                   >
                     Technical suitability of&nbsp;
-                    <strong>
-                      {adaption.charAt(0).toUpperCase() +
-                        adaption.slice(1, 4) +
-                        adaption.toLowerCase().slice(4)}
-                    </strong>{" "}
-                    by area %:
+                    <strong>{adaption.charAt(0).toUpperCase() + adaption.slice(1, 4) + adaption.toLowerCase().slice(4)}</strong> by area %:
                   </Typography>
                 </Box>
               </div>
@@ -792,8 +632,7 @@ export default function LocationCard({
               <div>
                 <Divider
                   sx={(theme) => ({
-                    bgcolor:
-                      theme.palette.mode === "dark" ? "#3a4d3f" : "#e8ffea",
+                    bgcolor: theme.palette.mode === "dark" ? "#3a4d3f" : "#e8ffea",
                     borderBottomWidth: 2,
                     marginTop: "0px",
                     marginBottom: 0.3,
@@ -808,11 +647,7 @@ export default function LocationCard({
                   >
                     Risk Method:&nbsp;
                   </Typography>
-                  <Typography
-                    sx={{ fontSize: 13 }}
-                    color="text.secondary"
-                    gutterBottom
-                  >
+                  <Typography sx={{ fontSize: 13 }} color="text.secondary" gutterBottom>
                     {RiskMethod()}
                   </Typography>
                 </Box>
@@ -824,13 +659,8 @@ export default function LocationCard({
                   })}
                 >
                   {RiskType()}:&nbsp;
-                  <Typography
-                    component="span"
-                    sx={{ fontSize: 13, fontWeight: "bold" }}
-                    color="text.secondary"
-                  >
-                    {RiskName.charAt(0).toUpperCase() +
-                      RiskName.toLowerCase().slice(1)}
+                  <Typography component="span" sx={{ fontSize: 13, fontWeight: "bold" }} color="text.secondary">
+                    {RiskName.charAt(0).toUpperCase() + RiskName.toLowerCase().slice(1)}
                     &nbsp;
                     <Typography component="span" sx={{ fontSize: 12 }}>
                       {UnitFind(RiskName)}
@@ -843,8 +673,7 @@ export default function LocationCard({
               <div>
                 <Divider
                   sx={(theme) => ({
-                    bgcolor:
-                      theme.palette.mode === "dark" ? "#3a4d3f" : "#e8ffea",
+                    bgcolor: theme.palette.mode === "dark" ? "#3a4d3f" : "#e8ffea",
                     borderBottomWidth: 2,
                     marginTop: "0px",
                     marginBottom: 0.3,
@@ -860,8 +689,7 @@ export default function LocationCard({
                     Impact:&nbsp;
                   </Typography>
                   <Typography sx={{ fontSize: 13 }} color="text.secondary">
-                    {ImpactName.charAt(0).toUpperCase() +
-                      ImpactName.toLowerCase().slice(1)}
+                    {ImpactName.charAt(0).toUpperCase() + ImpactName.toLowerCase().slice(1)}
                   </Typography>
                 </Box>
               </div>
@@ -872,8 +700,7 @@ export default function LocationCard({
                 <Box sx={{ marginTop: "2px", marginBottom: "-5px" }}>
                   <Divider
                     sx={(theme) => ({
-                      bgcolor:
-                        theme.palette.mode === "dark" ? "#3a4d3f" : "#e8ffea",
+                      bgcolor: theme.palette.mode === "dark" ? "#3a4d3f" : "#e8ffea",
                       borderBottomWidth: 2,
                       marginTop: "0px",
                       marginBottom: 0.3,
@@ -914,10 +741,7 @@ export default function LocationCard({
                       commodity !== "Chickpea" &&
                       commodity !== "Maize" &&
                       commodity !== "Mustard" && (
-                        <Typography
-                          sx={{ fontSize: 13, margin: "4px" }}
-                          color="text.secondary"
-                        >
+                        <Typography sx={{ fontSize: 13, margin: "4px" }} color="text.secondary">
                           Area under {commodity.toLowerCase()}
                         </Typography>
                       )}
@@ -981,9 +805,7 @@ export default function LocationCard({
                               marginLeft: "10px",
                             }}
                           />
-                          <Box
-                            sx={{ display: "flex", flexDirection: "column" }}
-                          >
+                          <Box sx={{ display: "flex", flexDirection: "column" }}>
                             <Typography
                               sx={{
                                 fontSize: 13,
@@ -1172,11 +994,7 @@ export default function LocationCard({
                             marginX: "2px",
                           }}
                         />
-                        <Typography
-                          sx={{ fontSize: 12, margin: "4px" }}
-                          color="text.secondary"
-                          gutterBottom
-                        >
+                        <Typography sx={{ fontSize: 12, margin: "4px" }} color="text.secondary" gutterBottom>
                           Very High
                         </Typography>
                       </Box>
@@ -1197,11 +1015,7 @@ export default function LocationCard({
                             marginX: "2px",
                           }}
                         />
-                        <Typography
-                          sx={{ fontSize: 12, margin: "4px" }}
-                          color="text.secondary"
-                          gutterBottom
-                        >
+                        <Typography sx={{ fontSize: 12, margin: "4px" }} color="text.secondary" gutterBottom>
                           High
                         </Typography>
                       </Box>
@@ -1222,11 +1036,7 @@ export default function LocationCard({
                             marginX: "2px",
                           }}
                         />
-                        <Typography
-                          sx={{ fontSize: 12, margin: "4px" }}
-                          color="text.secondary"
-                          gutterBottom
-                        >
+                        <Typography sx={{ fontSize: 12, margin: "4px" }} color="text.secondary" gutterBottom>
                           Medium
                         </Typography>
                       </Box>
@@ -1256,11 +1066,7 @@ export default function LocationCard({
                             marginX: "2px",
                           }}
                         />
-                        <Typography
-                          sx={{ fontSize: 12, margin: "4px" }}
-                          color="text.secondary"
-                          gutterBottom
-                        >
+                        <Typography sx={{ fontSize: 12, margin: "4px" }} color="text.secondary" gutterBottom>
                           Low
                         </Typography>
                       </Box>
@@ -1281,11 +1087,7 @@ export default function LocationCard({
                             marginX: "2px",
                           }}
                         />
-                        <Typography
-                          sx={{ fontSize: 12, margin: "4px" }}
-                          color="text.secondary"
-                          gutterBottom
-                        >
+                        <Typography sx={{ fontSize: 12, margin: "4px" }} color="text.secondary" gutterBottom>
                           Very Low
                         </Typography>
                       </Box>
@@ -1306,11 +1108,7 @@ export default function LocationCard({
                             marginX: "2px",
                           }}
                         />
-                        <Typography
-                          sx={{ fontSize: 12, margin: "4px" }}
-                          color="text.secondary"
-                          gutterBottom
-                        >
+                        <Typography sx={{ fontSize: 12, margin: "4px" }} color="text.secondary" gutterBottom>
                           Nil
                         </Typography>
                       </Box>
@@ -1337,9 +1135,7 @@ export default function LocationCard({
                       
                       </Box> 
                     } */}
-              {((RiskName !== "" &&
-                RiskName !== "Hazard Index" &&
-                RiskType() === "Hazard") ||
+              {((RiskName !== "" && RiskName !== "Hazard Index" && RiskType() === "Hazard") ||
                 (RiskName !== "" &&
                   RiskName !== "District Level" &&
                   RiskName !== "Downscaled Risk" &&
@@ -1352,9 +1148,7 @@ export default function LocationCard({
                     commodity === "Chickpea" ||
                     commodity === "Maize" ||
                     commodity === "Mustard")) ||
-                ((RiskName === "District Level" ||
-                  RiskName === "Downscaled Risk") &&
-                  commodity === "Rice")) && (
+                ((RiskName === "District Level" || RiskName === "Downscaled Risk") && commodity === "Rice")) && (
                 <Box sx={{ marginTop: "2px", marginBottom: "-5px" }}>
                   {/* <Box sx={{width:'100%', display:'flex',alignContent:'center'}}>
                     <PieChart
@@ -1434,27 +1228,18 @@ export default function LocationCard({
                       {...size}
                     />
                     {checkcrop() && RiskType() === "Hazard" && (
-                      <Typography
-                        sx={{ fontSize: 12, margin: "4px", fontWeight: "bold" }}
-                        color="text.secondary"
-                      >
+                      <Typography sx={{ fontSize: 12, margin: "4px", fontWeight: "bold" }} color="text.secondary">
                         Area affected
                       </Typography>
                     )}
                     {checkcrop() && RiskType() !== "Hazard" && (
-                      <Typography
-                        sx={{ fontSize: 12, margin: "4px", fontWeight: "bold" }}
-                        color="text.secondary"
-                      >
+                      <Typography sx={{ fontSize: 12, margin: "4px", fontWeight: "bold" }} color="text.secondary">
                         Area categories
                       </Typography>
                     )}
 
                     {checkcrop() === false && (
-                      <Typography
-                        sx={{ fontSize: 12, margin: "4px", fontWeight: "bold" }}
-                        color="text.secondary"
-                      >
+                      <Typography sx={{ fontSize: 12, margin: "4px", fontWeight: "bold" }} color="text.secondary">
                         Number of {commodity.toLowerCase()} by category
                       </Typography>
                     )}
@@ -1484,11 +1269,7 @@ export default function LocationCard({
                           marginX: "2px",
                         }}
                       />
-                      <Typography
-                        sx={{ fontSize: 12, margin: "4px" }}
-                        color="text.secondary"
-                        gutterBottom
-                      >
+                      <Typography sx={{ fontSize: 12, margin: "4px" }} color="text.secondary" gutterBottom>
                         Very High
                       </Typography>
                     </Box>
@@ -1509,11 +1290,7 @@ export default function LocationCard({
                           marginX: "2px",
                         }}
                       />
-                      <Typography
-                        sx={{ fontSize: 12, margin: "4px" }}
-                        color="text.secondary"
-                        gutterBottom
-                      >
+                      <Typography sx={{ fontSize: 12, margin: "4px" }} color="text.secondary" gutterBottom>
                         High
                       </Typography>
                     </Box>
@@ -1534,11 +1311,7 @@ export default function LocationCard({
                           marginX: "2px",
                         }}
                       />
-                      <Typography
-                        sx={{ fontSize: 12, margin: "4px" }}
-                        color="text.secondary"
-                        gutterBottom
-                      >
+                      <Typography sx={{ fontSize: 12, margin: "4px" }} color="text.secondary" gutterBottom>
                         Medium
                       </Typography>
                     </Box>
@@ -1568,11 +1341,7 @@ export default function LocationCard({
                           marginX: "2px",
                         }}
                       />
-                      <Typography
-                        sx={{ fontSize: 12, margin: "4px" }}
-                        color="text.secondary"
-                        gutterBottom
-                      >
+                      <Typography sx={{ fontSize: 12, margin: "4px" }} color="text.secondary" gutterBottom>
                         Low
                       </Typography>
                     </Box>
@@ -1593,11 +1362,7 @@ export default function LocationCard({
                           marginX: "2px",
                         }}
                       />
-                      <Typography
-                        sx={{ fontSize: 12, margin: "4px" }}
-                        color="text.secondary"
-                        gutterBottom
-                      >
+                      <Typography sx={{ fontSize: 12, margin: "4px" }} color="text.secondary" gutterBottom>
                         Very Low
                       </Typography>
                     </Box>
@@ -1619,11 +1384,7 @@ export default function LocationCard({
                             marginX: "2px",
                           }}
                         />
-                        <Typography
-                          sx={{ fontSize: 12, margin: "4px", marginX: "2px" }}
-                          color="text.secondary"
-                          gutterBottom
-                        >
+                        <Typography sx={{ fontSize: 12, margin: "4px", marginX: "2px" }} color="text.secondary" gutterBottom>
                           No {typrstr()}
                         </Typography>
                       </Box>
