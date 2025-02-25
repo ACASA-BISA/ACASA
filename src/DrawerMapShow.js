@@ -45,6 +45,8 @@ import Summ_Scenario from "./Summ_Scenario";
 import Summ_Model from "./Summ_Model";
 import Summ_Adaptation_Indicator from "./Summ_Adaptation_Indicators.js";
 import { fetchDataAdap } from "./fetchDataAdap.js";
+import LegendComp from "./LegendComp.js";
+import { fetchthedataHzd } from "./fetchDataHzd.js";
 // import AdaptationGlance from './AdaptationGlance';
 //import Summ1 from './Summary1';
 
@@ -90,157 +92,6 @@ async function fetchCsv5() {
   const response = await fetch("./All_hazards_crops_corrected.json");
   return await response.json();
 }
-
-const legendComp = (
-  <Paper elevation={1}>
-    <Box
-      sx={(theme) => ({
-        display: "flex",
-        flexDirection: "column",
-        border: `1px solid ${theme.palette.mode === "dark" ? "#555" : "#aaa"}`,
-        justifyContent: "top",
-        alignItems: "left",
-        height: "100%",
-        padding: "2px",
-        paddingLeft: "2px",
-        paddingRight: "3px",
-        gap: "0px",
-        backgroundColor: theme.palette.mode === "dark" ? "#30363d" : "#ddd",
-      })}
-    >
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "left",
-          alignItems: "center",
-          gap: "2px",
-        }}
-      >
-        <Box sx={{ width: 50, height: 15, borderRadius: 0, bgcolor: "#059212" }}>
-          <Typography
-            fontSize="0.62rem"
-            align="left"
-            fontWeight="bold"
-            sx={(theme) => ({
-              paddingLeft: "3px",
-              color: theme.palette.mode === "dark" ? "black" : "white",
-            })}
-          >
-            Very Low
-          </Typography>
-        </Box>
-        <Typography fontSize="0.62rem" align="left" fontWeight="bold" sx={{ paddingLeft: "2px" }}>
-          NaN
-        </Typography>
-      </Box>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "left",
-          alignItems: "center",
-          gap: "2px",
-        }}
-      >
-        <Box sx={{ width: 50, height: 15, borderRadius: 0, bgcolor: "#00FF00" }}>
-          <Typography
-            fontSize="0.62rem"
-            align="left"
-            fontWeight="bold"
-            sx={(theme) => ({
-              paddingLeft: "3px",
-              color: theme.palette.mode === "dark" ? "black" : "white",
-            })}
-          >
-            Low
-          </Typography>
-        </Box>
-        <Typography fontSize="0.62rem" align="left" fontWeight="bold" sx={{ paddingLeft: "2px" }}>
-          NaN
-        </Typography>
-      </Box>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "left",
-          alignItems: "center",
-          gap: "2px",
-        }}
-      >
-        <Box sx={{ width: 50, height: 15, borderRadius: 0, bgcolor: "#FFDE4D" }}>
-          <Typography
-            fontSize="0.62rem"
-            align="left"
-            fontWeight="bold"
-            sx={(theme) => ({
-              paddingLeft: "3px",
-              color: theme.palette.mode === "dark" ? "black" : "white",
-            })}
-          >
-            Medium
-          </Typography>
-        </Box>
-        <Typography fontSize="0.62rem" align="left" fontWeight="bold" sx={{ paddingLeft: "2px" }}>
-          NaN
-        </Typography>
-      </Box>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "left",
-          alignItems: "center",
-          gap: "2px",
-        }}
-      >
-        <Box sx={{ width: 50, height: 15, borderRadius: 0, bgcolor: "#FFA500" }}>
-          <Typography
-            fontSize="0.62rem"
-            align="left"
-            fontWeight="bold"
-            sx={(theme) => ({
-              paddingLeft: "3px",
-              color: theme.palette.mode === "dark" ? "black" : "white",
-            })}
-          >
-            High
-          </Typography>
-        </Box>
-        <Typography fontSize="0.62rem" align="left" fontWeight="bold" sx={{ paddingLeft: "2px" }}>
-          NaN
-        </Typography>
-      </Box>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "left",
-          alignItems: "center",
-          gap: "2px",
-        }}
-      >
-        <Box sx={{ width: 50, height: 15, borderRadius: 0, bgcolor: "#E4003A" }}>
-          <Typography
-            fontSize="0.62rem"
-            align="left"
-            fontWeight="bold"
-            sx={(theme) => ({
-              paddingLeft: "3px",
-              color: theme.palette.mode === "dark" ? "black" : "white",
-            })}
-          >
-            Very High
-          </Typography>
-        </Box>
-        <Typography fontSize="0.62rem" align="left" fontWeight="bold" sx={{ paddingLeft: "2px" }}>
-          NaN
-        </Typography>
-      </Box>
-    </Box>
-  </Paper>
-);
 
 export default function DrawerMapShow({ activeBar }) {
   let Homecrop = "rice";
@@ -1006,6 +857,9 @@ export default function DrawerMapShow({ activeBar }) {
   const box4 = React.useRef(null);
   const box5 = React.useRef(null);
   const box6 = React.useRef(null);
+  const impactBox = React.useRef(null);
+  const paperWidth = window.innerWidth * 0.21;
+  const paperWidth2 = window.innerWidth * 0.23;
 
   return (
     <div>
@@ -1411,9 +1265,25 @@ export default function DrawerMapShow({ activeBar }) {
                     Low
                     </Typography>
                     </Box> */}
-                      <Paper elevation={1}>
+                      <Paper elevation={1} ref={impactBox}>
                         <Map_Risk activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} CurrRisk={CurrRisk2}></Map_Risk>
                       </Paper>
+                      <Popper
+                        open={true} // Always open
+                        anchorEl={impactBox.current} // Anchor to the Grid container
+                        placement="bottom" // Position it at the bottom
+                        disablePortal={true} // Stay within the DOM hierarchy
+                        modifiers={[
+                          {
+                            name: "offset",
+                            options: {
+                              offset: [-(paperWidth2 / 2 - 45), -85], // Adjust distance from the container
+                            },
+                          },
+                        ]}
+                      >
+                        <LegendComp legendData={fetchthedataHzd("Pixel Level", "", "Value of Production", "Absolute", activeRegion2, NameScenario, crop2, area_data4)} />
+                      </Popper>
                     </Box>
                   </Box>
                 </Box>
@@ -1481,12 +1351,12 @@ export default function DrawerMapShow({ activeBar }) {
                         {
                           name: "offset",
                           options: {
-                            offset: [90, -85], // Adjust distance from the container
+                            offset: [+(paperWidth / 2 - 55), -85], // Adjust distance from the container
                           },
                         },
                       ]}
                     >
-                      {legendComp}
+                      <LegendComp legendData={fetchDataAdap(opt2, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />
                     </Popper>
                   </div>
                   <div>
@@ -1544,12 +1414,12 @@ export default function DrawerMapShow({ activeBar }) {
                         {
                           name: "offset",
                           options: {
-                            offset: [90, -85], // Adjust distance from the container
+                            offset: [+(paperWidth / 2 - 55), -85], // Adjust distance from the container
                           },
                         },
                       ]}
                     >
-                      {legendComp}
+                      <LegendComp legendData={fetchDataAdap(opt3, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />
                     </Popper>
                   </div>
                 </Box>
@@ -1616,12 +1486,12 @@ export default function DrawerMapShow({ activeBar }) {
                         {
                           name: "offset",
                           options: {
-                            offset: [90, -85], // Adjust distance from the container
+                            offset: [+(paperWidth / 2 - 55), -85], // Adjust distance from the container
                           },
                         },
                       ]}
                     >
-                      {legendComp}
+                      <LegendComp legendData={fetchDataAdap(opt4, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />
                     </Popper>
                   </div>
                   <div>
@@ -1679,12 +1549,12 @@ export default function DrawerMapShow({ activeBar }) {
                         {
                           name: "offset",
                           options: {
-                            offset: [90, -85], // Adjust distance from the container
+                            offset: [+(paperWidth / 2 - 55), -85], // Adjust distance from the container
                           },
                         },
                       ]}
                     >
-                      {legendComp}
+                      <LegendComp legendData={fetchDataAdap(opt5, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />
                     </Popper>
                   </div>
                 </Box>
@@ -1751,12 +1621,12 @@ export default function DrawerMapShow({ activeBar }) {
                         {
                           name: "offset",
                           options: {
-                            offset: [90, -85], // Adjust distance from the container
+                            offset: [+(paperWidth / 2 - 55), -85], // Adjust distance from the container
                           },
                         },
                       ]}
                     >
-                      {legendComp}
+                      <LegendComp legendData={fetchDataAdap(opt6, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />
                     </Popper>
                   </div>
                   <div>
@@ -1814,12 +1684,12 @@ export default function DrawerMapShow({ activeBar }) {
                         {
                           name: "offset",
                           options: {
-                            offset: [90, -85], // Adjust distance from the container
+                            offset: [+(paperWidth / 2 - 55), -85], // Adjust distance from the container
                           },
                         },
                       ]}
                     >
-                      {legendComp}
+                      <LegendComp legendData={fetchDataAdap(opt7, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />
                     </Popper>
                   </div>
                 </Box>
