@@ -12,117 +12,6 @@ import Summ_Model from "./Summ_Model";
 import { fetchthedataHzd } from "./fetchDataHzd.js";
 import LegendComp from "./LegendComp.js";
 
-const legendComp = (
-  <Paper elevation={1} sx={(theme) => ({ backgroundColor: theme.palette.background.paper })}>
-    <Box
-      sx={(theme) => ({
-        display: "flex",
-        flexDirection: "column",
-        border: `1px solid ${theme.palette.mode === "dark" ? "#555" : "#aaa"}`,
-        justifyContent: "top",
-        alignItems: "left",
-        height: "100%",
-        padding: "2px",
-        paddingLeft: "2px",
-        paddingRight: "3px",
-        gap: "0px",
-        backgroundColor: theme.palette.mode === "dark" ? "#30363d" : "#ddd",
-      })}
-    >
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "left",
-          alignItems: "center",
-          gap: "2px",
-        }}
-      >
-        <Box sx={{ width: 50, height: 15, borderRadius: 0, bgcolor: "#059212" }}>
-          <Typography fontSize="0.62rem" align="left" fontWeight="bold" sx={(theme) => ({ paddingLeft: "3px", color: theme.palette.mode === "dark" ? "black" : "white" })}>
-            Very Low
-          </Typography>
-        </Box>
-        <Typography fontSize="0.62rem" align="left" fontWeight="bold" sx={{ paddingLeft: "2px" }}>
-          NaN
-        </Typography>
-      </Box>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "left",
-          alignItems: "center",
-          gap: "2px",
-        }}
-      >
-        <Box sx={{ width: 50, height: 15, borderRadius: 0, bgcolor: "#00FF00" }}>
-          <Typography fontSize="0.62rem" align="left" fontWeight="bold" sx={(theme) => ({ paddingLeft: "3px", color: theme.palette.mode === "dark" ? "black" : "white" })}>
-            Low
-          </Typography>
-        </Box>
-        <Typography fontSize="0.62rem" align="left" fontWeight="bold" sx={{ paddingLeft: "2px" }}>
-          NaN
-        </Typography>
-      </Box>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "left",
-          alignItems: "center",
-          gap: "2px",
-        }}
-      >
-        <Box sx={{ width: 50, height: 15, borderRadius: 0, bgcolor: "#FFDE4D" }}>
-          <Typography fontSize="0.62rem" align="left" fontWeight="bold" sx={(theme) => ({ paddingLeft: "3px", color: theme.palette.mode === "dark" ? "black" : "white" })}>
-            Medium
-          </Typography>
-        </Box>
-        <Typography fontSize="0.62rem" align="left" fontWeight="bold" sx={{ paddingLeft: "2px" }}>
-          NaN
-        </Typography>
-      </Box>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "left",
-          alignItems: "center",
-          gap: "2px",
-        }}
-      >
-        <Box sx={{ width: 50, height: 15, borderRadius: 0, bgcolor: "#FFA500" }}>
-          <Typography fontSize="0.62rem" align="left" fontWeight="bold" sx={(theme) => ({ paddingLeft: "3px", color: theme.palette.mode === "dark" ? "black" : "white" })}>
-            High
-          </Typography>
-        </Box>
-        <Typography fontSize="0.62rem" align="left" fontWeight="bold" sx={{ paddingLeft: "2px" }}>
-          NaN
-        </Typography>
-      </Box>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "left",
-          alignItems: "center",
-          gap: "2px",
-        }}
-      >
-        <Box sx={{ width: 50, height: 15, borderRadius: 0, bgcolor: "#E4003A" }}>
-          <Typography fontSize="0.62rem" align="left" fontWeight="bold" sx={(theme) => ({ paddingLeft: "3px", color: theme.palette.mode === "dark" ? "black" : "white" })}>
-            Very High
-          </Typography>
-        </Box>
-        <Typography fontSize="0.62rem" align="left" fontWeight="bold" sx={{ paddingLeft: "2px" }}>
-          NaN
-        </Typography>
-      </Box>
-    </Box>
-  </Paper>
-);
-
 export default function HazardGlance({ handleChangeSumm, cropid, focus2, activeRegion2, ActiveRegionChange2, crop2, CurrRisk2, area_data4 }) {
   const [NameScenario, setNameScenario] = React.useState("baseline");
 
@@ -219,7 +108,7 @@ export default function HazardGlance({ handleChangeSumm, cropid, focus2, activeR
               {
                 name: "offset",
                 options: {
-                  offset: [-(paperWidth / 2 - 45), -87], // Adjust distance from the container
+                  offset: [-(paperWidth / 2 - 50), -87], // Adjust distance from the container
                 },
               },
             ]}
@@ -243,7 +132,7 @@ export default function HazardGlance({ handleChangeSumm, cropid, focus2, activeR
                   {
                     name: "offset",
                     options: {
-                      offset: [-(paperWidth / 2 - 45), -87], // Adjust distance from the container
+                      offset: [-(paperWidth / 2 - 50), -87], // Adjust distance from the container
                     },
                   },
                 ]}
@@ -265,7 +154,7 @@ export default function HazardGlance({ handleChangeSumm, cropid, focus2, activeR
                   {
                     name: "offset",
                     options: {
-                      offset: [-(paperWidth / 2 - 45), -87], // Adjust distance from the container //-( (paperWidth)/2 - 40),-82
+                      offset: [-(paperWidth / 2 - 50), -87], // Adjust distance from the container //-( (paperWidth)/2 - 40),-82
                     },
                   },
                 ]}
@@ -287,7 +176,7 @@ export default function HazardGlance({ handleChangeSumm, cropid, focus2, activeR
                   {
                     name: "offset",
                     options: {
-                      offset: [-(paperWidth / 2 - 45), -87], // Adjust distance from the container
+                      offset: [-(paperWidth / 2 - 50), -87], // Adjust distance from the container
                     },
                   },
                 ]}
@@ -309,7 +198,7 @@ export default function HazardGlance({ handleChangeSumm, cropid, focus2, activeR
                   {
                     name: "offset",
                     options: {
-                      offset: [-(paperWidth / 2 - 45), -87], // Adjust distance from the container
+                      offset: [-(paperWidth / 2 - 50), -87], // Adjust distance from the container
                     },
                   },
                 ]}
@@ -331,7 +220,7 @@ export default function HazardGlance({ handleChangeSumm, cropid, focus2, activeR
                   {
                     name: "offset",
                     options: {
-                      offset: [-(paperWidth / 2 - 45), -87], // Adjust distance from the container
+                      offset: [-(paperWidth / 2 - 50), -87], // Adjust distance from the container
                     },
                   },
                 ]}
@@ -353,7 +242,7 @@ export default function HazardGlance({ handleChangeSumm, cropid, focus2, activeR
                   {
                     name: "offset",
                     options: {
-                      offset: [-(paperWidth / 2 - 45), -87], // Adjust distance from the container
+                      offset: [-(paperWidth / 2 - 50), -87], // Adjust distance from the container
                     },
                   },
                 ]}
