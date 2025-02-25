@@ -166,7 +166,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
           createData(<Box sx={{width: '100%',height: 13,borderRadius: 0,bgcolor: '#FF9A00'}}/>,'Suitable', row_data['Suitable']/10, (row_data['Suitable']*100/total).toFixed(2), (row_data['Suitable Population']*0.16/1000000)),
           createData(<Box sx={{width: '100%',height: 13,borderRadius: 0,bgcolor: '#06D001'}}/>,'Suitable with adaptation benefits', row_data['Suitable with adaptation benefits']/10, (row_data['Suitable with adaptation benefits Population']*100/total).toFixed(2), (row_data['Suitable with adaptation benefits Population']*0.16/1000000)),
         ]; */
-        if (AdaptLayerName==='Scalability'||AdaptLayerName === "Biophysical Suitability"||AdaptLayerName==="suitability") {
+        if (AdaptLayerName === "Biophysical Suitability"||AdaptLayerName==="suitability") {
           data = [
             createData("#969696", "No significant " + typrstr(), row_data["Nil"], ((row_data["Nil"] * 100) / total).toFixed(2), (row_data["Nil Population"] * 0.16) / 1000000),
             createData("#059212", "Very low", row_data["Very Low"], ((row_data["Very Low"] * 100) / total).toFixed(2), (row_data["Very Low Population"] * 0.16) / 1000000),
@@ -175,7 +175,18 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
             createData("#FFA500", "High", row_data["High"], ((row_data["High"] * 100) / total).toFixed(2), (row_data["High Population"] * 0.16) / 1000000),
             createData("#E4003A", "Very high", row_data["Very High"], ((row_data["Very High"] * 100) / total).toFixed(2), (row_data["Very High Population"] * 0.16) / 1000000),
           ];
-        }else{
+        }
+        else if(AdaptLayerName==='Scalability'){
+          data = [
+            createData("#969696", "No significant " + typrstr(), row_data["Nil"], ((row_data["Nil"] * 100) / total).toFixed(2), (row_data["Nil Population"] * 0.16) / 1000000),
+            createData("#E4003A", "Very low", row_data["Very Low"], ((row_data["Very Low"] * 100) / total).toFixed(2), (row_data["Very Low Population"] * 0.16) / 1000000),
+            createData("#FFA500", "Low", row_data["Low"], ((row_data["Low"] * 100) / total).toFixed(2), (row_data["Low Population"] * 0.16) / 1000000),
+            createData("#FFDE4D", "Medium", row_data["Medium"], ((row_data["Medium"] * 100) / total).toFixed(2), (row_data["Medium Population"] * 0.16) / 1000000),
+            createData("#00FF00", "High", row_data["High"], ((row_data["High"] * 100) / total).toFixed(2), (row_data["High Population"] * 0.16) / 1000000),
+            createData("#059212", "Very high", row_data["Very High"], ((row_data["Very High"] * 100) / total).toFixed(2), (row_data["Very High Population"] * 0.16) / 1000000),
+          ];
+        }
+        else{
         data = 
           [
             createData('#969696',
@@ -184,7 +195,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
               'High dcrs', row_data['Very Low'], (row_data['Very Low']*100/total).toFixed(2), (row_data['Very Low Population']*0.16/1000000)),
             createData("rgba(245, 140, 170, 1)",
               'Decrease', row_data['Low'], (row_data['Low']*100/total).toFixed(2), (row_data['Low Population']*0.16/1000000)),
-            createData("rgba(200,200,200,1)",
+            createData("rgba(241, 233, 119, 1)",
               'No change', (row_data['Medium']+row_data['Nil']), ((row_data['Medium']+row_data['Nil'])*100/total).toFixed(2), (row_data['Medium Population']*0.16/1000000)+(row_data['Nil Population']*0.16/1000000)),
             createData("rgba(109, 233, 109, 1)",
               'Increase', row_data['High'], (row_data['High']*100/total).toFixed(2), (row_data['High Population']*0.16/1000000)),
@@ -246,22 +257,28 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
             row_data = {'Nil':NaN,'Very Low':NaN,'Low':NaN,'Medium':NaN,'High':NaN,'Very High':NaN};
           }
           //console.log(total);
-          
+          if(RiskType()==='Vulnerability'){
+            data = 
+            [
+            createData('#969696',"No significant "+typrstr(), row_data['Nil'], (row_data['Nil']*100/total).toFixed(2), (row_data['Nil Population']*0.16/1000000)),
+            createData('#E4003A','Very low', row_data['Very Low'], (row_data['Very Low']*100/total).toFixed(2), (row_data['Very Low Population']*0.16/1000000)),
+            createData('#FFA500','Low', row_data['Low'], (row_data['Low']*100/total).toFixed(2), (row_data['Low Population']*0.16/1000000)),
+            createData('#FFDE4D','Medium', row_data['Medium'], (row_data['Medium']*100/total).toFixed(2), (row_data['Medium Population']*0.16/1000000)),
+            createData('#00FF00','High', row_data['High'], (row_data['High']*100/total).toFixed(2), (row_data['High Population']*0.16/1000000)),
+            createData('#059212','Very high', row_data['Very High'], (row_data['Very High']*100/total).toFixed(2), (row_data['Very High Population']*0.16/1000000)),
+            ];
+          }
+          else{
           data = 
           [
-            createData('#969696',
-              "No significant "+typrstr(), row_data['Nil'], (row_data['Nil']*100/total).toFixed(2), (row_data['Nil Population']*0.16/1000000)),
-            createData('#059212',
-              'Very low', row_data['Very Low'], (row_data['Very Low']*100/total).toFixed(2), (row_data['Very Low Population']*0.16/1000000)),
-            createData('#00FF00',
-              'Low', row_data['Low'], (row_data['Low']*100/total).toFixed(2), (row_data['Low Population']*0.16/1000000)),
-            createData('#FFDE4D',
-              'Medium', row_data['Medium'], (row_data['Medium']*100/total).toFixed(2), (row_data['Medium Population']*0.16/1000000)),
-            createData('#FFA500',
-              'High', row_data['High'], (row_data['High']*100/total).toFixed(2), (row_data['High Population']*0.16/1000000)),
-            createData('#E4003A',
-              'Very high', row_data['Very High'], (row_data['Very High']*100/total).toFixed(2), (row_data['Very High Population']*0.16/1000000)),
+            createData('#969696', "No significant "+typrstr(), row_data['Nil'], (row_data['Nil']*100/total).toFixed(2), (row_data['Nil Population']*0.16/1000000)),
+            createData('#059212','Very low', row_data['Very Low'], (row_data['Very Low']*100/total).toFixed(2), (row_data['Very Low Population']*0.16/1000000)),
+            createData('#00FF00','Low', row_data['Low'], (row_data['Low']*100/total).toFixed(2), (row_data['Low Population']*0.16/1000000)),
+            createData('#FFDE4D','Medium', row_data['Medium'], (row_data['Medium']*100/total).toFixed(2), (row_data['Medium Population']*0.16/1000000)),
+            createData('#FFA500','High', row_data['High'], (row_data['High']*100/total).toFixed(2), (row_data['High Population']*0.16/1000000)),
+            createData('#E4003A','Very high', row_data['Very High'], (row_data['Very High']*100/total).toFixed(2), (row_data['Very High Population']*0.16/1000000)),
           ];
+        }
         }
         else if(displayLayer==='Absolute Change'){
           /* let rowstr2 = "";
@@ -354,7 +371,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
           createData("#969696", "No significant " + typrstr(), row_data["Nil"], ((row_data["Nil"] * 100) / total).toFixed(2), (row_data["Nil Population"] * 0.16) / 1000000),
           createData("rgba(0,0,128,1)", "High dcr", row_data["Very Low"], ((row_data["Very Low"] * 100) / total).toFixed(2), (row_data["Very Low Population"] * 0.16) / 1000000),
           createData("rgba(135,206,250,1)", "Decrease", row_data["Low"], ((row_data["Low"] * 100) / total).toFixed(2), (row_data["Low Population"] * 0.16) / 1000000),
-          createData("rgba(200,200,200,1)", "No change", row_data["Medium"], ((row_data["Medium"] * 100) / total).toFixed(2), (row_data["Medium Population"] * 0.16) / 1000000),
+          createData("rgba(241, 233, 119, 1)", "No change", row_data["Medium"], ((row_data["Medium"] * 100) / total).toFixed(2), (row_data["Medium Population"] * 0.16) / 1000000),
           createData("rgba(245, 140, 170, 1)", "Increase", row_data["High"], ((row_data["High"] * 100) / total).toFixed(2), (row_data["High Population"] * 0.16) / 1000000),
           createData("rgba(184, 23, 23, 1)", "High incr", row_data["Very High"], ((row_data["Very High"] * 100) / total).toFixed(2), (row_data["Very High Population"] * 0.16) / 1000000),
         ];
@@ -399,7 +416,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
           createData("#969696", "No significant " + typrstr(), row_data["Nil"], ((row_data["Nil"] * 100) / total).toFixed(2), (row_data["Nil Population"] * 0.16) / 1000000),
           createData("rgba(4, 145, 4, 1)", "High dcr", row_data["Very Low"], ((row_data["Very Low"] * 100) / total).toFixed(2), (row_data["Very Low Population"] * 0.16) / 1000000),
           createData("rgba(109, 233, 109, 1)", "Decrease", row_data["Low"], ((row_data["Low"] * 100) / total).toFixed(2), (row_data["Low Population"] * 0.16) / 1000000),
-          createData("rgba(200,200,200,1)", "No change", row_data["Medium"], ((row_data["Medium"] * 100) / total).toFixed(2), (row_data["Medium Population"] * 0.16) / 1000000),
+          createData("rgba(241, 233, 119, 1)", "No change", row_data["Medium"], ((row_data["Medium"] * 100) / total).toFixed(2), (row_data["Medium Population"] * 0.16) / 1000000),
           createData("rgba(245, 140, 170, 1)", "Increase", row_data["High"], ((row_data["High"] * 100) / total).toFixed(2), (row_data["High Population"] * 0.16) / 1000000),
           createData("rgba(184, 23, 23, 1)", "High incr", row_data["Very High"], ((row_data["Very High"] * 100) / total).toFixed(2), (row_data["Very High Population"] * 0.16) / 1000000),
         ];
@@ -525,86 +542,38 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
             </Typography>
           </Box>
         </div>}
-        {adaption !== '' && <div>
-        <Box sx={{display:'flex',justifyContent:'center'}}>
-        <Typography sx={{ fontSize: 11, marginBottom: '2px' }} color="black">
-        <span style={{ color: '#AA5486', fontWeight: 'bold' }}>Number of farm households, million</span>
-            </Typography>
-          </Box>
-        </div>}
-        {ImpactName!=='' && <Box sx={{ display: 'flex' }}>
+        {ImpactName!=='' && <Box sx={{display:'flex',marginTop:'-10px',justifyContent:'center'}}>
             <Typography sx={{ fontSize: 11, marginBottom: '2px' }} color="black">
-                Affected&nbsp;
-                <span style={{ color: '#AA5486', fontWeight: 'bold' }}>farm households</span>
-                &nbsp;and&nbsp;
-                <span style={{ color: '#859F3D', fontWeight: 'bold' }}>cropped area</span>
-                &nbsp;for impact on {ImpactName.toLowerCase()}:
+                Impact on <strong>{ImpactName.toLowerCase()}</strong>
             </Typography>
           </Box>
         }
-        {RiskName !== "" && RiskType() === "Hazard" && checkcrop() && (
+        {RiskName !== "" && checkcrop() && (
           <div>
-            <Box sx={{ display: "flex" }}>
+            <Box sx={{display:'flex',marginTop:'-10px',justifyContent:'center'}}>
               <Typography sx={{ fontSize: 11, marginBottom: "2px" }} color="black">
-                <span style={{ color: "#AA5486", fontWeight: "bold" }}>Farm households</span>
-                &nbsp;and&nbsp;
-                <span style={{ color: "#859F3D", fontWeight: "bold" }}>cropped area</span>
-                &nbsp;under different categories of {RiskName.toLowerCase()}:
+              <strong>{RiskName.charAt(0).toUpperCase()+RiskName.toLowerCase().slice(1)}</strong>
               </Typography>
             </Box>
           </div>
         )}
         {RiskName !== "" && checkcrop() === false && (
           <div>
-            <Box sx={{ display: "flex" }}>
-              <Typography sx={{ fontSize: 11, marginBottom: "2px" }} color="black">
-                Affected&nbsp;
-                <span style={{ color: "#859F3D", fontWeight: "bold" }}>number of animals</span>:
+            <Box sx={{display:'flex',marginTop:'-10px',justifyContent:'center'}}>
+            <Typography sx={{ fontSize: 11, marginBottom: "2px" }} color="black">
+              <strong>{RiskName.charAt(0).toUpperCase()+RiskName.toLowerCase().slice(1)}</strong>
               </Typography>
             </Box>
           </div>
         )}
-        {RiskName !== "" &&
-          (RiskType() === "Vulnerability" || RiskType() === "Indices") &&
-          (commodity === "Rice" ||
-            commodity === "Wheat" ||
-            commodity === "Barley" ||
-            commodity === "Soybean" ||
-            commodity === "Cotton" ||
-            commodity === "Chickpea" ||
-            commodity === "Maize" ||
-            commodity === "Mustard") && (
-            <div>
-              <Box sx={{ display: "flex" }}>
-                <Typography sx={{ fontSize: 11, marginBottom: "2px" }} color="black">
-                  <span style={{ color: "#AA5486", fontWeight: "bold" }}>Farm households</span>
-                  &nbsp;and&nbsp;
-                  <span style={{ color: "#859F3D", fontWeight: "bold" }}>cropped area</span>
-                  &nbsp;under different categories of {RiskName.toLowerCase()}:
-                </Typography>
-              </Box>
-            </div>
-          )}
-        {RiskName !== "" &&
-          RiskType() === "Exposure" &&
-          (commodity === "Rice" ||
-            commodity === "Wheat" ||
-            commodity === "Barley" ||
-            commodity === "Soybean" ||
-            commodity === "Cotton" ||
-            commodity === "Chickpea" ||
-            commodity === "Maize" ||
-            commodity === "Mustard") && (
-            <div>
-              <Box sx={{ display: "flex" }}>
-                <Typography sx={{ fontSize: 11, marginBottom: "2px" }} color="black">
-                  <span style={{ color: "#AA5486", fontWeight: "bold" }}>Farm households</span>
-                  &nbsp;and&nbsp;
-                  <span style={{ color: "#859F3D", fontWeight: "bold" }}>cropped area</span>:
-                </Typography>
-              </Box>
-            </div>
-          )}
+        
+        {(adaption !== ''||RiskName!==''||ImpactName!=='') && <div>
+        <Box sx={{display:'flex',justifyContent:'center',marginTop:'-2px',}}>
+        <Typography sx={{ fontSize: 11, marginBottom: '2px' }} color="black">
+        <span style={{ color: '#AA5486', fontWeight: 'bold' }}>Number of farm households, million</span>
+            </Typography>
+          </Box>
+        </div>}
         <Typography sx={{ fontSize: 12, marginTop:"-5px"}} color="black">
           {/* { adaption === '' && RiskName === '' && <Box sx={{marginTop:'2px',marginBottom:'-5px'}}>
                     <Divider sx={{bgcolor:'#e8ffea', borderBottomWidth: 2, marginTop: 0.1, marginBottom: 0.3}}/>
@@ -677,7 +646,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                                 marginY: "auto",
                                 marginLeft: "3px",
                               }}
-                              color={row.color === "rgba(200,200,200,1)" ? "black" : "white"}
+                              color={row.color === "rgba(241, 233, 119, 1)" ? "black" : "white"}
                             >
                               <strong>{row.Cat}</strong>
                             </Typography>
@@ -771,13 +740,44 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                     </div>
                     } */}
         </Typography>
-        {adaption !== '' && <div>
-        <Box sx={{display:'flex',justifyContent:'center',marginBottom:'-10px',marginTop:'-2px'}}>
+        {(adaption !== ''||RiskName!==''||ImpactName!=='') && checkcrop() && <div>
+        <Box sx={{display:'flex',justifyContent:'center',marginBottom:'-4px',marginTop:'-4px'}}>
         <Typography sx={{ fontSize: 11, marginBottom: '2px' }} color="black">
                 <span style={{ color: '#859F3D', fontWeight: 'bold' }}>Cropped area, million hectare</span>
             </Typography>
           </Box>
         </div>}
+        {(adaption !== ''||RiskName!==''||ImpactName!=='') && checkcrop()===false && <div>
+        <Box sx={{display:'flex',justifyContent:'center',marginBottom:'-10px',marginTop:'-4px'}}>
+        <Typography sx={{ fontSize: 11, marginBottom: '2px' }} color="black">
+                <span style={{ color: '#859F3D', fontWeight: 'bold' }}>Number of animals, million</span>
+            </Typography>
+          </Box>
+        </div>}
+        {RiskType() === "Vulnerability" && (
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignContent: "center",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            marginBottom:'-10px',
+                            marginTop:'0px'
+                          }}
+                        >
+                          <Typography
+                            sx={{
+                              fontSize: 10,
+                              marginX: "-2px",
+                              fontWeight: "normal",
+                            }}
+                            color="text.secondary"
+                          >
+                            (Lower {RiskName.toLowerCase()} depicts higher
+                            vulnerability)
+                          </Typography>
+                        </Box>
+                      )}
       </Paper>
     </div>
   );

@@ -199,6 +199,10 @@ export default function MApp({
     color: ["palette", ["clamp", ["*", ["band", 2], 25], 0, 6], ["rgba(0,0,0,0)", "rgba(150,150,150,1)", "#059212", "#00FF00", "#FFDE4D", "#FFA500", "#FF0000"]],
   };
 
+  const color_hazard_reverse = {
+    color: ["palette", ["clamp", ["*", ["band", 2], 25], 0, 6], ["rgba(0,0,0,0)", "rgba(150,150,150,1)", "#FF0000", "#FFA500", "#FFDE4D", "#00FF00", "#059212"]],
+  };
+
   const color_hazard2 = {
     color: ["palette", ["clamp", ["*", ["band", 2], 25], 0, 6], ["rgba(0,0,0,0)", "#059212", "#00FF00", "#FFDE4D", "#FFA500", "#FF0000"]],
   };
@@ -215,7 +219,7 @@ export default function MApp({
         'rgba(150,150,150,0)', 
         "rgba(4, 145, 4, 1)",
         "rgba(109, 233, 109, 1)",  
-        "rgba(200,200,200,1)",  
+        "rgba(241, 233, 119, 1)",  
         "rgba(245, 140, 170, 1)",
         "rgba(184, 23, 23, 1)"
          ]
@@ -229,7 +233,7 @@ export default function MApp({
         ['rgba(0,0,0,0)','rgba(200,200,200,1)', 'rgba(200,200,200,1)',
         "rgba(184, 23, 23, 1)",   
         "rgba(245, 140, 170, 1)",   
-        "rgba(200,200,200,1)",  
+        "rgba(241, 233, 119, 1)",  
         "rgba(109, 233, 109, 1)", 
         "rgba(4, 145, 4, 1)" ]
       ]
@@ -239,7 +243,7 @@ export default function MApp({
     color: [
       "palette",
       ["interpolate", ["linear"], ["*", ["band", 2], 250], 0, 1, 24, 2, 48, 3, 72, 5, 96, 6],
-      ["rgba(0,0,0,0)", "rgba(150,150,150,0)", "rgba(184, 23, 23, 1)", "rgba(245, 140, 170, 1)", "rgba(200,200,200,1)", "rgba(109, 233, 109, 1)", "rgba(4, 145, 4, 1)"],
+      ["rgba(0,0,0,0)", "rgba(150,150,150,0)", "rgba(184, 23, 23, 1)", "rgba(245, 140, 170, 1)", "rgba(241, 233, 119, 1)", "rgba(109, 233, 109, 1)", "rgba(4, 145, 4, 1)"],
     ],
   };
 
@@ -1054,7 +1058,7 @@ class DownloadControl extends Control {
       "Direct Seeded Rice - Wet": "DSWET",
       "System of Rice Intensification": "SRIUT",
       "Supplemental Irrigation": "WHSRC",
-      Microirrigation: "MICIR",
+      "Microirrigation": "MICIR",
       "Precision Water Management": "PWMGT",
       "Precision Fertilizer Management": "PNMLT",
       "Precision Fertilizer Management - High tech": "PNMHT",
@@ -1066,7 +1070,7 @@ class DownloadControl extends Control {
       "Herd Management": "HMGT",
       "Animal Health": "ANHLT",
       "Animal Productivity": "ANPRO",
-      Mulching: "MULCH",
+      "Mulching": "MULCH",
       "Alternate Wetting and Drying": "AWD",
       "Fertilizer rating and timing": "FRT",
       "Manure Management": "MNMGT",
@@ -1091,18 +1095,18 @@ class DownloadControl extends Control {
       "Days of Frost": "Days of frost",
       "Excess Rainfall and Waterlogging": "Excess rain and waterlogging",
       "Delayed Monsoon": "Delayed monsoon",
-      Drought: "Drought",
+      "Drought": "Drought",
       "Dry Spell": "Number of dry spells",
-      Flood: "Flood",
+      "Flood": "Flood",
       "Soil Organic Carbon": "Soil organic carbon",
-      Lodging: "Rain and wind causing lodging",
-      Biotic: "High humidity and temperature for blight",
-      Irrigation: "Irrigation",
+      "Lodging": "Rain and wind causing lodging",
+      "Biotic": "High humidity and temperature for blight",
+      "Irrigation": "Irrigation",
       "Soil Water Holding Capacity": "Water holding capacity",
-      Income: "Agricultural GDP",
+      "Income": "Agricultural GDP",
       "Access to Credit": "Access to Credit",
       "Access to Market": "Access to Market",
-      Elevation: "Elevation",
+      "Elevation": "Elevation",
       "Access to Knowledge": "Access to Knowledge",
       "Exposure Index": "Exposure Index",
       "Number of Farmers": "Number of Farmers",
@@ -1118,7 +1122,7 @@ class DownloadControl extends Control {
       "Vulnerability Index": "Vulnerability Index",
       "Feed/Fodder": "Residue",
       "Rural infrastructure": "Road network density",
-      Cyclone: "Cyclone",
+      "Cyclone": "Cyclone",
       "Rainfall Deficit": "Rainfall deficit",
       "Rainfall Deficit index": "Rainfall deficit",
       "Extreme Rainfall days": "Extreme Rainfall Days",
@@ -1261,6 +1265,16 @@ class DownloadControl extends Control {
         newOverl.setStyle(color_hazard);
       } else if (opt === 3) {
         newOverl.setStyle(color_hazard);
+        if(CurrRisk === "Irrigation" ||
+          CurrRisk === "Soil Water Holding Capacity" ||
+          CurrRisk === "Agriculture Income" ||
+          CurrRisk === "Soil Organic Carbon" ||
+          CurrRisk === "Feed/Fodder" ||
+          CurrRisk === "Rural infrastructure" ||
+          CurrRisk === "Economic Development Indicator" ||
+          CurrRisk === "Income"){
+          newOverl.setStyle(color_hazard_reverse)
+        }
       } else if (opt === 333) {
         newOverl.setStyle(color_hazard4);
       } else if (opt === 4) {
@@ -1303,7 +1317,7 @@ class DownloadControl extends Control {
       "DSR (Wet Seed)": "DSWET",
       "System of Rice Intensification": "SRIUT",
       "Supplemental Irrigation": "WHSRC",
-      Microirrigation: "MICIR",
+      "Microirrigation": "MICIR",
       "Precision Water Management": "PWMGT",
       "Precision Fertilizer Management": "PNMLT",
       "High-tech Precision Technology": "PNMHT",
@@ -1315,7 +1329,7 @@ class DownloadControl extends Control {
       "Herd Management": "HMGT",
       "Animal Health": "ANHLT",
       "Animal Productivity": "ANPRO",
-      Mulching: "MULCH",
+      "Mulching": "MULCH",
       "Alternate wetting and drying": "AWD",
       "Fertilizer rating and timing": "FRT",
       "Manure Management": "MNMGT",
