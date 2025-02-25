@@ -98,7 +98,7 @@ export default function SwitchFruits({ activeCrop, changeCrop }) {
                         <span>{season[index]}</span>
                         <br />
                         <Link
-                          href={`#/resources?tab=4&term=${switchh[index].toLowerCase()}`}
+                          href={`#/resources?tab=2&term=${switchh[index].toLowerCase()}`}
                           target="_blank"
                           sx={{
                             color: "white",
