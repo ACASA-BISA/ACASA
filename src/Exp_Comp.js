@@ -51,7 +51,7 @@ const ArrowTab = styled(Button)(({ theme, selected, isLast, isFirst }) => ({
   width: "450px",
   marginLeft: "-35px",
   clipPath: isLast ? "polygon(0 0, 100% 0, 100% 50%, 100% 100%, 0 100%, 10% 50%)" : "polygon(0 0, 90% 0, 100% 50%, 90% 100%, 0 100%, 10% 50%)",
-  backgroundColor: selected ? "#DDEB9D" : "#5A6C57",
+  backgroundColor: selected ? "#BFD77A" : "#A0A0A0",
   color: selected ? "black" : "white",
   fontWeight: "bold",
   textTransform: "none",
@@ -63,6 +63,7 @@ const ArrowTab = styled(Button)(({ theme, selected, isLast, isFirst }) => ({
   },
   "&:hover": {
     backgroundColor: selected ? theme.palette.grey[300] : theme.palette.grey[500],
+    transform: "scale(1.05)",
   },
   "&::before": {
     content: '""',
