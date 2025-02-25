@@ -29,16 +29,7 @@ function createData(color, Cat, Area, AreaPerc, Population) {
   return { color, Cat, Area, AreaPerc, Population };
 }
 
-export default function LegendCard({
-  location,
-  commodity,
-  adaption,
-  RiskName,
-  scenario,
-  ImpactName,
-  area_data,
-  area_data2,
-}) {
+export default function LegendCard({ location, commodity, adaption, RiskName, scenario, ImpactName, area_data, area_data2 }) {
   const cardRef = useRef(null);
 
   function checkcrop() {
@@ -62,7 +53,7 @@ export default function LegendCard({
     "Direct Seeded Rice - Wet": "DSWET",
     "System of Rice Intensification": "SRIUT",
     "Supplemental Irrigation": "WHSRC",
-    Microirrigation: "MICIR",
+    "Microirrigation": "MICIR",
     "Precision Water Management": "PWMGT",
     "Precision Fertilizer Management": "PNMLT",
     "Precision Fertilizer Management - High tech": "PNMHT",
@@ -74,7 +65,7 @@ export default function LegendCard({
     "Herd Management": "HMGT",
     "Animal Health": "ANHLT",
     "Animal Productivity": "ANPRO",
-    Mulching: "MULCH",
+    "Mulching": "MULCH",
     "Alternate Wetting and Drying": "AWD",
     "Fertilizer rating and timing": "FRT",
     "Manure Management": "MNMGT",
@@ -87,35 +78,30 @@ export default function LegendCard({
     "Downscaled Risk": "Downscaled Risk",
     "Risk Index": "Risk index",
     "Hazard Index": "Hazard Index",
-    "Low temperature induced spikelet sterility":
-      "Low temperature induced spikelet sterility",
-    "Low temperature induced pollen sterility":
-      "Low temperature induced pollen sterility",
-    "High temperature induced pollen sterility":
-      "High temperature induced pollen sterility",
+    "Low temperature induced spikelet sterility": "Low temperature induced spikelet sterility",
+    "Low temperature induced pollen sterility": "Low temperature induced pollen sterility",
+    "High temperature induced pollen sterility": "High temperature induced pollen sterility",
     "Heat Stress": "Heat stress",
-    "High temperature induced spikelet sterility":
-      "High temperature induced spikelet sterility",
+    "High temperature induced spikelet sterility": "High temperature induced spikelet sterility",
     "Cold Stress": "Cold stress",
-    "Low temperature induced tuberization failure":
-      "Low temperature induced tuberization failure",
+    "Low temperature induced tuberization failure": "Low temperature induced tuberization failure",
     "Untimely Rainfall": "Untimely rainfall",
     "Terminal Heat": "Terminal heat",
     "Days of Frost": "Days of frost",
     "Excess Rainfall and Waterlogging": "Excess rain and waterlogging",
     "Delayed Monsoon": "Delayed monsoon",
-    Drought: "Drought",
+    "Drought": "Drought",
     "Dry Spell": "Number of dry spells",
-    Flood: "Flood",
+    "Flood": "Flood",
     "Soil Organic Carbon": "Soil organic carbon",
-    Lodging: "Rain and wind causing lodging",
-    Biotic: "High humidity and temperature for blight",
-    Irrigation: "Irrigation",
+    "Lodging": "Rain and wind causing lodging",
+    "Biotic": "High humidity and temperature for blight",
+    "Irrigation": "Irrigation",
     "Soil Water Holding Capacity": "Water holding capacity",
-    Income: "Agricultural GDP",
+    "Income": "Agricultural GDP",
     "Access to Credit": "Access to Credit",
     "Access to Market": "Access to Market",
-    Elevation: "Elevation",
+    "Elevation": "Elevation",
     "Access to Knowledge": "Access to Knowledge",
     "Exposure Index": "Exposure Index",
     "Number of Farmers": "Number of Farmers",
@@ -131,7 +117,7 @@ export default function LegendCard({
     "Vulnerability Index": "Vulnerability Index",
     "Feed/Fodder": "Residue",
     "Rural infrastructure": "Road network density",
-    Cyclone: "Cyclone",
+    "Cyclone": "Cyclone",
     "Rainfall Deficit": "Rainfall deficit",
     "Extreme Rainfall days": "Extreme Rainfall Days",
     "Cold days": "Cold Stress",
@@ -153,71 +139,26 @@ export default function LegendCard({
         let statecode = "";
         if (x === "Bangladesh") {
           statecode = y.substring(0, y.length - 9) + "DIV";
-          rowstr =
-            commodity +
-            "_" +
-            statecode +
-            "_Suitability_" +
-            commodity +
-            "_" +
-            optcode[adaption];
+          rowstr = commodity + "_" + statecode + "_Suitability_" + commodity + "_" + optcode[adaption];
         } else if (x === "Nepal") {
           statecode = y + "DIV";
-          rowstr =
-            commodity +
-            "_" +
-            statecode +
-            "_Suitability_" +
-            commodity +
-            "_" +
-            optcode[adaption];
+          rowstr = commodity + "_" + statecode + "_Suitability_" + commodity + "_" + optcode[adaption];
         } else if (x === "India" || x === "Sri Lanka" || x === "Pakistan") {
           statecode = "STATE_" + y.toUpperCase();
-          rowstr =
-            commodity +
-            "_" +
-            statecode +
-            "_Suitability_" +
-            commodity +
-            "_" +
-            optcode[adaption];
+          rowstr = commodity + "_" + statecode + "_Suitability_" + commodity + "_" + optcode[adaption];
         } else if (x === "Maldives" || x === "Afghanistan") {
           statecode = y.toUpperCase();
-          rowstr =
-            commodity +
-            "_" +
-            statecode +
-            "_Suitability_" +
-            commodity +
-            "_" +
-            optcode[adaption];
+          rowstr = commodity + "_" + statecode + "_Suitability_" + commodity + "_" + optcode[adaption];
         } else if (x === "Bhutan") {
           statecode = y;
-          rowstr =
-            commodity +
-            "_" +
-            statecode +
-            "_Suitability_" +
-            commodity +
-            "_" +
-            optcode[adaption];
+          rowstr = commodity + "_" + statecode + "_Suitability_" + commodity + "_" + optcode[adaption];
         }
       } else {
-        rowstr =
-          commodity +
-          "_" +
-          location +
-          "_Suitability_" +
-          commodity +
-          "_" +
-          optcode[adaption];
+        rowstr = commodity + "_" + location + "_Suitability_" + commodity + "_" + optcode[adaption];
       }
       const row_data = area_data[rowstr.toLowerCase()];
       //console.log(rowstr);
-      const total =
-        Number(row_data["Unsuitable"]) +
-        Number(row_data["Suitable"]) +
-        Number(row_data["Adaptation Benefits"]);
+      const total = Number(row_data["Unsuitable"]) + Number(row_data["Suitable"]) + Number(row_data["Adaptation Benefits"]);
       //console.log(total);
       data = [
         createData(
@@ -235,18 +176,14 @@ export default function LegendCard({
           (row_data["Unsuitable_Area"] * 0.16) / 1000000
         ),
         createData(
-          <Box
-            sx={{ width: 160, height: 13, borderRadius: 0, bgcolor: "#FF9A00" }}
-          />,
+          <Box sx={{ width: 160, height: 13, borderRadius: 0, bgcolor: "#FF9A00" }} />,
           "Suitable",
           row_data["Suitable"] / 10,
           ((row_data["Suitable"] * 100) / total).toFixed(2),
           (row_data["Suitable_Area"] * 0.16) / 1000000
         ),
         createData(
-          <Box
-            sx={{ width: 160, height: 13, borderRadius: 0, bgcolor: "#06D001" }}
-          />,
+          <Box sx={{ width: 160, height: 13, borderRadius: 0, bgcolor: "#06D001" }} />,
           "Suitable with adaptation benefits",
           row_data["Adaptation Benefits"] / 10,
           ((row_data["Adaptation Benefits"] * 100) / total).toFixed(2),
@@ -291,57 +228,15 @@ export default function LegendCard({
 
       const row_data = area_data2[rowstr];
       //console.log(area_data2);
-      const total =
-        Number(row_data["Very Low"]) +
-        Number(row_data["Low"]) +
-        Number(row_data["Medium"]) +
-        Number(row_data["High"]) +
-        Number(row_data["Very High"]) +
-        Number(row_data["Nil"]);
+      const total = Number(row_data["Very Low"]) + Number(row_data["Low"]) + Number(row_data["Medium"]) + Number(row_data["High"]) + Number(row_data["Very High"]) + Number(row_data["Nil"]);
       //console.log(total);
       data = [
-        createData(
-          "#969696",
-          "No " + typrstr(),
-          row_data["Nil"] / 10,
-          ((row_data["Nil"] * 100) / total).toFixed(2),
-          (row_data["Nil_Area"] * 0.16) / 1000000
-        ),
-        createData(
-          "#059212",
-          "Very low",
-          row_data["Very Low"] / 10,
-          ((row_data["Very Low"] * 100) / total).toFixed(2),
-          (row_data["Very Low_Area"] * 0.16) / 1000000
-        ),
-        createData(
-          "#00FF00",
-          "Low",
-          row_data["Low"] / 10,
-          ((row_data["Low"] * 100) / total).toFixed(2),
-          (row_data["Low_Area"] * 0.16) / 1000000
-        ),
-        createData(
-          "#FFDE4D",
-          "Medium",
-          row_data["Medium"] / 10,
-          ((row_data["Medium"] * 100) / total).toFixed(2),
-          (row_data["Medium_Area"] * 0.16) / 1000000
-        ),
-        createData(
-          "#FFA500",
-          "High",
-          row_data["High"] / 10,
-          ((row_data["High"] * 100) / total).toFixed(2),
-          (row_data["High_Area"] * 0.16) / 1000000
-        ),
-        createData(
-          "#E4003A",
-          "Very high",
-          row_data["Very High"] / 10,
-          ((row_data["Very High"] * 100) / total).toFixed(2),
-          (row_data["Very High_Area"] * 0.16) / 1000000
-        ),
+        createData("#969696", "No " + typrstr(), row_data["Nil"] / 10, ((row_data["Nil"] * 100) / total).toFixed(2), (row_data["Nil_Area"] * 0.16) / 1000000),
+        createData("#059212", "Very low", row_data["Very Low"] / 10, ((row_data["Very Low"] * 100) / total).toFixed(2), (row_data["Very Low_Area"] * 0.16) / 1000000),
+        createData("#00FF00", "Low", row_data["Low"] / 10, ((row_data["Low"] * 100) / total).toFixed(2), (row_data["Low_Area"] * 0.16) / 1000000),
+        createData("#FFDE4D", "Medium", row_data["Medium"] / 10, ((row_data["Medium"] * 100) / total).toFixed(2), (row_data["Medium_Area"] * 0.16) / 1000000),
+        createData("#FFA500", "High", row_data["High"] / 10, ((row_data["High"] * 100) / total).toFixed(2), (row_data["High_Area"] * 0.16) / 1000000),
+        createData("#E4003A", "Very high", row_data["Very High"] / 10, ((row_data["Very High"] * 100) / total).toFixed(2), (row_data["Very High_Area"] * 0.16) / 1000000),
       ];
       //console.log(data);
     }
@@ -395,9 +290,7 @@ export default function LegendCard({
   const rows = fetchthedataTable();
   let rowshzd = [];
   if (
-    (RiskName !== "" &&
-      RiskName !== "Hazard Index" &&
-      RiskType() === "Hazard") ||
+    (RiskName !== "" && RiskName !== "Hazard Index" && RiskType() === "Hazard") ||
     (RiskName !== "" &&
       RiskName !== "District Level" &&
       RiskName !== "Downscaled Risk" &&
@@ -410,27 +303,17 @@ export default function LegendCard({
         commodity === "Chickpea" ||
         commodity === "Maize" ||
         commodity === "Mustard")) ||
-    ((RiskName === "District Level" || RiskName === "Downscaled Risk") &&
-      commodity === "Rice")
+    ((RiskName === "District Level" || RiskName === "Downscaled Risk") && commodity === "Rice")
   ) {
     rowshzd = fetchthedataHzd();
   }
 
   function RiskType() {
     let str = "Hazard";
-    if (
-      RiskName === "Risk Index" ||
-      RiskName === "Exposure Index" ||
-      RiskName === "Vulnerability Index" ||
-      RiskName === "District Level" ||
-      RiskName === "Downscaled Risk"
-    ) {
+    if (RiskName === "Risk Index" || RiskName === "Exposure Index" || RiskName === "Vulnerability Index" || RiskName === "District Level" || RiskName === "Downscaled Risk") {
       str = "Risk";
     }
-    if (
-      RiskName === "Number of Animals per grid" ||
-      RiskName === "Cropped Area"
-    ) {
+    if (RiskName === "Number of Animals per grid" || RiskName === "Cropped Area") {
       str = "Exposure";
     }
     if (
@@ -469,36 +352,23 @@ export default function LegendCard({
                 {adaption !== "" && (
                   <div>
                     <Box sx={{ display: "flex" }}>
-                      <Typography
-                        sx={{ fontSize: 13, marginBottom: "2px" }}
-                        color="black"
-                      >
+                      <Typography sx={{ fontSize: 13, marginBottom: "2px" }} color="black">
                         Technical suitability of&nbsp;
-                        {adaption.charAt(0).toUpperCase() +
-                          adaption.slice(1, 4) +
-                          adaption.toLowerCase().slice(4)}{" "}
-                        for number of farm households:
+                        {adaption.charAt(0).toUpperCase() + adaption.slice(1, 4) + adaption.toLowerCase().slice(4)} for number of farm households:
                       </Typography>
                     </Box>
                   </div>
                 )}
-                {RiskName !== "" &&
-                  RiskName !== "Hazard Index" &&
-                  RiskType() === "Hazard" &&
-                  checkcrop() && (
-                    <div>
-                      <Box sx={{ display: "flex" }}>
-                        <Typography
-                          sx={{ fontSize: 13, marginBottom: "2px" }}
-                          color="black"
-                        >
-                          {/* {RiskName.charAt(0).toUpperCase() + RiskName.toLowerCase().slice(1)} risk for rural population: */}
-                          Number of farm households affected by this{" "}
-                          {typrstr().toLowerCase()} in {commodity.toLowerCase()}
-                        </Typography>
-                      </Box>
-                    </div>
-                  )}
+                {RiskName !== "" && RiskName !== "Hazard Index" && RiskType() === "Hazard" && checkcrop() && (
+                  <div>
+                    <Box sx={{ display: "flex" }}>
+                      <Typography sx={{ fontSize: 13, marginBottom: "2px" }} color="black">
+                        {/* {RiskName.charAt(0).toUpperCase() + RiskName.toLowerCase().slice(1)} risk for rural population: */}
+                        Number of farm households affected by this {typrstr().toLowerCase()} in {commodity.toLowerCase()}
+                      </Typography>
+                    </Box>
+                  </div>
+                )}
                 {RiskName !== "" &&
                   (RiskType() === "Risk" || RiskName === "Hazard Index") &&
                   (checkcrop() === false ||
@@ -512,30 +382,19 @@ export default function LegendCard({
                     commodity === "Mustard") && (
                     <div>
                       <Box sx={{ display: "flex" }}>
-                        <Typography
-                          sx={(theme) => ({ fontSize: 13, marginBottom: "2px", color: theme.palette.mode === "dark" ? "white" : "black"})}
-                        >
-                          Number of farm households affected
-                        </Typography>
+                        <Typography sx={(theme) => ({ fontSize: 13, marginBottom: "2px", color: theme.palette.mode === "dark" ? "white" : "black" })}>Number of farm households affected</Typography>
                       </Box>
                     </div>
                   )}
-                {RiskName !== "" &&
-                  RiskName !== "Hazard Index" &&
-                  RiskType() === "Hazard" &&
-                  checkcrop() === false && (
-                    <div>
-                      <Box sx={{ display: "flex" }}>
-                        <Typography
-                          sx={{ fontSize: 13, marginBottom: "2px" }}
-                          color="black"
-                        >
-                          Number of farm households affected by this{" "}
-                          {typrstr().toLowerCase()} in {commodity.toLowerCase()}
-                        </Typography>
-                      </Box>
-                    </div>
-                  )}
+                {RiskName !== "" && RiskName !== "Hazard Index" && RiskType() === "Hazard" && checkcrop() === false && (
+                  <div>
+                    <Box sx={{ display: "flex" }}>
+                      <Typography sx={{ fontSize: 13, marginBottom: "2px" }} color="black">
+                        Number of farm households affected by this {typrstr().toLowerCase()} in {commodity.toLowerCase()}
+                      </Typography>
+                    </Box>
+                  </div>
+                )}
                 {RiskName !== "" &&
                   RiskType() === "Vulnerability" &&
                   (checkcrop() === false ||
@@ -549,12 +408,8 @@ export default function LegendCard({
                     commodity === "Mustard") && (
                     <div>
                       <Box sx={{ display: "flex" }}>
-                        <Typography
-                          sx={{ fontSize: 13, marginBottom: "2px" }}
-                          color="black"
-                        >
-                          Number of farm households under different categories
-                          of {RiskName.toLowerCase()}
+                        <Typography sx={{ fontSize: 13, marginBottom: "2px" }} color="black">
+                          Number of farm households under different categories of {RiskName.toLowerCase()}
                         </Typography>
                       </Box>
                     </div>
@@ -622,10 +477,7 @@ export default function LegendCard({
                               {row.Cat} for {calcpop(row.Population)}
                             </Typography>
                             {row.Cat === "Suitable" && (
-                              <Typography
-                                sx={{ fontSize: 11, fontWeight: "normal" }}
-                                color="black"
-                              >
+                              <Typography sx={{ fontSize: 11, fontWeight: "normal" }} color="black">
                                 {" "}
                                 (No significant hazards)
                               </Typography>
@@ -635,9 +487,7 @@ export default function LegendCard({
                       ))}
                     </Box>
                   )}
-                  {((RiskName !== "" &&
-                    RiskName !== "Hazard Index" &&
-                    RiskType() === "Hazard") ||
+                  {((RiskName !== "" && RiskName !== "Hazard Index" && RiskType() === "Hazard") ||
                     (RiskName !== "" &&
                       RiskType() === "Hazard" &&
                       (checkcrop() === false ||
@@ -689,10 +539,7 @@ export default function LegendCard({
                             </Typography>
                           </Box>
                           <Box>
-                            <Typography
-                              sx={{ fontSize: 12, margin: "2px" }}
-                              color="black"
-                            >
+                            <Typography sx={{ fontSize: 12, margin: "2px" }} color="black">
                               {" "}
                               {calcpop(row.Population)}
                             </Typography>
@@ -745,10 +592,7 @@ export default function LegendCard({
                                   </Typography>
                                 </Box>
                                 <Box>
-                                  <Typography
-                                    sx={{ fontSize: 12, margin: "2px" }}
-                                    color="black"
-                                  >
+                                  <Typography sx={{ fontSize: 12, margin: "2px" }} color="black">
                                     {" "}
                                     {calcpop(row.Population)}
                                   </Typography>
@@ -776,73 +620,68 @@ export default function LegendCard({
                             }}
                             color="text.secondary"
                           >
-                            (Lower {RiskName.toLowerCase()} depicts higher
-                            vulnerability)
+                            (Lower {RiskName.toLowerCase()} depicts higher vulnerability)
                           </Typography>
                         </Box>
                       )}
                     </div>
                   )}
-                  {RiskName !== "" &&
-                    (RiskType() === "Exposure" || RiskType() === "Risk") && (
-                      <div>
-                        <Box
-                          sx={{
-                            width: "100%",
-                            display: "flex",
-                            flexDirection: "row",
-                            gap: "4px",
-                            padding: 0,
-                            justifyItems: "center",
-                          }}
-                        >
-                          {rowshzd.map((row, index) => (
-                            <div>
-                              {index !== 0 && (
+                  {RiskName !== "" && (RiskType() === "Exposure" || RiskType() === "Risk") && (
+                    <div>
+                      <Box
+                        sx={{
+                          width: "100%",
+                          display: "flex",
+                          flexDirection: "row",
+                          gap: "4px",
+                          padding: 0,
+                          justifyItems: "center",
+                        }}
+                      >
+                        {rowshzd.map((row, index) => (
+                          <div>
+                            {index !== 0 && (
+                              <Box
+                                sx={{
+                                  display: "flex",
+                                  alignItems: "left",
+                                  flexDirection: "column",
+                                  width: "100%",
+                                }}
+                              >
                                 <Box
                                   sx={{
-                                    display: "flex",
-                                    alignItems: "left",
-                                    flexDirection: "column",
-                                    width: "100%",
+                                    width: 92,
+                                    height: 18,
+                                    borderRadius: 0,
+                                    bgcolor: row.color,
+                                    margin: 0,
                                   }}
                                 >
-                                  <Box
+                                  <Typography
                                     sx={{
-                                      width: 92,
-                                      height: 18,
-                                      borderRadius: 0,
-                                      bgcolor: row.color,
-                                      margin: 0,
+                                      fontSize: 12,
+                                      marginY: "auto",
+                                      marginLeft: "5px",
                                     }}
+                                    color="white"
                                   >
-                                    <Typography
-                                      sx={{
-                                        fontSize: 12,
-                                        marginY: "auto",
-                                        marginLeft: "5px",
-                                      }}
-                                      color="white"
-                                    >
-                                      <strong>{row.Cat}</strong>
-                                    </Typography>
-                                  </Box>
-                                  <Box>
-                                    <Typography
-                                      sx={{ fontSize: 12, margin: "2px" }}
-                                      color="black"
-                                    >
-                                      {" "}
-                                      {calcpop(row.Population)}
-                                    </Typography>
-                                  </Box>
+                                    <strong>{row.Cat}</strong>
+                                  </Typography>
                                 </Box>
-                              )}
-                            </div>
-                          ))}
-                        </Box>
-                      </div>
-                    )}
+                                <Box>
+                                  <Typography sx={{ fontSize: 12, margin: "2px" }} color="black">
+                                    {" "}
+                                    {calcpop(row.Population)}
+                                  </Typography>
+                                </Box>
+                              </Box>
+                            )}
+                          </div>
+                        ))}
+                      </Box>
+                    </div>
+                  )}
                   {/* {((RiskName !== "" && RiskName !== "Hazard Index" && RiskType()==="Hazard") || ((RiskName !== "" && RiskName !== "District Level" && RiskName !== "Downscaled Risk" && checkcrop()===false))) &&
                     <Box sx={{width:'100%', display:'flex',flexDirection:'row',gap:'4px',padding:0,justifyItems:'center'}}>
                       

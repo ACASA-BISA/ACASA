@@ -215,7 +215,7 @@ export default function MApp({
     color: [
       "palette",
       ["clamp", ["*", ["band", 2], 25], 0, 6],
-      ["rgba(0,0,0,0)", "rgba(150,150,150,0)", "rgba(4, 145, 4, 1)", "rgba(109, 233, 109, 1)", "rgba(200,200,200,1)", "rgba(245, 140, 170, 1)", "rgba(184, 23, 23, 1)"],
+      ["rgba(0,0,0,0)", "rgba(150,150,150,0)", "rgba(4, 145, 4, 1)", "rgba(109, 233, 109, 1)", "rgba(241, 233, 119, 1)", "rgba(245, 140, 170, 1)", "rgba(184, 23, 23, 1)"],
     ],
   };
 
@@ -223,7 +223,7 @@ export default function MApp({
     color: [
       "palette",
       ["clamp", ["*", ["band", 2], 25], 0, 6],
-      ["rgba(0,0,0,0)", "rgba(200,200,200,1)", "rgba(200,200,200,1)", "rgba(184, 23, 23, 1)", "rgba(245, 140, 170, 1)", "rgba(200,200,200,1)", "rgba(109, 233, 109, 1)", "rgba(4, 145, 4, 1)"],
+      ["rgba(0,0,0,0)", "rgba(200,200,200,1)", "rgba(200,200,200,1)", "rgba(184, 23, 23, 1)", "rgba(245, 140, 170, 1)", "rgba(241, 233, 119, 1)", "rgba(109, 233, 109, 1)", "rgba(4, 145, 4, 1)"],
     ],
   };
 
@@ -1250,15 +1250,17 @@ class DownloadControl extends Control {
         newOverl.setStyle(color_hazard);
       } else if (opt === 3) {
         newOverl.setStyle(color_hazard);
-        if(CurrRisk === "Irrigation" ||
+        if (
+          CurrRisk === "Irrigation" ||
           CurrRisk === "Soil Water Holding Capacity" ||
           CurrRisk === "Agriculture Income" ||
           CurrRisk === "Soil Organic Carbon" ||
           CurrRisk === "Feed/Fodder" ||
           CurrRisk === "Rural infrastructure" ||
           CurrRisk === "Economic Development Indicator" ||
-          CurrRisk === "Income"){
-          newOverl.setStyle(color_hazard_reverse)
+          CurrRisk === "Income"
+        ) {
+          newOverl.setStyle(color_hazard_reverse);
         }
       } else if (opt === 333) {
         newOverl.setStyle(color_hazard4);

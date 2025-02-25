@@ -22,13 +22,7 @@ import { Tooltip, Typography, Box } from "@mui/material";
 import ReactDOMServer from "react-dom/server";
 import DownloadIcon from "@mui/icons-material/Download";
 
-export default function Map_Hazard({
-  activeCrop,
-  focus = "Region",
-  activeRegion,
-  CurrRisk,
-  activeScenario,
-}) {
+export default function Map_Hazard({ activeCrop, focus = "Region", activeRegion, CurrRisk, activeScenario }) {
   const ref = useRef(null);
   const mapRef = useRef(null);
   const [overl, setOverl] = useState(null);
@@ -36,10 +30,7 @@ export default function Map_Hazard({
   const [countryLayer, setcountryLayer] = useState(null);
   const [maskLayer1, setmaskLayer1] = useState(null);
 
-  let defext = [
-    6731721.531032621, -79003.34768295793, 10843798.383928495,
-    4648992.169943628,
-  ];
+  let defext = [6731721.531032621, -79003.34768295793, 10843798.383928495, 4648992.169943628];
 
   const { mode } = useContext(ThemeContext);
 
@@ -60,22 +51,7 @@ export default function Map_Hazard({
   console.log(activeCrop);
 
   function checkcrop() {
-    const diffcrop = [
-      "Cattle",
-      "Buffalo",
-      "Goat",
-      "Sheep",
-      "Pig",
-      "Poultry",
-      "Rice",
-      "Wheat",
-      "Maize",
-      "Mustard",
-      "Cotton",
-      "Soybean",
-      "Chickpea",
-      "Barley",
-    ];
+    const diffcrop = ["Cattle", "Buffalo", "Goat", "Sheep", "Pig", "Poultry", "Rice", "Wheat", "Maize", "Mustard", "Cotton", "Soybean", "Chickpea", "Barley"];
     let ans = true;
     diffcrop.forEach((sname) => {
       if (activeCrop === sname) {
@@ -118,19 +94,7 @@ export default function Map_Hazard({
     Barley: "#5ec962",
   };
   const color1 = {
-    color: [
-      "palette",
-      [
-        "interpolate",
-        ["linear"],
-        ["/", ["-", nir, green], ["+", nir, blue]],
-        -0.1,
-        0,
-        3,
-        10,
-      ],
-      ["rgba(98, 181, 209, 0)", color_comm[activeCrop]],
-    ],
+    color: ["palette", ["interpolate", ["linear"], ["/", ["-", nir, green], ["+", nir, blue]], -0.1, 0, 3, 10], ["rgba(98, 181, 209, 0)", color_comm[activeCrop]]],
   };
 
   const color2 = {
@@ -149,14 +113,7 @@ export default function Map_Hazard({
         3,
         5,
       ],
-      [
-        "rgba(0,0,0,0)",
-        "rgba(0,0,0,0)",
-        "rgba(180, 70, 109, 1)",
-        "#FF9A00",
-        "#06D001",
-        "rgba(0,0,0,0)",
-      ],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(180, 70, 109, 1)", "#FF9A00", "#06D001", "rgba(0,0,0,0)"],
     ],
   };
 
@@ -178,77 +135,20 @@ export default function Map_Hazard({
         5,
         6,
       ],
-      [
-        "rgba(0,0,0,0)",
-        "rgba(0,0,0,0)",
-        "#059212",
-        "#00FF00",
-        "#FFFF00",
-        "#FFA500",
-        "#FF0000",
-        "#3b528b",
-        "#21918c",
-        "#5ec962",
-        "#fde725",
-      ],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "#059212", "#00FF00", "#FFFF00", "#FFA500", "#FF0000", "#3b528b", "#21918c", "#5ec962", "#fde725"],
     ],
   };
 
   const color_hazard = {
     color: [
       "palette",
-      [
-        "interpolate",
-        ["linear"],
-        ["*", ["band", 2], 25],
-        0,
-        1,
-        1,
-        2,
-        2,
-        3,
-        3,
-        4,
-        4,
-        5,
-        5,
-        6,
-        6,
-        7,
-      ],
-      [
-        "rgba(0,0,0,0)",
-        "rgba(0,0,0,0)",
-        "rgba(150,150,150,1)",
-        "#059212",
-        "#00FF00",
-        "#FFFF00",
-        "#FFA500",
-        "#FF0000",
-      ],
+      ["interpolate", ["linear"], ["*", ["band", 2], 25], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#059212", "#00FF00", "#FFFF00", "#FFA500", "#FF0000"],
     ],
   };
 
   const colorGradientEx = {
-    color: [
-      "interpolate",
-      ["linear"],
-      ["*", ["band", 1], 310],
-      0,
-      "rgba(0,0,0,0)",
-      10,
-      "#FFF9C4",
-      20,
-      "#FFE680",
-      30,
-      "#FFD700",
-      40,
-      "#DAA520",
-      50,
-      "#A0522D",
-      60,
-      "#6B3D1B",
-    ],
+    color: ["interpolate", ["linear"], ["*", ["band", 1], 310], 0, "rgba(0,0,0,0)", 10, "#FFF9C4", 20, "#FFE680", 30, "#FFD700", 40, "#DAA520", 50, "#A0522D", 60, "#6B3D1B"],
   };
 
   const key = "TrN2dn4maoO3C2x0sUpH";
@@ -308,9 +208,7 @@ export default function Map_Hazard({
       const layers = map.getLayers().getArray(); // Get all layers on the map
 
       // Find the GeoTIFF layer
-      const geoTiffLayer = layers.find(
-        (layer) => layer.getSource() instanceof GeoTIFF
-      );
+      const geoTiffLayer = layers.find((layer) => layer.getSource() instanceof GeoTIFF);
 
       if (geoTiffLayer) {
         const source_tiff = geoTiffLayer.getSource();
@@ -341,10 +239,7 @@ export default function Map_Hazard({
 
     // Define the basemap source based on the theme mode
     const sourcemap = new TileJSON({
-      url:
-        mode === "dark"
-          ? `https://api.maptiler.com/maps/dataviz-dark/tiles.json?key=${key}`
-          : `https://api.maptiler.com/maps/bright-v2/tiles.json?key=${key}`,
+      url: mode === "dark" ? `https://api.maptiler.com/maps/dataviz-dark/tiles.json?key=${key}` : `https://api.maptiler.com/maps/bright-v2/tiles.json?key=${key}`,
       tileSize: 512,
       crossOrigin: "anonymous",
     });
@@ -382,11 +277,7 @@ export default function Map_Hazard({
       const layers = mapRef.current.getLayers().getArray();
 
       layers.forEach((layer) => {
-        if (
-          layer &&
-          typeof layer.getSource === "function" &&
-          layer.getSource() instanceof TileJSON
-        ) {
+        if (layer && typeof layer.getSource === "function" && layer.getSource() instanceof TileJSON) {
           mapRef.current.removeLayer(layer);
         }
       });
@@ -491,10 +382,8 @@ export default function Map_Hazard({
         x = activeRegion.substring(sec + 2);
       }
       if (x === "Bangladesh") {
-        let urlsourcestr =
-          "./DistrictBoundary/BD/" + y.substring(0, y.length - 9) + "DIV.json";
-        let urlcountrystr =
-          "./StateBoundary/BD/" + y.substring(0, y.length - 9) + "ST.json";
+        let urlsourcestr = "./DistrictBoundary/BD/" + y.substring(0, y.length - 9) + "DIV.json";
+        let urlcountrystr = "./StateBoundary/BD/" + y.substring(0, y.length - 9) + "ST.json";
         sourcet = new VectorSource({
           url: urlsourcestr,
           format: new GeoJSON(),
@@ -516,8 +405,7 @@ export default function Map_Hazard({
         });
       } else if (x === "Afghanistan") {
         let urlsourcestr = "./DistrictBoundary/AF/" + y.toUpperCase() + ".json";
-        let urlcountrystr =
-          "./StateBoundary/AF/STATE_" + y.toUpperCase() + ".json";
+        let urlcountrystr = "./StateBoundary/AF/STATE_" + y.toUpperCase() + ".json";
         sourcet = new VectorSource({
           url: urlsourcestr,
           format: new GeoJSON(),
@@ -527,10 +415,8 @@ export default function Map_Hazard({
           format: new GeoJSON(),
         });
       } else if (x === "India") {
-        let urlsourcestr =
-          "./DistrictBoundary/IN/STATE_" + y.toUpperCase() + ".json";
-        let urlcountrystr =
-          "./StateBoundary/IN/STATE_" + y.toUpperCase() + ".json";
+        let urlsourcestr = "./DistrictBoundary/IN/STATE_" + y.toUpperCase() + ".json";
+        let urlcountrystr = "./StateBoundary/IN/STATE_" + y.toUpperCase() + ".json";
         sourcet = new VectorSource({
           url: urlsourcestr,
           format: new GeoJSON(),
@@ -540,10 +426,8 @@ export default function Map_Hazard({
           format: new GeoJSON(),
         });
       } else if (x === "Sri Lanka") {
-        let urlsourcestr =
-          "./DistrictBoundary/SL/STATE_" + y.toUpperCase() + ".json";
-        let urlcountrystr =
-          "./StateBoundary/SL/STATE_" + y.toUpperCase() + ".json";
+        let urlsourcestr = "./DistrictBoundary/SL/STATE_" + y.toUpperCase() + ".json";
+        let urlcountrystr = "./StateBoundary/SL/STATE_" + y.toUpperCase() + ".json";
         sourcet = new VectorSource({
           url: urlsourcestr,
           format: new GeoJSON(),
@@ -553,10 +437,8 @@ export default function Map_Hazard({
           format: new GeoJSON(),
         });
       } else if (x === "Pakistan") {
-        let urlsourcestr =
-          "./DistrictBoundary/PK/STATE_" + y.toUpperCase() + ".json";
-        let urlcountrystr =
-          "./StateBoundary/PK/STATE_" + y.toUpperCase() + ".json";
+        let urlsourcestr = "./DistrictBoundary/PK/STATE_" + y.toUpperCase() + ".json";
+        let urlcountrystr = "./StateBoundary/PK/STATE_" + y.toUpperCase() + ".json";
         sourcet = new VectorSource({
           url: urlsourcestr,
           format: new GeoJSON(),
@@ -566,8 +448,7 @@ export default function Map_Hazard({
           format: new GeoJSON(),
         });
       } else if (x === "Maldives") {
-        let urlsourcestr =
-          "./DistrictBoundary/MV/STATE_" + y.toUpperCase() + ".json";
+        let urlsourcestr = "./DistrictBoundary/MV/STATE_" + y.toUpperCase() + ".json";
         let urlcountrystr = "./StateBoundary/MV/" + y.toUpperCase() + ".json";
         sourcet = new VectorSource({
           url: urlsourcestr,
@@ -617,9 +498,7 @@ export default function Map_Hazard({
                 setpolycord(polygoncordinates); */
               const extentt = polyy.getExtent();
               const sizee = mapRef.current.getSize();
-              mapRef.current
-                .getView()
-                .fit(extentt, { size: [sizee[0] * 1, sizee[1] * 1] });
+              mapRef.current.getView().fit(extentt, { size: [sizee[0] * 1, sizee[1] * 1] });
               defext = extentt;
             }
           }
@@ -687,10 +566,7 @@ export default function Map_Hazard({
                 }),
                 style: new Style({
                   fill: new Fill({
-                    color:
-                      mode === "dark"
-                        ? "rgba(37, 41, 46, 1)"
-                        : "rgba(255,255,255,1)",
+                    color: mode === "dark" ? "rgba(37, 41, 46, 1)" : "rgba(255,255,255,1)",
                   }),
                 }),
                 opacity: mode === "dark" ? 0.5 : 0.6,
@@ -718,35 +594,30 @@ export default function Map_Hazard({
       "Downscaled Risk": "Downscaled Risk",
       "Risk Index": "Risk index",
       "Hazard Index": "Hazard Index",
-      "Low temperature induced spikelet sterility":
-        "Low temperature induced spikelet sterility",
-      "Low temperature induced pollen sterility":
-        "Low temperature induced pollen sterility",
-      "High temperature induced pollen sterility":
-        "High temperature induced pollen sterility",
+      "Low temperature induced spikelet sterility": "Low temperature induced spikelet sterility",
+      "Low temperature induced pollen sterility": "Low temperature induced pollen sterility",
+      "High temperature induced pollen sterility": "High temperature induced pollen sterility",
       "Heat Stress": "Heat stress",
-      "High temperature induced spikelet sterility":
-        "High temperature induced spikelet sterility",
+      "High temperature induced spikelet sterility": "High temperature induced spikelet sterility",
       "Cold Stress": "Cold stress",
-      "Low temperature induced tuberization failure":
-        "Low temperature induced tuberization failure",
+      "Low temperature induced tuberization failure": "Low temperature induced tuberization failure",
       "Untimely Rainfall": "Untimely rainfall",
       "Terminal Heat": "Terminal heat",
       "Days of Frost": "Days of frost",
       "Excess Rainfall and Waterlogging": "Excess rain and waterlogging",
       "Delayed Monsoon": "Delayed monsoon",
-      Drought: "Drought",
+      "Drought": "Drought",
       "Dry Spell": "Number of dry spells",
-      Flood: "Flood",
+      "Flood": "Flood",
       "Soil Organic Carbon": "Soil organic carbon",
-      Lodging: "Rain and wind causing lodging",
-      Biotic: "High humidity and temperature for blight",
-      Irrigation: "Irrigation",
+      "Lodging": "Rain and wind causing lodging",
+      "Biotic": "High humidity and temperature for blight",
+      "Irrigation": "Irrigation",
       "Soil Water Holding Capacity": "Water holding capacity",
-      Income: "Agricultural GDP",
+      "Income": "Agricultural GDP",
       "Access to Credit": "Access to Credit",
       "Access to Market": "Access to Market",
-      Elevation: "Elevation",
+      "Elevation": "Elevation",
       "Access to Knowledge": "Access to Knowledge",
       "Exposure Index": "Exposure Index",
       "Number of Farmers": "Number of Farmers",
@@ -762,7 +633,7 @@ export default function Map_Hazard({
       "Vulnerability Index": "Vulnerability Index",
       "Feed/Fodder": "Residue",
       "Rural infrastructure": "Road network density",
-      Cyclone: "Cyclone",
+      "Cyclone": "Cyclone",
       "Rainfall Deficit": "Rainfall deficit",
       "Extreme Rainfall days": "Extreme Rainfall Days",
       "Cold days": "Cold Stress",
@@ -775,26 +646,11 @@ export default function Map_Hazard({
       opt = 3;
       let urlstr = "xyz.tif";
       if (activeScenario === "baseline") {
-        urlstr =
-          "./Hazards/" +
-          activeCrop +
-          "/Baseline/ZZ_" +
-          hazardname[CurrRisk] +
-          ".tif";
+        urlstr = "./Hazards/" + activeCrop + "/Baseline/ZZ_" + hazardname[CurrRisk] + ".tif";
       } else if (activeScenario === "ssp245") {
-        urlstr =
-          "./Hazards/" +
-          activeCrop +
-          "/SSP245/ZZ_" +
-          hazardname[CurrRisk] +
-          ".tif";
+        urlstr = "./Hazards/" + activeCrop + "/SSP245/ZZ_" + hazardname[CurrRisk] + ".tif";
       } else {
-        urlstr =
-          "./Hazards/" +
-          activeCrop +
-          "/SSP585/ZZ_" +
-          hazardname[CurrRisk] +
-          ".tif";
+        urlstr = "./Hazards/" + activeCrop + "/SSP585/ZZ_" + hazardname[CurrRisk] + ".tif";
       }
       if (CurrRisk === "Hazard Index") {
         opt = 4;
