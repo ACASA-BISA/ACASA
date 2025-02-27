@@ -24,6 +24,7 @@ import { Popper } from "@mui/material";
 import Slide from "@mui/material/Slide";
 import ReactDOMServer from "react-dom/server";
 import DownloadIcon from "@mui/icons-material/Download";
+import { fetchLocationData } from "./fetchLocationData";
 
 export default function MApp({
   activeCrop,
@@ -40,6 +41,8 @@ export default function MApp({
   displayLayer,
   activeScale,
   exploreType,
+  area_dict3,
+  area_dict4,
 }) {
   const ref = useRef(null);
   const mapRef = useRef(null);
@@ -55,17 +58,22 @@ export default function MApp({
   const [missingSource, setmsource] = useState(false);
   let defext = [6731721.531032621, -300003.34768295793, 10843798.383928495, 4918992.169943628];
 
-  let filename = "";
+  const [filename, setFilename] = useState("");
 
-  if (activeOpt !== "") {
-    filename = activeCrop + "_" + activeOpt + "_" + activeScenario + ".tiff";
-  } else if (CurrRisk !== "") {
-    filename = activeCrop + "_" + CurrRisk + "_" + activeScenario + ".tiff";
-  } else if (activeImpact["Productivity"] || activeImpact["Value of Production']||activeImpact['Resilience"]) {
-    filename = activeCrop + "_Impact_" + activeScenario + ".tiff";
-  } else {
-    filename = activeCrop + "_CropMask_" + activeScenario + ".tiff";
-  }
+  useEffect(() => {
+    let newFilename = activeCrop + "_CropMask_" + activeScenario + ".tiff"; // Default
+
+    if (activeOpt && activeOpt.trim() !== "") {
+      newFilename = `${activeCrop}_${activeOpt}_${activeScenario}.tiff`;
+    } else if (CurrRisk && CurrRisk.trim() !== "") {
+      newFilename = `${activeCrop}_${CurrRisk}_${activeScenario}.tiff`;
+    } else if (activeImpact["Productivity"] || activeImpact["Value of Production"] || activeImpact["Resilience"]) {
+      newFilename = `${activeCrop}_Impact_${activeScenario}.tiff`;
+    }
+
+    console.log("Updated filename:", newFilename); // Debugging
+    setFilename(newFilename);
+  }, [activeOpt, CurrRisk, activeImpact, activeCrop, activeScenario]); // Dependencies ensure updates
 
   const { mode } = useContext(ThemeContext);
 
@@ -514,7 +522,7 @@ export default function MApp({
         const source_tiff = geoTiffLayer.getSource();
         const geoTiffUrl = source_tiff.key_;
         if (geoTiffUrl) {
-          this.downloadFile(geoTiffUrl, "map_data.tiff");
+          this.downloadFile(geoTiffUrl, filename);
         } else {
           alert("No URL found for the GeoTIFF layer.");
         }
@@ -524,10 +532,16 @@ export default function MApp({
     }
 
     handleDownloadCSV() {
-      const csvContent = "Column1,Column2,Column3\nValue1,Value2,Value3\n"; // Replace with real table data
-      const blob = new Blob([csvContent], { type: "text/csv" });
+      const csvContent = fetchLocationData(activeRegion, activeCrop, activeScenario, CurrRisk, area_dict4); // Replace with real table data
+      console.log(csvContent);
+      const headers = Object.keys(csvContent[0]);
+      const rows = csvContent.map((row) => headers.map((header) => row[header]).join(","));
+
+      // Combine the headers and rows into a single string with newline separation
+      const csvString = [headers.join(","), ...rows].join("\n");
+      const blob = new Blob([csvString], { type: "text/csv" });
       const url = URL.createObjectURL(blob);
-      this.downloadFile(url, "data_table.csv");
+      this.downloadFile(url, activeRegion + "_" + activeCrop + "_" + activeScenario + "_" + CurrRisk + ".csv");
       URL.revokeObjectURL(url);
     }
 
@@ -540,60 +554,6 @@ export default function MApp({
       document.body.removeChild(a);
     }
   }
-
-  /* // Define the download control
-class DownloadControl extends Control {
-  constructor(options = {}) {
-    const button = document.createElement('button');
-    button.innerHTML = ReactDOMServer.renderToString(iconElement);;
-    button.title = 'Download GeoTIFF Layer';
-
-    // Create a container for the control
-    const element = document.createElement('div');
-    element.className = 'ol-control custom-download-control download-button';
-    element.appendChild(button);
-
-    super({
-      element: element,
-      target: options.target,
-    });
-
-    // Add event listener for the button click
-    button.addEventListener('click', this.handleDownload.bind(this), false);
-  }
-
-  handleDownload() {
-    const map = this.getMap(); // Get the map instance
-    const layers = map.getLayers().getArray(); // Get all layers on the map
-
-    // Find the GeoTIFF layer
-    const geoTiffLayer = layers.find(
-      (layer) => layer.getSource() instanceof GeoTIFF
-    );
-
-    if (geoTiffLayer) {
-      const source_tiff = geoTiffLayer.getSource();
-      // Access the URL from the `key_` property
-      const geoTiffUrl = source_tiff.key_;
-      if (geoTiffUrl) {
-        this.downloadFile(geoTiffUrl, filename); // Trigger the download
-      } else {
-        alert('No URL found for the GeoTIFF layer.');
-      }
-    } else {
-      alert('No GeoTIFF layer is currently displayed on the map.');
-    }
-  }
-
-  downloadFile(url, filename) {
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  }
-} */
 
   useEffect(() => {
     const container = document.getElementById("popup2");
@@ -642,9 +602,6 @@ class DownloadControl extends Control {
           new ZoomToExtent({
             extent: defext,
             className: "ol-zoomtoextent-comp",
-          }),
-          new DownloadControl({
-            className: "download-button",
           }),
         ],
         target: ref.current,
@@ -724,6 +681,11 @@ class DownloadControl extends Control {
     // Ensure the map resizes properly
     mapRef.current.updateSize();
   }, [mode, ref, mapRef]); // Re-run effect when `mode` changes
+
+  useEffect(() => {
+    const downloadControl = new DownloadControl({ className: "download-button" });
+    mapRef.current.addControl(downloadControl);
+  }, [mapRef, filename]);
 
   useEffect(() => {
     //console.log("Theme: ", mode); // Debugging
