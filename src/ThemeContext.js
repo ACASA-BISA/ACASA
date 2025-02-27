@@ -69,6 +69,12 @@ export const ThemeProviderWrapper = ({ children }) => {
       root.style.setProperty("--usecase-button-bgcolor", "#333333");
       root.style.setProperty("--usecase-button-color", "#ffffff");
 
+      /* Styles for ACASA Posts*/
+      root.style.setProperty("--banner-title-text-shadow", "2px 2px 10px rgba(100, 100, 100, 0.3)");
+      root.style.setProperty("--banner-title-background", "rgba(200, 200, 200, 0.4)");
+      root.style.setProperty("--animated-shape-background", "rgba(128, 235, 119, 0.8)");
+      root.style.setProperty("--blog-title-hover-underline", "#81c784");
+
     } else {
 
       root.style.setProperty("--webkit-scrollbar-track", "#f1f1f1");
@@ -105,6 +111,12 @@ export const ThemeProviderWrapper = ({ children }) => {
       root.style.setProperty("--usecase-imagearea-boxshadow", "0 4px 8px rgba(0, 0, 0, 0.1)");
       root.style.setProperty("--usecase-button-bgcolor", "#ffffff");
       root.style.setProperty("--usecase-button-color", "#333333");
+
+      /* Styles for ACASA Posts*/
+      root.style.setProperty("--banner-title-text-shadow", "2px 2px 10px rgba(0, 0, 0, 0.7)");
+      root.style.setProperty("--banner-title-background", "rgba(0, 0, 0, 0.4)");
+      root.style.setProperty("--animated-shape-background", "rgba(75, 158, 68, 0.8)");
+      root.style.setProperty("--blog-title-hover-underline", "#52911f");
 
     }
   }, [mode]);
