@@ -513,7 +513,6 @@ export default function LocationCard({ location, commodity, adaption, setHeight1
           borderRadius: "15px",
         }}
       >
-        {console.log(adaption)}
         <Accordion defaultExpanded>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}

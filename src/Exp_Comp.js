@@ -209,12 +209,10 @@ export default function CompV({
   const [currentYearIndex, setCurrentYearIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  /* // Auto-play interval, changes image every 1 second (1000ms)
+  // Auto-play interval, changes image every 1 second (1000ms)
   useInterval(
     () => {
-      setCurrentYearIndex((prevIndex) =>
-        prevIndex === images.length - 1 ? 0 : prevIndex + 1
-      );
+      setCurrentYearIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
     },
     isPlaying ? 1000 : null
   );
@@ -234,17 +232,17 @@ export default function CompV({
   const currentImage = images[currentYearIndex];
   //Color: #52af77
   const PrettoSlider = styled(Slider)({
-    color: color_for_button,
-    height: 5,
+    "color": color_for_button,
+    "height": 5,
     "& .MuiSlider-track": {
       border: "none",
     },
     "& .MuiSlider-thumb": {
-      height: 10,
-      width: 12,
-      borderRadius: 2,
-      backgroundColor: "#fff",
-      border: "1px solid currentColor",
+      "height": 10,
+      "width": 12,
+      "borderRadius": 2,
+      "backgroundColor": "#fff",
+      "border": "1px solid currentColor",
       "&:focus, &:hover, &.Mui-active, &.Mui-focusVisible": {
         boxShadow: "inherit",
       },
@@ -253,16 +251,16 @@ export default function CompV({
       },
     },
     "& .MuiSlider-valueLabel": {
-      lineHeight: 1.2,
-      fontSize: 12,
-      background: "unset",
-      padding: 0,
-      width: 32,
-      height: 32,
-      borderRadius: "50% 50% 50% 0",
-      backgroundColor: color_for_button,
-      transformOrigin: "bottom left",
-      transform: "translate(50%, -100%) rotate(-45deg) scale(0)",
+      "lineHeight": 1.2,
+      "fontSize": 12,
+      "background": "unset",
+      "padding": 0,
+      "width": 32,
+      "height": 32,
+      "borderRadius": "50% 50% 50% 0",
+      "backgroundColor": color_for_button,
+      "transformOrigin": "bottom left",
+      "transform": "translate(50%, -100%) rotate(-45deg) scale(0)",
       "&::before": { display: "none" },
       "&.MuiSlider-valueLabelOpen": {
         transform: "translate(50%, -100%) rotate(-45deg) scale(1)",
@@ -271,7 +269,7 @@ export default function CompV({
         transform: "rotate(45deg)",
       },
     },
-  }); */
+  });
 
   const [paperWidth, setPaperWidth] = React.useState(0);
   const [boxWidth, setBoxWidth] = React.useState(0);
@@ -471,6 +469,8 @@ export default function CompV({
                   displayLayer={displayLayer}
                   exploreType={exploreType}
                   activeScale={activeScale}
+                  area_dict3={area_dict3}
+                  area_dict4={area_dict4}
                 ></Map_Option>
                 {(CurrRisk !== "" || activeOpt !== "" || NameImpact !== "") && (
                   <Popper
@@ -560,16 +560,16 @@ export default function CompV({
                       </Typography>
                     )}
                     {/* {(label==='2050s'||label==='2080s') && <FormControl size='small'>
-                <Select labelId="Scenariox"
-                  id="future-model-select-idx"
-                  sx={{fontSize:'14px',height:'20px',fontFamily:'Karla'}}
-                  value={futureModel} onChange={handleScenariochange}>
-                    <MenuItem value="Absolute" sx={{paddingLeft:1,fontSize:'13px',height:'20px',fontWeight:'bold',fontFamily:'Karla'}}>Absolute values</MenuItem>
-                    <Typography variant="subtitle1" sx={{paddingLeft:1,fontSize:'13px',fontWeight:'bold',fontFamily:'Karla'}}>Change in future</Typography>
-                    <MenuItem value="Percentage Change" sx={{fontSize:'13px',height:'20px',fontFamily:'Karla'}}>Percentage change</MenuItem>
-                    <MenuItem value="Absolute Change" sx={{fontSize:'13px',height:'20px',fontFamily:'Karla'}}>Absolute change</MenuItem>
-                </Select>
-                </FormControl>} */}
+                    <Select labelId="Scenariox"
+                      id="future-model-select-idx"
+                      sx={{fontSize:'14px',height:'20px',fontFamily:'Karla'}}
+                      value={futureModel} onChange={handleScenariochange}>
+                        <MenuItem value="Absolute" sx={{paddingLeft:1,fontSize:'13px',height:'20px',fontWeight:'bold',fontFamily:'Karla'}}>Absolute values</MenuItem>
+                        <Typography variant="subtitle1" sx={{paddingLeft:1,fontSize:'13px',fontWeight:'bold',fontFamily:'Karla'}}>Change in future</Typography>
+                        <MenuItem value="Percentage Change" sx={{fontSize:'13px',height:'20px',fontFamily:'Karla'}}>Percentage change</MenuItem>
+                        <MenuItem value="Absolute Change" sx={{fontSize:'13px',height:'20px',fontFamily:'Karla'}}>Absolute change</MenuItem>
+                    </Select>
+                    </FormControl>} */}
                   </Box>
 
                   <Paper
@@ -596,6 +596,8 @@ export default function CompV({
                           displayLayer={displayLayer}
                           exploreType={exploreType}
                           activeScale={activeScale}
+                          area_dict3={area_dict3}
+                          area_dict4={area_dict4}
                         ></Map_Option>
                         {(CurrRisk !== "" || activeOpt !== "" || NameImpact !== "") && (
                           <Popper
@@ -636,6 +638,56 @@ export default function CompV({
                             </Paper>
                           </Popper>
                         )}
+                        {/* {CurrRisk !== "" && (
+                          <Popper
+                            open={true} // Always open
+                            anchorEl={gridRefs[index].current} // Anchor to the Grid container
+                            placement="bottom" // Position it at the bottom
+                            disablePortal={true} // Stay within the DOM hierarchy
+                            modifiers={[
+                              {
+                                name: "offset",
+                                options: {
+                                  offset: [gridRefs[index].current.offsetWidth / 3 / 2 + 15 - gridRefs[index].current.offsetWidth / 2, -(gridRefs[index].current.offsetWidth / 3 + 130 + 50)], // Adjust distance from the container
+                                },
+                              },
+                            ]}
+                          >
+                            <Box display="flex" flexDirection="column" alignItems="center" sx={{ border: "1px solid #eee" }}>
+                              <Box sx={{ width: "90%", bgcolor: "#E4E0E1", height: "18px", marginTop: "1px" }}>
+                                <Typography align="center" sx={{ fontSize: "12px", fontWeight: "bold" }}>
+                                  Year: {currentImage.year}
+                                </Typography>
+                              </Box>
+                              <Box display="flex" flexDirection="row" sx={{ width: "100%" }} alignItems="center" justifyContent="center" gap="8px">
+                                <IconButton onClick={handlePlayPause} sx={{ color: color_for_button, border: "1px solid #eee", borderRadius: "8px", padding: "2px" }}>
+                                  {isPlaying ? <PauseIcon sx={{ fontSize: "15px" }} /> : <PlayArrowIcon sx={{ fontSize: "15px" }} />}
+                                </IconButton>
+                                <Box sx={{ width: "60%", mt: 0, mb: 0 }}>
+                                  <PrettoSlider
+                                    value={currentYearIndex}
+                                    min={0}
+                                    max={images.length - 1}
+                                    step={1}
+                                    marks={images.map((img, idx) => ({
+                                      value: idx,
+                                      //label: img.year.toString(),
+                                    }))}
+                                    onChange={handleSliderChange}
+                                    aria-labelledby="timeline-slider"
+                                    valueLabelDisplay="auto"
+                                  />
+                                </Box>
+                              </Box>
+                              <Box
+                                component="img"
+                                src={currentImage.url}
+                                alt={`Year ${currentImage.year}`}
+                                sx={{ width: "100%", maxWidth: gridRefs[index].current.offsetWidth / 3, height: "auto", mb: 0 }}
+                              />
+                            </Box>
+                          </Popper>
+                        )} */}
                       </div>
                     )}
                     {label === "2050s" && (
@@ -655,6 +707,8 @@ export default function CompV({
                           displayLayer={displayLayer}
                           exploreType={exploreType}
                           activeScale={activeScale}
+                          area_dict3={area_dict3}
+                          area_dict4={area_dict4}
                         ></Map_Option>
                         {(CurrRisk !== "" || activeOpt !== "" || NameImpact !== "") && RiskType() !== "Vulnerability" && RiskType() !== "Exposure" && (
                           <Popper
@@ -732,6 +786,56 @@ export default function CompV({
                             </Box>
                           </Popper>
                         )}
+                        {/* {CurrRisk !== "" && (
+                          <Popper
+                            open={true} // Always open
+                            anchorEl={gridRefs[index].current} // Anchor to the Grid container
+                            placement="bottom" // Position it at the bottom
+                            disablePortal={true} // Stay within the DOM hierarchy
+                            modifiers={[
+                              {
+                                name: "offset",
+                                options: {
+                                  offset: [gridRefs[index].current.offsetWidth / 3 / 2 + 15 - gridRefs[index].current.offsetWidth / 2, -(gridRefs[index].current.offsetWidth / 3 + 130 + 50)], // Adjust distance from the container
+                                },
+                              },
+                            ]}
+                          >
+                            <Box display="flex" flexDirection="column" alignItems="center" sx={{ border: "1px solid #eee" }}>
+                              <Box sx={{ width: "90%", bgcolor: "#E4E0E1", height: "18px", marginTop: "1px" }}>
+                                <Typography align="center" sx={{ fontSize: "12px", fontWeight: "bold" }}>
+                                  Year: {currentImage.year}
+                                </Typography>
+                              </Box>
+                              <Box display="flex" flexDirection="row" sx={{ width: "100%" }} alignItems="center" justifyContent="center" gap="8px">
+                                <IconButton onClick={handlePlayPause} sx={{ color: color_for_button, border: "1px solid #eee", borderRadius: "8px", padding: "2px" }}>
+                                  {isPlaying ? <PauseIcon sx={{ fontSize: "15px" }} /> : <PlayArrowIcon sx={{ fontSize: "15px" }} />}
+                                </IconButton>
+                                <Box sx={{ width: "60%", mt: 0, mb: 0 }}>
+                                  <PrettoSlider
+                                    value={currentYearIndex}
+                                    min={0}
+                                    max={images.length - 1}
+                                    step={1}
+                                    marks={images.map((img, idx) => ({
+                                      value: idx,
+                                      //label: img.year.toString(),
+                                    }))}
+                                    onChange={handleSliderChange}
+                                    aria-labelledby="timeline-slider"
+                                    valueLabelDisplay="auto"
+                                  />
+                                </Box>
+                              </Box>
+                              <Box
+                                component="img"
+                                src={currentImage.url}
+                                alt={`Year ${currentImage.year}`}
+                                sx={{ width: "100%", maxWidth: gridRefs[index].current.offsetWidth / 3, height: "auto", mb: 0 }}
+                              />
+                            </Box>
+                          </Popper>
+                        )} */}
                       </div>
                     )}
                   </Paper>
@@ -769,16 +873,16 @@ export default function CompV({
                       {label}
                     </Typography>
                     {/* {(label==='2050s'||label==='2080s') && <FormControl size='small'>
-<Select labelId="Scenariox"
-id="future-model-select-idx"
-sx={{fontSize:'14px',height:'20px',fontFamily:'Karla'}}
-value={futureModel} onChange={handleScenariochange}>
-  <MenuItem value="Absolute" sx={{paddingLeft:1,fontSize:'13px',height:'20px',fontWeight:'bold',fontFamily:'Karla'}}>Absolute values</MenuItem>
-  <Typography variant="subtitle1" sx={{paddingLeft:1,fontSize:'13px',fontWeight:'bold',fontFamily:'Karla'}}>Change in future</Typography>
-  <MenuItem value="Percentage Change" sx={{fontSize:'13px',height:'20px',fontFamily:'Karla'}}>Percentage change</MenuItem>
-  <MenuItem value="Absolute Change" sx={{fontSize:'13px',height:'20px',fontFamily:'Karla'}}>Absolute change</MenuItem>
-</Select>
-</FormControl>} */}
+                    <Select labelId="Scenariox"
+                    id="future-model-select-idx"
+                    sx={{fontSize:'14px',height:'20px',fontFamily:'Karla'}}
+                    value={futureModel} onChange={handleScenariochange}>
+                      <MenuItem value="Absolute" sx={{paddingLeft:1,fontSize:'13px',height:'20px',fontWeight:'bold',fontFamily:'Karla'}}>Absolute values</MenuItem>
+                      <Typography variant="subtitle1" sx={{paddingLeft:1,fontSize:'13px',fontWeight:'bold',fontFamily:'Karla'}}>Change in future</Typography>
+                      <MenuItem value="Percentage Change" sx={{fontSize:'13px',height:'20px',fontFamily:'Karla'}}>Percentage change</MenuItem>
+                      <MenuItem value="Absolute Change" sx={{fontSize:'13px',height:'20px',fontFamily:'Karla'}}>Absolute change</MenuItem>
+                    </Select>
+                    </FormControl>} */}
                   </Box>
 
                   <Paper
@@ -805,6 +909,8 @@ value={futureModel} onChange={handleScenariochange}>
                           displayLayer={displayLayer}
                           exploreType={exploreType}
                           activeScale={activeScale}
+                          area_dict3={area_dict3}
+                          area_dict4={area_dict4}
                         ></Map_Option>
                         {(CurrRisk !== "" || activeOpt !== "" || NameImpact !== "") && (
                           <Popper
@@ -864,6 +970,8 @@ value={futureModel} onChange={handleScenariochange}>
                           displayLayer={displayLayer}
                           exploreType={exploreType}
                           activeScale={activeScale}
+                          area_dict3={area_dict3}
+                          area_dict4={area_dict4}
                         ></Map_Option>
                         {(CurrRisk !== "" || activeOpt !== "" || NameImpact !== "") && (
                           <Popper
@@ -904,6 +1012,56 @@ value={futureModel} onChange={handleScenariochange}>
                             </Paper>
                           </Popper>
                         )}
+                        {/* {CurrRisk !== "" && (
+                          <Popper
+                            open={true} // Always open
+                            anchorEl={gridRefs[index].current} // Anchor to the Grid container
+                            placement="bottom" // Position it at the bottom
+                            disablePortal={true} // Stay within the DOM hierarchy
+                            modifiers={[
+                              {
+                                name: "offset",
+                                options: {
+                                  offset: [gridRefs[index].current.offsetWidth / 3 / 2 + 15 - gridRefs[index].current.offsetWidth / 2, -(gridRefs[index].current.offsetWidth / 3 + 130 + 50)], // Adjust distance from the container
+                                },
+                              },
+                            ]}
+                          >
+                            <Box display="flex" flexDirection="column" alignItems="center" sx={{ border: "1px solid #eee" }}>
+                              <Box sx={{ width: "90%", bgcolor: "#E4E0E1", height: "18px", marginTop: "1px" }}>
+                                <Typography align="center" sx={{ fontSize: "12px", fontWeight: "bold" }}>
+                                  Year: {currentImage.year}
+                                </Typography>
+                              </Box>
+                              <Box display="flex" flexDirection="row" sx={{ width: "100%" }} alignItems="center" justifyContent="center" gap="8px">
+                                <IconButton onClick={handlePlayPause} sx={{ color: color_for_button, border: "1px solid #eee", borderRadius: "8px", padding: "2px" }}>
+                                  {isPlaying ? <PauseIcon sx={{ fontSize: "15px" }} /> : <PlayArrowIcon sx={{ fontSize: "15px" }} />}
+                                </IconButton>
+                                <Box sx={{ width: "60%", mt: 0, mb: 0 }}>
+                                  <PrettoSlider
+                                    value={currentYearIndex}
+                                    min={0}
+                                    max={images.length - 1}
+                                    step={1}
+                                    marks={images.map((img, idx) => ({
+                                      value: idx,
+                                      //label: img.year.toString(),
+                                    }))}
+                                    onChange={handleSliderChange}
+                                    aria-labelledby="timeline-slider"
+                                    valueLabelDisplay="auto"
+                                  />
+                                </Box>
+                              </Box>
+                              <Box
+                                component="img"
+                                src={currentImage.url}
+                                alt={`Year ${currentImage.year}`}
+                                sx={{ width: "100%", maxWidth: gridRefs[index].current.offsetWidth / 3, height: "auto", mb: 0 }}
+                              />
+                            </Box>
+                          </Popper>
+                        )} */}
                       </div>
                     )}
                     {label === "2080s" && (
@@ -923,6 +1081,8 @@ value={futureModel} onChange={handleScenariochange}>
                           displayLayer={displayLayer}
                           exploreType={exploreType}
                           activeScale={activeScale}
+                          area_dict3={area_dict3}
+                          area_dict4={area_dict4}
                         ></Map_Option>
                         {(CurrRisk !== "" || activeOpt !== "" || NameImpact !== "") && (
                           <Popper
@@ -963,52 +1123,56 @@ value={futureModel} onChange={handleScenariochange}>
                             </Paper>
                           </Popper>
                         )}
-                        {/* {(CurrRisk!=='' || activeOpt!=='') && <Popper
-open={true} // Always open
-anchorEl={gridRefs[index].current} // Anchor to the Grid container
-placement="bottom" // Position it at the bottom
-disablePortal={true} // Stay within the DOM hierarchy
-modifiers={[
-  {
-    name: "offset",
-    options: {
-      offset: [(gridRefs[index].current.offsetWidth / 3)/2 + 15 - ( gridRefs[index].current.offsetWidth / 2), -(( gridRefs[index].current.offsetWidth / 3 ) + 130 + 50)], // Adjust distance from the container
-    },
-  },
-]}
->
-<Box display="flex" flexDirection="column" alignItems="center" sx={{border:'1px solid #eee'}}>
-<Box sx={{width:'90%',bgcolor:'#E4E0E1',height:'18px',marginTop:'1px'}}>
-    <Typography align="center" sx={{fontSize:'12px',fontWeight:'bold'}}>Year: {currentImage.year}</Typography>
-</Box> 
-<Box display="flex" flexDirection="row" sx={{width:'100%'}}  alignItems="center" justifyContent="center" gap="8px">
-    <IconButton onClick={handlePlayPause} sx={{color: color_for_button,border:'1px solid #eee',borderRadius:'8px',padding:'2px'}}>
-        {isPlaying ? <PauseIcon sx={{fontSize:'15px'}} /> : <PlayArrowIcon sx={{fontSize:'15px'}} />}
-    </IconButton>
-    <Box sx={{ width: '60%', mt: 0, mb: 0 }}>
-        <PrettoSlider
-            value={currentYearIndex}
-            min={0}
-            max={images.length - 1}
-            step={1}
-            marks={images.map((img, idx) => ({
-                value: idx,
-                //label: img.year.toString(),
-            }))}
-            onChange={handleSliderChange}
-            aria-labelledby="timeline-slider"
-            valueLabelDisplay="auto"
-        />
-    </Box>
-</Box>
-<Box
-    component="img"
-    src={currentImage.url}
-    alt={`Year ${currentImage.year}`}
-    sx={{ width: '100%', maxWidth: ( gridRefs[index].current.offsetWidth / 3), height: 'auto', mb: 0 }}
-/>  
-</Box>
-</Popper>} */}
+                        {/* {CurrRisk !== "" && (
+                          <Popper
+                            open={true} // Always open
+                            anchorEl={gridRefs[index].current} // Anchor to the Grid container
+                            placement="bottom" // Position it at the bottom
+                            disablePortal={true} // Stay within the DOM hierarchy
+                            modifiers={[
+                              {
+                                name: "offset",
+                                options: {
+                                  offset: [gridRefs[index].current.offsetWidth / 3 / 2 + 15 - gridRefs[index].current.offsetWidth / 2, -(gridRefs[index].current.offsetWidth / 3 + 130 + 50)], // Adjust distance from the container
+                                },
+                              },
+                            ]}
+                          >
+                            <Box display="flex" flexDirection="column" alignItems="center" sx={{ border: "1px solid #eee" }}>
+                              <Box sx={{ width: "90%", bgcolor: "#E4E0E1", height: "18px", marginTop: "1px" }}>
+                                <Typography align="center" sx={{ fontSize: "12px", fontWeight: "bold" }}>
+                                  Year: {currentImage.year}
+                                </Typography>
+                              </Box>
+                              <Box display="flex" flexDirection="row" sx={{ width: "100%" }} alignItems="center" justifyContent="center" gap="8px">
+                                <IconButton onClick={handlePlayPause} sx={{ color: color_for_button, border: "1px solid #eee", borderRadius: "8px", padding: "2px" }}>
+                                  {isPlaying ? <PauseIcon sx={{ fontSize: "15px" }} /> : <PlayArrowIcon sx={{ fontSize: "15px" }} />}
+                                </IconButton>
+                                <Box sx={{ width: "60%", mt: 0, mb: 0 }}>
+                                  <PrettoSlider
+                                    value={currentYearIndex}
+                                    min={0}
+                                    max={images.length - 1}
+                                    step={1}
+                                    marks={images.map((img, idx) => ({
+                                      value: idx,
+                                      //label: img.year.toString(),
+                                    }))}
+                                    onChange={handleSliderChange}
+                                    aria-labelledby="timeline-slider"
+                                    valueLabelDisplay="auto"
+                                  />
+                                </Box>
+                              </Box>
+                              <Box
+                                component="img"
+                                src={currentImage.url}
+                                alt={`Year ${currentImage.year}`}
+                                sx={{ width: "100%", maxWidth: gridRefs[index].current.offsetWidth / 3, height: "auto", mb: 0 }}
+                              />
+                            </Box>
+                          </Popper>
+                        )} */}
                       </div>
                     )}
                   </Paper>
