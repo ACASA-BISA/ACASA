@@ -44,6 +44,9 @@ import Adaptation_Analytics2 from "./Adaptation_Analytics2.js";
 import Summ_Scenario from "./Summ_Scenario";
 import Summ_Model from "./Summ_Model";
 import Summ_Adaptation_Indicator from "./Summ_Adaptation_Indicators.js";
+import { fetchDataAdap } from "./fetchDataAdap.js";
+import LegendComp from "./LegendComp.js";
+import { fetchthedataHzd } from "./fetchDataHzd.js";
 // import AdaptationGlance from './AdaptationGlance';
 //import Summ1 from './Summary1';
 
@@ -89,192 +92,6 @@ async function fetchCsv5() {
   const response = await fetch("./All_hazards_crops_corrected.json");
   return await response.json();
 }
-
-const legendComp = (
-  <Paper elevation={1}>
-    <Box
-      sx={(theme) => ({
-        display: "flex",
-        flexDirection: "column",
-        border: `1px solid ${theme.palette.mode === "dark" ? "#555" : "#aaa"}`,
-        justifyContent: "top",
-        alignItems: "left",
-        height: "100%",
-        padding: "2px",
-        paddingLeft: "2px",
-        paddingRight: "3px",
-        gap: "0px",
-        backgroundColor: theme.palette.mode === "dark" ? "#30363d" : "#ddd",
-      })}
-    >
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "left",
-          alignItems: "center",
-          gap: "2px",
-        }}
-      >
-        <Box
-          sx={{ width: 50, height: 15, borderRadius: 0, bgcolor: "#059212" }}
-        >
-          <Typography
-            fontSize="0.62rem"
-            align="left"
-            fontWeight="bold"
-            sx={(theme) => ({
-              paddingLeft: "3px",
-              color: theme.palette.mode === "dark" ? "black" : "white",
-            })}
-          >
-            Very Low
-          </Typography>
-        </Box>
-        <Typography
-          fontSize="0.62rem"
-          align="left"
-          fontWeight="bold"
-          sx={{ paddingLeft: "2px" }}
-        >
-          NaN
-        </Typography>
-      </Box>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "left",
-          alignItems: "center",
-          gap: "2px",
-        }}
-      >
-        <Box
-          sx={{ width: 50, height: 15, borderRadius: 0, bgcolor: "#00FF00" }}
-        >
-          <Typography
-            fontSize="0.62rem"
-            align="left"
-            fontWeight="bold"
-            sx={(theme) => ({
-              paddingLeft: "3px",
-              color: theme.palette.mode === "dark" ? "black" : "white",
-            })}
-          >
-            Low
-          </Typography>
-        </Box>
-        <Typography
-          fontSize="0.62rem"
-          align="left"
-          fontWeight="bold"
-          sx={{ paddingLeft: "2px" }}
-        >
-          NaN
-        </Typography>
-      </Box>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "left",
-          alignItems: "center",
-          gap: "2px",
-        }}
-      >
-        <Box
-          sx={{ width: 50, height: 15, borderRadius: 0, bgcolor: "#FFDE4D" }}
-        >
-          <Typography
-            fontSize="0.62rem"
-            align="left"
-            fontWeight="bold"
-            sx={(theme) => ({
-              paddingLeft: "3px",
-              color: theme.palette.mode === "dark" ? "black" : "white",
-            })}
-          >
-            Medium
-          </Typography>
-        </Box>
-        <Typography
-          fontSize="0.62rem"
-          align="left"
-          fontWeight="bold"
-          sx={{ paddingLeft: "2px" }}
-        >
-          NaN
-        </Typography>
-      </Box>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "left",
-          alignItems: "center",
-          gap: "2px",
-        }}
-      >
-        <Box
-          sx={{ width: 50, height: 15, borderRadius: 0, bgcolor: "#FFA500" }}
-        >
-          <Typography
-            fontSize="0.62rem"
-            align="left"
-            fontWeight="bold"
-            sx={(theme) => ({
-              paddingLeft: "3px",
-              color: theme.palette.mode === "dark" ? "black" : "white",
-            })}
-          >
-            High
-          </Typography>
-        </Box>
-        <Typography
-          fontSize="0.62rem"
-          align="left"
-          fontWeight="bold"
-          sx={{ paddingLeft: "2px" }}
-        >
-          NaN
-        </Typography>
-      </Box>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "left",
-          alignItems: "center",
-          gap: "2px",
-        }}
-      >
-        <Box
-          sx={{ width: 50, height: 15, borderRadius: 0, bgcolor: "#E4003A" }}
-        >
-          <Typography
-            fontSize="0.62rem"
-            align="left"
-            fontWeight="bold"
-            sx={(theme) => ({
-              paddingLeft: "3px",
-              color: theme.palette.mode === "dark" ? "black" : "white",
-            })}
-          >
-            Very High
-          </Typography>
-        </Box>
-        <Typography
-          fontSize="0.62rem"
-          align="left"
-          fontWeight="bold"
-          sx={{ paddingLeft: "2px" }}
-        >
-          NaN
-        </Typography>
-      </Box>
-    </Box>
-  </Paper>
-);
 
 export default function DrawerMapShow({ activeBar }) {
   let Homecrop = "rice";
@@ -627,10 +444,10 @@ export default function DrawerMapShow({ activeBar }) {
 
   const [optionlayer, setOptionLayer] = React.useState({
     "Biophysical Suitability": false,
-    Gender: false,
+    "Gender": false,
     "Adaptation Benefits": false,
-    Economic: false,
-    Scalability: false,
+    "Economic": false,
+    "Scalability": false,
   });
 
   function initialCrop() {
@@ -671,9 +488,9 @@ export default function DrawerMapShow({ activeBar }) {
       ...optionlayer,
       "Biophysical Suitability": false,
       "Adaptation Benefits": false,
-      Economic: false,
-      Scalability: false,
-      Gender: false,
+      "Economic": false,
+      "Scalability": false,
+      "Gender": false,
     });
     setRisk(InitialHazard);
     setRiskName("");
@@ -858,9 +675,7 @@ export default function DrawerMapShow({ activeBar }) {
     setOptionLayer(stateinc);
   };
 
-  const [optionlayer2, setOptionLayer2] = React.useState(
-    "Biophysical Suitability"
-  );
+  const [optionlayer2, setOptionLayer2] = React.useState("Biophysical Suitability");
 
   const changeOptLayer2 = (sname) => {
     setOptionLayer2(sname);
@@ -916,9 +731,7 @@ export default function DrawerMapShow({ activeBar }) {
       let stateName = row[3];
       if (stateName) {
         stateName = stateName.toLowerCase(); // Convert state name to lowercase
-        const capitalizedStateName = stateName.replace(/\b\w/g, (char) =>
-          char.toUpperCase()
-        ); // Capitalize first letter of each word
+        const capitalizedStateName = stateName.replace(/\b\w/g, (char) => char.toUpperCase()); // Capitalize first letter of each word
         if (!countryStateMap[countryCode]) {
           countryStateMap[countryCode] = [];
         }
@@ -1044,6 +857,9 @@ export default function DrawerMapShow({ activeBar }) {
   const box4 = React.useRef(null);
   const box5 = React.useRef(null);
   const box6 = React.useRef(null);
+  const impactBox = React.useRef(null);
+  const paperWidth = window.innerWidth * 0.21;
+  const paperWidth2 = window.innerWidth * 0.23;
 
   return (
     <div>
@@ -1131,17 +947,11 @@ export default function DrawerMapShow({ activeBar }) {
             ActiveRegionChange2={ActiveRegionChange2}
             crop2={crop2}
             CurrRisk2={CurrRisk2}
+            area_data4={area_dict4}
           ></HazardGlance>
         )}
 
-        {activeBar === "adaptation" && (
-          <Adaptation_Analytics
-            cropid={cropid}
-            focus2={focus2}
-            activeRegion2={activeRegion2}
-            activeOpt={CurrOpt}
-          ></Adaptation_Analytics>
-        )}
+        {activeBar === "adaptation" && <Adaptation_Analytics cropid={cropid} focus2={focus2} activeRegion2={activeRegion2} activeOpt={CurrOpt}></Adaptation_Analytics>}
         {activeBar === "adaptation2" && (
           <Adaptation_Analytics2
             cropid={cropid}
@@ -1184,10 +994,7 @@ export default function DrawerMapShow({ activeBar }) {
             }}
           >
             <TabsData activeTab={activeTab}></TabsData>
-            <Floating_drawer
-              activeCrop={Currcrop}
-              activeRegion={activeRegion}
-            ></Floating_drawer>
+            <Floating_drawer activeCrop={Currcrop} activeRegion={activeRegion}></Floating_drawer>
           </div>
         )}
         {activeBar === "resources" && (
@@ -1208,15 +1015,7 @@ export default function DrawerMapShow({ activeBar }) {
         {activeBar === "about" && <AboutUs></AboutUs>}
         <div style={{ overflow: "hidden" }}>
           {activeBar === "viewer" && (
-            <MApp
-              activeCrop={Currcrop}
-              activeScenario={scenario}
-              focus={focus}
-              activeRegion={activeRegion}
-              activeOpt={CurrOpt}
-              CurrRisk={RiskName}
-              activeImpact={CurrImpact}
-            ></MApp>
+            <MApp activeCrop={Currcrop} activeScenario={scenario} focus={focus} activeRegion={activeRegion} activeOpt={CurrOpt} CurrRisk={RiskName} activeImpact={CurrImpact}></MApp>
           )}
 
           {activeBar === "viewer" && (
@@ -1281,8 +1080,7 @@ export default function DrawerMapShow({ activeBar }) {
                   justifyContent: "center",
                   marginX: "auto",
                   marginTop: "85px",
-                  backgroundColor:
-                    theme.palette.mode === "dark" ? "#25292e" : "#fff",
+                  backgroundColor: theme.palette.mode === "dark" ? "#25292e" : "#fff",
                 })}
                 gap="2vw"
               >
@@ -1297,11 +1095,7 @@ export default function DrawerMapShow({ activeBar }) {
                       borderRadius: "15px",
                     }}
                   >
-                    <Accordion
-                      expanded={acc}
-                      onMouseOver={() => setacc(true)}
-                      onMouseLeave={() => setacc(false)}
-                    >
+                    <Accordion expanded={acc} onMouseOver={() => setacc(true)} onMouseLeave={() => setacc(false)}>
                       <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls="panel1-content"
@@ -1310,10 +1104,7 @@ export default function DrawerMapShow({ activeBar }) {
                           justifyItems: "center",
                           alignContent: "center",
                           marginY: "-5px",
-                          backgroundColor:
-                            theme.palette.mode === "dark"
-                              ? "rgba(235, 247, 233, 0.08)"
-                              : "#F7F7F7",
+                          backgroundColor: theme.palette.mode === "dark" ? "rgba(235, 247, 233, 0.08)" : "#F7F7F7",
                         })}
                       >
                         {" "}
@@ -1321,10 +1112,7 @@ export default function DrawerMapShow({ activeBar }) {
                           sx={(theme) => ({
                             fontSize: 15,
                             fontWeight: "bold",
-                            color:
-                              theme.palette.mode === "dark"
-                                ? "#b0e09e"
-                                : "#143200",
+                            color: theme.palette.mode === "dark" ? "#b0e09e" : "#143200",
                             marginLeft: "4px",
                           })}
                         >
@@ -1332,9 +1120,7 @@ export default function DrawerMapShow({ activeBar }) {
                         </Typography>
                       </AccordionSummary>
                       <AccordionDetails sx={{ marginY: "-5px" }}>
-                        This overview page allows you to select a specific crop
-                        and region of your choice, and explore the associated
-                        adaptation options comprehensively on one page.
+                        This overview page allows you to select a specific crop and region of your choice, and explore the associated adaptation options comprehensively on one page.
                       </AccordionDetails>
                     </Accordion>
                   </div>
@@ -1367,8 +1153,7 @@ export default function DrawerMapShow({ activeBar }) {
                         gap: "4px",
                         alignItems: "center",
                         width: "23vw",
-                        backgroundColor:
-                          theme.palette.mode === "dark" ? "#2d3136" : "#F7F7F7",
+                        backgroundColor: theme.palette.mode === "dark" ? "#2d3136" : "#F7F7F7",
                         border: "0px solid black",
                       })}
                     >
@@ -1381,11 +1166,7 @@ export default function DrawerMapShow({ activeBar }) {
                       >
                         Location:{" "}
                       </Typography>
-                      <Summ_Loc
-                        focus={focus2}
-                        activeRegion={activeRegion2}
-                        changeReg={ActiveRegionChange2}
-                      ></Summ_Loc>
+                      <Summ_Loc focus={focus2} activeRegion={activeRegion2} changeReg={ActiveRegionChange2}></Summ_Loc>
                       <Typography
                         sx={(theme) => ({
                           marginLeft: "5px",
@@ -1396,10 +1177,7 @@ export default function DrawerMapShow({ activeBar }) {
                       >
                         Commodity:{" "}
                       </Typography>
-                      <Summ_Comm
-                        changeComm={handleChangeSumm}
-                        comm={cropid}
-                      ></Summ_Comm>
+                      <Summ_Comm changeComm={handleChangeSumm} comm={cropid}></Summ_Comm>
                     </Box>
                     <Box
                       sx={(theme) => ({
@@ -1411,8 +1189,7 @@ export default function DrawerMapShow({ activeBar }) {
                         gap: "4px",
                         alignItems: "center",
                         width: "23vw",
-                        backgroundColor:
-                          theme.palette.mode === "dark" ? "#2d3136" : "#F7F7F7",
+                        backgroundColor: theme.palette.mode === "dark" ? "#2d3136" : "#F7F7F7",
                         border: "0px solid black",
                       })}
                     >
@@ -1425,9 +1202,7 @@ export default function DrawerMapShow({ activeBar }) {
                       >
                         Scenario:{" "}
                       </Typography>
-                      <Summ_Scenario
-                        handleScenario={handleScenario}
-                      ></Summ_Scenario>
+                      <Summ_Scenario handleScenario={handleScenario}></Summ_Scenario>
                       <Typography
                         sx={(theme) => ({
                           marginLeft: "5px",
@@ -1450,8 +1225,7 @@ export default function DrawerMapShow({ activeBar }) {
                         gap: "4px",
                         alignItems: "center",
                         width: "23vw",
-                        backgroundColor:
-                          theme.palette.mode === "dark" ? "#2d3136" : "#F7F7F7",
+                        backgroundColor: theme.palette.mode === "dark" ? "#2d3136" : "#F7F7F7",
                         border: "0px solid black",
                       })}
                     >
@@ -1464,14 +1238,10 @@ export default function DrawerMapShow({ activeBar }) {
                       >
                         Adaptation Indicator:{" "}
                       </Typography>
-                      <Summ_Adaptation_Indicator
-                        handleIndicator={changeOptLayer2}
-                      ></Summ_Adaptation_Indicator>
+                      <Summ_Adaptation_Indicator handleIndicator={changeOptLayer2}></Summ_Adaptation_Indicator>
                     </Box>
                   </Box>
-                  <Box
-                    sx={{ display: "flex", flexDirection: "row", gap: "2vh" }}
-                  >
+                  <Box sx={{ display: "flex", flexDirection: "row", gap: "2vh" }}>
                     <Box sx={{ display: "flex", flexDirection: "column" }}>
                       {/*  <Box sx={{display:'flex',flexDirection:'row',justifyContent:'center'}}>
                     <Box sx={{width: 10,height: 10,borderRadius: 1,bgcolor: "#FF0000",margin:'4px'}}/>
@@ -1494,15 +1264,26 @@ export default function DrawerMapShow({ activeBar }) {
                     <Typography sx={{ fontSize: 10, margin:'2px' }} color="text.secondary" gutterBottom> 
                     Low
                     </Typography>
-          </Box> */}
-                      <Paper elevation={1}>
-                        <Map_Risk
-                          activeCrop={crop2}
-                          focus={focus2}
-                          activeRegion={activeRegion2}
-                          CurrRisk={CurrRisk2}
-                        ></Map_Risk>
+                    </Box> */}
+                      <Paper elevation={1} ref={impactBox}>
+                        <Map_Risk activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} CurrRisk={CurrRisk2}></Map_Risk>
                       </Paper>
+                      <Popper
+                        open={true} // Always open
+                        anchorEl={impactBox.current} // Anchor to the Grid container
+                        placement="bottom" // Position it at the bottom
+                        disablePortal={true} // Stay within the DOM hierarchy
+                        modifiers={[
+                          {
+                            name: "offset",
+                            options: {
+                              offset: [-(paperWidth2 / 2 - 45), -85], // Adjust distance from the container
+                            },
+                          },
+                        ]}
+                      >
+                        <LegendComp legendData={fetchthedataHzd("Pixel Level", "", "Value of Production", "Absolute", activeRegion2, NameScenario, crop2, area_data4)} />
+                      </Popper>
                     </Box>
                   </Box>
                 </Box>
@@ -1536,11 +1317,7 @@ export default function DrawerMapShow({ activeBar }) {
                       >
                         Adaptation:{" "}
                       </Typography>
-                      <Summ_Adapt
-                        activv={opt2}
-                        changeOption={handleChangeOptSumm}
-                        activeCrop={crop3}
-                      ></Summ_Adapt>
+                      <Summ_Adapt activv={opt2} changeOption={handleChangeOptSumm} activeCrop={crop3}></Summ_Adapt>
                     </Box>
                     {/* <Box sx={{display:'flex',flexDirection:'row', width:'100%',justifyContent:'center', gap:'4px'}}>
                     <Box sx={{display:'flex',flexDirection:'row'}}>
@@ -1561,16 +1338,9 @@ export default function DrawerMapShow({ activeBar }) {
                     Adaptation benefits
                     </Typography>
                     </Box>
-         </Box> */}
+                    </Box> */}
                     <Paper elevation={1} sx={{ width: "21vw" }} ref={box1}>
-                      <Map_Option
-                        activeCrop={crop2}
-                        focus={focus2}
-                        activeRegion={activeRegion2}
-                        activeOpt={opt2}
-                        area_dict={area_dict}
-                        activeScenario={NameScenario}
-                      ></Map_Option>
+                      <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt2} area_dict={area_dict} activeScenario={NameScenario}></Map_Option>
                     </Paper>
                     <Popper
                       open={true} // Always open
@@ -1581,12 +1351,12 @@ export default function DrawerMapShow({ activeBar }) {
                         {
                           name: "offset",
                           options: {
-                            offset: [90, -85], // Adjust distance from the container
+                            offset: [+(paperWidth / 2 - 55), -85], // Adjust distance from the container
                           },
                         },
                       ]}
                     >
-                      {legendComp}
+                      <LegendComp legendData={fetchDataAdap(opt2, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />
                     </Popper>
                   </div>
                   <div>
@@ -1610,11 +1380,7 @@ export default function DrawerMapShow({ activeBar }) {
                       >
                         Adaptation:{" "}
                       </Typography>
-                      <Summ_Adapt2
-                        activv={opt3}
-                        changeOption={handleChangeOptSumm2}
-                        activeCrop={crop3}
-                      ></Summ_Adapt2>
+                      <Summ_Adapt2 activv={opt3} changeOption={handleChangeOptSumm2} activeCrop={crop3}></Summ_Adapt2>
                     </Box>
                     {/* <Box sx={{display:'flex',flexDirection:'row', width:'100%',justifyContent:'center', gap:'4px'}}>
                     <Box sx={{display:'flex',flexDirection:'row'}}>
@@ -1635,16 +1401,9 @@ export default function DrawerMapShow({ activeBar }) {
                     Adaptation benefits
                     </Typography>
                     </Box>
-         </Box> */}
+                    </Box> */}
                     <Paper elevation={1} sx={{ width: "21vw" }} ref={box2}>
-                      <Map_Option
-                        activeCrop={crop2}
-                        focus={focus2}
-                        activeRegion={activeRegion2}
-                        activeOpt={opt3}
-                        area_dict={area_dict}
-                        activeScenario={NameScenario}
-                      ></Map_Option>
+                      <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt3} area_dict={area_dict} activeScenario={NameScenario}></Map_Option>
                     </Paper>
                     <Popper
                       open={true} // Always open
@@ -1655,12 +1414,12 @@ export default function DrawerMapShow({ activeBar }) {
                         {
                           name: "offset",
                           options: {
-                            offset: [90, -85], // Adjust distance from the container
+                            offset: [+(paperWidth / 2 - 55), -85], // Adjust distance from the container
                           },
                         },
                       ]}
                     >
-                      {legendComp}
+                      <LegendComp legendData={fetchDataAdap(opt3, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />
                     </Popper>
                   </div>
                 </Box>
@@ -1693,11 +1452,7 @@ export default function DrawerMapShow({ activeBar }) {
                       >
                         Adaptation:{" "}
                       </Typography>
-                      <Summ_Adapt3
-                        activv={opt4}
-                        changeOption={handleChangeOptSumm3}
-                        activeCrop={crop3}
-                      ></Summ_Adapt3>
+                      <Summ_Adapt3 activv={opt4} changeOption={handleChangeOptSumm3} activeCrop={crop3}></Summ_Adapt3>
                     </Box>
                     {/* <Box sx={{display:'flex',flexDirection:'row', width:'100%',justifyContent:'center', gap:'4px'}}>
                     <Box sx={{display:'flex',flexDirection:'row'}}>
@@ -1718,16 +1473,9 @@ export default function DrawerMapShow({ activeBar }) {
                     Adaptation benefits
                     </Typography>
                     </Box>
-         </Box> */}
+                    </Box> */}
                     <Paper elevation={1} sx={{ width: "21vw" }} ref={box3}>
-                      <Map_Option
-                        activeCrop={crop2}
-                        focus={focus2}
-                        activeRegion={activeRegion2}
-                        activeOpt={opt4}
-                        area_dict={area_dict}
-                        activeScenario={NameScenario}
-                      ></Map_Option>
+                      <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt4} area_dict={area_dict} activeScenario={NameScenario}></Map_Option>
                     </Paper>
                     <Popper
                       open={true} // Always open
@@ -1738,12 +1486,12 @@ export default function DrawerMapShow({ activeBar }) {
                         {
                           name: "offset",
                           options: {
-                            offset: [90, -85], // Adjust distance from the container
+                            offset: [+(paperWidth / 2 - 55), -85], // Adjust distance from the container
                           },
                         },
                       ]}
                     >
-                      {legendComp}
+                      <LegendComp legendData={fetchDataAdap(opt4, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />
                     </Popper>
                   </div>
                   <div>
@@ -1767,11 +1515,7 @@ export default function DrawerMapShow({ activeBar }) {
                       >
                         Adaptation:{" "}
                       </Typography>
-                      <Summ_Adapt4
-                        activv={opt5}
-                        changeOption={handleChangeOptSumm4}
-                        activeCrop={crop3}
-                      ></Summ_Adapt4>
+                      <Summ_Adapt4 activv={opt5} changeOption={handleChangeOptSumm4} activeCrop={crop3}></Summ_Adapt4>
                     </Box>
                     {/* <Box sx={{display:'flex',flexDirection:'row', width:'100%',justifyContent:'center', gap:'4px'}}>
                     <Box sx={{display:'flex',flexDirection:'row'}}>
@@ -1792,16 +1536,9 @@ export default function DrawerMapShow({ activeBar }) {
                     Adaptation benefits
                     </Typography>
                     </Box>
-         </Box> */}
+                    </Box> */}
                     <Paper elevation={1} sx={{ width: "21vw" }} ref={box4}>
-                      <Map_Option
-                        activeCrop={crop2}
-                        focus={focus2}
-                        activeRegion={activeRegion2}
-                        activeOpt={opt5}
-                        area_dict={area_dict}
-                        activeScenario={NameScenario}
-                      ></Map_Option>
+                      <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt5} area_dict={area_dict} activeScenario={NameScenario}></Map_Option>
                     </Paper>
                     <Popper
                       open={true} // Always open
@@ -1812,12 +1549,12 @@ export default function DrawerMapShow({ activeBar }) {
                         {
                           name: "offset",
                           options: {
-                            offset: [90, -85], // Adjust distance from the container
+                            offset: [+(paperWidth / 2 - 55), -85], // Adjust distance from the container
                           },
                         },
                       ]}
                     >
-                      {legendComp}
+                      <LegendComp legendData={fetchDataAdap(opt5, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />
                     </Popper>
                   </div>
                 </Box>
@@ -1850,11 +1587,7 @@ export default function DrawerMapShow({ activeBar }) {
                       >
                         Adaptation:{" "}
                       </Typography>
-                      <Summ_Adapt5
-                        activv={opt6}
-                        changeOption={handleChangeOptSumm5}
-                        activeCrop={crop3}
-                      ></Summ_Adapt5>
+                      <Summ_Adapt5 activv={opt6} changeOption={handleChangeOptSumm5} activeCrop={crop3}></Summ_Adapt5>
                     </Box>
                     {/* <Box sx={{display:'flex',flexDirection:'row', width:'100%',justifyContent:'center', gap:'4px'}}>
                     <Box sx={{display:'flex',flexDirection:'row'}}>
@@ -1875,16 +1608,9 @@ export default function DrawerMapShow({ activeBar }) {
                     Adaptation benefits
                     </Typography>
                     </Box>
-         </Box> */}
+                    </Box> */}
                     <Paper elevation={1} sx={{ width: "21vw" }} ref={box5}>
-                      <Map_Option
-                        activeCrop={crop2}
-                        focus={focus2}
-                        activeRegion={activeRegion2}
-                        activeOpt={opt6}
-                        area_dict={area_dict}
-                        activeScenario={NameScenario}
-                      ></Map_Option>
+                      <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt6} area_dict={area_dict} activeScenario={NameScenario}></Map_Option>
                     </Paper>
                     <Popper
                       open={true} // Always open
@@ -1895,12 +1621,12 @@ export default function DrawerMapShow({ activeBar }) {
                         {
                           name: "offset",
                           options: {
-                            offset: [90, -85], // Adjust distance from the container
+                            offset: [+(paperWidth / 2 - 55), -85], // Adjust distance from the container
                           },
                         },
                       ]}
                     >
-                      {legendComp}
+                      <LegendComp legendData={fetchDataAdap(opt6, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />
                     </Popper>
                   </div>
                   <div>
@@ -1924,11 +1650,7 @@ export default function DrawerMapShow({ activeBar }) {
                       >
                         Adaptation:{" "}
                       </Typography>
-                      <Summ_Adapt6
-                        activv={opt7}
-                        changeOption={handleChangeOptSumm6}
-                        activeCrop={crop3}
-                      ></Summ_Adapt6>
+                      <Summ_Adapt6 activv={opt7} changeOption={handleChangeOptSumm6} activeCrop={crop3}></Summ_Adapt6>
                     </Box>
                     {/* <Box sx={{display:'flex',flexDirection:'row', width:'100%',justifyContent:'center', gap:'4px'}}>
                     <Box sx={{display:'flex',flexDirection:'row'}}>
@@ -1949,16 +1671,9 @@ export default function DrawerMapShow({ activeBar }) {
                     Adaptation benefits
                     </Typography>
                     </Box>
-         </Box> */}
+                    </Box> */}
                     <Paper elevation={1} sx={{ width: "21vw" }} ref={box6}>
-                      <Map_Option
-                        activeCrop={crop2}
-                        focus={focus2}
-                        activeRegion={activeRegion2}
-                        activeOpt={opt7}
-                        area_dict={area_dict}
-                        activeScenario={NameScenario}
-                      ></Map_Option>
+                      <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt7} area_dict={area_dict} activeScenario={NameScenario}></Map_Option>
                     </Paper>
                     <Popper
                       open={true} // Always open
@@ -1969,12 +1684,12 @@ export default function DrawerMapShow({ activeBar }) {
                         {
                           name: "offset",
                           options: {
-                            offset: [90, -85], // Adjust distance from the container
+                            offset: [+(paperWidth / 2 - 55), -85], // Adjust distance from the container
                           },
                         },
                       ]}
                     >
-                      {legendComp}
+                      <LegendComp legendData={fetchDataAdap(opt7, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />
                     </Popper>
                   </div>
                 </Box>
@@ -1993,10 +1708,7 @@ export default function DrawerMapShow({ activeBar }) {
           display: { xs: "flex", md: "none" },
         }}
       >
-        <Typography>
-          This website is designed for desktop/laptop. Please view in a bigger
-          screen.
-        </Typography>
+        <Typography>This website is designed for desktop/laptop. Please view in a bigger screen.</Typography>
       </Box>
     </div>
   );
