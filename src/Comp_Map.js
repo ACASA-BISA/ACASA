@@ -576,7 +576,7 @@ export default function MApp({
     }
   }
 
-  const [popperControl, setPopperControl] = useState(null);
+  const popperControlRef = useRef(null);
 
   class PopperControl extends Control {
     constructor(options = {}) {
@@ -752,15 +752,24 @@ export default function MApp({
     const downloadControl = new DownloadControl({ className: "download-button" });
     mapRef.current.addControl(downloadControl);
 
-    const popperControl = new PopperControl();
-    mapRef.current.addControl(popperControl);
-
-    setPopperControl(popperControl);
-  }, [mapRef, filename]);
+    if (CurrRisk !== "") {
+      if (!popperControlRef.current) {
+        // Prevent duplicate addition
+        const popperControl = new PopperControl();
+        mapRef.current.addControl(popperControl);
+        popperControlRef.current = popperControl;
+      }
+    } else {
+      if (popperControlRef.current) {
+        mapRef.current.removeControl(popperControlRef.current);
+        popperControlRef.current = null;
+      }
+    }
+  }, [filename, CurrRisk]);
 
   useEffect(() => {
-    if (popperControl) {
-      popperControl.setReactComponent(
+    if (popperControlRef.current) {
+      popperControlRef.current.setReactComponent(
         <PopperGif
           activeCrop={activeCrop}
           activeScenario={activeScenario}
@@ -777,7 +786,7 @@ export default function MApp({
         />
       );
     }
-  }, [popperControl, activeCrop, activeScenario, activeRegion, focus, activeOpt, CurrRisk, activeImpact, activeOptLayer, displayLayer, activeScale, exploreType]);
+  }, [activeCrop, activeScenario, activeRegion, focus, activeOpt, CurrRisk, activeImpact, activeOptLayer, displayLayer, activeScale, exploreType]);
 
   useEffect(() => {
     let sourcet;
