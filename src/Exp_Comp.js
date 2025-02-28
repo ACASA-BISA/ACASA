@@ -10,6 +10,7 @@ import { styled } from "@mui/material/styles";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Legend_Small from "./Legend_Small";
+import PopperGif from "./PopperGif";
 
 // Array of image URLs, one for each year
 const images = [
@@ -209,7 +210,6 @@ export default function CompV({
   const [currentYearIndex, setCurrentYearIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  // Auto-play interval, changes image every 1 second (1000ms)
   useInterval(
     () => {
       setCurrentYearIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
@@ -638,56 +638,38 @@ export default function CompV({
                             </Paper>
                           </Popper>
                         )}
-                        {/* {CurrRisk !== "" && (
+                        {/*CurrRisk !== "" && (
                           <Popper
-                            open={true} // Always open
-                            anchorEl={gridRefs[index].current} // Anchor to the Grid container
-                            placement="bottom" // Position it at the bottom
-                            disablePortal={true} // Stay within the DOM hierarchy
+                            open={true}
+                            anchorEl={gridRefs[index].current}
+                            placement="bottom"
+                            disablePortal={true}
                             modifiers={[
                               {
                                 name: "offset",
                                 options: {
-                                  offset: [gridRefs[index].current.offsetWidth / 3 / 2 + 15 - gridRefs[index].current.offsetWidth / 2, -(gridRefs[index].current.offsetWidth / 3 + 130 + 50)], // Adjust distance from the container
+                                  offset: [boxWidth / 3 / 2 + 15 - boxWidth / 2, -(boxWidth / 3 + 180)],
                                 },
                               },
                             ]}
+                            sx={{ maxWidth: boxWidth / 3 }}
                           >
-                            <Box display="flex" flexDirection="column" alignItems="center" sx={{ border: "1px solid #eee" }}>
-                              <Box sx={{ width: "90%", bgcolor: "#E4E0E1", height: "18px", marginTop: "1px" }}>
-                                <Typography align="center" sx={{ fontSize: "12px", fontWeight: "bold" }}>
-                                  Year: {currentImage.year}
-                                </Typography>
-                              </Box>
-                              <Box display="flex" flexDirection="row" sx={{ width: "100%" }} alignItems="center" justifyContent="center" gap="8px">
-                                <IconButton onClick={handlePlayPause} sx={{ color: color_for_button, border: "1px solid #eee", borderRadius: "8px", padding: "2px" }}>
-                                  {isPlaying ? <PauseIcon sx={{ fontSize: "15px" }} /> : <PlayArrowIcon sx={{ fontSize: "15px" }} />}
-                                </IconButton>
-                                <Box sx={{ width: "60%", mt: 0, mb: 0 }}>
-                                  <PrettoSlider
-                                    value={currentYearIndex}
-                                    min={0}
-                                    max={images.length - 1}
-                                    step={1}
-                                    marks={images.map((img, idx) => ({
-                                      value: idx,
-                                      //label: img.year.toString(),
-                                    }))}
-                                    onChange={handleSliderChange}
-                                    aria-labelledby="timeline-slider"
-                                    valueLabelDisplay="auto"
-                                  />
-                                </Box>
-                              </Box>
-                              <Box
-                                component="img"
-                                src={currentImage.url}
-                                alt={`Year ${currentImage.year}`}
-                                sx={{ width: "100%", maxWidth: gridRefs[index].current.offsetWidth / 3, height: "auto", mb: 0 }}
-                              />
-                            </Box>
+                            <PopperGif
+                              activeCrop={activeCrop}
+                              activeScenario={activeScenario}
+                              activeRegion={activeRegion}
+                              focus={focus}
+                              activeOpt={activeOpt}
+                              CurrRisk={CurrRisk}
+                              activeImpact={activeImpact}
+                              activeOptLayer={activeOptLayer}
+                              modelName={modelName}
+                              displayLayer={displayLayer}
+                              activeScale={activeScale}
+                              exploreType={exploreType}
+                            ></PopperGif>
                           </Popper>
-                        )} */}
+                        )*/}
                       </div>
                     )}
                     {label === "2050s" && (
@@ -786,56 +768,38 @@ export default function CompV({
                             </Box>
                           </Popper>
                         )}
-                        {/* {CurrRisk !== "" && (
+                        {/* CurrRisk !== "" && (
                           <Popper
-                            open={true} // Always open
-                            anchorEl={gridRefs[index].current} // Anchor to the Grid container
-                            placement="bottom" // Position it at the bottom
-                            disablePortal={true} // Stay within the DOM hierarchy
+                            open={true}
+                            anchorEl={gridRefs[index].current}
+                            placement="bottom"
+                            disablePortal={true}
                             modifiers={[
                               {
                                 name: "offset",
                                 options: {
-                                  offset: [gridRefs[index].current.offsetWidth / 3 / 2 + 15 - gridRefs[index].current.offsetWidth / 2, -(gridRefs[index].current.offsetWidth / 3 + 130 + 50)], // Adjust distance from the container
+                                  offset: [boxWidth / 3 / 2 + 15 - boxWidth / 2, -(boxWidth / 3 + 180)],
                                 },
                               },
                             ]}
+                            sx={{ maxWidth: boxWidth / 3 }}
                           >
-                            <Box display="flex" flexDirection="column" alignItems="center" sx={{ border: "1px solid #eee" }}>
-                              <Box sx={{ width: "90%", bgcolor: "#E4E0E1", height: "18px", marginTop: "1px" }}>
-                                <Typography align="center" sx={{ fontSize: "12px", fontWeight: "bold" }}>
-                                  Year: {currentImage.year}
-                                </Typography>
-                              </Box>
-                              <Box display="flex" flexDirection="row" sx={{ width: "100%" }} alignItems="center" justifyContent="center" gap="8px">
-                                <IconButton onClick={handlePlayPause} sx={{ color: color_for_button, border: "1px solid #eee", borderRadius: "8px", padding: "2px" }}>
-                                  {isPlaying ? <PauseIcon sx={{ fontSize: "15px" }} /> : <PlayArrowIcon sx={{ fontSize: "15px" }} />}
-                                </IconButton>
-                                <Box sx={{ width: "60%", mt: 0, mb: 0 }}>
-                                  <PrettoSlider
-                                    value={currentYearIndex}
-                                    min={0}
-                                    max={images.length - 1}
-                                    step={1}
-                                    marks={images.map((img, idx) => ({
-                                      value: idx,
-                                      //label: img.year.toString(),
-                                    }))}
-                                    onChange={handleSliderChange}
-                                    aria-labelledby="timeline-slider"
-                                    valueLabelDisplay="auto"
-                                  />
-                                </Box>
-                              </Box>
-                              <Box
-                                component="img"
-                                src={currentImage.url}
-                                alt={`Year ${currentImage.year}`}
-                                sx={{ width: "100%", maxWidth: gridRefs[index].current.offsetWidth / 3, height: "auto", mb: 0 }}
-                              />
-                            </Box>
+                            <PopperGif
+                              activeCrop={activeCrop}
+                              activeScenario={activeScenario}
+                              activeRegion={activeRegion}
+                              focus={focus}
+                              activeOpt={activeOpt}
+                              CurrRisk={CurrRisk}
+                              activeImpact={activeImpact}
+                              activeOptLayer={activeOptLayer}
+                              modelName={modelName}
+                              displayLayer={displayLayer}
+                              activeScale={activeScale}
+                              exploreType={exploreType}
+                            ></PopperGif>
                           </Popper>
-                        )} */}
+                        )*/}
                       </div>
                     )}
                   </Paper>
@@ -951,6 +915,38 @@ export default function CompV({
                             </Paper>
                           </Popper>
                         )}
+                        {CurrRisk !== "" && (
+                          <Popper
+                            open={true}
+                            anchorEl={gridRefs[index].current}
+                            placement="bottom"
+                            disablePortal={true}
+                            modifiers={[
+                              {
+                                name: "offset",
+                                options: {
+                                  offset: [boxWidth / 3 / 2 + 15 - boxWidth / 2, -(boxWidth / 3 + 180)],
+                                },
+                              },
+                            ]}
+                            sx={{ maxWidth: boxWidth / 3 }}
+                          >
+                            <PopperGif
+                              activeCrop={activeCrop}
+                              activeScenario={activeScenario}
+                              activeRegion={activeRegion}
+                              focus={focus}
+                              activeOpt={activeOpt}
+                              CurrRisk={CurrRisk}
+                              activeImpact={activeImpact}
+                              activeOptLayer={activeOptLayer}
+                              modelName={modelName}
+                              displayLayer={displayLayer}
+                              activeScale={activeScale}
+                              exploreType={exploreType}
+                            ></PopperGif>
+                          </Popper>
+                        )}
                       </div>
                     )}
                     {label === "2050s" && (
@@ -1012,56 +1008,38 @@ export default function CompV({
                             </Paper>
                           </Popper>
                         )}
-                        {/* {CurrRisk !== "" && (
+                        {CurrRisk !== "" && (
                           <Popper
-                            open={true} // Always open
-                            anchorEl={gridRefs[index].current} // Anchor to the Grid container
-                            placement="bottom" // Position it at the bottom
-                            disablePortal={true} // Stay within the DOM hierarchy
+                            open={true}
+                            anchorEl={gridRefs[index].current}
+                            placement="bottom"
+                            disablePortal={true}
                             modifiers={[
                               {
                                 name: "offset",
                                 options: {
-                                  offset: [gridRefs[index].current.offsetWidth / 3 / 2 + 15 - gridRefs[index].current.offsetWidth / 2, -(gridRefs[index].current.offsetWidth / 3 + 130 + 50)], // Adjust distance from the container
+                                  offset: [boxWidth / 3 / 2 + 15 - boxWidth / 2, -(boxWidth / 3 + 180)],
                                 },
                               },
                             ]}
+                            sx={{ maxWidth: boxWidth / 3 }}
                           >
-                            <Box display="flex" flexDirection="column" alignItems="center" sx={{ border: "1px solid #eee" }}>
-                              <Box sx={{ width: "90%", bgcolor: "#E4E0E1", height: "18px", marginTop: "1px" }}>
-                                <Typography align="center" sx={{ fontSize: "12px", fontWeight: "bold" }}>
-                                  Year: {currentImage.year}
-                                </Typography>
-                              </Box>
-                              <Box display="flex" flexDirection="row" sx={{ width: "100%" }} alignItems="center" justifyContent="center" gap="8px">
-                                <IconButton onClick={handlePlayPause} sx={{ color: color_for_button, border: "1px solid #eee", borderRadius: "8px", padding: "2px" }}>
-                                  {isPlaying ? <PauseIcon sx={{ fontSize: "15px" }} /> : <PlayArrowIcon sx={{ fontSize: "15px" }} />}
-                                </IconButton>
-                                <Box sx={{ width: "60%", mt: 0, mb: 0 }}>
-                                  <PrettoSlider
-                                    value={currentYearIndex}
-                                    min={0}
-                                    max={images.length - 1}
-                                    step={1}
-                                    marks={images.map((img, idx) => ({
-                                      value: idx,
-                                      //label: img.year.toString(),
-                                    }))}
-                                    onChange={handleSliderChange}
-                                    aria-labelledby="timeline-slider"
-                                    valueLabelDisplay="auto"
-                                  />
-                                </Box>
-                              </Box>
-                              <Box
-                                component="img"
-                                src={currentImage.url}
-                                alt={`Year ${currentImage.year}`}
-                                sx={{ width: "100%", maxWidth: gridRefs[index].current.offsetWidth / 3, height: "auto", mb: 0 }}
-                              />
-                            </Box>
+                            <PopperGif
+                              activeCrop={activeCrop}
+                              activeScenario={activeScenario}
+                              activeRegion={activeRegion}
+                              focus={focus}
+                              activeOpt={activeOpt}
+                              CurrRisk={CurrRisk}
+                              activeImpact={activeImpact}
+                              activeOptLayer={activeOptLayer}
+                              modelName={modelName}
+                              displayLayer={displayLayer}
+                              activeScale={activeScale}
+                              exploreType={exploreType}
+                            ></PopperGif>
                           </Popper>
-                        )} */}
+                        )}
                       </div>
                     )}
                     {label === "2080s" && (
@@ -1123,56 +1101,38 @@ export default function CompV({
                             </Paper>
                           </Popper>
                         )}
-                        {/* {CurrRisk !== "" && (
+                        {CurrRisk !== "" && (
                           <Popper
-                            open={true} // Always open
-                            anchorEl={gridRefs[index].current} // Anchor to the Grid container
-                            placement="bottom" // Position it at the bottom
-                            disablePortal={true} // Stay within the DOM hierarchy
+                            open={true}
+                            anchorEl={gridRefs[index].current}
+                            placement="bottom"
+                            disablePortal={true}
                             modifiers={[
                               {
                                 name: "offset",
                                 options: {
-                                  offset: [gridRefs[index].current.offsetWidth / 3 / 2 + 15 - gridRefs[index].current.offsetWidth / 2, -(gridRefs[index].current.offsetWidth / 3 + 130 + 50)], // Adjust distance from the container
+                                  offset: [boxWidth / 3 / 2 + 15 - boxWidth / 2, -(boxWidth / 3 + 180)],
                                 },
                               },
                             ]}
+                            sx={{ maxWidth: boxWidth / 3 }}
                           >
-                            <Box display="flex" flexDirection="column" alignItems="center" sx={{ border: "1px solid #eee" }}>
-                              <Box sx={{ width: "90%", bgcolor: "#E4E0E1", height: "18px", marginTop: "1px" }}>
-                                <Typography align="center" sx={{ fontSize: "12px", fontWeight: "bold" }}>
-                                  Year: {currentImage.year}
-                                </Typography>
-                              </Box>
-                              <Box display="flex" flexDirection="row" sx={{ width: "100%" }} alignItems="center" justifyContent="center" gap="8px">
-                                <IconButton onClick={handlePlayPause} sx={{ color: color_for_button, border: "1px solid #eee", borderRadius: "8px", padding: "2px" }}>
-                                  {isPlaying ? <PauseIcon sx={{ fontSize: "15px" }} /> : <PlayArrowIcon sx={{ fontSize: "15px" }} />}
-                                </IconButton>
-                                <Box sx={{ width: "60%", mt: 0, mb: 0 }}>
-                                  <PrettoSlider
-                                    value={currentYearIndex}
-                                    min={0}
-                                    max={images.length - 1}
-                                    step={1}
-                                    marks={images.map((img, idx) => ({
-                                      value: idx,
-                                      //label: img.year.toString(),
-                                    }))}
-                                    onChange={handleSliderChange}
-                                    aria-labelledby="timeline-slider"
-                                    valueLabelDisplay="auto"
-                                  />
-                                </Box>
-                              </Box>
-                              <Box
-                                component="img"
-                                src={currentImage.url}
-                                alt={`Year ${currentImage.year}`}
-                                sx={{ width: "100%", maxWidth: gridRefs[index].current.offsetWidth / 3, height: "auto", mb: 0 }}
-                              />
-                            </Box>
+                            <PopperGif
+                              activeCrop={activeCrop}
+                              activeScenario={activeScenario}
+                              activeRegion={activeRegion}
+                              focus={focus}
+                              activeOpt={activeOpt}
+                              CurrRisk={CurrRisk}
+                              activeImpact={activeImpact}
+                              activeOptLayer={activeOptLayer}
+                              modelName={modelName}
+                              displayLayer={displayLayer}
+                              activeScale={activeScale}
+                              exploreType={exploreType}
+                            ></PopperGif>
                           </Popper>
-                        )} */}
+                        )}
                       </div>
                     )}
                   </Paper>
