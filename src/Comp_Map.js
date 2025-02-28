@@ -24,8 +24,11 @@ import { Popper } from "@mui/material";
 import Slide from "@mui/material/Slide";
 import ReactDOMServer from "react-dom/server";
 import DownloadIcon from "@mui/icons-material/Download";
+import GifBoxIcon from "@mui/icons-material/GifBox";
 import { fetchLocationData } from "./fetchLocationData";
 import { fetchLocationDataAdap } from "./fetchLocationDataAdap";
+import ReactDOM from "react-dom";
+import PopperGif from "./PopperGif";
 
 export default function MApp({
   activeCrop,
@@ -365,17 +368,6 @@ export default function MApp({
       button.innerText = "L"; // The button label
       button.title = "Display Legend";
 
-      // Style the button
-      /* button.style.cssText = `
-      width: 20px;
-      height: 20px;
-      font-size: 12px;
-      border: 1px solid black;
-      background-color: white;
-      cursor: pointer;
-      border-radius: 5px;
-    `; */
-
       // Create a container for the control
       const element = document.createElement("div");
       element.className = "ol-control ol-unselectable box-legend";
@@ -390,7 +382,7 @@ export default function MApp({
       // Legend container
       const legend = document.createElement("div");
       legend.style.cssText = `
-      display: none; /* Initially hidden */
+      display: none;
       position: relative;
       top: 0px;
       left: 00px;
@@ -463,7 +455,15 @@ export default function MApp({
     />
   );
 
-  // Define the download control
+  const iconPlayGif = (
+    <GifBoxIcon
+      style={{
+        fontSize: "22px",
+        verticalAlign: "middle",
+      }}
+    />
+  );
+
   class DownloadControl extends Control {
     constructor(options = {}) {
       const button = document.createElement("button");
@@ -573,6 +573,51 @@ export default function MApp({
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
+    }
+  }
+
+  const [popperControl, setPopperControl] = useState(null);
+
+  class PopperControl extends Control {
+    constructor(options = {}) {
+      const button = document.createElement("button");
+      button.innerHTML = ReactDOMServer.renderToString(iconPlayGif);
+      button.title = "Display Gif";
+      button.classList.add("popper-button");
+
+      const element = document.createElement("div");
+      element.className = "ol-control ol-unselectable popper-gif-container";
+      const popperContainer = document.createElement("div");
+      popperContainer.style.cssText = `
+      display: none;
+      position: relative;
+      top: 0px;
+      right: 30px;
+      background-color: ${mode === "dark" ? "#25292e" : "white"};
+      border: 1px solid ${mode === "dark" ? "#e0e0e0" : "black"};
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.2);
+      z-index:1000;
+    `;
+
+      element.appendChild(button);
+      element.appendChild(popperContainer);
+
+      super({ element });
+
+      let isOpen = false;
+
+      button.addEventListener("click", () => {
+        isOpen = !isOpen;
+        popperContainer.style.display = isOpen ? "block" : "none";
+      });
+
+      this.popperContainer = popperContainer;
+    }
+
+    setReactComponent(reactComponent) {
+      ReactDOM.render(reactComponent, this.popperContainer);
     }
   }
 
@@ -706,11 +751,35 @@ export default function MApp({
   useEffect(() => {
     const downloadControl = new DownloadControl({ className: "download-button" });
     mapRef.current.addControl(downloadControl);
+
+    const popperControl = new PopperControl();
+    mapRef.current.addControl(popperControl);
+
+    setPopperControl(popperControl);
   }, [mapRef, filename]);
 
   useEffect(() => {
-    //console.log("Theme: ", mode); // Debugging
+    if (popperControl) {
+      popperControl.setReactComponent(
+        <PopperGif
+          activeCrop={activeCrop}
+          activeScenario={activeScenario}
+          activeRegion={activeRegion}
+          focus={focus}
+          activeOpt={activeOpt}
+          CurrRisk={CurrRisk}
+          activeImpact={activeImpact}
+          activeOptLayer={activeOptLayer}
+          modelName="CHC"
+          displayLayer={displayLayer}
+          activeScale={activeScale}
+          exploreType={exploreType}
+        />
+      );
+    }
+  }, [popperControl, activeCrop, activeScenario, activeRegion, focus, activeOpt, CurrRisk, activeImpact, activeOptLayer, displayLayer, activeScale, exploreType]);
 
+  useEffect(() => {
     let sourcet;
     let countryboundary;
     if (focus === "Region") {

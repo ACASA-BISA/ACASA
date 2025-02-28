@@ -1,84 +1,104 @@
 .ol-zoomtoextentx {
-    top: 105px;
-    right: 300px;
-    left: auto;
-  }
+  top: 105px;
+  right: 300px;
+  left: auto;
+}
 
-  .ol-zoomtoextentx button {
-    background: url("../public/locate.png") no-repeat center center; /* Use your custom icon */
-    background-size: 70%; /* Scale the background image */
-    background-position: center;
-    border-width: 1px; /* Remove the border */
-    border-color: #333;
-    width: 22px; /* Set the width */
-    height: 22px; /* Set the height */
-    color: transparent; /* Hide the default text */
-    font-size: 0; /* Hide the default text */
-    background-color: rgba(255, 255, 255, 1);
-    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
-  }
-  
-  .ol-zoomtoextentx button:hover {
-    background-color: rgba(255, 255, 255, 0.3); /* Add a hover effect if needed */
-  }
-  
-  .ol-fullscreeny {
-    top: 31px;
-    right: 8px;
-  }
+.ol-zoomtoextentx button {
+  background: url("../public/locate.png") no-repeat center center; /* Use your custom icon */
+  background-size: 70%; /* Scale the background image */
+  background-position: center;
+  border-width: 1px; /* Remove the border */
+  border-color: #333;
+  width: 22px; /* Set the width */
+  height: 22px; /* Set the height */
+  color: transparent; /* Hide the default text */
+  font-size: 0; /* Hide the default text */
+  background-color: rgba(255, 255, 255, 1);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
 
-  .ol-zoomtoextenty {
-    top: 8px;
-    right: 8px;
-  }
+.ol-zoomtoextentx button:hover {
+  background-color: rgba(255, 255, 255, 0.3); /* Add a hover effect if needed */
+}
 
-  .ol-zoomtoextent-comp {
-    top: 31px;
-    right: 8px;
-  }
-  .box-legend {
-    top: 54px;
-    position: absolute;
-    right: 8px;
-  }
+.ol-fullscreeny {
+  top: 31px;
+  right: 8px;
+}
 
-  .download-button {
-    position: absolute;
-    top: 54px;
-    left: 8px;
-    font-size: 16px;
-    border-width: 1px;
-    border-color: #333;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-  }
+.ol-zoomtoextenty {
+  top: 8px;
+  right: 8px;
+}
 
-  .download-dropdown{
-    top: 54px;
-    position: absolute;
-    width: 150px;
-    font-size: 13px;
-    left: 32px;
-  }
-  
-  .legend-box {
-    top:10px;
-    left:50px;
-  }
+.ol-zoomtoextent-comp {
+  top: 31px;
+  right: 8px;
+}
+.box-legend {
+  top: 54px;
+  position: absolute;
+  right: 8px;
+}
 
-  .ol-zoomtoextenty button {
-    background: url("../public/locate.png") no-repeat center center; /* Use your custom icon */
-    background-size: 70%; /* Scale the background image */
-    background-position: center;
-    border-width: 1px; /* Remove the border */
-    border-color: #333;
-    width: 22px; /* Set the width */
-    height: 22px; /* Set the height */
-    color: transparent; /* Hide the default text */
-    font-size: 0; /* Hide the default text */
-    background-color: var(--zoom-extenty-background);
-    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
-  }
-  
-  .ol-zoomtoextenty button:hover {
-    background-color: rgba(255, 255, 255, 0.3); /* Add a hover effect if needed */
-  }
+.download-button {
+  position: absolute;
+  top: 54px;
+  left: 8px;
+  font-size: 16px;
+  border-width: 1px;
+  border-color: #555;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.popper-button {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  font-size: 16px;
+  border-width: 1px;
+  border-color: #555;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.popper-gif-container {
+  position: absolute;
+  top: 54px;
+  right: 8px;
+  font-size: 16px;
+  border-width: 1px;
+  border-color: #555;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.download-dropdown {
+  top: 54px;
+  position: absolute;
+  width: 150px;
+  font-size: 13px;
+  left: 32px;
+}
+
+.legend-box {
+  top: 10px;
+  left: 50px;
+}
+
+.ol-zoomtoextenty button {
+  background: url("../public/locate.png") no-repeat center center; /* Use your custom icon */
+  background-size: 70%; /* Scale the background image */
+  background-position: center;
+  border-width: 1px; /* Remove the border */
+  border-color: #333;
+  width: 22px; /* Set the width */
+  height: 22px; /* Set the height */
+  color: transparent; /* Hide the default text */
+  font-size: 0; /* Hide the default text */
+  background-color: var(--zoom-extenty-background);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.ol-zoomtoextenty button:hover {
+  background-color: rgba(255, 255, 255, 0.3); /* Add a hover effect if needed */
+}
