@@ -113,7 +113,7 @@ export default function MApp({
   });
 
   function checkcrop() {
-    const diffcrop = ["Cattle", "Buffalo", "Goat", "Sheep", "Pig", "Poultry", "Rice", "Wheat", "Maize", "Mustard", "Cotton", "Soybean", "Chickpea", "Barley"];
+    const diffcrop = ["Cattle", "Buffalo", "Goat", "Sheep", "Pig", "Poultry", "Rice", "Wheat", "Maize", "Mustard", "Cotton", "Soybean", "Chickpea", "Barley", "Jute"];
     let ans = true;
     diffcrop.forEach((sname) => {
       if (activeCrop === sname) {
@@ -156,6 +156,7 @@ export default function MApp({
     Potato: "#ab6042",
     Onion: "#8e507f",
     Cotton: "#5102b0",
+    Jute: "#f7e465",
     Cattle: "#8B4513",
     Cow: "#ac8e59",
     Buffalo: "#5c2f08",
@@ -254,7 +255,7 @@ export default function MApp({
   const color_hazard_livestock = {
     color: [
       "palette",
-      ["interpolate", ["linear"], ["*", ["band", 2], 250], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7],
+      ["interpolate", ["linear"], ["*", ["band", 2], 500], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7],
       ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#059212", "#00FF00", "#FFDE4D", "#FFA500", "#FF0000"],
     ],
   };
@@ -748,9 +749,18 @@ export default function MApp({
     mapRef.current.updateSize();
   }, [mode, ref, mapRef]); // Re-run effect when `mode` changes
 
+  const downloadControlRef = useRef(null);
+
   useEffect(() => {
+    if (downloadControlRef.current) {
+      mapRef.current.removeControl(downloadControlRef.current);
+      downloadControlRef.current = null;
+    }
+
+    // Create and add new instance
     const downloadControl = new DownloadControl({ className: "download-button" });
     mapRef.current.addControl(downloadControl);
+    downloadControlRef.current = downloadControl;
 
     if (CurrRisk !== "") {
       if (!popperControlRef.current) {

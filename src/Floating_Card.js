@@ -340,6 +340,7 @@ export default function LocationCard({ location, commodity, adaption, setHeight1
         commodity === "Barley" ||
         commodity === "Soybean" ||
         commodity === "Cotton" ||
+        commodity === "Jute" ||
         commodity === "Chickpea" ||
         commodity === "Maize" ||
         commodity === "Mustard")) ||
@@ -718,6 +719,7 @@ export default function LocationCard({ location, commodity, adaption, setHeight1
                       commodity !== "Barley" &&
                       commodity !== "Soybean" &&
                       commodity !== "Cotton" &&
+                      commodity !== "Jute" &&
                       commodity !== "Chickpea" &&
                       commodity !== "Maize" &&
                       commodity !== "Mustard" && (
@@ -737,6 +739,7 @@ export default function LocationCard({ location, commodity, adaption, setHeight1
                       commodity !== "Barley" &&
                       commodity !== "Soybean" &&
                       commodity !== "Cotton" &&
+                      commodity !== "Jute" &&
                       commodity !== "Chickpea" &&
                       commodity !== "Maize" &&
                       commodity !== "Mustard" && (
@@ -750,6 +753,7 @@ export default function LocationCard({ location, commodity, adaption, setHeight1
                       commodity === "Barley" ||
                       commodity === "Soybean" ||
                       commodity === "Cotton" ||
+                      commodity === "Jute" ||
                       commodity === "Chickpea" ||
                       commodity === "Maize" ||
                       commodity === "Mustard") && (
@@ -771,6 +775,7 @@ export default function LocationCard({ location, commodity, adaption, setHeight1
                           commodity === "Barley" ||
                           commodity === "Soybean" ||
                           commodity === "Cotton" ||
+                          commodity === "Jute" ||
                           commodity === "Chickpea" ||
                           commodity === "Maize" ||
                           commodity === "Mustard") && (
@@ -1144,6 +1149,7 @@ export default function LocationCard({ location, commodity, adaption, setHeight1
                     commodity === "Barley" ||
                     commodity === "Soybean" ||
                     commodity === "Cotton" ||
+                    commodity === "Jute" ||
                     commodity === "Chickpea" ||
                     commodity === "Maize" ||
                     commodity === "Mustard")) ||
