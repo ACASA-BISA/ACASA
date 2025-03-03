@@ -47,6 +47,7 @@ export default function MApp({
   exploreType,
   area_dict3,
   area_dict4,
+  modelName,
 }) {
   const ref = useRef(null);
   const mapRef = useRef(null);
@@ -255,8 +256,8 @@ export default function MApp({
   const color_hazard_livestock = {
     color: [
       "palette",
-      ["interpolate", ["linear"], ["*", ["band", 2], 500], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7],
-      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#059212", "#00FF00", "#FFDE4D", "#FFA500", "#FF0000"],
+      ["interpolate", ["linear"], ["*", ["band", 2], 385], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 8],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#059212", "#00FF00", "#FFDE4D", "#FFDE4D", "#FFA500", "#FF0000"],
     ],
   };
 
@@ -1224,37 +1225,32 @@ export default function MApp({
         if (activeScale === "State Level") {
           district_n = "State/";
         }
-
         if (activeScenario === "baseline") {
           urlstr = "./Hazards/" + activeCrop + "/Baseline/" + district_n + "ZZ_" + hazardname[CurrRisk] + ".tif";
-        } else if (activeScenario === "ssp245") {
-          if (displayLayer === "Absolute Change") {
-            opt = 102;
-            urlstr = "./Hazards/" + activeCrop + "/SSP245/" + district_n + "Abs_ZZ_" + hazardname[CurrRisk] + ".tif";
-          } else if (displayLayer === "Percentage Change") {
-            opt = 102;
-            urlstr = "./Hazards/" + activeCrop + "/Percentage Change/SSP245/" + district_n + "Cat_ZZ_" + hazardname[CurrRisk] + ".tif";
-          } else {
-            urlstr = "./Hazards/" + activeCrop + "/SSP245/" + district_n + "ZZ_" + hazardname[CurrRisk] + ".tif";
+          if (checkcrop2() === false) {
+            urlstr = "./Hazards/" + activeCrop + "/" + modelName + "/" + district_n + "Baseline/" + "ZZ_" + hazardname[CurrRisk] + ".tif";
           }
         } else {
           if (displayLayer === "Absolute Change") {
             opt = 102;
-            urlstr = "./Hazards/" + activeCrop + "/SSP585/" + district_n + "Abs_ZZ_" + hazardname[CurrRisk] + ".tif";
+            urlstr = "./Hazards/" + activeCrop + "/" + activeScenario.toUpperCase() + "/" + district_n + "Abs_ZZ_" + hazardname[CurrRisk] + ".tif";
           } else if (displayLayer === "Percentage Change") {
             opt = 102;
-            urlstr = "./Hazards/" + activeCrop + "/Percentage Change/SSP585/" + district_n + "Cat_ZZ_" + hazardname[CurrRisk] + ".tif";
+            urlstr = "./Hazards/" + activeCrop + "/Percentage Change/" + activeScenario.toUpperCase() + "/" + district_n + "Cat_ZZ_" + hazardname[CurrRisk] + ".tif";
           } else {
-            urlstr = "./Hazards/" + activeCrop + "/SSP585/" + district_n + "ZZ_" + hazardname[CurrRisk] + ".tif";
+            urlstr = "./Hazards/" + activeCrop + "/" + activeScenario.toUpperCase() + "/" + district_n + "ZZ_" + hazardname[CurrRisk] + ".tif";
+            if (checkcrop2() === false) {
+              urlstr = "./Hazards/" + activeCrop + "/" + modelName + "/" + district_n + activeScenario.toUpperCase() + "/ZZ_" + hazardname[CurrRisk] + ".tif";
+            }
           }
         }
         /* if(CurrRisk==='Hazard Index'){
           opt=4;
           urlstr = "./Hazard_index/"+activeCrop+".tif";
         } */
-        if (CurrRisk === "Flood") {
+        /* if (CurrRisk === "Flood") {
           opt = 99;
-        }
+        } */
         if (CurrRisk === "Seasonal Rainfall" || CurrRisk === "Maximum Temperature" || CurrRisk === "Minimum Temperature") {
           opt = 4;
           urlstr = "./BaseClimate/" + hazardname[CurrRisk] + ".tif";

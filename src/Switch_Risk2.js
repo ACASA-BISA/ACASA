@@ -244,7 +244,7 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
     } else if (sname === "sugarcane") {
       HazardList = ["HEAT STRESS", "COLD STRESS", "SPI", "DSN", "FLOOD"];
     } else if (sname === "buffalo" || sname === "cattle" || sname === "pig" || sname === "sheep" || sname === "poultry" || sname === "goat") {
-      HazardList = ["THI", "CD", "ERD", "RAINDEF", "FLOOD", "CYCL"];
+      HazardList = ["THI", "COLD STRESS", "ER", "RAINDEF", "FLOOD", "CYCL"];
     }
     //Kharif Onion
     else if (sname === "onion") {
@@ -474,16 +474,16 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
   const padd = 8;
 
   const AntSwitch = styled(Switch)(({ theme }) => ({
-    width: 30 + padd,
-    height: 12 + padd,
-    padding: padd / 2,
-    display: "flex",
+    "width": 30 + padd,
+    "height": 12 + padd,
+    "padding": padd / 2,
+    "display": "flex",
 
     "& .MuiSwitch-switchBase": {
-      padding: 2 + padd / 2,
+      "padding": 2 + padd / 2,
       "&.Mui-checked": {
-        transform: "translateX(16px)",
-        color: "#fff",
+        "transform": "translateX(16px)",
+        "color": "#fff",
         "& + .MuiSwitch-track": {
           opacity: 1,
           backgroundColor: theme.palette.mode === "dark" ? "#61c258" : "#4ba046",
@@ -506,9 +506,9 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
       boxSizing: "border-box",
     },
     "&:hover": {
-      backgroundColor: theme.palette.mode === "dark" ? "#554d38" : "#ffe89c",
-      opacity: 1,
-      borderRadius: 12,
+      "backgroundColor": theme.palette.mode === "dark" ? "#554d38" : "#ffe89c",
+      "opacity": 1,
+      "borderRadius": 12,
       "& .MuiSwitch-track": {
         opacity: 1,
         backgroundColor: theme.palette.mode === "dark" ? "rgba(255,255,255,.25)" : "rgba(255,255,255,.7)",
@@ -517,7 +517,7 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
   }));
 
   const CustomFormControlLabel = styled(FormControlLabel)(({ theme }) => ({
-    alignItems: "flex-start",
+    "alignItems": "flex-start",
     "&.Mui-disabled .MuiTypography-body2": {
       color: theme.palette.mode === "dark" ? "#888" : "#CCC",
     },

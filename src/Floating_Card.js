@@ -230,7 +230,7 @@ export default function LocationCard({ location, commodity, adaption, setHeight1
       } else {
         rowstr = commodity + "_" + location + "_Suitability_" + commodity + "_" + optcode[adaption];
       }
-      const row_data = area_data[rowstr.toLowerCase()];
+      let row_data = area_data[rowstr.toLowerCase()];
       let total = 1;
       if (row_data) {
         total = Number(row_data["Unsuitable"]) + Number(row_data["Suitable"]) + Number(row_data["Adaptation Benefits"]) + Number(row_data["High"]);
@@ -292,7 +292,7 @@ export default function LocationCard({ location, commodity, adaption, setHeight1
       } else {
         rowstr = commodity + "_" + location + "_ZZ_" + hazardname[RiskName];
       }
-      const row_data = area_data2[rowstr];
+      let row_data = area_data2[rowstr];
       let total = 1;
       if (row_data) {
         total = Number(row_data["Very Low"]) + Number(row_data["Low"]) + Number(row_data["Medium"]) + Number(row_data["High"]) + Number(row_data["Very High"]) + Number(row_data["Nil"]);
@@ -379,7 +379,7 @@ export default function LocationCard({ location, commodity, adaption, setHeight1
       } else {
         rowstr = commodity + "_" + location + "_Suitability_" + commodity + "_" + optcode[adaption];
       }
-      const row_data = area_data[rowstr.toLowerCase()];
+      let row_data = area_data[rowstr.toLowerCase()];
       let total = 1;
       if (row_data) {
         total = Number(row_data["Unsuitable"]) + Number(row_data["Suitable"]) + Number(row_data["Adaptation Benefits"]) + Number(row_data["High"]);

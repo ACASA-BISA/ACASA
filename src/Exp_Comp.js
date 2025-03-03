@@ -471,6 +471,7 @@ export default function CompV({
                   activeScale={activeScale}
                   area_dict3={area_dict3}
                   area_dict4={area_dict4}
+                  modelName={modelName}
                 ></Map_Option>
                 {(CurrRisk !== "" || activeOpt !== "" || NameImpact !== "") && (
                   <Popper
@@ -598,6 +599,7 @@ export default function CompV({
                           activeScale={activeScale}
                           area_dict3={area_dict3}
                           area_dict4={area_dict4}
+                          modelName={modelName}
                         ></Map_Option>
                         {(CurrRisk !== "" || activeOpt !== "" || NameImpact !== "") && (
                           <Popper
@@ -691,6 +693,7 @@ export default function CompV({
                           activeScale={activeScale}
                           area_dict3={area_dict3}
                           area_dict4={area_dict4}
+                          modelName={modelName}
                         ></Map_Option>
                         {(CurrRisk !== "" || activeOpt !== "" || NameImpact !== "") && RiskType() !== "Vulnerability" && RiskType() !== "Exposure" && (
                           <Popper
@@ -875,6 +878,7 @@ export default function CompV({
                           activeScale={activeScale}
                           area_dict3={area_dict3}
                           area_dict4={area_dict4}
+                          modelName={modelName}
                         ></Map_Option>
                         {(CurrRisk !== "" || activeOpt !== "" || NameImpact !== "") && (
                           <Popper
@@ -968,6 +972,7 @@ export default function CompV({
                           activeScale={activeScale}
                           area_dict3={area_dict3}
                           area_dict4={area_dict4}
+                          modelName={modelName}
                         ></Map_Option>
                         {(CurrRisk !== "" || activeOpt !== "" || NameImpact !== "") && (
                           <Popper
@@ -1061,6 +1066,7 @@ export default function CompV({
                           activeScale={activeScale}
                           area_dict3={area_dict3}
                           area_dict4={area_dict4}
+                          modelName={modelName}
                         ></Map_Option>
                         {(CurrRisk !== "" || activeOpt !== "" || NameImpact !== "") && (
                           <Popper
