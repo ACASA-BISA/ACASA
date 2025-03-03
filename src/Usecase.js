@@ -1,22 +1,23 @@
-import React, { useState } from "react";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { Carousel } from "react-responsive-carousel";
-import "./usecasestyle.css";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
+import React, { useState, useCallback } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronRight, faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import { Box, Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import { marked } from "marked";
+import "./usecasestyle.css";
+import { ThemeContext } from "./ThemeContext";
 
 const StyledButton = styled(Button)(({ theme }) => ({
-  padding: "0px 20px",
-  margin: "0px 2px",
-  border: "0px solid rgba(117, 117, 117, 0.986)",
-  borderRadius: "5px",
-  backgroundColor: theme.palette.mode === "dark" ? "#61c258" : "#4ba046",
-  color: theme.palette.mode === "dark" ? "#111" : "#fff",
-  minHeight: "40px",
-  cursor: "pointer",
-  fontWeight: "bold",
-  transition: "0.2s ease-in-out",
+  "padding": "0px 20px",
+  "margin": "0px 2px",
+  "border": "0px solid rgba(117, 117, 117, 0.986)",
+  "borderRadius": "5px",
+  "backgroundColor": theme.palette.mode === "dark" ? "#61c258" : "#4ba046",
+  "color": theme.palette.mode === "dark" ? "#111" : "#fff",
+  "minHeight": "40px",
+  "cursor": "pointer",
+  "fontWeight": "bold",
+  "transition": "0.2s ease-in-out",
   "&:hover": {
     backgroundColor: theme.palette.mode === "dark" ? "#b0e3ae" : "#c4ecc2",
     color: theme.palette.mode === "dark" ? "#2d6b2b" : "#111",
@@ -27,289 +28,190 @@ const StyledButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-const ButtonBar = [
+const StyledSlide = styled("div")(({ theme }) => ({
+  position: "absolute",
+  width: "80%",
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "center",
+  background: theme.palette.mode === "dark" ? "#25292e" : "#f9f9f9",
+  boxShadow: "0 5px 20px rgba(0, 0, 0, 0.3)",
+  borderRadius: "10px",
+  padding: "20px",
+  marginTop: "20px",
+  transition: "transform 0.5s ease, opacity 0.5s ease",
+}));
+
+const carouselData = [
   {
     key: "keyGov",
     header: "Government",
+    description: "ACASA is a vital tool for the government to enhance climate resilience, boost agricultural productivity, and ensure sustainable rural development.",
+    points: [
+      "The Atlas provides data and analysis to support **evidence-based policymaking** for climate-resilient agriculture and strategic resource allocation.",
+      "Integrated climate forecasts and historical data can **enhance early warning systems**, aiding in **disaster preparedness** and mitigation to protect agriculture and rural communities.",
+      "Localized climate and agricultural data in Atlas can **improve farmer advisory services**, enabling **adaptive farming** techniques to enhance resilience and productivity.",
+      "The Atlas identifies sustainable practices and **resilient farming methods**, supporting rural livelihoods, climate-resilient infrastructure, and economic growth in rural areas.",
+    ],
+    image: "farm1.png",
+    alt: "Government",
   },
   {
     key: "keyIns",
     header: "Insurance & Reinsurance Industry",
+    description: "The Atlas will support agri-insurance agencies to develop well-rounded crop insurance for small-scale producers that is dynamic and has sufficient resolution at the village level.",
+    points: [
+      "The Atlas could propose a **uniform insurance unit framework** to mitigate fundamental risks within each unit.",
+      "Enhancing **risk quantification** and identification to boost **insurance penetration** from current levels (28-30%) to 40-50%, potentially lowering premiums by 25% with increased penetration.",
+      "Implementing a **parametric mechanism** for insurance claims could improve efficiency, triggered only by specific conditions rather than random samples.",
+      "Utilizing crop growth simulation models alongside **reinsurance crop models** can improve pricing accuracy and **dynamic forecasting.**",
+    ],
+    image: "farm2.jpg",
+    alt: "Insurance Industry",
   },
   {
     key: "keyAgi",
     header: "Agri-Food Industry",
+    description: "ACASA is committed to ensuring sustainable agri-food industry and inclusive supply chains by promoting:",
+    points: [
+      "Collaboration with farmers for sustainable practices and **equitable supply chains,** ensuring **quality** through stringent controls.",
+      "**Enhancement of productivity** by addressing challenges of small land holdings and low yields with high-yield crop varieties and advanced farming technologies.",
+      "Promote **climate-resilient agriculture** through drought-resistant crops, water-saving irrigation, and soil conservation techniques to adapt to climate change.",
+      "Encourage **decarbonisation** through adoption of renewable energy sources like solar, biogas, and biomass to reduce the carbon footprint.",
+    ],
+    image: "farm4.jpg",
+    alt: "AgriFood Industry",
   },
   {
     key: "keyMul",
     header: "Multilateral Agencies",
+    description:
+      "ACASA will provide multi-lateral agencies with strategic data insights and directions for adaptation investments in South Asia and facilitate more effective project design and planning.",
+    points: [
+      "Agencies can systematically **integrate** ACASA adaptation **recommendations** in their **planning process** to align with Paris agreement goals.",
+      "Data will support agencies to focus on **targeted investments** such as climate-resilient food systems, landscapes, and livelihoods especially in regions that show high levels of adaptation benefits.",
+      "Multi-lateral agencies can tap **downstream investment opportunities** that can benefit from the information generated by ACASA across countries and sectors.",
+      "ACASA serves as an innovative tool for agencies as they constantly seek information and expertise on **improving the effectiveness and impact** of their initiatives.",
+    ],
+    image: "farm3.jpg",
+    alt: "Multilateral Agencies",
   },
   {
     key: "keyDon",
     header: "Donor Agencies",
+    description:
+      "Donors can utilise ACASA to prioritise climate-smart agriculture projects benefitting small-scale farmers, pastoralists, and promote adaptation strategies that are sound in gender considerations, thus maximising the impact of intervention.",
+    points: [
+      "Donors can utilise the Atlas to ensure targeted climate adaptation for **underserved areas** and **vulnerable populations.**",
+      "Through **quantitative** and **semi-quantitative risk assessment** data, donors can prioritise impactful projects to mitigate climate risks and build adaptation capacity.",
+      "The Atlas includes gender-disaggregated data and specific recommendations for **gender-intentional adaptation,** guiding donors to promote equity in climate adaptation.",
+      "The Atlas provides **accessible and actionable data** through user-friendly tables and maps, for informed resource allocation and structured interventions.",
+    ],
+    image: "farm5.jpg",
+    alt: "Donor Agencies",
   },
 ];
 
-const ButtonEffect = ({ activeTab, onTabClick }) => {
-  return (
-    <Box
-      sx={{
-        paddingTop: "100px",
-        textAlign: "left",
-        display: { xs: "none", md: "block" },
-      }}
-    >
-      <div className="tabs">
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            textAlign: "center",
-            width: "100%",
-            alignItems: "center",
-            justifyItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          {ButtonBar.map((bttns, index) => (
-            <Box
-              key={bttns.key}
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <StyledButton
-                className={activeTab === index ? "active" : ""}
-                onClick={() => onTabClick(index)}
-              >
-                <strong>{bttns.header}</strong>
-              </StyledButton>
-            </Box>
-          ))}
-        </Box>
-      </div>
-    </Box>
-  );
+// 3D Carousel Styles
+const getStyles = (index, activeSlide) => {
+  const distance = 250,
+    depth = 500,
+    rotation = 25;
+
+  switch (index - activeSlide) {
+    case 0:
+      return { opacity: 1, transform: "translateX(0px) translateZ(0px) rotateY(0deg) scale(1)", zIndex: 10 };
+    case -1:
+      return { opacity: 0.6, transform: `translateX(-${distance}px) translateZ(-${depth}px) rotateY(${rotation}deg) scale(0.9)`, zIndex: 9 };
+    case 1:
+      return { opacity: 0.6, transform: `translateX(${distance}px) translateZ(-${depth}px) rotateY(-${rotation}deg) scale(0.9)`, zIndex: 9 };
+    case -2:
+      return { opacity: 0.4, transform: `translateX(-${distance * 2}px) translateZ(-${depth * 1.5}px) rotateY(${rotation}deg) scale(0.85)`, zIndex: 8 };
+    case 2:
+      return { opacity: 0.4, transform: `translateX(${distance * 2}px) translateZ(-${depth * 1.5}px) rotateY(-${rotation}deg) scale(0.85)`, zIndex: 8 };
+    default:
+      return { opacity: 0.2, transform: "translateX(0px) translateZ(-800px) rotateY(0deg) scale(0.75)", zIndex: 7 };
+  }
 };
 
 const Usecase = () => {
-  const [activeTab, setActiveTab] = useState(0);
+  const [activeSlide, setActiveSlide] = useState(0);
 
-  const handleTabClick = (index) => {
-    setActiveTab(index);
-  };
+  const next = useCallback(() => {
+    setActiveSlide((prev) => (prev + 1) % carouselData.length);
+  }, []);
+
+  const prev = useCallback(() => {
+    setActiveSlide((prev) => (prev === 0 ? carouselData.length - 1 : prev - 1));
+  }, []);
+
+  const { mode } = React.useContext(ThemeContext);
 
   return (
-    <div
-      className="carousel-container"
-      style={{ marginBottom: "250px", overflow: "hidden" }}
-    >
-      <ButtonEffect activeTab={activeTab} onTabClick={handleTabClick} />
-      <Carousel
-        selectedItem={activeTab}
-        onChange={(index) => setActiveTab(index)}
-        showThumbs={false}
-        showIndicators={true}
-        showStatus={false}
-        infiniteLoop={true}
-        autoPlay={true}
-        interval={2000}
-        stopOnHover={true}
-      >
-        <div className="carousel-slide">
-          <div className="text-area">
-            <h2>Government perspective</h2>
-            <p>
-              ACASA is a vital tool for the government to enhance climate
-              resilience, boost agricultural productivity, and ensure
-              sustainable rural development.
-            </p>
-            <ol className="spaced-list">
-              <li>
-                The Atlas provides data and analysis to support &nbsp;
-                <strong>evidence-based policymaking</strong> for
-                climate-resilient agriculture and strategic resource allocation.
-              </li>
-              <li>
-                Integrated climate forecasts and historical data can
-                <strong> enhance early warning systems</strong>, aiding in
-                <strong> disaster preparedness</strong> and mitigation to
-                protect agriculture and rural communities.
-              </li>
-              <li>
-                Localised climate and agricultural data in Atlas can{" "}
-                <strong>improve farmer advisory services</strong>, enabling{" "}
-                <strong>adaptive farming</strong> techniques to enhance
-                resilience and productivity.
-              </li>
-              <li>
-                The Atlas identifies sustainable practices and{" "}
-                <strong>resilient farming methods</strong>, supporting rural
-                livelihoods, climate-resilient infrastructure, and economic
-                growth in rural areas.
-              </li>
-            </ol>
-          </div>
-          <div className="image-area">
-            <img src="farm1.png" alt="Government" />
-          </div>
-        </div>
+    <div style={{ position: "relative", width: "100%", display: "flex", justifyContent: "center" }}>
+      <div className="carousel-container" style={{ overflow: "visible", position: "relative" }}>
+        {/* Category Buttons */}
+        <Box sx={{ paddingTop: "100px", textAlign: "left", display: { xs: "none", md: "block" } }}>
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            {carouselData.map((item, index) => (
+              <StyledButton key={item.key} className={activeSlide === index ? "active" : ""} onClick={() => setActiveSlide(index)}>
+                <strong>{item.header}</strong>
+              </StyledButton>
+            ))}
+          </Box>
+        </Box>
 
-        <div className="carousel-slide">
-          <div className="text-area">
-            <h2 marginTop="-20px">Insurance industry perspective</h2>
-            <p>
-              The Atlas will support agri-insurance agencies to develop
-              well-rounded crop insurance for small-scale producers that is
-              dynamic and has sufficient resolution at village level.
-            </p>
-            <ol className="spaced-list">
-              <li>
-                The Atlas could propose a{" "}
-                <strong>uniform insurance unit framework</strong> to mitigate
-                fundamental risks within each unit.
-              </li>
-              <li>
-                Enhancing <strong>risk quantification</strong> and
-                identification to boost <strong>insurance penetration</strong>{" "}
-                from current levels (28-30%) to 40-50%, potentially lowering
-                premiums by 25% with increased penetration.
-              </li>
-              <li>
-                Implementing a <strong>parametric mechanism&nbsp;</strong>for
-                insurance claims could improve efficiency, triggered only by
-                specific conditions rather than random samples.
-              </li>
-              <li>
-                Utilizing crop growth simulation models alongside{" "}
-                <strong>reinsurance crop models</strong> can improve pricing
-                accuracy and <strong>dynamic forecasting.</strong>
-              </li>
-            </ol>
-          </div>
-          <div className="image-area">
-            <img src="farm2.jpg" alt="Insurance Industry" />
-          </div>
+        {/* 3D Carousel */}
+        <div className="slideC" style={{ position: "relative", height: "500px", display: "flex", justifyContent: "center", alignItems: "stretch" }}>
+          {carouselData.map((item, i) => (
+            <StyledSlide key={item.key} style={{ ...getStyles(i, activeSlide), height: "100%" }}>
+              <div className="text-area">
+                <h2>{item.header}</h2>
+                <p>{item.description}</p>
+                <ul>
+                  {item.points.map((point, index) => (
+                    <li key={index} dangerouslySetInnerHTML={{ __html: marked(point) }} />
+                  ))}
+                </ul>
+              </div>
+              <div className="image-area" style={{ flex: 1, display: "flex", justifyContent: "center" }}>
+                <img src={item.image} alt={item.alt} style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain", borderRadius: "10px" }} />
+              </div>
+            </StyledSlide>
+          ))}
         </div>
-
-        <div className="carousel-slide">
-          <div className="text-area">
-            <h2>Agri-food industry perspective</h2>
-            <p>
-              ACASA is committed to ensuring sustainable agri-food industry and
-              inclusive supply chains by promoting:
-            </p>
-            <ol className="spaced-list">
-              <li>
-                Collaboration with farmers for sustainable practices and&nbsp;
-                <strong>equitable supply chains,</strong> ensuring{" "}
-                <strong>quality</strong> through stringent controls.
-              </li>
-              <li>
-                <strong>Enhancement of productivity</strong> by addressing
-                challenges of small land holdings and low yields with high-yield
-                crop varieties and advanced farming technologies.
-              </li>
-              <li>
-                Promote <strong>climate-resilient agriculture</strong> through
-                drought-resistant crops, water-saving irrigation, and soil
-                conservation techniques to adapt to climate change.
-              </li>
-              <li>
-                Encourage <strong>decarbonisation</strong> through adoption of
-                renewable energy sources like solar, biogas, and biomass to
-                reduce the carbon footprint.
-              </li>
-            </ol>
-          </div>
-          <div className="image-area">
-            <img src="farm4.jpg" alt="AgriFood Industry" />
-          </div>
-        </div>
-
-        <div className="carousel-slide">
-          <div className="text-area">
-            <h2>Multi-lateral agencies perspective</h2>
-            <p>
-              ACASA will provide multi-lateral agencies with strategic data
-              insights and directions for adaptation investments in South Asia
-              and facilitate more effective project design and planning.
-            </p>
-            <ol className="spaced-list">
-              <li>
-                Agencies can systematically <strong>integrate</strong> ACASA
-                adaptation&nbsp;
-                <strong>recommendations</strong> in their{" "}
-                <strong>planning process</strong> to align with Paris agreement
-                goals.
-              </li>
-              <li>
-                Data will support agencies to focus on{" "}
-                <strong>targeted investments</strong> such as climate-resilient
-                food systems, landscapes, and livelihoods especially in regions
-                that show high level of adaptation benefits.
-              </li>
-              <li>
-                Multi-lateral agencies can tap{" "}
-                <strong>downstream investment opportunities</strong> that can
-                benefit from the information generated by ACASA across countries
-                and sectors.
-              </li>
-              <li>
-                ACASA serves as an innovative tool for agencies as they
-                constantly seek information and expertise on{" "}
-                <strong>improving the effectiveness and impact</strong> of their
-                initiatives.
-              </li>
-            </ol>
-          </div>
-          <div className="image-area">
-            <img src="farm3.jpg" alt="Multilateral Agencies" />
-          </div>
-        </div>
-
-        <div className="carousel-slide">
-          <div className="text-area">
-            <h2>Donor agencies</h2>
-            <p>
-              Donors can utilise ACASA to prioritise climate-smart agriculture
-              projects benefitting small-scale farmers, pastoralists, and
-              promote adaptation strategies that are sound in gender
-              considerations, thus maximising the impact of intervention.
-            </p>
-            <ol className="spaced-list">
-              <li>
-                Donors can utilise the Atlas to ensure targeted climate
-                adaptation for <strong>underserved areas</strong> and{" "}
-                <strong>vulnerable populations.</strong>
-              </li>
-              <li>
-                Through <strong>quantitative</strong> and{" "}
-                <strong>semi-quantitative risk assessment</strong> data, donors
-                can prioritise impactful projects to mitigate climate risks and
-                build adaptation capacity.
-              </li>
-              <li>
-                The Atlas includes gender-disaggregated data and specific
-                recommendations for{" "}
-                <strong>gender-intentional adaptation,</strong> guiding donors
-                to promote equity in climate adaptation.
-              </li>
-              <li>
-                The Atlas provides{" "}
-                <strong>accessible and actionable data</strong> through
-                user-friendly tables and maps, for informed resource allocation
-                and structured interventions.
-              </li>
-            </ol>
-          </div>
-          <div className="image-area">
-            <img src="farm5.jpg" alt="Donor Agencies" />
-          </div>
-        </div>
-      </Carousel>
+        {/* Navigation Buttons */}
+        <Box
+          className="btns"
+          sx={{
+            position: "absolute",
+            bottom: { xs: "40px", md: "85px" }, // Responsive bottom positioning
+            left: "50%",
+            transform: "translateX(-50%)",
+            zIndex: 9999,
+            display: "flex", // Center buttons inside the div
+            gap: "10px",
+            pointerEvents: "auto",
+          }}
+        >
+          <FontAwesomeIcon
+            className="btn"
+            onClick={prev}
+            icon={faChevronLeft}
+            size="2x"
+            aria-label="Previous Slide"
+            style={{ cursor: "pointer", margin: "0 15px", color: mode === "dark" ? "#fff" : "#25292e" }}
+          />
+          <FontAwesomeIcon
+            className="btn"
+            onClick={next}
+            icon={faChevronRight}
+            size="2x"
+            aria-label="Next Slide"
+            style={{ cursor: "pointer", margin: "0 15px", color: mode === "dark" ? "#fff" : "#25292e" }}
+          />
+        </Box>
+      </div>
     </div>
   );
 };

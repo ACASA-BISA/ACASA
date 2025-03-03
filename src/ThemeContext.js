@@ -72,7 +72,7 @@ export const ThemeProviderWrapper = ({ children }) => {
       /* Styles for ACASA Posts*/
       root.style.setProperty("--banner-title-text-shadow", "2px 2px 10px rgba(100, 100, 100, 0.3)");
       root.style.setProperty("--banner-title-background", "rgba(200, 200, 200, 0.4)");
-      root.style.setProperty("--animated-shape-background", "rgba(128, 235, 119, 0.8)");
+      root.style.setProperty("--animated-shape-background", "rgba(184, 143, 26, 0.8)");
       root.style.setProperty("--blog-title-hover-underline", "#81c784");
 
     } else {
@@ -115,7 +115,7 @@ export const ThemeProviderWrapper = ({ children }) => {
       /* Styles for ACASA Posts*/
       root.style.setProperty("--banner-title-text-shadow", "2px 2px 10px rgba(0, 0, 0, 0.7)");
       root.style.setProperty("--banner-title-background", "rgba(0, 0, 0, 0.4)");
-      root.style.setProperty("--animated-shape-background", "rgba(75, 158, 68, 0.8)");
+      root.style.setProperty("--animated-shape-background", "rgba(254, 206, 47, 0.7)");
       root.style.setProperty("--blog-title-hover-underline", "#52911f");
 
     }

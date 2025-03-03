@@ -26,6 +26,30 @@ export default function News() {
           gap: "20px",
         }}
       >
+        <Box
+          sx={(theme) => ({
+            textAlign: "left",
+            /*backgroundColor: theme.palette.mode === "dark" ? "#3a4d3f" : "#f0fff4",*/
+            padding : 3,
+            borderRadius : 2,
+            /*boxShadow: theme.palette.mode === "dark" ? "0px 4px 20px rgba(129, 199, 132, 0.5)" : "0px 4px 15px rgba(0, 100, 0, 0.2)",
+            border: theme.palette.mode === "dark" ? "2px solid #66bb6a" : "2px solid #388e3c",*/
+            letterSpacing: 1.2,
+            transition: "all 0.3s ease-in-out",
+            "&:hover": {
+              transform: "scale(1.05)",
+              boxShadow: theme.palette.mode === "dark" ? "0px 6px 25px rgba(129, 199, 132, 0.4)" : "0px 6px 20px rgba(0, 100, 0, 0.3)",
+            },
+          })}
+        >
+          <Typography sx={(theme) => ({ display: "inline", fontFamily: "revert", fontSize: "20px", fontWeight: "bold", color: theme.palette.mode === "dark" ? "#66bb6a" : "#388e3c", })}>
+            Explore ACASA’s updates and progress through our bi-annual newsletter:
+          </Typography>
+          <Typography sx={(theme) => ({ display: "inline", marginLeft: 1, fontFamily: "revert", fontStyle: "italic", fontSize: "20px", fontWeight: "bold", color: theme.palette.mode === "dark" ? "#66bb6a" : "#388e3c" })}>
+            Strides
+          </Typography>
+        </Box>
+
         {/* Container for the first news item */}
         <Box
           sx={(theme) => ({

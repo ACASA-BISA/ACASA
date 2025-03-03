@@ -46,12 +46,18 @@ export default function ResTabsData() {
   const [tabIndex, setTabIndex] = React.useState(tabFromURL || 0);
 
   React.useEffect(() => {
-    if (tabFromURL !== tabIndex) {
+    if (tabFromURL === 3 || tabFromURL === 4) {
+      navigate(`?tab=0`); // Redirect to tab 0 if the user tries to access tab 3 or 4
+    } else {
       setTabIndex(tabFromURL || 0);
     }
-  }, [tabFromURL]);
+  }, [tabFromURL, navigate]);
+  
 
   const handleTabChange = (e, index) => {
+    if (index === 3 || index === 4) {
+      return; // Prevent navigation to tabs 3 and 4
+    }  
     setTabIndex(index);
     navigate(`?tab=${index}`); // Update URL when user clicks a tab
   };
@@ -82,8 +88,8 @@ export default function ResTabsData() {
           centered
         >
           <TabItem disableRipple label={"ACASA Posts"} />
-          <TabItem disableRipple label={"ACASA Newsletter-Strides"} />
-          <TabItem disableRipple label={"ACASA Glossary"} />
+          <TabItem disableRipple label={"Newsletter-Strides"} />
+          <TabItem disableRipple label={"Glossary"} />
           <TabItem disableRipple disabled={true} label={"ACASA Data Dive"} />
           <TabItem disableRipple disabled={true} label={"ACASA in News"} />
         </Tabs>

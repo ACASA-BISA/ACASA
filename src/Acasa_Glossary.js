@@ -8,6 +8,10 @@ const glossaryData = {
       term: "ACASA",
       definition: "Atlas of Climatic Adaptation in South Asian Agriculture",
     },
+    {
+      term: "Alternate Wetting and Drying (AWD)- Rice",
+      definition: "The AWD practices in rice involves intermittent flooding (alternate cycles of saturated and unsaturated conditions) of a rice field, typically to a water depth of around 5 cm, and allowing the field to dry until the water level drops to a certain threshold moisture level i.e., around 10 cm below the soil surface, and then reflooding the field. It saves se irrigation water use and reduces greenhouse gas (GHG) emissions while maintaining or improving grain yields"
+    }
   ],
   B: [
     {
@@ -18,6 +22,10 @@ const glossaryData = {
       term: "Barley",
       definition: "The analysis for barley is done for Rabi/winter season",
     },
+    {
+      term: "Broad bed & furrow (BBF)",
+      definition: "BBF, a water-saving and soil conservation technique used in field crop cultivation. It involves creating broad raised beds separated by furrows, allowing for better water infiltration, reduced waterlogging, and improved root aeration"
+    }
   ],
   C: [
     {
@@ -47,6 +55,10 @@ const glossaryData = {
       term: "CNRM-ESM-1",
       definition: "",
     },
+    {
+      term: "Crop Insurance",
+      definition: "Crop insurance service refers to the provision of insurance coverage to farmers against losses incurred due to crop failure, damage, or yield reductions caused by weather-related events such as droughts, floods, storms, and pests"
+    }
   ],
   D: [],
   E: [
@@ -54,8 +66,17 @@ const glossaryData = {
       term: "Ensemble",
       definition: "",
     },
+    {
+      term: "Early sowing/changing planting dates",
+      definition: "A tactical farming practice to synchronize crop planting with the optimal climatic conditions essential for key growth stages of crop"
+    }
   ],
-  F: [],
+  F: [
+    {
+      term: "Fertilizer rating and timing",
+      definition: "Fertilizer to be adjusted to meet the nutrient demands of crop growth and avoid nutrient loss when crop biomass decreases due to water and temperature stress over time under climate change"
+    }
+  ],
   G: [],
   H: [],
   I: [
@@ -64,6 +85,10 @@ const glossaryData = {
       definition:
         "Inter-Sectoral Impact Modal Intercomparison Project (ISIMIP) offers a framework for consistently projecting the impacts of climate change across affected sectors and spatial scales. An international network of climate-impact modellers contribute to a comprehensive and consistent picture of the world under different climate-change scenarios",
     },
+    {
+      term: "ICT input linked management",
+      definition: "ICT linked input management technology is a type of modern agricultural management that comprehensively integrates information technology comprised of current data and information requires from crop growth conditions, soil physical and chemical properties, weather factors; weather based forecast products  for agricultural production by quantitative  and timing of application of nutrients, water and other operation management systems in accordance with geographical locations"
+    }
   ],
   J: [],
   K: [],
@@ -77,6 +102,10 @@ const glossaryData = {
       term: "Maize",
       definition: "Maize is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif') and 'Maha' in Sri Lanka",
     },
+    {
+      term: "Micro-irrigation",
+      definition: "A low-pressure, low-flow-rate type of irrigation that can reduce the likelihood of overwatering a landscape. Drip irrigation or trickle irrigation is an irrigation method that allows water to drip slowly to the roots of plants, either onto the soil surface or directly onto the root zone, through a network of valves, pipes, tubing, and emitters"
+    }
   ],
   N: [],
   O: [],
@@ -89,6 +118,18 @@ const glossaryData = {
       term: "Planting technology",
       definition: "",
     },
+    {
+      term: "Precision land leveling",
+      definition: "Precision Land Levelling (PLL) is a farming technique that involves the mechanical process of grading and smoothing land to achieve a uniform and precise. It may employ advanced laser-guided equipment to precisely contour the land surface, creating a uniform smooth surface (± 2 cm from its average elevation) and eliminating undulations that ensures every inch of your field gets the water it needs"
+    },
+    {
+      term: "Precision Water Management",
+      definition: "Precision water management technology is a new type of irrigation management that comprehensively integrates information technology (sensor based) included of data and information requires from crop growth conditions, soil physical and chemical properties, weather factors and agricultural production by positioning, timing, and quantitative application of water and operation management systems in accordance with spatial variation of the field"
+    },
+    {
+      term: "Precision Fertilizer Management",
+      definition: "Precision fertilization management technology is a new type of agriculture that comprehensively integrates information technology and agricultural production by positioning, timing, and quantitative application of fertilizer management and operation systems in accordance with spatial variation of the field"
+    }
   ],
   Q: [],
   R: [
@@ -111,6 +152,18 @@ const glossaryData = {
       term: "Sorghum",
       definition: "Sorghum is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif')",
     },
+    {
+      term: "Stress-tolerant varieties",
+      definition: "Cultivars specifically bred or selected to tolerate or adapt to the changing climatic conditions. These varieties possess traits that enable them to withstand heat stress, drought, floods, and other environmental stresses"
+    },
+    {
+      term: "System of Rice Intensification (SRI)",
+      definition: "SRI involves transplanting young rice seedlings at wider spacing, intermittent irrigation, and organic soil enrichment to promote sustainable and efficient farming practices"
+    },
+    {
+      term: "Supplemental irrigation",
+      definition: "Addition of limited amount of water to plants under insufficient water supply by rainfall to overcome the adverse effects of drought, when rainfall fails to provide sufficient moisture for normal plant growth"
+    }
   ],
   T: [],
   U: [],
@@ -123,7 +176,12 @@ const glossaryData = {
   ],
   X: [],
   Y: [],
-  Z: [],
+  Z: [
+    {
+      term: "Zero tillage with residue",
+      definition: "Zero-Till, also known as no-till or direct seed/drilling, farming method where crops are planted directly into untilled soil, without/minimal disturbing the soil structure, with or without residue retention. With irrigation facilities available, non-puddled transplanted rice can be cultivated in wet as well as dry season depending on the choice of crop rotation"
+    }
+  ],
 };
 
 export default function Glossary() {
