@@ -21,17 +21,17 @@ export default function SwitchScenario({ activeScenario, changeScenario, activeM
   const switchid2 = ["CHC"];
   const parentinfo = ["To be updated later.", "To be updated later."];
 
-  const switchh3 = ["CANESM5", "CNRM-CM6-1", "CNRM-ESM-1", " EC-Earth3", "MIROC6", "Ensemble"];
-  const switchid3 = ["CANESM5", "CNRM-CM6-1", "CNRM-ESM-1", " EC-Earth3", "MIROC6", "Ensemble"];
+  const switchh3 = ["CANESM5", "CNRM-CM6-1", "CNRM-ESM-1", "EC-Earth3", "MIROC6", "Ensemble"];
+  const switchid3 = ["CANESM5", "CNRM-CM6-1", "CNRM-ESM-1", "EC-Earth3", "MIROC6", "Ensemble"];
   const disvar2 = {
-    CHC: false,
-    ISIMIP: false,
-    CANESM5: false,
+    "CHC": false,
+    "ISIMIP": false,
+    "CANESM5": false,
     "CNRM-CM6-1": false,
     "CNRM-ESM-1": false,
-    " EC-Earth3": false,
-    MIROC6: false,
-    Ensemble: false,
+    "EC-Earth3": false,
+    "MIROC6": false,
+    "Ensemble": false,
   };
   const datainfo = ["To be updated later.", "To be updated later.", "To be updated later.", "To be updated later.", "To be updated later.", "To be updated later."];
   const padd = 8;
@@ -51,16 +51,16 @@ export default function SwitchScenario({ activeScenario, changeScenario, activeM
   };
 
   const AntSwitch = styled(Switch)(({ theme }) => ({
-    width: 32 + padd,
-    height: 14 + padd,
-    padding: padd / 2,
-    display: "flex",
+    "width": 32 + padd,
+    "height": 14 + padd,
+    "padding": padd / 2,
+    "display": "flex",
 
     "& .MuiSwitch-switchBase": {
-      padding: 2 + padd / 2,
+      "padding": 2 + padd / 2,
       "&.Mui-checked": {
-        transform: "translateX(16px)",
-        color: "#fff",
+        "transform": "translateX(16px)",
+        "color": "#fff",
         "& + .MuiSwitch-track": {
           opacity: 1,
           backgroundColor: theme.palette.mode === "dark" ? "#61c258" : "#4ba046",
@@ -83,9 +83,9 @@ export default function SwitchScenario({ activeScenario, changeScenario, activeM
       boxSizing: "border-box",
     },
     "&:hover": {
-      backgroundColor: theme.palette.mode === "dark" ? "#554d38" : "#ffe89c",
-      opacity: 1,
-      borderRadius: 12,
+      "backgroundColor": theme.palette.mode === "dark" ? "#554d38" : "#ffe89c",
+      "opacity": 1,
+      "borderRadius": 12,
       "& .MuiSwitch-track": {
         opacity: 1,
         backgroundColor: theme.palette.mode === "dark" ? "rgba(255,255,255,.25)" : "rgba(255,255,255,.7)",
@@ -94,7 +94,7 @@ export default function SwitchScenario({ activeScenario, changeScenario, activeM
   }));
 
   const CustomFormControlLabel = styled(FormControlLabel)(({ theme }) => ({
-    alignItems: "flex-start",
+    "alignItems": "flex-start",
     "&.Mui-disabled .MuiTypography-body2": {
       color: theme.palette.mode === "dark" ? "#888" : "#ccc",
     },

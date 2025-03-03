@@ -24,7 +24,11 @@ import { Popper } from "@mui/material";
 import Slide from "@mui/material/Slide";
 import ReactDOMServer from "react-dom/server";
 import DownloadIcon from "@mui/icons-material/Download";
+import GifBoxIcon from "@mui/icons-material/GifBox";
 import { fetchLocationData } from "./fetchLocationData";
+import { fetchLocationDataAdap } from "./fetchLocationDataAdap";
+import ReactDOM from "react-dom";
+import PopperGif from "./PopperGif";
 
 export default function MApp({
   activeCrop,
@@ -43,6 +47,7 @@ export default function MApp({
   exploreType,
   area_dict3,
   area_dict4,
+  modelName,
 }) {
   const ref = useRef(null);
   const mapRef = useRef(null);
@@ -64,16 +69,20 @@ export default function MApp({
     let newFilename = activeCrop + "_CropMask_" + activeScenario + ".tiff"; // Default
 
     if (activeOpt && activeOpt.trim() !== "") {
-      newFilename = `${activeCrop}_${activeOpt}_${activeScenario}.tiff`;
+      let opt_suffix = "";
+      if (activeOptLayer["Adaptation Benefits"]) opt_suffix = "Adaptation Benefits";
+      if (activeOptLayer["Economic"]) opt_suffix = "Economic Viability";
+      if (activeOptLayer["Scalability"]) opt_suffix = "Scalability";
+      newFilename = `${activeCrop}_${activeOpt}_${opt_suffix}_${activeScenario}.tiff`;
     } else if (CurrRisk && CurrRisk.trim() !== "") {
       newFilename = `${activeCrop}_${CurrRisk}_${activeScenario}.tiff`;
     } else if (activeImpact["Productivity"] || activeImpact["Value of Production"] || activeImpact["Resilience"]) {
       newFilename = `${activeCrop}_Impact_${activeScenario}.tiff`;
     }
 
-    console.log("Updated filename:", newFilename); // Debugging
+    //console.log("Updated filename:", newFilename); // Debugging
     setFilename(newFilename);
-  }, [activeOpt, CurrRisk, activeImpact, activeCrop, activeScenario]); // Dependencies ensure updates
+  }, [activeOpt, CurrRisk, activeImpact, activeCrop, activeScenario, activeRegion, activeOptLayer]); // Dependencies ensure updates
 
   const { mode } = useContext(ThemeContext);
 
@@ -105,7 +114,7 @@ export default function MApp({
   });
 
   function checkcrop() {
-    const diffcrop = ["Cattle", "Buffalo", "Goat", "Sheep", "Pig", "Poultry", "Rice", "Wheat", "Maize", "Mustard", "Cotton", "Soybean", "Chickpea", "Barley"];
+    const diffcrop = ["Cattle", "Buffalo", "Goat", "Sheep", "Pig", "Poultry", "Rice", "Wheat", "Maize", "Mustard", "Cotton", "Soybean", "Chickpea", "Barley", "Jute"];
     let ans = true;
     diffcrop.forEach((sname) => {
       if (activeCrop === sname) {
@@ -148,6 +157,7 @@ export default function MApp({
     Potato: "#ab6042",
     Onion: "#8e507f",
     Cotton: "#5102b0",
+    Jute: "#f7e465",
     Cattle: "#8B4513",
     Cow: "#ac8e59",
     Buffalo: "#5c2f08",
@@ -246,8 +256,8 @@ export default function MApp({
   const color_hazard_livestock = {
     color: [
       "palette",
-      ["interpolate", ["linear"], ["*", ["band", 2], 250], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7],
-      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#059212", "#00FF00", "#FFDE4D", "#FFA500", "#FF0000"],
+      ["interpolate", ["linear"], ["*", ["band", 2], 385], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 8],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#059212", "#00FF00", "#FFDE4D", "#FFDE4D", "#FFA500", "#FF0000"],
     ],
   };
 
@@ -360,17 +370,6 @@ export default function MApp({
       button.innerText = "L"; // The button label
       button.title = "Display Legend";
 
-      // Style the button
-      /* button.style.cssText = `
-      width: 20px;
-      height: 20px;
-      font-size: 12px;
-      border: 1px solid black;
-      background-color: white;
-      cursor: pointer;
-      border-radius: 5px;
-    `; */
-
       // Create a container for the control
       const element = document.createElement("div");
       element.className = "ol-control ol-unselectable box-legend";
@@ -385,7 +384,7 @@ export default function MApp({
       // Legend container
       const legend = document.createElement("div");
       legend.style.cssText = `
-      display: none; /* Initially hidden */
+      display: none;
       position: relative;
       top: 0px;
       left: 00px;
@@ -458,7 +457,15 @@ export default function MApp({
     />
   );
 
-  // Define the download control
+  const iconPlayGif = (
+    <GifBoxIcon
+      style={{
+        fontSize: "22px",
+        verticalAlign: "middle",
+      }}
+    />
+  );
+
   class DownloadControl extends Control {
     constructor(options = {}) {
       const button = document.createElement("button");
@@ -532,7 +539,12 @@ export default function MApp({
     }
 
     handleDownloadCSV() {
-      const csvContent = fetchLocationData(activeRegion, activeCrop, activeScenario, CurrRisk, area_dict4); // Replace with real table data
+      let csvContent = [];
+      if (CurrRisk !== "") {
+        csvContent = fetchLocationData(activeRegion, activeCrop, activeScenario, CurrRisk, area_dict4);
+      } else if (activeOpt !== "") {
+        csvContent = fetchLocationDataAdap(activeRegion, activeCrop, activeScenario, activeOpt, area_dict3, activeOptLayer);
+      }
       console.log(csvContent);
       const headers = Object.keys(csvContent[0]);
       const rows = csvContent.map((row) => headers.map((header) => row[header]).join(","));
@@ -541,7 +553,18 @@ export default function MApp({
       const csvString = [headers.join(","), ...rows].join("\n");
       const blob = new Blob([csvString], { type: "text/csv" });
       const url = URL.createObjectURL(blob);
-      this.downloadFile(url, activeRegion + "_" + activeCrop + "_" + activeScenario + "_" + CurrRisk + ".csv");
+
+      let filenametable = "No_data.csv";
+      if (CurrRisk !== "") {
+        filenametable = activeRegion + "_" + activeCrop + "_" + activeScenario + "_" + CurrRisk + ".csv";
+      } else if (activeOpt !== "") {
+        let opt_suffix = "";
+        if (activeOptLayer["Adaptation Benefits"]) opt_suffix = "Adaptation Benefits";
+        if (activeOptLayer["Economic"]) opt_suffix = "Economic Viability";
+        if (activeOptLayer["Scalability"]) opt_suffix = "Scalability";
+        filenametable = activeRegion + "_" + activeCrop + "_" + activeScenario + "_" + activeOpt + "_" + opt_suffix + ".csv";
+      }
+      this.downloadFile(url, filenametable);
       URL.revokeObjectURL(url);
     }
 
@@ -552,6 +575,51 @@ export default function MApp({
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
+    }
+  }
+
+  const popperControlRef = useRef(null);
+
+  class PopperControl extends Control {
+    constructor(options = {}) {
+      const button = document.createElement("button");
+      button.innerHTML = ReactDOMServer.renderToString(iconPlayGif);
+      button.title = "Display Gif";
+      button.classList.add("popper-button");
+
+      const element = document.createElement("div");
+      element.className = "ol-control ol-unselectable popper-gif-container";
+      const popperContainer = document.createElement("div");
+      popperContainer.style.cssText = `
+      display: none;
+      position: relative;
+      top: 0px;
+      right: 30px;
+      background-color: ${mode === "dark" ? "#25292e" : "white"};
+      border: 1px solid ${mode === "dark" ? "#e0e0e0" : "black"};
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.2);
+      z-index:1000;
+    `;
+
+      element.appendChild(button);
+      element.appendChild(popperContainer);
+
+      super({ element });
+
+      let isOpen = false;
+
+      button.addEventListener("click", () => {
+        isOpen = !isOpen;
+        popperContainer.style.display = isOpen ? "block" : "none";
+      });
+
+      this.popperContainer = popperContainer;
+    }
+
+    setReactComponent(reactComponent) {
+      ReactDOM.render(reactComponent, this.popperContainer);
     }
   }
 
@@ -682,14 +750,56 @@ export default function MApp({
     mapRef.current.updateSize();
   }, [mode, ref, mapRef]); // Re-run effect when `mode` changes
 
+  const downloadControlRef = useRef(null);
+
   useEffect(() => {
+    if (downloadControlRef.current) {
+      mapRef.current.removeControl(downloadControlRef.current);
+      downloadControlRef.current = null;
+    }
+
+    // Create and add new instance
     const downloadControl = new DownloadControl({ className: "download-button" });
     mapRef.current.addControl(downloadControl);
-  }, [mapRef, filename]);
+    downloadControlRef.current = downloadControl;
+
+    if (CurrRisk !== "") {
+      if (!popperControlRef.current) {
+        // Prevent duplicate addition
+        const popperControl = new PopperControl();
+        mapRef.current.addControl(popperControl);
+        popperControlRef.current = popperControl;
+      }
+    } else {
+      if (popperControlRef.current) {
+        mapRef.current.removeControl(popperControlRef.current);
+        popperControlRef.current = null;
+      }
+    }
+  }, [filename, CurrRisk]);
 
   useEffect(() => {
-    //console.log("Theme: ", mode); // Debugging
+    if (popperControlRef.current) {
+      popperControlRef.current.setReactComponent(
+        <PopperGif
+          activeCrop={activeCrop}
+          activeScenario={activeScenario}
+          activeRegion={activeRegion}
+          focus={focus}
+          activeOpt={activeOpt}
+          CurrRisk={CurrRisk}
+          activeImpact={activeImpact}
+          activeOptLayer={activeOptLayer}
+          modelName="CHC"
+          displayLayer={displayLayer}
+          activeScale={activeScale}
+          exploreType={exploreType}
+        />
+      );
+    }
+  }, [activeCrop, activeScenario, activeRegion, focus, activeOpt, CurrRisk, activeImpact, activeOptLayer, displayLayer, activeScale, exploreType]);
 
+  useEffect(() => {
     let sourcet;
     let countryboundary;
     if (focus === "Region") {
@@ -1115,37 +1225,32 @@ export default function MApp({
         if (activeScale === "State Level") {
           district_n = "State/";
         }
-
         if (activeScenario === "baseline") {
           urlstr = "./Hazards/" + activeCrop + "/Baseline/" + district_n + "ZZ_" + hazardname[CurrRisk] + ".tif";
-        } else if (activeScenario === "ssp245") {
-          if (displayLayer === "Absolute Change") {
-            opt = 102;
-            urlstr = "./Hazards/" + activeCrop + "/SSP245/" + district_n + "Abs_ZZ_" + hazardname[CurrRisk] + ".tif";
-          } else if (displayLayer === "Percentage Change") {
-            opt = 102;
-            urlstr = "./Hazards/" + activeCrop + "/Percentage Change/SSP245/" + district_n + "Cat_ZZ_" + hazardname[CurrRisk] + ".tif";
-          } else {
-            urlstr = "./Hazards/" + activeCrop + "/SSP245/" + district_n + "ZZ_" + hazardname[CurrRisk] + ".tif";
+          if (checkcrop2() === false) {
+            urlstr = "./Hazards/" + activeCrop + "/" + modelName + "/" + district_n + "Baseline/" + "ZZ_" + hazardname[CurrRisk] + ".tif";
           }
         } else {
           if (displayLayer === "Absolute Change") {
             opt = 102;
-            urlstr = "./Hazards/" + activeCrop + "/SSP585/" + district_n + "Abs_ZZ_" + hazardname[CurrRisk] + ".tif";
+            urlstr = "./Hazards/" + activeCrop + "/" + activeScenario.toUpperCase() + "/" + district_n + "Abs_ZZ_" + hazardname[CurrRisk] + ".tif";
           } else if (displayLayer === "Percentage Change") {
             opt = 102;
-            urlstr = "./Hazards/" + activeCrop + "/Percentage Change/SSP585/" + district_n + "Cat_ZZ_" + hazardname[CurrRisk] + ".tif";
+            urlstr = "./Hazards/" + activeCrop + "/Percentage Change/" + activeScenario.toUpperCase() + "/" + district_n + "Cat_ZZ_" + hazardname[CurrRisk] + ".tif";
           } else {
-            urlstr = "./Hazards/" + activeCrop + "/SSP585/" + district_n + "ZZ_" + hazardname[CurrRisk] + ".tif";
+            urlstr = "./Hazards/" + activeCrop + "/" + activeScenario.toUpperCase() + "/" + district_n + "ZZ_" + hazardname[CurrRisk] + ".tif";
+            if (checkcrop2() === false) {
+              urlstr = "./Hazards/" + activeCrop + "/" + modelName + "/" + district_n + activeScenario.toUpperCase() + "/ZZ_" + hazardname[CurrRisk] + ".tif";
+            }
           }
         }
         /* if(CurrRisk==='Hazard Index'){
           opt=4;
           urlstr = "./Hazard_index/"+activeCrop+".tif";
         } */
-        if (CurrRisk === "Flood") {
+        /* if (CurrRisk === "Flood") {
           opt = 99;
-        }
+        } */
         if (CurrRisk === "Seasonal Rainfall" || CurrRisk === "Maximum Temperature" || CurrRisk === "Minimum Temperature") {
           opt = 4;
           urlstr = "./BaseClimate/" + hazardname[CurrRisk] + ".tif";

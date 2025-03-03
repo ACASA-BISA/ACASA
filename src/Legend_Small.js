@@ -1,8 +1,7 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { Popper, Paper, Grid } from "@mui/material";
-import { useRef } from "react";
+import { Paper } from "@mui/material";
 import { fetchDataAdap } from "./fetchDataAdap";
 import { fetchthedataHzd } from "./fetchDataHzd";
 
