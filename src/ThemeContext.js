@@ -4,12 +4,24 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 export const ThemeContext = React.createContext();
 
 export const ThemeProviderWrapper = ({ children }) => {
-  const [mode, setMode] = React.useState("light");
+  // Initialize theme mode from localStorage or default to "light"
+  const [mode, setMode] = React.useState(() => {
+    return localStorage.getItem("themeMode") || "light";
+  });
 
+  // Function to toggle theme and save to localStorage
   const toggleTheme = () => {
-    setMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
+    setMode((prevMode) => {
+      const newMode = prevMode === "light" ? "dark" : "light";
+      localStorage.setItem("themeMode", newMode); // Store the new mode
+      return newMode;
+    });
   };
 
+  React.useEffect(() => {
+    // Ensure the theme mode is applied correctly when the component mounts
+    localStorage.setItem("themeMode", mode);
+  }, [mode]);
   const theme = React.useMemo(
     () =>
       createTheme({
