@@ -32,14 +32,14 @@ const LegendComp = ({ legendData }) => {
                   gap: "2px",
                 }}
               >
-                <Box sx={{ width: 50, height: 15, borderRadius: 0, bgcolor: item.color }}>
+                <Box sx={{ width: 55, height: 15, borderRadius: 0, bgcolor: item.color }}>
                   <Typography
                     fontSize="0.62rem"
                     align="left"
                     fontWeight="bold"
                     sx={(theme) => ({
                       paddingLeft: "3px",
-                      color: theme.palette.mode === "dark" ? "black" : "white",
+                      color: item.color === "rgba(241, 233, 119, 1)" ? "black" : "white",
                     })}
                   >
                     {item.Cat}

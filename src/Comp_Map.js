@@ -803,87 +803,33 @@ export default function MApp({
     let sourcet;
     let countryboundary;
     if (focus === "Region") {
-      sourcet = new VectorSource({
-        //url: "./CountryBoundary/SA_Country.json",
-        url: "./CountryBoundary/SA_outline.json",
-        format: new GeoJSON(),
-      });
-      countryboundary = new VectorSource({
-        url: "./CountryBoundary/SA_outline.json",
-        format: new GeoJSON(),
-      });
+      //url: "./CountryBoundary/SA_Country.json",
+      sourcet = new VectorSource({ url: "./CountryBoundary/SA_outline.json", format: new GeoJSON() });
+      countryboundary = new VectorSource({ url: "./CountryBoundary/SA_outline.json", format: new GeoJSON() });
     } else if (activeRegion === "Afghanistan") {
-      sourcet = new VectorSource({
-        url: "./StateBoundary/AF_ST.json",
-        format: new GeoJSON(),
-      });
-      countryboundary = new VectorSource({
-        url: "./CountryBoundary/AF.json",
-        format: new GeoJSON(),
-      });
+      sourcet = new VectorSource({ url: "./StateBoundary/AF_ST.json", format: new GeoJSON() });
+      countryboundary = new VectorSource({ url: "./CountryBoundary/AF.json", format: new GeoJSON() });
     } else if (activeRegion === "Bangladesh") {
-      sourcet = new VectorSource({
-        url: "./StateBoundary/BD_ST.json",
-        format: new GeoJSON(),
-      });
-      countryboundary = new VectorSource({
-        url: "./CountryBoundary/BD.json",
-        format: new GeoJSON(),
-      });
+      sourcet = new VectorSource({ url: "./StateBoundary/BD_ST.json", format: new GeoJSON() });
+      countryboundary = new VectorSource({ url: "./CountryBoundary/BD.json", format: new GeoJSON() });
     } else if (activeRegion === "Bhutan") {
-      sourcet = new VectorSource({
-        url: "./CountryBoundary/BT.json",
-        format: new GeoJSON(),
-      });
-      countryboundary = new VectorSource({
-        url: "./CountryBoundary/BT.json",
-        format: new GeoJSON(),
-      });
+      sourcet = new VectorSource({ url: "./CountryBoundary/BT.json", format: new GeoJSON() });
+      countryboundary = new VectorSource({ url: "./CountryBoundary/BT.json", format: new GeoJSON() });
     } else if (activeRegion === "India") {
-      sourcet = new VectorSource({
-        url: "./StateBoundary/IN_ST.json",
-        format: new GeoJSON(),
-      });
-      countryboundary = new VectorSource({
-        url: "./CountryBoundary/IN.json",
-        format: new GeoJSON(),
-      });
+      sourcet = new VectorSource({ url: "./StateBoundary/IN_ST.json", format: new GeoJSON() });
+      countryboundary = new VectorSource({ url: "./CountryBoundary/IN.json", format: new GeoJSON() });
     } else if (activeRegion === "Maldives") {
-      sourcet = new VectorSource({
-        url: "./StateBoundary/MV_ST.json",
-        format: new GeoJSON(),
-      });
-      countryboundary = new VectorSource({
-        url: "./CountryBoundary/MV.json",
-        format: new GeoJSON(),
-      });
+      sourcet = new VectorSource({ url: "./CountryBoundary/MV.json", format: new GeoJSON() });
+      countryboundary = new VectorSource({ url: "./CountryBoundary/MV.json", format: new GeoJSON() });
     } else if (activeRegion === "Nepal") {
-      countryboundary = new VectorSource({
-        url: "./CountryBoundary/NP.json",
-        format: new GeoJSON(),
-      });
-      sourcet = new VectorSource({
-        url: "./StateBoundary/NP_ST.json",
-        format: new GeoJSON(),
-      });
+      countryboundary = new VectorSource({ url: "./CountryBoundary/NP.json", format: new GeoJSON() });
+      sourcet = new VectorSource({ url: "./StateBoundary/NP_ST.json", format: new GeoJSON() });
     } else if (activeRegion === "Pakistan") {
-      sourcet = new VectorSource({
-        url: "./StateBoundary/PK_ST.json",
-        format: new GeoJSON(),
-      });
-      countryboundary = new VectorSource({
-        url: "./CountryBoundary/PK.json",
-        format: new GeoJSON(),
-      });
+      sourcet = new VectorSource({ url: "./StateBoundary/PK_ST.json", format: new GeoJSON() });
+      countryboundary = new VectorSource({ url: "./CountryBoundary/PK.json", format: new GeoJSON() });
     } else if (activeRegion === "Sri Lanka") {
-      sourcet = new VectorSource({
-        url: "./StateBoundary/SL_ST.json",
-        format: new GeoJSON(),
-      });
-      countryboundary = new VectorSource({
-        url: "./CountryBoundary/SL.json",
-        format: new GeoJSON(),
-      });
+      sourcet = new VectorSource({ url: "./StateBoundary/SL_ST.json", format: new GeoJSON() });
+      countryboundary = new VectorSource({ url: "./CountryBoundary/SL.json", format: new GeoJSON() });
     } else {
       let sec = activeRegion.indexOf(",");
       let y = "";
@@ -1211,10 +1157,7 @@ export default function MApp({
           urlstr = "./Adap/" + activeCrop + "/" + activeOpt + " Baseline.tif";
         }
         settiffFilePath(urlstr);
-        source1 = new GeoTIFF({
-          sources: [{ url: urlstr }],
-          sourceOptions: { allowFullFile: true },
-        });
+        source1 = new GeoTIFF({ sources: [{ url: urlstr }], sourceOptions: { allowFullFile: true } });
       } else if (CurrRisk !== "") {
         opt = 3;
         let urlstr = "xyz.tif";
@@ -1535,7 +1478,7 @@ export default function MApp({
       }
     }
   }, [activeOptLayer, activeOpt, mapRef]);
-  let optionname = activeOpt;
+  //let optionname = activeOpt;
   return (
     <div style={{ overflow: "hidden" }}>
       <div id="popup2" class="ol-popup">

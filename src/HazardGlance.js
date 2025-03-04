@@ -93,9 +93,9 @@ export default function HazardGlance({ handleChangeSumm, cropid, focus2, activeR
               })}
             >
               <Typography sx={{ fontSize: 13, fontWeight: "bold" }}>Scenario: </Typography>
-              <Summ_Scenario handleScenario={handleScenario}></Summ_Scenario>
+              <Summ_Scenario handleScenario={handleScenario} scn={NameScenario}></Summ_Scenario>
               <Typography sx={{ marginLeft: "5px", fontSize: 13, fontWeight: "bold" }}>Model: </Typography>
-              <Summ_Model handleModel={handleModel}></Summ_Model>
+              <Summ_Model handleModel={handleModel} mdl={NameModel}></Summ_Model>
             </Box>
             <Map_Index activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} CurrRisk={CurrRisk2}></Map_Index>
           </Paper>
