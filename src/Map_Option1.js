@@ -33,7 +33,7 @@ const optcode = {
   "Direct Seeded Rice - Wet": "DSWET",
   "System of Rice Intensification": "SRIUT",
   "Supplemental Irrigation": "WHSRC",
-  Microirrigation: "MICIR",
+  "Microirrigation": "MICIR",
   "Precision Water Management": "PWMGT",
   "Precision Fertilizer Management": "PNMLT",
   "Precision Fertilizer Management - High tech": "PNMHT",
@@ -45,7 +45,7 @@ const optcode = {
   "Herd Management": "HMGT",
   "Animal Health": "ANHLT",
   "Animal Productivity": "ANPRO",
-  Mulching: "MULCH",
+  "Mulching": "MULCH",
   "Alternate Wetting and Drying": "AWD",
   "Fertilizer rating and timing": "FRT",
   "Manure Management": "MNMGT",
@@ -53,14 +53,7 @@ const optcode = {
   "Heat Stress Management": "HSMGT",
 };
 
-export default function Map_Option({
-  activeCrop,
-  focus = "Region",
-  activeRegion,
-  activeOpt,
-  area_dict,
-  activeScenario,
-}) {
+export default function Map_Option({ activeCrop, focus = "Region", activeRegion, activeOpt, area_dict, activeScenario, activeOptLayer, modelName }) {
   const ref = useRef(null);
   const mapRef = useRef(null);
   const [overl, setOverl] = useState(null);
@@ -104,47 +97,40 @@ export default function Map_Option({
         3,
         5,
       ],
-      [
-        "rgba(0,0,0,0)",
-        "rgba(0,0,0,0)",
-        "rgba(180, 70, 109, 1)",
-        "#FF9A00",
-        "#06D001",
-        "#004D00",
-      ],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(180, 70, 109, 1)", "#FF9A00", "#06D001", "#004D00"],
+    ],
+  };
+
+  const color_hazard4 = {
+    color: ["palette", ["clamp", ["*", ["band", 2], 250], 0, 4], ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "#059212", "#00FF00", "#FFDE4D", "#FFA500", "#FF0000"]],
+  };
+
+  const color_hazard = {
+    color: ["palette", ["clamp", ["*", ["band", 2], 25], 0, 6], ["rgba(0,0,0,0)", "rgba(150,150,150,1)", "#059212", "#00FF00", "#FFDE4D", "#FFA500", "#FF0000"]],
+  };
+
+  const color_adaptation_change = {
+    color: [
+      "palette",
+      ["clamp", ["*", ["band", 2], 25], 0, 6],
+      ["rgba(0,0,0,0)", "rgba(200,200,200,1)", "rgba(200,200,200,1)", "rgba(184, 23, 23, 1)", "rgba(245, 140, 170, 1)", "rgba(241, 233, 119, 1)", "rgba(109, 233, 109, 1)", "rgba(4, 145, 4, 1)"],
     ],
   };
 
   const key = "TrN2dn4maoO3C2x0sUpH";
 
-  /*const sourcemap = new tilesource({
-      url: `https://api.maptiler.com/maps/bright-v2/tiles.json?key=${key}`, // source URL
-      tileSize: 512,
-      crossOrigin: 'anonymous'
+  function checkcrop2() {
+    const livestock = ["Cattle", "Buffalo", "Goat", "Sheep", "Pig", "Poultry"];
+    let ans = true;
+    livestock.forEach((sname) => {
+      if (activeCrop === sname) {
+        ans = false;
+      }
     });
+    return ans;
+  }
 
-    const BingMapNew = new TileLayer2({
-          source: sourcemap,
-      opacity:0.9,
-    zIndex:10,
-  });*/
-
-  /*     const BingMapNew = new TileLayer2({
-      preload: Infinity,
-      source: new BingMaps({
-        key: 'AvUc2NPj5dHI1yefH-oLqI4_EzAKBjyYTg3dM9c9lUrZglsLsvB1usgVz330xsZC',
-        imagerySet: 'RoadOnDemand',
-        // use maxZoom 19 to see stretched tiles instead of the BingMaps
-        // "no photos at this zoom level" tiles
-        // maxZoom: 19
-      }),
-      opacity:0.8,
-      zIndex:10,
-    }); */
-  let defext = [
-    6731721.531032621, -79003.34768295793, 10843798.383928495,
-    4648992.169943628,
-  ];
+  let defext = [6731721.531032621, -79003.34768295793, 10843798.383928495, 4648992.169943628];
 
   let filename = "";
 
@@ -189,9 +175,7 @@ export default function Map_Option({
       const layers = map.getLayers().getArray(); // Get all layers on the map
 
       // Find the GeoTIFF layer
-      const geoTiffLayer = layers.find(
-        (layer) => layer.getSource() instanceof GeoTIFF
-      );
+      const geoTiffLayer = layers.find((layer) => layer.getSource() instanceof GeoTIFF);
 
       if (geoTiffLayer) {
         const source_tiff = geoTiffLayer.getSource();
@@ -222,10 +206,7 @@ export default function Map_Option({
 
     // Define the basemap source based on the theme mode
     const sourcemap = new TileJSON({
-      url:
-        mode === "dark"
-          ? `https://api.maptiler.com/maps/dataviz-dark/tiles.json?key=${key}`
-          : `https://api.maptiler.com/maps/bright-v2/tiles.json?key=${key}`,
+      url: mode === "dark" ? `https://api.maptiler.com/maps/dataviz-dark/tiles.json?key=${key}` : `https://api.maptiler.com/maps/bright-v2/tiles.json?key=${key}`,
       tileSize: 512,
       crossOrigin: "anonymous",
     });
@@ -263,11 +244,7 @@ export default function Map_Option({
       const layers = mapRef.current.getLayers().getArray();
 
       layers.forEach((layer) => {
-        if (
-          layer &&
-          typeof layer.getSource === "function" &&
-          layer.getSource() instanceof TileJSON
-        ) {
+        if (layer && typeof layer.getSource === "function" && layer.getSource() instanceof TileJSON) {
           mapRef.current.removeLayer(layer);
         }
       });
@@ -283,86 +260,33 @@ export default function Map_Option({
     let sourcet;
     let countryboundary;
     if (focus === "Region") {
-      sourcet = new VectorSource({
-        url: "./CountryBoundary/SA_Country.json",
-        format: new GeoJSON(),
-      });
-      countryboundary = new VectorSource({
-        url: "./CountryBoundary/SA_outline.json",
-        format: new GeoJSON(),
-      });
+      //url: "./CountryBoundary/SA_Country.json",
+      sourcet = new VectorSource({ url: "./CountryBoundary/SA_outline.json", format: new GeoJSON() });
+      countryboundary = new VectorSource({ url: "./CountryBoundary/SA_outline.json", format: new GeoJSON() });
     } else if (activeRegion === "Afghanistan") {
-      sourcet = new VectorSource({
-        url: "./StateBoundary/AF_ST.json",
-        format: new GeoJSON(),
-      });
-      countryboundary = new VectorSource({
-        url: "./CountryBoundary/AF.json",
-        format: new GeoJSON(),
-      });
+      sourcet = new VectorSource({ url: "./StateBoundary/AF_ST.json", format: new GeoJSON() });
+      countryboundary = new VectorSource({ url: "./CountryBoundary/AF.json", format: new GeoJSON() });
     } else if (activeRegion === "Bangladesh") {
-      sourcet = new VectorSource({
-        url: "./StateBoundary/BD_ST.json",
-        format: new GeoJSON(),
-      });
-      countryboundary = new VectorSource({
-        url: "./CountryBoundary/BD.json",
-        format: new GeoJSON(),
-      });
+      sourcet = new VectorSource({ url: "./StateBoundary/BD_ST.json", format: new GeoJSON() });
+      countryboundary = new VectorSource({ url: "./CountryBoundary/BD.json", format: new GeoJSON() });
     } else if (activeRegion === "Bhutan") {
-      sourcet = new VectorSource({
-        url: "./CountryBoundary/BT.json",
-        format: new GeoJSON(),
-      });
-      countryboundary = new VectorSource({
-        url: "./CountryBoundary/BT.json",
-        format: new GeoJSON(),
-      });
+      sourcet = new VectorSource({ url: "./CountryBoundary/BT.json", format: new GeoJSON() });
+      countryboundary = new VectorSource({ url: "./CountryBoundary/BT.json", format: new GeoJSON() });
     } else if (activeRegion === "India") {
-      sourcet = new VectorSource({
-        url: "./StateBoundary/IN_ST.json",
-        format: new GeoJSON(),
-      });
-      countryboundary = new VectorSource({
-        url: "./CountryBoundary/IN.json",
-        format: new GeoJSON(),
-      });
+      sourcet = new VectorSource({ url: "./StateBoundary/IN_ST.json", format: new GeoJSON() });
+      countryboundary = new VectorSource({ url: "./CountryBoundary/IN.json", format: new GeoJSON() });
     } else if (activeRegion === "Maldives") {
-      sourcet = new VectorSource({
-        url: "./CountryBoundary/MV.json",
-        format: new GeoJSON(),
-      });
-      countryboundary = new VectorSource({
-        url: "./CountryBoundary/MV.json",
-        format: new GeoJSON(),
-      });
+      sourcet = new VectorSource({ url: "./CountryBoundary/MV.json", format: new GeoJSON() });
+      countryboundary = new VectorSource({ url: "./CountryBoundary/MV.json", format: new GeoJSON() });
     } else if (activeRegion === "Nepal") {
-      countryboundary = new VectorSource({
-        url: "./CountryBoundary/NP.json",
-        format: new GeoJSON(),
-      });
-      sourcet = new VectorSource({
-        url: "./StateBoundary/NP_ST.json",
-        format: new GeoJSON(),
-      });
+      countryboundary = new VectorSource({ url: "./CountryBoundary/NP.json", format: new GeoJSON() });
+      sourcet = new VectorSource({ url: "./StateBoundary/NP_ST.json", format: new GeoJSON() });
     } else if (activeRegion === "Pakistan") {
-      sourcet = new VectorSource({
-        url: "./StateBoundary/PK_ST.json",
-        format: new GeoJSON(),
-      });
-      countryboundary = new VectorSource({
-        url: "./CountryBoundary/PK.json",
-        format: new GeoJSON(),
-      });
+      sourcet = new VectorSource({ url: "./StateBoundary/PK_ST.json", format: new GeoJSON() });
+      countryboundary = new VectorSource({ url: "./CountryBoundary/PK.json", format: new GeoJSON() });
     } else if (activeRegion === "Sri Lanka") {
-      sourcet = new VectorSource({
-        url: "./StateBoundary/SL_ST.json",
-        format: new GeoJSON(),
-      });
-      countryboundary = new VectorSource({
-        url: "./CountryBoundary/SL.json",
-        format: new GeoJSON(),
-      });
+      sourcet = new VectorSource({ url: "./StateBoundary/SL_ST.json", format: new GeoJSON() });
+      countryboundary = new VectorSource({ url: "./CountryBoundary/SL.json", format: new GeoJSON() });
     } else {
       let sec = activeRegion.indexOf(",");
       let y = "";
@@ -372,19 +296,14 @@ export default function Map_Option({
         x = activeRegion.substring(sec + 2);
       }
       if (x === "Bangladesh") {
-        let urlsourcestr =
-          "./DistrictBoundary/BD/" + y.substring(0, y.length - 9) + "DIV.json";
-        let urlcountrystr =
-          "./StateBoundary/BD/" + y.substring(0, y.length - 9) + "ST.json";
+        let urlsourcestr = "./DistrictBoundary/BD/" + y.substring(0, y.length - 9) + "DIV.json";
+        let urlcountrystr = "./StateBoundary/BD/" + y.substring(0, y.length - 9) + "ST.json";
         console.log(urlcountrystr);
         sourcet = new VectorSource({
           url: urlsourcestr,
           format: new GeoJSON(),
         });
-        countryboundary = new VectorSource({
-          url: urlcountrystr,
-          format: new GeoJSON(),
-        });
+        countryboundary = new VectorSource({ url: urlcountrystr, format: new GeoJSON() });
       }
       if (x === "Nepal") {
         let urlsourcestr = "./DistrictBoundary/NP/" + y + "DIV.json";
@@ -401,8 +320,7 @@ export default function Map_Option({
       }
       if (x === "Afghanistan") {
         let urlsourcestr = "./DistrictBoundary/AF/" + y.toUpperCase() + ".json";
-        let urlcountrystr =
-          "./StateBoundary/AF/STATE_" + y.toUpperCase() + ".json";
+        let urlcountrystr = "./StateBoundary/AF/STATE_" + y.toUpperCase() + ".json";
         sourcet = new VectorSource({
           url: urlsourcestr,
           format: new GeoJSON(),
@@ -449,9 +367,7 @@ export default function Map_Option({
               const polyy = featuress[0].getGeometry();
               const extentt = polyy.getExtent();
               const sizee = mapRef.current.getSize();
-              mapRef.current
-                .getView()
-                .fit(extentt, { size: [sizee[0] * 1, sizee[1] * 1] });
+              mapRef.current.getView().fit(extentt, { size: [sizee[0] * 1, sizee[1] * 1] });
             }
           }
         });
@@ -518,10 +434,7 @@ export default function Map_Option({
                 }),
                 style: new Style({
                   fill: new Fill({
-                    color:
-                      mode === "dark"
-                        ? "rgba(37, 41, 46, 1)"
-                        : "rgba(255,255,255,1)",
+                    color: mode === "dark" ? "rgba(37, 41, 46, 1)" : "rgba(255,255,255,1)",
                   }),
                 }),
                 opacity: mode === "dark" ? 0.4 : 0.5,
@@ -543,16 +456,57 @@ export default function Map_Option({
 
   useEffect(() => {
     let source1 = null;
-
+    let opt = 1;
     let urlstr = "xyz.tif";
-    urlstr =
-      "./Adap/" +
-      activeCrop +
-      "/Baseline/Suitability_" +
-      activeCrop +
-      "_" +
-      optcode[activeOpt] +
-      ".tif";
+    if (activeOptLayer === "Biophysical Suitability") {
+      opt = 2;
+      if (activeScenario === "baseline") {
+        urlstr = "./Adap/" + activeCrop + "/Baseline/Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+      } else if (activeScenario === "ssp245") {
+        urlstr = "./Adap/" + activeCrop + "/SSP245/Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+      } else {
+        urlstr = "./Adap/" + activeCrop + "/SSP585/Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+      }
+    } else if (activeOptLayer === "Adaptation Benefits") {
+      opt = 3;
+      if (activeScenario === "baseline") {
+        urlstr = "./Adap/" + activeCrop + "/Baseline/Tech/ADAP_Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+      } else if (activeScenario === "ssp245") {
+        urlstr = "./Adap/" + activeCrop + "/SSP245/Tech/ADAP_Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+      } else {
+        urlstr = "./Adap/" + activeCrop + "/SSP585/Tech/ADAP_Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+      }
+    } else if (activeOptLayer === "Economic") {
+      opt = 4;
+      if (activeScenario === "baseline") {
+        urlstr = "./Adap/" + activeCrop + "/Baseline/Socio/ECO_Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+      } else if (activeScenario === "ssp245") {
+        urlstr = "./Adap/" + activeCrop + "/SSP245/Socio/ECO_Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+      } else {
+        urlstr = "./Adap/" + activeCrop + "/SSP585/Socio/ECO_Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+      }
+    } else if (activeOptLayer === "Scalability") {
+      opt = 5;
+      if (activeScenario === "baseline") {
+        urlstr = "./Adap/" + activeCrop + "/Baseline/Scale/SCA_Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+      } else if (activeScenario === "ssp245") {
+        urlstr = "./Adap/" + activeCrop + "/SSP245/Scale/SCA_Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+      } else {
+        urlstr = "./Adap/" + activeCrop + "/SSP585/Scale/SCA_Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+      }
+    } else {
+      if (activeScenario === "baseline") {
+        urlstr = "./Adap/" + activeCrop + "/Baseline/Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+      } else if (activeScenario === "ssp245") {
+        urlstr = "./Adap/" + activeCrop + "/SSP245/Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+      } else {
+        urlstr = "./Adap/" + activeCrop + "/SSP585/Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+      }
+    }
+    if (checkcrop2() === false) {
+      opt = 333;
+      urlstr = "./Adap/" + activeCrop + "/" + activeOpt + " Baseline.tif";
+    }
     source1 = new GeoTIFF({
       sources: [{ url: urlstr }],
       sourceOptions: { allowFullFile: true },
@@ -570,14 +524,24 @@ export default function Map_Option({
         zIndex: 90,
       });
 
-      newOverl.setStyle(color2);
+      if (opt === 2) {
+        newOverl.setStyle(color_hazard4);
+      } else if (opt === 3) {
+        newOverl.setStyle(color_adaptation_change);
+      } else if (opt === 4) {
+        newOverl.setStyle(color_adaptation_change);
+      } else if (opt == 5) {
+        newOverl.setStyle(color_hazard);
+      } else {
+        newOverl.setStyle(color2);
+      }
 
       if (mapRef.current) {
         mapRef.current.addLayer(newOverl);
         setOverl(newOverl);
       }
     }
-  }, [activeCrop, activeOpt, mapRef]);
+  }, [activeCrop, activeOpt, activeOptLayer, activeScenario, mapRef]);
 
   function getpopulation() {
     if (activeOpt !== "" && Object.keys(area_dict).length > 0) {
@@ -591,64 +555,22 @@ export default function Map_Option({
         let statecode = "";
         if (x === "Bangladesh") {
           statecode = y.substring(0, y.length - 9) + "DIV";
-          rowstr =
-            activeCrop +
-            "_" +
-            statecode +
-            "_Suitability_" +
-            activeCrop +
-            "_" +
-            optcode[activeOpt];
+          rowstr = activeCrop + "_" + statecode + "_Suitability_" + activeCrop + "_" + optcode[activeOpt];
         } else if (x === "Nepal") {
           statecode = y + "DIV";
-          rowstr =
-            activeCrop +
-            "_" +
-            statecode +
-            "_Suitability_" +
-            activeCrop +
-            "_" +
-            optcode[activeOpt];
+          rowstr = activeCrop + "_" + statecode + "_Suitability_" + activeCrop + "_" + optcode[activeOpt];
         } else if (x === "India" || x === "Sri Lanka" || x === "Pakistan") {
           statecode = "STATE_" + y.toUpperCase();
-          rowstr =
-            activeCrop +
-            "_" +
-            statecode +
-            "_Suitability_" +
-            activeCrop +
-            "_" +
-            optcode[activeOpt];
+          rowstr = activeCrop + "_" + statecode + "_Suitability_" + activeCrop + "_" + optcode[activeOpt];
         } else if (x === "Maldives" || x === "Afghanistan") {
           statecode = y.toUpperCase();
-          rowstr =
-            activeCrop +
-            "_" +
-            statecode +
-            "_Suitability_" +
-            activeCrop +
-            "_" +
-            optcode[activeOpt];
+          rowstr = activeCrop + "_" + statecode + "_Suitability_" + activeCrop + "_" + optcode[activeOpt];
         } else if (x === "Bhutan") {
           statecode = y;
-          rowstr =
-            activeCrop +
-            "_" +
-            statecode +
-            "_Suitability_" +
-            activeCrop +
-            "_" +
-            optcode[activeOpt];
+          rowstr = activeCrop + "_" + statecode + "_Suitability_" + activeCrop + "_" + optcode[activeOpt];
         }
       } else {
-        rowstr =
-          activeCrop +
-          "_" +
-          activeRegion +
-          "_Suitability_" +
-          activeCrop +
-          "_" +
-          optcode[activeOpt];
+        rowstr = activeCrop + "_" + activeRegion + "_Suitability_" + activeCrop + "_" + optcode[activeOpt];
       }
       const row_data = area_dict[rowstr.toLowerCase()];
       return Math.round(row_data["Adaptation Benefits_Area"] / 1000000);
@@ -671,12 +593,8 @@ export default function Map_Option({
               }}
             />
             {dt} M people
-            <Typography sx={{ fontSize: 11, fontWeight: "bold", color: mode === "dark" ? "white" : "black" }} >
-              under adapt.
-            </Typography>
-            <Typography sx={{ fontSize: 11, fontWeight: "bold", color: mode === "dark" ? "white" : "black" }} >
-              benefits
-            </Typography>
+            <Typography sx={{ fontSize: 11, fontWeight: "bold", color: mode === "dark" ? "white" : "black" }}>under adapt.</Typography>
+            <Typography sx={{ fontSize: 11, fontWeight: "bold", color: mode === "dark" ? "white" : "black" }}>benefits</Typography>
           </Typography>
         }
         open={true}

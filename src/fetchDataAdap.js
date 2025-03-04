@@ -93,11 +93,11 @@ export function fetchDataAdap(adaption, location, AdaptLayerName, commodity, sce
       ],
       "default": [
         ["#969696", "No significant change"],
-        ["rgba(184, 23, 23, 1)", "High decrease"],
+        ["rgba(184, 23, 23, 1)", "High dcrs"],
         ["rgba(245, 140, 170, 1)", "Decrease"],
         ["rgba(241, 233, 119, 1)", "No change"],
         ["rgba(109, 233, 109, 1)", "Increase"],
-        ["rgba(4, 145, 4, 1)", "High increase"],
+        ["rgba(4, 145, 4, 1)", "High incr"],
       ],
     };
 

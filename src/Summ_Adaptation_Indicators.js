@@ -3,13 +3,10 @@ import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 
-export default function Summ_Adaptation_Indicator({ handleIndicator }) {
+export default function Summ_Adaptation_Indicator({ handleIndicator, indc }) {
   const switchh2 = ["Biophysical Suitability", "Gender", "Adaptation Benefits", "Economic", "Scalability"];
 
-  const [val, setVal] = React.useState("Biophysical Suitability");
-
   const handleChange = (event) => {
-    setVal(event.target.value);
     handleIndicator(event.target.value);
   };
 
@@ -18,7 +15,7 @@ export default function Summ_Adaptation_Indicator({ handleIndicator }) {
       <Select
         disableUnderline
         id="Country-select-id"
-        value={val}
+        value={indc}
         onChange={handleChange}
         MenuProps={{
           disableScrollLock: true,

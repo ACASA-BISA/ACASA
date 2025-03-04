@@ -420,7 +420,7 @@ export default function DrawerMapShow({ activeBar }) {
 
   const [scenario, setscenario] = React.useState(createInitialScenario);
 
-  const [NameScenario, setNameScenario] = React.useState("Baseline");
+  const [NameScenario, setNameScenario] = React.useState("baseline");
 
   const handleScenarioChange = (name) => (event) => {
     const oldscenario = { ...scenario };
@@ -1202,7 +1202,7 @@ export default function DrawerMapShow({ activeBar }) {
                       >
                         Scenario:{" "}
                       </Typography>
-                      <Summ_Scenario handleScenario={handleScenario}></Summ_Scenario>
+                      <Summ_Scenario handleScenario={handleScenario} scn={NameScenario}></Summ_Scenario>
                       <Typography
                         sx={(theme) => ({
                           marginLeft: "5px",
@@ -1213,7 +1213,7 @@ export default function DrawerMapShow({ activeBar }) {
                       >
                         Model:{" "}
                       </Typography>
-                      <Summ_Model handleModel={handleModel}></Summ_Model>
+                      <Summ_Model handleModel={handleModel} mdl={NameModel}></Summ_Model>
                     </Box>
                     <Box
                       sx={(theme) => ({
@@ -1238,7 +1238,7 @@ export default function DrawerMapShow({ activeBar }) {
                       >
                         Adaptation Indicator:{" "}
                       </Typography>
-                      <Summ_Adaptation_Indicator handleIndicator={changeOptLayer2}></Summ_Adaptation_Indicator>
+                      <Summ_Adaptation_Indicator handleIndicator={changeOptLayer2} indc={optionlayer2}></Summ_Adaptation_Indicator>
                     </Box>
                   </Box>
                   <Box sx={{ display: "flex", flexDirection: "row", gap: "2vh" }}>
@@ -1340,7 +1340,16 @@ export default function DrawerMapShow({ activeBar }) {
                     </Box>
                     </Box> */}
                     <Paper elevation={1} sx={{ width: "21vw" }} ref={box1}>
-                      <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt2} area_dict={area_dict} activeScenario={NameScenario}></Map_Option>
+                      <Map_Option
+                        activeCrop={crop2}
+                        focus={focus2}
+                        activeRegion={activeRegion2}
+                        activeOpt={opt2}
+                        area_dict={area_dict}
+                        activeScenario={NameScenario}
+                        activeOptLayer={optionlayer2}
+                        modelName={NameModel}
+                      ></Map_Option>
                     </Paper>
                     <Popper
                       open={true} // Always open
@@ -1403,7 +1412,16 @@ export default function DrawerMapShow({ activeBar }) {
                     </Box>
                     </Box> */}
                     <Paper elevation={1} sx={{ width: "21vw" }} ref={box2}>
-                      <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt3} area_dict={area_dict} activeScenario={NameScenario}></Map_Option>
+                      <Map_Option
+                        activeCrop={crop2}
+                        focus={focus2}
+                        activeRegion={activeRegion2}
+                        activeOpt={opt3}
+                        area_dict={area_dict}
+                        activeScenario={NameScenario}
+                        activeOptLayer={optionlayer2}
+                        modelName={NameModel}
+                      ></Map_Option>
                     </Paper>
                     <Popper
                       open={true} // Always open
@@ -1475,7 +1493,16 @@ export default function DrawerMapShow({ activeBar }) {
                     </Box>
                     </Box> */}
                     <Paper elevation={1} sx={{ width: "21vw" }} ref={box3}>
-                      <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt4} area_dict={area_dict} activeScenario={NameScenario}></Map_Option>
+                      <Map_Option
+                        activeCrop={crop2}
+                        focus={focus2}
+                        activeRegion={activeRegion2}
+                        activeOpt={opt4}
+                        area_dict={area_dict}
+                        activeScenario={NameScenario}
+                        activeOptLayer={optionlayer2}
+                        modelName={NameModel}
+                      ></Map_Option>
                     </Paper>
                     <Popper
                       open={true} // Always open
@@ -1538,7 +1565,16 @@ export default function DrawerMapShow({ activeBar }) {
                     </Box>
                     </Box> */}
                     <Paper elevation={1} sx={{ width: "21vw" }} ref={box4}>
-                      <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt5} area_dict={area_dict} activeScenario={NameScenario}></Map_Option>
+                      <Map_Option
+                        activeCrop={crop2}
+                        focus={focus2}
+                        activeRegion={activeRegion2}
+                        activeOpt={opt5}
+                        area_dict={area_dict}
+                        activeScenario={NameScenario}
+                        activeOptLayer={optionlayer2}
+                        modelName={NameModel}
+                      ></Map_Option>
                     </Paper>
                     <Popper
                       open={true} // Always open
@@ -1610,7 +1646,16 @@ export default function DrawerMapShow({ activeBar }) {
                     </Box>
                     </Box> */}
                     <Paper elevation={1} sx={{ width: "21vw" }} ref={box5}>
-                      <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt6} area_dict={area_dict} activeScenario={NameScenario}></Map_Option>
+                      <Map_Option
+                        activeCrop={crop2}
+                        focus={focus2}
+                        activeRegion={activeRegion2}
+                        activeOpt={opt6}
+                        area_dict={area_dict}
+                        activeScenario={NameScenario}
+                        activeOptLayer={optionlayer2}
+                        modelName={NameModel}
+                      ></Map_Option>
                     </Paper>
                     <Popper
                       open={true} // Always open
@@ -1673,7 +1718,16 @@ export default function DrawerMapShow({ activeBar }) {
                     </Box>
                     </Box> */}
                     <Paper elevation={1} sx={{ width: "21vw" }} ref={box6}>
-                      <Map_Option activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeOpt={opt7} area_dict={area_dict} activeScenario={NameScenario}></Map_Option>
+                      <Map_Option
+                        activeCrop={crop2}
+                        focus={focus2}
+                        activeRegion={activeRegion2}
+                        activeOpt={opt7}
+                        area_dict={area_dict}
+                        activeScenario={NameScenario}
+                        activeOptLayer={optionlayer2}
+                        modelName={NameModel}
+                      ></Map_Option>
                     </Paper>
                     <Popper
                       open={true} // Always open
