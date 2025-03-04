@@ -29,7 +29,7 @@ export const ThemeProviderWrapper = ({ children }) => {
           mode,
           ...(mode === "dark"
             ? {
-                background: { default: "#1b1f23", paper: "#25292e" },
+                background: { default: "#1b1f23", paper: "#25292e" }, 
                 text: { primary: "#e0e0e0" },
                 primary: { main: "#81c784" },
                 success: { main: "#4caf50", contrastText: "#fff" },

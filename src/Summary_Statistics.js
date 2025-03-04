@@ -223,7 +223,7 @@ export default function Summary_Statistics({}) {
         </Box>
       </Box>
       <Box display="flex" flexDirection="column" alignItems="center">
-        <Typography variant="h6" sx={{ mb: 2 }}>
+        <Typography variant="h6" sx={(theme) => ({ mb: 2, color: theme.palette.text.primary })}>
           Multi-Level Pie Chart
         </Typography>
         <PieChart width={400} height={400}>

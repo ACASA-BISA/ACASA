@@ -6,7 +6,7 @@ const glossaryData = {
   A: [
     {
       term: "ACASA",
-      definition: "Atlas of Climatic Adaptation in South Asian Agriculture",
+      definition: "Atlas of Climate Adaptation in South Asian Agriculture",
     },
     {
       term: "Alternate Wetting and Drying (AWD)- Rice",

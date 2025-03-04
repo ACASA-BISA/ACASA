@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext} from "react";
 import Carousel from "react-material-ui-carousel";
 import { Paper, Button } from "@mui/material";
 import StickyFooter from "./StickyFooter";
@@ -17,6 +17,7 @@ import { Popper } from "@mui/material";
 import GppMaybeIcon from "@mui/icons-material/GppMaybe";
 import PersonalVideoIcon from "@mui/icons-material/PersonalVideo";
 import Summary_Statistics from "./Summary_Statistics";
+import { ThemeContext } from "./ThemeContext";
 
 const logoStyle3 = {
   width: "77vw",
@@ -70,6 +71,9 @@ const Home = (props) => {
     navigate("/viewer", { state: { Region: reg, Commodity: comm } });
   };
 
+  
+  const { mode } = useContext(ThemeContext);
+
   var items = [
     {
       name: "Atlas of Climate Adaptation in South Asian Agriculture",
@@ -113,8 +117,7 @@ const Home = (props) => {
           theme.palette.mode === "dark"
             ? "rgba(255, 255, 255, 0.1)"
             : "rgba(0, 0, 0, 0.7)",
-        color: (theme) =>
-          theme.palette.mode === "dark" ? "#e0e0e0" : "#ffffff",
+        color: mode === "dark" ? "#e0e0e0" : "#ffffff",
         padding: "10px",
         borderRadius: "5px",
         width: "250px",
@@ -130,8 +133,9 @@ const Home = (props) => {
       </Typography>
     </Box>
   );
+
   return (
-    <div>
+    <div style={{ backgroundColor: mode === "dark" ? "#25292e" : "#ffffff"}}>
       <Box sx={{ marginTop: "80px", display: { xs: "none", md: "block" } }}>
         <Carousel
           sx={{ margin: 0, padding: 0, zIndex: 100 }}
@@ -162,17 +166,15 @@ const Home = (props) => {
             flexDirection: "row",
             width: "95vw",
             margin: "auto",
-            boxShadow: (theme) =>
-              theme.palette.mode === "dark"
+            boxShadow: mode === "dark"
                 ? "0px 1px 5px rgba(0, 0, 0, 0.5)"
                 : "0px 1px 5px #aaa",
-            border: (theme) =>
+            border: 
               `9px solid ${
-                theme.palette.mode === "dark" ? "#2d3238" : "#f8faf0"
+                mode === "dark" ? "#2d3238" : "#f8faf0"
               }`,
             borderRadius: "10px",
-            backgroundColor: (theme) =>
-              theme.palette.mode === "dark" ? "#2d3238" : "#f8faf0",
+            backgroundColor: mode === "dark" ? "#2d3238" : "#f8faf0",
             height: "auto",
             marginTop: -5,
             zIndex: 200,
@@ -193,8 +195,7 @@ const Home = (props) => {
             sx={{
               marginRight: 2,
               marginLeft: 2,
-              color: (theme) =>
-                theme.palette.mode === "dark" ? "#fff" : "000",
+              color: mode === "dark" ? "#fff" : "000",
             }}
           >
             <Typography>Region of Interest:</Typography>
@@ -205,8 +206,7 @@ const Home = (props) => {
             sx={{
               marginRight: 2,
               marginLeft: 2,
-              color: (theme) =>
-                theme.palette.mode === "dark" ? "#fff" : "000",
+              color: mode === "dark" ? "#fff" : "000",
             }}
           >
             <Typography>Commodity:</Typography>
@@ -220,14 +220,11 @@ const Home = (props) => {
               height: "32px",
               margin: 2,
               fontSize: "16px",
-              color: (theme) =>
-                theme.palette.mode === "dark" ? "#000" : "#fff",
+              color: mode === "dark" ? "#000" : "#fff",
               textTransform: "none",
-              backgroundColor: (theme) =>
-                theme.palette.mode === "dark" ? "#388e3c" : "#4b9e44",
+              backgroundColor: mode === "dark" ? "#388e3c" : "#4b9e44",
               "&:hover": {
-                backgroundColor: (theme) =>
-                  theme.palette.mode === "dark" ? "#2e7d32" : "#4b9e44",
+                backgroundColor: mode === "dark" ? "#2e7d32" : "#4b9e44",
               },
             }}
           >
@@ -247,19 +244,20 @@ const Home = (props) => {
         {/*  */}
         <Summary_Statistics></Summary_Statistics>
         <Box sx={{ mt: "20px" }}>
-          <img src={"acasa_approach.svg"} style={logoStyle3} alt="approach" />
+          <img src={mode === "dark" ? "acasa_approach_dark2.svg" : "acasa_approach.svg"} style={logoStyle3} alt="approach" />
         </Box>
         <Box
           sx={{
             mt: "20px",
-            backgroundImage:
-              "linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url('world-map.png')",
+            backgroundImage: mode === "dark"
+            ? "linear-gradient(rgba(27, 31, 35, 0.1), rgba(27, 31, 35, 0.1)), url('world-map.png')"
+            : "linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url('world-map.png')",    
             backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
             display: "flex",
             flexDirection: "row",
             padding: 7,
-            boxShadow: "0px 0px 2px #aaa",
+            boxShadow: mode === "dark" ? "0px 0px 4px rgba(0,0,0,0.6)" : "0px 0px 2px #aaa",
           }}
         >
           <Box
@@ -287,7 +285,7 @@ const Home = (props) => {
             </Typography>
             <Typography
               sx={{
-                color: "#444444",
+                color: mode === "dark" ? "#e0e0e0" :"#444444",
                 fontSize: "17px",
                 fontFamily: "revert",
                 marginTop: 2,
@@ -316,13 +314,13 @@ const Home = (props) => {
             width: { xs: "100%", sm: "100%" },
             paddingBottom: 10,
             paddinTop: 5,
-            backgroundColor: "#f7f7f7",
+            backgroundColor: mode === "dark" ? "#1b1f23" : "#f7f7f7",
           }}
         >
           <Box sx={{ marginLeft: 7, marginRight: 7, marginTop: 4 }}>
             <Typography
               sx={{
-                color: "#111111",
+                color: mode === "dark" ? "#e0e0e0" : "#111111",
                 fontWeight: "bold",
                 fontSize: "30px",
                 fontFamily: "revert",
@@ -484,6 +482,7 @@ const Home = (props) => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            color: mode === "dark" ? "#e0e0e0" : "#333333"
           }}
         >
           <PersonalVideoIcon style={{ fontSize: 40 }} /> This website is
@@ -543,26 +542,30 @@ function Item(props) {
         >
           <Typography
             variant="h4"
-            sx={{
-              color: "#ffffff",
+            sx={(theme) => ({
+              color: theme.palette.mode === "dark" ? "#000000" : "#ffffff",
               fontWeight: "bold",
               textShadow:
-                "2px 2px 5px rgba(0, 0, 0, 0.25), -2px -2px 5px rgba(0, 0, 0, 0.25)",
-            }}
+                theme.palette.mode === "dark"
+        ? "2px 2px 5px rgba(0, 0, 0, 0.6)" // Stronger shadow in dark mode for depth
+        : "2px 2px 5px rgba(0, 0, 0, 0.25), -2px -2px 5px rgba(0, 0, 0, 0.25)",
+
+            })}
           >
             {props.item.name}
           </Typography>
-          <Typography variant="subtitle1" sx={{ fontWeight: "bold", mt: 2 }}>
+          <Typography variant="subtitle1" sx={(theme) => ({ fontWeight: "bold", mt: 2, color: theme.palette.mode === "dark" ? "#000000" : "#ffffff"})}>
             {props.item.description}
           </Typography>
           <Box
-            sx={{
-              background:
-                "linear-gradient(to right, rgba(255, 254, 227,0.4), rgba(0, 0, 0, 0.3))",
+            sx={(theme) => ({
+              background:theme.palette.mode === "dark"
+              ? "linear-gradient(to right, rgba(99, 99, 99, 0.7), rgba(240, 240, 240, 0.7))" // Light gradient for dark mode
+              : "linear-gradient(to right, rgba(255, 254, 227,0.4), rgba(0, 0, 0, 0.3))",      
               mt: "90px",
               ml: -9,
               mr: -3,
-            }}
+            })}
           >
             <Slide
               direction="right"
@@ -571,7 +574,7 @@ function Item(props) {
               mountOnEnter
               unmountOnExit
             >
-              <Typography variant="h6" sx={{ ml: 9, mr: 3 }}>
+              <Typography variant="h6" sx={(theme) => ({ ml: 9, mr: 3, color: theme.palette.mode === "dark" ? "#000000" : "#ffffff"})}>
                 {props.item.type}
               </Typography>
             </Slide>
@@ -579,17 +582,17 @@ function Item(props) {
           <Button
             variant="contained"
             href="/#/viewer"
-            sx={{
+            sx={(theme) => ({
               width: "160px",
               mt: 6,
               mb: 2,
               fontSize: "18px",
               flexShrink: 0,
-              color: "#000000",
+              color: theme.palette.mode === "dark" ? "#ffffff" : "#000000",
               fontWeight: "bold",
-              backgroundColor: "#fece2f",
-              "&:hover": { backgroundColor: "#fece2f" },
-            }}
+              backgroundColor:  theme.palette.mode === "dark" ? "#B88F1A" : "#fece2f",
+              "&:hover": { backgroundColor: theme.palette.mode === "dark" ? "#B88F1A" : "#fece2f", },
+            })}
           >
             Explore
           </Button>
