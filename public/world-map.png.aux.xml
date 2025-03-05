@@ -1,0 +1,24 @@
+<PAMDataset>
+  <Metadata domain="IMAGE_STRUCTURE">
+    <MDI key="INTERLEAVE">PIXEL</MDI>
+  </Metadata>
+  <PAMRasterBand band="1">
+    <Histograms>
+      <HistItem>
+        <HistMin>-0.498046875</HistMin>
+        <HistMax>255.498046875</HistMax>
+        <BucketCount>256</BucketCount>
+        <IncludeOutOfRange>0</IncludeOutOfRange>
+        <Approximate>0</Approximate>
+        <HistCounts>7271|0|0|0|0|0|0|0|0|657|47|130|150|285|61|85|204|154|154|1441|3982|241|222|767|82|428|0|401|988|4258|135|3397|812|390|270|610|1257|0|195|260|303|6030|5932|0|181|220|613|0|124|647|0|2300|0|6807|144|5604|0|1019|145|517|530|440|0|0|3605|0|0|6158|144|0|6379|116|0|1069|0|57|637|0|488|0|643|4585|0|0|0|13292|0|0|0|642|97|133|0|336|99|0|727|352|150|428|0|0|7433|0|0|590|414|3377|0|1075|0|0|195|502|0|0|358|0|159|82|234|715|0|0|0|0|0|217|9986|0|0|0|0|0|0|4351|563|234|0|194|0|0|294|3091|0|0|526|0|0|204|0|0|0|665|0|0|0|58|0|265|0|0|16|0|7|0|0|0|0|0|275|0|0|0|0|0|0|0|0|0|0|0|6|0|0|0|0|0|0|0|0|3|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|2652</HistCounts>
+      </HistItem>
+    </Histograms>
+    <Metadata>
+      <MDI key="STATISTICS_MINIMUM">0</MDI>
+      <MDI key="STATISTICS_MAXIMUM">255</MDI>
+      <MDI key="STATISTICS_MEAN">73.925755537747</MDI>
+      <MDI key="STATISTICS_STDDEV">46.228651058985</MDI>
+      <MDI key="STATISTICS_VALID_PERCENT">16.15</MDI>
+    </Metadata>
+  </PAMRasterBand>
+</PAMDataset>
