@@ -483,7 +483,7 @@ export default function CompV({
                       {
                         name: "offset",
                         options: {
-                          offset: [3, -130], // Adjust distance from the container
+                          offset: [3, -115], // Adjust distance from the container
                         },
                       },
                     ]}
@@ -611,7 +611,7 @@ export default function CompV({
                               {
                                 name: "offset",
                                 options: {
-                                  offset: [3, -130], // Adjust distance from the container
+                                  offset: [3, -115], // Adjust distance from the container
                                 },
                               },
                             ]}
@@ -705,7 +705,7 @@ export default function CompV({
                               {
                                 name: "offset",
                                 options: {
-                                  offset: [3, -130], // Adjust distance from the container
+                                  offset: [3, -115], // Adjust distance from the container
                                 },
                               },
                             ]}
@@ -890,7 +890,7 @@ export default function CompV({
                               {
                                 name: "offset",
                                 options: {
-                                  offset: [3, -130], // Adjust distance from the container
+                                  offset: [3, -115], // Adjust distance from the container
                                 },
                               },
                             ]}
@@ -984,7 +984,7 @@ export default function CompV({
                               {
                                 name: "offset",
                                 options: {
-                                  offset: [3, -130], // Adjust distance from the container
+                                  offset: [3, -115], // Adjust distance from the container
                                 },
                               },
                             ]}
@@ -1078,7 +1078,7 @@ export default function CompV({
                               {
                                 name: "offset",
                                 options: {
-                                  offset: [3, -130], // Adjust distance from the container
+                                  offset: [3, -115], // Adjust distance from the container
                                 },
                               },
                             ]}

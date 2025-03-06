@@ -44,26 +44,30 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
     if (popu === 0) {
       return "None";
     }
+    let unt = " Mha";
+    if (checkcrop() === false) {
+      unt = " M";
+    }
     popu = popu / 1000000;
     if (popu < 0.1) {
       if (displayLayer !== "Absolute") {
-        return Math.round(popu) + " Mha";
+        return Math.round(popu) + unt;
       } else {
-        return "<0.1 Mha";
+        return "<0.1" + unt;
       }
     }
     if (popu < 1 && popu >= 0.1) {
       if (displayLayer !== "Absolute") {
-        return popu.toFixed(1) + " Mha";
+        return popu.toFixed(1) + unt;
       } else {
-        return popu.toFixed(1) + " Mha";
+        return popu.toFixed(1) + unt;
       }
     }
     //"+" +
     if (displayLayer !== "Absolute") {
-      return Math.round(popu) + " Mha";
+      return Math.round(popu) + unt;
     }
-    return Math.round(popu) + " Mha";
+    return Math.round(popu) + unt;
   }
 
   //const rows = fetchthedataTable();
@@ -105,11 +109,11 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
   //maxWidth:'320px'
   return (
     <div style={{ maxWidth: "320px" }}>
-      <Paper elevation={1} sx={{ padding: "10px", borderRadius: "5px", boxShadow: "0px 0px 0px #aaa", textAlign: "left" }}>
+      <Paper elevation={1} sx={{ padding: "10px", paddingBottom: "1px", borderRadius: "5px", boxShadow: "0px 0px 0px #aaa", textAlign: "left" }}>
         {adaption !== "" && (
           <div>
             <Box sx={{ display: "flex", marginTop: "-10px", justifyContent: "center" }}>
-              <Typography sx={{ fontSize: 11, marginBottom: "2px" }} color="black">
+              <Typography sx={{ fontSize: 11.5, marginBottom: "2px" }} color="black">
                 {AdaptLayerName.charAt(0).toUpperCase() + AdaptLayerName.toLowerCase().slice(1)} of&nbsp;
                 <strong>{adaption.charAt(0).toUpperCase() + adaption.slice(1, 4) + adaption.toLowerCase().slice(4)}</strong>
               </Typography>
@@ -118,7 +122,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
         )}
         {ImpactName !== "" && (
           <Box sx={{ display: "flex", marginTop: "-10px", justifyContent: "center" }}>
-            <Typography sx={{ fontSize: 11, marginBottom: "2px" }} color="black">
+            <Typography sx={{ fontSize: 11.5, marginBottom: "2px" }} color="black">
               Impact on <strong>{ImpactName.toLowerCase()}</strong>
             </Typography>
           </Box>
@@ -126,7 +130,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
         {RiskName !== "" && checkcrop() && (
           <div>
             <Box sx={{ display: "flex", marginTop: "-10px", justifyContent: "center" }}>
-              <Typography sx={{ fontSize: 11, marginBottom: "2px" }} color="black">
+              <Typography sx={{ fontSize: 11.5, marginBottom: "2px" }} color="black">
                 <strong>{RiskName.charAt(0).toUpperCase() + RiskName.toLowerCase().slice(1)}</strong>
               </Typography>
             </Box>
@@ -135,7 +139,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
         {RiskName !== "" && checkcrop() === false && (
           <div>
             <Box sx={{ display: "flex", marginTop: "-10px", justifyContent: "center" }}>
-              <Typography sx={{ fontSize: 11, marginBottom: "2px" }} color="black">
+              <Typography sx={{ fontSize: 11.5, marginBottom: "2px" }} color="black">
                 <strong>{RiskName.charAt(0).toUpperCase() + RiskName.toLowerCase().slice(1)}</strong>
               </Typography>
             </Box>
@@ -146,12 +150,12 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
           <div>
             <Box sx={{ display: "flex", justifyContent: "center", marginTop: "-2px" }}>
               <Typography sx={{ fontSize: 11, marginBottom: "2px" }} color="black">
-                <span style={{ color: "#AA5486", fontWeight: "bold" }}>Number of farm households, million</span>
+                <span style={{ color: "#111", fontWeight: "normal", fontStyle: "italic" }}>Number of farm households, million</span>
               </Typography>
             </Box>
           </div>
         )}
-        <Typography sx={{ fontSize: 12, marginTop: "-5px" }} color="black">
+        <Typography sx={{ fontSize: 11, marginTop: "-5px" }} color="black">
           {/* { adaption === '' && RiskName === '' && <Box sx={{marginTop:'2px',marginBottom:'-5px'}}>
                     <Divider sx={{bgcolor:'#e8ffea', borderBottomWidth: 2, marginTop: 0.1, marginBottom: 0.3}}/>
                     <Box sx={{display:'flex',flexDirection:'row',width:'100%'}}>
@@ -201,13 +205,14 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                             gap: "2px",
                           }}
                         >
-                          {checkcrop() === true && (
+                          {
+                            //checkcrop() === true && ()
                             <Box sx={{ width: 58, height: 18, borderRadius: 0, marginBottom: "-4px" }}>
-                              <Typography sx={{ fontSize: 10, marginLeft: "2px" }} color="#AA5486" fontWeight="bold">
+                              <Typography sx={{ fontSize: 10, marginLeft: "2px" }} color="#111" fontWeight="bold">
                                 {calcpop(row.Population)}
                               </Typography>
                             </Box>
-                          )}
+                          }
                           <Box
                             sx={{
                               width: 58,
@@ -229,7 +234,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                             </Typography>
                           </Box>
                           <Box sx={{ width: 58, height: 18, borderRadius: 0 }}>
-                            <Typography sx={{ fontSize: 10, margin: "2px", marginTop: "0px" }} color="#859F3D" fontWeight="bold">
+                            <Typography sx={{ fontSize: 10, margin: "2px", marginTop: "0px" }} color="#111" fontWeight="bold">
                               {calcarea(row.Area)}
                             </Typography>
                           </Box>
@@ -316,12 +321,16 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                       </Box>
                     </div>
                     } */}
+          {
+            //Green Color of "#859F3D"
+            //Purple Color of "#AA5486"
+          }
         </Typography>
         {(adaption !== "" || RiskName !== "" || ImpactName !== "") && checkcrop() && (
           <div>
             <Box sx={{ display: "flex", justifyContent: "center", marginBottom: "-4px", marginTop: "-4px" }}>
               <Typography sx={{ fontSize: 11, marginBottom: "2px" }} color="black">
-                <span style={{ color: "#859F3D", fontWeight: "bold" }}>Cropped area, million hectare</span>
+                <span style={{ color: "#111", fontWeight: "normal", fontStyle: "italic" }}>Cropped area, million hectare</span>
               </Typography>
             </Box>
           </div>
@@ -330,7 +339,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
           <div>
             <Box sx={{ display: "flex", justifyContent: "center", marginBottom: "-10px", marginTop: "-4px" }}>
               <Typography sx={{ fontSize: 11, marginBottom: "2px" }} color="black">
-                <span style={{ color: "#859F3D", fontWeight: "bold" }}>Number of animals, million</span>
+                <span style={{ color: "#111", fontWeight: "normal", fontStyle: "italic" }}>Number of animals, million</span>
               </Typography>
             </Box>
           </div>
@@ -342,7 +351,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
               alignContent: "center",
               alignItems: "center",
               justifyContent: "center",
-              marginBottom: "-10px",
+              marginBottom: "-2px",
               marginTop: "0px",
             }}
           >
