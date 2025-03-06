@@ -7,10 +7,12 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { LocationOn } from "@mui/icons-material";
-import { Popper, Paper } from "@mui/material";
+import { Popper } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import { useEffect, useRef, useState } from "react";
 import { PieChart, pieArcLabelClasses } from "@mui/x-charts/PieChart";
+import { fetchDataAdap } from "./fetchDataAdap";
+import { fetchthedataHzd } from "./fetchDataHzd";
 /* import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -23,17 +25,10 @@ const size = {
   height: 150,
 };
 
-const palette = ["rgba(180, 70, 109, 1)", "#FF9A00", "#06D001"];
+const palette = ["#00FF00", "#FFDE4D", "#FFA500", "#FF0000", "#969696"];
 
 const palette2 = ["#059212", "#00FF00", "#FFDE4D", "#FFA500", "#FF0000", "#969696"];
 
-function createData(color, Cat, Area, AreaPerc, Population) {
-  return { color, Cat, Area, AreaPerc, Population };
-}
-
-//General Suitability
-
-// Colors for the light theme, default
 const color_comm = {
   Rice: "#5ec962",
   Wheat: "#f7e465",
@@ -96,7 +91,7 @@ const unitrisk = {
   "Cropped Area": "Area under crop in hectares per grid [~5 X 5 km]",
 };
 
-export default function LocationCard({ location, commodity, adaption, setHeight1, RiskName, scenario, ImpactName, area_data, area_data2, exploreType }) {
+export default function LocationCard({ location, commodity, adaption, activeOptLayer, setHeight1, RiskName, scenario, ImpactName, area_data3, area_data4, exploreType, activeScale, displayLayer }) {
   const cardRef = useRef(null);
   const [cardHeight, setCardHeight] = useState(0);
   useEffect(() => {
@@ -105,89 +100,6 @@ export default function LocationCard({ location, commodity, adaption, setHeight1
       setHeight1(cardHeight);
     }
   });
-
-  const optcode = {
-    "Stress Tolerant Variety": "ADVAR",
-    "Early Sowing": "ADPTI",
-    "Precision Land Levelling": "LASLV",
-    "Zero Tillage with residues": "ZTILL",
-    "Broad Bed and Furrow": "BBFIB",
-    "Direct Seeded Rice - Dry": "DSDRY",
-    "Direct Seeded Rice - Wet": "DSWET",
-    "System of Rice Intensification": "SRIUT",
-    "Supplemental Irrigation": "WHSRC",
-    "Microirrigation": "MICIR",
-    "Precision Water Management": "PWMGT",
-    "Precision Fertilizer Management": "PNMLT",
-    "Precision Fertilizer Management - High tech": "PNMHT",
-    "Deep Placement of Urea": "DR",
-    "ICT linked Input Management": "WEAGA",
-    "Crop Insurance": "INSUR",
-    "Land Management": "LMGT",
-    "Feed Management": "FMGT",
-    "Herd Management": "HMGT",
-    "Animal Health": "ANHLT",
-    "Animal Productivity": "ANPRO",
-    "Mulching": "MULCH",
-    "Alternate Wetting and Drying": "AWD",
-    "Fertilizer rating and timing": "FRT",
-    "Manure Management": "MNMGT",
-    "Information Use": "INFO",
-    "Heat Stress Management": "HSMGT",
-  };
-
-  const hazardname = {
-    "District Level": "District Level",
-    "Downscaled Risk": "Downscaled Risk",
-    "Risk Index": "Risk index",
-    "Hazard Index": "Hazard Index",
-    "Low temperature induced spikelet sterility": "Low temperature induced spikelet sterility",
-    "Low temperature induced pollen sterility": "Low temperature induced pollen sterility",
-    "High temperature induced pollen sterility": "High temperature induced pollen sterility",
-    "Heat Stress": "Heat stress",
-    "High temperature induced spikelet sterility": "High temperature induced spikelet sterility",
-    "Cold Stress": "Cold stress",
-    "Low temperature induced tuberization failure": "Low temperature induced tuberization failure",
-    "Untimely Rainfall": "Untimely rainfall",
-    "Terminal Heat": "Terminal heat",
-    "Days of Frost": "Days of frost",
-    "Excess Rainfall and Waterlogging": "Excess rain and waterlogging",
-    "Delayed Monsoon": "Delayed monsoon",
-    "Drought": "Drought",
-    "Dry Spell": "Number of dry spells",
-    "Flood": "Flood",
-    "Soil Organic Carbon": "Soil organic carbon",
-    "Lodging": "Rain and wind causing lodging",
-    "Biotic": "High humidity and temperature for blight",
-    "Irrigation": "Irrigation",
-    "Soil Water Holding Capacity": "Water holding capacity",
-    "Income": "Agricultural GDP",
-    "Access to Credit": "Access to Credit",
-    "Access to Market": "Access to Market",
-    "Elevation": "Elevation",
-    "Access to Knowledge": "Access to Knowledge",
-    "Exposure Index": "Exposure Index",
-    "Number of Farmers": "Number of Farmers",
-    "Cropped Area": "Extent",
-    "Excess Rainfall": "Excess rainfall",
-    "Number of Animals per grid": "Number of animals per grid",
-    "Cold stress in reproductive stage": "Cold stress in reproductive stage",
-    "Heat stress in reproductive stage": "Heat stress in reproductive stage",
-    "Heat stress during boll formation": "Heat stress during boll formation",
-    "Cold stress during flowering": "Cold stress during flowering",
-    "High tempearture during flowering": "High tempearture during flowering",
-    "Biotic Stress": "Biotic stress",
-    "Vulnerability Index": "Vulnerability Index",
-    "Feed/Fodder": "Residue",
-    "Rural infrastructure": "Road network density",
-    "Cyclone": "Cyclone",
-    "Rainfall Deficit": "Rainfall deficit",
-    "Extreme Rainfall days": "Extreme Rainfall Days",
-    "Cold days": "Cold Stress",
-    "Hot days": "Heat stress or hot days",
-    "Temperature-Humidity Index": "THI",
-    "Economic Development Indicator": "Human development index",
-  };
 
   function checkcrop() {
     const diffcrop = ["Cattle", "Buffalo", "Goat", "Sheep", "Pig", "Poultry"];
@@ -200,246 +112,56 @@ export default function LocationCard({ location, commodity, adaption, setHeight1
     return ans;
   }
 
-  function fetchthedataPie() {
-    let data = [];
-    if (adaption !== "") {
-      let sec = location.indexOf(",");
-      let y = "";
-      let x = "";
-      let rowstr = "";
-      if (sec > 0) {
-        y = location.substring(0, sec);
-        x = location.substring(sec + 2);
-        let statecode = "";
-        if (x === "Bangladesh") {
-          statecode = y.substring(0, y.length - 9) + "DIV";
-          rowstr = commodity + "_" + statecode + "_Suitability_" + commodity + "_" + optcode[adaption];
-        } else if (x === "Nepal") {
-          statecode = y + "DIV";
-          rowstr = commodity + "_" + statecode + "_Suitability_" + commodity + "_" + optcode[adaption];
-        } else if (x === "India" || x === "Sri Lanka" || x === "Pakistan") {
-          statecode = "STATE_" + y.toUpperCase();
-          rowstr = commodity + "_" + statecode + "_Suitability_" + commodity + "_" + optcode[adaption];
-        } else if (x === "Maldives" || x === "Afghanistan") {
-          statecode = y.toUpperCase();
-          rowstr = commodity + "_" + statecode + "_Suitability_" + commodity + "_" + optcode[adaption];
-        } else if (x === "Bhutan") {
-          statecode = y;
-          rowstr = commodity + "_" + statecode + "_Suitability_" + commodity + "_" + optcode[adaption];
-        }
-      } else {
-        rowstr = commodity + "_" + location + "_Suitability_" + commodity + "_" + optcode[adaption];
-      }
-      let row_data = area_data[rowstr.toLowerCase()];
-      let total = 1;
-      if (row_data) {
-        total = Number(row_data["Unsuitable"]) + Number(row_data["Suitable"]) + Number(row_data["Adaptation Benefits"]) + Number(row_data["High"]);
-      } else {
-        row_data = {
-          "Unsuitable": NaN,
-          "Suitable": NaN,
-          "Adaptation Benefits": NaN,
-        };
-      }
-      data = [
-        {
-          value: ((row_data["Unsuitable"] * 100) / total).toFixed(1),
-          label: "Unsuitable",
-        },
-        {
-          value: ((row_data["Suitable"] * 100) / total).toFixed(1),
-          label: "Suitable",
-        },
-        {
-          value: ((row_data["Adaptation Benefits"] * 100) / total).toFixed(1),
-          label: "Suitable with adaptation benefits",
-        },
-      ];
-      //console.log(data);
-    }
-    return data;
+  let AdaptLayerName = "";
+  if (activeOptLayer["Biophysical Suitability"]) {
+    AdaptLayerName = "Biophysical Suitability";
+  }
+  if (activeOptLayer["Adaptation Benefits"]) {
+    AdaptLayerName = "Adaptation Benefits";
+  }
+  if (activeOptLayer["Economic"]) {
+    AdaptLayerName = "Economic Viability";
+  }
+  if (activeOptLayer["Scalability"]) {
+    AdaptLayerName = "Scalability";
+  }
+  if (activeOptLayer["Gender"]) {
+    AdaptLayerName = "Gender Suitability";
+  }
+  if (
+    activeOptLayer["Biophysical Suitability"] === false &&
+    activeOptLayer["Adaptation Benefits"] === false &&
+    activeOptLayer["Economic"] === false &&
+    activeOptLayer["Scalability"] === false &&
+    activeOptLayer["Gender"] === false
+  ) {
+    AdaptLayerName = "Biophysical Suitability";
   }
 
-  const data2 = fetchthedataPie();
-
-  function fetchthedataPieHzd() {
-    let data = [];
-    if (RiskName !== "") {
-      let sec = location.indexOf(",");
-      let y = "";
-      let x = "";
-      let rowstr = "";
-      if (sec > 0) {
-        y = location.substring(0, sec);
-        x = location.substring(sec + 2);
-        let statecode = "";
-        if (x === "Bangladesh") {
-          statecode = y.substring(0, y.length - 9) + "DIV";
-          rowstr = commodity + "_" + statecode + "_ZZ_" + hazardname[RiskName];
-        } else if (x === "Nepal") {
-          statecode = y + "DIV";
-          rowstr = commodity + "_" + statecode + "_ZZ_" + hazardname[RiskName];
-        } else if (x === "India" || x === "Sri Lanka" || x === "Pakistan") {
-          statecode = "STATE_" + y.toUpperCase();
-          rowstr = commodity + "_" + statecode + "_ZZ_" + hazardname[RiskName];
-        } else if (x === "Maldives" || x === "Afghanistan") {
-          statecode = y.toUpperCase();
-          rowstr = commodity + "_" + statecode + "_ZZ_" + hazardname[RiskName];
-        } else if (x === "Bhutan") {
-          statecode = y;
-          rowstr = commodity + "_" + statecode + "_ZZ_" + hazardname[RiskName];
-        }
-      } else {
-        rowstr = commodity + "_" + location + "_ZZ_" + hazardname[RiskName];
-      }
-      let row_data = area_data2[rowstr];
-      let total = 1;
-      if (row_data) {
-        total = Number(row_data["Very Low"]) + Number(row_data["Low"]) + Number(row_data["Medium"]) + Number(row_data["High"]) + Number(row_data["Very High"]) + Number(row_data["Nil"]);
-      } else {
-        row_data = {
-          "Nil": NaN,
-          "Very Low": NaN,
-          "Low": NaN,
-          "Medium": NaN,
-          "High": NaN,
-          "Very High": NaN,
-        };
-      }
-      data = [
-        {
-          value: ((row_data["Very Low"] * 100) / total).toFixed(1),
-          label: "Very Low",
-        },
-        { value: ((row_data["Low"] * 100) / total).toFixed(1), label: "Low" },
-        {
-          value: ((row_data["Medium"] * 100) / total).toFixed(1),
-          label: "Medium",
-        },
-        { value: ((row_data["High"] * 100) / total).toFixed(1), label: "High" },
-        {
-          value: ((row_data["Very High"] * 100) / total).toFixed(1),
-          label: "Very High",
-        },
-        { value: ((row_data["Nil"] * 100) / total).toFixed(1), label: "Nil" },
-      ];
-      //console.log(data);
-    }
-    return data;
+  let data2 = [];
+  if (adaption !== "") {
+    const adaptation_data = fetchDataAdap(adaption, location, AdaptLayerName, commodity, scenario, area_data3);
+    const total = adaptation_data[1].Area + adaptation_data[2].Area + adaptation_data[3].Area + adaptation_data[4].Area + adaptation_data[5].Area;
+    data2 = [
+      { label: adaptation_data[1].Cat, value: ((adaptation_data[1].Area * 100) / total).toFixed(0) },
+      { label: adaptation_data[2].Cat, value: ((adaptation_data[2].Area * 100) / total).toFixed(0) },
+      { label: adaptation_data[3].Cat, value: ((adaptation_data[3].Area * 100) / total).toFixed(0) },
+      { label: adaptation_data[4].Cat, value: ((adaptation_data[4].Area * 100) / total).toFixed(0) },
+      { label: adaptation_data[5].Cat, value: ((adaptation_data[5].Area * 100) / total).toFixed(0) },
+    ];
   }
 
   let data3 = [];
-  if (
-    (RiskName !== "" && RiskName !== "Hazard Index" && RiskType() === "Hazard") ||
-    (RiskName !== "" &&
-      RiskName !== "District Level" &&
-      RiskName !== "Downscaled Risk" &&
-      (checkcrop() === false ||
-        commodity === "Rice" ||
-        commodity === "Wheat" ||
-        commodity === "Barley" ||
-        commodity === "Soybean" ||
-        commodity === "Cotton" ||
-        commodity === "Jute" ||
-        commodity === "Chickpea" ||
-        commodity === "Maize" ||
-        commodity === "Mustard")) ||
-    ((RiskName === "District Level" || RiskName === "Downscaled Risk") && commodity === "Rice")
-  ) {
-    data3 = fetchthedataPieHzd();
-  }
-
-  function fetchthedataTable() {
-    let data = [];
-    if (adaption !== "") {
-      let sec = location.indexOf(",");
-      let y = "";
-      let x = "";
-      let rowstr = "";
-      if (sec > 0) {
-        y = location.substring(0, sec);
-        x = location.substring(sec + 2);
-        let statecode = "";
-        if (x === "Bangladesh") {
-          statecode = y.substring(0, y.length - 9) + "DIV";
-          rowstr = commodity + "_" + statecode + "_Suitability_" + commodity + "_" + optcode[adaption];
-        } else if (x === "Nepal") {
-          statecode = y + "DIV";
-          rowstr = commodity + "_" + statecode + "_Suitability_" + commodity + "_" + optcode[adaption];
-        } else if (x === "India" || x === "Sri Lanka" || x === "Pakistan") {
-          statecode = "STATE_" + y.toUpperCase();
-          rowstr = commodity + "_" + statecode + "_Suitability_" + commodity + "_" + optcode[adaption];
-        } else if (x === "Maldives" || x === "Afghanistan") {
-          statecode = y.toUpperCase();
-          rowstr = commodity + "_" + statecode + "_Suitability_" + commodity + "_" + optcode[adaption];
-        } else if (x === "Bhutan") {
-          statecode = y;
-          rowstr = commodity + "_" + statecode + "_Suitability_" + commodity + "_" + optcode[adaption];
-        }
-      } else {
-        rowstr = commodity + "_" + location + "_Suitability_" + commodity + "_" + optcode[adaption];
-      }
-      let row_data = area_data[rowstr.toLowerCase()];
-      let total = 1;
-      if (row_data) {
-        total = Number(row_data["Unsuitable"]) + Number(row_data["Suitable"]) + Number(row_data["Adaptation Benefits"]) + Number(row_data["High"]);
-      } else {
-        row_data = {
-          "Unsuitable": NaN,
-          "Suitable": NaN,
-          "Adaptation Benefits": NaN,
-        };
-      }
-      data = [
-        createData(
-          <Box
-            sx={{
-              width: 60,
-              height: 13,
-              borderRadius: 1,
-              bgcolor: "rgba(180, 70, 109, 1)",
-              marginY: "2px",
-            }}
-          />,
-          "Unsuitable",
-          row_data["Unsuitable"] / 10,
-          ((row_data["Unsuitable"] * 100) / total).toFixed(1),
-          row_data["Unsuitable_Area"] / 1000000
-        ),
-        createData(
-          <Box
-            sx={{
-              width: 60,
-              height: 13,
-              borderRadius: 1,
-              bgcolor: "#FF9A00",
-              marginY: "2px",
-            }}
-          />,
-          "Suitable",
-          row_data["Suitable"] / 10,
-          ((row_data["Suitable"] * 100) / total).toFixed(1),
-          row_data["Suitable_Area"] / 1000000
-        ),
-        createData(
-          <Box
-            sx={{
-              width: 60,
-              height: 13,
-              borderRadius: 1,
-              bgcolor: "#06D001",
-              marginY: "2px",
-            }}
-          />,
-          "Suitable with adaptation benefits",
-          row_data["Adaptation Benefits"] / 10,
-          ((row_data["Adaptation Benefits"] * 100) / total).toFixed(1),
-          row_data["Adaptation Benefits_Area"] / 1000000
-        ),
-      ];
-      //console.log(data);
-    }
-    return data;
+  if (RiskName !== "") {
+    const hazard_data = fetchthedataHzd(activeScale, RiskName, ImpactName, displayLayer, location, scenario, commodity, area_data4);
+    const total = hazard_data[1].Area + hazard_data[2].Area + hazard_data[3].Area + hazard_data[4].Area + hazard_data[5].Area;
+    data3 = [
+      { label: hazard_data[1].Cat, value: ((hazard_data[1].Area * 100) / total).toFixed(0) },
+      { label: hazard_data[2].Cat, value: ((hazard_data[2].Area * 100) / total).toFixed(0) },
+      { label: hazard_data[3].Cat, value: ((hazard_data[3].Area * 100) / total).toFixed(0) },
+      { label: hazard_data[4].Cat, value: ((hazard_data[4].Area * 100) / total).toFixed(0) },
+      { label: hazard_data[5].Cat, value: ((hazard_data[5].Area * 100) / total).toFixed(0) },
+    ];
   }
 
   function typrstr() {
@@ -465,8 +187,6 @@ export default function LocationCard({ location, commodity, adaption, setHeight1
     }
     return "";
   }
-
-  const rows = fetchthedataTable();
 
   function RiskMethod() {
     let str = "Estimated risk";
@@ -515,16 +235,7 @@ export default function LocationCard({ location, commodity, adaption, setHeight1
         }}
       >
         <Accordion defaultExpanded>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1-content"
-            id="panel1-header"
-            sx={{
-              justifyItems: "center",
-              alignContent: "center",
-              marginBottom: "-5px",
-            }}
-          >
+          <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1-content" id="panel1-header" sx={{ justifyItems: "center", alignContent: "center", marginBottom: "-5px" }}>
             {" "}
             <Typography
               sx={(theme) => ({
@@ -532,6 +243,7 @@ export default function LocationCard({ location, commodity, adaption, setHeight1
                 fontWeight: "bold",
                 color: theme.palette.mode === "dark" ? "#81c784" : "#143200",
                 marginLeft: "4px",
+                marginTop: "-5px",
               })}
             >
               Your Selections
@@ -1249,161 +961,49 @@ export default function LocationCard({ location, commodity, adaption, setHeight1
                       </Typography>
                     )}
                   </Box>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: "row",
-                      width: "100%",
-                      gap: "1px",
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        display: "flex",
-                        flexDirection: "row",
-                        width: "100%",
-                      }}
-                    >
-                      <Box
-                        sx={{
-                          width: 16,
-                          height: 16,
-                          borderRadius: 1,
-                          bgcolor: "#FF0000",
-                          marginY: "4px",
-                          marginX: "2px",
-                        }}
-                      />
+                  {/* <Box sx={{ display: "flex", flexDirection: "row", width: "100%", gap: "1px" }}>
+                    <Box sx={{ display: "flex", flexDirection: "row", width: "100%" }}>
+                      <Box sx={{ width: 16, height: 16, borderRadius: 1, bgcolor: "#FF0000", marginY: "4px", marginX: "2px" }} />
                       <Typography sx={{ fontSize: 12, margin: "4px" }} color="text.secondary" gutterBottom>
                         Very High
                       </Typography>
                     </Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        flexDirection: "row",
-                        width: "100%",
-                      }}
-                    >
-                      <Box
-                        sx={{
-                          width: 16,
-                          height: 16,
-                          borderRadius: 1,
-                          bgcolor: "#FFA500",
-                          margin: "4px",
-                          marginX: "2px",
-                        }}
-                      />
+                    <Box sx={{ display: "flex", flexDirection: "row", width: "100%" }}>
+                      <Box sx={{ width: 16, height: 16, borderRadius: 1, bgcolor: "#FFA500", margin: "4px", marginX: "2px" }} />
                       <Typography sx={{ fontSize: 12, margin: "4px" }} color="text.secondary" gutterBottom>
                         High
                       </Typography>
                     </Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        flexDirection: "row",
-                        width: "100%",
-                      }}
-                    >
-                      <Box
-                        sx={{
-                          width: 16,
-                          height: 16,
-                          borderRadius: 1,
-                          bgcolor: "#FFDE4D",
-                          margin: "4px",
-                          marginX: "2px",
-                        }}
-                      />
+                    <Box sx={{ display: "flex", flexDirection: "row", width: "100%" }}>
+                      <Box sx={{ width: 16, height: 16, borderRadius: 1, bgcolor: "#FFDE4D", margin: "4px", marginX: "2px" }} />
                       <Typography sx={{ fontSize: 12, margin: "4px" }} color="text.secondary" gutterBottom>
                         Medium
                       </Typography>
                     </Box>
                   </Box>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: "row",
-                      width: "100%",
-                      gap: "1px",
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        display: "flex",
-                        flexDirection: "row",
-                        width: "100%",
-                      }}
-                    >
-                      <Box
-                        sx={{
-                          width: 16,
-                          height: 16,
-                          borderRadius: 1,
-                          bgcolor: "#00FF00",
-                          marginY: "4px",
-                          marginX: "2px",
-                        }}
-                      />
+                  <Box sx={{ display: "flex", flexDirection: "row", width: "100%", gap: "1px" }}>
+                    <Box sx={{ display: "flex", flexDirection: "row", width: "100%" }}>
+                      <Box sx={{ width: 16, height: 16, borderRadius: 1, bgcolor: "#00FF00", marginY: "4px", marginX: "2px" }} />
                       <Typography sx={{ fontSize: 12, margin: "4px" }} color="text.secondary" gutterBottom>
                         Low
                       </Typography>
                     </Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        flexDirection: "row",
-                        width: "100%",
-                      }}
-                    >
-                      <Box
-                        sx={{
-                          width: 16,
-                          height: 16,
-                          borderRadius: 1,
-                          bgcolor: "#059212",
-                          margin: "4px",
-                          marginX: "2px",
-                        }}
-                      />
+                    <Box sx={{ display: "flex", flexDirection: "row", width: "100%" }}>
+                      <Box sx={{ width: 16, height: 16, borderRadius: 1, bgcolor: "#059212", margin: "4px", marginX: "2px" }} />
                       <Typography sx={{ fontSize: 12, margin: "4px" }} color="text.secondary" gutterBottom>
                         Very Low
                       </Typography>
                     </Box>
                     {RiskType() === "Hazard" && (
-                      <Box
-                        sx={{
-                          display: "flex",
-                          flexDirection: "row",
-                          width: "100%",
-                        }}
-                      >
-                        <Box
-                          sx={{
-                            width: 16,
-                            height: 16,
-                            borderRadius: 1,
-                            bgcolor: "#bbb",
-                            margin: "4px",
-                            marginX: "2px",
-                          }}
-                        />
+                      <Box sx={{ display: "flex", flexDirection: "row", width: "100%" }}>
+                        <Box sx={{ width: 16, height: 16, borderRadius: 1, bgcolor: "#bbb", margin: "4px", marginX: "2px" }} />
                         <Typography sx={{ fontSize: 12, margin: "4px", marginX: "2px" }} color="text.secondary" gutterBottom>
                           No {typrstr()}
                         </Typography>
                       </Box>
                     )}
-                    {RiskType() !== "Hazard" && (
-                      <Box
-                        sx={{
-                          display: "flex",
-                          flexDirection: "row",
-                          width: "100%",
-                        }}
-                      ></Box>
-                    )}
-                  </Box>
+                    {RiskType() !== "Hazard" && <Box sx={{ display: "flex", flexDirection: "row", width: "100%" }}></Box>}
+                  </Box> */}
                 </Box>
               )}
             </Typography>

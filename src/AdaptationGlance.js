@@ -19,43 +19,8 @@ import Map_Option from "./Map_Option1";
 import LegendComp from "./LegendComp.js";
 import { fetchthedataHzd } from "./fetchDataHzd.js";
 import { fetchDataAdap } from "./fetchDataAdap.js";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
-
-{
-  /* <AdaptationGlance
-        acc={acc}
-        setacc={setacc}
-        handleChangeSumm={handleChangeSumm}
-        handleChangeOptSumm={handleChangeOptSumm}
-        handleChangeOptSumm2={handleChangeOptSumm2}
-        handleChangeOptSumm3={handleChangeOptSumm3}
-        handleChangeOptSumm4={handleChangeOptSumm4}
-        handleChangeOptSumm5={handleChangeOptSumm5}
-        handleChangeOptSumm6={handleChangeOptSumm6}
-        cropid={cropid}
-        crop2={crop2}
-        crop3={crop3}
-        area_data4={area_dict}
-        CurrRisk2={CurrRisk2}
-        focus2={focus2}
-        activeRegion2={activeRegion2}
-        ActiveRegionChange2={ActiveRegionChange2}
-        opt2={opt2}
-        opt3={opt3}
-        opt4={opt4}
-        opt5={opt5}
-        opt6={opt6}
-        opt7={opt7}
-        changeOptLayer2={changeOptLayer2}
-        optionlayer2={optionlayer2}
-        ></AdaptationGlance> */
-}
 
 export default function AdaptationGlance({
-  acc,
-  setacc,
   handleChangeSumm,
   handleChangeOptSumm,
   handleChangeOptSumm2,

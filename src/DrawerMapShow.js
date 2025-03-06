@@ -11,27 +11,10 @@ import Floating_drawer from "./Floating_Drawer";
 import ResTabsData from "./Resources";
 import AboutUs from "./About_Us";
 import { Accordion, Box } from "@mui/material";
-import { Paper } from "@mui/material";
-import Summ_Comm from "./Summ_Comm";
-import Summ_Loc from "./Summ_Loc";
-import Summ_Adapt from "./Summ_Adapt";
-import Summ_Adapt2 from "./Summ_Adapt2";
-import Summ_Adapt3 from "./Summ_Adapt3";
-import Summ_Adapt4 from "./Summ_Adapt4";
-import Summ_Adapt5 from "./Summ_Adapt5";
-import Summ_Adapt6 from "./Summ_Adapt6";
-import Map_Risk from "./Map_Risk1";
-import Map_Option from "./Map_Option1";
-//import Map_Extra from './Map_Extra';
 import { useLocation } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import UseCase from "./Usecase";
 import Guidee from "./Guide";
-//import UnitCard from './UnitRisk';
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import Popper from "@mui/material/Popper";
 import LegendCard from "./Legend_Card";
 import CompV from "./Exp_Comp";
 import ImageTimeline from "./gif";
@@ -41,12 +24,6 @@ import Selection_bar from "./Selection_bar.js";
 import HazardGlance from "./HazardGlance.js";
 import Adaptation_Analytics from "./Adaptation_Analytics.js";
 import Adaptation_Analytics2 from "./Adaptation_Analytics2.js";
-import Summ_Scenario from "./Summ_Scenario";
-import Summ_Model from "./Summ_Model";
-import Summ_Adaptation_Indicator from "./Summ_Adaptation_Indicators.js";
-import { fetchDataAdap } from "./fetchDataAdap.js";
-import LegendComp from "./LegendComp.js";
-import { fetchthedataHzd } from "./fetchDataHzd.js";
 import AdaptationGlance from "./AdaptationGlance";
 //import Summ1 from './Summary1';
 
@@ -420,7 +397,7 @@ export default function DrawerMapShow({ activeBar }) {
 
   const [scenario, setscenario] = React.useState(createInitialScenario);
 
-  const [NameScenario, setNameScenario] = React.useState("baseline");
+  const [NameScenario, setNameScenario] = React.useState("Baseline");
 
   const handleScenarioChange = (name) => (event) => {
     const oldscenario = { ...scenario };
@@ -841,25 +818,10 @@ export default function DrawerMapShow({ activeBar }) {
     setModel(name);
   };
 
-  const handleScenario = (name) => {
-    setNameScenario(name);
-  };
-
   const [NameModel, setNameModel] = React.useState("CHC");
 
-  const handleModel = (name) => {
-    setNameModel(name);
-  };
-
-  const box1 = React.useRef(null);
-  const box2 = React.useRef(null);
-  const box3 = React.useRef(null);
-  const box4 = React.useRef(null);
-  const box5 = React.useRef(null);
-  const box6 = React.useRef(null);
-  const impactBox = React.useRef(null);
-  const paperWidth = window.innerWidth * 0.21;
-  const paperWidth2 = window.innerWidth * 0.23;
+  //const paperWidth = window.innerWidth * 0.21;
+  //const paperWidth2 = window.innerWidth * 0.23;
 
   return (
     <div>
@@ -1044,13 +1006,16 @@ export default function DrawerMapShow({ activeBar }) {
                 location={activeRegion}
                 commodity={Currcrop}
                 adaption={CurrOpt}
+                activeOptLayer={optionlayer}
                 setHeight1={setHeight1}
                 RiskName={RiskName}
-                scenario={NameScenario}
+                scenario="Baseline"
                 ImpactName={ImpactName}
-                area_data={area_dict}
-                area_data2={area_dict2}
+                area_data3={area_dict3}
+                area_data4={area_dict4}
                 exploreType={exploreType}
+                displayLayer={displayLayer}
+                activeScale={vis_scale}
               ></LocationCard>
             </div>
           )}
