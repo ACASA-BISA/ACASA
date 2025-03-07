@@ -75,7 +75,7 @@ export default function Selection_bar({
                 {location}
               </Typography>
             </Box>
-            <ChevronRightIcon />
+            <ChevronRightIcon sx={(theme) => ({ color: theme.palette.text.primary })}/>
             <Box sx={{ display: "flex", flexDirection: "row" }}>
               <Typography sx={{ fontSize: 14 }} color="text.secondary">
                 {activeScale.charAt(0).toUpperCase() +

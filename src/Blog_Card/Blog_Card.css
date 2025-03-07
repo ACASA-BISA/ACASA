@@ -87,6 +87,7 @@
   overflow: hidden;
   transition: transform 0.3s ease-in-out;
   cursor: pointer;
+  background-color: var(--blog-card-bgcolor);
 }
 
 .blog-card:hover {

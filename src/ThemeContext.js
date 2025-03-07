@@ -86,6 +86,7 @@ export const ThemeProviderWrapper = ({ children }) => {
       root.style.setProperty("--banner-title-background", "rgba(200, 200, 200, 0.4)");
       root.style.setProperty("--animated-shape-background", "rgba(184, 143, 26, 0.8)");
       root.style.setProperty("--blog-title-hover-underline", "#81c784");
+      root.style.setProperty("--blog-card-bgcolor", "#25292e");
 
     } else {
 
@@ -129,6 +130,7 @@ export const ThemeProviderWrapper = ({ children }) => {
       root.style.setProperty("--banner-title-background", "rgba(0, 0, 0, 0.4)");
       root.style.setProperty("--animated-shape-background", "rgba(254, 206, 47, 0.7)");
       root.style.setProperty("--blog-title-hover-underline", "#52911f");
+      root.style.setProperty("--blog-card-bgcolor", "#fff");
 
     }
   }, [mode]);

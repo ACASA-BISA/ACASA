@@ -4,9 +4,12 @@ import FormControl from "@mui/material/FormControl";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
-import { Typography } from "@mui/material";
+import { Typography, Link } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Box } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import LightTooltip from "./LightTooltip";
 
 export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, CurrRisk, exploreType }) {
   const switchPro = ["District Level", "Downscaled Risk"];
@@ -22,6 +25,7 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
 
   const switchRisk = ["Risk Index", "Hazard Index", "Exposure Index", "Vulnerability Index"];
   const switchRiskID = ["riskindex", "HINDEX", "expoindex", "vulne"];
+  const indicespopup = ["To be updated", "To be updated", "To be updated", "To be updated"]
 
   const switchBasic = ["Seasonal Rainfall", "Maximum Temperature", "Minimum Temperature"];
   const switchBasicID = ["seasonalrain", "maxtemp", "mintemp"];
@@ -595,6 +599,8 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
                               label={
                                 <Typography fontSize="13px" sx={{ paddingLeft: "3px" }}>
                                   {sn1r.charAt(0).toUpperCase() + sn1r.toLowerCase().slice(1)}
+                                  
+                                  
                                 </Typography>
                               }
                             />
@@ -916,9 +922,11 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
                               }
                               disabled={false}
                               key={switchRiskID[idxr]}
+                              
                               label={
                                 <Typography fontSize="13px" sx={{ paddingLeft: "3px" }}>
                                   {sn1r.charAt(0).toUpperCase() + sn1r.toLowerCase().slice(1)}
+
                                 </Typography>
                               }
                             />

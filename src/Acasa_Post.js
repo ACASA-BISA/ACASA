@@ -19,12 +19,37 @@ import { BlogCard } from "./Blog_Card/Blog_Card";
 import { motion } from "framer-motion";
 import ColorThief from "color-thief-browser";
 
-function createData(imgSrc, imgAlt, title, author, link, keywords = []) {
-  return { imgSrc, imgAlt, title, author, link, keywords };
+function createData(imgSrc, imgAlt, title, author, link, keywords = [], date) {
+  return { imgSrc, imgAlt, title, author, link, keywords, date };
 }
 
 const data = [
-  createData("blognew1.png", "Blog 1", "Greater successes through NARS partnerships", "Tess Russo, BMGF, Seattle, USA", "https://bisa.org/greater-successes-through-nars-partnerships/", [
+  createData(
+    "/Blog-10.jpg",
+    "Blog 1",
+    "Building capabilities of medium and large-scale Sri Lankan maize growers in agricultural risk management",
+    "ASM Roshan, Agribusiness Development Centre, Department of Agriculture, Sri Lanka, and WMUK Rathnayake, Natural Resources Management Centre (NRMC), Department of Agriculture, Sri Lanka",
+    "https://bisa.org/building-capabilities-of-medium-and-large-scale-sri-lankan-maize-growers-in-agricultural-risk-management/",
+    ["Maize,", "agribusiness"],
+    "Jan, 2025"
+  ),
+  createData(
+    "/Blog-11.jpg",
+    "Blog 2",
+    "ACASA for empowering women-led social entrepreneurs in Nepal: Building climate-resilient forage for a sustainable livestock ecosystem",
+    "Bhola Shrestha, Heifer International, Nepal, and Sunita Sanjyal, Nepal Agricultural Research Council, Nepal",
+    "https://bisa.org/acasa-for-empowering-women-led-social-entrepreneurs-in-nepal-building-climate-resilient-forage-for-a-sustainable-livestock-ecosystem/",
+    ["Capacity building,", "women"]
+  ),
+  createData(
+    "/Blog-13.jpg",
+    "Blog 3",
+    "Strengthening the model of “Adaptation Clinic” through data-driven local level adaptation planning in Bangladesh",
+    "Tausif Ahmed Qurashi, BRAC, Bangladesh, and Md. Abdus Salam, Bangladesh Agricultural Research Council (BARC), Bangladesh",
+    "https://bisa.org/strengthening-the-model-of-adaptation-clinic-through-data-driven-local-level-adaptation-planning-in-bangladesh/",
+    ["Adaptation,", "local-level planning"]
+  ),
+  createData("blognew1.png", "Blog 4", "Greater successes through NARS partnerships", "Tess Russo, BMGF, Seattle, USA", "https://bisa.org/greater-successes-through-nars-partnerships/", [
     "Partnership,",
     "NARS,",
     "ACASA,",
@@ -32,7 +57,7 @@ const data = [
   ]),
   createData(
     "/blognew2.jpeg",
-    "Blog 2",
+    "Blog 5",
     "Gridded crop modelling to simulate impacts of climate change and adaptation benefits in ACASA",
     "Anooja Thomas, University of Florida, USA; Apurbo K Chaki, BARI, Bangladesh; Gerrit Hoogenboom, University of Florida, USA; and S Naresh Kumar, ICAR-IARI, India",
     "https://bisa.org/gridded-crop-modelling-to-simulate-impacts-of-climate-change-and-adaptation-benefits-in-acasa/",
@@ -40,7 +65,7 @@ const data = [
   ),
   createData(
     "/blognew3.png",
-    "Blog 3",
+    "Blog 6",
     "Harnessing econometric and statistical tools to support climate-resilient agriculture",
     "Kaushik Bora, BISA-CIMMYT, India and Prem Chand, ICAR-NIAP, India",
     "https://bisa.org/harnessing-econometric-and-statistical-tools-to-support-climate-resilient-agriculture/",
@@ -48,7 +73,7 @@ const data = [
   ),
   createData(
     "/blognew4.png",
-    "Blog 4",
+    "Blog 7",
     "Unlocking insights from literature: Exploring adaptation options in ACASA",
     "Aniket Deo, BISA-CIMMYT, India; Niveta Jain, ICAR-IARI, India; Roshan B Ojha, NARC, Nepal; and Sayla Khandoker, Bangladesh",
     "https://bisa.org/unlocking-insights-from-literature-exploring-adaptation-options-in-acasa/",
@@ -56,7 +81,7 @@ const data = [
   ),
   createData(
     "/Blog-5.jpg",
-    "Blog 5",
+    "Blog 8",
     "A new Climate Adaptation Atlas to safeguard South Asian agriculture",
     "Bram Govaerts, DG, CIMMYT & BISA and Arun Kumar Joshi, CIMMYT Asia Regional Representative and MD BISA",
     "https://www.cimmyt.org/blogs/a-new-climate-adaptation-atlas-to-safeguard-south-asian-agriculture/",
@@ -64,7 +89,7 @@ const data = [
   ),
   createData(
     "/Blog-1.jpg",
-    "Blog 6",
+    "Blog 9",
     "Adaptation Atlas is a positive step towards climate resilient agriculture",
     "Himanshu Pathak, Secretary (DARE) and Director General - ICAR, India",
     "https://www.cimmyt.org/blogs/adaptation-atlas-is-a-positive-step-towards-climate-resilient-agriculture/",
@@ -72,7 +97,7 @@ const data = [
   ),
   createData(
     "/Blog-2.jpg",
-    "Blog 7",
+    "Blog 10",
     "Bangladesh to improve risk characterization at a granular level with Atlas",
     "Shaikh Mohammad Bokhtiar, Executive Chairman, BARC, Bangladesh",
     "https://www.cimmyt.org/blogs/bangladesh-to-improve-risk-characterization-at-a-granular-level-with-atlas/",
@@ -80,7 +105,7 @@ const data = [
   ),
   createData(
     "/Blog-3.jpg",
-    "Blog 8",
+    "Blog 11",
     "Atlas crucial to strengthen Nepal’s capacity to cope with climate change",
     "Dhruba Raj Bhattarai, Executive Director, NARC, Nepal",
     "https://www.cimmyt.org/blogs/atlas-crucial-to-strengthen-nepals-capacity-to-cope-with-climate-change/",
@@ -88,35 +113,11 @@ const data = [
   ),
   createData(
     "/Blog-4.jpg",
-    "Blog 9",
+    "Blog 12",
     "Climate Adaptation Atlas will support evidence-based solutions in Sri Lanka",
     "P. Malathy, DG-Agriculture, Sri Lanka",
     "https://www.cimmyt.org/news/climate-adaptation-atlas-will-support-evidence-based-solutions-in-sri-lanka/",
     ["ACASA,", "BISA,", "NRMC,", "Department of Agriculture"]
-  ),
-  createData(
-    "/Blog-10.jpg",
-    "Blog 10",
-    "Building capabilities of medium and large-scale Sri Lankan maize growers in agricultural risk management",
-    "ASM Roshan, Agribusiness Development Centre, Department of Agriculture, Sri Lanka, and WMUK Rathnayake, Natural Resources Management Centre (NRMC), Department of Agriculture, Sri Lanka",
-    "https://bisa.org/building-capabilities-of-medium-and-large-scale-sri-lankan-maize-growers-in-agricultural-risk-management/",
-    ["Maize,", "agribusiness"]
-  ),
-  createData(
-    "/Blog-11.jpg",
-    "Blog 11",
-    "ACASA for empowering women-led social entrepreneurs in Nepal: Building climate-resilient forage for a sustainable livestock ecosystem",
-    "Bhola Shrestha, Heifer International, Nepal, and Sunita Sanjyal, Nepal Agricultural Research Council, Nepal",
-    "https://bisa.org/acasa-for-empowering-women-led-social-entrepreneurs-in-nepal-building-climate-resilient-forage-for-a-sustainable-livestock-ecosystem/",
-    ["Capacity building,", "women"]
-  ),
-  createData(
-    "/Blog-12.jpg",
-    "Blog 12",
-    "Strengthening the model of “Adaptation Clinic” through data-driven local level adaptation planning in Bangladesh",
-    "Tausif Ahmed Qurashi, BRAC, Bangladesh, and Md. Abdus Salam, Bangladesh Agricultural Research Council (BARC), Bangladesh",
-    "https://bisa.org/strengthening-the-model-of-adaptation-clinic-through-data-driven-local-level-adaptation-planning-in-bangladesh/",
-    ["Adaptation,", "local-level planning"]
   ),
 ];
 
@@ -129,6 +130,7 @@ export default function Card_Posts() {
   //It uses a useState hook from React to manage the state of blogs (initially set to false). This state controls whether to show additional blog posts.
 
   return (
+    <>
     <div style={{ marginLeft: "70px", marginTop: "15px", marginBottom: "15px" }}>
       <div
         className="full-width-container"
@@ -234,20 +236,25 @@ export default function Card_Posts() {
           </motion.div>
         </div>
       </div>
+      </div>
 
       <Box
-        sx={{
+        sx={(theme) => ({
           width: "100%",
           display: "flex",
           flexDirection: "column",
           gap: "15px",
-        }}
+          backgroundColor: theme.palette.mode === "dark" ? "#2f6742" : "rgba(75, 160, 70, 0.8)"
+        })}
       >
-        <div className="blog-container">
+        <Box className="blog-container" sx={(theme) => ({/*backgroundColor: theme.palette.mode === "dark" ? "#2f6742" : "#e0e0e0"*/})}>
           {data.map((item, index) => (
-            <BlogCard key={index} imgSrc={item.imgSrc} imgAlt={item.imgAlt} title={item.title} link={item.link} keywords={item.keywords} />
+            <BlogCard key={index} imgSrc={item.imgSrc} imgAlt={item.imgAlt} title={item.title} link={item.link} keywords={item.keywords} date={item.date} />
           ))}
-        </div>
+        </Box>
+        </Box>
+        </>
+  )};
 
         {/*
         <Card
@@ -721,10 +728,6 @@ Clicking the button triggers a function using onClick that sets blogs to true (s
               </a>
             </CardContent>
           </Card> */}
-      </Box>
-    </div>
-  );
-}
 
 // First Row of Blog Posts:
 

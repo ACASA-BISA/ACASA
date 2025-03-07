@@ -90,8 +90,8 @@ export default function ResTabsData() {
           <TabItem disableRipple label={"ACASA Posts"} />
           <TabItem disableRipple label={"Newsletter-Strides"} />
           <TabItem disableRipple label={"Glossary"} />
-          <TabItem disableRipple disabled={true} label={"ACASA Data Dive"} />
-          <TabItem disableRipple disabled={true} label={"ACASA in News"} />
+          {/*<TabItem disableRipple disabled={true} label={"ACASA Data Dive"} />
+          <TabItem disableRipple disabled={true} label={"ACASA in News"} />*/}
         </Tabs>
         {tabIndex === 0 && <Card_Posts></Card_Posts>}
         {tabIndex === 1 && <News></News>}

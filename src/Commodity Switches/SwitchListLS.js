@@ -23,12 +23,12 @@ export default function SwitchLivestock({ activeCrop, changeCrop }) {
 
   const padd = 8;
   const season = [
-    "Season information to be updated",
-    "Season information to be updated",
-    "Season information to be updated",
-    "Season information to be updated",
-    "Season information to be updated",
-    "Season information to be updated",
+    "The analysis is done for milk production.",
+    "The analysis is done for milk production.",
+    "The analysis is done for meat production.",
+    "The analysis is done for meat production.",
+    "The analysis is done for meat production.",
+    "The analysis is done for meat production.",
   ];
 
   const AntSwitch = styled(Switch)(({ theme }) => ({
@@ -114,10 +114,10 @@ export default function SwitchLivestock({ activeCrop, changeCrop }) {
                         <Link
                           href={`#/resources?tab=2&term=${switchh[index].toLowerCase()}`}
                           target="_blank"
-                          sx={{
-                            color: "white",
+                          sx={(theme) => ({
+                            color: theme.palette.mode === "dark" ? "black" : "white",
                             fontWeight: "bold",
-                          }}
+                          })}
                         >
                           Read More
                         </Link>

@@ -1,6 +1,7 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
-import { Typography, Box, Button, TextField, Paper } from "@mui/material";
+import { Typography, Box, Button, TextField, Paper, Link } from "@mui/material";
+import { defined } from "cesium";
 
 const glossaryData = {
   A: [
@@ -10,8 +11,13 @@ const glossaryData = {
     },
     {
       term: "Alternate Wetting and Drying (AWD)- Rice",
-      definition: "The AWD practices in rice involves intermittent flooding (alternate cycles of saturated and unsaturated conditions) of a rice field, typically to a water depth of around 5 cm, and allowing the field to dry until the water level drops to a certain threshold moisture level i.e., around 10 cm below the soil surface, and then reflooding the field. It saves se irrigation water use and reduces greenhouse gas (GHG) emissions while maintaining or improving grain yields"
-    }
+      definition:
+        "The AWD practices in rice involves intermittent flooding (alternate cycles of saturated and unsaturated conditions) of a rice field, typically to a water depth of around 5 cm, and allowing the field to dry until the water level drops to a certain threshold moisture level i.e., around 10 cm below the soil surface, and then reflooding the field. It saves se irrigation water use and reduces greenhouse gas (GHG) emissions while maintaining or improving grain yields",
+    },
+    {
+      term: "Adaptation benefits",
+      definition: "Yield benefits because of the adoption of technology options over conventional/farmers' practice.",
+    },
   ],
   B: [
     {
@@ -23,8 +29,33 @@ const glossaryData = {
       definition: "The analysis for barley is done for Rabi/winter season",
     },
     {
-      term: "Broad bed & furrow (BBF)",
-      definition: "BBF, a water-saving and soil conservation technique used in field crop cultivation. It involves creating broad raised beds separated by furrows, allowing for better water infiltration, reduced waterlogging, and improved root aeration"
+      term: "Broad bed and furrow",
+      definition:
+        "Broad bed and furrow (BBF), a water-saving and soil conservation technique used in field crop cultivation. It involves creating broad raised beds separated by furrows, allowing for better water infiltration, reduced waterlogging, and improved root aeration",
+    },
+    {
+      term: "Biophysical suitability",
+      definition: "Suitability of adaptation options in a particular pixel based on the heuristic model of several indicators. For detailed methodology refer to the document",
+    },
+    {
+      term: "Bathing",
+      definition: "",
+    },
+    {
+      term: "Balanced concentrate with buffer",
+      definition: "",
+    },
+    {
+      term: "Biotic",
+      definition: "",
+    },
+    {
+      term: "Biotic stress",
+      definition: "",
+    },
+    {
+      term: "Buffalo",
+      definition: "The analysis is done for milk production"
     }
   ],
   C: [
@@ -57,10 +88,72 @@ const glossaryData = {
     },
     {
       term: "Crop Insurance",
-      definition: "Crop insurance service refers to the provision of insurance coverage to farmers against losses incurred due to crop failure, damage, or yield reductions caused by weather-related events such as droughts, floods, storms, and pests"
+      definition:
+        "Crop insurance service refers to the provision of insurance coverage to farmers against losses incurred due to crop failure, damage, or yield reductions caused by weather-related events such as droughts, floods, storms, and pests",
+    },
+    {
+      term: "Commodity specific analysis",
+      definition: "",
+    },
+    {
+      term: "Cold stress",
+      definition: "",
+    },
+    {
+      term: "Cold stress during flowering",
+      definition: "",
+    },
+    {
+      term: "Cold stress in reproductive stage",
+      definition: "",
+    },
+    {
+      term: "Cyclone",
+      definition: "",
+    },
+    {
+      term: "Cropped area",
+      definition: "",
+    },
+    {
+      term: "Chickpea",
+      definition: "Here the analysis is done only for winter season"
+    },
+    {
+      term: "Cotton",
+      definition: "Cotton is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif' in India)."
+    },
+    {
+      term: "Cattle",
+      definition: "The analysis is done for milk production"
     }
   ],
-  D: [],
+  D: [
+    {
+      term: "District level",
+      definition: "Visualisation is at district scale",
+    },
+    {
+      term: "Direct seeded rice - dry",
+      definition: "",
+    },
+    {
+      term: "Direct seeded rice - wet",
+      definition: "",
+    },
+    {
+      term: "Days of frost",
+      definition: "",
+    },
+    {
+      term: "Delayed monsoon",
+      definition: "",
+    },
+    {
+      term: "Dry spell",
+      definition: "",
+    },
+  ],
   E: [
     {
       term: "Ensemble",
@@ -68,17 +161,96 @@ const glossaryData = {
     },
     {
       term: "Early sowing/changing planting dates",
-      definition: "A tactical farming practice to synchronize crop planting with the optimal climatic conditions essential for key growth stages of crop"
-    }
+      definition: "A tactical farming practice to synchronize crop planting with the optimal climatic conditions essential for key growth stages of crop",
+    },
+    {
+      term: "Economic development indicator",
+      definition: "Socio-economic development indicator represented by the Human Development Index from https://www.mosaiks.org/hdi",
+    },
+    {
+      term: "Economic viability",
+      definition: "Economic viability is determined through profitability using benefit-cost ratios",
+    },
+    {
+      term: "Excess rainfall",
+      definition: "",
+    },
+    {
+      term: "Excess rainfall and waterlogging",
+      definition: "",
+    },
+    {
+      term: "Exposure index",
+      definition: "",
+    },
   ],
   F: [
     {
       term: "Fertilizer rating and timing",
-      definition: "Fertilizer to be adjusted to meet the nutrient demands of crop growth and avoid nutrient loss when crop biomass decreases due to water and temperature stress over time under climate change"
+      definition:
+        "Fertilizer to be adjusted to meet the nutrient demands of crop growth and avoid nutrient loss when crop biomass decreases due to water and temperature stress over time under climate change",
+    },
+    {
+      term: "Flood",
+      definition: "",
+    },
+    {
+      term: "Feed/fodder",
+      definition: "",
+    },
+    {
+      term: "Finger millet",
+      definition: "Finger Millet is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif')"
     }
   ],
-  G: [],
-  H: [],
+  G: [
+    {
+      term: "Gender suitability",
+      definition: "It refers to the degree of suitability of each adaptation option to women farmers",
+    },
+    {
+      term: "Groundnut",
+      definition: "Groundnut is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif' in India) and Maha in Sri Lanka."
+    },
+    {
+      term: "Goat",
+      definition: "The analysis is done for meat production"
+    }
+  ],
+  H: [
+    {
+      term: "Hazard index",
+      definition: "",
+    },
+    {
+      term: "Heating management",
+      definition: "",
+    },
+    {
+      term: "Heat stress",
+      definition: "",
+    },
+    {
+      term: "Heat stress during boll formation",
+      definition: "",
+    },
+    {
+      term: "Heat stress in reproductive stage",
+      definition: "",
+    },
+    {
+      term: "High tempearture during flowering",
+      definition: "",
+    },
+    {
+      term: "High temperature induced pollen sterility",
+      definition: "",
+    },
+    {
+      term: "High temperature induced spikelet sterility",
+      definition: "",
+    },
+  ],
   I: [
     {
       term: "ISIMIP",
@@ -87,12 +259,43 @@ const glossaryData = {
     },
     {
       term: "ICT input linked management",
-      definition: "ICT linked input management technology is a type of modern agricultural management that comprehensively integrates information technology comprised of current data and information requires from crop growth conditions, soil physical and chemical properties, weather factors; weather based forecast products  for agricultural production by quantitative  and timing of application of nutrients, water and other operation management systems in accordance with geographical locations"
+      definition:
+        "ICT linked input management technology is a type of modern agricultural management that comprehensively integrates information technology comprised of current data and information requires from crop growth conditions, soil physical and chemical properties, weather factors; weather based forecast products  for agricultural production by quantitative  and timing of application of nutrients, water and other operation management systems in accordance with geographical locations",
+    },
+    {
+      term: "Income",
+      definition: "Agricultural gross domestic product data from https://datacatalog.worldbank.org/search/dataset/0061507/Global-Gridded-Agricultural-Gross-Domestic-Product--AgGDP-",
+    },
+    {
+      term: "Irrigation",
+      definition: "",
+    },
+  ],
+  J: [
+    {
+      term: "Jute",
+      definition: "Jute is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif' in India)."
     }
   ],
-  J: [],
   K: [],
-  L: [],
+  L: [
+    {
+      term: "Lodging",
+      definition: "",
+    },
+    {
+      term: "Low temperature induced pollen sterility",
+      definition: "",
+    },
+    {
+      term: "Low temperature induced spikelet sterility",
+      definition: "",
+    },
+    {
+      term: "Low temperature induced tuberization failure",
+      definition: "",
+    },
+  ],
   M: [
     {
       term: "MIROC6",
@@ -104,11 +307,38 @@ const glossaryData = {
     },
     {
       term: "Micro-irrigation",
-      definition: "A low-pressure, low-flow-rate type of irrigation that can reduce the likelihood of overwatering a landscape. Drip irrigation or trickle irrigation is an irrigation method that allows water to drip slowly to the roots of plants, either onto the soil surface or directly onto the root zone, through a network of valves, pipes, tubing, and emitters"
+      definition:
+        "A low-pressure, low-flow-rate type of irrigation that can reduce the likelihood of overwatering a landscape. Drip irrigation or trickle irrigation is an irrigation method that allows water to drip slowly to the roots of plants, either onto the soil surface or directly onto the root zone, through a network of valves, pipes, tubing, and emitters",
+    },
+    {
+      term: "Micro-climate modification shelter",
+      definition: "",
+    },
+    {
+      term: "Modification of shelter",
+      definition: "",
+    },
+    {
+      term: "Mechanical cooling",
+      definition: "",
+    },
+    {
+      term: "Mineral mixture supplementation",
+      definition: "",
+    },
+  ],
+  N: [
+    {
+      term: "Number of animals per grid",
+      definition: "Number of animals per grid from https://data.amerigeoss.org/dataset/9d1e149b-d63f-4213-978b-317a8eb42d02",
+    },
+  ],
+  O: [
+    {
+      term: "Onion",
+      definition: "Onion is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif' in India) and Maha in Sri Lanka."
     }
   ],
-  N: [],
-  O: [],
   P: [
     {
       term: "Productivity",
@@ -120,15 +350,46 @@ const glossaryData = {
     },
     {
       term: "Precision land leveling",
-      definition: "Precision Land Levelling (PLL) is a farming technique that involves the mechanical process of grading and smoothing land to achieve a uniform and precise. It may employ advanced laser-guided equipment to precisely contour the land surface, creating a uniform smooth surface (± 2 cm from its average elevation) and eliminating undulations that ensures every inch of your field gets the water it needs"
+      definition:
+        "Precision Land Levelling (PLL) is a farming technique that involves the mechanical process of grading and smoothing land to achieve a uniform and precise. It may employ advanced laser-guided equipment to precisely contour the land surface, creating a uniform smooth surface (± 2 cm from its average elevation) and eliminating undulations that ensures every inch of your field gets the water it needs",
     },
     {
       term: "Precision Water Management",
-      definition: "Precision water management technology is a new type of irrigation management that comprehensively integrates information technology (sensor based) included of data and information requires from crop growth conditions, soil physical and chemical properties, weather factors and agricultural production by positioning, timing, and quantitative application of water and operation management systems in accordance with spatial variation of the field"
+      definition:
+        "Precision water management technology is a new type of irrigation management that comprehensively integrates information technology (sensor based) included of data and information requires from crop growth conditions, soil physical and chemical properties, weather factors and agricultural production by positioning, timing, and quantitative application of water and operation management systems in accordance with spatial variation of the field",
     },
     {
       term: "Precision Fertilizer Management",
-      definition: "Precision fertilization management technology is a new type of agriculture that comprehensively integrates information technology and agricultural production by positioning, timing, and quantitative application of fertilizer management and operation systems in accordance with spatial variation of the field"
+      definition:
+        "Precision fertilization management technology is a new type of agriculture that comprehensively integrates information technology and agricultural production by positioning, timing, and quantitative application of fertilizer management and operation systems in accordance with spatial variation of the field",
+    },
+    {
+      term: "Pixel level",
+      definition: "Visualisation is at 0.05 degree x 0.05 degree",
+    },
+    {
+      term: "Planting of trees",
+      definition: "",
+    },
+    {
+      term: "Pearl millet",
+      definition: "Pearl Millet is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif')"
+    },
+    {
+      term: "Pigeonpea",
+      definition: "The analysis for pigeonpea is conducted exclusively for the monsoon season, as this period plays a vital role in its growth cycle. Pigeonpea, being a rainfed crop, heavily relies on the monsoon rains for optimal development"
+    },
+    {
+      term: "Potato",
+      definition: "Analysis done for Rabi/winter season or Maha season."
+    },
+    {
+      term: "Pig",
+      definition: "The analysis is done for meat production"
+    },
+    {
+      term: "Poultry",
+      definition: "Poultry refers to chicken and analysis is done for meat production"
     }
   ],
   Q: [],
@@ -138,6 +399,30 @@ const glossaryData = {
       definition:
         "Rice is planted in multiple seasons in different countries. Here this analysis is only for monsoon season (also known as 'Kharif' in India, 'Aman' in Bangladesh,and 'Maha' in Sri Lanka)",
     },
+    {
+      term: "Regional analysis",
+      definition: "",
+    },
+    {
+      term: "Rural infrastructure",
+      definition: "Rural infrastucture is proxied by nighlight luminosity data from source",
+    },
+    {
+      term: "Rainfall deficit",
+      definition: "",
+    },
+    {
+      term: "Rainfall deficit index",
+      definition: "",
+    },
+    {
+      term: "Risk index",
+      definition: "",
+    },
+    {
+      term: "Rapeseed/Mustard",
+      definition: "Here this analysis is done only for winter season"
+    }
   ],
   S: [
     {
@@ -154,24 +439,61 @@ const glossaryData = {
     },
     {
       term: "Stress-tolerant varieties",
-      definition: "Cultivars specifically bred or selected to tolerate or adapt to the changing climatic conditions. These varieties possess traits that enable them to withstand heat stress, drought, floods, and other environmental stresses"
+      definition:
+        "Cultivars specifically bred or selected to tolerate or adapt to the changing climatic conditions. These varieties possess traits that enable them to withstand heat stress, drought, floods, and other environmental stresses",
     },
     {
       term: "System of Rice Intensification (SRI)",
-      definition: "SRI involves transplanting young rice seedlings at wider spacing, intermittent irrigation, and organic soil enrichment to promote sustainable and efficient farming practices"
+      definition: "SRI involves transplanting young rice seedlings at wider spacing, intermittent irrigation, and organic soil enrichment to promote sustainable and efficient farming practices",
     },
     {
       term: "Supplemental irrigation",
-      definition: "Addition of limited amount of water to plants under insufficient water supply by rainfall to overcome the adverse effects of drought, when rainfall fails to provide sufficient moisture for normal plant growth"
+      definition:
+        "Addition of limited amount of water to plants under insufficient water supply by rainfall to overcome the adverse effects of drought, when rainfall fails to provide sufficient moisture for normal plant growth",
+    },
+    {
+      term: "Scalability",
+      definition: "Scalability is indicated by using a composite indicator of credit availability, input access, social network, education, and information access",
+    },
+    {
+      term: "Soybean",
+      definition: "Soybean is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif') and Maha in Sri Lanka."
+    },
+    {
+      term: "Sheep",
+      definition: "The analysis is done for meat production"
     }
   ],
-  T: [],
-  U: [],
-  V: [],
+  T: [
+    {
+      term: "Temperature-humidity index",
+      definition: "",
+    },
+    {
+      term: "Terminal heat",
+      definition: "",
+    },
+  ],
+  U: [
+    {
+      term: "Untimely rainfall",
+      definition: "",
+    },
+  ],
+  V: [
+    {
+      term: "Vulnerability index",
+      definition: "",
+    },
+  ],
   W: [
     {
       term: "Wheat",
       definition: "The analysis for wheat (except for Afghanistan) is done for Rabi/winter season with planting time around mid-November. For Afghanistan, wheat season starts around April.",
+    },
+    {
+      term: "Wallowing",
+      definition: "",
     },
   ],
   X: [],
@@ -179,8 +501,9 @@ const glossaryData = {
   Z: [
     {
       term: "Zero tillage with residue",
-      definition: "Zero-Till, also known as no-till or direct seed/drilling, farming method where crops are planted directly into untilled soil, without/minimal disturbing the soil structure, with or without residue retention. With irrigation facilities available, non-puddled transplanted rice can be cultivated in wet as well as dry season depending on the choice of crop rotation"
-    }
+      definition:
+        "Zero-Till, also known as no-till or direct seed/drilling, farming method where crops are planted directly into untilled soil, without/minimal disturbing the soil structure, with or without residue retention. With irrigation facilities available, non-puddled transplanted rice can be cultivated in wet as well as dry season depending on the choice of crop rotation",
+    },
   ],
 };
 
@@ -241,10 +564,10 @@ export default function Glossary() {
           placeholder="Search"
           fullWidth
           sx={(theme) => ({
-            marginBottom: 2,
+            "marginBottom": 2,
             "& .MuiOutlinedInput-root": {
-              backgroundColor: theme.palette.mode === "dark" ? theme.palette.background.paper : "white",
-              borderRadius: 1,
+              "backgroundColor": theme.palette.mode === "dark" ? theme.palette.background.paper : "white",
+              "borderRadius": 1,
               "& fieldset": {
                 borderColor: theme.palette.mode === "dark" ? "#666" : "#ccc",
               },
@@ -276,22 +599,22 @@ export default function Glossary() {
               variant={selectedLetter === letter ? "contained" : "outlined"}
               onClick={() => setSelectedLetter(selectedLetter === letter ? "" : letter)}
               sx={(theme) => ({
-                width: 40, // Set fixed width
-                height: 40, // Set fixed height (makes it a square)
-                minWidth: 40, // Ensure it stays square even if text is smaller
-                fontSize: "1rem",
-                fontWeight: "bold",
-                textTransform: "none",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                transition: "0.2s",
+                "width": "min(8vw, 40px)", 
+                "height": "min(8vw, 40px)", 
+                "minWidth": "min(8vw, 40px)",
+                "fontSize": "1rem",
+                "fontWeight": "bold",
+                "textTransform": "none",
+                "display": "flex",
+                "alignItems": "center",
+                "justifyContent": "center",
+                "transition": "0.2s",
 
-                color: selectedLetter === letter ? (theme.palette.mode === "dark" ? theme.palette.text.primary : "white") : theme.palette.mode === "dark" ? "#aaa" : "#666",
+                "color": selectedLetter === letter ? (theme.palette.mode === "dark" ? theme.palette.text.primary : "white") : theme.palette.mode === "dark" ? "#aaa" : "#666",
 
-                borderColor: selectedLetter === letter ? (theme.palette.mode === "dark" ? theme.palette.text.primary : "white") : theme.palette.mode === "dark" ? "#555" : "#999",
+                "borderColor": selectedLetter === letter ? (theme.palette.mode === "dark" ? theme.palette.text.primary : "white") : theme.palette.mode === "dark" ? "#555" : "#999",
 
-                backgroundColor: selectedLetter === letter ? (theme.palette.mode === "dark" ? "#3b8c3b" : "#4ba046") : "transparent",
+                "backgroundColor": selectedLetter === letter ? (theme.palette.mode === "dark" ? "#3b8c3b" : "#4ba046") : "transparent",
 
                 "&:hover": {
                   backgroundColor: selectedLetter === letter ? (theme.palette.mode === "dark" ? "#3b8c3b" : "#4ba046") : theme.palette.mode === "dark" ? "#333" : "#e0e0e0",
@@ -308,21 +631,21 @@ export default function Glossary() {
         {/* Glossary List */}
         <Paper
           sx={(theme) => ({
-            padding: 3,
-            marginTop: 3,
-            maxHeight: "65vh",
-            overflowY: "auto",
-            borderRadius: 2,
-            boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
-            scrollPaddingBottom: "60px",
+            "padding": 3,
+            "marginTop": 3,
+            "maxHeight": "65vh",
+            "overflowY": "auto",
+            "borderRadius": 2,
+            "boxShadow": "0 4px 10px rgba(0, 0, 0, 0.1)",
+            "scrollPaddingBottom": "60px",
 
-            backgroundColor:
+            "backgroundColor":
               theme.palette.mode === "dark"
                 ? theme.palette.background.paper // Dark mode background
                 : "#fafafa", // Light mode background
 
-            scrollbarWidth: "thin",
-            msOverflowStyle: "none",
+            "scrollbarWidth": "thin",
+            "msOverflowStyle": "none",
 
             "&::-webkit-scrollbar": {
               width: "10px",
@@ -358,6 +681,7 @@ export default function Glossary() {
               <Box key={letter} sx={{ marginBottom: 2 }}>
                 <Typography
                   variant="h6"
+                  align="left"
                   sx={(theme) => ({
                     fontWeight: "bold",
                     color: theme.palette.mode === "dark" ? theme.palette.primary.main : "#4ba046",
@@ -371,6 +695,7 @@ export default function Glossary() {
                   <Typography
                     key={index}
                     id={item.term.toLowerCase()}
+                    align="left"
                     sx={(theme) => ({
                       marginLeft: 2,
                       color: theme.palette.mode === "dark" ? theme.palette.text.primary : "#333",
@@ -402,6 +727,7 @@ export default function Glossary() {
           paddingBottom: "100px", // Ensure space for footer
         }}
       >
+        {console.log("Number of terms displayed:", sortedFilteredTerms.length)}
         {sortedFilteredTerms.length > 0 ? (
           sortedFilteredTerms.map((item, index) => (
             <Box
@@ -416,11 +742,26 @@ export default function Glossary() {
               })}
               data-term={item.term.toLowerCase()}
             >
-              <Typography variant="h6" sx={(theme) => ({ fontWeight: "bold", color: theme.palette.mode === "dark" ? theme.palette.text.primary : "#333" })}>
+              <Typography variant="h6" align="left" sx={(theme) => ({ fontWeight: "bold", color: theme.palette.mode === "dark" ? theme.palette.text.primary : "#333" })}>
                 {item.term}
               </Typography>
-              <Typography variant="body1" sx={(theme) => ({ color: theme.palette.mode === "dark" ? theme.palette.text.secondary : "#555", marginTop: 1 })}>
-                {item.definition}
+              <Typography
+                variant="body1"
+                align="left"
+                sx={(theme) => ({
+                  color: theme.palette.mode === "dark" ? theme.palette.text.secondary : "#555",
+                  marginTop: 1,
+                })}
+              >
+                {(item.definition || "").split(" ").map((word, i) =>
+                  word.startsWith("http") ? (
+                    <Link key={i} href={word} target="_blank" rel="noopener noreferrer" sx={(theme) => ({ color: theme.palette.text.secondary, textDecoration: "underline" })}>
+                      {word}
+                    </Link>
+                  ) : (
+                    word + " "
+                  )
+                )}
               </Typography>
             </Box>
           ))

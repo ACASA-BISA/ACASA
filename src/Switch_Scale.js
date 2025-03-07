@@ -4,19 +4,24 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { Typography } from "@mui/material";
+import { Typography, Link } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import FormLabel from "@mui/material/FormLabel";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
+import IconButton from "@mui/material/IconButton";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import LightTooltip from "./LightTooltip";
 
 export default function SwitchScale({ exploreType, handleExploreTypeChange, activeScale, changeScale }) {
   const switch_type = ["Commodity specific", "Regional (non-commodity specific)"];
   const switch_type_id = ["Commodity", "Regional"];
+  const season = ["Commodity specific analysis", "Regional analysis"];
 
   const switch_type2 = ["Pixel level", "District level"];
   const switch_type_id2 = ["Pixel Level", "District Level"];
+  const season2 = ["Visualisation is at 0.05 degree x 0.05 degree", "Visualisation is at district scale"];
 
   const padd = 8;
 
@@ -105,6 +110,32 @@ export default function SwitchScale({ exploreType, handleExploreTypeChange, acti
                   style={{ wordWrap: "break-word" }}
                 >
                   {switch_type[indexx]}
+                  <LightTooltip
+                    title={
+                      <>
+                        <span>{season[indexx]}</span>
+                        <br />
+                        <Link
+                          href={`#/resources?tab=2&term=${switch_type[indexx].toLowerCase()}`}
+                          target="_blank"
+                          sx={(theme) => ({
+                            color: theme.palette.mode === "dark" ? "black" : "white",
+                            fontWeight: "bold",
+                          })}
+                        >
+                          Read More
+                        </Link>
+                      </>
+                    }
+                    placement="right"
+                    arrow
+                  >
+                    <IconButton sx={{ padding: 0, margin: 0, paddingX: "4px" }}>
+                      <InfoOutlinedIcon
+                        sx={{ fontSize: "12px", padding: 0, margin: 0 }}
+                      />
+                    </IconButton>
+                  </LightTooltip>
                 </Typography>
               }
             />
@@ -143,6 +174,32 @@ export default function SwitchScale({ exploreType, handleExploreTypeChange, acti
                   style={{ wordWrap: "break-word" }}
                 >
                   {switch_type2[indexx]}
+                  <LightTooltip
+                    title={
+                      <>
+                        <span>{season2[indexx]}</span>
+                        <br />
+                        <Link
+                          href={`#/resources?tab=2&term=${switch_type2[indexx].toLowerCase()}`}
+                          target="_blank"
+                          sx={(theme) => ({
+                            color: theme.palette.mode === "dark" ? "black" : "white",
+                            fontWeight: "bold",
+                          })}
+                        >
+                          Read More
+                        </Link>
+                      </>
+                    }
+                    placement="right"
+                    arrow
+                  >
+                    <IconButton sx={{ padding: 0, margin: 0, paddingX: "4px" }}>
+                      <InfoOutlinedIcon
+                        sx={{ fontSize: "12px", padding: 0, margin: 0 }}
+                      />
+                    </IconButton>
+                  </LightTooltip>
                 </Typography>
               }
             />

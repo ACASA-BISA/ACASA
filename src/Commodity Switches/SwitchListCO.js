@@ -23,13 +23,13 @@ export default function SwitchCereals({ activeCrop, changeCrop }) {
   };
   const padd = 8;
   const season = [
-    "Rice is planted in multiple seasons in different countries. Here this analysis is only for monsoon season (also known as 'Kharif' in India, 'Aman' in Bangladesh,and 'Maha' in Sri Lanka)",
-    "The analysis for wheat (except for Afghanistan) is done for Rabi/winter season with planting time around mid-November.  For Afghanistan, wheat season starts around April.",
-    "Maize is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif') and 'Maha' in Sri Lanka",
-    "The analysis for barley is done for Rabi/winter season",
-    "Sorghum is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif').",
-    "Finger Millet is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif').",
-    "Pearl Millet is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif').",
+    "Here this analysis is only for monsoon season.",
+    "Here this analysis is done for winter season.",
+    "Here this analysis is for monsoon season.",
+    "Here this analysis is for winter season",
+    "Here this analysis is for monsoon season.",
+    "Here this analysis is for monsoon season.",
+    "Here this analysis is for monsoon season.",
   ];
 
   const AntSwitch = styled(Switch)(({ theme }) => ({
@@ -103,10 +103,10 @@ export default function SwitchCereals({ activeCrop, changeCrop }) {
                         <Link
                           href={`#/resources?tab=2&term=${switchh[index].toLowerCase()}`}
                           target="_blank"
-                          sx={{
-                            color: "white",
+                          sx={(theme) => ({
+                            color: theme.palette.mode === "dark" ? "black" : "white",
                             fontWeight: "bold",
-                          }}
+                          })}
                         >
                           Read More
                         </Link>

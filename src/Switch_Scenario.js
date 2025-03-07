@@ -133,10 +133,10 @@ export default function SwitchScenario({ activeScenario, changeScenario, activeM
                         <Link
                           href={`#/resources?tab=2&term=${switchh[index].toLowerCase()}`}
                           target="_blank"
-                          sx={{
-                            color: "white",
+                          sx={(theme) => ({
+                            color: theme.palette.mode === "dark" ? "black" : "white",
                             fontWeight: "bold",
-                          }}
+                          })}
                         >
                           Read More
                         </Link>
@@ -214,10 +214,10 @@ export default function SwitchScenario({ activeScenario, changeScenario, activeM
                                 <Link
                                   href={`#/resources?tab=2&term=${switchh3[index].toLowerCase()}`}
                                   target="_blank"
-                                  sx={{
-                                    color: "white",
+                                  sx={(theme) => ({
+                                    color: theme.palette.mode === "dark" ? "black" : "white",
                                     fontWeight: "bold",
-                                  }}
+                                  })}
                                 >
                                   Read More
                                 </Link>
