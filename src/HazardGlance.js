@@ -108,7 +108,7 @@ export default function HazardGlance({ handleChangeSumm, cropid, focus2, activeR
               {
                 name: "offset",
                 options: {
-                  offset: [-(paperWidth / 2 - 50), -87], // Adjust distance from the container
+                  offset: [0, -70], // Adjust distance from the container
                 },
               },
             ]}
@@ -132,7 +132,7 @@ export default function HazardGlance({ handleChangeSumm, cropid, focus2, activeR
                   {
                     name: "offset",
                     options: {
-                      offset: [-(paperWidth / 2 - 50), -87], // Adjust distance from the container
+                      offset: [0, -70], // Adjust distance from the container
                     },
                   },
                 ]}
@@ -154,7 +154,7 @@ export default function HazardGlance({ handleChangeSumm, cropid, focus2, activeR
                   {
                     name: "offset",
                     options: {
-                      offset: [-(paperWidth / 2 - 50), -87], // Adjust distance from the container //-( (paperWidth)/2 - 40),-82
+                      offset: [0, -70], // Adjust distance from the container //-( (paperWidth)/2 - 40),-82
                     },
                   },
                 ]}
@@ -176,7 +176,7 @@ export default function HazardGlance({ handleChangeSumm, cropid, focus2, activeR
                   {
                     name: "offset",
                     options: {
-                      offset: [-(paperWidth / 2 - 50), -87], // Adjust distance from the container
+                      offset: [0, -70], // Adjust distance from the container
                     },
                   },
                 ]}
@@ -198,7 +198,7 @@ export default function HazardGlance({ handleChangeSumm, cropid, focus2, activeR
                   {
                     name: "offset",
                     options: {
-                      offset: [-(paperWidth / 2 - 50), -87], // Adjust distance from the container
+                      offset: [0, -70], // Adjust distance from the container
                     },
                   },
                 ]}
@@ -220,7 +220,7 @@ export default function HazardGlance({ handleChangeSumm, cropid, focus2, activeR
                   {
                     name: "offset",
                     options: {
-                      offset: [-(paperWidth / 2 - 50), -87], // Adjust distance from the container
+                      offset: [0, -70], // Adjust distance from the container
                     },
                   },
                 ]}
@@ -242,7 +242,7 @@ export default function HazardGlance({ handleChangeSumm, cropid, focus2, activeR
                   {
                     name: "offset",
                     options: {
-                      offset: [-(paperWidth / 2 - 50), -87], // Adjust distance from the container
+                      offset: [0, -70], // Adjust distance from the container
                     },
                   },
                 ]}

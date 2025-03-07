@@ -19,20 +19,11 @@ import tilesource from "ol/source/TileJSON";
 import TileJSON from "ol/source/TileJSON";
 import Typography from "@mui/material/Typography";
 import { Popper, Slide } from "@mui/material";
-import {
-  ZoomToExtent,
-  FullScreen,
-  defaults as defaultControls,
-} from "ol/control.js";
+import { ZoomToExtent, FullScreen, defaults as defaultControls } from "ol/control.js";
 import "./olsm.css";
 import Box from "@mui/material/Box";
 
-export default function Map_Risk({
-  activeCrop,
-  focus = "Region",
-  activeRegion,
-  CurrRisk,
-}) {
+export default function Map_Risk({ activeCrop, focus = "Region", activeRegion, CurrRisk }) {
   const ref = useRef(null);
   const mapRef = useRef(null);
   const [overl, setOverl] = useState(null);
@@ -81,19 +72,7 @@ export default function Map_Risk({
         5,
         6,
       ],
-      [
-        "rgba(0,0,0,0)",
-        "rgba(0,0,0,0)",
-        "#059212",
-        "#00FF00",
-        "#FFFF00",
-        "#FFA500",
-        "#FF0000",
-        "#3b528b",
-        "#21918c",
-        "#5ec962",
-        "#fde725",
-      ],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "#059212", "#00FF00", "#FFFF00", "#FFA500", "#FF0000", "#3b528b", "#21918c", "#5ec962", "#fde725"],
     ],
   };
 
@@ -123,20 +102,14 @@ export default function Map_Risk({
       opacity:0.8,
       zIndex:10,
     }); */
-  let defext = [
-    6731721.531032621, -79003.34768295793, 10843798.383928495,
-    4648992.169943628,
-  ];
+  let defext = [6731721.531032621, -79003.34768295793, 10843798.383928495, 4648992.169943628];
 
   useEffect(() => {
     if (!ref.current) return; // Ensure ref is available
 
     // Define basemap source based on theme mode
     const sourcemap = new TileJSON({
-      url:
-        mode === "dark"
-          ? `https://api.maptiler.com/maps/dataviz-dark/tiles.json?key=${key}`
-          : `https://api.maptiler.com/maps/bright-v2/tiles.json?key=${key}`,
+      url: mode === "dark" ? `https://api.maptiler.com/maps/dataviz-dark/tiles.json?key=${key}` : `https://api.maptiler.com/maps/bright-v2/tiles.json?key=${key}`,
       tileSize: 512,
       crossOrigin: "anonymous",
     });
@@ -168,11 +141,7 @@ export default function Map_Risk({
       const layers = mapRef.current.getLayers().getArray(); // Convert to array for iteration
 
       layers.forEach((layer) => {
-        if (
-          layer &&
-          typeof layer.getSource === "function" &&
-          layer.getSource() instanceof TileJSON
-        ) {
+        if (layer && typeof layer.getSource === "function" && layer.getSource() instanceof TileJSON) {
           mapRef.current.removeLayer(layer);
         }
       });
@@ -189,7 +158,7 @@ export default function Map_Risk({
     let countryboundary;
     if (focus === "Region") {
       sourcet = new VectorSource({
-        url: "./CountryBoundary/SA_Country.json",
+        url: "./CountryBoundary/SA_outline.json",
         format: new GeoJSON(),
       });
       countryboundary = new VectorSource({
@@ -277,10 +246,8 @@ export default function Map_Risk({
         x = activeRegion.substring(sec + 2);
       }
       if (x === "Bangladesh") {
-        let urlsourcestr =
-          "./DistrictBoundary/BD/" + y.substring(0, y.length - 9) + "DIV.json";
-        let urlcountrystr =
-          "./StateBoundary/BD/" + y.substring(0, y.length - 9) + "ST.json";
+        let urlsourcestr = "./DistrictBoundary/BD/" + y.substring(0, y.length - 9) + "DIV.json";
+        let urlcountrystr = "./StateBoundary/BD/" + y.substring(0, y.length - 9) + "ST.json";
         console.log(urlcountrystr);
         sourcet = new VectorSource({
           url: urlsourcestr,
@@ -306,8 +273,7 @@ export default function Map_Risk({
       }
       if (x === "Afghanistan") {
         let urlsourcestr = "./DistrictBoundary/AF/" + y.toUpperCase() + ".json";
-        let urlcountrystr =
-          "./StateBoundary/AF/STATE_" + y.toUpperCase() + ".json";
+        let urlcountrystr = "./StateBoundary/AF/STATE_" + y.toUpperCase() + ".json";
         sourcet = new VectorSource({
           url: urlsourcestr,
           format: new GeoJSON(),
@@ -354,9 +320,7 @@ export default function Map_Risk({
               const polyy = featuress[0].getGeometry();
               const extentt = polyy.getExtent();
               const sizee = mapRef.current.getSize();
-              mapRef.current
-                .getView()
-                .fit(extentt, { size: [sizee[0] * 1, sizee[1] * 1] });
+              mapRef.current.getView().fit(extentt, { size: [sizee[0] * 1, sizee[1] * 1] });
             }
           }
         });
@@ -423,10 +387,7 @@ export default function Map_Risk({
                 }),
                 style: new Style({
                   fill: new Fill({
-                    color:
-                      mode === "dark"
-                        ? "rgba(37, 41, 46, 1)"
-                        : "rgba(255,255,255,1)",
+                    color: mode === "dark" ? "rgba(37, 41, 46, 1)" : "rgba(255,255,255,1)",
                   }),
                 }),
                 opacity: mode === "dark" ? 0.4 : 0.5,
@@ -487,9 +448,7 @@ export default function Map_Risk({
   return (
     <div>
       <Tooltip
-        title={
-          <Typography sx={{ fontSize: 12 }}>Impact on Productivity</Typography>
-        }
+        title={<Typography sx={{ fontSize: 12 }}>Impact on Productivity</Typography>}
         open={true}
         placement="top"
         slotProps={{
@@ -510,7 +469,7 @@ export default function Map_Risk({
           ref={ref}
           style={{
             position: "relative",
-            height: "calc(100vh - 275px)",
+            height: "calc(100vh - 235px)",
             width: "24vw",
             marginLeft: 0,
             marginRight: 0,

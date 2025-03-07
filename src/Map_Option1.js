@@ -581,7 +581,7 @@ export default function Map_Option({ activeCrop, focus = "Region", activeRegion,
 
   return (
     <div>
-      <Tooltip
+      {/* <Tooltip
         title={
           <Typography sx={{ fontSize: 11, fontWeight: "bold", color: mode === "dark" ? "white" : "black" }}>
             <Box
@@ -619,18 +619,18 @@ export default function Map_Option({ activeCrop, focus = "Region", activeRegion,
             },
           },
         }}
-      >
-        <div
-          ref={ref}
-          style={{
-            height: "calc(48vh - 72px)",
-            width: "21vw",
-            marginLeft: 0,
-            marginRight: 0,
-          }}
-          className="map-container"
-        />
-      </Tooltip>
+      > */}
+      <div
+        ref={ref}
+        style={{
+          height: "calc(48vh - 77px)",
+          width: "auto",
+          marginLeft: 0,
+          marginRight: 0,
+        }}
+        className="map-container"
+      />
+      {/* </Tooltip> */}
     </div>
   );
 }

@@ -294,7 +294,7 @@ export default function Map_Hazard({ activeCrop, focus = "Region", activeRegion,
     let countryboundary;
     if (focus === "Region") {
       sourcet = new VectorSource({
-        url: "./CountryBoundary/SA_Country.json",
+        url: "./CountryBoundary/SA_outline.json",
         format: new GeoJSON(),
       });
       countryboundary = new VectorSource({
