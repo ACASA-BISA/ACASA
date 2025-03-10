@@ -919,7 +919,7 @@ export default function CompV({
                             </Paper>
                           </Popper>
                         )}
-                        {CurrRisk !== "" && (
+                        {/* {CurrRisk !== "" && (
                           <Popper
                             open={true}
                             anchorEl={gridRefs[index].current}
@@ -950,7 +950,7 @@ export default function CompV({
                               exploreType={exploreType}
                             ></PopperGif>
                           </Popper>
-                        )}
+                        )} */}
                       </div>
                     )}
                     {label === "2050s" && (
@@ -1013,7 +1013,7 @@ export default function CompV({
                             </Paper>
                           </Popper>
                         )}
-                        {CurrRisk !== "" && (
+                        {/* {CurrRisk !== "" && (
                           <Popper
                             open={true}
                             anchorEl={gridRefs[index].current}
@@ -1044,7 +1044,7 @@ export default function CompV({
                               exploreType={exploreType}
                             ></PopperGif>
                           </Popper>
-                        )}
+                        )} */}
                       </div>
                     )}
                     {label === "2080s" && (
@@ -1107,7 +1107,7 @@ export default function CompV({
                             </Paper>
                           </Popper>
                         )}
-                        {CurrRisk !== "" && (
+                        {/* {CurrRisk !== "" && (
                           <Popper
                             open={true}
                             anchorEl={gridRefs[index].current}
@@ -1138,7 +1138,7 @@ export default function CompV({
                               exploreType={exploreType}
                             ></PopperGif>
                           </Popper>
-                        )}
+                        )} */}
                       </div>
                     )}
                   </Paper>
