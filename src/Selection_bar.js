@@ -4,17 +4,7 @@ import Typography from "@mui/material/Typography";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Popper, Paper, Grid } from "@mui/material";
 
-export default function Selection_bar({
-  location,
-  commodity,
-  adaption,
-  RiskName,
-  scenario,
-  ImpactName,
-  modelName,
-  exploreType,
-  activeScale,
-}) {
+export default function Selection_bar({ location, commodity, adaption, RiskName, scenario, ImpactName, modelName, exploreType, activeScale }) {
   function checkcrop() {
     const diffcrop = ["Cattle", "Buffalo", "Goat", "Sheep", "Pig", "Poultry"];
     let ans = true;
@@ -31,17 +21,13 @@ export default function Selection_bar({
     if (RiskName === "Risk Index") {
       str = "Risk";
     }
-    if (
-      RiskName === "Exposure Index" ||
-      RiskName === "Number of Animals per grid" ||
-      RiskName === "Cropped Area"
-    ) {
+    if (RiskName === "Exposure Index" || RiskName === "Number of Animals per grid" || RiskName === "Cropped Area") {
       str = "Exposure";
     }
     if (
       RiskName === "Vulnerability Index" ||
       RiskName === "Irrigation" ||
-      RiskName === "Soil Water Holding Capacity" ||
+      RiskName === "Volumetric Soil Water" ||
       RiskName === "Agriculture Income" ||
       RiskName === "Soil Organic Carbon" ||
       RiskName === "Feed/Fodder" ||
@@ -55,12 +41,7 @@ export default function Selection_bar({
 
   return (
     <div style={{ overflow: "hidden" }}>
-      <Grid
-        container
-        spacing={1}
-        sx={{ marginTop: "80px", paddingX: "1rem", marginLeft: "210px" }}
-        columns={12}
-      >
+      <Grid container spacing={1} sx={{ marginTop: "80px", paddingX: "1rem", marginLeft: "210px" }} columns={12}>
         <Grid item xs={12}>
           <Box sx={{ display: "flex", flexDirection: "row" }}>
             <Box sx={{ display: "flex", flexDirection: "row" }}>
@@ -78,15 +59,12 @@ export default function Selection_bar({
             <ChevronRightIcon sx={(theme) => ({ color: theme.palette.text.primary })}/>
             <Box sx={{ display: "flex", flexDirection: "row" }}>
               <Typography sx={{ fontSize: 14 }} color="text.secondary">
-                {activeScale.charAt(0).toUpperCase() +
-                  activeScale.toLowerCase().slice(1)}
+                {activeScale.charAt(0).toUpperCase() + activeScale.toLowerCase().slice(1)}
               </Typography>
             </Box>
             {exploreType === "Commodity" && (
               <Box sx={{ display: "flex", flexDirection: "row" }}>
-                <ChevronRightIcon
-                  sx={(theme) => ({ color: theme.palette.text.primary })}
-                />
+                <ChevronRightIcon sx={(theme) => ({ color: theme.palette.text.primary })} />
                 <Typography
                   sx={(theme) => ({
                     fontSize: 14,
@@ -107,9 +85,7 @@ export default function Selection_bar({
               </Box>
             )}
 
-            <ChevronRightIcon
-              sx={(theme) => ({ color: theme.palette.text.primary })}
-            />
+            <ChevronRightIcon sx={(theme) => ({ color: theme.palette.text.primary })} />
             <Box sx={{ display: "flex", flexDirection: "row" }}>
               <Typography
                 sx={(theme) => ({
@@ -130,9 +106,7 @@ export default function Selection_bar({
               </Typography>
             </Box>
 
-            <ChevronRightIcon
-              sx={(theme) => ({ color: theme.palette.text.primary })}
-            />
+            <ChevronRightIcon sx={(theme) => ({ color: theme.palette.text.primary })} />
             <Box sx={{ display: "flex", flexDirection: "row" }}>
               <Typography
                 sx={(theme) => ({
@@ -155,29 +129,21 @@ export default function Selection_bar({
 
             {adaption !== "" && (
               <Box sx={{ display: "flex", flexDirection: "row" }}>
-                <ChevronRightIcon
-                  sx={(theme) => ({ color: theme.palette.text.primary })}
-                />
+                <ChevronRightIcon sx={(theme) => ({ color: theme.palette.text.primary })} />
                 <Typography
                   sx={(theme) => ({
                     fontSize: 14,
                     color: theme.palette.text.primary,
                   })}
                 >
-                  <strong>
-                    {adaption.charAt(0).toUpperCase() +
-                      adaption.slice(1, 4) +
-                      adaption.toLowerCase().slice(4)}
-                  </strong>
+                  <strong>{adaption.charAt(0).toUpperCase() + adaption.slice(1, 4) + adaption.toLowerCase().slice(4)}</strong>
                 </Typography>
               </Box>
             )}
 
             {RiskName !== "" && (
               <Box sx={{ display: "flex", flexDirection: "row" }}>
-                <ChevronRightIcon
-                  sx={(theme) => ({ color: theme.palette.text.primary })}
-                />
+                <ChevronRightIcon sx={(theme) => ({ color: theme.palette.text.primary })} />
                 <Typography
                   sx={(theme) => ({
                     fontSize: 14,
@@ -193,8 +159,7 @@ export default function Selection_bar({
                     color: theme.palette.text.secondary,
                   })}
                 >
-                  {RiskName.charAt(0).toUpperCase() +
-                    RiskName.toLowerCase().slice(1)}
+                  {RiskName.charAt(0).toUpperCase() + RiskName.toLowerCase().slice(1)}
                   &nbsp;
                 </Typography>
               </Box>
@@ -202,9 +167,7 @@ export default function Selection_bar({
 
             {ImpactName !== "" && (
               <Box sx={{ display: "flex", flexDirection: "row" }}>
-                <ChevronRightIcon
-                  sx={(theme) => ({ color: theme.palette.text.primary })}
-                />
+                <ChevronRightIcon sx={(theme) => ({ color: theme.palette.text.primary })} />
                 <Typography
                   sx={(theme) => ({
                     fontSize: 14,
@@ -219,8 +182,7 @@ export default function Selection_bar({
                     color: theme.palette.text.secondary,
                   })}
                 >
-                  {ImpactName.charAt(0).toUpperCase() +
-                    ImpactName.toLowerCase().slice(1)}
+                  {ImpactName.charAt(0).toUpperCase() + ImpactName.toLowerCase().slice(1)}
                 </Typography>
               </Box>
             )}

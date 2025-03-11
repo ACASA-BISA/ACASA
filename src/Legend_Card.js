@@ -97,7 +97,7 @@ export default function LegendCard({ location, commodity, adaption, RiskName, sc
     "Lodging": "Rain and wind causing lodging",
     "Biotic": "High humidity and temperature for blight",
     "Irrigation": "Irrigation",
-    "Soil Water Holding Capacity": "Water holding capacity",
+    "Volumetric Soil Water": "Water holding capacity",
     "Income": "Agricultural GDP",
     "Access to Credit": "Access to Credit",
     "Access to Market": "Access to Market",
@@ -318,7 +318,7 @@ export default function LegendCard({ location, commodity, adaption, RiskName, sc
     }
     if (
       RiskName === "Irrigation" ||
-      RiskName === "Soil Water Holding Capacity" ||
+      RiskName === "Volumetric Soil Water" ||
       RiskName === "Agriculture Income" ||
       RiskName === "Soil Organic Carbon" ||
       RiskName === "Feed/Fodder" ||

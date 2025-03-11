@@ -94,7 +94,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
     }
     if (
       RiskName === "Irrigation" ||
-      RiskName === "Soil Water Holding Capacity" ||
+      RiskName === "Volumetric Soil Water" ||
       RiskName === "Agriculture Income" ||
       RiskName === "Soil Organic Carbon" ||
       RiskName === "Feed/Fodder" ||

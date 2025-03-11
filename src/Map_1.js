@@ -101,15 +101,7 @@ import Slide from "@mui/material/Slide";
   }
 }
  */
-export default function MApp({
-  activeCrop,
-  focus = "Region",
-  activeRegion,
-  activeOpt,
-  CurrRisk,
-  activeImpact,
-  activeScenario,
-}) {
+export default function MApp({ activeCrop, focus = "Region", activeRegion, activeOpt, CurrRisk, activeImpact, activeScenario }) {
   const ref = useRef(null);
   const mapRef = useRef(null);
   const [overl, setOverl] = useState(null);
@@ -120,10 +112,7 @@ export default function MApp({
   const [tiffFilePath, settiffFilePath] = useState("");
   //const [polycord, setpolycord] = useState(null);
   const [missingSource, setmsource] = useState(false);
-  let defext = [
-    6731721.531032621, -300003.34768295793, 10843798.383928495,
-    4918992.169943628,
-  ];
+  let defext = [6731721.531032621, -300003.34768295793, 10843798.383928495, 4918992.169943628];
 
   const fill = new Fill({
     color: "rgba(255,255,255,0)",
@@ -150,22 +139,7 @@ export default function MApp({
   console.log(activeCrop);
 
   function checkcrop() {
-    const diffcrop = [
-      "Cattle",
-      "Buffalo",
-      "Goat",
-      "Sheep",
-      "Pig",
-      "Poultry",
-      "Rice",
-      "Wheat",
-      "Maize",
-      "Mustard",
-      "Cotton",
-      "Soybean",
-      "Chickpea",
-      "Barley",
-    ];
+    const diffcrop = ["Cattle", "Buffalo", "Goat", "Sheep", "Pig", "Poultry", "Rice", "Wheat", "Maize", "Mustard", "Cotton", "Soybean", "Chickpea", "Barley"];
     let ans = true;
     diffcrop.forEach((sname) => {
       if (activeCrop === sname) {
@@ -208,19 +182,7 @@ export default function MApp({
     Barley: "#5ec962",
   };
   const color1 = {
-    color: [
-      "palette",
-      [
-        "interpolate",
-        ["linear"],
-        ["/", ["-", nir, green], ["+", nir, blue]],
-        -0.1,
-        0,
-        3,
-        10,
-      ],
-      ["rgba(98, 181, 209, 0)", color_comm[activeCrop]],
-    ],
+    color: ["palette", ["interpolate", ["linear"], ["/", ["-", nir, green], ["+", nir, blue]], -0.1, 0, 3, 10], ["rgba(98, 181, 209, 0)", color_comm[activeCrop]]],
   };
 
   const color2 = {
@@ -239,14 +201,7 @@ export default function MApp({
         3,
         5,
       ],
-      [
-        "rgba(0,0,0,0)",
-        "rgba(0,0,0,0)",
-        "rgba(180, 70, 109, 1)",
-        "#FF9A00",
-        "#06D001",
-        "rgba(0,0,0,0)",
-      ],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(180, 70, 109, 1)", "#FF9A00", "#06D001", "rgba(0,0,0,0)"],
     ],
   };
 
@@ -268,97 +223,24 @@ export default function MApp({
         5,
         6,
       ],
-      [
-        "rgba(0,0,0,0)",
-        "rgba(0,0,0,0)",
-        "#059212",
-        "#00FF00",
-        "#FFFF00",
-        "#FFA500",
-        "#FF0000",
-        "#3b528b",
-        "#21918c",
-        "#5ec962",
-        "#fde725",
-      ],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "#059212", "#00FF00", "#FFFF00", "#FFA500", "#FF0000", "#3b528b", "#21918c", "#5ec962", "#fde725"],
     ],
   };
 
   const color_hazard = {
     color: [
       "palette",
-      [
-        "interpolate",
-        ["linear"],
-        ["*", ["band", 2], 25],
-        0,
-        1,
-        1,
-        2,
-        2,
-        3,
-        3,
-        4,
-        4,
-        5,
-        5,
-        6,
-        6,
-        7,
-      ],
-      [
-        "rgba(0,0,0,0)",
-        "rgba(0,0,0,0)",
-        "rgba(150,150,150,1)",
-        "#059212",
-        "#00FF00",
-        "#FFFF00",
-        "#FFA500",
-        "#FF0000",
-      ],
+      ["interpolate", ["linear"], ["*", ["band", 2], 25], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#059212", "#00FF00", "#FFFF00", "#FFA500", "#FF0000"],
     ],
   };
 
   const colorGradientEx = {
-    color: [
-      "interpolate",
-      ["linear"],
-      ["*", ["band", 1], 310],
-      0,
-      "rgba(0,0,0,0)",
-      10,
-      "#FFF9C4",
-      20,
-      "#FFE680",
-      30,
-      "#FFD700",
-      40,
-      "#DAA520",
-      50,
-      "#A0522D",
-      60,
-      "#6B3D1B",
-    ],
+    color: ["interpolate", ["linear"], ["*", ["band", 1], 310], 0, "rgba(0,0,0,0)", 10, "#FFF9C4", 20, "#FFE680", 30, "#FFD700", 40, "#DAA520", 50, "#A0522D", 60, "#6B3D1B"],
   };
 
   const colorGradient2 = {
-    color: [
-      "interpolate",
-      ["linear"],
-      ["*", ["band", 1], 310],
-      0,
-      "rgba(0,0,0,0)",
-      1,
-      "#059212",
-      3,
-      "#00FF00",
-      5,
-      "#FFFF00",
-      7,
-      "#FFA500",
-      11,
-      "#FF0000",
-    ],
+    color: ["interpolate", ["linear"], ["*", ["band", 1], 310], 0, "rgba(0,0,0,0)", 1, "#059212", 3, "#00FF00", 5, "#FFFF00", 7, "#FFA500", 11, "#FF0000"],
   };
 
   const key = "TrN2dn4maoO3C2x0sUpH";
@@ -439,12 +321,9 @@ export default function MApp({
 
     let highlight;
     const display_state = function (pixel) {
-      const feature = mapRef.current.forEachFeatureAtPixel(
-        pixel,
-        function (feature) {
-          return feature;
-        }
-      );
+      const feature = mapRef.current.forEachFeatureAtPixel(pixel, function (feature) {
+        return feature;
+      });
       let state = null;
       if (feature) {
         if (feature.get("D_NAME_1")) {
@@ -477,12 +356,9 @@ export default function MApp({
     }
 
     const LocationofEvent = function (pixel) {
-      const feature = mapRef.current.forEachFeatureAtPixel(
-        pixel,
-        function (feature) {
-          return feature;
-        }
-      );
+      const feature = mapRef.current.forEachFeatureAtPixel(pixel, function (feature) {
+        return feature;
+      });
       let cordinates = null;
       if (feature) {
         const geometry = feature.getGeometry();
@@ -606,10 +482,8 @@ export default function MApp({
         x = activeRegion.substring(sec + 2);
       }
       if (x === "Bangladesh") {
-        let urlsourcestr =
-          "./DistrictBoundary/BD/" + y.substring(0, y.length - 9) + "DIV.json";
-        let urlcountrystr =
-          "./StateBoundary/BD/" + y.substring(0, y.length - 9) + "ST.json";
+        let urlsourcestr = "./DistrictBoundary/BD/" + y.substring(0, y.length - 9) + "DIV.json";
+        let urlcountrystr = "./StateBoundary/BD/" + y.substring(0, y.length - 9) + "ST.json";
         sourcet = new VectorSource({
           url: urlsourcestr,
           format: new GeoJSON(),
@@ -631,8 +505,7 @@ export default function MApp({
         });
       } else if (x === "Afghanistan") {
         let urlsourcestr = "./DistrictBoundary/AF/" + y.toUpperCase() + ".json";
-        let urlcountrystr =
-          "./StateBoundary/AF/STATE_" + y.toUpperCase() + ".json";
+        let urlcountrystr = "./StateBoundary/AF/STATE_" + y.toUpperCase() + ".json";
         sourcet = new VectorSource({
           url: urlsourcestr,
           format: new GeoJSON(),
@@ -642,10 +515,8 @@ export default function MApp({
           format: new GeoJSON(),
         });
       } else if (x === "India") {
-        let urlsourcestr =
-          "./DistrictBoundary/IN/STATE_" + y.toUpperCase() + ".json";
-        let urlcountrystr =
-          "./StateBoundary/IN/STATE_" + y.toUpperCase() + ".json";
+        let urlsourcestr = "./DistrictBoundary/IN/STATE_" + y.toUpperCase() + ".json";
+        let urlcountrystr = "./StateBoundary/IN/STATE_" + y.toUpperCase() + ".json";
         sourcet = new VectorSource({
           url: urlsourcestr,
           format: new GeoJSON(),
@@ -655,10 +526,8 @@ export default function MApp({
           format: new GeoJSON(),
         });
       } else if (x === "Sri Lanka") {
-        let urlsourcestr =
-          "./DistrictBoundary/SL/STATE_" + y.toUpperCase() + ".json";
-        let urlcountrystr =
-          "./StateBoundary/SL/STATE_" + y.toUpperCase() + ".json";
+        let urlsourcestr = "./DistrictBoundary/SL/STATE_" + y.toUpperCase() + ".json";
+        let urlcountrystr = "./StateBoundary/SL/STATE_" + y.toUpperCase() + ".json";
         sourcet = new VectorSource({
           url: urlsourcestr,
           format: new GeoJSON(),
@@ -668,10 +537,8 @@ export default function MApp({
           format: new GeoJSON(),
         });
       } else if (x === "Pakistan") {
-        let urlsourcestr =
-          "./DistrictBoundary/PK/STATE_" + y.toUpperCase() + ".json";
-        let urlcountrystr =
-          "./StateBoundary/PK/STATE_" + y.toUpperCase() + ".json";
+        let urlsourcestr = "./DistrictBoundary/PK/STATE_" + y.toUpperCase() + ".json";
+        let urlcountrystr = "./StateBoundary/PK/STATE_" + y.toUpperCase() + ".json";
         sourcet = new VectorSource({
           url: urlsourcestr,
           format: new GeoJSON(),
@@ -681,8 +548,7 @@ export default function MApp({
           format: new GeoJSON(),
         });
       } else if (x === "Maldives") {
-        let urlsourcestr =
-          "./DistrictBoundary/MV/STATE_" + y.toUpperCase() + ".json";
+        let urlsourcestr = "./DistrictBoundary/MV/STATE_" + y.toUpperCase() + ".json";
         let urlcountrystr = "./StateBoundary/MV/" + y.toUpperCase() + ".json";
         sourcet = new VectorSource({
           url: urlsourcestr,
@@ -736,12 +602,10 @@ export default function MApp({
               if (CurrRisk !== "" || activeOpt !== "") {
                 x = 90;
               }
-              mapRef.current
-                .getView()
-                .fit(extentt, {
-                  size: [sizee[0] * 0.9, sizee[1] * 0.9],
-                  padding: [0, 0, x, 0],
-                });
+              mapRef.current.getView().fit(extentt, {
+                size: [sizee[0] * 0.9, sizee[1] * 0.9],
+                padding: [0, 0, x, 0],
+              });
               defext = extentt;
             }
           }
@@ -871,7 +735,7 @@ export default function MApp({
       "Direct Seeded Rice - Wet": "DSWET",
       "System of Rice Intensification": "SRIUT",
       "Supplemental Irrigation": "WHSRC",
-      Microirrigation: "MICIR",
+      "Microirrigation": "MICIR",
       "Precision Water Management": "PWMGT",
       "Precision Fertilizer Management": "PNMLT",
       "Precision Fertilizer Management - High tech": "PNMHT",
@@ -883,7 +747,7 @@ export default function MApp({
       "Herd Management": "HMGT",
       "Animal Health": "ANHLT",
       "Animal Productivity": "ANPRO",
-      Mulching: "MULCH",
+      "Mulching": "MULCH",
       "Alternate Wetting and Drying": "AWD",
       "Fertilizer rating and timing": "FRT",
       "Manure Management": "MNMGT",
@@ -896,35 +760,30 @@ export default function MApp({
       "Downscaled Risk": "Downscaled Risk",
       "Risk Index": "Risk index",
       "Hazard Index": "Hazard Index",
-      "Low temperature induced spikelet sterility":
-        "Low temperature induced spikelet sterility",
-      "Low temperature induced pollen sterility":
-        "Low temperature induced pollen sterility",
-      "High temperature induced pollen sterility":
-        "High temperature induced pollen sterility",
+      "Low temperature induced spikelet sterility": "Low temperature induced spikelet sterility",
+      "Low temperature induced pollen sterility": "Low temperature induced pollen sterility",
+      "High temperature induced pollen sterility": "High temperature induced pollen sterility",
       "Heat Stress": "Heat stress",
-      "High temperature induced spikelet sterility":
-        "High temperature induced spikelet sterility",
+      "High temperature induced spikelet sterility": "High temperature induced spikelet sterility",
       "Cold Stress": "Cold stress",
-      "Low temperature induced tuberization failure":
-        "Low temperature induced tuberization failure",
+      "Low temperature induced tuberization failure": "Low temperature induced tuberization failure",
       "Untimely Rainfall": "Untimely rainfall",
       "Terminal Heat": "Terminal heat",
       "Days of Frost": "Days of frost",
       "Excess Rainfall and Waterlogging": "Excess rain and waterlogging",
       "Delayed Monsoon": "Delayed monsoon",
-      Drought: "Drought",
+      "Drought": "Drought",
       "Dry Spell": "Number of dry spells",
-      Flood: "Flood",
+      "Flood": "Flood",
       "Soil Organic Carbon": "Soil organic carbon",
-      Lodging: "Rain and wind causing lodging",
-      Biotic: "High humidity and temperature for blight",
-      Irrigation: "Irrigation",
-      "Soil Water Holding Capacity": "Water holding capacity",
-      Income: "Agricultural GDP",
+      "Lodging": "Rain and wind causing lodging",
+      "Biotic": "High humidity and temperature for blight",
+      "Irrigation": "Irrigation",
+      "Volumetric Soil Water": "Water holding capacity",
+      "Income": "Agricultural GDP",
       "Access to Credit": "Access to Credit",
       "Access to Market": "Access to Market",
-      Elevation: "Elevation",
+      "Elevation": "Elevation",
       "Access to Knowledge": "Access to Knowledge",
       "Exposure Index": "Exposure Index",
       "Number of Farmers": "Number of Farmers",
@@ -940,7 +799,7 @@ export default function MApp({
       "Vulnerability Index": "Vulnerability Index",
       "Feed/Fodder": "Residue",
       "Rural infrastructure": "Road network density",
-      Cyclone: "Cyclone",
+      "Cyclone": "Cyclone",
       "Rainfall Deficit": "Rainfall deficit",
       "Extreme Rainfall days": "Extreme Rainfall Days",
       "Cold days": "Cold Stress",
@@ -956,32 +815,11 @@ export default function MApp({
       opt = 2;
       let urlstr = "xyz.tif";
       if (activeScenario["baseline"]) {
-        urlstr =
-          "./Adap/" +
-          activeCrop +
-          "/Baseline/Suitability_" +
-          activeCrop +
-          "_" +
-          optcode[activeOpt] +
-          ".tif";
+        urlstr = "./Adap/" + activeCrop + "/Baseline/Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
       } else if (activeScenario["ssp245"]) {
-        urlstr =
-          "./Adap/" +
-          activeCrop +
-          "/SSP245/Suitability_" +
-          activeCrop +
-          "_" +
-          optcode[activeOpt] +
-          ".tif";
+        urlstr = "./Adap/" + activeCrop + "/SSP245/Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
       } else if (activeScenario["ssp585"]) {
-        urlstr =
-          "./Adap/" +
-          activeCrop +
-          "/SSP585/Suitability_" +
-          activeCrop +
-          "_" +
-          optcode[activeOpt] +
-          ".tif";
+        urlstr = "./Adap/" + activeCrop + "/SSP585/Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
       }
       settiffFilePath(urlstr);
       source1 = new GeoTIFF({
@@ -992,36 +830,18 @@ export default function MApp({
       opt = 3;
       let urlstr = "xyz.tif";
       if (activeScenario["baseline"]) {
-        urlstr =
-          "./Hazards/" +
-          activeCrop +
-          "/Baseline/ZZ_" +
-          hazardname[CurrRisk] +
-          ".tif";
+        urlstr = "./Hazards/" + activeCrop + "/Baseline/ZZ_" + hazardname[CurrRisk] + ".tif";
       } else if (activeScenario["ssp245"]) {
-        urlstr =
-          "./Hazards/" +
-          activeCrop +
-          "/SSP245/ZZ_" +
-          hazardname[CurrRisk] +
-          ".tif";
+        urlstr = "./Hazards/" + activeCrop + "/SSP245/ZZ_" + hazardname[CurrRisk] + ".tif";
       } else if (activeScenario["ssp585"]) {
-        urlstr =
-          "./Hazards/" +
-          activeCrop +
-          "/SSP585/ZZ_" +
-          hazardname[CurrRisk] +
-          ".tif";
+        urlstr = "./Hazards/" + activeCrop + "/SSP585/ZZ_" + hazardname[CurrRisk] + ".tif";
       }
       settiffFilePath(urlstr);
       source1 = new GeoTIFF({
         sources: [{ url: urlstr }],
         sourceOptions: { allowFullFile: true },
       });
-    } else if (
-      activeImpact["Productivity"] ||
-      activeImpact["Value of Production"]
-    ) {
+    } else if (activeImpact["Productivity"] || activeImpact["Value of Production"]) {
       let urlstr = "xyz.tif";
       opt = 3;
       if (activeImpact["Productivity"]) {
@@ -1094,10 +914,7 @@ export default function MApp({
   return (
     <div style={{ overflow: "hidden" }}>
       <div id="popup2" class="ol-popup">
-        <div
-          id="popup-content2"
-          style={{ textTransform: "capitalize", fontSize: "13px" }}
-        ></div>
+        <div id="popup-content2" style={{ textTransform: "capitalize", fontSize: "13px" }}></div>
       </div>
       <div
         ref={ref}

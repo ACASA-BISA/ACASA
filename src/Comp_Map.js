@@ -353,8 +353,28 @@ export default function MApp({
     ],
   };
 
+  const XYZ = {
+    color: [
+      "interpolate",
+      ["linear"],
+      ["*", ["band", 1], 100],
+      0,
+      "rgba(0,0,0,0)",
+      1,
+      "rgba(255, 230, 128, 1)",
+      2,
+      "rgba(255, 215, 0, 1)",
+      3,
+      "rgba(182, 138, 28, 1)",
+      4,
+      "rgba(216, 111, 63, 1)",
+      5,
+      "rgba(110, 61, 26, 1)",
+    ],
+  };
+
   const colorGradientEx = {
-    color: ["interpolate", ["linear"], ["*", ["band", 1], 310], 0, "rgba(0,0,0,0)", 10, "#FFF9C4", 20, "#FFE680", 30, "#FFD700", 40, "#DAA520", 50, "#A0522D", 60, "#6B3D1B"],
+    color: ["palette", ["clamp", ["*", ["band", 2], 240], 0, 5], ["rgba(0,0,0,0)", "rgba(255, 230, 128, 1)", "rgb(238, 206, 22)", "rgb(199, 158, 54)", "rgb(184, 86, 41)", "rgba(110, 61, 26, 1)"]],
   };
 
   const colorGradient2 = {
@@ -1108,7 +1128,7 @@ export default function MApp({
       "Lodging": "Rain and wind causing lodging",
       "Biotic": "High humidity and temperature for blight",
       "Irrigation": "Irrigation",
-      "Soil Water Holding Capacity": "Water holding capacity",
+      "Volumetric Soil Water": "Water holding capacity",
       "Income": "Agricultural GDP",
       "Access to Credit": "Access to Credit",
       "Access to Market": "Access to Market",
@@ -1222,12 +1242,8 @@ export default function MApp({
           sourceOptions: { allowFullFile: true },
         });
       } else {
-        let urlstr = "./Crop Masks/AllPix/ZZ_Mask_" + activeCrop + "801.tif";
+        let urlstr = "./Crop Masks/Extent/" + activeCrop + ".tif";
         settiffFilePath(urlstr);
-        //console.log(urlstr);
-        if (checkcrop() === false) {
-          urlstr = "./Crop Masks/Extent/" + activeCrop + ".tif";
-        }
         source1 = new GeoTIFF({
           sources: [{ url: urlstr }],
           sourceOptions: { allowFullFile: true },
@@ -1262,7 +1278,7 @@ export default function MApp({
         newOverl.setStyle(color_hazard);
         if (
           CurrRisk === "Irrigation" ||
-          CurrRisk === "Soil Water Holding Capacity" ||
+          CurrRisk === "Volumetric Soil Water" ||
           CurrRisk === "Agriculture Income" ||
           CurrRisk === "Soil Organic Carbon" ||
           CurrRisk === "Feed/Fodder" ||
@@ -1285,10 +1301,7 @@ export default function MApp({
       } else if (opt === 801) {
         newOverl.setStyle(color_hazard_change);
       } else {
-        newOverl.setStyle(color1);
-        if (checkcrop() === false) {
-          newOverl.setStyle(colorGradientEx);
-        }
+        newOverl.setStyle(colorGradientEx);
       }
       if (mapRef.current) {
         mapRef.current.addLayer(newOverl);

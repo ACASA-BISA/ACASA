@@ -1343,10 +1343,8 @@ export default function SwitchOpt({ activeCrop, activeOpt, changeOpt, activeOptL
           {
             //Livestock switches
           }
-          {checkcrop() === false &&
-            activeCrop["rice"] === false &&
-            checknotFish() === true &&
-            livestock.map((snamelive) => (
+          {activeCrop["cattle"] === true &&
+            ["Shelter management", "Feed management", "Healthcare management"].map((snamelive) => (
               <FormGroup>
                 <FormControlLabel
                   control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={livestockstate[snamelive]} onChange={handleLivestockChange(snamelive)} name={snamelive} />}
@@ -1528,6 +1526,606 @@ export default function SwitchOpt({ activeCrop, activeOpt, changeOpt, activeOptL
                 )}
               </FormGroup>
             ))}
+          {activeCrop["cattle"] && (
+            <FormControl component="fieldset" variant="standard">
+              {[
+                "Reproductive management: Estrous confirmation and synchronisation",
+                "Adoption of climate resilient breeds",
+                "Weather forecasts/THI-based advisory services",
+                "Livestock insurance",
+                "Diversification",
+              ].map((sname_health) => (
+                <FormGroup>
+                  <CustomFormControlLabel
+                    control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname_health]} onChange={changeOpt(sname_health)} name={sname_health} />}
+                    key={sname_health}
+                    label={
+                      <Typography
+                        variant="body2"
+                        align="left"
+                        sx={{
+                          peddingLeft: "3px",
+                          maxWidth: "250px",
+                          wordBreak: "break-word",
+                          whiteSpace: "normal",
+                        }}
+                        style={{ wordWrap: "break-word" }}
+                      >
+                        {sname_health}
+                      </Typography>
+                    }
+                  />
+                </FormGroup>
+              ))}
+            </FormControl>
+          )}
+          {(activeCrop["sheep"] === true || activeCrop["goat"] === true) &&
+            ["Shelter management", "Feed management", "Healthcare management"].map((snamelive) => (
+              <FormGroup>
+                <FormControlLabel
+                  control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={livestockstate[snamelive]} onChange={handleLivestockChange(snamelive)} name={snamelive} />}
+                  key={snamelive}
+                  label={
+                    <Typography
+                      variant="body2"
+                      align="left"
+                      sx={{
+                        peddingLeft: "3px",
+                        maxWidth: "250px",
+                        wordBreak: "break-word",
+                        whiteSpace: "normal",
+                      }}
+                      style={{ wordWrap: "break-word" }}
+                    >
+                      {snamelive.charAt(0).toUpperCase() + snamelive.slice(1, 4) + snamelive.toLowerCase().slice(4)}
+                    </Typography>
+                  }
+                />
+                {livestockstate[snamelive] && snamelive === "Shelter management" && (
+                  <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
+                    {["Microclimate modification of the shelter", "Modification of shelter", "Planting of trees"].map((sname_shelter) => (
+                      <FormGroup>
+                        <CustomFormControlLabel
+                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname_shelter]} onChange={changeOpt(sname_shelter)} name={sname_shelter} />}
+                          key={sname_shelter}
+                          label={
+                            <Typography
+                              variant="body2"
+                              align="left"
+                              sx={{
+                                peddingLeft: "3px",
+                                maxWidth: "250px",
+                                wordBreak: "break-word",
+                                whiteSpace: "normal",
+                              }}
+                              style={{ wordWrap: "break-word" }}
+                            >
+                              {sname_shelter.charAt(0).toUpperCase() + sname_shelter.slice(1, 4) + sname_shelter.toLowerCase().slice(4)}
+                            </Typography>
+                          }
+                        />
+                      </FormGroup>
+                    ))}
+                  </FormControl>
+                )}
+                {livestockstate[snamelive] && snamelive === "Feed management" && (
+                  <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
+                    {[
+                      "Balanced concentrate",
+                      "Mineral mixture supplementation",
+                      "Feed additive, antioxidants, vitamins and probiotics",
+                      "Modification in feeding pattern, schedule, grazing",
+                      "Grassland and Silvi-pasture management",
+                      "Fodder conservation",
+                      "Ad libitum water",
+                    ].map((sname_feed) => (
+                      <FormGroup>
+                        <CustomFormControlLabel
+                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname_feed]} onChange={changeOpt(sname_feed)} name={sname_feed} />}
+                          key={sname_feed}
+                          label={
+                            <Typography
+                              variant="body2"
+                              align="left"
+                              sx={{
+                                peddingLeft: "3px",
+                                maxWidth: "250px",
+                                wordBreak: "break-word",
+                                whiteSpace: "normal",
+                              }}
+                              style={{ wordWrap: "break-word" }}
+                            >
+                              {sname_feed.charAt(0).toUpperCase() + sname_feed.slice(1, 4) + sname_feed.toLowerCase().slice(4)}
+                            </Typography>
+                          }
+                        />
+                      </FormGroup>
+                    ))}
+                  </FormControl>
+                )}
+                {livestockstate[snamelive] && snamelive === "Healthcare management" && (
+                  <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
+                    {["Deworming", "Control of ectoparasites and other vectors", "Vaccination"].map((sname_health) => (
+                      <FormGroup>
+                        <CustomFormControlLabel
+                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname_health]} onChange={changeOpt(sname_health)} name={sname_health} />}
+                          key={sname_health}
+                          label={
+                            <Typography
+                              variant="body2"
+                              align="left"
+                              sx={{
+                                peddingLeft: "3px",
+                                maxWidth: "250px",
+                                wordBreak: "break-word",
+                                whiteSpace: "normal",
+                              }}
+                              style={{ wordWrap: "break-word" }}
+                            >
+                              {sname_health.charAt(0).toUpperCase() + sname_health.slice(1, 4) + sname_health.toLowerCase().slice(4)}
+                            </Typography>
+                          }
+                        />
+                      </FormGroup>
+                    ))}
+                  </FormControl>
+                )}
+              </FormGroup>
+            ))}
+          {(activeCrop["sheep"] === true || activeCrop["goat"] === true) && (
+            <FormControl component="fieldset" variant="standard">
+              {["Adoption of climate resilient breeds", "Weather forecasts/THI-based advisory services", "Livestock insurance"].map((sname_health) => (
+                <FormGroup>
+                  <CustomFormControlLabel
+                    control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname_health]} onChange={changeOpt(sname_health)} name={sname_health} />}
+                    key={sname_health}
+                    label={
+                      <Typography
+                        variant="body2"
+                        align="left"
+                        sx={{
+                          peddingLeft: "3px",
+                          maxWidth: "250px",
+                          wordBreak: "break-word",
+                          whiteSpace: "normal",
+                        }}
+                        style={{ wordWrap: "break-word" }}
+                      >
+                        {sname_health}
+                      </Typography>
+                    }
+                  />
+                </FormGroup>
+              ))}
+            </FormControl>
+          )}
+          {activeCrop["buffalo"] === true &&
+            ["Shelter management", "Feed management", "Healthcare management"].map((snamelive) => (
+              <FormGroup>
+                <FormControlLabel
+                  control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={livestockstate[snamelive]} onChange={handleLivestockChange(snamelive)} name={snamelive} />}
+                  key={snamelive}
+                  label={
+                    <Typography
+                      variant="body2"
+                      align="left"
+                      sx={{
+                        peddingLeft: "3px",
+                        maxWidth: "250px",
+                        wordBreak: "break-word",
+                        whiteSpace: "normal",
+                      }}
+                      style={{ wordWrap: "break-word" }}
+                    >
+                      {snamelive.charAt(0).toUpperCase() + snamelive.slice(1, 4) + snamelive.toLowerCase().slice(4)}
+                    </Typography>
+                  }
+                />
+                {livestockstate[snamelive] && snamelive === "Shelter management" && (
+                  <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
+                    {["Microclimate modification of the shelter", "Modification of shelter", "Planting of trees", "Wallowing", "Mechanical cooling"].map((sname_shelter) => (
+                      <FormGroup>
+                        <CustomFormControlLabel
+                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname_shelter]} onChange={changeOpt(sname_shelter)} name={sname_shelter} />}
+                          key={sname_shelter}
+                          label={
+                            <Typography
+                              variant="body2"
+                              align="left"
+                              sx={{
+                                peddingLeft: "3px",
+                                maxWidth: "250px",
+                                wordBreak: "break-word",
+                                whiteSpace: "normal",
+                              }}
+                              style={{ wordWrap: "break-word" }}
+                            >
+                              {sname_shelter.charAt(0).toUpperCase() + sname_shelter.slice(1, 4) + sname_shelter.toLowerCase().slice(4)}
+                            </Typography>
+                          }
+                        />
+                      </FormGroup>
+                    ))}
+                  </FormControl>
+                )}
+                {livestockstate[snamelive] && snamelive === "Feed management" && (
+                  <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
+                    {[
+                      "Balanced concentrate with buffer",
+                      "Mineral mixture supplementation",
+                      "Bypass protein and fats",
+                      "Feed additive, antioxidants, vitamins and probiotics",
+                      "Modification in feeding pattern, schedule, grazing",
+                      "Inclusion of ad libitum green fodder",
+                      "Fodder conservation",
+                      "Ad libitum water",
+                    ].map((sname_feed) => (
+                      <FormGroup>
+                        <CustomFormControlLabel
+                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname_feed]} onChange={changeOpt(sname_feed)} name={sname_feed} />}
+                          key={sname_feed}
+                          label={
+                            <Typography
+                              variant="body2"
+                              align="left"
+                              sx={{
+                                peddingLeft: "3px",
+                                maxWidth: "250px",
+                                wordBreak: "break-word",
+                                whiteSpace: "normal",
+                              }}
+                              style={{ wordWrap: "break-word" }}
+                            >
+                              {sname_feed.charAt(0).toUpperCase() + sname_feed.slice(1, 4) + sname_feed.toLowerCase().slice(4)}
+                            </Typography>
+                          }
+                        />
+                      </FormGroup>
+                    ))}
+                  </FormControl>
+                )}
+                {livestockstate[snamelive] && snamelive === "Healthcare management" && (
+                  <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
+                    {["Deworming", "Control of ectoparasites and other vectors", "Vaccination"].map((sname_health) => (
+                      <FormGroup>
+                        <CustomFormControlLabel
+                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname_health]} onChange={changeOpt(sname_health)} name={sname_health} />}
+                          key={sname_health}
+                          label={
+                            <Typography
+                              variant="body2"
+                              align="left"
+                              sx={{
+                                peddingLeft: "3px",
+                                maxWidth: "250px",
+                                wordBreak: "break-word",
+                                whiteSpace: "normal",
+                              }}
+                              style={{ wordWrap: "break-word" }}
+                            >
+                              {sname_health.charAt(0).toUpperCase() + sname_health.slice(1, 4) + sname_health.toLowerCase().slice(4)}
+                            </Typography>
+                          }
+                        />
+                      </FormGroup>
+                    ))}
+                  </FormControl>
+                )}
+              </FormGroup>
+            ))}
+          {activeCrop["buffalo"] === true && (
+            <FormControl component="fieldset" variant="standard">
+              {[
+                "Reproductive management: Estrous confirmation and synchronisation",
+                "Adoption of climate resilient breeds",
+                "Weather forecasts/THI-based advisory services",
+                "Livestock insurance",
+              ].map((sname_health) => (
+                <FormGroup>
+                  <CustomFormControlLabel
+                    control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname_health]} onChange={changeOpt(sname_health)} name={sname_health} />}
+                    key={sname_health}
+                    label={
+                      <Typography
+                        variant="body2"
+                        align="left"
+                        sx={{
+                          peddingLeft: "3px",
+                          maxWidth: "250px",
+                          wordBreak: "break-word",
+                          whiteSpace: "normal",
+                        }}
+                        style={{ wordWrap: "break-word" }}
+                      >
+                        {sname_health}
+                      </Typography>
+                    }
+                  />
+                </FormGroup>
+              ))}
+            </FormControl>
+          )}
+          {activeCrop["poultry"] === true &&
+            ["Shelter management", "Feed management", "Healthcare management"].map((snamelive) => (
+              <FormGroup>
+                <FormControlLabel
+                  control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={livestockstate[snamelive]} onChange={handleLivestockChange(snamelive)} name={snamelive} />}
+                  key={snamelive}
+                  label={
+                    <Typography
+                      variant="body2"
+                      align="left"
+                      sx={{
+                        peddingLeft: "3px",
+                        maxWidth: "250px",
+                        wordBreak: "break-word",
+                        whiteSpace: "normal",
+                      }}
+                      style={{ wordWrap: "break-word" }}
+                    >
+                      {snamelive.charAt(0).toUpperCase() + snamelive.slice(1, 4) + snamelive.toLowerCase().slice(4)}
+                    </Typography>
+                  }
+                />
+                {livestockstate[snamelive] && snamelive === "Shelter management" && (
+                  <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
+                    {["Microclimate modification of the shelter", "Modification of shelter", "Planting of trees", "Heating management", "Mechanical cooling"].map((sname_shelter) => (
+                      <FormGroup>
+                        <CustomFormControlLabel
+                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname_shelter]} onChange={changeOpt(sname_shelter)} name={sname_shelter} />}
+                          key={sname_shelter}
+                          label={
+                            <Typography
+                              variant="body2"
+                              align="left"
+                              sx={{
+                                peddingLeft: "3px",
+                                maxWidth: "250px",
+                                wordBreak: "break-word",
+                                whiteSpace: "normal",
+                              }}
+                              style={{ wordWrap: "break-word" }}
+                            >
+                              {sname_shelter.charAt(0).toUpperCase() + sname_shelter.slice(1, 4) + sname_shelter.toLowerCase().slice(4)}
+                            </Typography>
+                          }
+                        />
+                      </FormGroup>
+                    ))}
+                  </FormControl>
+                )}
+                {livestockstate[snamelive] && snamelive === "Feed management" && (
+                  <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
+                    {[
+                      "Fat supplementation",
+                      "Protein and amino acid supplementation",
+                      "Feed additive, electrolyte, antioxidants, vitamins and probiotics",
+                      "Modification in feeding pattern, schedule and space",
+                      "Ad libitum water",
+                    ].map((sname_feed) => (
+                      <FormGroup>
+                        <CustomFormControlLabel
+                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname_feed]} onChange={changeOpt(sname_feed)} name={sname_feed} />}
+                          key={sname_feed}
+                          label={
+                            <Typography
+                              variant="body2"
+                              align="left"
+                              sx={{
+                                peddingLeft: "3px",
+                                maxWidth: "250px",
+                                wordBreak: "break-word",
+                                whiteSpace: "normal",
+                              }}
+                              style={{ wordWrap: "break-word" }}
+                            >
+                              {sname_feed.charAt(0).toUpperCase() + sname_feed.slice(1, 4) + sname_feed.toLowerCase().slice(4)}
+                            </Typography>
+                          }
+                        />
+                      </FormGroup>
+                    ))}
+                  </FormControl>
+                )}
+                {livestockstate[snamelive] && snamelive === "Healthcare management" && (
+                  <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
+                    {["Parasite control", "Thinning of flock", "Separation of multi-aged flock", "Vaccination"].map((sname_health) => (
+                      <FormGroup>
+                        <CustomFormControlLabel
+                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname_health]} onChange={changeOpt(sname_health)} name={sname_health} />}
+                          key={sname_health}
+                          label={
+                            <Typography
+                              variant="body2"
+                              align="left"
+                              sx={{
+                                peddingLeft: "3px",
+                                maxWidth: "250px",
+                                wordBreak: "break-word",
+                                whiteSpace: "normal",
+                              }}
+                              style={{ wordWrap: "break-word" }}
+                            >
+                              {sname_health.charAt(0).toUpperCase() + sname_health.slice(1, 4) + sname_health.toLowerCase().slice(4)}
+                            </Typography>
+                          }
+                        />
+                      </FormGroup>
+                    ))}
+                  </FormControl>
+                )}
+              </FormGroup>
+            ))}
+          {activeCrop["poultry"] === true && (
+            <FormControl component="fieldset" variant="standard">
+              {["Adoption of climate resilient breed/strain", "Weather forecasts/THI-based advisory services", "Livestock insurance", "Diversification"].map((sname_health) => (
+                <FormGroup>
+                  <CustomFormControlLabel
+                    control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname_health]} onChange={changeOpt(sname_health)} name={sname_health} />}
+                    key={sname_health}
+                    label={
+                      <Typography
+                        variant="body2"
+                        align="left"
+                        sx={{
+                          peddingLeft: "3px",
+                          maxWidth: "250px",
+                          wordBreak: "break-word",
+                          whiteSpace: "normal",
+                        }}
+                        style={{ wordWrap: "break-word" }}
+                      >
+                        {sname_health}
+                      </Typography>
+                    }
+                  />
+                </FormGroup>
+              ))}
+            </FormControl>
+          )}
+          {activeCrop["pig"] === true &&
+            ["Shelter management", "Feed management", "Healthcare management"].map((snamelive) => (
+              <FormGroup>
+                <FormControlLabel
+                  control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={livestockstate[snamelive]} onChange={handleLivestockChange(snamelive)} name={snamelive} />}
+                  key={snamelive}
+                  label={
+                    <Typography
+                      variant="body2"
+                      align="left"
+                      sx={{
+                        peddingLeft: "3px",
+                        maxWidth: "250px",
+                        wordBreak: "break-word",
+                        whiteSpace: "normal",
+                      }}
+                      style={{ wordWrap: "break-word" }}
+                    >
+                      {snamelive.charAt(0).toUpperCase() + snamelive.slice(1, 4) + snamelive.toLowerCase().slice(4)}
+                    </Typography>
+                  }
+                />
+                {livestockstate[snamelive] && snamelive === "Shelter management" && (
+                  <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
+                    {["Microclimate modification of the shelter", "Modification of shelter", "Planting of trees", "Wallowing", "Mechanical cooling"].map((sname_shelter) => (
+                      <FormGroup>
+                        <CustomFormControlLabel
+                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname_shelter]} onChange={changeOpt(sname_shelter)} name={sname_shelter} />}
+                          key={sname_shelter}
+                          label={
+                            <Typography
+                              variant="body2"
+                              align="left"
+                              sx={{
+                                peddingLeft: "3px",
+                                maxWidth: "250px",
+                                wordBreak: "break-word",
+                                whiteSpace: "normal",
+                              }}
+                              style={{ wordWrap: "break-word" }}
+                            >
+                              {sname_shelter.charAt(0).toUpperCase() + sname_shelter.slice(1, 4) + sname_shelter.toLowerCase().slice(4)}
+                            </Typography>
+                          }
+                        />
+                      </FormGroup>
+                    ))}
+                  </FormControl>
+                )}
+                {livestockstate[snamelive] && snamelive === "Feed management" && (
+                  <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
+                    {[
+                      "Balanced concentrate with buffer",
+                      "Mineral mixture supplementation",
+                      "Feed additive, antioxidants, vitamins and probiotics",
+                      "Modification in feeding pattern, schedule",
+                      "Ad libitum water",
+                    ].map((sname_feed) => (
+                      <FormGroup>
+                        <CustomFormControlLabel
+                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname_feed]} onChange={changeOpt(sname_feed)} name={sname_feed} />}
+                          key={sname_feed}
+                          label={
+                            <Typography
+                              variant="body2"
+                              align="left"
+                              sx={{
+                                peddingLeft: "3px",
+                                maxWidth: "250px",
+                                wordBreak: "break-word",
+                                whiteSpace: "normal",
+                              }}
+                              style={{ wordWrap: "break-word" }}
+                            >
+                              {sname_feed.charAt(0).toUpperCase() + sname_feed.slice(1, 4) + sname_feed.toLowerCase().slice(4)}
+                            </Typography>
+                          }
+                        />
+                      </FormGroup>
+                    ))}
+                  </FormControl>
+                )}
+                {livestockstate[snamelive] && snamelive === "Healthcare management" && (
+                  <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
+                    {["Deworming against endoparasites", "Control of ectoparasites and other vectors", "Vaccination"].map((sname_health) => (
+                      <FormGroup>
+                        <CustomFormControlLabel
+                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname_health]} onChange={changeOpt(sname_health)} name={sname_health} />}
+                          key={sname_health}
+                          label={
+                            <Typography
+                              variant="body2"
+                              align="left"
+                              sx={{
+                                peddingLeft: "3px",
+                                maxWidth: "250px",
+                                wordBreak: "break-word",
+                                whiteSpace: "normal",
+                              }}
+                              style={{ wordWrap: "break-word" }}
+                            >
+                              {sname_health.charAt(0).toUpperCase() + sname_health.slice(1, 4) + sname_health.toLowerCase().slice(4)}
+                            </Typography>
+                          }
+                        />
+                      </FormGroup>
+                    ))}
+                  </FormControl>
+                )}
+              </FormGroup>
+            ))}
+          {activeCrop["pig"] === true && (
+            <FormControl component="fieldset" variant="standard">
+              {[
+                "Reproductive management: Use of assisted reproductive technologies",
+                "Adoption of climate resilient breeds",
+                "Weather forecasts/THI-based advisory services",
+                "Livestock insurance",
+              ].map((sname_health) => (
+                <FormGroup>
+                  <CustomFormControlLabel
+                    control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname_health]} onChange={changeOpt(sname_health)} name={sname_health} />}
+                    key={sname_health}
+                    label={
+                      <Typography
+                        variant="body2"
+                        align="left"
+                        sx={{
+                          peddingLeft: "3px",
+                          maxWidth: "250px",
+                          wordBreak: "break-word",
+                          whiteSpace: "normal",
+                        }}
+                        style={{ wordWrap: "break-word" }}
+                      >
+                        {sname_health}
+                      </Typography>
+                    }
+                  />
+                </FormGroup>
+              ))}
+            </FormControl>
+          )}
           {checkcrop() === false &&
             activeCrop["rice"] === false &&
             checknotFish() === true &&

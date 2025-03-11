@@ -32,7 +32,7 @@ export function fetchLocationData(location, commodity, scenario, hazard, data) {
     "Lodging": "Rain and wind causing lodging",
     "Biotic": "High humidity and temperature for blight",
     "Irrigation": "Irrigation",
-    "Soil Water Holding Capacity": "Water holding capacity",
+    "Volumetric Soil Water": "Water holding capacity",
     "Income": "Agricultural GDP",
     "Access to Credit": "Access to Credit",
     "Access to Market": "Access to Market",

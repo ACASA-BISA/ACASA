@@ -42,7 +42,7 @@ export function fetchthedataHzd(activeScale, RiskName, ImpactName, displayLayer,
     }
     if (
       RiskName === "Irrigation" ||
-      RiskName === "Soil Water Holding Capacity" ||
+      RiskName === "Volumetric Soil Water" ||
       RiskName === "Agriculture Income" ||
       RiskName === "Soil Organic Carbon" ||
       RiskName === "Feed/Fodder" ||
@@ -79,7 +79,7 @@ export function fetchthedataHzd(activeScale, RiskName, ImpactName, displayLayer,
     "Lodging": "Rain and wind causing lodging",
     "Biotic": "High humidity and temperature for blight",
     "Irrigation": "Irrigation",
-    "Soil Water Holding Capacity": "Water holding capacity",
+    "Volumetric Soil Water": "Water holding capacity",
     "Income": "Agricultural GDP",
     "Access to Credit": "Access to Credit",
     "Access to Market": "Access to Market",
