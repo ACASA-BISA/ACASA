@@ -278,7 +278,7 @@ export default function AboutUs() {
             width: { xs: "100%", sm: "100%" },
             paddingBottom: 5,
             paddinTop: 5,
-            backgroundColor: theme.palette.mode === "dark" ? "#30363d" : "#f7f7f7",
+            backgroundColor: theme.palette.mode === "dark" ? "#1b1f23" : "#f7f7f7", /*Color for dark theme: 30363d */
           })}
         >
           <Box sx={{ marginLeft: 7, marginRight: 7, marginTop: 4 }}>
@@ -1262,7 +1262,7 @@ export default function AboutUs() {
                       mb: 1,
                     })}
                   >
-                    W.M.U.K Rathnayake
+                    Sumudu Senanayake
                   </Typography>
                   <Typography
                     sx={(theme) => ({
@@ -1275,7 +1275,7 @@ export default function AboutUs() {
                       mb: 2,
                     })}
                   >
-                    Director, NRMC, Department of Agriculture, Sri Lanka
+                    Deputy Director (Research), NRMC, Department of Agriculture, Sri Lanka
                   </Typography>
                 </Box>
               </Paper>

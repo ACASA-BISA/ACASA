@@ -12,11 +12,12 @@ import {
   ImageListItem,
 } from "@mui/material"; // Import Material-UI components
 import { styled } from "@mui/system"; // Import styled function from Material-UI for custom styling
+import WavingHandIcon from '@mui/icons-material/WavingHand';
 
 // Styled AppBar component with custom styles
 const AppBarStyled = styled(AppBar)(({ theme }) => ({
-  backgroundColor: "#4c9c44", // Green background color
-  color: "#fff", // White text color
+  backgroundColor: theme.palette.mode === "dark" ? "#61c258" : "#4c9c44", // Green background color
+  color: theme.palette.mode === "dark" ? "#000" : "#fff", // White text color
   height: "40px", // Set height
   justifyContent: "center", // Center content vertically
 }));
@@ -24,7 +25,7 @@ const AppBarStyled = styled(AppBar)(({ theme }) => ({
 // Styled Link component with custom styles
 const LinkStyled = styled(Link)(({ theme }) => ({
   marginLeft: theme.spacing(1), // Add margin to the left
-  color: "#fff", // White text color
+  color: theme.palette.mode === "dark" ? "#000" : "#fff", // White text color
 }));
 
 // Styled Typography component for heading
@@ -44,21 +45,21 @@ const BodyText = styled(Typography)(({ theme }) => ({
 
 // Styled Button component with custom styles
 const ButtonStyled = styled(Button)(({ theme }) => ({
-  backgroundColor: "#4c9c44", // Green background color to match AppBar
-  color: "#fff", // White text color
+  backgroundColor: theme.palette.mode === "dark" ? "#61c258" : "#4c9c44", // Green background color to match AppBar
+  color: theme.palette.mode === "dark" ? "#000" : "#fff", // White text color
   textTransform: "none", // Disable text transformation
   height: "40px", // Set height
   marginTop: theme.spacing(2), // Add top margin
   fontSize: "16px", // Set font size
   padding: theme.spacing(1.5), // Add padding
   "&:hover": {
-    backgroundColor: "#f5f3ed", // Change background color on hover
+    backgroundColor: theme.palette.mode === "dark" ? "#4f4c45": "#f5f3ed", // Change background color on hover
     boxShadow: "none", // Remove box shadow on hover
-    color: "#000", // Change text color on hover
+    color: theme.palette.mode === "dark" ? "#fff" : "#000", // Change text color on hover
   },
   "&.Mui-selected, &.Mui-selected:hover": {
     boxShadow: "none", // Remove box shadow when selected
-    backgroundColor: "#fece2f", // Change background color when selected
+    backgroundColor: theme.palette.mode === "dark" ? "#c9a227": "#fece2f", // Change background color when selected
   },
 }));
 
@@ -134,16 +135,16 @@ function MasonryImageList() {
 // Main functional component for Feedback1
 function Feedback1() {
   return (
-    <Box sx={{ flexGrow: 1, marginTop: "80px" }}>
+    <Box sx={(theme) => ({ flexGrow: 1, marginTop: "80px", backgroundColor: theme.palette.background.paper, height: "100vh" })}>
       {" "}
       {/* Main container box */}
       <AppBarStyled position="static">
         {" "}
         {/* Styled AppBar component */}
-        <Typography fontSize={16} sx={{ fontStyle: "italic" }}>
+        <Typography fontSize={16} sx={{ fontStyle: "italic", justifyItems: "center" }}>
           {" "}
           {/* Typography for AppBar text */}
-          Hey 👋 Your feedback means the world to us. Share your opinion.
+          Hey<WavingHandIcon sx={{fontSize: "1rem", display: "inline", justifyItems: "center", marginLeft: "0.5rem"}}/> {/*👋 */} Your feedback means the world to us. Share your opinion.
         </Typography>
       </AppBarStyled>
       <CenteredContainer>
@@ -152,7 +153,7 @@ function Feedback1() {
         <ContentBox>
           {" "}
           {/* Content box for text and button */}
-          <Box sx={{ marginTop: 15, position: "relative" }}>
+          <Box sx={(theme) => ({ marginTop: 15, position: "relative", color: theme.palette.mode === "dark" ? "#fff" : "#000" })}>
             <Heading>
               Feedback <TryIcon fontSize="11px" /> {/* Heading with icon */}
             </Heading>

@@ -4,12 +4,24 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 export const ThemeContext = React.createContext();
 
 export const ThemeProviderWrapper = ({ children }) => {
-  const [mode, setMode] = React.useState("light");
+  // Initialize theme mode from localStorage or default to "light"
+  const [mode, setMode] = React.useState(() => {
+    return localStorage.getItem("themeMode") || "light";
+  });
 
+  // Function to toggle theme and save to localStorage
   const toggleTheme = () => {
-    setMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
+    setMode((prevMode) => {
+      const newMode = prevMode === "light" ? "dark" : "light";
+      localStorage.setItem("themeMode", newMode); // Store the new mode
+      return newMode;
+    });
   };
 
+  React.useEffect(() => {
+    // Ensure the theme mode is applied correctly when the component mounts
+    localStorage.setItem("themeMode", mode);
+  }, [mode]);
   const theme = React.useMemo(
     () =>
       createTheme({
@@ -17,7 +29,7 @@ export const ThemeProviderWrapper = ({ children }) => {
           mode,
           ...(mode === "dark"
             ? {
-                background: { default: "#1b1f23", paper: "#25292e" },
+                background: { default: "#1b1f23", paper: "#25292e" }, 
                 text: { primary: "#e0e0e0" },
                 primary: { main: "#81c784" },
                 success: { main: "#4caf50", contrastText: "#fff" },
@@ -72,8 +84,9 @@ export const ThemeProviderWrapper = ({ children }) => {
       /* Styles for ACASA Posts*/
       root.style.setProperty("--banner-title-text-shadow", "2px 2px 10px rgba(100, 100, 100, 0.3)");
       root.style.setProperty("--banner-title-background", "rgba(200, 200, 200, 0.4)");
-      root.style.setProperty("--animated-shape-background", "rgba(128, 235, 119, 0.8)");
+      root.style.setProperty("--animated-shape-background", "rgba(184, 143, 26, 0.8)");
       root.style.setProperty("--blog-title-hover-underline", "#81c784");
+      root.style.setProperty("--blog-card-bgcolor", "#25292e");
 
     } else {
 
@@ -115,8 +128,9 @@ export const ThemeProviderWrapper = ({ children }) => {
       /* Styles for ACASA Posts*/
       root.style.setProperty("--banner-title-text-shadow", "2px 2px 10px rgba(0, 0, 0, 0.7)");
       root.style.setProperty("--banner-title-background", "rgba(0, 0, 0, 0.4)");
-      root.style.setProperty("--animated-shape-background", "rgba(75, 158, 68, 0.8)");
+      root.style.setProperty("--animated-shape-background", "rgba(254, 206, 47, 0.7)");
       root.style.setProperty("--blog-title-hover-underline", "#52911f");
+      root.style.setProperty("--blog-card-bgcolor", "#fff");
 
     }
   }, [mode]);

@@ -4,9 +4,12 @@ import FormControl from "@mui/material/FormControl";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
-import { Typography } from "@mui/material";
+import { Typography, Link } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Box } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import LightTooltip from "./LightTooltip";
 
 export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, CurrRisk, exploreType }) {
   const switchPro = ["District Level", "Downscaled Risk"];
@@ -22,6 +25,7 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
 
   const switchRisk = ["Risk Index", "Hazard Index", "Exposure Index", "Vulnerability Index"];
   const switchRiskID = ["riskindex", "HINDEX", "expoindex", "vulne"];
+  const SwitchRiskPopup = ["To be updated", "To be updated", "To be updated", "To be updated"];
 
   const switchBasic = ["Seasonal Rainfall", "Maximum Temperature", "Minimum Temperature"];
   const switchBasicID = ["seasonalrain", "maxtemp", "mintemp"];
@@ -103,6 +107,41 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
     "COLD FLOWER",
     "HIGH FLOWER",
     "BIOTIC2",
+  ];
+
+  const MasterHazardDesc = [
+    "Hazard Index",
+    "Low temperature induced spikelet sterility",
+    "Untimely Rainfall",
+    "Low temperature induced pollen sterility",
+    "High temperature induced pollen sterility",
+    "Heat Stress",
+    "Heat Stress",
+    "High temperature induced spikelet sterility",
+    "Cold Stress",
+    "Low temperature induced tuberization failure",
+    "Terminal Heat",
+    "Days of Frost",
+    "Excess Rainfall and Waterlogging",
+    "Delayed Monsoon",
+    "Rainfall Deficit Index",
+    "Dry Spell",
+    "Flood",
+    "Lodging",
+    "Biotic",
+    "Excess Rainfall",
+    "Temperature-Humidity Index",
+    "Hot days",
+    "Cold days",
+    "Extreme Rainfall days",
+    "Rainfall Deficit",
+    "Cyclone",
+    "Cold stress in reproductive stage",
+    "Heat stress in reproductive stage",
+    "Heat stress during boll formation",
+    "Cold stress during flowering",
+    "High tempearture during flowering",
+    "Biotic Stress",
   ];
 
   const fullList = [
@@ -249,28 +288,35 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
 
   const CurrHazard = CropRisk();
 
-  function HazardName() {
+  function HazardData() {
     let HazardNames = [];
+    let HazardDesc = [];
+
     CurrHazard.forEach((hazardid) => {
       MasterHazardID.forEach((sname, index) => {
         if (hazardid === sname) {
-          HazardNames.push(MasterHazard[index]);
+          HazardNames.push(MasterHazard[index]); // Store hazard name
+          HazardDesc.push(MasterHazardDesc[index] || "No description available"); // Store description
         }
       });
     });
-    return HazardNames;
+
+    return { HazardNames, HazardDesc };
   }
 
-  const CurrHazardName = HazardName();
+  // Get hazard names and descriptions
+  const { HazardNames: CurrHazardName, HazardDesc: CurrHazardDesc } = HazardData();
 
-  const switchVulner = ["Irrigation", "Income", "Volumetric Soil Water", "Rural infrastructure", "Economic Development Indicator"];
-  const switchVulnerID = ["irrigation", "GDP", "waterholding", "ROAD", "HDI"];
+  const switchVulner = ["Irrigation", "Income", "Rural infrastructure", "Economic Development Indicator"];
+  const switchVulnerID = ["irrigation", "GDP", "ROAD", "HDI"];
+  const switchVulnerPopup = ["To be updated.", "To be updated.", "To be updated.", "To be updated."];
 
   /*   const switchvul_Livestock = ['Vulnerability Index',"Feed/Fodder","Income","Rural infrastructure","Economic Development Indicator"];
   const switchvul_LivestockID = ['vulne',"CROPRES","GDP","ROAD",'HDI']; */
 
   const switchvul_Livestock = ["Feed/Fodder", "Income", "Economic Development Indicator", "Rural infrastructure"];
   const switchvul_LivestockID = ["CROPRES", "GDP", "HDI", "ROAD"];
+  const switchvul_Livestock_Popup = ["To be updated.", "To be updated.", "To be updated.", "To be updated."];
 
   const switchvul_Fisheries = [];
   const switchvul_FisheriesID = [];
@@ -783,6 +829,30 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
                                   style={{ wordWrap: "break-word" }}
                                 >
                                   {sn1r.charAt(0).toUpperCase() + sn1r.toLowerCase().slice(1)}
+                                  <LightTooltip
+                                    title={
+                                      <>
+                                        <span>{CurrHazardDesc[idxr]}</span>
+                                        <br />
+                                        <Link
+                                          href={`#/resources?tab=2&term=${sn1r.toLowerCase()}`}
+                                          target="_blank"
+                                          sx={(theme) => ({
+                                            color: theme.palette.mode === "dark" ? "black" : "white",
+                                            fontWeight: "bold",
+                                          })}
+                                        >
+                                          Read More
+                                        </Link>
+                                      </>
+                                    }
+                                    placement="right"
+                                    arrow
+                                  >
+                                    <IconButton sx={{ padding: 0, margin: 0, paddingX: "4px" }}>
+                                      <InfoOutlinedIcon sx={{ fontSize: "12px", padding: 0, margin: 0 }} />
+                                    </IconButton>
+                                  </LightTooltip>
                                 </Typography>
                               }
                             />
@@ -822,6 +892,30 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
                                     style={{ wordWrap: "break-word" }}
                                   >
                                     {sn1r.charAt(0).toUpperCase() + sn1r.toLowerCase().slice(1)}
+                                    <LightTooltip
+                                      title={
+                                        <>
+                                          <span>{switchVulnerPopup[idxr]}</span>
+                                          <br />
+                                          <Link
+                                            href={`#/resources?tab=2&term=${sn1r.toLowerCase()}`}
+                                            target="_blank"
+                                            sx={(theme) => ({
+                                              color: theme.palette.mode === "dark" ? "black" : "white",
+                                              fontWeight: "bold",
+                                            })}
+                                          >
+                                            Read More
+                                          </Link>
+                                        </>
+                                      }
+                                      placement="right"
+                                      arrow
+                                    >
+                                      <IconButton sx={{ padding: 0, margin: 0, paddingX: "4px" }}>
+                                        <InfoOutlinedIcon sx={{ fontSize: "12px", padding: 0, margin: 0 }} />
+                                      </IconButton>
+                                    </LightTooltip>
                                   </Typography>
                                 }
                               />
@@ -890,6 +984,30 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
                                     style={{ wordWrap: "break-word" }}
                                   >
                                     {sn1r.charAt(0).toUpperCase() + sn1r.toLowerCase().slice(1)}
+                                    <LightTooltip
+                                      title={
+                                        <>
+                                          <span>{switchvul_Livestock_Popup[idxr]}</span>
+                                          <br />
+                                          <Link
+                                            href={`#/resources?tab=2&term=${sn1r.toLowerCase()}`}
+                                            target="_blank"
+                                            sx={(theme) => ({
+                                              color: theme.palette.mode === "dark" ? "black" : "white",
+                                              fontWeight: "bold",
+                                            })}
+                                          >
+                                            Read More
+                                          </Link>
+                                        </>
+                                      }
+                                      placement="right"
+                                      arrow
+                                    >
+                                      <IconButton sx={{ padding: 0, margin: 0, paddingX: "4px" }}>
+                                        <InfoOutlinedIcon sx={{ fontSize: "12px", padding: 0, margin: 0 }} />
+                                      </IconButton>
+                                    </LightTooltip>
                                   </Typography>
                                 }
                               />
@@ -900,16 +1018,39 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
                     {P3aipcc[switchIPCCID[idx]] && switchIPCCID[idx] === "risk" && (
                       <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 5 }}>
                         {switchRisk.map((sn1r, idxr) => (
-                          <FormGroup>
+                          <FormGroup key={switchRiskID[idxr]}>
                             <CustomFormControlLabel
                               control={
                                 <AntSwitch inputProps={{ "aria-label": "ant design" }} checked={P3[switchRiskID[idxr]]} onChange={handleChangeP3(switchRiskID[idxr])} name={switchRiskID[idxr]} />
                               }
                               disabled={false}
-                              key={switchRiskID[idxr]}
                               label={
                                 <Typography fontSize="13px" sx={{ paddingLeft: "3px" }}>
                                   {sn1r.charAt(0).toUpperCase() + sn1r.toLowerCase().slice(1)}
+                                  <LightTooltip
+                                    title={
+                                      <>
+                                        <span>{SwitchRiskPopup[idxr]}</span>
+                                        <br />
+                                        <Link
+                                          href={`#/resources?tab=2&term=${sn1r.toLowerCase()}`}
+                                          target="_blank"
+                                          sx={(theme) => ({
+                                            color: theme.palette.mode === "dark" ? "black" : "white",
+                                            fontWeight: "bold",
+                                          })}
+                                        >
+                                          Read More
+                                        </Link>
+                                      </>
+                                    }
+                                    placement="right"
+                                    arrow
+                                  >
+                                    <IconButton sx={{ padding: 0, margin: 0, paddingX: "4px" }}>
+                                      <InfoOutlinedIcon sx={{ fontSize: "12px", padding: 0, margin: 0 }} />
+                                    </IconButton>
+                                  </LightTooltip>
                                 </Typography>
                               }
                             />
@@ -917,6 +1058,7 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
                         ))}
                       </FormControl>
                     )}
+
                     {P3aipcc[switchIPCCID[idx]] && switchIPCCID[idx] === "basic" && (
                       <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 5 }}>
                         {switchBasic.map((sn1r, idxr) => (

@@ -30,8 +30,8 @@ export default function SwitchIndustrial({ activeCrop, changeCrop }) {
   };
   const padd = 8;
   const season = [
-    "Cotton is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif' in India).",
-    "Jute is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif' in India).",
+    "Here this analysis is done only for monsoon season",
+    "Here this analysis is done only for monsoon season",
     "Season information to be updated",
     "Season information to be updated",
     "Season information to be updated",
@@ -105,19 +105,19 @@ export default function SwitchIndustrial({ activeCrop, changeCrop }) {
                       <>
                         <span>{season[index]}</span>
                         <br />
-                        <Link
+                        {/*<Link
                           href={`#/resources?tab=2&term=${switchh[index].toLowerCase()}`}
                           target="_blank"
-                          sx={{
-                            color: "white",
+                          sx={(theme) => ({
+                            color: theme.palette.mode === "dark" ? "black" : "white",
                             fontWeight: "bold",
-                          }}
+                          })}
                         >
                           Read More
-                        </Link>
+                        </Link>*/}
                       </>
                     }
-                    placement="top"
+                    placement="right"
                     arrow
                   >
                     <IconButton sx={{ padding: 0, margin: 0, paddingX: "4px" }}>

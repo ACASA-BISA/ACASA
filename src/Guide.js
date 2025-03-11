@@ -19,19 +19,11 @@ const headingA = () => {
           fontSize: "34px",
           fontWeight: "bold",
           fontFamily: "Playfair Display",
-          color: (theme) =>
-            theme.palette.mode === "dark" ? "#6dd769" : "#4ba046",
+          color: (theme) => (theme.palette.mode === "dark" ? "#6dd769" : "#4ba046"),
         }}
       >
         {" "}
-        <ReactTyped
-          strings={["How to use the Atlas?", "Your Navigation Buddy"]}
-          typeSpeed={100}
-          loop
-          backSpeed={20}
-          cursorChar="|"
-          showCursor={true}
-        />
+        <ReactTyped strings={["How to use the Atlas?", "Your Navigation Buddy"]} typeSpeed={100} loop backSpeed={20} cursorChar="|" showCursor={true} />
       </Typography>
     </Box>
   );
@@ -39,11 +31,12 @@ const headingA = () => {
 
 // Styles for the heading box
 const headingBoxStyle = {
-  position: "absolute",
-  top: "-60px",
+  position: "relative",
+  width: "fit-content",
+  
   left: "10px",
   zIndex: 1000,
-  backgroundColor: (theme) => theme.palette.background.paper,
+  backgroundColor: (theme) => theme.palette.background.default,
   padding: "10px",
   borderRadius: "8px",
   boxShadow: (theme) =>
@@ -59,30 +52,22 @@ const logoStyle = {
   margin: "10px",
   marginBottom: "8px",
   padding: "5px",
-  border: (theme) =>
-    `3px solid ${theme.palette.mode === "dark" ? "#71c96d" : "#4b9e44"}`,
+  border: (theme) => `3px solid ${theme.palette.mode === "dark" ? "#71c96d" : "#4b9e44"}`,
   borderRadius: "8px",
 };
 
 // Base styles for the tooltip boxes
 const tooltipBoxStyleBase = {
-  padding: "20px",
-  border: (theme) =>
-    `1px solid ${theme.palette.mode === "dark" ? "#71c96d" : "#4b9e44"}`,
-  height: "auto",
-  width: "25vw",
-  position: "relative",
-  borderRadius: "8px",
-  boxShadow: (theme) =>
-    theme.palette.mode === "dark"
-      ? "0px 0px 10px rgba(255, 255, 255, 0.1)"
-      : "0px 0px 10px rgba(0, 0, 0, 0.1)",
-  transition: "0.3s cubic-bezier(.47,1.64,.41,.8)",
+  "padding": "20px",
+  "border": (theme) => `1px solid ${theme.palette.mode === "dark" ? "#71c96d" : "#4b9e44"}`,
+  "height": "auto",
+  "width": "25vw",
+  "position": "relative",
+  "borderRadius": "8px",
+  "boxShadow": (theme) => (theme.palette.mode === "dark" ? "0px 0px 10px rgba(255, 255, 255, 0.1)" : "0px 0px 10px rgba(0, 0, 0, 0.1)"),
+  "transition": "0.3s cubic-bezier(.47,1.64,.41,.8)",
   "&:hover": {
-    boxShadow: (theme) =>
-      theme.palette.mode === "dark"
-        ? "0 4px 20px rgba(255, 255, 255, 0.15)"
-        : "0 4px 20px rgba(0,0,0,0.12)",
+    boxShadow: (theme) => (theme.palette.mode === "dark" ? "0 4px 20px rgba(255, 255, 255, 0.15)" : "0 4px 20px rgba(0,0,0,0.12)"),
     transform: "scale(1.05)",
   },
 };
@@ -98,14 +83,8 @@ const arrowStyleLeft = {
   height: "0",
   borderTop: "10px solid transparent",
   borderBottom: "10px solid transparent",
-  borderRight: (theme) =>
-    `10px solid ${theme.palette.mode === "dark" ? "#71c96d" : "#4b9e44"}`,
-  filter: (theme) =>
-    `drop-shadow(1px 0 1px ${
-      theme.palette.mode === "dark"
-        ? "rgba(255, 255, 255, 0.1)"
-        : "rgba(0, 0, 0, 0.1)"
-    })`,
+  borderRight: (theme) => `10px solid ${theme.palette.mode === "dark" ? "#71c96d" : "#4b9e44"}`,
+  filter: (theme) => `drop-shadow(1px 0 1px ${theme.palette.mode === "dark" ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)"})`,
 };
 
 // Styles for right-pointing arrow
@@ -119,14 +98,8 @@ const arrowStyleRight = {
   height: "0",
   borderTop: "10px solid transparent",
   borderBottom: "10px solid transparent",
-  borderLeft: (theme) =>
-    `10px solid ${theme.palette.mode === "dark" ? "#71c96d" : "#4b9e44"}`,
-  filter: (theme) =>
-    `drop-shadow(1px 0 1px ${
-      theme.palette.mode === "dark"
-        ? "rgba(255, 255, 255, 0.1)"
-        : "rgba(0, 0, 0, 0.1)"
-    })`,
+  borderLeft: (theme) => `10px solid ${theme.palette.mode === "dark" ? "#71c96d" : "#4b9e44"}`,
+  filter: (theme) => `drop-shadow(1px 0 1px ${theme.palette.mode === "dark" ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)"})`,
 };
 
 // Main Guide component to render the timeline with events
@@ -210,13 +183,13 @@ export default function Guidee() {
     <div>
       <Box
         sx={{
-          backgroundColor: (theme) => theme.palette.background.paper, // Background for entire screen
-          minHeight: "100vh", // Full viewport height
-          width: "100%", // Ensures full width
-          position: "relative", // Ensures it covers everything
+          backgroundColor: (theme) => theme.palette.background.paper,
+          minHeight: "100vh",
+          width: "100%",
+          position: "absolute",
         }}
       >
-        <Box sx={{ marginTop: "160px" }}>
+        <Box sx={{ paddingTop: "100px"}}>
           {headingA()}
           <Timeline position="alternate">
             {events.map((event, index) => {
@@ -224,18 +197,8 @@ export default function Guidee() {
 
               const tooltipBoxStyle = {
                 ...tooltipBoxStyleBase,
-                backgroundColor: (theme) =>
-                  theme.palette.mode === "dark"
-                    ? isLeftSide
-                      ? "#4b9e44" // Green background on left in dark mode
-                      : "#25292e" // Dark background on right in dark mode
-                    : index % 2 === 0
-                    ? "#fff"
-                    : "#e0ebeb", // Keep light mode unchanged
-                color: (theme) =>
-                  theme.palette.mode === "dark" && isLeftSide
-                    ? "#fff"
-                    : "inherit",
+                backgroundColor: (theme) => (theme.palette.mode === "dark" ? (isLeftSide ? "#2f6742" : "#25292e") : index % 2 === 0 ? "#fff" : "#e0ebeb"), // Keep light mode unchanged
+                color: (theme) => (theme.palette.mode === "dark" && isLeftSide ? "#fff" : "inherit"),
               };
               return (
                 <TimelineItem key={index}>
@@ -243,32 +206,20 @@ export default function Guidee() {
                     sx={{ mt: "15px" }}
                     align={index % 2 === 0 ? "right" : "left"}
                     variant="body2"
-                    color={(theme) =>
-                      theme.palette.mode === "dark" ? "#ddd" : "text.secondary"
-                    }
+                    color={(theme) => (theme.palette.mode === "dark" ? "#ddd" : "text.secondary")}
                   >
-                    <Typography
-                      color={(theme) =>
-                        theme.palette.mode === "dark" ? "#fff" : "#111"
-                      }
-                      fontSize={24}
-                    >
+                    <Typography color={(theme) => (theme.palette.mode === "dark" ? "#fff" : "#111")} fontSize={24}>
                       <strong>{event.step}</strong>
                     </Typography>
                   </TimelineOppositeContent>
                   <TimelineSeparator>
-                    <img
-                      src={event.img}
-                      style={logoStyle}
-                      alt={`Timeline${index + 1}`}
-                    />
+                    <img src={event.img} style={logoStyle} alt={`Timeline${index + 1}`} />
                     <TimelineConnector />
                     <Box
                       sx={{
                         width: "10px",
                         height: "10px",
-                        backgroundColor: (theme) =>
-                          theme.palette.mode === "dark" ? "#6dd769" : "#4b9e44",
+                        backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#6dd769" : "#4b9e44"),
                         borderRadius: "50%",
                         marginTop: "8px",
                       }}
@@ -276,17 +227,12 @@ export default function Guidee() {
                   </TimelineSeparator>
                   <TimelineContent sx={{ py: "12px", px: 2 }}>
                     <Box sx={tooltipBoxStyle}>
-                      <Box
-                        sx={index % 2 === 0 ? arrowStyleLeft : arrowStyleRight}
-                      ></Box>
+                      <Box sx={index % 2 === 0 ? arrowStyleLeft : arrowStyleRight}></Box>
                       <Typography
                         variant="h5"
                         component="span"
                         sx={{
-                          color: (theme) =>
-                            theme.palette.mode === "dark"
-                              ? "#81c784"
-                              : "#4b9e44",
+                          color: (theme) => (theme.palette.mode === "dark" ? "#81c784" : "#4b9e44"),
                           fontWeight: "bold",
                         }}
                       >
@@ -333,19 +279,22 @@ export default function Guidee() {
                           marginTop: "10px",
                         }}
                       >
-                        <a
+                        <Box
+                          component="a"
                           href={event.link}
                           target="_self"
                           rel="noopener noreferrer"
-                          style={{
-                            fontWeight: "bold",
-                            color: (theme) =>
-                              theme.palette.mode === "dark" ? "#81c784" : "#333333",
-                            textDecoration: "none",
+                          sx={{
+                            "fontWeight": "bold",
+                            "color": (theme) => (theme.palette.mode === "dark" ? "#81c784" : "#333333"),
+                            "textDecoration": "none",
+                            "&:hover": {
+                              textDecoration: "underline", // Optional hover effect
+                            },
                           }}
                         >
                           Click Here
-                        </a>
+                        </Box>
                       </Typography>
                     </Box>
                   </TimelineContent>

@@ -36,12 +36,12 @@ export default function SwitchOilseeds({ activeCrop, changeCrop }) {
   };
   const padd = 8;
   const season = [
-    "Soybean is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif') and Maha in Sri Lanka",
+    "Here this analysis is done only for monsoon season.",
     "",
     "",
-    "Analysis done for Rabi/winter season.",
+    "Here this analysis is done only for winter season.",
     "",
-    "Groundnut is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif' in India) and Maha in Sri Lanka.",
+    "Here this analysis is done only for monsoon season.",
   ];
 
   const AntSwitch = styled(Switch)(({ theme }) => ({
@@ -124,19 +124,19 @@ export default function SwitchOilseeds({ activeCrop, changeCrop }) {
                       <>
                         <span>{season[index]}</span>
                         <br />
-                        <Link
+                        {/*<Link
                           href={`#/resources?tab=2&term=${switchh[index].toLowerCase()}`}
                           target="_blank"
-                          sx={{
-                            color: "white",
+                          sx={(theme) => ({
+                            color: theme.palette.mode === "dark" ? "black" : "white",
                             fontWeight: "bold",
-                          }}
+                          })}
                         >
                           Read More
-                        </Link>
+                        </Link>*/}
                       </>
                     }
-                    placement="top"
+                    placement="right"
                     arrow
                   >
                     <IconButton sx={{ padding: 0, margin: 0, paddingX: "4px" }}>

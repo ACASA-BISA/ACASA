@@ -17,94 +17,179 @@ import Box from "@mui/material/Box";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { BlogCard } from "./Blog_Card/Blog_Card";
 import { motion } from "framer-motion";
+import ColorThief from "color-thief-browser";
 
-function createData(imgSrc, imgAlt, title, author, link) {
-  return { imgSrc, imgAlt, title, author, link };
+function createData(imgSrc, imgAlt, title, author, link, keywords = [], date) {
+  return { imgSrc, imgAlt, title, author, link, keywords, date };
 }
 
 const data = [
-  createData("blognew1.png", "Blog 1", "Greater successes through NARS partnerships", "Tess Russo, BMGF, Seattle, USA", "https://bisa.org/greater-successes-through-nars-partnerships/"),
+  createData(
+    "/Blog-10.jpg",
+    "Blog 1",
+    "Building capabilities of medium and large-scale Sri Lankan maize growers in agricultural risk management",
+    "ASM Roshan, Agribusiness Development Centre, Department of Agriculture, Sri Lanka, and WMUK Rathnayake, Natural Resources Management Centre (NRMC), Department of Agriculture, Sri Lanka",
+    "https://bisa.org/building-capabilities-of-medium-and-large-scale-sri-lankan-maize-growers-in-agricultural-risk-management/",
+    ["Maize,", "agribusiness"],
+    "Jan, 2025"
+  ),
+  createData(
+    "/Blog-11.jpg",
+    "Blog 2",
+    "ACASA for empowering women-led social entrepreneurs in Nepal: Building climate-resilient forage for a sustainable livestock ecosystem",
+    "Bhola Shrestha, Heifer International, Nepal, and Sunita Sanjyal, Nepal Agricultural Research Council, Nepal",
+    "https://bisa.org/acasa-for-empowering-women-led-social-entrepreneurs-in-nepal-building-climate-resilient-forage-for-a-sustainable-livestock-ecosystem/",
+    ["Capacity building,", "women"]
+  ),
+  createData(
+    "/Blog-13.jpg",
+    "Blog 3",
+    "Strengthening the model of “Adaptation Clinic” through data-driven local level adaptation planning in Bangladesh",
+    "Tausif Ahmed Qurashi, BRAC, Bangladesh, and Md. Abdus Salam, Bangladesh Agricultural Research Council (BARC), Bangladesh",
+    "https://bisa.org/strengthening-the-model-of-adaptation-clinic-through-data-driven-local-level-adaptation-planning-in-bangladesh/",
+    ["Adaptation,", "local-level planning"]
+  ),
+  createData("blognew1.png", "Blog 4", "Greater successes through NARS partnerships", "Tess Russo, BMGF, Seattle, USA", "https://bisa.org/greater-successes-through-nars-partnerships/", [
+    "Partnership,",
+    "NARS,",
+    "ACASA,",
+    "BISA",
+  ]),
   createData(
     "/blognew2.jpeg",
-    "Blog 2",
+    "Blog 5",
     "Gridded crop modelling to simulate impacts of climate change and adaptation benefits in ACASA",
     "Anooja Thomas, University of Florida, USA; Apurbo K Chaki, BARI, Bangladesh; Gerrit Hoogenboom, University of Florida, USA; and S Naresh Kumar, ICAR-IARI, India",
-    "https://bisa.org/gridded-crop-modelling-to-simulate-impacts-of-climate-change-and-adaptation-benefits-in-acasa/"
+    "https://bisa.org/gridded-crop-modelling-to-simulate-impacts-of-climate-change-and-adaptation-benefits-in-acasa/",
+    ["Crop models,", "simulations,", "adaptation"]
   ),
   createData(
     "/blognew3.png",
-    "Blog 3",
+    "Blog 6",
     "Harnessing econometric and statistical tools to support climate-resilient agriculture",
     "Kaushik Bora, BISA-CIMMYT, India and Prem Chand, ICAR-NIAP, India",
-    "https://bisa.org/harnessing-econometric-and-statistical-tools-to-support-climate-resilient-agriculture/"
+    "https://bisa.org/harnessing-econometric-and-statistical-tools-to-support-climate-resilient-agriculture/",
+    ["Econometrics,", "profitability,", "statistical models,", "adaptation"]
   ),
   createData(
     "/blognew4.png",
-    "Blog 4",
+    "Blog 7",
     "Unlocking insights from literature: Exploring adaptation options in ACASA",
     "Aniket Deo, BISA-CIMMYT, India; Niveta Jain, ICAR-IARI, India; Roshan B Ojha, NARC, Nepal; and Sayla Khandoker, Bangladesh",
-    "https://bisa.org/unlocking-insights-from-literature-exploring-adaptation-options-in-acasa/"
+    "https://bisa.org/unlocking-insights-from-literature-exploring-adaptation-options-in-acasa/",
+    ["SLR,", "adaptation options"]
   ),
   createData(
     "/Blog-5.jpg",
-    "Blog 5",
+    "Blog 8",
     "A new Climate Adaptation Atlas to safeguard South Asian agriculture",
     "Bram Govaerts, DG, CIMMYT & BISA and Arun Kumar Joshi, CIMMYT Asia Regional Representative and MD BISA",
-    "https://www.cimmyt.org/blogs/a-new-climate-adaptation-atlas-to-safeguard-south-asian-agriculture/"
+    "https://www.cimmyt.org/blogs/a-new-climate-adaptation-atlas-to-safeguard-south-asian-agriculture/",
+    ["ACASA,", "BISA,", "CIMMYT"]
   ),
   createData(
     "/Blog-1.jpg",
-    "Blog 6",
-    "Adaptation Atlas is a Positive Step Towards Climate Resilient Agriculture",
+    "Blog 9",
+    "Adaptation Atlas is a positive step towards climate resilient agriculture",
     "Himanshu Pathak, Secretary (DARE) and Director General - ICAR, India",
-    "https://www.cimmyt.org/blogs/adaptation-atlas-is-a-positive-step-towards-climate-resilient-agriculture/"
+    "https://www.cimmyt.org/blogs/adaptation-atlas-is-a-positive-step-towards-climate-resilient-agriculture/",
+    ["ACASA,", "BISA,", "ICAR"]
   ),
   createData(
     "/Blog-2.jpg",
-    "Blog 7",
+    "Blog 10",
     "Bangladesh to improve risk characterization at a granular level with Atlas",
     "Shaikh Mohammad Bokhtiar, Executive Chairman, BARC, Bangladesh",
-    "https://www.cimmyt.org/blogs/bangladesh-to-improve-risk-characterization-at-a-granular-level-with-atlas/"
+    "https://www.cimmyt.org/blogs/bangladesh-to-improve-risk-characterization-at-a-granular-level-with-atlas/",
+    ["ACASA,", "BISA,", "BARC"]
   ),
   createData(
     "/Blog-3.jpg",
-    "Blog 8",
+    "Blog 11",
     "Atlas crucial to strengthen Nepal’s capacity to cope with climate change",
     "Dhruba Raj Bhattarai, Executive Director, NARC, Nepal",
-    "https://www.cimmyt.org/blogs/atlas-crucial-to-strengthen-nepals-capacity-to-cope-with-climate-change/"
+    "https://www.cimmyt.org/blogs/atlas-crucial-to-strengthen-nepals-capacity-to-cope-with-climate-change/",
+    ["ACASA,", "BISA,", "NARC"]
   ),
   createData(
     "/Blog-4.jpg",
-    "Blog 9",
+    "Blog 12",
     "Climate Adaptation Atlas will support evidence-based solutions in Sri Lanka",
     "P. Malathy, DG-Agriculture, Sri Lanka",
-    "https://www.cimmyt.org/news/climate-adaptation-atlas-will-support-evidence-based-solutions-in-sri-lanka/"
+    "https://www.cimmyt.org/news/climate-adaptation-atlas-will-support-evidence-based-solutions-in-sri-lanka/",
+    ["ACASA,", "BISA,", "NRMC,", "Department of Agriculture"]
   ),
 ];
 
 //Defines styles using Javascript objects for various image sizes used in the component.
 
 export default function Card_Posts() {
-  const [blogs, setBlogs] = React.useState(false);
+  const [isPaused, setIsPaused] = React.useState(false);
 
   //This is the main component that returns JSX code for the blog posts section.
   //It uses a useState hook from React to manage the state of blogs (initially set to false). This state controls whether to show additional blog posts.
 
   return (
+    <>
     <div style={{ marginLeft: "70px", marginTop: "15px", marginBottom: "15px" }}>
-      <div className="full-width-container">
+      <div
+        className="full-width-container"
+        style={{
+          position: "relative",
+          width: "95%",
+          minHeight: "400px",
+          overflow: "hidden",
+        }}
+      >
+        {/* Background Layer with Blur & Mask */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            backgroundImage: "url(acasa_post_banner3.jpg)",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            WebkitMaskImage: "linear-gradient(to right, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%)",
+            maskImage: "linear-gradient(to right, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%)",
+            zIndex: 0, // Keeps it behind the text
+          }}
+        />
+
+        <Typography
+          sx={(theme) => ({
+            position: "absolute",
+            bottom: "1px",
+            right: "1px",
+            fontSize: "12px",
+            fontFamily: "revert",
+            color: theme.palette.mode === "dark" ? "#e0e0e0" : "#1b1f23",
+          })}
+        >
+          ©ACASA-BISA
+        </Typography>
+
         {/* Image */}
-        <div className="banner-container">
-          <img src="acasa_post_banner.jpg" className="full-width-image" />
-          <Typography className="banner-title" sx={(theme) => ({ color: theme.palette.mode === "dark" ? "#000" : "#fff", fontSize: "40px", fontWeight: "bold" })}>
-            ACASA Posts
-          </Typography>
-        </div>
+
+        <Typography
+          className="banner-title"
+          sx={(theme) => ({
+            color: theme.palette.mode === "dark" ? "#000" : "#fff",
+            fontSize: "40px",
+            fontWeight: "bold",
+            fontFamily: "revert",
+            WebkitMaskImage: "linear-gradient(to right, rgba(0,0,0,1) 20%, rgba(0,0,0,0) 100%)",
+            maskImage: "linear-gradient(to right, rgba(0,0,0,1) 20%, rgba(0,0,0,0) 100%)",
+            paddingLeft: "10px",
+          })}
+        >
+          ACASA Posts
+        </Typography>
 
         {/* Animated Shape & Slogan */}
         <div className="slogan-wrapper">
           <motion.div
             className="animated-shape"
+            style={{ transform: "translateY(-60px)" }}
             animate={{
               scale: [1, 2, 2, 1, 1],
               rotate: [0, 0, 180, 180, 0],
@@ -120,28 +205,57 @@ export default function Card_Posts() {
           />
 
           {/* Slogan Text */}
-          <motion.div className="slogan-text" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1, duration: 1 }}>
-            <Typography sx={(theme) => ({ fontSize: "24px", color: theme.palette.text.primary })}>
-              Insights from our global experts on climate <br />
-              and South Asian agriculture
+          <motion.div className="slogan-text" style={{ transform: "translateY(-60px)" }} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1, duration: 1 }}>
+            <Typography
+              sx={(theme) => ({
+                fontFamily: "revert",
+                fontSize: "50px",
+                fontWeight: "bold",
+                color: theme.palette.mode === "dark" ? "#e0e0e0" : "#222529", // Main text color
+                textShadow: theme.palette.mode === "dark" ? "8px 0px 6px rgba(30, 30, 30, 0.8)" : "8px 0px 6px rgba(30, 30, 30, 0.4)",
+              })}
+            >
+              Insights
+            </Typography>
+            <Typography sx={(theme) => ({ fontFamily: "revert", fontSize: "24px", fontWeight: "bold", color: theme.palette.mode === "dark" ? "#e0e0e0" : "#222529" })}>
+              from our global experts on
+            </Typography>
+            <Typography sx={(theme) => ({ fontFamily: "revert", fontSize: "24px", fontWeight: "bold", color: theme.palette.mode === "dark" ? "#00C853" : "#4d7553", display: "inline" })}>
+              climate
+            </Typography>
+            <Typography
+              sx={(theme) => ({ fontFamily: "revert", fontSize: "24px", fontWeight: "bold", color: theme.palette.mode === "dark" ? "#e0e0e0" : "#222529", display: "inline", marginLeft: 1 })}
+            >
+              and
+            </Typography>
+            <Typography
+              sx={(theme) => ({ fontFamily: "revert", fontSize: "24px", fontWeight: "bold", color: theme.palette.mode === "dark" ? "#00C853" : "#4d7553", display: "inline", marginLeft: 1 })}
+            >
+              South Asian agriculture
             </Typography>
           </motion.div>
         </div>
       </div>
+      </div>
 
       <Box
-        sx={{
+        sx={(theme) => ({
           width: "100%",
           display: "flex",
           flexDirection: "column",
           gap: "15px",
-        }}
+          backgroundColor: theme.palette.mode === "dark" ? "#2f6742" : "rgba(75, 160, 70, 0.8)"
+        })}
       >
-        <div className="blog-container">
+        <Box className="blog-container" sx={(theme) => ({/*backgroundColor: theme.palette.mode === "dark" ? "#2f6742" : "#e0e0e0"*/})}>
           {data.map((item, index) => (
-            <BlogCard key={index} imgSrc={item.imgSrc} imgAlt={item.imgAlt} title={item.title} author={item.author} link={item.link} />
+            <BlogCard key={index} imgSrc={item.imgSrc} imgAlt={item.imgAlt} title={item.title} link={item.link} keywords={item.keywords} date={item.date} />
           ))}
-        </div>
+        </Box>
+        </Box>
+        </>
+  )};
+
         {/*
         <Card
           sx={(theme) => ({
@@ -614,10 +728,6 @@ Clicking the button triggers a function using onClick that sets blogs to true (s
               </a>
             </CardContent>
           </Card> */}
-      </Box>
-    </div>
-  );
-}
 
 // First Row of Blog Posts:
 

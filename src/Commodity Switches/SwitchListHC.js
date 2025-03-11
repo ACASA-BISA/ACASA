@@ -15,8 +15,8 @@ export default function SwitchPulses({ activeCrop, changeCrop }) {
   const disvar = { chickpea: false, ppea: false, bgram: true, ggram: true, lentil: true };
   const padd = 8;
   const season = [
-    "Analysis done for Rabi/winter season",
-    "Analysis done for Rabi/winter season",
+    "Here this analysis is done only for winter season",
+    "Here this analysis is done only for monsoon season",
     "Analysis done for Rabi/winter season",
     "Analysis done for Rabi/winter season",
     "Analysis done for Rabi/winter season",
@@ -89,19 +89,19 @@ export default function SwitchPulses({ activeCrop, changeCrop }) {
                       <>
                         <span>{season[index]}</span>
                         <br />
-                        <Link
+                        {/*<Link
                           href={`#/resources?tab=2&term=${switchh[index].toLowerCase()}`}
                           target="_blank"
-                          sx={{
-                            color: "white",
+                          sx={(theme) => ({
+                            color: theme.palette.mode === "dark" ? "black" : "white",
                             fontWeight: "bold",
-                          }}
+                          })}
                         >
                           Read More
-                        </Link>
+                        </Link>*/}
                       </>
                     }
-                    placement="top"
+                    placement="right"
                     arrow
                   >
                     <IconButton sx={{ padding: 0, margin: 0, paddingX: "4px" }}>
