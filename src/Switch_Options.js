@@ -27,35 +27,9 @@ export default function SwitchOpt({ activeCrop, activeOpt, changeOpt, activeOptL
 
   const fertilizer = ["Fertilizer rating and timing", "Precision Fertilizer Management"];
 
-  const livestock = ["Shelter Management", "Feed Management", "Healthcare Management"];
+  const livestock = ["Shelter management", "Feed management", "Healthcare management"];
 
   const marine = ["To be Updated"];
-
-  const livestock_shelter_master = ["Micro-climate modification shelter", "Modification of shelter", "Planting of trees", "Bathing", "Mechanical cooling", "Wallowing", "Heating management"];
-
-  const livestock_feed_master = [
-    "Balanced concentrate with buffer",
-    "Mineral mixture supplementation",
-    "By pass protein and fats",
-    "Feed additivies, antioxidants, vitamins and probiotics",
-    "Modification in feeding pattern, schedule, grazing and space",
-    "Inclusion of green fodder",
-    "Fodder conservation",
-    "Ad lib water",
-    "Grassland and Silvi-pasture management",
-    "Protien and amino acid supplementation",
-    "Feed additivies, electrolyte, antioxidants, vitamins and probiotics",
-  ];
-
-  const livestock_health_master = ["Parasite control", "Thinning of flock", "Separation of multi-aged flock", "Control of ectoparasites and other vectors"];
-
-  const livestock_standalone = [
-    "Reproductive management: Estrous confirmation and synchronisation",
-    "Adoption of climate resillient breeds",
-    "Weather forecasts/THI advisory services",
-    "Livestock insurance",
-    "Diversification",
-  ];
 
   const fullList = [
     "rice",
@@ -1035,7 +1009,7 @@ export default function SwitchOpt({ activeCrop, activeOpt, changeOpt, activeOptL
             <FormControl component="fieldset" variant="standard">
               {[
                 "Reproductive management: Estrous confirmation and synchronisation",
-                "Adoption of climate resillient breeds",
+                "Adoption of climate resilient breeds",
                 "Weather forecasts/THI-based advisory services",
                 "Livestock insurance",
                 "Diversification",
