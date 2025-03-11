@@ -24,10 +24,10 @@ const glossaryData = {
       term: "Baseline",
       definition: "Current scenario",
     },
-    {
+    /*{
       term: "Barley",
       definition: "The analysis for barley is done for Rabi/winter season",
-    },
+    },*/
     {
       term: "Broad bed and furrow",
       definition:
@@ -53,10 +53,10 @@ const glossaryData = {
       term: "Biotic stress",
       definition: "",
     },
-    {
+    /*{
       term: "Buffalo",
       definition: "The analysis is done for milk production"
-    }
+    }*/
   ],
   C: [
     {
@@ -115,7 +115,7 @@ const glossaryData = {
       term: "Cropped area",
       definition: "",
     },
-    {
+    /*{
       term: "Chickpea",
       definition: "Here the analysis is done only for winter season"
     },
@@ -126,7 +126,7 @@ const glossaryData = {
     {
       term: "Cattle",
       definition: "The analysis is done for milk production"
-    }
+    }*/
   ],
   D: [
     {
@@ -198,24 +198,24 @@ const glossaryData = {
       term: "Feed/fodder",
       definition: "",
     },
-    {
+    /*{
       term: "Finger millet",
       definition: "Finger Millet is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif')"
-    }
+    }*/
   ],
   G: [
     {
       term: "Gender suitability",
       definition: "It refers to the degree of suitability of each adaptation option to women farmers",
     },
-    {
+    /*{
       term: "Groundnut",
       definition: "Groundnut is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif' in India) and Maha in Sri Lanka."
     },
     {
       term: "Goat",
       definition: "The analysis is done for meat production"
-    }
+    }*/
   ],
   H: [
     {
@@ -272,10 +272,10 @@ const glossaryData = {
     },
   ],
   J: [
-    {
+    /*{
       term: "Jute",
       definition: "Jute is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif' in India)."
-    }
+    }*/
   ],
   K: [],
   L: [
@@ -301,10 +301,10 @@ const glossaryData = {
       term: "MIROC6",
       defintion: "",
     },
-    {
+    /*{
       term: "Maize",
       definition: "Maize is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif') and 'Maha' in Sri Lanka",
-    },
+    },*/
     {
       term: "Micro-irrigation",
       definition:
@@ -334,10 +334,10 @@ const glossaryData = {
     },
   ],
   O: [
-    {
+    /*{
       term: "Onion",
       definition: "Onion is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif' in India) and Maha in Sri Lanka."
-    }
+    }*/
   ],
   P: [
     {
@@ -371,7 +371,7 @@ const glossaryData = {
       term: "Planting of trees",
       definition: "",
     },
-    {
+    /*{
       term: "Pearl millet",
       definition: "Pearl Millet is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif')"
     },
@@ -390,15 +390,10 @@ const glossaryData = {
     {
       term: "Poultry",
       definition: "Poultry refers to chicken and analysis is done for meat production"
-    }
+    }*/
   ],
   Q: [],
   R: [
-    {
-      term: "Rice",
-      definition:
-        "Rice is planted in multiple seasons in different countries. Here this analysis is only for monsoon season (also known as 'Kharif' in India, 'Aman' in Bangladesh,and 'Maha' in Sri Lanka)",
-    },
     {
       term: "Regional analysis",
       definition: "",
@@ -419,10 +414,15 @@ const glossaryData = {
       term: "Risk index",
       definition: "",
     },
+    /*{
+      term: "Rice",
+      definition:
+        "Rice is planted in multiple seasons in different countries. Here this analysis is only for monsoon season (also known as 'Kharif' in India, 'Aman' in Bangladesh,and 'Maha' in Sri Lanka)",
+    }, 
     {
       term: "Rapeseed/Mustard",
       definition: "Here this analysis is done only for winter season"
-    }
+    }*/
   ],
   S: [
     {
@@ -432,10 +432,6 @@ const glossaryData = {
     {
       term: "SSP 5-8.5",
       definition: "Shared Socioeconomic Pathways",
-    },
-    {
-      term: "Sorghum",
-      definition: "Sorghum is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif')",
     },
     {
       term: "Stress-tolerant varieties",
@@ -455,6 +451,10 @@ const glossaryData = {
       term: "Scalability",
       definition: "Scalability is indicated by using a composite indicator of credit availability, input access, social network, education, and information access",
     },
+    /*{
+      term: "Sorghum",
+      definition: "Sorghum is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif')",
+    },
     {
       term: "Soybean",
       definition: "Soybean is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif') and Maha in Sri Lanka."
@@ -462,7 +462,7 @@ const glossaryData = {
     {
       term: "Sheep",
       definition: "The analysis is done for meat production"
-    }
+    }*/
   ],
   T: [
     {
@@ -488,13 +488,13 @@ const glossaryData = {
   ],
   W: [
     {
-      term: "Wheat",
-      definition: "The analysis for wheat (except for Afghanistan) is done for Rabi/winter season with planting time around mid-November. For Afghanistan, wheat season starts around April.",
-    },
-    {
       term: "Wallowing",
       definition: "",
     },
+    /*{
+      term: "Wheat",
+      definition: "The analysis for wheat (except for Afghanistan) is done for Rabi/winter season with planting time around mid-November. For Afghanistan, wheat season starts around April.",
+    },*/
   ],
   X: [],
   Y: [],

@@ -89,7 +89,7 @@ export default function SwitchPulses({ activeCrop, changeCrop }) {
                       <>
                         <span>{season[index]}</span>
                         <br />
-                        <Link
+                        {/*<Link
                           href={`#/resources?tab=2&term=${switchh[index].toLowerCase()}`}
                           target="_blank"
                           sx={(theme) => ({
@@ -98,10 +98,10 @@ export default function SwitchPulses({ activeCrop, changeCrop }) {
                           })}
                         >
                           Read More
-                        </Link>
+                        </Link>*/}
                       </>
                     }
-                    placement="top"
+                    placement="right"
                     arrow
                   >
                     <IconButton sx={{ padding: 0, margin: 0, paddingX: "4px" }}>
