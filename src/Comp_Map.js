@@ -1128,7 +1128,7 @@ export default function MApp({
       "Lodging": "Rain and wind causing lodging",
       "Biotic": "High humidity and temperature for blight",
       "Irrigation": "Irrigation",
-      "Soil Water Holding Capacity": "Water holding capacity",
+      "Volumetric Soil Water": "Water holding capacity",
       "Income": "Agricultural GDP",
       "Access to Credit": "Access to Credit",
       "Access to Market": "Access to Market",
@@ -1278,7 +1278,7 @@ export default function MApp({
         newOverl.setStyle(color_hazard);
         if (
           CurrRisk === "Irrigation" ||
-          CurrRisk === "Soil Water Holding Capacity" ||
+          CurrRisk === "Volumetric Soil Water" ||
           CurrRisk === "Agriculture Income" ||
           CurrRisk === "Soil Organic Carbon" ||
           CurrRisk === "Feed/Fodder" ||

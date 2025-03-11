@@ -32,16 +32,7 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
   const switchExposureReg = ["Agricultural Area", "Number of animals"];
   const switchExposureRegID = ["c-area", "animals"];
 
-  const switchVulnerReg = [
-    "Irrigation",
-    "Soil Water Holding Capacity",
-    "Income",
-    "Rural road coverage",
-    "Fertilizer consumption",
-    "Economic Development Indicator",
-    "Marginal Farmers",
-    "Holding size",
-  ];
+  const switchVulnerReg = ["Irrigation", "Volumetric Soil Water", "Income", "Rural road coverage", "Fertilizer consumption", "Economic Development Indicator", "Marginal Farmers", "Holding size"];
   const switchVulnerRegID = ["irrigation", "waterholding", "GDP", "ROAD", "FERTILIZER", "HDI", "FARMERS", "HSIZE"];
 
   const MasterHazard = [
@@ -272,8 +263,8 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
 
   const CurrHazardName = HazardName();
 
-  const switchVulner = ["Irrigation", "Income", "Rural infrastructure", "Economic Development Indicator"];
-  const switchVulnerID = ["irrigation", "GDP", "ROAD", "HDI"];
+  const switchVulner = ["Irrigation", "Income", "Volumetric Soil Water", "Rural infrastructure", "Economic Development Indicator"];
+  const switchVulnerID = ["irrigation", "GDP", "waterholding", "ROAD", "HDI"];
 
   /*   const switchvul_Livestock = ['Vulnerability Index',"Feed/Fodder","Income","Rural infrastructure","Economic Development Indicator"];
   const switchvul_LivestockID = ['vulne',"CROPRES","GDP","ROAD",'HDI']; */
@@ -388,7 +379,7 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
     "Number of Animals per grid",
     "Vulnerability Index",
     "Irrigation",
-    "Soil Water Holding Capacity",
+    "Volumetric Soil Water",
     "Soil Organic Carbon",
     "Agriculture Income",
     "Rural infrastructure",

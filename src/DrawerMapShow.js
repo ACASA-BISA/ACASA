@@ -300,7 +300,7 @@ export default function DrawerMapShow({ activeBar }) {
     "Number of Animals per grid",
     "Vulnerability Index",
     "Irrigation",
-    "Soil Water Holding Capacity",
+    "Volumetric Soil Water",
     "Soil Organic Carbon",
     "Income",
     "Rural infrastructure",

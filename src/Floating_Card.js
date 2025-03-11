@@ -82,7 +82,7 @@ const unitrisk = {
   "Number of Animals per grid": "Total number of animals per grid [~5 X 5 km]",
   "Vulnerability Index": "Integrated index which combines multiple vulnerability layers",
   "Irrigation": "Area under irrigation per grid, %",
-  "Soil Water Holding Capacity": "Available Water in mm/m",
+  "Volumetric Soil Water": "Available Water in mm/m",
   "Soil Organic Carbon": "Soil Organic Carbon in %",
   "Agriculture Income": "Agricultural GDP as proxy for income. Agricultural Gross Domestic Product data in US $ per grid [~5 X 5 km]",
   "Rural infrastructure": "Road density used as proxy for rural infrastructure. Road density is length of rural roads per grid, km/grid",
@@ -207,7 +207,7 @@ export default function LocationCard({ location, commodity, adaption, activeOptL
     if (
       RiskName === "Vulnerability Index" ||
       RiskName === "Irrigation" ||
-      RiskName === "Soil Water Holding Capacity" ||
+      RiskName === "Volumetric Soil Water" ||
       RiskName === "Agriculture Income" ||
       RiskName === "Soil Organic Carbon" ||
       RiskName === "Feed/Fodder" ||

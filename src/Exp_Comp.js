@@ -330,7 +330,7 @@ export default function CompV({
     }
     if (
       CurrRisk === "Irrigation" ||
-      CurrRisk === "Soil Water Holding Capacity" ||
+      CurrRisk === "Volumetric Soil Water" ||
       CurrRisk === "Agriculture Income" ||
       CurrRisk === "Soil Organic Carbon" ||
       CurrRisk === "Feed/Fodder" ||
