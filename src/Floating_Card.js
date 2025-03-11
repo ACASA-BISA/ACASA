@@ -425,7 +425,7 @@ export default function LocationCard({ location, commodity, adaption, activeOptL
                       width: "100%",
                     }}
                   >
-                    {checkcrop() &&
+                    {/* {checkcrop() &&
                       commodity !== "Rice" &&
                       commodity !== "Wheat" &&
                       commodity !== "Barley" &&
@@ -444,8 +444,8 @@ export default function LocationCard({ location, commodity, adaption, activeOptL
                             margin: "4px",
                           })}
                         />
-                      )}
-                    {checkcrop() &&
+                      )} */}
+                    {/* {checkcrop() &&
                       commodity !== "Rice" &&
                       commodity !== "Wheat" &&
                       commodity !== "Barley" &&
@@ -458,129 +458,111 @@ export default function LocationCard({ location, commodity, adaption, activeOptL
                         <Typography sx={{ fontSize: 13, margin: "4px" }} color="text.secondary">
                           Area under {commodity.toLowerCase()}
                         </Typography>
+                      )} */}
+
+                    <div>
+                      {checkcrop() === false && (
+                        <Typography
+                          sx={{
+                            fontSize: 13,
+                            margin: "4px",
+                            fontWeight: "bold",
+                          }}
+                          color="text.secondary"
+                        >
+                          Region having {commodity.toLowerCase()} population
+                        </Typography>
                       )}
-                    {(checkcrop() === false ||
-                      commodity === "Rice" ||
-                      commodity === "Wheat" ||
-                      commodity === "Barley" ||
-                      commodity === "Soybean" ||
-                      commodity === "Cotton" ||
-                      commodity === "Jute" ||
-                      commodity === "Chickpea" ||
-                      commodity === "Maize" ||
-                      commodity === "Mustard") && (
-                      <div>
-                        {checkcrop() === false && (
-                          <Typography
-                            sx={{
-                              fontSize: 13,
-                              margin: "4px",
-                              fontWeight: "bold",
-                            }}
-                            color="text.secondary"
-                          >
-                            Region having {commodity.toLowerCase()} population
-                          </Typography>
-                        )}
-                        {(commodity === "Rice" ||
-                          commodity === "Wheat" ||
-                          commodity === "Barley" ||
-                          commodity === "Soybean" ||
-                          commodity === "Cotton" ||
-                          commodity === "Jute" ||
-                          commodity === "Chickpea" ||
-                          commodity === "Maize" ||
-                          commodity === "Mustard") && (
-                          <Typography
-                            sx={{
-                              fontSize: 13,
-                              margin: "4px",
-                              fontWeight: "bold",
-                            }}
-                            color="text.secondary"
-                          >
-                            Area under {commodity.toLowerCase()}
-                          </Typography>
-                        )}
+                      {checkcrop() === true && (
+                        <Typography
+                          sx={{
+                            fontSize: 13,
+                            margin: "4px",
+                            fontWeight: "bold",
+                          }}
+                          color="text.secondary"
+                        >
+                          Area under {commodity.toLowerCase()}
+                        </Typography>
+                      )}
+                      <Box
+                        sx={{
+                          display: "flex",
+                          flexDirection: "row",
+                          width: "100%",
+                          alignItems: "center",
+                        }}
+                      >
                         <Box
                           sx={{
-                            display: "flex",
-                            flexDirection: "row",
-                            width: "100%",
-                            alignItems: "center",
+                            width: 20,
+                            height: 110,
+                            borderRadius: 1,
+                            background:
+                              "linear-gradient(to top, rgba(255, 249, 196, 1), rgba(255, 230, 128, 1), rgba(255, 215, 0, 1), rgba(218, 165, 32, 1), rgba(160, 82, 45, 1), rgba(107, 61, 27, 1))",
+                            margin: "4px",
+                            marginLeft: "10px",
                           }}
-                        >
-                          <Box
+                        />
+                        <Box sx={{ display: "flex", flexDirection: "column" }}>
+                          <Typography
                             sx={{
-                              width: 20,
-                              height: 110,
-                              borderRadius: 1,
-                              background:
-                                "linear-gradient(to top, rgba(255, 249, 196, 1), rgba(255, 230, 128, 1), rgba(255, 215, 0, 1), rgba(218, 165, 32, 1), rgba(160, 82, 45, 1), rgba(107, 61, 27, 1))",
-                              margin: "4px",
-                              marginLeft: "10px",
+                              fontSize: 13,
+                              marginX: "4px",
+                              marginY: "1px",
                             }}
-                          />
-                          <Box sx={{ display: "flex", flexDirection: "column" }}>
-                            <Typography
-                              sx={{
-                                fontSize: 13,
-                                marginX: "4px",
-                                marginY: "1px",
-                              }}
-                              color="text.secondary"
-                              gutterBottom
-                            >
-                              Very high
-                            </Typography>
-                            <Typography
-                              sx={{
-                                fontSize: 13,
-                                marginX: "4px",
-                                marginY: "1px",
-                              }}
-                              color="text.secondary"
-                              gutterBottom
-                            >
-                              High
-                            </Typography>
-                            <Typography
-                              sx={{
-                                fontSize: 13,
-                                marginX: "4px",
-                                marginY: "1px",
-                              }}
-                              color="text.secondary"
-                              gutterBottom
-                            >
-                              Medium
-                            </Typography>
-                            <Typography
-                              sx={{
-                                fontSize: 13,
-                                marginX: "4px",
-                                marginY: "1px",
-                              }}
-                              color="text.secondary"
-                              gutterBottom
-                            >
-                              Low
-                            </Typography>
-                            <Typography
-                              sx={{
-                                fontSize: 13,
-                                marginX: "4px",
-                                marginY: "1px",
-                              }}
-                              color="text.secondary"
-                              gutterBottom
-                            >
-                              Very Low
-                            </Typography>
-                          </Box>
+                            color="text.secondary"
+                            gutterBottom
+                          >
+                            Very high
+                          </Typography>
+                          <Typography
+                            sx={{
+                              fontSize: 13,
+                              marginX: "4px",
+                              marginY: "1px",
+                            }}
+                            color="text.secondary"
+                            gutterBottom
+                          >
+                            High
+                          </Typography>
+                          <Typography
+                            sx={{
+                              fontSize: 13,
+                              marginX: "4px",
+                              marginY: "1px",
+                            }}
+                            color="text.secondary"
+                            gutterBottom
+                          >
+                            Medium
+                          </Typography>
+                          <Typography
+                            sx={{
+                              fontSize: 13,
+                              marginX: "4px",
+                              marginY: "1px",
+                            }}
+                            color="text.secondary"
+                            gutterBottom
+                          >
+                            Low
+                          </Typography>
+                          <Typography
+                            sx={{
+                              fontSize: 13,
+                              marginX: "4px",
+                              marginY: "1px",
+                            }}
+                            color="text.secondary"
+                            gutterBottom
+                          >
+                            Very Low
+                          </Typography>
                         </Box>
-                      </div>
-                    )}
+                      </Box>
+                    </div>
                   </Box>
                 </Box>
               )}
