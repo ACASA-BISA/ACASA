@@ -36,50 +36,104 @@ export default function SwitchOpt({ activeCrop, activeOpt, changeOpt, activeOptL
   const fertilizer = ["Fertilizer rating and timing", "Precision Fertilizer Management"];
   const fertilizer_popup = ["Fertilizer rating and timing", "Precision Fertilizer Management"];
 
+  const livestock_names = ["Cattle", "Buffalo", "Goat", "Sheep", "Pig", "Poultry"];
   const livestock = ["Shelter Management", "Feed Management", "Healthcare Management"];
 
   const marine = ["To be Updated"];
 
-  const livestock_shelter_master = ["Micro-climate modification shelter", "Modification of shelter", "Planting of trees", "Bathing", "Mechanical cooling", "Wallowing", "Heating management"];
-  const livestock_shelter_master_popup = ["Micro-climate modification shelter", "Modification of shelter", "Planting of trees", "Bathing", "Mechanical cooling", "Wallowing", "Heating management"];
+  const livestock_shelter_master = ["Microclimate modification of the shelter", "Modification of shelter", "Planting of trees", "Bathing", "Wallowing", "Heating management", "Mechanical cooling"];
+  const livestock_shelter_master_ID = ["MICROMOD", "MOD", "PLANT", "BATH", "WALLOW", "HEATMNGT", "MECHCOOL"];
+  const livestock_shelter_master_popup = [
+    "Microclimate modification of the shelter",
+    "Modification of shelter",
+    "Planting of trees",
+    "Bathing",
+    "Wallowing",
+    "Heating management",
+    "Mechanical cooling",
+  ];
 
   const livestock_feed_master = [
     "Balanced concentrate with buffer",
+    "Balanced concentrate",
     "Mineral mixture supplementation",
-    "By pass protein and fats",
-    "Feed additivies, antioxidants, vitamins and probiotics",
-    "Modification in feeding pattern, schedule, grazing and space",
-    "Inclusion of green fodder",
+    "Bypass protein and fats",
+    "Feed additive, antioxidants, vitamins and probiotics",
+    "Modification in feeding pattern, schedule, grazing",
+    "Inclusion of ad libitum green fodder",
     "Fodder conservation",
-    "Ad lib water",
+    "Ad libitum water",
     "Grassland and Silvi-pasture management",
-    "Protien and amino acid supplementation",
-    "Feed additivies, electrolyte, antioxidants, vitamins and probiotics",
+    "Fat supplementation",
+    "Protein and amino acid supplementation",
+    "Feed additives, electrolyte, antioxidants, vitamins and probiotics",
+    "Modification in feeding pattern, schedule and space",
+    "Modification in feeding pattern, schedule",
+  ];
+  const livestock_feed_master_ID = [
+    "BCONCWBUFF",
+    "BCONC",
+    "MINMIXSUPP",
+    "BYPROTEIN&FAT",
+    "FEEDADD",
+    "MODFEED",
+    "ADLIBGREENFODDER",
+    "FODDER",
+    "ADLIBWATER",
+    "GRASS",
+    "FATSUPP",
+    "PROTEINSUPP",
+    "FEEDADDELECTROLYTE",
+    "MODFEEDSPACE",
+    "MODFEED",
   ];
   const livestock_feed_master_popup = [
     "Balanced concentrate with buffer",
+    "Balanced concentrate",
     "Mineral mixture supplementation",
-    "By pass protein and fats",
-    "Feed additivies, antioxidants, vitamins and probiotics",
-    "Modification in feeding pattern, schedule, grazing and space",
-    "Inclusion of green fodder",
+    "Bypass protein and fats",
+    "Feed additive, antioxidants, vitamins and probiotics",
+    "Modification in feeding pattern, schedule, grazing",
+    "Inclusion of ad libitum green fodder",
     "Fodder conservation",
-    "Ad lib water",
+    "Ad libitum water",
     "Grassland and Silvi-pasture management",
-    "Protien and amino acid supplementation",
-    "Feed additivies, electrolyte, antioxidants, vitamins and probiotics",
+    "Fat supplementation",
+    "Protein and amino acid supplementation",
+    "Feed additives, electrolyte, antioxidants, vitamins and probiotics",
+    "Modification in feeding pattern, schedule and space",
+    "Modification in feeding pattern, schedule",
   ];
 
-  const livestock_health_master = ["Parasite control", "Thinning of flock", "Separation of multi-aged flock", "Control of ectoparasites and other vectors"];
-  const livestock_health_master_popup = ["Parasite control", "Thinning of flock", "Separation of multi-aged flock", "Control of ectoparasites and other vectors"];
+  const livestock_health_master = [
+    "Deworming",
+    "Deworming against endoparasites",
+    "Control of ectoparasites and other vectors",
+    "Vaccination",
+    "Parasite control",
+    "Thinning of flock",
+    "Separation of multi-aged flock",
+  ];
+  const livestock_health_master_ID = ["DEWORM", "DEWORMENDOPARASITE", "CONTROL", "VACC", "PARASITE", "FLOCKTHIN", "FLOCKSEPARATE"];
+  const livestock_health_master_popup = [
+    "Deworming",
+    "Deworming against endoparasites",
+    "Control of ectoparasites and other vectors",
+    "Vaccination",
+    "Parasite control",
+    "Thinning of flock",
+    "Separation of multi-aged flock",
+  ];
 
   const livestock_standalone = [
     "Reproductive management: Estrous confirmation and synchronisation",
     "Adoption of climate resillient breeds",
-    "Weather forecasts/THI advisory services",
+    "Adopting climate-resilient breed/strain",
+    "Weather forecasts / THI advisory services",
     "Livestock insurance",
     "Diversification",
   ];
+  const livestock_standalone_ID = ["REPRODUCTIVE", "ADOPTION", "ADOPTIONSTRAIN", "WEATHER", "INSURANCE", "DIVERSIFY"];
 
   const fullList = [
     "rice",
@@ -187,6 +241,186 @@ export default function SwitchOpt({ activeCrop, activeOpt, changeOpt, activeOptL
       cropname = Common[indx];
     }
   });
+
+  let livestockName = "Cattle";
+
+  function LivestockShelter() {
+    let ShelterList = [];
+    let lname = "cattle";
+
+    fullList.forEach((comm, id) => {
+      if (activeCrop[comm] === true) {
+        lname = comm;
+        livestockName = Common[id];
+      }
+    });
+
+    const shelterMapping = {
+      cattle: ["MICROMOD", "MOD", "PLANT", "BATH", "MECHCOOL"],
+      buffalo: ["MICROMOD", "MOD", "PLANT", "WALLOW", "MECHCOOL"],
+      goat: ["MICROMOD", "MOD", "PLANT"],
+      sheep: ["MICROMOD", "MOD", "PLANT"],
+      pig: ["MICROMOD", "MOD", "PLANT", "WALLOW", "MECHCOOL"],
+      poultry: ["MICROMOD", "MOD", "PLANT", "HEATMNGT", "MECHCOOL"],
+    };
+
+    ShelterList = shelterMapping[lname] || [];
+
+    return ShelterList;
+  }
+
+  const CurrShelter = LivestockShelter();
+
+  function ShelterData() {
+    let ShelterNames = [];
+    let ShelterDesc = [];
+
+    CurrShelter.forEach((shelterID) => {
+      livestock_shelter_master_ID.forEach((sname, index) => {
+        if (shelterID === sname) {
+          ShelterNames.push(livestock_shelter_master[index]); // Store shelter name
+          ShelterDesc.push(livestock_shelter_master_popup[index] || "No description available"); // Store description
+        }
+      });
+    });
+
+    return { ShelterNames, ShelterDesc };
+  }
+
+  const { ShelterNames, ShelterDesc } = ShelterData();
+
+  function LivestockFeed() {
+    let FeedList = [];
+    let lname = "cattle";
+
+    fullList.forEach((comm, id) => {
+      if (activeCrop[comm] === true) {
+        lname = comm;
+        livestockName = Common[id];
+      }
+    });
+
+    const feedMapping = {
+      cattle: ["BCONCWBUFF", "MINMIXSUPP", "BYPROTEIN&FAT", "FEEDADD", "MODFEED", "ADLIBGREENFODDER", "FODDER", "ADLIBWATER"],
+      buffalo: ["BCONCWBUFF", "MINMIXSUPP", "BYPROTEIN&FAT", "FEEDADD", "MODFEED", "ADLIBGREENFODDER", "FODDER", "ADLIBWATER"],
+      goat: ["BCONC", "MINMIXSUPP", "FEEDADD", "MODFEED", "GRASS", "FODDER", "ADLIBWATER"],
+      sheep: ["BCONC", "MINMIXSUPP", "FEEDADD", "MODFEED", "GRASS", "FODDER", "ADLIBWATER"],
+      pig: ["BCONCWBUFF", "ADLIBWATER", "MINMIXSUPP", "FEEDADD", "MODFEED"],
+      poultry: ["FATSUPP", "PROTEINSUPP", "ADLIBWATER", "FEEDADDELECTROLYTE", "MODFEEDSPACE"],
+    };
+
+    FeedList = feedMapping[lname] || [];
+
+    return FeedList;
+  }
+
+  const CurrFeed = LivestockFeed();
+
+  function FeedData() {
+    let FeedNames = [];
+    let FeedDesc = [];
+
+    CurrFeed.forEach((feedID) => {
+      livestock_feed_master_ID.forEach((sname, index) => {
+        if (feedID === sname) {
+          FeedNames.push(livestock_feed_master[index]); // Store feed name
+          FeedDesc.push(livestock_feed_master_popup[index] || "No description available"); // Store feed description
+        }
+      });
+    });
+
+    return { FeedNames, FeedDesc };
+  }
+
+  const { FeedNames, FeedDesc } = FeedData();
+
+  function LivestockHealth() {
+    let HealthList = [];
+    let lname = "cattle";
+
+    fullList.forEach((comm, id) => {
+      if (activeCrop[comm] === true) {
+        lname = comm;
+        livestockName = Common[id];
+      }
+    });
+
+    const healthMapping = {
+      cattle: ["DEWORM", "CONTROL", "VACC"],
+      buffalo: ["DEWORM", "CONTROL", "VACC"],
+      goat: ["DEWORM", "CONTROL", "VACC"],
+      sheep: ["DEWORM", "CONTROL", "VACC"],
+      pig: ["DEWORMENDOPARASITE", "CONTROL", "VACC"],
+      poultry: ["PARASITE", "FLOCKTHIN", "FLOCKSEPARATE", "VACC"],
+    };
+
+    HealthList = healthMapping[lname] || [];
+
+    return HealthList;
+  }
+
+  const CurrHealth = LivestockHealth();
+
+  function HealthData() {
+    let HealthNames = [];
+    let HealthDesc = [];
+
+    CurrHealth.forEach((healthID) => {
+      livestock_health_master_ID.forEach((sname, index) => {
+        if (healthID === sname) {
+          HealthNames.push(livestock_health_master[index]); // Store shelter name
+          HealthDesc.push(livestock_health_master_popup[index] || "No description available"); // Store description
+        }
+      });
+    });
+
+    return { HealthNames, HealthDesc };
+  }
+
+  const { HealthNames, HealthDesc } = HealthData();
+
+  function LivestockStandalone() {
+    let StandaloneList = [];
+    let lname = "cattle";
+
+    fullList.forEach((comm, id) => {
+      if (activeCrop[comm] === true) {
+        lname = comm;
+        livestockName = Common[id];
+      }
+    });
+
+    const standaloneMapping = {
+      cattle: ["REPRODUCTIVE", "ADOPTION", "WEATHER", "INSURANCE", "DIVERSIFY"],
+      buffalo: ["REPRODUCTIVE", "ADOPTION", "WEATHER", "INSURANCE"],
+      goat: ["ADOPTION", "WEATHER", "INSURANCE"],
+      sheep: ["ADOPTION", "WEATHER", "INSURANCE"],
+      pig: ["REPRODUCTIVE", "ADOPTION", "WEATHER", "INSURANCE"],
+      poultry: ["ADOPTIONSTRAIN", "WEATHER", "INSURANCE", "DIVERSIFY"],
+    };
+
+    StandaloneList = standaloneMapping[lname] || [];
+
+    return StandaloneList;
+  }
+
+  const CurrStandalone = LivestockStandalone();
+
+  function StandaloneData() {
+    let StandaloneNames = [];
+
+    CurrHealth.forEach((standaloneID) => {
+      livestock_standalone_ID.forEach((sname, index) => {
+        if (standaloneID === sname) {
+          StandaloneNames.push(livestock_standalone[index]); // Store shelter name
+        }
+      });
+    });
+
+    return { StandaloneNames };
+  }
+
+  const { StandaloneNames } = StandaloneData();
 
   /*   const opt2 = ['Weather Services','Laser Land Levelling','Zero Tillage','BBR/FIRB','Early Sowing',
     'DSR (Dry Seed)','DSR (Wet Seed)','SRI','Insurance',
@@ -1122,7 +1356,7 @@ export default function SwitchOpt({ activeCrop, activeOpt, changeOpt, activeOptL
                       variant="body2"
                       align="left"
                       sx={{
-                        peddingLeft: "3px",
+                        paddingLeft: "3px",
                         maxWidth: "250px",
                         wordBreak: "break-word",
                         whiteSpace: "normal",
@@ -1135,159 +1369,196 @@ export default function SwitchOpt({ activeCrop, activeOpt, changeOpt, activeOptL
                 />
                 {livestockstate[snamelive] && snamelive === "Shelter Management" && (
                   <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
-                    {livestock_shelter_master.map((sname_shelter, idx) => (
-                      <FormGroup>
-                        <CustomFormControlLabel
-                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname_shelter]} onChange={changeOpt(sname_shelter)} name={sname_shelter} />}
-                          key={sname_shelter}
-                          label={
-                            <Typography
-                              variant="body2"
-                              align="left"
-                              sx={{
-                                peddingLeft: "3px",
-                                maxWidth: "250px",
-                                wordBreak: "break-word",
-                                whiteSpace: "normal",
-                              }}
-                              style={{ wordWrap: "break-word" }}
-                            >
-                              {sname_shelter.charAt(0).toUpperCase() + sname_shelter.slice(1, 4) + sname_shelter.toLowerCase().slice(4)}
-                              <LightTooltip
-                                title={
-                                  <>
-                                    <span>{livestock_shelter_master_popup[idx]}</span>
-                                    <br />
-                                    <Link
-                                      href={`#/resources?tab=2&term=${sname_shelter.toLowerCase()}`}
-                                      target="_blank"
-                                      sx={(theme) => ({
-                                        color: theme.palette.mode === "dark" ? "black" : "white",
-                                        fontWeight: "bold",
-                                      })}
-                                    >
-                                      Read More
-                                    </Link>
-                                  </>
-                                }
-                                placement="right"
-                                arrow
+                    {CurrShelter.map((shelterID) => {
+                      const index = livestock_shelter_master_ID.indexOf(shelterID); // Get correct index
+                      return index !== -1 ? (
+                        <FormGroup key={shelterID}>
+                          <CustomFormControlLabel
+                            control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[shelterID]} onChange={changeOpt(shelterID)} name={shelterID} />}
+                            label={
+                              <Typography
+                                variant="body2"
+                                align="left"
+                                sx={{
+                                  paddingLeft: "3px",
+                                  maxWidth: "250px",
+                                  wordBreak: "break-word",
+                                  whiteSpace: "normal",
+                                }}
+                                style={{ wordWrap: "break-word" }}
                               >
-                                <IconButton sx={{ padding: 0, margin: 0, paddingX: "4px" }}>
-                                  <InfoOutlinedIcon sx={{ fontSize: "12px", padding: 0, margin: 0 }} />
-                                </IconButton>
-                              </LightTooltip>
-                            </Typography>
-                          }
-                        />
-                      </FormGroup>
-                    ))}
+                                {livestock_shelter_master[index]} {/* Corrected Name */}
+                                <LightTooltip
+                                  title={
+                                    <>
+                                      <span>{livestock_shelter_master_popup[index]}</span> {/* Corrected Description */}
+                                      <br />
+                                      <Link
+                                        href={`#/resources?tab=2&term=${encodeURIComponent(livestock_shelter_master[index].toLowerCase())}`}
+                                        target="_blank"
+                                        sx={(theme) => ({
+                                          color: theme.palette.mode === "dark" ? "black" : "white",
+                                          fontWeight: "bold",
+                                        })}
+                                      >
+                                        Read More
+                                      </Link>
+                                    </>
+                                  }
+                                  placement="right"
+                                  arrow
+                                >
+                                  <IconButton sx={{ padding: 0, margin: 0, paddingX: "4px" }}>
+                                    <InfoOutlinedIcon sx={{ fontSize: "12px", padding: 0, margin: 0 }} />
+                                  </IconButton>
+                                </LightTooltip>
+                              </Typography>
+                            }
+                          />
+                        </FormGroup>
+                      ) : null; // Return null if index is not found (prevents errors)
+                    })}
                   </FormControl>
                 )}
                 {livestockstate[snamelive] && snamelive === "Feed Management" && (
                   <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
-                    {livestock_feed_master.map((sname_feed, idx) => (
-                      <FormGroup>
-                        <CustomFormControlLabel
-                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname_feed]} onChange={changeOpt(sname_feed)} name={sname_feed} />}
-                          key={sname_feed}
-                          label={
-                            <Typography
-                              variant="body2"
-                              align="left"
-                              sx={{
-                                peddingLeft: "3px",
-                                maxWidth: "250px",
-                                wordBreak: "break-word",
-                                whiteSpace: "normal",
-                              }}
-                              style={{ wordWrap: "break-word" }}
-                            >
-                              {sname_feed.charAt(0).toUpperCase() + sname_feed.slice(1, 4) + sname_feed.toLowerCase().slice(4)}
-                              <LightTooltip
-                                title={
-                                  <>
-                                    <span>{livestock_feed_master_popup[idx]}</span>
-                                    <br />
-                                    <Link
-                                      href={`#/resources?tab=2&term=${sname_feed.toLowerCase()}`}
-                                      target="_blank"
-                                      sx={(theme) => ({
-                                        color: theme.palette.mode === "dark" ? "black" : "white",
-                                        fontWeight: "bold",
-                                      })}
-                                    >
-                                      Read More
-                                    </Link>
-                                  </>
-                                }
-                                placement="right"
-                                arrow
+                    {CurrFeed.map((feedID) => {
+                      const index = livestock_feed_master_ID.indexOf(feedID); // Get correct index
+                      return index !== -1 ? (
+                        <FormGroup key={feedID}>
+                          <CustomFormControlLabel
+                            control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[feedID]} onChange={changeOpt(feedID)} name={feedID} />}
+                            label={
+                              <Typography
+                                variant="body2"
+                                align="left"
+                                sx={{
+                                  paddingLeft: "3px",
+                                  maxWidth: "250px",
+                                  wordBreak: "break-word",
+                                  whiteSpace: "normal",
+                                }}
+                                style={{ wordWrap: "break-word" }}
                               >
-                                <IconButton sx={{ padding: 0, margin: 0, paddingX: "4px" }}>
-                                  <InfoOutlinedIcon sx={{ fontSize: "12px", padding: 0, margin: 0 }} />
-                                </IconButton>
-                              </LightTooltip>
-                            </Typography>
-                          }
-                        />
-                      </FormGroup>
-                    ))}
+                                {livestock_feed_master[index]} {/* Corrected Name */}
+                                <LightTooltip
+                                  title={
+                                    <>
+                                      <span>{livestock_feed_master_popup[index]}</span> {/* Corrected Description */}
+                                      <br />
+                                      <Link
+                                        href={`#/resources?tab=2&term=${encodeURIComponent(livestock_feed_master[index].toLowerCase())}`}
+                                        target="_blank"
+                                        sx={(theme) => ({
+                                          color: theme.palette.mode === "dark" ? "black" : "white",
+                                          fontWeight: "bold",
+                                        })}
+                                      >
+                                        Read More
+                                      </Link>
+                                    </>
+                                  }
+                                  placement="right"
+                                  arrow
+                                >
+                                  <IconButton sx={{ padding: 0, margin: 0, paddingX: "4px" }}>
+                                    <InfoOutlinedIcon sx={{ fontSize: "12px", padding: 0, margin: 0 }} />
+                                  </IconButton>
+                                </LightTooltip>
+                              </Typography>
+                            }
+                          />
+                        </FormGroup>
+                      ) : null; // Return null if index is not found (prevents errors)
+                    })}
                   </FormControl>
                 )}
                 {livestockstate[snamelive] && snamelive === "Healthcare Management" && (
                   <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
-                    {livestock_health_master.map((sname_health, idx) => (
-                      <FormGroup>
-                        <CustomFormControlLabel
-                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname_health]} onChange={changeOpt(sname_health)} name={sname_health} />}
-                          key={sname_health}
-                          label={
-                            <Typography
-                              variant="body2"
-                              align="left"
-                              sx={{
-                                peddingLeft: "3px",
-                                maxWidth: "250px",
-                                wordBreak: "break-word",
-                                whiteSpace: "normal",
-                              }}
-                              style={{ wordWrap: "break-word" }}
-                            >
-                              {sname_health.charAt(0).toUpperCase() + sname_health.slice(1, 4) + sname_health.toLowerCase().slice(4)}
-                              <LightTooltip
-                                title={
-                                  <>
-                                    <span>{livestock_health_master_popup[idx]}</span>
-                                    <br />
-                                    <Link
-                                      href={`#/resources?tab=2&term=${sname_health.toLowerCase()}`}
-                                      target="_blank"
-                                      sx={(theme) => ({
-                                        color: theme.palette.mode === "dark" ? "black" : "white",
-                                        fontWeight: "bold",
-                                      })}
-                                    >
-                                      Read More
-                                    </Link>
-                                  </>
-                                }
-                                placement="right"
-                                arrow
+                    {CurrHealth.map((healthID) => {
+                      const index = livestock_health_master_ID.indexOf(healthID); // Get correct index
+                      return index !== -1 ? (
+                        <FormGroup key={healthID}>
+                          <CustomFormControlLabel
+                            control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[healthID]} onChange={changeOpt(healthID)} name={healthID} />}
+                            label={
+                              <Typography
+                                variant="body2"
+                                align="left"
+                                sx={{
+                                  paddingLeft: "3px",
+                                  maxWidth: "250px",
+                                  wordBreak: "break-word",
+                                  whiteSpace: "normal",
+                                }}
+                                style={{ wordWrap: "break-word" }}
                               >
-                                <IconButton sx={{ padding: 0, margin: 0, paddingX: "4px" }}>
-                                  <InfoOutlinedIcon sx={{ fontSize: "12px", padding: 0, margin: 0 }} />
-                                </IconButton>
-                              </LightTooltip>
-                            </Typography>
-                          }
-                        />
-                      </FormGroup>
-                    ))}
+                                {livestock_health_master[index]} {/* Corrected Name */}
+                                <LightTooltip
+                                  title={
+                                    <>
+                                      <span>{livestock_health_master_popup[index]}</span> {/* Corrected Description */}
+                                      <br />
+                                      <Link
+                                        href={`#/resources?tab=2&term=${encodeURIComponent(livestock_health_master[index].toLowerCase())}`}
+                                        target="_blank"
+                                        sx={(theme) => ({
+                                          color: theme.palette.mode === "dark" ? "black" : "white",
+                                          fontWeight: "bold",
+                                        })}
+                                      >
+                                        Read More
+                                      </Link>
+                                    </>
+                                  }
+                                  placement="right"
+                                  arrow
+                                >
+                                  <IconButton sx={{ padding: 0, margin: 0, paddingX: "4px" }}>
+                                    <InfoOutlinedIcon sx={{ fontSize: "12px", padding: 0, margin: 0 }} />
+                                  </IconButton>
+                                </LightTooltip>
+                              </Typography>
+                            }
+                          />
+                        </FormGroup>
+                      ) : null; // Return null if index is not found (prevents errors)
+                    })}
                   </FormControl>
                 )}
               </FormGroup>
             ))}
+          {checkcrop() === false &&
+            activeCrop["rice"] === false &&
+            checknotFish() === true &&
+            CurrStandalone.map((sname) => {
+              const index = livestock_standalone_ID.indexOf(sname); // Find index of the code
+              const fullName = index !== -1 ? livestock_standalone[index] : sname; // Get full name or fallback
+
+              return (
+                <FormGroup key={sname}>
+                  <CustomFormControlLabel
+                    control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname]} onChange={changeOpt(sname)} name={sname} />}
+                    disabled={false}
+                    label={
+                      <Typography
+                        variant="body2"
+                        align="left"
+                        sx={{
+                          paddingLeft: "3px",
+                          maxWidth: "250px",
+                          wordBreak: "break-word",
+                          whiteSpace: "normal",
+                        }}
+                        style={{ wordWrap: "break-word" }}
+                      >
+                        {fullName}
+                      </Typography>
+                    }
+                  />
+                </FormGroup>
+              );
+            })}
           {checkcrop() === false &&
             activeCrop["rice"] === false &&
             checknotFish() === false &&

@@ -300,7 +300,7 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
   function HazardData() {
     let HazardNames = [];
     let HazardDesc = [];
-    
+
     CurrHazard.forEach((hazardid) => {
       MasterHazardID.forEach((sname, index) => {
         if (hazardid === sname) {
@@ -309,13 +309,12 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
         }
       });
     });
-  
+
     return { HazardNames, HazardDesc };
   }
-  
+
   // Get hazard names and descriptions
   const { HazardNames: CurrHazardName, HazardDesc: CurrHazardDesc } = HazardData();
-  
 
   const switchVulner = ["Irrigation", "Income", "Rural infrastructure", "Economic Development Indicator"];
   const switchVulnerID = ["irrigation", "GDP", "ROAD", "HDI"];
