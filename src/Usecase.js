@@ -162,7 +162,7 @@ const Usecase = () => {
         </Box>
 
         {/* 3D Carousel */}
-        <div className="slideC" style={{ position: "relative", height: "500px", display: "flex", justifyContent: "center", alignItems: "stretch" }}>
+        <div className="slideC" style={{ position: "relative", height: "55vh", paddingBottom: "50px", display: "flex", justifyContent: "center", alignItems: "stretch" }}>
           {carouselData.map((item, i) => (
             <StyledSlide key={item.key} style={{ ...getStyles(i, activeSlide), height: "100%" }}>
               <div className="text-area">
@@ -185,11 +185,11 @@ const Usecase = () => {
           className="btns"
           sx={{
             position: "absolute",
-            bottom: { xs: "40px", md: "85px" }, // Responsive bottom positioning
+            bottom: { xs: "5vh", md: "85px" }, // More flexible bottom positioning
             left: "50%",
             transform: "translateX(-50%)",
             zIndex: 9999,
-            display: "flex", // Center buttons inside the div
+            display: "flex",
             gap: "10px",
             pointerEvents: "auto",
           }}
