@@ -5,8 +5,18 @@ const LegendComp = ({ legendData }) => {
   return (
     <Paper elevation={1} sx={{ paddingX: "2px" }}>
       <Box sx={{ display: "flex", justifyContent: "center", marginTop: "-3px", marginBottom: "-3px" }}>
-        <Typography sx={{ fontSize: 10 }} color="black">
-          <span style={{ color: "#111", fontWeight: "normal", fontStyle: "italic" }}>Cropped area, million hectare</span>
+        <Typography
+          sx={(theme) => {
+            const spanColor = theme.palette.mode === "dark" ? theme.palette.text.secondary : "#111";
+
+            return {
+              "fontSize": 10,
+              "color": theme.palette.mode === "dark" ? "white" : "black",
+              "& span": { color: spanColor, fontWeight: "normal", fontStyle: "italic" },
+            };
+          }}
+        >
+          <span>Cropped area, million hectare</span>
         </Typography>
       </Box>
       <Box
@@ -63,8 +73,18 @@ const LegendComp = ({ legendData }) => {
         ))}
       </Box>
       <Box sx={{ display: "flex", justifyContent: "center", marginTop: "-4px" }}>
-        <Typography sx={{ fontSize: 10 }} color="black">
-          <span style={{ color: "#111", fontWeight: "normal", fontStyle: "italic" }}>Number of farm households, million</span>
+        <Typography
+          sx={(theme) => {
+            const spanColor = theme.palette.mode === "dark" ? theme.palette.text.secondary : "#111";
+
+            return {
+              "fontSize": 10,
+              "color": theme.palette.mode === "dark" ? "white" : "black",
+              "& span": { color: spanColor, fontWeight: "normal", fontStyle: "italic" },
+            };
+          }}
+        >
+          <span>Number of farm households, million</span>
         </Typography>
       </Box>
     </Paper>

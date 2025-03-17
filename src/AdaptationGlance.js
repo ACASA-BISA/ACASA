@@ -73,7 +73,7 @@ export default function AdaptationGlance({
   const box5 = React.useRef(null);
   const box6 = React.useRef(null);
   return (
-    <div style={{ overflow: "hidden" }}>
+    <Paper sx={{ overflow: "hidden", height: "100vh" }}>
       <Grid container sx={{ marginTop: "85px", marginBottom: "2px", paddingX: "1rem" }} columns={12} spacing={1}>
         <Grid item xs={3} key="side">
           <Paper elevation={1} ref={box1}>
@@ -477,6 +477,6 @@ export default function AdaptationGlance({
           </Grid>
         </Grid>
       </Grid>
-    </div>
+    </Paper>
   );
 }
