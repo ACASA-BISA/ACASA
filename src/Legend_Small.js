@@ -113,7 +113,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
         {adaption !== "" && (
           <div>
             <Box sx={{ display: "flex", marginTop: "-10px", justifyContent: "center" }}>
-              <Typography sx={{ fontSize: 11.5, marginBottom: "2px" }} color="black">
+              <Typography sx={(theme) => ({ fontSize: 11.5, marginBottom: "2px", color: theme.palette.mode === "dark" ? "white" : "black" })}>
                 {AdaptLayerName.charAt(0).toUpperCase() + AdaptLayerName.toLowerCase().slice(1)} of&nbsp;
                 <strong>{adaption.charAt(0).toUpperCase() + adaption.slice(1, 4) + adaption.toLowerCase().slice(4)}</strong>
               </Typography>
@@ -122,7 +122,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
         )}
         {ImpactName !== "" && (
           <Box sx={{ display: "flex", marginTop: "-10px", justifyContent: "center" }}>
-            <Typography sx={{ fontSize: 11.5, marginBottom: "2px" }} color="black">
+            <Typography sx={(theme) => ({ fontSize: 11.5, marginBottom: "2px", color: theme.palette.mode === "dark" ? "white" : "black" })}>
               Impact on <strong>{ImpactName.toLowerCase()}</strong>
             </Typography>
           </Box>
@@ -130,7 +130,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
         {RiskName !== "" && checkcrop() && (
           <div>
             <Box sx={{ display: "flex", marginTop: "-10px", justifyContent: "center" }}>
-              <Typography sx={{ fontSize: 11.5, marginBottom: "2px" }} color="black">
+              <Typography sx={(theme) => ({ fontSize: 11.5, marginBottom: "2px", color: theme.palette.mode === "dark" ? "white" : "black" })}>
                 <strong>{RiskName.charAt(0).toUpperCase() + RiskName.toLowerCase().slice(1)}</strong>
               </Typography>
             </Box>
@@ -139,7 +139,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
         {RiskName !== "" && checkcrop() === false && (
           <div>
             <Box sx={{ display: "flex", marginTop: "-10px", justifyContent: "center" }}>
-              <Typography sx={{ fontSize: 11.5, marginBottom: "2px" }} color="black">
+              <Typography sx={(theme) => ({ fontSize: 11.5, marginBottom: "2px", color: theme.palette.mode === "dark" ? "white" : "black" })}>
                 <strong>{RiskName.charAt(0).toUpperCase() + RiskName.toLowerCase().slice(1)}</strong>
               </Typography>
             </Box>
@@ -149,8 +149,19 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
         {(adaption !== "" || RiskName !== "" || ImpactName !== "") && (
           <div>
             <Box sx={{ display: "flex", justifyContent: "center", marginTop: "-2px" }}>
-              <Typography sx={{ fontSize: 11, marginBottom: "2px" }} color="black">
-                <span style={{ color: "#111", fontWeight: "normal", fontStyle: "italic" }}>Number of farm households, million</span>
+              <Typography
+                sx={(theme) => {
+                  const spanColor = theme.palette.mode === "dark" ? theme.palette.text.secondary : "#111";
+
+                  return {
+                    "fontSize": 11,
+                    "marginBottom": "2px",
+                    "color": theme.palette.mode === "dark" ? "white" : "black",
+                    "& span": { color: spanColor, fontWeight: "normal", fontStyle: "italic" },
+                  };
+                }}
+              >
+                <span>Number of farm households, million</span>
               </Typography>
             </Box>
           </div>
@@ -208,7 +219,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                           {
                             //checkcrop() === true && ()
                             <Box sx={{ width: 58, height: 18, borderRadius: 0, marginBottom: "-4px" }}>
-                              <Typography sx={{ fontSize: 10, marginLeft: "2px" }} color="#111" fontWeight="bold">
+                              <Typography sx={(theme) => ({ fontSize: 10, marginLeft: "2px", color: theme.palette.mode === "dark" ? theme.palette.text.secondary : "#111" })} fontWeight="bold">
                                 {calcpop(row.Population)}
                               </Typography>
                             </Box>
@@ -234,7 +245,10 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                             </Typography>
                           </Box>
                           <Box sx={{ width: 58, height: 18, borderRadius: 0 }}>
-                            <Typography sx={{ fontSize: 10, margin: "2px", marginTop: "0px" }} color="#111" fontWeight="bold">
+                            <Typography
+                              sx={(theme) => ({ fontSize: 10, margin: "2px", marginTop: "0px", color: theme.palette.mode === "dark" ? theme.palette.text.secondary : "#111" })}
+                              fontWeight="bold"
+                            >
                               {calcarea(row.Area)}
                             </Typography>
                           </Box>
@@ -328,18 +342,40 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
         </Typography>
         {(adaption !== "" || RiskName !== "" || ImpactName !== "") && checkcrop() && (
           <div>
-            <Box sx={{ display: "flex", justifyContent: "center", marginBottom: "-4px", marginTop: "-4px" }}>
-              <Typography sx={{ fontSize: 11, marginBottom: "2px" }} color="black">
-                <span style={{ color: "#111", fontWeight: "normal", fontStyle: "italic" }}>Cropped area, million hectare</span>
+            <Box sx={{ display: "flex", justifyContent: "center", marginTop: "-2px" }}>
+              <Typography
+                sx={(theme) => {
+                  const spanColor = theme.palette.mode === "dark" ? theme.palette.text.secondary : "#111";
+
+                  return {
+                    "fontSize": 11,
+                    "marginBottom": "2px",
+                    "color": theme.palette.mode === "dark" ? "white" : "black",
+                    "& span": { color: spanColor, fontWeight: "normal", fontStyle: "italic" },
+                  };
+                }}
+              >
+                <span>Cropped area, million hectare</span>
               </Typography>
             </Box>
           </div>
         )}
         {(adaption !== "" || RiskName !== "" || ImpactName !== "") && checkcrop() === false && (
           <div>
-            <Box sx={{ display: "flex", justifyContent: "center", marginBottom: "-4px", marginTop: "-4px" }}>
-              <Typography sx={{ fontSize: 11, marginBottom: "2px" }} color="black">
-                <span style={{ color: "#111", fontWeight: "normal", fontStyle: "italic" }}>Number of animals, million</span>
+            <Box sx={{ display: "flex", justifyContent: "center", marginTop: "-2px" }}>
+              <Typography
+                sx={(theme) => {
+                  const spanColor = theme.palette.mode === "dark" ? theme.palette.text.secondary : "#111";
+
+                  return {
+                    "fontSize": 11,
+                    "marginBottom": "2px",
+                    "color": theme.palette.mode === "dark" ? "white" : "black",
+                    "& span": { color: spanColor, fontWeight: "normal", fontStyle: "italic" },
+                  };
+                }}
+              >
+                <span>Number of animals, million</span>
               </Typography>
             </Box>
           </div>
