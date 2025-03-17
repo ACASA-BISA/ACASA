@@ -116,7 +116,7 @@ export default function LegendCard({ location, commodity, adaption, RiskName, sc
     "Biotic Stress": "Biotic stress",
     "Vulnerability Index": "Vulnerability Index",
     "Feed/Fodder": "Residue",
-    "Rural infrastructure": "Road network density",
+    "Rural infrastructure": "Rural Infra",
     "Cyclone": "Cyclone",
     "Rainfall Deficit": "Rainfall deficit",
     "Extreme Rainfall days": "Extreme Rainfall Days",

@@ -1147,7 +1147,7 @@ export default function MApp({
       "Biotic Stress": "Biotic stress",
       "Vulnerability Index": "Vulnerability Index",
       "Feed/Fodder": "Residue",
-      "Rural infrastructure": "Road network density",
+      "Rural infrastructure": "Rural Infra",
       "Cyclone": "Cyclone",
       "Rainfall Deficit": "Rainfall deficit",
       "Rainfall Deficit index": "Rainfall deficit",
