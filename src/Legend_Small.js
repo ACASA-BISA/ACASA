@@ -337,7 +337,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
         )}
         {(adaption !== "" || RiskName !== "" || ImpactName !== "") && checkcrop() === false && (
           <div>
-            <Box sx={{ display: "flex", justifyContent: "center", marginBottom: "-10px", marginTop: "-4px" }}>
+            <Box sx={{ display: "flex", justifyContent: "center", marginBottom: "-4px", marginTop: "-4px" }}>
               <Typography sx={{ fontSize: 11, marginBottom: "2px" }} color="black">
                 <span style={{ color: "#111", fontWeight: "normal", fontStyle: "italic" }}>Number of animals, million</span>
               </Typography>

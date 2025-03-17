@@ -655,8 +655,7 @@ export default function LocationCard({ location, commodity, adaption, activeOptL
                     </Box> */}
                 </Box>
               )}
-              {(RiskName === "Hazard Index" &&
-                checkcrop() &&
+              {(RiskName === "Hazard Index" && checkcrop()) /* &&
                 (commodity !== "Rice" ||
                   commodity !== "Wheat" ||
                   commodity !== "Barley" ||
@@ -664,7 +663,7 @@ export default function LocationCard({ location, commodity, adaption, activeOptL
                   commodity !== "Cotton" ||
                   commodity !== "Chickpea" ||
                   commodity !== "Maize" ||
-                  commodity !== "Mustard")) ||
+                  commodity !== "Mustard") */ ||
                 (ImpactName === "Productivity" && commodity === "Rice" && (
                   <Box sx={{ marginTop: "2px", marginBottom: "-5px" }}>
                     <Box
