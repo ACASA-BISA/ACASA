@@ -307,9 +307,9 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
   // Get hazard names and descriptions
   const { HazardNames: CurrHazardName, HazardDesc: CurrHazardDesc } = HazardData();
 
-  const switchVulner = ["Irrigation", "Income", "Rural infrastructure", "Economic Development Indicator"];
-  const switchVulnerID = ["irrigation", "GDP", "ROAD", "HDI"];
-  const switchVulnerPopup = ["To be updated.", "To be updated.", "To be updated.", "To be updated."];
+  const switchVulner = ["Irrigation", "Income", "Volumetric Soil Water", "Rural infrastructure", "Economic Development Indicator"];
+  const switchVulnerID = ["irrigation", "GDP", "waterholding", "ROAD", "HDI"];
+  const switchVulnerPopup = ["To be updated.", "To be updated.", "To be updated.", "To be updated.", "To be updated."];
 
   /*   const switchvul_Livestock = ['Vulnerability Index',"Feed/Fodder","Income","Rural infrastructure","Economic Development Indicator"];
   const switchvul_LivestockID = ['vulne',"CROPRES","GDP","ROAD",'HDI']; */
