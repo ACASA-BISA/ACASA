@@ -261,7 +261,7 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
     } else if (sname === "potato") {
       HazardList = ["COLD STRESS", "PCOLD", "ERWL2", "SPI", "FROST", "BIOTIC"];
     } else if (sname === "sorghum" || sname === "pmillet" || sname === "fmillet") {
-      HazardList = ["HEAT STRESS", "ERWL", "DELMON", "SPI", "DSN", "FLOOD"];
+      HazardList = ["HEAT STRESS", "LOW POLLEN", "COLD STRESS", "ERWL2", "DELMON", "SPI", "DSN", "FLOOD"];
     } else if (sname === "soyabean") {
       HazardList = ["HEAT STRESS", "COLD STRESS", "ERWL2", "DELMON", "SPI", "DSN", "FLOOD"];
     } else if (sname === "cotton") {

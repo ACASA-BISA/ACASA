@@ -12,7 +12,7 @@ import LightTooltip from "../LightTooltip";
 export default function SwitchPulses({ activeCrop, changeCrop }) {
   const switchh = ["Chickpea", "Pigeonpea", "Black Gram", "Green Gram", "Lentil"];
   const switchid = ["chickpea", "ppea", "bgram", "ggram", "lentil"];
-  const disvar = { chickpea: false, ppea: false, bgram: true, ggram: true, lentil: true };
+  const disvar = { chickpea: false, ppea: false, bgram: true, ggram: true, lentil: false };
   const padd = 8;
   const season = [
     "Here this analysis is done only for winter season",
@@ -23,16 +23,16 @@ export default function SwitchPulses({ activeCrop, changeCrop }) {
   ];
 
   const AntSwitch = styled(Switch)(({ theme }) => ({
-    width: 32 + padd,
-    height: 14 + padd,
-    padding: padd / 2,
-    display: "flex",
+    "width": 32 + padd,
+    "height": 14 + padd,
+    "padding": padd / 2,
+    "display": "flex",
 
     "& .MuiSwitch-switchBase": {
-      padding: 2 + padd / 2,
+      "padding": 2 + padd / 2,
       "&.Mui-checked": {
-        transform: "translateX(16px)",
-        color: "#fff",
+        "transform": "translateX(16px)",
+        "color": "#fff",
         "& + .MuiSwitch-track": {
           opacity: 1,
           backgroundColor: theme.palette.mode === "dark" ? "#61c258" : "#4ba046",
@@ -55,9 +55,9 @@ export default function SwitchPulses({ activeCrop, changeCrop }) {
       boxSizing: "border-box",
     },
     "&:hover": {
-      backgroundColor: theme.palette.mode === "dark" ? "#554d38" : "#ffe89c",
-      opacity: 1,
-      borderRadius: 12,
+      "backgroundColor": theme.palette.mode === "dark" ? "#554d38" : "#ffe89c",
+      "opacity": 1,
+      "borderRadius": 12,
       "& .MuiSwitch-track": {
         opacity: 1,
         backgroundColor: theme.palette.mode === "dark" ? "rgba(255,255,255,.25)" : "rgba(255,255,255,.7)",
@@ -66,7 +66,7 @@ export default function SwitchPulses({ activeCrop, changeCrop }) {
   }));
 
   const CustomFormControlLabel = styled(FormControlLabel)(({ theme }) => ({
-    alignItems: "flex-start",
+    "alignItems": "flex-start",
     "&.Mui-disabled .MuiTypography-body2": {
       color: theme.palette.mode === "dark" ? "#888" : "#ccc",
     },

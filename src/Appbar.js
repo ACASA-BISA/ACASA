@@ -46,7 +46,7 @@ const ToggleContainer = styled("div")(({ theme, mode }) => ({
 const ToggleThumb = styled("div")(({ mode }) => ({
   width: 26,
   height: 26,
-  backgroundColor: mode === "dark" ? "#f5c518" : "#333", 
+  backgroundColor: mode === "dark" ? "#f5c518" : "#333",
   borderRadius: "50%",
   display: "flex",
   justifyContent: "center",
@@ -237,7 +237,7 @@ function ResponsiveAppBar({}) {
                 <ToggleButtonGroup value={flag} exclusive onChange={handleClick}>
                   {pages.map((page, index) => (
                     <div>
-                      {page !== "Data at a glance" && (
+                      {page !== "Data at a glance" && page !== "Explore Data" && (
                         <MyButton
                           value={pageid[index]}
                           sx={{
@@ -263,58 +263,63 @@ function ResponsiveAppBar({}) {
                         </MyButton>
                       )}
 
-                      {/* page==='Explore Data' &&
-               <div ref={ExploreButtonRef}>
-                <MyButton 
-                  value={pageid[index]}
-                  sx={{ paddingRight:2, paddingLeft:2,paddingTop:1,paddingBottom:1,
-                    backgroundColor: Boolean(anchorElUser2) ? '#f5f3ed' : '#ffffff',  // Darkens when menu is open
-                  }}
-                  key={pageid[index]}
-                  onMouseEnter={handleOpenUserMenu2} 
-                  //onClick={handleOpenUserMenu}  
-                  onMouseLeave={handleCloseUserMenu2}
-                  aria-owns={Boolean(anchorElUser2) ? "menu-appbar-explore" : undefined}
-                  aria-haspopup="true"
-                >
-                
-                  <Typography textAlign="center" sx={{fontSize:'14px',fontWeight:700,color:'#000', fontFamily:"Karla"}}>
-                    <div >
-                      {page}
-                    </div>
-                  </Typography> 
-                </MyButton>
-                <Menu
-                    //sx={{ mt: '45px' }}
-                    //sx={{pointerEvents:'none'}}
-                    id="menu-appbar-explore"
-                    anchorEl={anchorElUser2}
-                    open={Boolean(anchorElUser2)}
-                    onClose={handleCloseUserMenu2}
-                    onClick={handleCloseUserMenu2}
-                    anchorOrigin={{
-                      vertical: 'bottom',
-                      horizontal: 'left',
-                    }}
-                    transformOrigin={{
-                      vertical: 'top',
-                      horizontal: 'left',
-                    }}
-                    //MenuListProps={{ onMouseLeave: handleCloseUserMenu }}
-                  >
-                    
-                      <a href="/#/exploredata" style={{textDecoration: 'none'}}>
-                      <MenuItem onClick={handleClick}>
-                        <Typography textAlign="center" fontSize={13} color='#222222' sx={{fontFamily:"Karla",fontWeight:350}}>Linear Exploration</Typography>
-                      </MenuItem>
-                      </a>
-                      <a href="/#/future" style={{textDecoration: 'none'}}>
-                      <MenuItem onClick={handleClick}>
-                          <Typography textAlign="center" fontSize={13} color='#222222' sx={{fontFamily:"Karla",fontWeight:350}}>Comparative Exploration</Typography>  
-                      </MenuItem>
-                      </a>
-                  </Menu>
-                </div> */}
+                      {page === "Explore Data" && (
+                        <div ref={ExploreButtonRef}>
+                          <MyButton
+                            value={pageid[index]}
+                            sx={{
+                              paddingRight: 2,
+                              paddingLeft: 2,
+                              paddingTop: 1,
+                              paddingBottom: 1,
+                              backgroundColor: Boolean(anchorElUser2) ? "#f5f3ed" : "#ffffff", // Darkens when menu is open
+                            }}
+                            key={pageid[index]}
+                            onMouseEnter={handleOpenUserMenu2}
+                            //onClick={handleOpenUserMenu}
+                            onMouseLeave={handleCloseUserMenu2}
+                            aria-owns={Boolean(anchorElUser2) ? "menu-appbar-explore" : undefined}
+                            aria-haspopup="true"
+                          >
+                            <Typography textAlign="center" sx={{ fontSize: "14px", fontWeight: 700, color: "#000", fontFamily: "Karla" }}>
+                              <div>{page}</div>
+                            </Typography>
+                          </MyButton>
+                          <Menu
+                            //sx={{ mt: '45px' }}
+                            //sx={{pointerEvents:'none'}}
+                            id="menu-appbar-explore"
+                            anchorEl={anchorElUser2}
+                            open={Boolean(anchorElUser2)}
+                            onClose={handleCloseUserMenu2}
+                            onClick={handleCloseUserMenu2}
+                            anchorOrigin={{
+                              vertical: "bottom",
+                              horizontal: "left",
+                            }}
+                            transformOrigin={{
+                              vertical: "top",
+                              horizontal: "left",
+                            }}
+                            //MenuListProps={{ onMouseLeave: handleCloseUserMenu }}
+                          >
+                            <a href="/#/exploredata" style={{ textDecoration: "none" }}>
+                              <MenuItem onClick={handleClick}>
+                                <Typography textAlign="center" fontSize={13} color="#222222" sx={{ fontFamily: "Karla", fontWeight: 350 }}>
+                                  Explore Crops
+                                </Typography>
+                              </MenuItem>
+                            </a>
+                            <a href="/#/future" style={{ textDecoration: "none" }}>
+                              <MenuItem onClick={handleClick}>
+                                <Typography textAlign="center" fontSize={13} color="#222222" sx={{ fontFamily: "Karla", fontWeight: 350 }}>
+                                  Explore Livestock
+                                </Typography>
+                              </MenuItem>
+                            </a>
+                          </Menu>
+                        </div>
+                      )}
 
                       {page === "Data at a glance" && (
                         <div ref={GlanceButtonRef}>
@@ -494,7 +499,7 @@ function ResponsiveAppBar({}) {
           <Route path="/usecase" element={<DrawerMapShow activeBar="usecase" />}></Route>
           <Route path="/guide" element={<DrawerMapShow activeBar="guide" />}></Route>
           <Route path="/hazardataglance" element={<DrawerMapShow activeBar="hazards" />}></Route>
-          <Route path="/future" element={<DrawerMapShow activeBar="future" />}></Route>
+          <Route path="/future" element={<DrawerMapShow activeBar="future2" />}></Route>
           <Route path="/comparison" element={<DrawerMapShow activeBar="comparison" />}></Route>
           <Route path="/summary" element={<DrawerMapShow activeBar="summary" />}></Route>
           <Route path="/timeline" element={<DrawerMapShow activeBar="timeline" />}></Route>

@@ -23,7 +23,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
     }
     if (popu < 0.1) {
       if (displayLayer !== "Absolute") {
-        return Math.round(popu) + " M";
+        return popu.toFixed(1) + " M";
       } else {
         return "<0.1 M";
       }
@@ -36,9 +36,9 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
       }
     }
     if (displayLayer !== "Absolute") {
-      return Math.round(popu) + " M";
+      return popu.toFixed(1) + " M";
     }
-    return Math.round(popu) + " M";
+    return popu.toFixed(1) + " M";
   }
   function calcarea(popu) {
     if (popu === 0) {
@@ -51,7 +51,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
     popu = popu / 1000000;
     if (popu < 0.1) {
       if (displayLayer !== "Absolute") {
-        return Math.round(popu) + unt;
+        return popu.toFixed(1) + unt;
       } else {
         return "<0.1" + unt;
       }
@@ -65,9 +65,9 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
     }
     //"+" +
     if (displayLayer !== "Absolute") {
-      return Math.round(popu) + unt;
+      return popu.toFixed(1) + unt;
     }
-    return Math.round(popu) + unt;
+    return popu.toFixed(1) + unt;
   }
 
   //const rows = fetchthedataTable();
@@ -161,7 +161,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                   };
                 }}
               >
-                <span>Number of farm households, million</span>
+                <span>Number of rural farm households, million</span>
               </Typography>
             </Box>
           </div>
@@ -355,7 +355,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                   };
                 }}
               >
-                <span>Cropped area, million hectare</span>
+                <span>{commodity} area, million hectare</span>
               </Typography>
             </Box>
           </div>
@@ -388,7 +388,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
               alignItems: "center",
               justifyContent: "center",
               marginBottom: "-2px",
-              marginTop: "0px",
+              marginTop: "-2px",
             }}
           >
             <Typography

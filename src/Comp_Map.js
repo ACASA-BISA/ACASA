@@ -699,6 +699,7 @@ export default function MApp({
             extent: defext,
             className: "ol-zoomtoextent-comp",
           }),
+          new LegendControl(),
         ],
         target: ref.current,
         layers: [BingMapNew], // Set initial basemap
@@ -1159,6 +1160,7 @@ export default function MApp({
       "Cyclone": "Cyclone",
       "Rainfall Deficit": "Rainfall deficit",
       "Rainfall Deficit index": "Rainfall deficit",
+      "Rainfall Deficit Index": "Rainfall deficit",
       "Extreme Rainfall days": "Extreme Rainfall Days",
       "Cold days": "Cold Stress",
       "Hot days": "Heat stress or hot days",

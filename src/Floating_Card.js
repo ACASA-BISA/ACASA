@@ -302,20 +302,22 @@ export default function LocationCard({ location, commodity, adaption, activeOptL
                 />
               </div>
             )}
-            <Box sx={{ display: "flex", flexDirection: "row" }}>
-              <Typography
-                sx={(theme) => ({
-                  fontSize: 13,
-                  color: theme.palette.mode === "dark" ? "#e0e0e0" : "black",
-                })}
-                gutterBottom
-              >
-                Scenario:&nbsp;
-              </Typography>
-              <Typography sx={{ fontSize: 13 }} color="text.secondary">
-                {scenario}
-              </Typography>
-            </Box>
+            {(RiskName !== "" || adaption !== "") && (
+              <Box sx={{ display: "flex", flexDirection: "row" }}>
+                <Typography
+                  sx={(theme) => ({
+                    fontSize: 13,
+                    color: theme.palette.mode === "dark" ? "#e0e0e0" : "black",
+                  })}
+                  gutterBottom
+                >
+                  Scenario:&nbsp;
+                </Typography>
+                <Typography sx={{ fontSize: 13 }} color="text.secondary">
+                  {scenario}
+                </Typography>
+              </Box>
+            )}
             {adaption !== "" && (
               <div>
                 <Divider
