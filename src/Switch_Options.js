@@ -24,8 +24,8 @@ export default function SwitchOpt({ activeCrop, activeOpt, changeOpt, activeOptL
   const water = ["Supplemental Irrigation", "Microirrigation", "Precision Water Management"];
   const water_popup = ["Supplemental Irrigation", "Microirrigation", "Precision Water Management"];
 
-  const water_rice = ["Supplemental Irrigation", "Microirrigation", "Precision Water Management", "Alternate Wetting and Drying"];
-  const water_rice_popup = ["Supplemental Irrigation", "Microirrigation", "Precision Water Management", "Alternate Wetting and Drying"];
+  const water_rice = ["Supplemental Irrigation", "Microirrigation", "Alternate Wetting and Drying", "Precision Water Management"];
+  const water_rice_popup = ["Supplemental Irrigation", "Microirrigation", "Alternate Wetting and Drying", "Precision Water Management"];
 
   const fertilizer_rice = ["Fertilizer rating and timing", "Precision Fertilizer Management"];
   const fertilizer_rice_popup = ["Fertilizer rating and timing", "Precision Fertilizer Management"];
@@ -1559,7 +1559,6 @@ export default function SwitchOpt({ activeCrop, activeOpt, changeOpt, activeOptL
                 </FormGroup>
               );
             })}
-          
           {checkcrop() === false &&
             activeCrop["rice"] === false &&
             checknotFish() === false &&

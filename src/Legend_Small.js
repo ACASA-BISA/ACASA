@@ -375,7 +375,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                   };
                 }}
               >
-                <span>Number of animals, million</span>
+                <span>Number of {commodity.toLowerCase()}s, million</span>
               </Typography>
             </Box>
           </div>

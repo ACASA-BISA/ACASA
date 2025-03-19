@@ -1306,6 +1306,18 @@ export default function MApp({
         newOverl.setStyle(color_hazard_25);
       } else if (opt === 101) {
         newOverl.setStyle(color_hazard_livestock);
+        if (
+          CurrRisk === "Irrigation" ||
+          CurrRisk === "Volumetric Soil Water" ||
+          CurrRisk === "Agriculture Income" ||
+          CurrRisk === "Soil Organic Carbon" ||
+          CurrRisk === "Feed/Fodder" ||
+          CurrRisk === "Rural infrastructure" ||
+          CurrRisk === "Economic Development Indicator" ||
+          CurrRisk === "Income"
+        ) {
+          newOverl.setStyle(color_hazard_reverse);
+        }
       } else if (opt === 102) {
         newOverl.setStyle(color_hazard3);
       } else if (opt === 801) {
