@@ -218,9 +218,17 @@ export default function MApp({
   };
 
   const color_hazard_reverse = {
-    color: ["palette", ["clamp", ["*", ["band", 2], 25], 0, 6], ["rgba(0,0,0,0)", "rgba(150,150,150,1)", "#FF0000", "#FFA500", "#FFDE4D", "#00FF00", "#059212"]],
+    color: [
+      "palette",
+      ["interpolate", ["linear"], ["*", ["band", 2], 385], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 8],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#FF0000", "#FFA500", "#FFDE4D", "#FFDE4D", "#00FF00", "#059212"],
+    ],
   };
 
+  /* const color_hazard_reverse = {
+    color: ["palette", ["interpolate", ["linear"], ["*", ["band", 2], 385]], ["rgba(0,0,0,0)", "rgba(150,150,150,1)", "#FF0000", "#FFA500", "#FFDE4D", "#00FF00", "#059212"]],
+  };
+ */
   const color_hazard2 = {
     color: ["palette", ["clamp", ["*", ["band", 2], 25], 0, 6], ["rgba(0,0,0,0)", "#059212", "#00FF00", "#FFDE4D", "#FFA500", "#FF0000"]],
   };
@@ -1189,10 +1197,10 @@ export default function MApp({
           district_n = "State/";
         }
         if (activeScenario === "baseline") {
-          urlstr = "./Hazards/" + activeCrop + "/Baseline/" + district_n + "ZZ_" + hazardname[CurrRisk] + ".tif";
-          if (checkcrop2() === false) {
-            urlstr = "./Hazards/" + activeCrop + "/" + modelName + "/" + district_n + "Baseline/" + "ZZ_" + hazardname[CurrRisk] + ".tif";
-          }
+          //urlstr = "./Hazards/" + activeCrop + "/Baseline/" + district_n + "ZZ_" + hazardname[CurrRisk] + ".tif";
+          //if (checkcrop2() === false) {
+          urlstr = "./Hazards/" + activeCrop + "/" + modelName + "/" + district_n + "Baseline/" + "ZZ_" + hazardname[CurrRisk] + ".tif";
+          //}
         } else {
           if (displayLayer === "Absolute Change") {
             opt = 102;
@@ -1201,10 +1209,10 @@ export default function MApp({
             opt = 102;
             urlstr = "./Hazards/" + activeCrop + "/Percentage Change/" + activeScenario.toUpperCase() + "/" + district_n + "Cat_ZZ_" + hazardname[CurrRisk] + ".tif";
           } else {
-            urlstr = "./Hazards/" + activeCrop + "/" + activeScenario.toUpperCase() + "/" + district_n + "ZZ_" + hazardname[CurrRisk] + ".tif";
-            if (checkcrop2() === false) {
-              urlstr = "./Hazards/" + activeCrop + "/" + modelName + "/" + district_n + activeScenario.toUpperCase() + "/ZZ_" + hazardname[CurrRisk] + ".tif";
-            }
+            //urlstr = "./Hazards/" + activeCrop + "/" + activeScenario.toUpperCase() + "/" + district_n + "ZZ_" + hazardname[CurrRisk] + ".tif";
+            //if (checkcrop2() === false) {
+            urlstr = "./Hazards/" + activeCrop + "/" + modelName + "/" + district_n + activeScenario.toUpperCase() + "/ZZ_" + hazardname[CurrRisk] + ".tif";
+            //}
           }
         }
         /* if(CurrRisk==='Hazard Index'){
@@ -1275,7 +1283,7 @@ export default function MApp({
       if (opt === 2) {
         newOverl.setStyle(color_hazard);
       } else if (opt === 3) {
-        newOverl.setStyle(color_hazard);
+        newOverl.setStyle(color_hazard_livestock);
         if (
           CurrRisk === "Irrigation" ||
           CurrRisk === "Volumetric Soil Water" ||

@@ -243,7 +243,54 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
         switchIPCC[3] += " of " + cropname;
       }
     });
+
+    //general hazards codes crops: "LOW POLLEN","HIGH POLLEN","HEAT STRESS","TERMINAL HEAT",
+    //"FROST","ERWL","DELMON","DSN","FLOOD","ERWL2",
+    //{"Frost": "Days of frost","HeatStress": "Heat stress","PollinationHeat": "High temperature induced pollen sterility",
+    //"ERWL": "Excess rain and waterlogging","untimelyRainfall": "Untimely rainfall","DrySpell": "Number of dry spells",
+    //"DelayedMonsoon": "Delayed monsoon","PollinationCold": "Low temperature induced pollen sterility","ColdStress":"Cold stress",
+    //"terminalHeat":"Terminal heat"}
     if (sname === "rice") {
+      HazardList = ["HEAT STRESS", "HIGH POLLEN", "LOW POLLEN", "DELMON", "SPI", "DSN"];
+    } else if (sname === "wheat") {
+      HazardList = ["HIGH POLLEN", "TERMINAL HEAT", "FROST", "ERWL2", "SPI", "LODGE"];
+    } else if (sname === "barley") {
+      HazardList = ["HEAT STRESS", "TERMINAL HEAT", "FROST", "ERWL2", "SPI", "LODGE"];
+    } else if (sname === "maize") {
+      HazardList = ["HEAT STRESS", "HIGH POLLEN", "COLD STRESS", "ERWL", "DELMON", "SPI", "DSN", "FLOOD"];
+    } else if (sname === "potato") {
+      HazardList = ["COLD STRESS", "PCOLD", "ERWL2", "SPI", "FROST", "BIOTIC"];
+    } else if (sname === "sorghum" || sname === "pmillet" || sname === "fmillet") {
+      HazardList = ["HEAT STRESS", "ERWL", "DELMON", "SPI", "DSN", "FLOOD"];
+    } else if (sname === "soyabean") {
+      HazardList = ["HEAT STRESS", "COLD STRESS", "ERWL2", "DELMON", "SPI", "DSN", "FLOOD"];
+    } else if (sname === "cotton") {
+      HazardList = ["HIGH POLLEN", "HEAT STRESS", "ERWL2", "DELMON", "SPI", "DSN", "FLOOD"];
+    } else if (sname === "rapeseed") {
+      HazardList = ["HEAT STRESS", "ERWL2", "SPI"];
+    } else if (sname === "chickpea") {
+      HazardList = ["LOW POLLEN", "HIGH POLLEN", "FROST", "ERWL2", "SPI"];
+    } else if (sname === "groundnut") {
+      HazardList = ["HEAT STRESS", "LOW POLLEN", "HIGH POLLEN", "ERWL", "DELMON", "SPI", "DSN", "FLOOD"];
+    } else if (sname === "ppea") {
+      HazardList = ["ERWL", "DELMON", "SPI", "DSN", "FLOOD"];
+    } else if (sname === "jute") {
+      HazardList = ["HEAT STRESS", "COLD STRESS", "ERWL", "SPI", "DSN"];
+    } else if (sname === "lentil") {
+      HazardList = ["HEAT STRESS", "COLD STRESS", "FROST", "ERWL", "SPI"];
+    } else if (sname === "sugarcane") {
+      HazardList = ["HEAT STRESS", "COLD STRESS", "SPI", "DSN", "FLOOD"];
+    } else if (sname === "buffalo" || sname === "cattle" || sname === "pig" || sname === "sheep" || sname === "poultry" || sname === "goat") {
+      HazardList = ["THI", "COLD STRESS", "ER", "RAINDEF", "FLOOD", "CYCL"];
+    }
+    //Kharif Onion
+    else if (sname === "onion") {
+      HazardList = ["HEAT STRESS", "ERWL", "SPI", "FLOOD", "DSN", "BIOTIC2"];
+    } else {
+      HazardList = [""];
+    }
+
+    /* if (sname === "rice") {
       HazardList = ["HEAT STRESS1", "HEAT STRESS2", "COLD STRESS2", "DELMON", "SPI", "DSN", "FLOOD"];
     } else if (sname === "wheat") {
       HazardList = ["HIGH POLLEN", "TERMINAL HEAT", "FROST", "ERWL2", "SPI", "LODGE"];
@@ -281,8 +328,7 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
       HazardList = ["HEAT STRESS", "ERWL", "SPI", "FLOOD", "DSN", "BIOTIC2"];
     } else {
       HazardList = [""];
-    }
-
+    } */
     return HazardList;
   }
 
