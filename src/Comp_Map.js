@@ -1299,7 +1299,8 @@ export default function MApp({
           newOverl.setStyle(color_hazard_reverse);
         }
       } else if (opt === 333) {
-        newOverl.setStyle(color_hazard4);
+        newOverl.setStyle(color_hazard_reverse);
+        //newOverl.setStyle(color_hazard4);
       } else if (opt === 4) {
         newOverl.setStyle(color4);
       } else if (opt === 99) {
