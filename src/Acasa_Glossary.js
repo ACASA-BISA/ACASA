@@ -8,6 +8,7 @@ const glossaryData = {
     {
       term: "ACASA",
       definition: "Atlas of Climate Adaptation in South Asian Agriculture",
+      image: "acasa.png"
     },
     {
       term: "Alternate Wetting and Drying (AWD)- Rice",
@@ -763,6 +764,8 @@ export default function Glossary() {
                   )
                 )}
               </Typography>
+
+              {item.image ? <img src={`/${item.image}`} alt={item.term} style={{ width: "5rem", height: "auto" }} /> : null}
             </Box>
           ))
         ) : (
