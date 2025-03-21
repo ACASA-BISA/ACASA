@@ -186,7 +186,7 @@ const glossaryData = {
   ],
   F: [
     {
-      term: "Fertilizer rating and timing",
+      term: "Smart fertilizer management",
       definition:
         "Fertilizer to be adjusted to meet the nutrient demands of crop growth and avoid nutrient loss when crop biomass decreases due to water and temperature stress over time under climate change",
     },
@@ -599,8 +599,8 @@ export default function Glossary() {
               variant={selectedLetter === letter ? "contained" : "outlined"}
               onClick={() => setSelectedLetter(selectedLetter === letter ? "" : letter)}
               sx={(theme) => ({
-                "width": "min(8vw, 40px)", 
-                "height": "min(8vw, 40px)", 
+                "width": "min(8vw, 40px)",
+                "height": "min(8vw, 40px)",
                 "minWidth": "min(8vw, 40px)",
                 "fontSize": "1rem",
                 "fontWeight": "bold",

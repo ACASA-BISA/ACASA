@@ -27,14 +27,14 @@ export default function SwitchOpt({ activeCrop, activeOpt, changeOpt, activeOptL
   const water_rice = ["Supplemental Irrigation", "Microirrigation", "Alternate Wetting and Drying", "Precision Water Management"];
   const water_rice_popup = ["Supplemental Irrigation", "Microirrigation", "Alternate Wetting and Drying", "Precision Water Management"];
 
-  const fertilizer_rice = ["Fertilizer rating and timing", "Precision Fertilizer Management"];
-  const fertilizer_rice_popup = ["Fertilizer rating and timing", "Precision Fertilizer Management"];
+  const fertilizer_rice = ["Smart fertilizer management", "Precision Fertilizer Management"];
+  const fertilizer_rice_popup = ["Smart fertilizer management", "Precision Fertilizer Management"];
 
   const planting = ["Early Sowing", "Precision Land Levelling", "Zero Tillage with residues", "Broad Bed and Furrow"];
   const planting_popup = ["Early Sowing", "Precision Land Levelling", "Zero Tillage with residues", "Broad Bed and Furrow"];
 
-  const fertilizer = ["Fertilizer rating and timing", "Precision Fertilizer Management"];
-  const fertilizer_popup = ["Fertilizer rating and timing", "Precision Fertilizer Management"];
+  const fertilizer = ["Smart fertilizer management", "Precision Fertilizer Management"];
+  const fertilizer_popup = ["Smart fertilizer management", "Precision Fertilizer Management"];
 
   const livestock_names = ["Cattle", "Buffalo", "Goat", "Sheep", "Pig", "Poultry"];
   const livestock = ["Shelter Management", "Feed Management", "Healthcare Management"];

@@ -749,7 +749,7 @@ export default function MApp({ activeCrop, focus = "Region", activeRegion, activ
       "Animal Productivity": "ANPRO",
       "Mulching": "MULCH",
       "Alternate Wetting and Drying": "AWD",
-      "Fertilizer rating and timing": "FRT",
+      "Smart fertilizer management": "FRT",
       "Manure Management": "MNMGT",
       "Information Use": "INFO",
       "Heat Stress Management": "HSMGT",

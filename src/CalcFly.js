@@ -22,11 +22,7 @@ import booleanPointInPolygon from "@turf/boolean-point-in-polygon"; // Import bo
 import { fromFile } from "geotiff"; // Import fromFile for reading TIFF files
 import { polygon } from "@turf/turf"; // Import polygon function for creating polygons
 
-async function clipUsingPolygon(
-  tiffFilePath,
-  polygonCoordinates,
-  outputJsonFile
-) {
+async function clipUsingPolygon(tiffFilePath, polygonCoordinates, outputJsonFile) {
   try {
     // TIFF file using geotiff
     const tiff = await fromFile(tiffFilePath);
@@ -85,14 +81,7 @@ async function clipUsingPolygon(
   }
 }
 // Main functional component
-export default function PieValue({
-  activeCrop,
-  focus = "Region",
-  activeRegion,
-  activeOpt,
-  CurrRisk,
-  activeImpact,
-}) {
+export default function PieValue({ activeCrop, focus = "Region", activeRegion, activeOpt, CurrRisk, activeImpact }) {
   /* const fill = new Fill({
         color: 'rgba(0,0,0,1)',
       });
@@ -209,7 +198,7 @@ export default function PieValue({
             'DSR (Dry Seed)':'DSDRY','DSR (Wet Seed)':'DSWET','System of Rice Intensification':'SRIUT','Farm Pond':'WHSRC','Microirrigation':'MICIR','Precision Water Management':'PWMGT',
             'Low Tech Precision Technology':'PNMLT','High Tech Precision Technology':'PNMHT','Deep Placement of Urea':'DR',
             'ICT Agro Advisory':'WEAGA','Crop Insurance':'INSUR','Land Management':'LMGT','Feed Management':'FMGT','Herd Management':'HMGT',
-            'Animal Health':'ANHLT','Animal Productivity':'ANPRO','Mulching':'MULCH','Alternate wetting and drying':'AWD','Fertilizer rating and timing':'FRT',
+            'Animal Health':'ANHLT','Animal Productivity':'ANPRO','Mulching':'MULCH','Alternate wetting and drying':'AWD','Smart fertilizer management':'FRT',
             'Manure Management':'MNMGT','Information Use':'INFO','Heat Stress Management':'HSMGT'};
 
         const hazardname = {"District Level": "District Level","Downscaled Risk": "Downscaled Risk","Risk Index": "Risk Index","Hazard Index": "Hazard Index","Low temperature induced spikelet sterility": "Low temperature induced spikelet sterility",

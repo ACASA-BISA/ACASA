@@ -1,20 +1,5 @@
 import * as React from "react";
-import {
-  Paper,
-  Button,
-  Typography,
-  Box,
-  Grid,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  IconButton,
-  TextField,
-  InputAdornment,
-  Menu,
-  ListSubheader,
-} from "@mui/material";
+import { Paper, Button, Typography, Box, Grid, FormControl, InputLabel, Select, MenuItem, IconButton, TextField, InputAdornment, Menu, ListSubheader } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import DownloadIcon from "@mui/icons-material/Download";
 
@@ -38,7 +23,7 @@ const layerMappings = {
     "Direct Seeded Rice - Wet": "DSWET",
     "System of Rice Intensification": "SRIUT",
     "Supplemental Irrigation": "WHSRC",
-    Microirrigation: "MICIR",
+    "Microirrigation": "MICIR",
     "Precision Water Management": "PWMGT",
     "Precision Fertilizer Management": "PNMLT",
     "Precision Fertilizer Management - High tech": "PNMHT",
@@ -50,9 +35,9 @@ const layerMappings = {
     "Herd Management": "HMGT",
     "Animal Health": "ANHLT",
     "Animal Productivity": "ANPRO",
-    Mulching: "MULCH",
+    "Mulching": "MULCH",
     "Alternate Wetting and Drying": "AWD",
-    "Fertilizer rating and timing": "FRT",
+    "Smart fertilizer management": "FRT",
     "Manure Management": "MNMGT",
     "Information Use": "INFO",
     "Heat Stress Management": "HSMGT",
@@ -64,34 +49,29 @@ const layerMappings = {
     "Downscaled Risk": "Downscaled Risk",
     "Risk Index": "Risk Index",
     "Hazard Index": "Hazard Index",
-    "Low temperature induced spikelet sterility":
-      "Low temperature induced spikelet sterility",
-    "Low temperature induced pollen sterility":
-      "Low temperature induced pollen sterility",
-    "High temperature induced pollen sterility":
-      "High temperature induced pollen sterility",
+    "Low temperature induced spikelet sterility": "Low temperature induced spikelet sterility",
+    "Low temperature induced pollen sterility": "Low temperature induced pollen sterility",
+    "High temperature induced pollen sterility": "High temperature induced pollen sterility",
     "Heat Stress": "Heat stress",
-    "High temperature induced spikelet sterility":
-      "High temperature induced spikelet sterility",
+    "High temperature induced spikelet sterility": "High temperature induced spikelet sterility",
     "Cold Stress": "Cold stress",
-    "Low temperature induced tuberization failure":
-      "Low temperature induced tuberization failure",
+    "Low temperature induced tuberization failure": "Low temperature induced tuberization failure",
     "Untimely Rainfall": "Untimely rainfall",
     "Terminal Heat": "Terminal heat",
     "Days of Frost": "Days of Frost",
     "Excess Rainfall and Waterlogging": "Excess rain and waterlogging",
     "Delayed Monsoon": "Delayed monsoon",
-    Drought: "Drought",
+    "Drought": "Drought",
     "Dry Spell": "Number of dry spells",
-    Flood: "Flood",
-    Lodging: "Rain and wind causing lodging",
-    Biotic: "High humidity and temperature for blight",
-    Irrigation: "Irrigation",
+    "Flood": "Flood",
+    "Lodging": "Rain and wind causing lodging",
+    "Biotic": "High humidity and temperature for blight",
+    "Irrigation": "Irrigation",
     "Water Holding": "Water Holding",
-    Income: "Income",
+    "Income": "Income",
     "Access to Credit": "Access to Credit",
     "Access to Market": "Access to Market",
-    Elevation: "Elevation",
+    "Elevation": "Elevation",
     "Access to Knowledge": "Access to Knowledge",
     "Exposure Index": "Exposure Index",
     "Number of Farmers": "Number of Farmers",
@@ -107,15 +87,7 @@ const layerMappings = {
 };
 
 //Function to create a data row for the tables
-function createData(
-  Commodity,
-  Scenario,
-  LayerType,
-  Title,
-  Description,
-  Source,
-  Action
-) {
+function createData(Commodity, Scenario, LayerType, Title, Description, Source, Action) {
   return { Commodity, Scenario, LayerType, Title, Description, Source, Action };
 }
 
@@ -131,15 +103,7 @@ const data = [
     "http://data.chc.ucsb.edu/products/CHIRTSdaily/",
     "Download"
   ),
-  createData(
-    "Rice",
-    "Baseline",
-    "Hazard",
-    "Heat Stress",
-    "High temperature stress during entire life cycle where Tmax > 43",
-    "https://www.chc.ucsb.edu/data/chirps",
-    "Download"
-  ),
+  createData("Rice", "Baseline", "Hazard", "Heat Stress", "High temperature stress during entire life cycle where Tmax > 43", "https://www.chc.ucsb.edu/data/chirps", "Download"),
   createData(
     "Rice",
     "Baseline",
@@ -149,42 +113,10 @@ const data = [
     "https://global-flood-database.cloudtostreet.info/",
     "Download"
   ),
-  createData(
-    "Rice",
-    "Baseline",
-    "Hazard",
-    "Delayed Monsoon",
-    "Number of events of delayed monsoon where delay is more than 15 days",
-    "https://www.chc.ucsb.edu/data/chirps",
-    "Download"
-  ),
-  createData(
-    "Rice",
-    "Baseline",
-    "Hazard",
-    "Drought",
-    "SPI below -1 (moderate and severe drought)",
-    "http://data.chc.ucsb.edu/products/CHIRTSdaily/",
-    "Download"
-  ),
-  createData(
-    "Rice",
-    "Baseline",
-    "Hazard",
-    "Dry Spell",
-    "Number of dry spells with length of 15 days or more in a season",
-    "https://www.chc.ucsb.edu/data/chirps",
-    "Download"
-  ),
-  createData(
-    "Rice",
-    "Baseline",
-    "Hazard",
-    "Flood",
-    "Flood layer",
-    "https://www.chc.ucsb.edu/data/chirps",
-    "Download"
-  ),
+  createData("Rice", "Baseline", "Hazard", "Delayed Monsoon", "Number of events of delayed monsoon where delay is more than 15 days", "https://www.chc.ucsb.edu/data/chirps", "Download"),
+  createData("Rice", "Baseline", "Hazard", "Drought", "SPI below -1 (moderate and severe drought)", "http://data.chc.ucsb.edu/products/CHIRTSdaily/", "Download"),
+  createData("Rice", "Baseline", "Hazard", "Dry Spell", "Number of dry spells with length of 15 days or more in a season", "https://www.chc.ucsb.edu/data/chirps", "Download"),
+  createData("Rice", "Baseline", "Hazard", "Flood", "Flood layer", "https://www.chc.ucsb.edu/data/chirps", "Download"),
   createData(
     "Wheat",
     "Baseline",
@@ -203,87 +135,15 @@ const data = [
     "http://data.chc.ucsb.edu/products/CHIRTSdaily/",
     "Download"
   ),
-  createData(
-    "Wheat",
-    "Baseline",
-    "Hazard",
-    "Days of Frost",
-    "Minimum temperature less than zero degree for more than three days",
-    "https://www.chc.ucsb.edu/data/chirps",
-    "Download"
-  ),
-  createData(
-    "Wheat",
-    "Baseline",
-    "Hazard",
-    "Untimely Rainfall",
-    "Whole season consecutive two-day rainfall > 100 mm ",
-    "https://www.chc.ucsb.edu/data/chirps",
-    "Download"
-  ),
-  createData(
-    "Wheat",
-    "Baseline",
-    "Hazard",
-    "Drought",
-    "Sept/Oct/Nov and season drought",
-    "http://data.chc.ucsb.edu/products/CHIRTSdaily/",
-    "Download"
-  ),
-  createData(
-    "Wheat",
-    "Baseline",
-    "Hazard",
-    "Lodging",
-    "Windspeed and rainfall criteria after booting (85 to 115 days)",
-    "http://data.chc.ucsb.edu/products/CHIRTSdaily/",
-    "Download"
-  ),
-  createData(
-    "Pig",
-    "Baseline",
-    "Hazard",
-    "Temperature-Humidity Index (THI)",
-    "The average number of days when THI exceeds a threshold (79)",
-    "",
-    "Download"
-  ),
-  createData(
-    "Pig",
-    "Baseline",
-    "Hazard",
-    "Heat wave",
-    "Sudden change in temperature by 4°C (during APR to June/July)",
-    "",
-    "Download"
-  ),
-  createData(
-    "Pig",
-    "Baseline",
-    "Hazard",
-    "Cold stress",
-    "Lower critical temperature (LCT)  limit for the thermoneutral zone goes below (15) degrees C",
-    "",
-    "Download"
-  ),
-  createData(
-    "Pig",
-    "Baseline",
-    "Hazard",
-    "Extreme rainfall days",
-    "The average number of days when daily rainfall exceeds 115 mm",
-    "",
-    "Download"
-  ),
-  createData(
-    "Pig",
-    "Baseline",
-    "Hazard",
-    "Rainfall deficit",
-    "Meteorological drought in any area occurs when the rainfall deficiency is more than 26% of its long-term average",
-    "",
-    "Download"
-  ),
+  createData("Wheat", "Baseline", "Hazard", "Days of Frost", "Minimum temperature less than zero degree for more than three days", "https://www.chc.ucsb.edu/data/chirps", "Download"),
+  createData("Wheat", "Baseline", "Hazard", "Untimely Rainfall", "Whole season consecutive two-day rainfall > 100 mm ", "https://www.chc.ucsb.edu/data/chirps", "Download"),
+  createData("Wheat", "Baseline", "Hazard", "Drought", "Sept/Oct/Nov and season drought", "http://data.chc.ucsb.edu/products/CHIRTSdaily/", "Download"),
+  createData("Wheat", "Baseline", "Hazard", "Lodging", "Windspeed and rainfall criteria after booting (85 to 115 days)", "http://data.chc.ucsb.edu/products/CHIRTSdaily/", "Download"),
+  createData("Pig", "Baseline", "Hazard", "Temperature-Humidity Index (THI)", "The average number of days when THI exceeds a threshold (79)", "", "Download"),
+  createData("Pig", "Baseline", "Hazard", "Heat wave", "Sudden change in temperature by 4°C (during APR to June/July)", "", "Download"),
+  createData("Pig", "Baseline", "Hazard", "Cold stress", "Lower critical temperature (LCT)  limit for the thermoneutral zone goes below (15) degrees C", "", "Download"),
+  createData("Pig", "Baseline", "Hazard", "Extreme rainfall days", "The average number of days when daily rainfall exceeds 115 mm", "", "Download"),
+  createData("Pig", "Baseline", "Hazard", "Rainfall deficit", "Meteorological drought in any area occurs when the rainfall deficiency is more than 26% of its long-term average", "", "Download"),
   createData(
     "Pig",
     "Baseline",
@@ -304,244 +164,36 @@ const data = [
   ),
 
   // Risk data
-  createData(
-    "Rice",
-    "Baseline",
-    "Risk",
-    "Downscaled risk",
-    "Analyzed",
-    "Crop statistics, crop mask and primary productivity",
-    "Download"
-  ),
-  createData(
-    "Rice",
-    "Baseline",
-    "Risk",
-    "Insurance",
-    "Analyzed",
-    "Heurisitic Model",
-    "Download"
-  ),
+  createData("Rice", "Baseline", "Risk", "Downscaled risk", "Analyzed", "Crop statistics, crop mask and primary productivity", "Download"),
+  createData("Rice", "Baseline", "Risk", "Insurance", "Analyzed", "Heurisitic Model", "Download"),
 
   // Adaptation data
-  createData(
-    "Rice",
-    "Baseline",
-    "Adaptation",
-    "DSR (Dry Seed)",
-    "Analyzed",
-    "Heurisitic Model",
-    "Download"
-  ),
-  createData(
-    "Rice",
-    "Baseline",
-    "Adaptation",
-    "DSR (Wet Seed)",
-    "Analyzed",
-    "Heurisitic Model",
-    "Download"
-  ),
-  createData(
-    "Rice",
-    "Baseline",
-    "Adaptation",
-    "System of Rice Intensification",
-    "Analyzed",
-    "Heurisitic Model",
-    "Download"
-  ),
-  createData(
-    "Rice",
-    "Baseline",
-    "Adaptation",
-    "Alternate wetting and drying",
-    "Analyzed",
-    "Heurisitic Model",
-    "Download"
-  ),
-  createData(
-    "Rice",
-    "Baseline",
-    "Adaptation",
-    "Early Sowing",
-    "Analyzed",
-    "Heurisitic Model",
-    "Download"
-  ),
-  createData(
-    "Rice",
-    "Baseline",
-    "Adaptation",
-    "Zero Tillage with residue",
-    "Analyzed",
-    "Heurisitic Model",
-    "Download"
-  ),
-  createData(
-    "Rice",
-    "Baseline",
-    "Adaptation",
-    "Precision Land Levelling",
-    "Analyzed",
-    "Heurisitic Model",
-    "Download"
-  ),
-  createData(
-    "Rice",
-    "Baseline",
-    "Adaptation",
-    "Precision Water Management",
-    "Analyzed",
-    "Heurisitic Model",
-    "Download"
-  ),
-  createData(
-    "Rice",
-    "Baseline",
-    "Adaptation",
-    "Microirrigation",
-    "Analyzed",
-    "Heurisitic Model",
-    "Download"
-  ),
-  createData(
-    "Rice",
-    "Baseline",
-    "Adaptation",
-    "Supplemental Irrigation",
-    "Analyzed",
-    "Heurisitic Model",
-    "Download"
-  ),
-  createData(
-    "Rice",
-    "Baseline",
-    "Adaptation",
-    "Stress Tolerant Variety",
-    "Analyzed",
-    "Heurisitic Model",
-    "Download"
-  ),
-  createData(
-    "Rice",
-    "Baseline",
-    "Adaptation",
-    "Fertilizer rating and timing",
-    "Analyzed",
-    "Heurisitic Model",
-    "Download"
-  ),
-  createData(
-    "Rice",
-    "Baseline",
-    "Adaptation",
-    "Low Tech Precision Technology",
-    "Analyzed",
-    "Heurisitic Model",
-    "Download"
-  ),
-  createData(
-    "Rice",
-    "Baseline",
-    "Adaptation",
-    "High Tech Precision Technology",
-    "Analyzed",
-    "Heurisitic Model",
-    "Download"
-  ),
-  createData(
-    "Rice",
-    "Baseline",
-    "Adaptation",
-    "ICT Agro Advisory",
-    "Analyzed",
-    "Heurisitic Model",
-    "Download"
-  ),
-  createData(
-    "Rice",
-    "Baseline",
-    "Adaptation",
-    "Crop Insurance",
-    "Analyzed",
-    "Heurisitic Model",
-    "Download"
-  ),
-  createData(
-    "Wheat",
-    "Baseline",
-    "Adaptation",
-    "Stress Tolerant Variety",
-    "Analyzed",
-    "Heurisitic Model",
-    "Download"
-  ),
-  createData(
-    "Wheat",
-    "Baseline",
-    "Adaptation",
-    "Early Sowing",
-    "Analyzed",
-    "Heurisitic Model",
-    "Download"
-  ),
-  createData(
-    "Wheat",
-    "Baseline",
-    "Adaptation",
-    "Zero Tillage with residues",
-    "Analyzed",
-    "Heurisitic Model",
-    "Download"
-  ),
-  createData(
-    "Wheat",
-    "Baseline",
-    "Adaptation",
-    "Fertilizer rating and timing",
-    "Analyzed",
-    "Heurisitic Model",
-    "Download"
-  ),
+  createData("Rice", "Baseline", "Adaptation", "DSR (Dry Seed)", "Analyzed", "Heurisitic Model", "Download"),
+  createData("Rice", "Baseline", "Adaptation", "DSR (Wet Seed)", "Analyzed", "Heurisitic Model", "Download"),
+  createData("Rice", "Baseline", "Adaptation", "System of Rice Intensification", "Analyzed", "Heurisitic Model", "Download"),
+  createData("Rice", "Baseline", "Adaptation", "Alternate wetting and drying", "Analyzed", "Heurisitic Model", "Download"),
+  createData("Rice", "Baseline", "Adaptation", "Early Sowing", "Analyzed", "Heurisitic Model", "Download"),
+  createData("Rice", "Baseline", "Adaptation", "Zero Tillage with residue", "Analyzed", "Heurisitic Model", "Download"),
+  createData("Rice", "Baseline", "Adaptation", "Precision Land Levelling", "Analyzed", "Heurisitic Model", "Download"),
+  createData("Rice", "Baseline", "Adaptation", "Precision Water Management", "Analyzed", "Heurisitic Model", "Download"),
+  createData("Rice", "Baseline", "Adaptation", "Microirrigation", "Analyzed", "Heurisitic Model", "Download"),
+  createData("Rice", "Baseline", "Adaptation", "Supplemental Irrigation", "Analyzed", "Heurisitic Model", "Download"),
+  createData("Rice", "Baseline", "Adaptation", "Stress Tolerant Variety", "Analyzed", "Heurisitic Model", "Download"),
+  createData("Rice", "Baseline", "Adaptation", "Smart fertilizer management", "Analyzed", "Heurisitic Model", "Download"),
+  createData("Rice", "Baseline", "Adaptation", "Low Tech Precision Technology", "Analyzed", "Heurisitic Model", "Download"),
+  createData("Rice", "Baseline", "Adaptation", "High Tech Precision Technology", "Analyzed", "Heurisitic Model", "Download"),
+  createData("Rice", "Baseline", "Adaptation", "ICT Agro Advisory", "Analyzed", "Heurisitic Model", "Download"),
+  createData("Rice", "Baseline", "Adaptation", "Crop Insurance", "Analyzed", "Heurisitic Model", "Download"),
+  createData("Wheat", "Baseline", "Adaptation", "Stress Tolerant Variety", "Analyzed", "Heurisitic Model", "Download"),
+  createData("Wheat", "Baseline", "Adaptation", "Early Sowing", "Analyzed", "Heurisitic Model", "Download"),
+  createData("Wheat", "Baseline", "Adaptation", "Zero Tillage with residues", "Analyzed", "Heurisitic Model", "Download"),
+  createData("Wheat", "Baseline", "Adaptation", "Smart fertilizer management", "Analyzed", "Heurisitic Model", "Download"),
 
   // Direct Adaptation data
-  createData(
-    "Rice",
-    "Baseline",
-    "Direct Adaptation",
-    "Direct seeded rice",
-    "Analyzed",
-    "Heurisitic Model",
-    "Download"
-  ),
-  createData(
-    "Rice",
-    "Baseline",
-    "Direct Adaptation",
-    "Precision water management",
-    "Analyzed",
-    "Heurisitic Model",
-    "Download"
-  ),
-  createData(
-    "Wheat",
-    "Baseline",
-    "Direct Adaptation",
-    "Stress tolerant variety",
-    "Analyzed",
-    "Heurisitic Model",
-    "Download"
-  ),
-  createData(
-    "Wheat",
-    "Baseline",
-    "Direct Adaptation",
-    "Early Sowing",
-    "Analyzed",
-    "Heurisitic Model",
-    "Download"
-  ),
+  createData("Rice", "Baseline", "Direct Adaptation", "Direct seeded rice", "Analyzed", "Heurisitic Model", "Download"),
+  createData("Rice", "Baseline", "Direct Adaptation", "Precision water management", "Analyzed", "Heurisitic Model", "Download"),
+  createData("Wheat", "Baseline", "Direct Adaptation", "Stress tolerant variety", "Analyzed", "Heurisitic Model", "Download"),
+  createData("Wheat", "Baseline", "Direct Adaptation", "Early Sowing", "Analyzed", "Heurisitic Model", "Download"),
 ];
 
 // Main component function
@@ -593,25 +245,11 @@ export default function Description() {
   const [searchTerm, setSearchTerm] = React.useState("");
 
   const filteredData = (data || []).filter((item) => {
-    const matchesCommodity = selectedCommodity
-      ? item.Commodity === selectedCommodity
-      : true;
-    const matchesScenario = selectedScenario
-      ? item.Scenario === selectedScenario
-      : true;
-    const matchesLayerType = selectedLayerType
-      ? item.LayerType === selectedLayerType
-      : true;
-    const matchesSearchTerm = searchTerm
-      ? item.Title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.Description?.toLowerCase().includes(searchTerm.toLowerCase())
-      : true;
-    return (
-      matchesCommodity &&
-      matchesScenario &&
-      matchesLayerType &&
-      matchesSearchTerm
-    );
+    const matchesCommodity = selectedCommodity ? item.Commodity === selectedCommodity : true;
+    const matchesScenario = selectedScenario ? item.Scenario === selectedScenario : true;
+    const matchesLayerType = selectedLayerType ? item.LayerType === selectedLayerType : true;
+    const matchesSearchTerm = searchTerm ? item.Title?.toLowerCase().includes(searchTerm.toLowerCase()) || item.Description?.toLowerCase().includes(searchTerm.toLowerCase()) : true;
+    return matchesCommodity && matchesScenario && matchesLayerType && matchesSearchTerm;
   });
 
   const [totalFileSize, setTotalFileSize] = React.useState(0);
@@ -698,15 +336,9 @@ export default function Description() {
     filteredData.forEach((item) => {
       // Resolve file name based on layer type mapping
       let resolvedTitle;
-      if (
-        item.LayerType === "Adaptation" &&
-        layerMappings.optcode[item.Title]
-      ) {
+      if (item.LayerType === "Adaptation" && layerMappings.optcode[item.Title]) {
         resolvedTitle = layerMappings.optcode[item.Title]; // Adaptation code
-      } else if (
-        item.LayerType === "Hazard" &&
-        layerMappings.hazardname[item.Title]
-      ) {
+      } else if (item.LayerType === "Hazard" && layerMappings.hazardname[item.Title]) {
         resolvedTitle = layerMappings.hazardname[item.Title]; // Hazard description
       } else {
         resolvedTitle = item.Title; // Default to Title if no mapping exists
@@ -743,10 +375,7 @@ export default function Description() {
     let resolvedTitle;
     if (item.LayerType === "Adaptation" && layerMappings.optcode[item.Title]) {
       resolvedTitle = layerMappings.optcode[item.Title];
-    } else if (
-      item.LayerType === "Hazard" &&
-      layerMappings.hazardname[item.Title]
-    ) {
+    } else if (item.LayerType === "Hazard" && layerMappings.hazardname[item.Title]) {
       resolvedTitle = layerMappings.hazardname[item.Title];
     } else {
       resolvedTitle = item.Title;
@@ -779,24 +408,21 @@ export default function Description() {
   function formatFileSize(size) {
     if (size < 1024) return `${size} B`;
     if (size < 1024 * 1024) return `${(size / 1024).toFixed(2)} KB`;
-    if (size < 1024 * 1024 * 1024)
-      return `${(size / (1024 * 1024)).toFixed(2)} MB`;
+    if (size < 1024 * 1024 * 1024) return `${(size / (1024 * 1024)).toFixed(2)} MB`;
     return `${(size / (1024 * 1024 * 1024)).toFixed(2)} GB`;
   }
 
   //The page structure
   return (
     <div>
-      <Paper sx={{ backgroundColor: theme => theme.palette.background.paper, paddingTop: "5px"}}>
-        <Box
-          sx={{ textAlign: "left", marginLeft: "150px", marginRight: "40px" }}
-        >
+      <Paper sx={{ backgroundColor: (theme) => theme.palette.background.paper, paddingTop: "5px" }}>
+        <Box sx={{ textAlign: "left", marginLeft: "150px", marginRight: "40px" }}>
           <Typography
             sx={{
               fontSize: "20px",
               fontWeight: "bold",
               marginTop: "5px",
-              color: theme => (theme.palette.mode === "light" ? "#333333" : "#ffffff"), 
+              color: (theme) => (theme.palette.mode === "light" ? "#333333" : "#ffffff"),
               /*fontFamily: "revert",*/
             }}
           >
@@ -806,20 +432,18 @@ export default function Description() {
             sx={{
               fontSize: "15px",
               marginTop: "5px",
-              color: theme => (theme.palette.mode === "light" ? "#333333" : "#ffffff"), 
+              color: (theme) => (theme.palette.mode === "light" ? "#333333" : "#ffffff"),
               /*fontFamily: "revert",*/
             }}
           >
-            The datasets are prepared primarily from open source databases. To
-            extract each variable standard methodologies applied. All the
-            datasets are geo-tiff format and in 0.05 degree resolution
+            The datasets are prepared primarily from open source databases. To extract each variable standard methodologies applied. All the datasets are geo-tiff format and in 0.05 degree resolution
             (EPSG:4326 - WGS 84, Geographic latitude and longitude).
           </Typography>
           <Typography
             sx={{
               fontSize: "15px",
               marginTop: "8px",
-              color: theme => (theme.palette.mode === "light" ? "#333333" : "#ffffff"), 
+              color: (theme) => (theme.palette.mode === "light" ? "#333333" : "#ffffff"),
               /*fontFamily: "revert",*/
             }}
           >
@@ -830,7 +454,7 @@ export default function Description() {
             <div className="card-filters">
               <FormControl
                 sx={(theme) => ({
-                  minWidth: 130,
+                  "minWidth": 130,
                   "& .MuiOutlinedInput-root": {
                     "& fieldset": {
                       borderColor: "#ccc",
@@ -919,7 +543,7 @@ export default function Description() {
 
               <FormControl
                 sx={(theme) => ({
-                  minWidth: 120,
+                  "minWidth": 120,
                   "& .MuiOutlinedInput-root": {
                     "& fieldset": {
                       borderColor: "#ccc",
@@ -942,13 +566,7 @@ export default function Description() {
                 size="small"
               >
                 <InputLabel id="demo-select-small-label">Scenario</InputLabel>
-                <Select
-                  labelId="demo-select-small-label"
-                  id="demo-select-small"
-                  value={selectedScenario}
-                  onChange={(e) => setSelectedScenario(e.target.value)}
-                  label="Scenario"
-                >
+                <Select labelId="demo-select-small-label" id="demo-select-small" value={selectedScenario} onChange={(e) => setSelectedScenario(e.target.value)} label="Scenario">
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
@@ -960,7 +578,7 @@ export default function Description() {
 
               <FormControl
                 sx={(theme) => ({
-                  minWidth: 120,
+                  "minWidth": 120,
                   "& .MuiOutlinedInput-root": {
                     "& fieldset": {
                       borderColor: "#ccc",
@@ -983,22 +601,14 @@ export default function Description() {
                 size="small"
               >
                 <InputLabel id="demo-select-small-label">Layer Type</InputLabel>
-                <Select
-                  labelId="demo-select-small-label"
-                  id="demo-select-small"
-                  value={selectedLayerType}
-                  onChange={(e) => setSelectedLayerType(e.target.value)}
-                  label="Layer Type"
-                >
+                <Select labelId="demo-select-small-label" id="demo-select-small" value={selectedLayerType} onChange={(e) => setSelectedLayerType(e.target.value)} label="Layer Type">
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
                   <MenuItem value="Hazard">Hazard</MenuItem>
                   <MenuItem value="Risk">Risk</MenuItem>
                   <MenuItem value="Adaptation">Adaptation</MenuItem>
-                  <MenuItem value="Direct Adaptation">
-                    Direct Adaptation
-                  </MenuItem>
+                  <MenuItem value="Direct Adaptation">Direct Adaptation</MenuItem>
                   <MenuItem value="Exposure">Exposure</MenuItem>
                   <MenuItem value="Vulnerability">Vulnerability</MenuItem>
                 </Select>
@@ -1016,11 +626,7 @@ export default function Description() {
               >
                 <DownloadIcon />
                 <span className="button-text">
-                  <Typography>
-                    {totalFileSize === 0
-                      ? "Download Group - Calculating..."
-                      : `Download Group - ${formatFileSize(totalFileSize)}`}
-                  </Typography>
+                  <Typography>{totalFileSize === 0 ? "Download Group - Calculating..." : `Download Group - ${formatFileSize(totalFileSize)}`}</Typography>
                 </span>
               </IconButton>
 
@@ -1066,10 +672,7 @@ export default function Description() {
             </div>
           </div>
 
-          <div
-            className="scrollable-container"
-            style={{ overflowY: "scroll", height: "80vh" }}
-          >
+          <div className="scrollable-container" style={{ overflowY: "scroll", height: "80vh" }}>
             {filteredData.length > 0 ? (
               <div className="card-grid">
                 {filteredData.map((item, index) => (
@@ -1103,10 +706,7 @@ export default function Description() {
                 <Typography variant="h6" sx={{ color: "#777" }}>
                   No data available for the selected filters
                 </Typography>
-                <Typography
-                  variant="body1"
-                  sx={{ color: "#999", marginTop: "8px" }}
-                >
+                <Typography variant="body1" sx={{ color: "#999", marginTop: "8px" }}>
                   Try adjusting your filters or clearing the search term
                 </Typography>
               </Box>

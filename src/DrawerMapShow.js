@@ -207,7 +207,7 @@ export default function DrawerMapShow({ activeBar }) {
     "Animal Productivity",
     "Mulching",
     "Alternate Wetting and Drying",
-    "Fertilizer rating and timing",
+    "Smart fertilizer management",
     "Manure Management",
     "Information Use",
     "Heat Stress Management",
@@ -394,7 +394,7 @@ export default function DrawerMapShow({ activeBar }) {
   const [opt4, setopt4] = React.useState("ICT linked Input Management");
   const [opt5, setopt5] = React.useState("Microirrigation");
   const [opt6, setopt6] = React.useState("Zero Tillage with residues");
-  const [opt7, setopt7] = React.useState("Fertilizer rating and timing");
+  const [opt7, setopt7] = React.useState("Smart fertilizer management");
   const [acc, setacc] = React.useState(false);
 
   function InitialHazard() {

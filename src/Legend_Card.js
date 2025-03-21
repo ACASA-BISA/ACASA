@@ -67,7 +67,7 @@ export default function LegendCard({ location, commodity, adaption, RiskName, sc
     "Animal Productivity": "ANPRO",
     "Mulching": "MULCH",
     "Alternate Wetting and Drying": "AWD",
-    "Fertilizer rating and timing": "FRT",
+    "Smart fertilizer management": "FRT",
     "Manure Management": "MNMGT",
     "Information Use": "INFO",
     "Heat Stress Management": "HSMGT",
