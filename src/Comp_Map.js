@@ -217,6 +217,14 @@ export default function MApp({
     color: ["palette", ["clamp", ["*", ["band", 2], 25], 0, 6], ["rgba(0,0,0,0)", "rgba(150,150,150,1)", "#059212", "#00FF00", "#FFDE4D", "#FFA500", "#FF0000"]],
   };
 
+  const color_adaptation = {
+    color: [
+      "palette",
+      ["clamp", ["*", ["band", 2], 25], 0, 6],
+      ["rgba(0,0,0,0)", "rgba(150,150,150,1)", "rgba(5,146,18,0.5)", "rgba(0,255,0,0.5)", "rgba(255,222,77,0.5)", "rgba(255,165,0,0.5)", "rgba(255,0,0,0.5)"],
+    ],
+  };
+
   const color_hazard_reverse = {
     color: [
       "palette",
@@ -249,7 +257,16 @@ export default function MApp({
     color: [
       "palette",
       ["clamp", ["*", ["band", 2], 25], 0, 6],
-      ["rgba(0,0,0,0)", "rgba(200,200,200,1)", "rgba(200,200,200,1)", "rgba(184, 23, 23, 1)", "rgba(245, 140, 170, 1)", "rgba(241, 233, 119, 1)", "rgba(109, 233, 109, 1)", "rgba(4, 145, 4, 1)"],
+      [
+        "rgba(0,0,0,0)",
+        "rgba(200,200,200,0.5)",
+        "rgba(200,200,200,0.5)",
+        "rgba(184, 23, 23, 0.5)",
+        "rgba(245, 140, 170, 0.5)",
+        "rgba(241, 233, 119, 1)",
+        "rgba(109, 233, 109, 1)",
+        "rgba(4, 145, 4, 1)",
+      ],
     ],
   };
 
@@ -524,16 +541,31 @@ export default function MApp({
       csvOption.style.cursor = "pointer";
       csvOption.onclick = () => this.handleDownloadCSV();
 
+      // Create Image download option
+      const imageOption = document.createElement("div");
+      imageOption.innerText = "Download Image";
+      imageOption.style.cursor = "pointer";
+      // To be updated...
+      imageOption.onclick = () => this.handleDownloadGeoTIFF();
+
       const divider_custom = document.createElement("div");
       divider_custom.style.width = "150px";
       divider_custom.style.height = "1px";
       divider_custom.style.backgroundColor = "#ccc";
       divider_custom.style.marginTop = "4px";
 
+      const divider_custom2 = document.createElement("div");
+      divider_custom2.style.width = "150px";
+      divider_custom2.style.height = "1px";
+      divider_custom2.style.backgroundColor = "#ccc";
+      divider_custom2.style.marginTop = "4px";
+
       // Append options to dropdown
       dropdown.appendChild(geoTiffOption);
       dropdown.appendChild(divider_custom);
       dropdown.appendChild(csvOption);
+      dropdown.appendChild(divider_custom2);
+      dropdown.appendChild(imageOption);
 
       // Create control container
       const element = document.createElement("div");
@@ -1463,7 +1495,7 @@ export default function MApp({
       });
 
       if (opt === 2) {
-        newOverl.setStyle(color_hazard4);
+        newOverl.setStyle(color_hazard_reverse);
       }
       if (mapRef.current) {
         mapRef.current.addLayer(newOverl);
@@ -1506,7 +1538,7 @@ export default function MApp({
         zIndex: 95,
       });
       if (opt === 2) {
-        newOverl.setStyle(color_hazard);
+        newOverl.setStyle(color_adaptation);
       }
       if (mapRef.current) {
         mapRef.current.addLayer(newOverl);

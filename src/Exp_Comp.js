@@ -43,7 +43,7 @@ function useInterval(callback, delay) {
   }, [delay]);
 }
 
-const tabs = ["Biophysical suitability", "Adaptation benefits", "Economic viability", "Scalability", "Gender suitability"];
+const tabs = ["Biophysical suitability", "Yield Benefits", "Economic viability", "Scalability", "Gender suitability", "Adaptation benefits"];
 
 const ArrowTab = styled(Button)(({ theme, selected, isLast, isFirst }) => ({
   "position": "relative",
@@ -181,8 +181,8 @@ export default function CompV({
   if (activeOptLayer["Biophysical Suitability"]) {
     AdaptLayerName = "Biophysical Suitability";
   }
-  if (activeOptLayer["Adaptation Benefits"]) {
-    AdaptLayerName = "Adaptation Benefits";
+  if (activeOptLayer["Yield"]) {
+    AdaptLayerName = "Yield Benefits";
   }
   if (activeOptLayer["Economic"]) {
     AdaptLayerName = "Economic Viability";
@@ -193,12 +193,16 @@ export default function CompV({
   if (activeOptLayer["Gender"]) {
     AdaptLayerName = "Gender Suitability";
   }
+  if (activeOptLayer["Adaptation Benefits"]) {
+    AdaptLayerName = "Adaptation Benefits";
+  }
   if (
     activeOptLayer["Biophysical Suitability"] === false &&
     activeOptLayer["Adaptation Benefits"] === false &&
     activeOptLayer["Economic"] === false &&
     activeOptLayer["Scalability"] === false &&
-    activeOptLayer["Gender"] === false
+    activeOptLayer["Gender"] === false &&
+    activeOptLayer["Yield"] === false
   ) {
     AdaptLayerName = "Biophysical Suitability";
   }
@@ -294,7 +298,7 @@ export default function CompV({
     },
   }));
 
-  const values = ["Biophysical Suitability", "Adaptation Benefits", "Economic", "Scalability", "Gender"];
+  const values = ["Biophysical Suitability", "Yield", "Economic", "Scalability", "Gender", "Adaptation Benefits"];
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const handleSelect = (index) => {
@@ -314,7 +318,8 @@ export default function CompV({
       activeOptLayer["Adaptation Benefits"] === false &&
       activeOptLayer["Economic"] === false &&
       activeOptLayer["Scalability"] === false &&
-      activeOptLayer["Gender"] === false
+      activeOptLayer["Gender"] === false &&
+      activeOptLayer["Yield"] === false
     ) {
       setSelectedIndex(0);
     }
@@ -403,12 +408,12 @@ export default function CompV({
                   disableRipple
                 >
                   <Typography
-                    variant="body2"
                     fontWeight="bold"
                     sx={{
                       maxWidth: "250px",
                       wordBreak: "break-word",
                       whiteSpace: "normal",
+                      fontSize: "12px",
                     }}
                     style={{ wordWrap: "break-word" }}
                   >

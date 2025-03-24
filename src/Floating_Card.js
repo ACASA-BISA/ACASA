@@ -303,23 +303,21 @@ export default function LocationCard({ location, commodity, adaption, activeOptL
               </div>
             )}
             {(RiskName !== "" || adaption !== "") && (
-              <Box sx={{ display: "flex", flexDirection: "row" }}>
-                <Typography
-                  sx={(theme) => ({
-                    fontSize: 13,
-                    color: theme.palette.mode === "dark" ? "#e0e0e0" : "black",
-                  })}
-                  gutterBottom
-                >
-                  Scenario:&nbsp;
-                </Typography>
-                <Typography sx={{ fontSize: 13 }} color="text.secondary">
-                  {scenario}
-                </Typography>
-              </Box>
-            )}
-            {adaption !== "" && (
               <div>
+                <Box sx={{ display: "flex", flexDirection: "row" }}>
+                  <Typography
+                    sx={(theme) => ({
+                      fontSize: 13,
+                      color: theme.palette.mode === "dark" ? "#e0e0e0" : "black",
+                    })}
+                    gutterBottom
+                  >
+                    Scenario:&nbsp;
+                  </Typography>
+                  <Typography sx={{ fontSize: 13 }} color="text.secondary">
+                    {scenario}
+                  </Typography>
+                </Box>
                 <Divider
                   sx={(theme) => ({
                     bgcolor: theme.palette.mode === "dark" ? "#3a4d3f" : "#e8ffea",
@@ -328,6 +326,10 @@ export default function LocationCard({ location, commodity, adaption, activeOptL
                     marginBottom: 0.3,
                   })}
                 />
+              </div>
+            )}
+            {adaption !== "" && (
+              <div>
                 <Box sx={{ display: "flex" }}>
                   <Typography
                     sx={(theme) => ({
@@ -344,14 +346,6 @@ export default function LocationCard({ location, commodity, adaption, activeOptL
             )}
             {RiskName !== "" && (
               <div>
-                <Divider
-                  sx={(theme) => ({
-                    bgcolor: theme.palette.mode === "dark" ? "#3a4d3f" : "#e8ffea",
-                    borderBottomWidth: 2,
-                    marginTop: "0px",
-                    marginBottom: 0.3,
-                  })}
-                />
                 <Box sx={{ display: "flex", flexDirection: "row" }}>
                   <Typography
                     sx={(theme) => ({
@@ -385,14 +379,6 @@ export default function LocationCard({ location, commodity, adaption, activeOptL
             )}
             {ImpactName !== "" && (
               <div>
-                <Divider
-                  sx={(theme) => ({
-                    bgcolor: theme.palette.mode === "dark" ? "#3a4d3f" : "#e8ffea",
-                    borderBottomWidth: 2,
-                    marginTop: "0px",
-                    marginBottom: 0.3,
-                  })}
-                />
                 <Box sx={{ display: "flex", flexDirection: "row" }}>
                   <Typography
                     sx={(theme) => ({
@@ -412,14 +398,14 @@ export default function LocationCard({ location, commodity, adaption, activeOptL
             <Typography sx={{ fontSize: 13 }} color="black">
               {adaption === "" && RiskName === "" && ImpactName === "" && (
                 <Box sx={{ marginTop: "2px", marginBottom: "-5px" }}>
-                  <Divider
+                  {/* <Divider
                     sx={(theme) => ({
                       bgcolor: theme.palette.mode === "dark" ? "#3a4d3f" : "#e8ffea",
                       borderBottomWidth: 2,
                       marginTop: "0px",
                       marginBottom: 0.3,
                     })}
-                  />
+                  /> */}
                   <Box
                     sx={{
                       display: "flex",

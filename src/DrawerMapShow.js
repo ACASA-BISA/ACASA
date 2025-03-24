@@ -94,6 +94,14 @@ export default function DrawerMapShow({ activeBar }) {
     }
   }
 
+  /*   React.useEffect(() => {
+    if (activeBar === "future2") {
+      Homecrop = "cattle";
+    } else {
+      Homecrop = "rice";
+    }
+  }, [activeBar]); */
+
   const fullList = [
     "rice",
     "wheat",
@@ -458,6 +466,7 @@ export default function DrawerMapShow({ activeBar }) {
   const [optionlayer, setOptionLayer] = React.useState({
     "Biophysical Suitability": false,
     "Gender": false,
+    "Yield": false,
     "Adaptation Benefits": false,
     "Economic": false,
     "Scalability": false,
@@ -504,6 +513,7 @@ export default function DrawerMapShow({ activeBar }) {
       "Economic": false,
       "Scalability": false,
       "Gender": false,
+      "Yield": false,
     });
     setRisk(InitialHazard);
     setRiskName("");
@@ -529,6 +539,7 @@ export default function DrawerMapShow({ activeBar }) {
       "Economic": false,
       "Scalability": false,
       "Gender": false,
+      "Yield": false,
     });
     setRisk(InitialHazard);
     setRiskName("");
@@ -556,6 +567,7 @@ export default function DrawerMapShow({ activeBar }) {
       "Economic": false,
       "Scalability": false,
       "Gender": false,
+      "Yield": false,
     });
     setOption(newState);
     setRisk(InitialHazard);
@@ -582,6 +594,7 @@ export default function DrawerMapShow({ activeBar }) {
       "Economic": false,
       "Scalability": false,
       "Gender": false,
+      "Yield": false,
     });
     setRisk(InitialHazard);
     setRiskName("");
@@ -605,6 +618,7 @@ export default function DrawerMapShow({ activeBar }) {
       "Economic": false,
       "Scalability": false,
       "Gender": false,
+      "Yield": false,
     });
     setRisk(InitialHazard);
     setRiskName("");
@@ -645,6 +659,7 @@ export default function DrawerMapShow({ activeBar }) {
       "Economic": false,
       "Scalability": false,
       "Gender": false,
+      "Yield": false,
     });
     setImpact(InitialImpact);
     setImpactName("");
@@ -676,6 +691,7 @@ export default function DrawerMapShow({ activeBar }) {
       "Economic": false,
       "Scalability": false,
       "Gender": false,
+      "Yield": false,
     });
     setOption(newState);
     setRisk(InitialHazard);
@@ -859,6 +875,15 @@ export default function DrawerMapShow({ activeBar }) {
   //const paperWidth = window.innerWidth * 0.21;
   //const paperWidth2 = window.innerWidth * 0.23;
 
+  React.useEffect(() => {
+    if (activeBar === "future2") {
+      handleChange("cattle")(null);
+    } else {
+      handleChange("rice")(null);
+    }
+    //console.log("Livecheck");
+  }, [activeBar]);
+
   return (
     <div>
       <Box
@@ -867,7 +892,7 @@ export default function DrawerMapShow({ activeBar }) {
           bgcolor: (theme) => theme.palette.background.paper, // Background adapts to theme
         }}
       >
-        {(activeBar === "future" || activeBar === "viewer") && (
+        {(activeBar === "future" || activeBar === "future2" || activeBar === "viewer") && (
           <Selection_bar
             location={activeRegion}
             commodity={Currcrop}
@@ -878,10 +903,11 @@ export default function DrawerMapShow({ activeBar }) {
             ImpactName={ImpactName}
             modelName={Model}
             activeScale={vis_scale}
+            activeDrawer={activeBar}
           ></Selection_bar>
         )}
 
-        {activeBar === "future" && (
+        {(activeBar === "future" || activeBar === "future2") && (
           <CompV
             activeCrop={Currcrop}
             changeCrop={handleChange_CMP}
@@ -909,7 +935,7 @@ export default function DrawerMapShow({ activeBar }) {
           ></CompV>
         )}
 
-        {activeBar === "future" && (
+        {(activeBar === "future" || activeBar === "future2") && (
           <DrawerV
             activeCrop={crop}
             changeCrop={handleChange}
@@ -932,6 +958,7 @@ export default function DrawerMapShow({ activeBar }) {
             changeModel={handleModelchange}
             activeScale={vis_scale}
             changeScale={handleVisScaleChange}
+            activeDrawer={activeBar}
           ></DrawerV>
         )}
 
@@ -1036,7 +1063,7 @@ export default function DrawerMapShow({ activeBar }) {
             ></DrawerV>
           )}
 
-          {activeBar === "future" && NameScenario === "Baseline" && (
+          {(activeBar === "future" || activeBar === "future2") && NameScenario === "Baseline" && (
             <div ref={container}>
               <LocationCard
                 location={activeRegion}

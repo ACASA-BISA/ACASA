@@ -10,8 +10,8 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import LightTooltip from "../LightTooltip";
 
 export default function SwitchIndustrial({ activeCrop, changeCrop }) {
-  const switchh = ["Cotton", "Jute", "Rubber", "Sugarcane", "Tea", "Coconut"];
-  const switchid = ["cotton", "jute", "rubber", "sugarcane", "tea", "coconut"];
+  const switchh = ["Potato", "Cotton", "Jute", "Rubber", "Sugarcane", "Tea", "Coconut"];
+  const switchid = ["potato", "cotton", "jute", "rubber", "sugarcane", "tea", "coconut"];
   const disvar = {
     cotton: false,
     jute: false,

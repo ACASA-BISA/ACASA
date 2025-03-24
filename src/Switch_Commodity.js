@@ -14,10 +14,20 @@ import SwitchFish from "./Commodity Switches/SwitchListFISH";
 import SwitchOilseeds from "./Commodity Switches/SwtichListOIL";
 import SwitchIndustrial from "./Commodity Switches/SwitchListIND";
 
-export default function SwitchesGroup({ activeCrop, changeCrop }) {
-  const switchh = ["Cereals", "Pulses", "Oilseeds", "Fruits and vegetables", "Others", "Livestock"];
-  const switchid = ["cereals", "Pulses", "oilseeds", "fruits", "industrial", "livestock"];
-  const disvar = { cereals: false, Pulses: false, oilseeds: false, fruits: false, industrial: false, livestock: false };
+export default function SwitchesGroup({ activeCrop, changeCrop, activeDrawer }) {
+  let switchh = [];
+  let switchid = [];
+  let disvar = [];
+  if (activeDrawer === "future") {
+    switchh = ["Cereals", "Pulses", "Oilseeds", "Others"];
+    switchid = ["cereals", "Pulses", "oilseeds", "industrial"];
+    disvar = { cereals: false, Pulses: false, oilseeds: false, fruits: false, industrial: false };
+  }
+  if (activeDrawer === "future2") {
+    switchh = ["Livestock"];
+    switchid = ["livestock"];
+    disvar = { livestock: false };
+  }
 
   function createInitialTodos() {
     const initialTodos = {};
@@ -88,7 +98,9 @@ export default function SwitchesGroup({ activeCrop, changeCrop }) {
   return (
     <FormControl component="fieldset" variant="standard" sx={{ paddingTop: 1, paddingLeft: 3 }}>
       <FormLabel sx={{ display: "flex", paddingBottom: 1 }}>
-        <Typography sx={(theme) => ({ color: theme.palette.mode === "dark" ? "white" : "black", fontWeight: "bold", fontSize: 14, paddingTop: 1 })}>Select commodity</Typography>
+        <Typography sx={(theme) => ({ color: theme.palette.mode === "dark" ? "white" : "black", fontWeight: "bold", fontSize: 14, paddingTop: 1 })}>
+          {activeDrawer === "future" ? "Select crop" : "Select livestock species"}
+        </Typography>
       </FormLabel>
 
       {switchid.map((sname, index) => (

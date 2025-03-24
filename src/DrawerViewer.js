@@ -51,6 +51,7 @@ export default function DrawerV({
   changeModel,
   activeScale,
   changeScale,
+  activeDrawer,
 }) {
   function createInitialTodos() {
     const initialTodos = {};
@@ -193,7 +194,7 @@ export default function DrawerV({
                     onClick={toggleList(Item)}
                     disablePadding
                     sx={(theme) => ({
-                      color: theme.palette.mode === "dark" ? "#000000" : "#ffffff",
+                      "color": theme.palette.mode === "dark" ? "#000000" : "#ffffff",
                       "&:hover": {
                         backgroundColor:
                           exploreType === "Regional" && Items2[index] === "Commodity"
@@ -204,8 +205,8 @@ export default function DrawerV({
                             ? "#b99b30"
                             : "#fece2f",
                       },
-                      backgroundColor: colorofbutton(Item, theme),
-                      height: "100%",
+                      "backgroundColor": colorofbutton(Item, theme),
+                      "height": "100%",
                     })}
                   >
                     <ListItemButton>
@@ -386,9 +387,9 @@ export default function DrawerV({
               open={DrOpen}
               onClose={handleClickAway}
               sx={(theme) => ({
-                flexShrink: 0,
-                overflow: "auto",
-                whiteSpace: "nowrap",
+                "flexShrink": 0,
+                "overflow": "auto",
+                "whiteSpace": "nowrap",
                 "& .MuiDrawer-paper": {
                   width: 280 + extra,
                   height: "calc(100vh - 100px)",
@@ -403,7 +404,7 @@ export default function DrawerV({
                 },
               })}
             >
-              {open["Select Commodity"] === true && <SwitchCom activeCrop={activeCrop} changeCrop={changeCrop}></SwitchCom>}
+              {open["Select Commodity"] === true && <SwitchCom activeCrop={activeCrop} changeCrop={changeCrop} activeDrawer={activeDrawer}></SwitchCom>}
               {open["Analysis & Scale"] === true && (
                 <SwitchScale exploreType={exploreType} handleExploreTypeChange={handleExploreTypeChange} activeScale={activeScale} changeScale={changeScale}></SwitchScale>
               )}

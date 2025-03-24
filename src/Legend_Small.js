@@ -108,12 +108,13 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
   }
   //maxWidth:'320px'
   return (
-    <div style={{ maxWidth: "320px" }}>
-      <Paper elevation={1} sx={{ padding: "10px", paddingBottom: "1px", borderRadius: "5px", boxShadow: "0px 0px 0px #aaa", textAlign: "left" }}>
+    <div style={{ maxWidth: "400px" }}>
+      <Paper elevation={1} sx={{ padding: "10px", paddingBottom: "1px", borderRadius: "5px", boxShadow: "0px 0px 0px #aaa", textAlign: "left", justifyItems: "center" }}>
         {adaption !== "" && (
           <div>
             <Box sx={{ display: "flex", marginTop: "-10px", justifyContent: "center" }}>
               <Typography sx={(theme) => ({ fontSize: 11.5, marginBottom: "2px", color: theme.palette.mode === "dark" ? "white" : "black" })}>
+                {scenario !== "baseline" && AdaptLayerName !== "Biophysical Suitability" && "Percent change in "}
                 {AdaptLayerName.charAt(0).toUpperCase() + AdaptLayerName.toLowerCase().slice(1)} of&nbsp;
                 <strong>{adaption.charAt(0).toUpperCase() + adaption.slice(1, 4) + adaption.toLowerCase().slice(4)}</strong>
               </Typography>

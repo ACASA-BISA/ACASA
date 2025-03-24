@@ -4,7 +4,7 @@ import Typography from "@mui/material/Typography";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Popper, Paper, Grid } from "@mui/material";
 
-export default function Selection_bar({ location, commodity, adaption, RiskName, scenario, ImpactName, modelName, exploreType, activeScale }) {
+export default function Selection_bar({ location, commodity, adaption, RiskName, scenario, ImpactName, modelName, exploreType, activeScale, activeDrawer }) {
   function checkcrop() {
     const diffcrop = ["Cattle", "Buffalo", "Goat", "Sheep", "Pig", "Poultry"];
     let ans = true;
@@ -47,7 +47,7 @@ export default function Selection_bar({ location, commodity, adaption, RiskName,
             <Box sx={{ display: "flex", flexDirection: "row" }}>
               <Typography
                 sx={(theme) => ({
-                  fontSize: 15,
+                  fontSize: 13,
                   fontWeight: "bold",
                   color: theme.palette.mode === "dark" ? "#81c784" : "#143200",
                   marginLeft: "4px",
@@ -56,27 +56,27 @@ export default function Selection_bar({ location, commodity, adaption, RiskName,
                 {location}
               </Typography>
             </Box>
-            <ChevronRightIcon sx={(theme) => ({ color: theme.palette.text.primary })}/>
+            <ChevronRightIcon sx={(theme) => ({ fontSize: 18, color: theme.palette.text.primary })} />
             <Box sx={{ display: "flex", flexDirection: "row" }}>
-              <Typography sx={{ fontSize: 14 }} color="text.secondary">
+              <Typography sx={{ fontSize: 13 }} color="text.secondary">
                 {activeScale.charAt(0).toUpperCase() + activeScale.toLowerCase().slice(1)}
               </Typography>
             </Box>
-            {exploreType === "Commodity" && (
+            {exploreType === "Commodity" && activeDrawer === "future" && (
               <Box sx={{ display: "flex", flexDirection: "row" }}>
-                <ChevronRightIcon sx={(theme) => ({ color: theme.palette.text.primary })} />
+                <ChevronRightIcon sx={(theme) => ({ fontSize: 18, color: theme.palette.text.primary })} />
                 <Typography
                   sx={(theme) => ({
-                    fontSize: 14,
+                    fontSize: 13,
                     color: theme.palette.text.primary,
                   })}
                   gutterBottom
                 >
-                  Commodity:&nbsp;
+                  Crop:&nbsp;
                 </Typography>
                 <Typography
                   sx={(theme) => ({
-                    fontSize: 14,
+                    fontSize: 13,
                     color: theme.palette.text.secondary,
                   })}
                 >
@@ -85,11 +85,34 @@ export default function Selection_bar({ location, commodity, adaption, RiskName,
               </Box>
             )}
 
-            <ChevronRightIcon sx={(theme) => ({ color: theme.palette.text.primary })} />
+            {exploreType === "Commodity" && activeDrawer === "future2" && (
+              <Box sx={{ display: "flex", flexDirection: "row" }}>
+                <ChevronRightIcon sx={(theme) => ({ fontSize: 18, color: theme.palette.text.primary })} />
+                <Typography
+                  sx={(theme) => ({
+                    fontSize: 13,
+                    color: theme.palette.text.primary,
+                  })}
+                  gutterBottom
+                >
+                  Livestock:&nbsp;
+                </Typography>
+                <Typography
+                  sx={(theme) => ({
+                    fontSize: 13,
+                    color: theme.palette.text.secondary,
+                  })}
+                >
+                  {commodity}
+                </Typography>
+              </Box>
+            )}
+
+            <ChevronRightIcon sx={(theme) => ({ fontSize: 18, color: theme.palette.text.primary })} />
             <Box sx={{ display: "flex", flexDirection: "row" }}>
               <Typography
                 sx={(theme) => ({
-                  fontSize: 14,
+                  fontSize: 13,
                   color: theme.palette.text.primary,
                 })}
                 gutterBottom
@@ -98,7 +121,7 @@ export default function Selection_bar({ location, commodity, adaption, RiskName,
               </Typography>
               <Typography
                 sx={(theme) => ({
-                  fontSize: 14,
+                  fontSize: 13,
                   color: theme.palette.text.secondary,
                 })}
               >
@@ -106,11 +129,11 @@ export default function Selection_bar({ location, commodity, adaption, RiskName,
               </Typography>
             </Box>
 
-            <ChevronRightIcon sx={(theme) => ({ color: theme.palette.text.primary })} />
+            <ChevronRightIcon sx={(theme) => ({ fontSize: 18, color: theme.palette.text.primary })} />
             <Box sx={{ display: "flex", flexDirection: "row" }}>
               <Typography
                 sx={(theme) => ({
-                  fontSize: 14,
+                  fontSize: 13,
                   color: theme.palette.text.primary,
                 })}
                 gutterBottom
@@ -119,7 +142,7 @@ export default function Selection_bar({ location, commodity, adaption, RiskName,
               </Typography>
               <Typography
                 sx={(theme) => ({
-                  fontSize: 14,
+                  fontSize: 13,
                   color: theme.palette.text.secondary,
                 })}
               >
@@ -129,10 +152,10 @@ export default function Selection_bar({ location, commodity, adaption, RiskName,
 
             {adaption !== "" && (
               <Box sx={{ display: "flex", flexDirection: "row" }}>
-                <ChevronRightIcon sx={(theme) => ({ color: theme.palette.text.primary })} />
+                <ChevronRightIcon sx={(theme) => ({ fontSize: 18, color: theme.palette.text.primary })} />
                 <Typography
                   sx={(theme) => ({
-                    fontSize: 14,
+                    fontSize: 13,
                     color: theme.palette.text.primary,
                   })}
                 >
@@ -143,10 +166,10 @@ export default function Selection_bar({ location, commodity, adaption, RiskName,
 
             {RiskName !== "" && (
               <Box sx={{ display: "flex", flexDirection: "row" }}>
-                <ChevronRightIcon sx={(theme) => ({ color: theme.palette.text.primary })} />
+                <ChevronRightIcon sx={(theme) => ({ fontSize: 18, color: theme.palette.text.primary })} />
                 <Typography
                   sx={(theme) => ({
-                    fontSize: 14,
+                    fontSize: 13,
                     color: theme.palette.text.primary,
                   })}
                   gutterBottom
@@ -155,7 +178,7 @@ export default function Selection_bar({ location, commodity, adaption, RiskName,
                 </Typography>
                 <Typography
                   sx={(theme) => ({
-                    fontSize: 14,
+                    fontSize: 13,
                     color: theme.palette.text.secondary,
                   })}
                 >
@@ -167,10 +190,10 @@ export default function Selection_bar({ location, commodity, adaption, RiskName,
 
             {ImpactName !== "" && (
               <Box sx={{ display: "flex", flexDirection: "row" }}>
-                <ChevronRightIcon sx={(theme) => ({ color: theme.palette.text.primary })} />
+                <ChevronRightIcon sx={(theme) => ({ fontSize: 18, color: theme.palette.text.primary })} />
                 <Typography
                   sx={(theme) => ({
-                    fontSize: 14,
+                    fontSize: 13,
                     color: theme.palette.text.primary,
                   })}
                 >
@@ -178,7 +201,7 @@ export default function Selection_bar({ location, commodity, adaption, RiskName,
                 </Typography>
                 <Typography
                   sx={(theme) => ({
-                    fontSize: 14,
+                    fontSize: 13,
                     color: theme.palette.text.secondary,
                   })}
                 >
