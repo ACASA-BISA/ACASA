@@ -30,7 +30,7 @@ const StyledButton = styled(Button)(({ theme }) => ({
 
 const StyledSlide = styled("div")(({ theme }) => ({
   position: "absolute",
-  width: "80%",
+  maxWidth: "80%",
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
@@ -114,7 +114,7 @@ const carouselData = [
 
 // 3D Carousel Styles
 const getStyles = (index, activeSlide) => {
-  const distance = 250,
+  const distance = 350,
     depth = 500,
     rotation = 25;
 
@@ -122,15 +122,15 @@ const getStyles = (index, activeSlide) => {
     case 0:
       return { opacity: 1, transform: "translateX(0px) translateZ(0px) rotateY(0deg) scale(1)", zIndex: 10 };
     case -1:
-      return { opacity: 0.6, transform: `translateX(-${distance}px) translateZ(-${depth}px) rotateY(${rotation}deg) scale(0.9)`, zIndex: 9 };
+      return { opacity: 0.8, transform: `translateX(-${distance}px) translateZ(-${depth}px) rotateY(${rotation}deg) scale(0.9)`, zIndex: 9 };
     case 1:
-      return { opacity: 0.6, transform: `translateX(${distance}px) translateZ(-${depth}px) rotateY(-${rotation}deg) scale(0.9)`, zIndex: 9 };
+      return { opacity: 0.8, transform: `translateX(${distance}px) translateZ(-${depth}px) rotateY(-${rotation}deg) scale(0.9)`, zIndex: 9 };
     case -2:
-      return { opacity: 0.4, transform: `translateX(-${distance * 2}px) translateZ(-${depth * 1.5}px) rotateY(${rotation}deg) scale(0.85)`, zIndex: 8 };
+      return { opacity: 0.6, transform: `translateX(-${distance * 1.8}px) translateZ(-${depth * 1.5}px) rotateY(${rotation}deg) scale(0.85)`, zIndex: 8 };
     case 2:
-      return { opacity: 0.4, transform: `translateX(${distance * 2}px) translateZ(-${depth * 1.5}px) rotateY(-${rotation}deg) scale(0.85)`, zIndex: 8 };
+      return { opacity: 0.6, transform: `translateX(${distance * 1.8}px) translateZ(-${depth * 1.5}px) rotateY(-${rotation}deg) scale(0.85)`, zIndex: 8 };
     default:
-      return { opacity: 0.2, transform: "translateX(0px) translateZ(-800px) rotateY(0deg) scale(0.75)", zIndex: 7 };
+      return { opacity: 0.4, transform: "translateX(0px) translateZ(-800px) rotateY(0deg) scale(0.75)", zIndex: 7 };
   }
 };
 
@@ -148,10 +148,10 @@ const Usecase = () => {
   const { mode } = React.useContext(ThemeContext);
 
   return (
-    <div style={{ position: "relative", width: "100%", display: "flex", justifyContent: "center" }}>
+    <div style={{ position: "relative", width: "100%", display: "flex", justifyContent: "center", height: "100vh" }}>
       <div className="carousel-container" style={{ overflow: "visible", position: "relative" }}>
         {/* Category Buttons */}
-        <Box sx={{ paddingTop: "100px", textAlign: "left", display: { xs: "none", md: "block" } }}>
+        <Box sx={{ marginTop: "10px", textAlign: "left", display: { xs: "none", md: "block" } }}>
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             {carouselData.map((item, index) => (
               <StyledButton key={item.key} className={activeSlide === index ? "active" : ""} onClick={() => setActiveSlide(index)}>
@@ -167,15 +167,15 @@ const Usecase = () => {
             <StyledSlide key={item.key} style={{ ...getStyles(i, activeSlide), height: "100%" }}>
               <div className="text-area">
                 <h2>{item.header}</h2>
-                <p>{item.description}</p>
+                <p style={{textAlign: "left"}}>{item.description}</p>
                 <ul>
                   {item.points.map((point, index) => (
-                    <li key={index} dangerouslySetInnerHTML={{ __html: marked(point) }} />
+                    <li key={index} dangerouslySetInnerHTML={{ __html: marked(point) }} style={{textAlign: "left"}}/>
                   ))}
                 </ul>
               </div>
               <div className="image-area" style={{ flex: 1, display: "flex", justifyContent: "center" }}>
-                <img src={item.image} alt={item.alt} style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain", borderRadius: "10px" }} />
+                <img src={item.image} alt={item.alt} style={{ maxWidth: "auto", maxHeight: "auto", objectFit: "contain", borderRadius: "10px" }} />
               </div>
             </StyledSlide>
           ))}
@@ -185,7 +185,7 @@ const Usecase = () => {
           className="btns"
           sx={{
             position: "absolute",
-            bottom: { xs: "5vh", md: "85px" }, // More flexible bottom positioning
+            bottom: { xs: "-4vh",}, // More flexible bottom positioning
             left: "50%",
             transform: "translateX(-50%)",
             zIndex: 9999,
@@ -200,6 +200,8 @@ const Usecase = () => {
             icon={faChevronLeft}
             size="2x"
             aria-label="Previous Slide"
+            role="button"
+            tabIndex="0"
             style={{ cursor: "pointer", margin: "0 15px", color: mode === "dark" ? "#fff" : "#25292e" }}
           />
           <FontAwesomeIcon
@@ -208,6 +210,8 @@ const Usecase = () => {
             icon={faChevronRight}
             size="2x"
             aria-label="Next Slide"
+            role="button"
+            tabIndex="0"
             style={{ cursor: "pointer", margin: "0 15px", color: mode === "dark" ? "#fff" : "#25292e" }}
           />
         </Box>

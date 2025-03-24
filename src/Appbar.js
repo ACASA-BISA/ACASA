@@ -272,7 +272,14 @@ function ResponsiveAppBar({}) {
                               paddingLeft: 2,
                               paddingTop: 1,
                               paddingBottom: 1,
-                              backgroundColor: Boolean(anchorElUser2) ? "#f5f3ed" : "#ffffff", // Darkens when menu is open
+                              backgroundColor: (theme) =>
+                                Boolean(anchorElUser)
+                                  ? theme.palette.mode === "dark"
+                                    ? "#3a3d42" // Dark theme open menu color
+                                    : "#f5f3ed" // Light theme open menu color
+                                  : theme.palette.mode === "dark"
+                                  ? "#3a3d42"
+                                  : "#ffffff", // Darkens when menu is open
                             }}
                             key={pageid[index]}
                             onMouseEnter={handleOpenUserMenu2}
@@ -281,7 +288,7 @@ function ResponsiveAppBar({}) {
                             aria-owns={Boolean(anchorElUser2) ? "menu-appbar-explore" : undefined}
                             aria-haspopup="true"
                           >
-                            <Typography textAlign="center" sx={{ fontSize: "14px", fontWeight: 700, color: "#000", fontFamily: "Karla" }}>
+                            <Typography textAlign="center" sx={{ fontSize: "14px", fontWeight: 700, color: (theme) => (theme.palette.mode === "dark" ? "#fff" : "#000"), fontFamily: "Karla" }}>
                               <div>{page}</div>
                             </Typography>
                           </MyButton>
@@ -305,14 +312,14 @@ function ResponsiveAppBar({}) {
                           >
                             <a href="/#/exploredata" style={{ textDecoration: "none" }}>
                               <MenuItem onClick={handleClick}>
-                                <Typography textAlign="center" fontSize={13} color="#222222" sx={{ fontFamily: "Karla", fontWeight: 350 }}>
+                                <Typography textAlign="center" fontSize={13} sx={{ fontFamily: "Karla", fontWeight: 350, color: (theme) => (theme.palette.mode === "dark" ? "#dddddd" : "#222222") }}>
                                   Explore Crops
                                 </Typography>
                               </MenuItem>
                             </a>
                             <a href="/#/future" style={{ textDecoration: "none" }}>
                               <MenuItem onClick={handleClick}>
-                                <Typography textAlign="center" fontSize={13} color="#222222" sx={{ fontFamily: "Karla", fontWeight: 350 }}>
+                                <Typography textAlign="center" fontSize={13} sx={{ fontFamily: "Karla", fontWeight: 350, color: (theme) => (theme.palette.mode === "dark" ? "#dddddd" : "#222222") }}>
                                   Explore Livestock
                                 </Typography>
                               </MenuItem>

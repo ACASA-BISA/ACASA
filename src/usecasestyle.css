@@ -28,12 +28,12 @@ p {
   color: #111;
 }
 
-.carousel-container {
+/*.carousel-container {
   width: 90%;
   margin: auto;
   position: relative;
-  perspective: 1200px; /* Enables depth effect */
-  height: 850px; /* Adjust as needed */
+  perspective: 1200px; 
+  height: 850px; 
   overflow: visible;
 }
 
@@ -57,21 +57,18 @@ p {
   transform-style: preserve-3d;
 }
 
-/* Active Slide - Front and Center */
 .slide.active {
   z-index: 10;
   transform: translateX(0) scale(1);
   opacity: 1;
 }
 
-/* Left Slide - Move Back and Left */
 .slide.prev {
   z-index: 5;
   transform: translateX(-30%) scale(0.85);
   opacity: 0.7;
 }
 
-/* Right Slide - Move Back and Right */
 .slide.next {
   z-index: 5;
   transform: translateX(30%) scale(0.85);
@@ -87,7 +84,7 @@ p {
 
 .carousel-slide {
   display: flex;
-  flex-direction: row; /* Maintain text on left, image on right */
+  flex-direction: row; 
   align-items: center;
   width: 100%;
   height: 100%;
@@ -112,9 +109,9 @@ button:hover {
   display: flex;
   flex-direction: column;
   font-size: 17px;
-  /* border: 1px solid #ccc; */
-  border-radius: 10px; /* Add rounded edges */
-  box-shadow: var(--usecase-textarea-boxshadow);/* Add box shadow */
+  border: 1px solid #ccc; 
+  border-radius: 10px; 
+  box-shadow: var(--usecase-textarea-boxshadow);
 }
 
 .image-area {
@@ -123,12 +120,12 @@ button:hover {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /*background: var(--usecase-imagearea-bgcolor);*/
+  background: var(--usecase-imagearea-bgcolor);
   width: 100%;
   height: 100%;
-  /* border: 1px solid #ccc; 
+  border: 1px solid #ccc; 
   border-radius: 10px; 
-  box-shadow: var(--usecase-imagearea-boxshadow); */
+  box-shadow: var(--usecase-imagearea-boxshadow);
 }
 
 
@@ -136,7 +133,103 @@ button:hover {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}*/
+
+.carousel-container {
+  width: 90%;
+  margin: auto;
+  position: relative;
+  perspective: 1200px; /* Enables depth effect */
+  height: 80vh; /* Adjust for smaller screens */
+  max-height: 850px; /* Prevent excessive stretching */
+  overflow: visible;
 }
+
+.slideC {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform-style: preserve-3d;
+}
+
+.slide {
+  position: absolute;
+  width: 80%;
+  max-width: 700px; /* Prevents excessive width on larger screens */
+  left: 50%;
+  transform: translateX(-50%);
+  transition: transform 0.6s ease, opacity 0.6s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transform-style: preserve-3d;
+}
+
+.text-area {
+  max-width: 100%;
+  max-width: 600px;
+  text-align: center;
+  background: var(--usecase-textarea-bgcolor);
+  color: var(--usecase-textarea-color);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: var(--usecase-textarea-boxshadow);
+}
+
+.image-area img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 10px;
+}
+
+/* Adjustments for smaller laptop screens */
+@media (max-width: 1440px) {
+  .carousel-container {
+    height: 70vh;
+  }
+  .slide {
+    width: 90%;
+    max-width: 600px;
+  }
+  .text-area {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .carousel-container {
+    height: 60vh;
+  }
+  .slide {
+    width: 95%;
+    max-width: 500px;
+  }
+  .text-area {
+    font-size: 0.85rem;
+    padding: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .carousel-container {
+    height: 55vh;
+  }
+  .slide {
+    width: 100%;
+    max-width: 450px;
+  }
+  .text-area {
+    font-size: 0.8rem;
+  }
+}
+
 
 
 button {
