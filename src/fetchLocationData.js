@@ -1,4 +1,4 @@
-export function fetchLocationData(location, commodity, scenario, hazard, data) {
+export function fetchLocationData(location, commodity, scenario, hazard, data, analysis_level) {
   let filteredData = Object.values(data);
 
   if (scenario === "baseline") {
@@ -88,9 +88,11 @@ export function fetchLocationData(location, commodity, scenario, hazard, data) {
   }
 
   // Apply additional filters (Commodity, Scenario, Hazard)
-  filteredData = filteredData.filter((row) => row.Crop === commodity);
+  filteredData = filteredData.filter((row) => row.Commodity === commodity);
   filteredData = filteredData.filter((row) => row.Scenario === scenario);
   filteredData = filteredData.filter((row) => row.Hazard === hazardname[hazard]);
+  if (analysis_level === "District Level") filteredData = filteredData.filter((row) => row["Analysis Level"] === "DISTRICT");
+  if (analysis_level === "Pixel Level") filteredData = filteredData.filter((row) => row["Analysis Level"] === "PIXEL");
 
   //console.log(filteredData);
   return filteredData;

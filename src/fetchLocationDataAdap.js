@@ -1,4 +1,4 @@
-export function fetchLocationDataAdap(location, commodity, scenario, adaptation, data, AdaptLayerName) {
+export function fetchLocationDataAdap(location, commodity, scenario, adaptation, data, AdaptLayerName, analysis_level) {
   let filteredData = Object.values(data);
 
   if (scenario === "baseline") {
@@ -69,9 +69,12 @@ export function fetchLocationDataAdap(location, commodity, scenario, adaptation,
   }
 
   // Apply additional filters (Commodity, Scenario, adaptation)
-  filteredData = filteredData.filter((row) => row.Crop === commodity);
+  filteredData = filteredData.filter((row) => row.Commodity === commodity);
   filteredData = filteredData.filter((row) => row.Scenario === scenario);
   filteredData = filteredData.filter((row) => row.Adaptation === `${optcode[adaptation]}${opt_suffix}`);
+
+  if (analysis_level === "District Level") filteredData = filteredData.filter((row) => row["Analysis Level"] === "DISTRICT");
+  if (analysis_level === "Pixel Level") filteredData = filteredData.filter((row) => row["Analysis Level"] === "PIXEL");
 
   //console.log(filteredData);
   //console.log(adaptation);

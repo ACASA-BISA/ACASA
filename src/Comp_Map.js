@@ -73,16 +73,16 @@ export default function MApp({
       if (activeOptLayer["Adaptation Benefits"]) opt_suffix = "Adaptation Benefits";
       if (activeOptLayer["Economic"]) opt_suffix = "Economic Viability";
       if (activeOptLayer["Scalability"]) opt_suffix = "Scalability";
-      newFilename = `${activeCrop}_${activeOpt}_${opt_suffix}_${activeScenario}.tiff`;
+      newFilename = `${activeCrop}_${activeOpt}_${opt_suffix}_${activeScenario}_${activeScale}.tiff`;
     } else if (CurrRisk && CurrRisk.trim() !== "") {
-      newFilename = `${activeCrop}_${CurrRisk}_${activeScenario}.tiff`;
+      newFilename = `${activeCrop}_${CurrRisk}_${activeScenario}_${activeScale}.tiff`;
     } else if (activeImpact["Productivity"] || activeImpact["Value of Production"] || activeImpact["Resilience"]) {
-      newFilename = `${activeCrop}_Impact_${activeScenario}.tiff`;
+      newFilename = `${activeCrop}_Impact_${activeScenario}_${activeScale}.tiff`;
     }
 
     //console.log("Updated filename:", newFilename); // Debugging
     setFilename(newFilename);
-  }, [activeOpt, CurrRisk, activeImpact, activeCrop, activeScenario, activeRegion, activeOptLayer]); // Dependencies ensure updates
+  }, [activeOpt, CurrRisk, activeImpact, activeCrop, activeScenario, activeRegion, activeOptLayer, activeScale]); // Dependencies ensure updates
 
   const { mode } = useContext(ThemeContext);
 
@@ -601,11 +601,11 @@ export default function MApp({
     handleDownloadCSV() {
       let csvContent = [];
       if (CurrRisk !== "") {
-        csvContent = fetchLocationData(activeRegion, activeCrop, activeScenario, CurrRisk, area_dict4);
+        csvContent = fetchLocationData(activeRegion, activeCrop, activeScenario, CurrRisk, area_dict4, activeScale);
       } else if (activeOpt !== "") {
-        csvContent = fetchLocationDataAdap(activeRegion, activeCrop, activeScenario, activeOpt, area_dict3, activeOptLayer);
+        csvContent = fetchLocationDataAdap(activeRegion, activeCrop, activeScenario, activeOpt, area_dict3, activeOptLayer, activeScale);
       }
-      console.log(csvContent);
+      //console.log(csvContent);
       const headers = Object.keys(csvContent[0]);
       const rows = csvContent.map((row) => headers.map((header) => row[header]).join(","));
 
@@ -616,13 +616,13 @@ export default function MApp({
 
       let filenametable = "No_data.csv";
       if (CurrRisk !== "") {
-        filenametable = activeRegion + "_" + activeCrop + "_" + activeScenario + "_" + CurrRisk + ".csv";
+        filenametable = activeRegion + "_" + activeCrop + "_" + activeScenario + "_" + CurrRisk + "_" + activeScale + ".csv";
       } else if (activeOpt !== "") {
         let opt_suffix = "";
         if (activeOptLayer["Adaptation Benefits"]) opt_suffix = "Adaptation Benefits";
         if (activeOptLayer["Economic"]) opt_suffix = "Economic Viability";
         if (activeOptLayer["Scalability"]) opt_suffix = "Scalability";
-        filenametable = activeRegion + "_" + activeCrop + "_" + activeScenario + "_" + activeOpt + "_" + opt_suffix + ".csv";
+        filenametable = activeRegion + "_" + activeCrop + "_" + activeScenario + "_" + activeOpt + "_" + opt_suffix + "_" + activeScale + ".csv";
       }
       this.downloadFile(url, filenametable);
       URL.revokeObjectURL(url);
