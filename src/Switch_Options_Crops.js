@@ -7,120 +7,51 @@ import Switch from "@mui/material/Switch";
 import { Typography, Link } from "@mui/material";
 //import Checkbox from "@mui/material/Checkbox";
 import { styled } from "@mui/material/styles";
-import Box from "@mui/material/Box";
+//import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import LightTooltip from "./LightTooltip";
 
-export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, activeOptLayer, changeOptLayer, exploreType }) {
+export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, activeOptLayer, changeOptLayer, exploreType, CropName }) {
   const switchh = ["Planting Technology", "Water Management", "Fertilizer Management"];
   const switchh_pulses = ["Planting Technology", "Water Management"];
-  const directswitch = ["Stress Tolerant Variety"];
-  const directswitchdown = ["ICT linked Input Management", "Crop Insurance"];
+  const switch_new = ["Water Management"];
+  const switch_new2 = ["Fertilizer Management", "Water Management"];
 
-  const planting_rice = ["Early Sowing", "Precision Land Levelling", "Zero Tillage with residues", "Direct Seeded Rice - Dry", "Direct Seeded Rice - Wet", "System of Rice Intensification"];
-  const planting_rice_popup = ["Early Sowing", "Precision Land Levelling", "Zero Tillage with residues", "Direct Seeded Rice - Dry", "Direct Seeded Rice - Wet", "System of Rice Intensification"];
+  const directswitch = ["Stress tolerant variety"];
+  const directswitchdown = ["ICT linked input management", "Crop insurance"];
 
-  const water = ["Supplemental Irrigation", "Microirrigation", "Precision Water Management"];
-  const water_popup = ["Supplemental Irrigation", "Microirrigation", "Precision Water Management"];
-
-  const water_rice = ["Supplemental Irrigation", "Microirrigation", "Alternate Wetting and Drying", "Precision Water Management"];
-  const water_rice_popup = ["Supplemental Irrigation", "Microirrigation", "Alternate Wetting and Drying", "Precision Water Management"];
-
-  const fertilizer_rice = ["Smart fertilizer management", "Precision Fertilizer Management"];
-  const fertilizer_rice_popup = ["Smart fertilizer management", "Precision Fertilizer Management"];
-
-  const planting = ["Early Sowing", "Precision Land Levelling", "Zero Tillage with residues", "Broad Bed and Furrow"];
-  const planting_popup = ["Early Sowing", "Precision Land Levelling", "Zero Tillage with residues", "Broad Bed and Furrow"];
-
-  const fertilizer = ["Smart fertilizer management", "Precision Fertilizer Management"];
-  const fertilizer_popup = ["Smart fertilizer management", "Precision Fertilizer Management"];
-
-  const fullList = [
-    "rice",
-    "wheat",
-    "maize",
-    "barley",
-    "sorghum",
-    "fmillet",
-    "pmillet",
-    "safflower",
-    "sunflower",
-    "rapeseed",
-    "sesame",
-    "groundnut",
-    "soyabean",
-    "chickpea",
-    "ppea",
-    "bgram",
-    "ggram",
-    "lentil",
-    "cotton",
-    "jute",
-    "rubber",
-    "sugarcane",
-    "tea",
-    "coconut",
-    "cattle",
-    "buffalo",
-    "goat",
-    "sheep",
-    "pig",
-    "poultry",
-    "freshwater",
-    "bracklish",
-    "marine",
-    "coldwater",
-    "potato",
-    "onion",
-    "tomato",
-    "chilli",
-    "mango",
-    "banana",
+  const planting_rice = [
+    "Early sowing/changing planting dates",
+    "Precision land levelling",
+    "Zero tillage with residue retention",
+    "Dry - Direct seeded rice",
+    "Wet - Direct seeded rice",
+    "System of rice intensification",
+  ];
+  const planting_rice_popup = [
+    "Early sowing/changing planting dates",
+    "Precision land levelling",
+    "Zero tillage with residue retention",
+    "Dry - Direct seeded rice",
+    "Wet - Direct seeded rice",
+    "System of rice intensification",
   ];
 
-  const Common = [
-    "Rice",
-    "Wheat",
-    "Maize",
-    "Barley",
-    "Sorghum",
-    "Finger Millet",
-    "Pearl Millet",
-    "Safflower",
-    "Sunflower",
-    "Rapeseed/Mustard",
-    "Sesame",
-    "Groundnut",
-    "Soybean",
-    "Chickpea",
-    "Pigeonpea",
-    "Black Gram",
-    "Green Gram",
-    "Lentil",
-    "Cotton",
-    "Jute",
-    "Rubber",
-    "Sugarcane",
-    "Tea",
-    "Coconut",
-    "Cattle",
-    "Buffalo",
-    "Goat",
-    "Sheep",
-    "Pig",
-    "Poultry",
-    "Freshwater",
-    "Bracklish",
-    "Marine",
-    "Cold water",
-    "Potato",
-    "Onion",
-    "Tomato",
-    "Chillies",
-    "Mango",
-    "Banana",
-  ];
+  const water = ["Supplemental irrigation (water harvesting structures/farm ponds)", "Microirrigation", "Precision water management"];
+  const water_popup = ["Supplemental irrigation (water harvesting structures/farm ponds)", "Microirrigation", "Precision water management"];
+
+  const water_rice = ["Supplemental irrigation (water harvesting structures/farm ponds)", "Microirrigation", "Alternate wetting and drying", "Precision water management"];
+  const water_rice_popup = ["Supplemental irrigation (water harvesting structures/farm ponds)", "Microirrigation", "Alternate wetting and drying", "Precision water management"];
+
+  const fertilizer_rice = ["Smart fertilizer management", "Precision fertilizer management"];
+  const fertilizer_rice_popup = ["Smart fertilizer management", "Precision fertilizer management"];
+
+  const planting = ["Early sowing/changing planting dates", "Precision land levelling", "Zero tillage with residue retention", "Broadbed and furrow"];
+  const planting_popup = ["Early sowing/changing planting dates", "Precision land levelling", "Zero tillage with residue retention", "Broadbed and furrow"];
+
+  const fertilizer = ["Smart fertilizer management", "Precision fertilizer management"];
+  const fertilizer_popup = ["Smart fertilizer management", "Precision fertilizer management"];
 
   const RegionalAdaptation = [
     "Stress tolerant varieties",
@@ -128,82 +59,58 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
     "Zero tillage and residues",
     "Precision land leveling",
     "Microirrigation",
-    "ICT-linked Precision water management",
-    "ICT-linked Precision fertilizer management",
-    "ICT-linked Precision input management",
+    "ICT-linked precision water management",
+    "ICT-linked precision fertilizer management",
+    "ICT-linked precision input management",
     "Nature-based agriculture",
     "Climate-smart agriculture",
     "Insurance",
   ];
 
-  let cropname = "Rice";
-  fullList.forEach((sname, indx) => {
-    if (activeCrop[sname] === true) {
-      cropname = Common[indx];
-    }
-  });
+  const cropTechnologies = {
+    planting: {
+      Rice: ["Early sowing/changing planting dates", "Dry - Direct seeded rice", "Wet - Direct seeded rice", "System of rice intensification"],
+      Wheat: ["Precision land levelling", "Zero tillage with residue retention", "Broadbed and furrow", "Early sowing/changing planting dates"],
+      Barley: ["Zero tillage with residue retention", "Broadbed and furrow", "Early sowing/changing planting dates"],
+      Maize: ["Zero tillage with residue retention", "Broadbed and furrow", "Early sowing/changing planting dates", "Mulching"],
+      Sorghum: ["Mulching"],
+      Millets: ["Mulching"],
+      Chickpea: ["Mulching"],
+      Pigeonpea: ["Mulching"],
+      Soybean: ["Broadbed and furrow", "Mulching"],
+      Mustard: ["Broadbed and furrow"],
+      Cotton: [],
+      Potato: ["Precision land levelling", "Broadbed and furrow"],
+      Groundnut: [],
+      Lentil: [],
+      Jute: [],
+    },
+    water: {
+      Rice: ["Microirrigation", "Alternate wetting and drying", "Precision water management"],
+      Wheat: ["Microirrigation", "Precision water management"],
+      Barley: ["Microirrigation", "Precision water management"],
+      Maize: ["Microirrigation", "Precision water management", "Supplemental irrigation (water harvesting structures/farm ponds)"],
+      Sorghum: ["Supplemental irrigation (water harvesting structures/farm ponds)"],
+      Millets: ["Supplemental irrigation (water harvesting structures/farm ponds)"],
+      Chickpea: ["Supplemental irrigation (water harvesting structures/farm ponds)"],
+      Pigeonpea: ["Supplemental irrigation (water harvesting structures/farm ponds)"],
+      Soybean: ["Supplemental irrigation (water harvesting structures/farm ponds)"],
+      Mustard: ["Microirrigation", "Precision water management"],
+      Cotton: ["Microirrigation", "Precision water management", "Supplemental irrigation (water harvesting structures/farm ponds)"],
+      Potato: ["Microirrigation", "Precision water management"],
+      Groundnut: ["Supplemental irrigation (water harvesting structures/farm ponds)"],
+      Lentil: ["Microirrigation", "Precision water management"],
+      Jute: [],
+    },
 
-  /*   const opt2 = ['Weather Services','Laser Land Levelling','Zero Tillage','BBR/FIRB','Early Sowing',
-    'DSR (Dry Seed)','DSR (Wet Seed)','SRI','Insurance',
-    'Adaptive Varities','Urea Placement','Arid & Semi-Arid','N Fertiliser (RDF)','PNM (Low Tech)',
-    'PNM (High Tech)','Microirrigation','Precision WM','Supplimentary Irrigation',
-    'Frost Gun','Slow Release Fertilizer','Micro-Environment','Fog/Mist Gun','Mechanical Support',
-    'Fertilizer Timing','Shading Canopy','Cooling Canopy']; */
+    getPlantingTechniques(cropName) {
+      return this.planting[cropName] || [];
+    },
 
-  /*   const fullList = ['rice','wheat','maize','sorghum','fmillet','pmillet',
-    'safflower','sunflower','rapeseed','sesame','groundnut',
-    'soyabean','chickpea','ppea','bgram','ggram','lentil',
-    'cotton','jute','rubber','sugarcane','tea','coconut',
-    'cattle','buffalo','goat','sheep','pig','poultry',
-    'freshwater','bracklish','marine','coldwater',
-    'potato','onion','tomato','chilli','mango','banana'];
-
-  function PopulateOptions() {
-    const DisableList = {};
-    fullList.forEach((sname) => {
-        if(activeCrop[sname] && sname === 'rice'){
-          opt.map((option,index) => { 
-          DisableList[option] = true;
-          const list = [10,2,3,5,6,7,8,11,13,14,15,18,1,9];
-          if(list.includes(index+1)){
-            DisableList[option] = false;
-          }
-        });
-        }
-        if(activeCrop[sname] && sname === 'wheat'){
-          opt.map((option,index) => {
-          DisableList[option] = true;
-          const list = [10,2,3,4,5,12,13,14,15,16,17,18,1,9];
-          if(list.includes(index+1)){
-            DisableList[option] = false;
-          }
-        });
-        }
-        if(activeCrop[sname] && sname === 'maize'){
-          opt.map((option,index) => {
-          DisableList[option] = true;
-          const list = [10,2,3,4,12,13,14,15,16,17,18,1,9];
-          if(list.includes(index+1)){
-            DisableList[option] = false;
-          }
-        });
-        }
-        if(activeCrop[sname] && sname === 'sorghum'){
-          opt.map((option,index) => {
-          DisableList[option] = true;
-          const list = [10,2,3,4,5,12,13,14,16,18,1,9];
-          if(list.includes(index+1)){
-            DisableList[option] = false;
-          }
-        });
-        }
-    });
-    return DisableList;
-  }
-
-  const [DisableList, setDisableList] = React.useState(
-    PopulateOptions
-  ); */
+    getWaterTechniques(cropName) {
+      return this.water[cropName] || [];
+    },
+  };
 
   function createInitialTodos() {
     const initialTodos = {};
@@ -224,19 +131,30 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
     return ans;
   }
 
-  function checknotFish() {
-    const fishes = ["freshwater", "bracklish", "marine", "coldwater"];
-    let ans = true;
-    fishes.forEach((sname) => {
+  function checkpulses() {
+    const cropwithoutfertilizer = ["soyabean", "chickpea", "ppea", "millets"];
+    let ans = false;
+    cropwithoutfertilizer.forEach((sname) => {
       if (activeCrop[sname] === true) {
-        ans = false;
+        ans = true;
       }
     });
     return ans;
   }
 
-  function checkpulses() {
-    const cropwithoutfertilizer = ["soyabean", "chickpea", "ppea", "groundnut"];
+  function thirdComb() {
+    const cropwithoutfertilizer = ["groundnut", "lentil"];
+    let ans = false;
+    cropwithoutfertilizer.forEach((sname) => {
+      if (activeCrop[sname] === true) {
+        ans = true;
+      }
+    });
+    return ans;
+  }
+
+  function forthComb() {
+    const cropwithoutfertilizer = ["cotton"];
     let ans = false;
     cropwithoutfertilizer.forEach((sname) => {
       if (activeCrop[sname] === true) {
@@ -306,173 +224,9 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
 
   return (
     <FormControl component="fieldset" variant="standard" sx={{ paddingTop: 1, paddingLeft: 3 }}>
-      {/*
-      {exploreType === "Commodity" && (
-        <FormLabel sx={{ display: "flex", paddingBottom: 1 }}>
-          <Typography
-            sx={(theme) => ({
-              color: theme.palette.mode === "dark" ? "white" : "black",
-              fontWeight: "bold",
-              fontSize: 14,
-              paddingTop: 1,
-            })}
-          >
-            Select adaptation indicator for {cropname.toLowerCase()}
-          </Typography>
-        </FormLabel>
-      )}
-      {exploreType === "Regional" && (
-        <FormLabel sx={{ display: "flex", paddingBottom: 1 }}>
-          <Typography
-            sx={(theme) => ({
-              color: theme.palette.mode === "dark" ? "white" : "black",
-              fontWeight: "bold",
-              fontSize: 14,
-              paddingTop: 1,
-            })}
-          >
-            Select adaptation indicator
-          </Typography>
-        </FormLabel>
-      )}
-      <FormGroup>
-        <CustomFormControlLabel
-          control={
-            <Checkbox
-              size="small"
-              checked={activeOptLayer["Biophysical Suitability"]}
-              name="Biophysical Suitability"
-              onChange={changeOptLayer}
-              color="success"
-              sx={{ padding: 0, marginLeft: 1, marginRight: "2px" }}
-            />
-          }
-          label={
-            <Typography
-              variant="body2"
-              align="left"
-              sx={{
-                peddingLeft: "3px",
-                maxWidth: "250px",
-                wordBreak: "break-word",
-                whiteSpace: "normal",
-              }}
-              style={{ wordWrap: "break-word" }}
-            >
-              Biophysical suitability
-            </Typography>
-          }
-        />
-        <CustomFormControlLabel
-          control={
-            <Checkbox
-              size="small"
-              checked={activeOptLayer["Technical Suitability"]}
-              name="Technical Suitability"
-              onChange={changeOptLayer}
-              color="success"
-              sx={{ padding: 0, marginLeft: 1, marginRight: "2px" }}
-            />
-          }
-          label={
-            <Typography
-              variant="body2"
-              align="left"
-              sx={{
-                peddingLeft: "3px",
-                maxWidth: "250px",
-                wordBreak: "break-word",
-                whiteSpace: "normal",
-              }}
-              style={{ wordWrap: "break-word" }}
-            >
-              Adaptation benefits
-            </Typography>
-          }
-        />
-        <CustomFormControlLabel
-          control={
-            <Checkbox
-              size="small"
-              checked={activeOptLayer["Economic"]}
-              name="Economic"
-              onChange={changeOptLayer}
-              color="success"
-              sx={{ padding: 0, marginLeft: 1, marginRight: "2px" }}
-            />
-          }
-          label={
-            <Typography
-              variant="body2"
-              align="left"
-              sx={{
-                peddingLeft: "3px",
-                maxWidth: "250px",
-                wordBreak: "break-word",
-                whiteSpace: "normal",
-              }}
-              style={{ wordWrap: "break-word" }}
-            >
-              Economic benefits
-            </Typography>
-          }
-        />
-        <CustomFormControlLabel
-          control={
-            <Checkbox
-              size="small"
-              checked={activeOptLayer["Scalibility"]}
-              name="Scalibility"
-              onChange={changeOptLayer}
-              color="success"
-              sx={{ padding: 0, marginLeft: 1, marginRight: "2px" }}
-            />
-          }
-          label={
-            <Typography
-              variant="body2"
-              align="left"
-              sx={{
-                peddingLeft: "3px",
-                maxWidth: "250px",
-                wordBreak: "break-word",
-                whiteSpace: "normal",
-              }}
-              style={{ wordWrap: "break-word" }}
-            >
-              Scalability
-            </Typography>
-          }
-        />
-        <CustomFormControlLabel
-          control={
-            <Checkbox
-              size="small"
-              checked={activeOptLayer["Gender"]}
-              name="Gender"
-              onChange={changeOptLayer}
-              color="success"
-              sx={{ padding: 0, marginLeft: 1, marginRight: "2px" }}
-            />
-          }
-          label={
-            <Typography
-              variant="body2"
-              align="left"
-              sx={{
-                peddingLeft: "3px",
-                maxWidth: "250px",
-                wordBreak: "break-word",
-                whiteSpace: "normal",
-              }}
-              style={{ wordWrap: "break-word" }}
-            >
-              Gender suitability
-            </Typography>
-          }
-        />
-      </FormGroup>
-      */}
+      {
+        // sname.charAt(0).toUpperCase() + sname.slice(1, 4) + sname.toLowerCase().slice(4)
+      }
       {exploreType === "Regional" && (
         <div>
           {" "}
@@ -507,7 +261,7 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
                       }}
                       style={{ wordWrap: "break-word" }}
                     >
-                      {sname.charAt(0).toUpperCase() + sname.slice(1, 4) + sname.toLowerCase().slice(4)}
+                      {sname}
                     </Typography>
                   }
                 />
@@ -528,7 +282,7 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
                 paddingTop: 1,
               })}
             >
-              Select adaptation option for {cropname.toLowerCase()}
+              Select adaptation option for {CropName.toLowerCase()}
             </Typography>
           </FormLabel>
           {(checkcrop() === true || activeCrop["rice"] === true) &&
@@ -550,14 +304,16 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
                       }}
                       style={{ wordWrap: "break-word" }}
                     >
-                      {sname.charAt(0).toUpperCase() + sname.slice(1, 4) + sname.toLowerCase().slice(4)}
+                      {sname}
                     </Typography>
                   }
                 />
               </FormGroup>
             ))}
-          {checkcrop() === true &&
+          {(checkcrop() === true || activeCrop["rice"] === true) &&
             checkpulses() === false &&
+            thirdComb() === false &&
+            forthComb() === false &&
             switchh.map((sname1) => (
               <FormGroup>
                 <FormControlLabel
@@ -581,7 +337,7 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
                 />
                 {state[sname1] && sname1 === "Planting Technology" && (
                   <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
-                    {planting.map((sname, idx) => (
+                    {cropTechnologies.getPlantingTechniques(CropName).map((sname, idx) => (
                       <FormGroup>
                         <CustomFormControlLabel
                           control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname]} onChange={changeOpt(sname)} name={sname} />}
@@ -599,7 +355,7 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
                               }}
                               style={{ wordWrap: "break-word" }}
                             >
-                              {sname.charAt(0).toUpperCase() + sname.slice(1, 4) + sname.toLowerCase().slice(4)}
+                              {sname}
                               <LightTooltip
                                 title={
                                   <>
@@ -651,7 +407,7 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
                               }}
                               style={{ wordWrap: "break-word" }}
                             >
-                              {sname.charAt(0).toUpperCase() + sname.slice(1, 4) + sname.toLowerCase().slice(4)}
+                              {sname}
                               <LightTooltip
                                 title={
                                   <>
@@ -685,7 +441,7 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
                 )}
                 {state[sname1] && sname1 === "Water Management" && (
                   <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
-                    {water.map((sname, idx) => (
+                    {cropTechnologies.getWaterTechniques(CropName).map((sname, idx) => (
                       <FormGroup>
                         <CustomFormControlLabel
                           control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname]} onChange={changeOpt(sname)} name={sname} />}
@@ -703,7 +459,7 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
                               }}
                               style={{ wordWrap: "break-word" }}
                             >
-                              {sname.charAt(0).toUpperCase() + sname.slice(1, 4) + sname.toLowerCase().slice(4)}
+                              {sname}
                               <LightTooltip
                                 title={
                                   <>
@@ -762,7 +518,7 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
                 />
                 {state[sname1] && sname1 === "Planting Technology" && (
                   <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
-                    {planting.map((sname) => (
+                    {cropTechnologies.getPlantingTechniques(CropName).map((sname) => (
                       <FormGroup>
                         <CustomFormControlLabel
                           control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname]} onChange={changeOpt(sname)} name={sname} />}
@@ -780,7 +536,7 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
                               }}
                               style={{ wordWrap: "break-word" }}
                             >
-                              {sname.charAt(0).toUpperCase() + sname.slice(1, 4) + sname.toLowerCase().slice(4)}
+                              {sname}
                             </Typography>
                           }
                         />
@@ -790,7 +546,7 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
                 )}
                 {state[sname1] && sname1 === "Water Management" && (
                   <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
-                    {water.map((sname, idx) => (
+                    {cropTechnologies.getWaterTechniques(CropName).map((sname, idx) => (
                       <FormGroup>
                         <CustomFormControlLabel
                           control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname]} onChange={changeOpt(sname)} name={sname} />}
@@ -808,7 +564,7 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
                               }}
                               style={{ wordWrap: "break-word" }}
                             >
-                              {sname.charAt(0).toUpperCase() + sname.slice(1, 4) + sname.toLowerCase().slice(4)}
+                              {sname}
                               <LightTooltip
                                 title={
                                   <>
@@ -842,8 +598,9 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
                 )}
               </FormGroup>
             ))}
-          {activeCrop["rice"] === true &&
-            switchh.map((sname1) => (
+          {checkcrop() === true &&
+            forthComb() === true &&
+            switch_new2.map((sname1) => (
               <FormGroup>
                 <FormControlLabel
                   control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={state[sname1]} onChange={handleChange(sname1)} name={sname1} />}
@@ -864,61 +621,9 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
                     </Typography>
                   }
                 />
-                {state[sname1] && sname1 === "Planting Technology" && (
+                {state[sname1] && sname1 === "Fertilizer Management" && checkpulses() === false && (
                   <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
-                    {planting_rice.map((sname, idx) => (
-                      <FormGroup>
-                        <CustomFormControlLabel
-                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname]} onChange={changeOpt(sname)} name={sname} />}
-                          disabled={false}
-                          key={sname}
-                          label={
-                            <Typography
-                              variant="body2"
-                              align="left"
-                              sx={{
-                                paddingLeft: "3px",
-                                maxWidth: "250px",
-                                wordBreak: "break-word",
-                                whiteSpace: "normal",
-                              }}
-                              style={{ wordWrap: "break-word" }}
-                            >
-                              {sname.charAt(0).toUpperCase() + sname.slice(1, 4) + sname.toLowerCase().slice(4)}
-                              <LightTooltip
-                                title={
-                                  <>
-                                    <span>{planting_rice_popup[idx]}</span>
-                                    <br />
-                                    <Link
-                                      href={`#/resources?tab=2&term=${sname.toLowerCase()}`}
-                                      target="_blank"
-                                      sx={(theme) => ({
-                                        color: theme.palette.mode === "dark" ? "black" : "white",
-                                        fontWeight: "bold",
-                                      })}
-                                    >
-                                      Read More
-                                    </Link>
-                                  </>
-                                }
-                                placement="right"
-                                arrow
-                              >
-                                <IconButton sx={{ padding: 0, margin: 0, paddingX: "4px" }}>
-                                  <InfoOutlinedIcon sx={{ fontSize: "12px", padding: 0, margin: 0 }} />
-                                </IconButton>
-                              </LightTooltip>
-                            </Typography>
-                          }
-                        />
-                      </FormGroup>
-                    ))}
-                  </FormControl>
-                )}
-                {state[sname1] && sname1 === "Fertilizer Management" && (
-                  <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
-                    {fertilizer_rice.map((sname, idx) => (
+                    {fertilizer.map((sname, idx) => (
                       <FormGroup>
                         <CustomFormControlLabel
                           control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname]} onChange={changeOpt(sname)} name={sname} />}
@@ -936,11 +641,11 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
                               }}
                               style={{ wordWrap: "break-word" }}
                             >
-                              {sname.charAt(0).toUpperCase() + sname.slice(1, 4) + sname.toLowerCase().slice(4)}
+                              {sname}
                               <LightTooltip
                                 title={
                                   <>
-                                    <span>{fertilizer_rice_popup[idx]}</span>
+                                    <span>{fertilizer_popup[idx]}</span>
                                     <br />
                                     <Link
                                       href={`#/resources?tab=2&term=${sname.toLowerCase()}`}
@@ -970,7 +675,7 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
                 )}
                 {state[sname1] && sname1 === "Water Management" && (
                   <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
-                    {water_rice.map((sname, idx) => (
+                    {cropTechnologies.getWaterTechniques(CropName).map((sname, idx) => (
                       <FormGroup>
                         <CustomFormControlLabel
                           control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname]} onChange={changeOpt(sname)} name={sname} />}
@@ -988,11 +693,88 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
                               }}
                               style={{ wordWrap: "break-word" }}
                             >
-                              {sname.charAt(0).toUpperCase() + sname.slice(1, 4) + sname.toLowerCase().slice(4)}
+                              {sname}
                               <LightTooltip
                                 title={
                                   <>
-                                    <span>{water_rice_popup[idx]}</span>
+                                    <span>{water_popup[idx]}</span>
+                                    <br />
+                                    <Link
+                                      href={`#/resources?tab=2&term=${sname.toLowerCase()}`}
+                                      target="_blank"
+                                      sx={(theme) => ({
+                                        color: theme.palette.mode === "dark" ? "black" : "white",
+                                        fontWeight: "bold",
+                                      })}
+                                    >
+                                      Read More
+                                    </Link>
+                                  </>
+                                }
+                                placement="right"
+                                arrow
+                              >
+                                <IconButton sx={{ padding: 0, margin: 0, paddingX: "4px" }}>
+                                  <InfoOutlinedIcon sx={{ fontSize: "12px", padding: 0, margin: 0 }} />
+                                </IconButton>
+                              </LightTooltip>
+                            </Typography>
+                          }
+                        />
+                      </FormGroup>
+                    ))}
+                  </FormControl>
+                )}
+              </FormGroup>
+            ))}
+          {checkcrop() === true &&
+            thirdComb() === true &&
+            switch_new.map((sname1) => (
+              <FormGroup>
+                <FormControlLabel
+                  control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={state[sname1]} onChange={handleChange(sname1)} name={sname1} />}
+                  key={sname1}
+                  label={
+                    <Typography
+                      variant="body2"
+                      align="left"
+                      sx={{
+                        peddingLeft: "3px",
+                        maxWidth: "250px",
+                        wordBreak: "break-word",
+                        whiteSpace: "normal",
+                      }}
+                      style={{ wordWrap: "break-word" }}
+                    >
+                      {sname1.charAt(0).toUpperCase() + sname1.slice(1, 4) + sname1.toLowerCase().slice(4)}
+                    </Typography>
+                  }
+                />
+                {state[sname1] && sname1 === "Water Management" && (
+                  <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
+                    {cropTechnologies.getWaterTechniques(CropName).map((sname, idx) => (
+                      <FormGroup>
+                        <CustomFormControlLabel
+                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname]} onChange={changeOpt(sname)} name={sname} />}
+                          disabled={false}
+                          key={sname}
+                          label={
+                            <Typography
+                              variant="body2"
+                              align="left"
+                              sx={{
+                                peddingLeft: "3px",
+                                maxWidth: "250px",
+                                wordBreak: "break-word",
+                                whiteSpace: "normal",
+                              }}
+                              style={{ wordWrap: "break-word" }}
+                            >
+                              {sname}
+                              <LightTooltip
+                                title={
+                                  <>
+                                    <span>{water_popup[idx]}</span>
                                     <br />
                                     <Link
                                       href={`#/resources?tab=2&term=${sname.toLowerCase()}`}
@@ -1041,7 +823,7 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
                       }}
                       style={{ wordWrap: "break-word" }}
                     >
-                      {sname.charAt(0).toUpperCase() + sname.slice(1, 4) + sname.toLowerCase().slice(4)}
+                      {sname}
                     </Typography>
                   }
                 />

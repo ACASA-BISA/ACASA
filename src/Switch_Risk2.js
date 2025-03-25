@@ -11,7 +11,7 @@ import IconButton from "@mui/material/IconButton";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import LightTooltip from "./LightTooltip";
 
-export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, CurrRisk, exploreType }) {
+export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, CurrRisk, exploreType, CropName }) {
   const switchPro = ["District Level", "Downscaled Risk"];
   const switchProID = ["dl", "dr"];
   const switchProID2 = ["dl2", "dr2"];
@@ -185,6 +185,7 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
     "chilli",
     "mango",
     "banana",
+    "millets",
   ];
 
   const Common = [
@@ -228,6 +229,7 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
     "Chillies",
     "Mango",
     "Banana",
+    "Millets",
   ];
 
   let cropname = "Rice";

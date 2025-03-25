@@ -9,113 +9,34 @@ import Checkbox from "@mui/material/Checkbox";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 
-export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, activeOptLayer, changeOptLayer, exploreType }) {
+export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, activeOptLayer, changeOptLayer, exploreType, CropName }) {
   const switchh = ["Planting Technology", "Water Management", "Fertilizer Management"];
   const switchh_pulses = ["Planting Technology", "Water Management"];
-  const directswitch = ["Stress Tolerant Variety"];
-  const directswitchdown = ["ICT linked Input Management", "Crop Insurance"];
+  const directswitch = ["Stress tolerant variety"];
+  const directswitchdown = ["ICT linked input management", "Crop insurance"];
 
-  const planting_rice = ["Early Sowing", "Precision Land Levelling", "Zero Tillage with residues", "Direct Seeded Rice - Dry", "Direct Seeded Rice - Wet", "System of Rice Intensification"];
+  const planting_rice = [
+    "Early sowing/changing planting dates",
+    "Precision land levelling",
+    "Zero tillage with residue retention",
+    "Dry - Direct seeded rice",
+    "Wet - Direct seeded rice",
+    "System of rice intensification",
+  ];
 
-  const water = ["Supplemental Irrigation", "Microirrigation", "Precision Water Management"];
+  const water = ["Supplemental irrigation (water harvesting structures/farm ponds)", "Microirrigation", "Precision water management"];
 
-  const water_rice = ["Supplemental Irrigation", "Microirrigation", "Precision Water Management", "Alternate Wetting and Drying"];
+  const water_rice = ["Supplemental irrigation (water harvesting structures/farm ponds)", "Microirrigation", "Precision water management", "Alternate wetting and drying"];
 
-  const fertilizer_rice = ["Fertilizer rating and timing", "Precision Fertilizer Management"];
+  const fertilizer_rice = ["Fertilizer rating and timing", "Precision fertilizer management"];
 
-  const planting = ["Early Sowing", "Precision Land Levelling", "Zero Tillage with residues", "Broad Bed and Furrow"];
+  const planting = ["Early sowing/changing planting dates", "Precision land levelling", "Zero tillage with residue retention", "Broadbed and furrow"];
 
-  const fertilizer = ["Fertilizer rating and timing", "Precision Fertilizer Management"];
+  const fertilizer = ["Fertilizer rating and timing", "Precision fertilizer management"];
 
   const livestock = ["Shelter management", "Feed management", "Healthcare management"];
 
   const marine = ["To be Updated"];
-
-  const fullList = [
-    "rice",
-    "wheat",
-    "maize",
-    "barley",
-    "sorghum",
-    "fmillet",
-    "pmillet",
-    "safflower",
-    "sunflower",
-    "rapeseed",
-    "sesame",
-    "groundnut",
-    "soyabean",
-    "chickpea",
-    "ppea",
-    "bgram",
-    "ggram",
-    "lentil",
-    "cotton",
-    "jute",
-    "rubber",
-    "sugarcane",
-    "tea",
-    "coconut",
-    "cattle",
-    "buffalo",
-    "goat",
-    "sheep",
-    "pig",
-    "poultry",
-    "freshwater",
-    "bracklish",
-    "marine",
-    "coldwater",
-    "potato",
-    "onion",
-    "tomato",
-    "chilli",
-    "mango",
-    "banana",
-  ];
-
-  const Common = [
-    "Rice",
-    "Wheat",
-    "Maize",
-    "Barley",
-    "Sorghum",
-    "Finger Millet",
-    "Pearl Millet",
-    "Safflower",
-    "Sunflower",
-    "Rapeseed/Mustard",
-    "Sesame",
-    "Groundnut",
-    "Soybean",
-    "Chickpea",
-    "Pigeonpea",
-    "Black Gram",
-    "Green Gram",
-    "Lentil",
-    "Cotton",
-    "Jute",
-    "Rubber",
-    "Sugarcane",
-    "Tea",
-    "Coconut",
-    "Cattle",
-    "Buffalo",
-    "Goat",
-    "Sheep",
-    "Pig",
-    "Poultry",
-    "Freshwater",
-    "Bracklish",
-    "Marine",
-    "Cold water",
-    "Potato",
-    "Onion",
-    "Tomato",
-    "Chillies",
-    "Mango",
-    "Banana",
-  ];
 
   const RegionalAdaptation = [
     "Stress tolerant varieties",
@@ -123,20 +44,13 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
     "Zero tillage and residues",
     "Precision land leveling",
     "Microirrigation",
-    "ICT-linked Precision water management",
-    "ICT-linked Precision fertilizer management",
-    "ICT-linked Precision input management",
+    "ICT-linked precision water management",
+    "ICT-linked precision fertilizer management",
+    "ICT-linked precision input management",
     "Nature-based agriculture",
     "Climate-smart agriculture",
     "Insurance",
   ];
-
-  let cropname = "Rice";
-  fullList.forEach((sname, indx) => {
-    if (activeCrop[sname] === true) {
-      cropname = Common[indx];
-    }
-  });
 
   /*   const opt2 = ['Weather Services','Laser Land Levelling','Zero Tillage','BBR/FIRB','Early Sowing',
     'DSR (Dry Seed)','DSR (Wet Seed)','SRI','Insurance',
@@ -326,7 +240,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
               paddingTop: 1,
             })}
           >
-            Select adaptation indicator for {cropname.toLowerCase()}
+            Select adaptation indicator for {CropName.toLowerCase()}
           </Typography>
         </FormLabel>
       )}
@@ -537,7 +451,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                 paddingTop: 1,
               })}
             >
-              Select adaptation option for {cropname.toLowerCase()}
+              Select adaptation option for {CropName.toLowerCase()}
             </Typography>
           </FormLabel>
           {(checkcrop() === true || activeCrop["rice"] === true) &&

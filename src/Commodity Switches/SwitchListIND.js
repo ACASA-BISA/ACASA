@@ -13,6 +13,7 @@ export default function SwitchIndustrial({ activeCrop, changeCrop }) {
   const switchh = ["Potato", "Cotton", "Jute", "Rubber", "Sugarcane", "Tea", "Coconut"];
   const switchid = ["potato", "cotton", "jute", "rubber", "sugarcane", "tea", "coconut"];
   const disvar = {
+    potato: false,
     cotton: false,
     jute: false,
     rubber: true,
@@ -21,6 +22,7 @@ export default function SwitchIndustrial({ activeCrop, changeCrop }) {
     coconut: true,
   };
   const tooltipvar = {
+    potato: false,
     cotton: false,
     jute: false,
     rubber: true,
@@ -30,6 +32,7 @@ export default function SwitchIndustrial({ activeCrop, changeCrop }) {
   };
   const padd = 8;
   const season = [
+    "Here this analysis is done only for winter season.",
     "Here this analysis is done only for monsoon season",
     "Here this analysis is done only for monsoon season",
     "Season information to be updated",

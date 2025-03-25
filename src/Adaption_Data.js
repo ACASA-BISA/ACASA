@@ -15,12 +15,12 @@ import { red } from "@mui/material/colors";
 
 // Styling the DataButton component using MUI's styled function
 const DataButton = styled(Button)({
-  boxShadow: "none",
-  borderRadius: 5,
-  color: "#000000",
-  border: "0px solid",
-  fontWeight: "bold",
-  backgroundColor: "#fece2f",
+  "boxShadow": "none",
+  "borderRadius": 5,
+  "color": "#000000",
+  "border": "0px solid",
+  "fontWeight": "bold",
+  "backgroundColor": "#fece2f",
   "&:hover": {
     backgroundColor: "#ffda5e",
     boxShadow: "none",
@@ -53,19 +53,9 @@ export default function Adaptation_Data() {
       >
         {/* First card */}
         <Card sx={{ width: "30%" }}>
-          <CardHeader
-            titleTypographyProps={{ variant: "subtitle1" }}
-            title="Direct Seeded"
-            subheader="Commodity: Rice"
-            sx={{ marginTop: -1 }}
-          />
+          <CardHeader titleTypographyProps={{ variant: "subtitle1" }} title="Direct Seeded" subheader="Commodity: Rice" sx={{ marginTop: -1 }} />
           <Box sx={{ marginLeft: 1, marginRight: 1, marginTop: -1 }}>
-            <CardMedia
-              component="img"
-              height="auto"
-              image="/Adapt_Rice_DSR.png"
-              alt="Direct Seeded"
-            />
+            <CardMedia component="img" height="auto" image="/Adapt_Rice_DSR.png" alt="Direct Seeded" />
           </Box>
           <CardContent sx={{ marginBottom: -2 }}></CardContent>
           <CardActions disableSpacing>
@@ -76,19 +66,9 @@ export default function Adaptation_Data() {
         </Card>
         {/* Second card */}
         <Card sx={{ width: "30%" }}>
-          <CardHeader
-            titleTypographyProps={{ variant: "subtitle1" }}
-            title="Insurance"
-            subheader="Commodity: Rice"
-            sx={{ marginTop: -1 }}
-          />
+          <CardHeader titleTypographyProps={{ variant: "subtitle1" }} title="Insurance" subheader="Commodity: Rice" sx={{ marginTop: -1 }} />
           <Box sx={{ marginLeft: 1, marginRight: 1, marginTop: -1 }}>
-            <CardMedia
-              component="img"
-              height="auto"
-              image="/Adapt_Rice_Insu.png"
-              alt="Insurance"
-            />
+            <CardMedia component="img" height="auto" image="/Adapt_Rice_Insu.png" alt="Insurance" />
           </Box>
           <CardContent sx={{ marginBottom: -2 }}></CardContent>
           <CardActions disableSpacing>
@@ -99,19 +79,9 @@ export default function Adaptation_Data() {
         </Card>
         {/* Third card */}
         <Card sx={{ width: "30%" }}>
-          <CardHeader
-            titleTypographyProps={{ variant: "subtitle1" }}
-            title="Precision Water Management"
-            subheader="Commodity: Rice"
-            sx={{ marginTop: -1 }}
-          />
+          <CardHeader titleTypographyProps={{ variant: "subtitle1" }} title="Precision water management" subheader="Commodity: Rice" sx={{ marginTop: -1 }} />
           <Box sx={{ marginLeft: 1, marginRight: 1, marginTop: -1 }}>
-            <CardMedia
-              component="img"
-              height="auto"
-              image="/Adapt_Rice_AWD.png"
-              alt="Precision Water Management"
-            />
+            <CardMedia component="img" height="auto" image="/Adapt_Rice_AWD.png" alt="Precision water management" />
           </Box>
           <CardContent sx={{ marginBottom: -2 }}></CardContent>
           <CardActions disableSpacing>
@@ -132,19 +102,9 @@ export default function Adaptation_Data() {
       >
         {/* Fourth card */}
         <Card sx={{ width: "30%" }}>
-          <CardHeader
-            titleTypographyProps={{ variant: "subtitle1" }}
-            title="Stress Tolerant"
-            subheader="Commodity: Wheat"
-            sx={{ marginTop: -1 }}
-          />
+          <CardHeader titleTypographyProps={{ variant: "subtitle1" }} title="Stress Tolerant" subheader="Commodity: Wheat" sx={{ marginTop: -1 }} />
           <Box sx={{ marginLeft: 1, marginRight: 1, marginTop: -1 }}>
-            <CardMedia
-              component="img"
-              height="auto"
-              image="/Adapt_wheat_StressTolerantCultivar.png"
-              alt="Stress Tolerant"
-            />
+            <CardMedia component="img" height="auto" image="/Adapt_wheat_StressTolerantCultivar.png" alt="Stress Tolerant" />
           </Box>
           <CardContent sx={{ marginBottom: -2 }}></CardContent>
           <CardActions disableSpacing>
@@ -155,19 +115,9 @@ export default function Adaptation_Data() {
         </Card>
         {/* Fifth card */}
         <Card sx={{ width: "30%" }}>
-          <CardHeader
-            titleTypographyProps={{ variant: "subtitle1" }}
-            title="Water Management"
-            subheader="Commodity: Wheat"
-            sx={{ marginTop: -1 }}
-          />
+          <CardHeader titleTypographyProps={{ variant: "subtitle1" }} title="Water Management" subheader="Commodity: Wheat" sx={{ marginTop: -1 }} />
           <Box sx={{ marginLeft: 1, marginRight: 1, marginTop: -1 }}>
-            <CardMedia
-              component="img"
-              height="auto"
-              image="/Adapt_wheat_watermanagement.png"
-              alt="Water Management"
-            />
+            <CardMedia component="img" height="auto" image="/Adapt_wheat_watermanagement.png" alt="Water Management" />
           </Box>
           <CardContent sx={{ marginBottom: -2 }}></CardContent>
           <CardActions disableSpacing>

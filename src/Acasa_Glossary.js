@@ -8,10 +8,10 @@ const glossaryData = {
     {
       term: "ACASA",
       definition: "Atlas of Climate Adaptation in South Asian Agriculture",
-      image: "acasa.png"
+      image: "acasa.png",
     },
     {
-      term: "Alternate Wetting and Drying (AWD)- Rice",
+      term: "Alternate wetting and drying (AWD)- Rice",
       definition:
         "The AWD practices in rice involves intermittent flooding (alternate cycles of saturated and unsaturated conditions) of a rice field, typically to a water depth of around 5 cm, and allowing the field to dry until the water level drops to a certain threshold moisture level i.e., around 10 cm below the soil surface, and then reflooding the field. It saves se irrigation water use and reduces greenhouse gas (GHG) emissions while maintaining or improving grain yields",
     },
@@ -88,7 +88,7 @@ const glossaryData = {
       definition: "",
     },
     {
-      term: "Crop Insurance",
+      term: "Crop insurance",
       definition:
         "Crop insurance service refers to the provision of insurance coverage to farmers against losses incurred due to crop failure, damage, or yield reductions caused by weather-related events such as droughts, floods, storms, and pests",
     },
@@ -355,12 +355,12 @@ const glossaryData = {
         "Precision Land Levelling (PLL) is a farming technique that involves the mechanical process of grading and smoothing land to achieve a uniform and precise. It may employ advanced laser-guided equipment to precisely contour the land surface, creating a uniform smooth surface (± 2 cm from its average elevation) and eliminating undulations that ensures every inch of your field gets the water it needs",
     },
     {
-      term: "Precision Water Management",
+      term: "Precision water management",
       definition:
         "Precision water management technology is a new type of irrigation management that comprehensively integrates information technology (sensor based) included of data and information requires from crop growth conditions, soil physical and chemical properties, weather factors and agricultural production by positioning, timing, and quantitative application of water and operation management systems in accordance with spatial variation of the field",
     },
     {
-      term: "Precision Fertilizer Management",
+      term: "Precision fertilizer management",
       definition:
         "Precision fertilization management technology is a new type of agriculture that comprehensively integrates information technology and agricultural production by positioning, timing, and quantitative application of fertilizer management and operation systems in accordance with spatial variation of the field",
     },

@@ -54,6 +54,7 @@ export default function DrawerV({
   activeScale,
   changeScale,
   activeDrawer,
+  CropName,
 }) {
   function createInitialTodos() {
     const initialTodos = {};
@@ -427,6 +428,7 @@ export default function DrawerV({
                   activeOptLayer={activeOptLayer}
                   changeOptLayer={changeOptLayer}
                   exploreType={exploreType}
+                  CropName={CropName}
                 ></SwitchOpt_Crops>
               )}
               {open["Adaptation Options"] === true && activeDrawer === "future2" && (
@@ -437,10 +439,11 @@ export default function DrawerV({
                   activeOptLayer={activeOptLayer}
                   changeOptLayer={changeOptLayer}
                   exploreType={exploreType}
+                  CropName={CropName}
                 ></SwitchOpt_Livestock>
               )}
               {open["Climatic Risks"] === true && (
-                <SwitchRisk2 activeCrop={activeCrop} changeRisk={changeRisk} activeScenario={activeScenario} CurrRisk={CurrRisk} exploreType={exploreType}></SwitchRisk2>
+                <SwitchRisk2 activeCrop={activeCrop} changeRisk={changeRisk} activeScenario={activeScenario} CurrRisk={CurrRisk} exploreType={exploreType} CropName={CropName}></SwitchRisk2>
               )}
               {open["Impact"] === true && <SwitchImpact activeImpact={activeImpact} changeImpact={changeImpact} activeCrop={activeCrop} exploreType={exploreType}></SwitchImpact>}
               {open["Go to Home"] === true && (window.location.href = "/")}

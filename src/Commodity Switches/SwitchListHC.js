@@ -10,8 +10,8 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import LightTooltip from "../LightTooltip";
 
 export default function SwitchPulses({ activeCrop, changeCrop }) {
-  const switchh = ["Chickpea", "Pigeonpea", "Black Gram", "Green Gram", "Lentil"];
-  const switchid = ["chickpea", "ppea", "bgram", "ggram", "lentil"];
+  const switchh = ["Chickpea", "Pigeonpea", "Lentil", "Black Gram", "Green Gram"];
+  const switchid = ["chickpea", "ppea", "lentil", "bgram", "ggram"];
   const disvar = { chickpea: false, ppea: false, bgram: true, ggram: true, lentil: false };
   const padd = 8;
   const season = [

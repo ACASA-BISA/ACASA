@@ -195,9 +195,9 @@ export default function PieValue({ activeCrop, focus = "Region", activeRegion, a
 
         let source1 = null;
         const optcode = {'Stress Tolerant Variety':'ADVAR','Early Sowing':'ADPTI','Levelling':'LASLV','Zero Tillage':'ZTILL','Broad Bed and Furrow':'BBFIB',
-            'DSR (Dry Seed)':'DSDRY','DSR (Wet Seed)':'DSWET','System of Rice Intensification':'SRIUT','Farm Pond':'WHSRC','Microirrigation':'MICIR','Precision Water Management':'PWMGT',
+            'DSR (Dry Seed)':'DSDRY','DSR (Wet Seed)':'DSWET','System of Rice Intensification':'SRIUT','Farm Pond':'WHSRC','Microirrigation':'MICIR','Precision water management':'PWMGT',
             'Low Tech Precision Technology':'PNMLT','High Tech Precision Technology':'PNMHT','Deep Placement of Urea':'DR',
-            'ICT Agro Advisory':'WEAGA','Crop Insurance':'INSUR','Land Management':'LMGT','Feed Management':'FMGT','Herd Management':'HMGT',
+            'ICT Agro Advisory':'WEAGA','Crop insurance':'INSUR','Land Management':'LMGT','Feed Management':'FMGT','Herd Management':'HMGT',
             'Animal Health':'ANHLT','Animal Productivity':'ANPRO','Mulching':'MULCH','Alternate wetting and drying':'AWD','Smart fertilizer management':'FRT',
             'Manure Management':'MNMGT','Information Use':'INFO','Heat Stress Management':'HSMGT'};
 

@@ -28,20 +28,27 @@ export default function Summ_Adapt6({ changeOption, activeCrop, activv }) {
     });
     return ans;
   }
-  const directswitch = ["Stress Tolerant Variety"];
-  const directswitchdown = ["ICT linked Input Management", "Crop Insurance"];
+  const directswitch = ["Stress tolerant variety"];
+  const directswitchdown = ["ICT linked input management", "Crop insurance"];
 
-  const planting_rice = ["Early Sowing", "Precision Land Levelling", "Zero Tillage with residues", "Direct Seeded Rice - Dry", "Direct Seeded Rice - Wet", "System of Rice Intensification"];
+  const planting_rice = [
+    "Early sowing/changing planting dates",
+    "Precision land levelling",
+    "Zero tillage with residue retention",
+    "Dry - Direct seeded rice",
+    "Wet - Direct seeded rice",
+    "System of rice intensification",
+  ];
 
-  const water = ["Supplemental Irrigation", "Microirrigation", "Precision Water Management"];
+  const water = ["Supplemental irrigation (water harvesting structures/farm ponds)", "Microirrigation", "Precision water management"];
 
-  const water_rice = ["Supplemental Irrigation", "Microirrigation", "Precision Water Management", "Alternate Wetting and Drying"];
+  const water_rice = ["Supplemental irrigation (water harvesting structures/farm ponds)", "Microirrigation", "Precision water management", "Alternate wetting and drying"];
 
-  const fertilizer_rice = ["Smart fertilizer management", "Precision Fertilizer Management", "Precision Fertilizer Management - High tech"];
+  const fertilizer_rice = ["Smart fertilizer management", "Precision fertilizer management", "Precision fertilizer management - High tech"];
 
-  const planting = ["Early Sowing", "Precision Land Levelling", "Zero Tillage with residues", "Broad Bed and Furrow"];
+  const planting = ["Early sowing/changing planting dates", "Precision land levelling", "Zero tillage with residue retention", "Broadbed and furrow"];
 
-  const fertilizer = ["Smart fertilizer management", "Precision Fertilizer Management"];
+  const fertilizer = ["Smart fertilizer management", "Precision fertilizer management"];
 
   const livestock = ["Shelter Management", "Feed Management", "Healthcare Management"];
 

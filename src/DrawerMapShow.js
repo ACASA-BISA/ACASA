@@ -143,6 +143,7 @@ export default function DrawerMapShow({ activeBar }) {
     "chilli",
     "mango",
     "banana",
+    "millets",
   ];
 
   const switchscenario = ["Baseline", "SSP 2-4.5", "SSP 5-8.5"];
@@ -189,32 +190,33 @@ export default function DrawerMapShow({ activeBar }) {
     "Chillies",
     "Mango",
     "Banana",
+    "Millets",
   ];
 
   const opt = [
-    "Stress Tolerant Variety",
-    "Early Sowing",
-    "Precision Land Levelling",
-    "Zero Tillage with residues",
-    "Broad Bed and Furrow",
-    "Direct Seeded Rice - Dry",
-    "Direct Seeded Rice - Wet",
-    "System of Rice Intensification",
-    "Supplemental Irrigation",
+    "Stress tolerant variety",
+    "Early sowing/changing planting dates",
+    "Precision land levelling",
+    "Zero tillage with residue retention",
+    "Broadbed and furrow",
+    "Dry - Direct seeded rice",
+    "Wet - Direct seeded rice",
+    "System of rice intensification",
+    "Supplemental irrigation (water harvesting structures/farm ponds)",
     "Microirrigation",
-    "Precision Water Management",
-    "Precision Fertilizer Management",
-    "Precision Fertilizer Management - High tech",
+    "Precision water management",
+    "Precision fertilizer management",
+    "Precision fertilizer management - High tech",
     "Deep Placement of Urea",
-    "ICT linked Input Management",
-    "Crop Insurance",
+    "ICT linked input management",
+    "Crop insurance",
     "Land Management",
     "Feed Management",
     "Herd Management",
     "Animal Health",
     "Animal Productivity",
     "Mulching",
-    "Alternate Wetting and Drying",
+    "Alternate wetting and drying",
     "Smart fertilizer management",
     "Manure Management",
     "Information Use",
@@ -223,9 +225,9 @@ export default function DrawerMapShow({ activeBar }) {
     "Diversification to legumes",
     "Zero tillage and residues",
     "Precision land leveling",
-    "ICT-linked Precision water management",
-    "ICT-linked Precision fertilizer management",
-    "ICT-linked Precision input management",
+    "ICT-linked precision water management",
+    "ICT-linked precision fertilizer management",
+    "ICT-linked precision input management",
     "Nature-based agriculture",
     "Climate-smart agriculture",
     "Insurance",
@@ -397,11 +399,11 @@ export default function DrawerMapShow({ activeBar }) {
     return initialTodos;
   }
 
-  const [opt2, setopt2] = React.useState("Precision Fertilizer Management");
-  const [opt3, setopt3] = React.useState("Early Sowing");
-  const [opt4, setopt4] = React.useState("ICT linked Input Management");
+  const [opt2, setopt2] = React.useState("Precision fertilizer management");
+  const [opt3, setopt3] = React.useState("Early sowing/changing planting dates");
+  const [opt4, setopt4] = React.useState("ICT linked input management");
   const [opt5, setopt5] = React.useState("Microirrigation");
-  const [opt6, setopt6] = React.useState("Zero Tillage with residues");
+  const [opt6, setopt6] = React.useState("Zero tillage with residue retention");
   const [opt7, setopt7] = React.useState("Smart fertilizer management");
   const [acc, setacc] = React.useState(false);
 
@@ -959,6 +961,7 @@ export default function DrawerMapShow({ activeBar }) {
             activeScale={vis_scale}
             changeScale={handleVisScaleChange}
             activeDrawer={activeBar}
+            CropName={Currcrop}
           ></DrawerV>
         )}
 

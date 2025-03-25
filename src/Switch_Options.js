@@ -15,26 +15,40 @@ import LightTooltip from "./LightTooltip";
 export default function SwitchOpt({ activeCrop, activeOpt, changeOpt, activeOptLayer, changeOptLayer, exploreType }) {
   const switchh = ["Planting Technology", "Water Management", "Fertilizer Management"];
   const switchh_pulses = ["Planting Technology", "Water Management"];
-  const directswitch = ["Stress Tolerant Variety"];
-  const directswitchdown = ["ICT linked Input Management", "Crop Insurance"];
+  const directswitch = ["Stress tolerant variety"];
+  const directswitchdown = ["ICT linked input management", "Crop insurance"];
 
-  const planting_rice = ["Early Sowing", "Precision Land Levelling", "Zero Tillage with residues", "Direct Seeded Rice - Dry", "Direct Seeded Rice - Wet", "System of Rice Intensification"];
-  const planting_rice_popup = ["Early Sowing", "Precision Land Levelling", "Zero Tillage with residues", "Direct Seeded Rice - Dry", "Direct Seeded Rice - Wet", "System of Rice Intensification"];
+  const planting_rice = [
+    "Early sowing/changing planting dates",
+    "Precision land levelling",
+    "Zero tillage with residue retention",
+    "Dry - Direct seeded rice",
+    "Wet - Direct seeded rice",
+    "System of rice intensification",
+  ];
+  const planting_rice_popup = [
+    "Early sowing/changing planting dates",
+    "Precision land levelling",
+    "Zero tillage with residue retention",
+    "Dry - Direct seeded rice",
+    "Wet - Direct seeded rice",
+    "System of rice intensification",
+  ];
 
-  const water = ["Supplemental Irrigation", "Microirrigation", "Precision Water Management"];
-  const water_popup = ["Supplemental Irrigation", "Microirrigation", "Precision Water Management"];
+  const water = ["Supplemental irrigation (water harvesting structures/farm ponds)", "Microirrigation", "Precision water management"];
+  const water_popup = ["Supplemental irrigation (water harvesting structures/farm ponds)", "Microirrigation", "Precision water management"];
 
-  const water_rice = ["Supplemental Irrigation", "Microirrigation", "Alternate Wetting and Drying", "Precision Water Management"];
-  const water_rice_popup = ["Supplemental Irrigation", "Microirrigation", "Alternate Wetting and Drying", "Precision Water Management"];
+  const water_rice = ["Supplemental irrigation (water harvesting structures/farm ponds)", "Microirrigation", "Alternate wetting and drying", "Precision water management"];
+  const water_rice_popup = ["Supplemental irrigation (water harvesting structures/farm ponds)", "Microirrigation", "Alternate wetting and drying", "Precision water management"];
 
-  const fertilizer_rice = ["Smart fertilizer management", "Precision Fertilizer Management"];
-  const fertilizer_rice_popup = ["Smart fertilizer management", "Precision Fertilizer Management"];
+  const fertilizer_rice = ["Smart fertilizer management", "Precision fertilizer management"];
+  const fertilizer_rice_popup = ["Smart fertilizer management", "Precision fertilizer management"];
 
-  const planting = ["Early Sowing", "Precision Land Levelling", "Zero Tillage with residues", "Broad Bed and Furrow"];
-  const planting_popup = ["Early Sowing", "Precision Land Levelling", "Zero Tillage with residues", "Broad Bed and Furrow"];
+  const planting = ["Early sowing/changing planting dates", "Precision land levelling", "Zero tillage with residue retention", "Broadbed and furrow"];
+  const planting_popup = ["Early sowing/changing planting dates", "Precision land levelling", "Zero tillage with residue retention", "Broadbed and furrow"];
 
-  const fertilizer = ["Smart fertilizer management", "Precision Fertilizer Management"];
-  const fertilizer_popup = ["Smart fertilizer management", "Precision Fertilizer Management"];
+  const fertilizer = ["Smart fertilizer management", "Precision fertilizer management"];
+  const fertilizer_popup = ["Smart fertilizer management", "Precision fertilizer management"];
 
   const livestock_names = ["Cattle", "Buffalo", "Goat", "Sheep", "Pig", "Poultry"];
   const livestock = ["Shelter Management", "Feed Management", "Healthcare Management"];
@@ -227,9 +241,9 @@ export default function SwitchOpt({ activeCrop, activeOpt, changeOpt, activeOptL
     "Zero tillage and residues",
     "Precision land leveling",
     "Microirrigation",
-    "ICT-linked Precision water management",
-    "ICT-linked Precision fertilizer management",
-    "ICT-linked Precision input management",
+    "ICT-linked precision water management",
+    "ICT-linked precision fertilizer management",
+    "ICT-linked precision input management",
     "Nature-based agriculture",
     "Climate-smart agriculture",
     "Insurance",
