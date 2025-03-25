@@ -13,6 +13,8 @@ import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import TuneIcon from "@mui/icons-material/Tune";
 import SwitchLoc from "./Switch_Location";
 import SwitchOpt from "./Switch_Options";
+import SwitchOpt_Crops from "./Switch_Options_Crops";
+import SwitchOpt_Livestock from "./Switch_Options_Livestock";
 import { Popper, Typography } from "@mui/material";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import SwitchRisk2 from "./Switch_Risk2";
@@ -417,8 +419,25 @@ export default function DrawerV({
                   handleExploreTypeChange={handleExploreTypeChange}
                 ></SwitchLoc>
               )}
-              {open["Adaptation Options"] === true && (
-                <SwitchOpt activeCrop={activeCrop} activeOpt={activeOpt} changeOpt={changeOpt} activeOptLayer={activeOptLayer} changeOptLayer={changeOptLayer} exploreType={exploreType}></SwitchOpt>
+              {open["Adaptation Options"] === true && activeDrawer === "future" && (
+                <SwitchOpt_Crops
+                  activeCrop={activeCrop}
+                  activeOpt={activeOpt}
+                  changeOpt={changeOpt}
+                  activeOptLayer={activeOptLayer}
+                  changeOptLayer={changeOptLayer}
+                  exploreType={exploreType}
+                ></SwitchOpt_Crops>
+              )}
+              {open["Adaptation Options"] === true && activeDrawer === "future2" && (
+                <SwitchOpt_Livestock
+                  activeCrop={activeCrop}
+                  activeOpt={activeOpt}
+                  changeOpt={changeOpt}
+                  activeOptLayer={activeOptLayer}
+                  changeOptLayer={changeOptLayer}
+                  exploreType={exploreType}
+                ></SwitchOpt_Livestock>
               )}
               {open["Climatic Risks"] === true && (
                 <SwitchRisk2 activeCrop={activeCrop} changeRisk={changeRisk} activeScenario={activeScenario} CurrRisk={CurrRisk} exploreType={exploreType}></SwitchRisk2>
