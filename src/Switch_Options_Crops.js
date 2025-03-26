@@ -100,7 +100,7 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
       Potato: ["Microirrigation", "Precision water management"],
       Groundnut: ["Supplemental irrigation (water harvesting structures/farm ponds)"],
       Lentil: ["Microirrigation", "Precision water management"],
-      Jute: [],
+      Jute: ["Supplemental irrigation (water harvesting structures/farm ponds)"],
     },
 
     getPlantingTechniques(cropName) {
@@ -154,7 +154,7 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
   }
 
   function forthComb() {
-    const cropwithoutfertilizer = ["cotton"];
+    const cropwithoutfertilizer = ["cotton", "jute"];
     let ans = false;
     cropwithoutfertilizer.forEach((sname) => {
       if (activeCrop[sname] === true) {

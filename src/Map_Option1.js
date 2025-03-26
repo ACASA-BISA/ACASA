@@ -14,7 +14,7 @@ import Stroke from "ol/style/Stroke";
 import GeoTIFF from "ol/source/GeoTIFF.js";
 import GeoJSON from "ol/format/GeoJSON.js";
 import TileLayer2 from "ol/layer/Tile";
-import BingMaps from "ol/source/BingMaps";
+//import BingMaps from "ol/source/BingMaps";
 import tilesource from "ol/source/TileJSON";
 import TileJSON from "ol/source/TileJSON";
 import { Control, ZoomToExtent, FullScreen, Zoom } from "ol/control.js";

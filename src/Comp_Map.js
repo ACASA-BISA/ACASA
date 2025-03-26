@@ -731,7 +731,7 @@ export default function MApp({
             extent: defext,
             className: "ol-zoomtoextent-comp",
           }),
-          new LegendControl(),
+          //new LegendControl(),
         ],
         target: ref.current,
         layers: [BingMapNew], // Set initial basemap
