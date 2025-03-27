@@ -61,7 +61,7 @@ const layerMappings = {
     "Days of Frost": "Days of Frost",
     "Excess Rainfall and Waterlogging": "Excess rain and waterlogging",
     "Delayed Monsoon": "Delayed monsoon",
-    "Drought": "Drought",
+    "Crop water deficit index": "Crop water deficit index",
     "Dry Spell": "Number of dry spells",
     "Flood": "Flood",
     "Lodging": "Rain and wind causing lodging",
@@ -114,7 +114,7 @@ const data = [
     "Download"
   ),
   createData("Rice", "Baseline", "Hazard", "Delayed Monsoon", "Number of events of delayed monsoon where delay is more than 15 days", "https://www.chc.ucsb.edu/data/chirps", "Download"),
-  createData("Rice", "Baseline", "Hazard", "Drought", "SPI below -1 (moderate and severe drought)", "http://data.chc.ucsb.edu/products/CHIRTSdaily/", "Download"),
+  createData("Rice", "Baseline", "Hazard", "Crop water deficit index", "SPI below -1 (moderate and severe drought)", "http://data.chc.ucsb.edu/products/CHIRTSdaily/", "Download"),
   createData("Rice", "Baseline", "Hazard", "Dry Spell", "Number of dry spells with length of 15 days or more in a season", "https://www.chc.ucsb.edu/data/chirps", "Download"),
   createData("Rice", "Baseline", "Hazard", "Flood", "Flood layer", "https://www.chc.ucsb.edu/data/chirps", "Download"),
   createData(
@@ -137,7 +137,7 @@ const data = [
   ),
   createData("Wheat", "Baseline", "Hazard", "Days of Frost", "Minimum temperature less than zero degree for more than three days", "https://www.chc.ucsb.edu/data/chirps", "Download"),
   createData("Wheat", "Baseline", "Hazard", "Untimely Rainfall", "Whole season consecutive two-day rainfall > 100 mm ", "https://www.chc.ucsb.edu/data/chirps", "Download"),
-  createData("Wheat", "Baseline", "Hazard", "Drought", "Sept/Oct/Nov and season drought", "http://data.chc.ucsb.edu/products/CHIRTSdaily/", "Download"),
+  createData("Wheat", "Baseline", "Hazard", "Crop water deficit index", "Sept/Oct/Nov and season drought", "http://data.chc.ucsb.edu/products/CHIRTSdaily/", "Download"),
   createData("Wheat", "Baseline", "Hazard", "Lodging", "Windspeed and rainfall criteria after booting (85 to 115 days)", "http://data.chc.ucsb.edu/products/CHIRTSdaily/", "Download"),
   createData("Pig", "Baseline", "Hazard", "Temperature-Humidity Index (THI)", "The average number of days when THI exceeds a threshold (79)", "", "Download"),
   createData("Pig", "Baseline", "Hazard", "Heat wave", "Sudden change in temperature by 4°C (during APR to June/July)", "", "Download"),

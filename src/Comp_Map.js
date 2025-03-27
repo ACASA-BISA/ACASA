@@ -1162,7 +1162,7 @@ export default function MApp({
       "Days of Frost": "Days of frost",
       "Excess Rainfall and Waterlogging": "Excess rain and waterlogging",
       "Delayed Monsoon": "Delayed monsoon",
-      "Drought": "Drought",
+      "Crop water deficit index": "Crop water deficit index",
       "Dry Spell": "Number of dry spells",
       "Flood": "Flood",
       "Soil Organic Carbon": "Soil organic carbon",

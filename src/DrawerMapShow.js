@@ -289,7 +289,7 @@ export default function DrawerMapShow({ activeBar }) {
     "Days of Frost",
     "Excess Rainfall and Waterlogging",
     "Delayed Monsoon",
-    "Drought",
+    "Crop water deficit index",
     "Dry Spell",
     "Flood",
     "Lodging",

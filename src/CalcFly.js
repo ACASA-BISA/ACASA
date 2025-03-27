@@ -206,7 +206,7 @@ export default function PieValue({ activeCrop, focus = "Region", activeRegion, a
             "Heat Stress": "Heat stress","Heat Stress": "Heat stress","High temperature induced spikelet sterility": "High temperature induced spikelet sterility",
             "Cold Stress": "Cold stress","Low temperature induced tuberization failure": "Low temperature induced tuberization failure",'Untimely Rainfall':"Untimely rainfall",
             "Terminal Heat": "Terminal heat","Days of Frost": "Days of Frost","Excess Rainfall and Waterlogging": "Excess rain and waterlogging",
-            "Delayed Monsoon": "Delayed monsoon","Drought": "Drought","Dry Spell": "Number of dry spells","Flood": "Flood",
+            "Delayed Monsoon": "Delayed monsoon","Crop water deficit index": "Crop water deficit index","Dry Spell": "Number of dry spells","Flood": "Flood",
             "Lodging": "Rain and wind causing lodging","Biotic": "High humidity and temperature for blight","Irrigation": "Irrigation","Water Holding": "Water Holding","Income": "Income",
             "Access to Credit": "Access to Credit","Access to Market": "Access to Market","Elevation": "Elevation","Access to Knowledge": "Access to Knowledge","Exposure Index": "Exposure Index",
             "Number of Farmers": "Number of Farmers","Cropped Area": "Cropped Area","Excess Rainfall":"Excess rainfall"

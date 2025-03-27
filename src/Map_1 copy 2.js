@@ -605,7 +605,7 @@ export default function MApp({ activeCrop, focus = "Region", activeRegion, activ
       "Days of Frost": "Days of Frost",
       "Excess Rainfall and Waterlogging": "Excess rain and waterlogging",
       "Delayed Monsoon": "Delayed monsoon",
-      "Drought": "Drought",
+      "Crop water deficit index": "Crop water deficit index",
       "Dry Spell": "Number of dry spells",
       "Flood": "Flood",
       "Lodging": "Rain and wind causing lodging",

@@ -67,7 +67,7 @@ const unitrisk = {
   "Days of Frost": "Number of frost days",
   "Excess Rainfall and Waterlogging": "Number of excess rainfall days leading to waterlogging",
   "Delayed Monsoon": "Percentage of years with delayed monsoon",
-  "Drought": "Number of years with moderate or severe drought",
+  "Crop water deficit index": "Number of years with moderate or severe drought",
   "Dry Spell": "Number of dry spells",
   "Flood": "Number of flood events",
   "Lodging": "Number of days under high wind and rainfall after booting phase",
