@@ -389,8 +389,8 @@ const glossaryData = {
       definition: "The analysis is done for meat production"
     },
     {
-      term: "Poultry",
-      definition: "Poultry refers to chicken and analysis is done for meat production"
+      term: "Chicken",
+      definition: "Chicken refers to chicken and analysis is done for meat production"
     }*/
   ],
   Q: [],

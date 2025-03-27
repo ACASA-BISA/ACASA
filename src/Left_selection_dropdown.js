@@ -1,63 +1,64 @@
 const [commodity, setCommodity] = React.useState(activeCrop.toLowerCase());
-const [layer, setLayer] = React.useState('');
-const [subChoice, setSubChoice] = React.useState('');
-const [adpopt, setAdpopt] = React.useState('');
-const [hzd, setHzd] = React.useState('');
-const [climprj, setClimprj] = React.useState('');
-  
-  const handleStateChange = (event) => {
-    setState(event.target.value);
-    changeRegion('State',event.target.value+", "+countryMap[reg]);
-  };
-  const handleChange = (event) => {
-    setReg(event.target.value);
-    setState("");
-    if(event.target.value==='SA'){
-      changeRegion('Region',countryMap[event.target.value]);
-    }
-    else{
-      changeRegion('Country',countryMap[event.target.value]);
-    }
-  };
-  const handlecropchange = (event) => {
-      changeCrop(event.target.value);
-      setCommodity(event.target.value);
-      setClimprj('');
-      setLayer('');
-      setHzd('');
-      changeRisk('');
-      setSubChoice('');
-      setAdpopt('');
-  }
+const [layer, setLayer] = React.useState("");
+const [subChoice, setSubChoice] = React.useState("");
+const [adpopt, setAdpopt] = React.useState("");
+const [hzd, setHzd] = React.useState("");
+const [climprj, setClimprj] = React.useState("");
 
-  const handleRiskchange = (event) => {
-    changeRisk(event.target.value);
-    setHzd(event.target.value);
+const handleStateChange = (event) => {
+  setState(event.target.value);
+  changeRegion("State", event.target.value + ", " + countryMap[reg]);
+};
+const handleChange = (event) => {
+  setReg(event.target.value);
+  setState("");
+  if (event.target.value === "SA") {
+    changeRegion("Region", countryMap[event.target.value]);
+  } else {
+    changeRegion("Country", countryMap[event.target.value]);
   }
+};
+const handlecropchange = (event) => {
+  changeCrop(event.target.value);
+  setCommodity(event.target.value);
+  setClimprj("");
+  setLayer("");
+  setHzd("");
+  changeRisk("");
+  setSubChoice("");
+  setAdpopt("");
+};
 
-  const handleProjChange = (event) => {
-    if(climprj!==''){
-      setLayer('');
-      setHzd('');
-      changeRisk('');
-      setSubChoice('');
-      setAdpopt('');
-    }
-    setClimprj(event.target.value);
+const handleRiskchange = (event) => {
+  changeRisk(event.target.value);
+  setHzd(event.target.value);
+};
+
+const handleProjChange = (event) => {
+  if (climprj !== "") {
+    setLayer("");
+    setHzd("");
+    changeRisk("");
+    setSubChoice("");
+    setAdpopt("");
   }
-  
-  const handleLayerChange = (e) => {
-    if(layer!==''){
-      setHzd('');
-      changeRisk('');
-      setSubChoice('');
-      setAdpopt('');
-    }
-    setLayer(e.target.value);
+  setClimprj(event.target.value);
+};
+
+const handleLayerChange = (e) => {
+  if (layer !== "") {
+    setHzd("");
+    changeRisk("");
+    setSubChoice("");
+    setAdpopt("");
   }
-{/* Left-side Options Panel */}
+  setLayer(e.target.value);
+};
+{
+  /* Left-side Options Panel */
+}
 <Grid item xs={3}>
-{/* <Box sx={{width:'100%',height:'22px'}}><Typography align="center" sx={{fontSize:'14px',fontWeight:'bold'}}>Selection Tab</Typography></Box>
+  {/* <Box sx={{width:'100%',height:'22px'}}><Typography align="center" sx={{fontSize:'14px',fontWeight:'bold'}}>Selection Tab</Typography></Box>
   <Paper elevation={2} sx={{padding: '1rem'}}>
     <FormControl fullWidth sx={{ marginBottom: '1.2rem', marginTop: '0.5rem'}} size='small'>
       <InputLabel id="Region" sx={{fontSize:'14px'}}>Region</InputLabel>
@@ -125,7 +126,7 @@ const [climprj, setClimprj] = React.useState('');
         <MenuItem value="goat" sx={{fontSize:'14px',height:'25px'}}>Goat</MenuItem>
         <MenuItem value="sheep" sx={{fontSize:'14px',height:'25px'}}>Sheep</MenuItem>
         <MenuItem value="pig" sx={{fontSize:'14px',height:'25px'}}>Pig</MenuItem>
-        <MenuItem value="poultry" sx={{fontSize:'14px',height:'25px'}}>Poultry</MenuItem>
+        <MenuItem value="poultry" sx={{fontSize:'14px',height:'25px'}}>Chicken</MenuItem>
       </Select>
     </FormControl>
 
@@ -188,7 +189,7 @@ const [climprj, setClimprj] = React.useState('');
       {layer==='Adaptation Benefits' &&
           <FormControl fullWidth sx={{ marginBottom: '1.2rem' }} size='small'>
           <InputLabel id="Adaptation Category" sx={{fontSize:'14px'}}>Adaptation Category</InputLabel>
-          {(activeCrop==='Sheep'||activeCrop==='Goat'||activeCrop==='Poultry') && <Select
+          {(activeCrop==='Sheep'||activeCrop==='Goat'||activeCrop==='Chicken') && <Select
               labelId="Adaptation Category"
               id="sub-choice-adapt-id"
               label="Adaptation Category"
@@ -246,7 +247,7 @@ const [climprj, setClimprj] = React.useState('');
               ))} 
               </Select>
               }
-          {(activeCrop==='Poultry') && <Select
+          {(activeCrop==='Chicken') && <Select
               labelId="Adaptation Option1"
               id="sub-choice-adapt-opt-id"
               label="Adaptation Option"
@@ -305,7 +306,7 @@ const [climprj, setClimprj] = React.useState('');
               ))} 
               </Select>
               }
-          {(activeCrop==='Poultry') && <Select
+          {(activeCrop==='Chicken') && <Select
               labelId="Adaptation Option2"
               id="sub-choice-adapt-opt-id"
               label="Adaptation Option"
@@ -338,7 +339,7 @@ const [climprj, setClimprj] = React.useState('');
           {subChoice==='Healthcare Management' &&
           <FormControl fullWidth sx={{ marginBottom: '0.5rem' }} size='small'>
           <InputLabel id="Adaptation Option3" sx={{fontSize:'14px'}}>Adaptation Option</InputLabel>
-          {activeCrop==='Poultry' && <Select
+          {activeCrop==='Chicken' && <Select
               labelId="Adaptation Option3"
               id="sub-choice-adapt-opt-id"
               label="Adaptation Option"
@@ -400,7 +401,7 @@ const [climprj, setClimprj] = React.useState('');
           {subChoice==='Climate resilient breeds' &&
           <FormControl fullWidth sx={{ marginBottom: '0.5rem' }} size='small'>
           <InputLabel id="Adaptation Option5" sx={{fontSize:'14px'}}>Adaptation Option</InputLabel>
-          {(activeCrop==='Poultry'||activeCrop==='Cattle') && <Select
+          {(activeCrop==='Chicken'||activeCrop==='Cattle') && <Select
               labelId="Adaptation Option5"
               id="sub-choice-adapt-opt-id"
               label="Adaptation Option"
@@ -428,4 +429,4 @@ const [climprj, setClimprj] = React.useState('');
               }
           </FormControl>}
   </Paper> */}
-</Grid>
+</Grid>;

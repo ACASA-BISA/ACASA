@@ -139,7 +139,7 @@ export default function MApp({ activeCrop, focus = "Region", activeRegion, activ
   console.log(activeCrop);
 
   function checkcrop() {
-    const diffcrop = ["Cattle", "Buffalo", "Goat", "Sheep", "Pig", "Poultry", "Rice", "Wheat", "Maize", "Mustard", "Cotton", "Soybean", "Chickpea", "Barley"];
+    const diffcrop = ["Cattle", "Buffalo", "Goat", "Sheep", "Pig", "Chicken", "Rice", "Wheat", "Maize", "Mustard", "Cotton", "Soybean", "Chickpea", "Barley"];
     let ans = true;
     diffcrop.forEach((sname) => {
       if (activeCrop === sname) {
@@ -176,7 +176,7 @@ export default function MApp({ activeCrop, focus = "Region", activeRegion, activ
     Cow: "#ac8e59",
     Buffalo: "#5c2f08",
     Pig: "#FFC0CB",
-    Poultry: "#FF8C00",
+    Chicken: "#FF8C00",
     Sheep: "#5fdbfa",
     Goat: "#7ca67c",
     Barley: "#5ec962",

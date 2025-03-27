@@ -114,7 +114,7 @@ export default function MApp({
   });
 
   function checkcrop() {
-    const diffcrop = ["Cattle", "Buffalo", "Goat", "Sheep", "Pig", "Poultry", "Rice", "Wheat", "Maize", "Mustard", "Cotton", "Soybean", "Chickpea", "Barley", "Jute"];
+    const diffcrop = ["Cattle", "Buffalo", "Goat", "Sheep", "Pig", "Chicken", "Rice", "Wheat", "Maize", "Mustard", "Cotton", "Soybean", "Chickpea", "Barley", "Jute"];
     let ans = true;
     diffcrop.forEach((sname) => {
       if (activeCrop === sname) {
@@ -124,7 +124,7 @@ export default function MApp({
     return ans;
   }
   function checkcrop2() {
-    const livestock = ["Cattle", "Buffalo", "Goat", "Sheep", "Pig", "Poultry"];
+    const livestock = ["Cattle", "Buffalo", "Goat", "Sheep", "Pig", "Chicken"];
     let ans = true;
     livestock.forEach((sname) => {
       if (activeCrop === sname) {
@@ -162,7 +162,7 @@ export default function MApp({
     Cow: "#ac8e59",
     Buffalo: "#5c2f08",
     Pig: "#FFC0CB",
-    Poultry: "#FF8C00",
+    Chicken: "#FF8C00",
     Sheep: "#5fdbfa",
     Goat: "#7ca67c",
     Barley: "#5ec962",
@@ -1198,9 +1198,9 @@ export default function MApp({
       "Hot days": "Heat stress or hot days",
       "Temperature-Humidity Index": "THI",
       "Economic Development Indicator": "Human development index",
-      "Seasonal Rainfall": "climatology_prec",
-      "Maximum Temperature": "climatology_tmax",
-      "Minimum Temperature": "climatology_tmin",
+      "Seasonal Rainfall": "Seasonal Rainfall",
+      "Maximum Temperature": "Maximum Temperature",
+      "Minimum Temperature": "Minimum Temperature",
     };
 
     if (exploreType === "Commodity") {
@@ -1224,16 +1224,19 @@ export default function MApp({
         opt = 3;
         let urlstr = "xyz.tif";
         let district_n = "";
+        let district_prefix = "";
         if (activeScale === "District Level") {
           district_n = "District/";
+          district_prefix = "District_";
         }
         if (activeScale === "State Level") {
           district_n = "State/";
+          district_prefix = "District_";
         }
         if (activeScenario === "baseline") {
           //urlstr = "./Hazards/" + activeCrop + "/Baseline/" + district_n + "ZZ_" + hazardname[CurrRisk] + ".tif";
           //if (checkcrop2() === false) {
-          urlstr = "./Hazards/" + activeCrop + "/" + modelName + "/" + district_n + "Baseline/" + "ZZ_" + hazardname[CurrRisk] + ".tif";
+          urlstr = "./Hazards/" + activeCrop + "/" + modelName + "/" + district_n + "Baseline/" + `${district_prefix}Baseline_${modelName}_${activeCrop}_${hazardname[CurrRisk]}` + ".tif";
           //}
         } else {
           if (displayLayer === "Absolute Change") {
@@ -1245,7 +1248,17 @@ export default function MApp({
           } else {
             //urlstr = "./Hazards/" + activeCrop + "/" + activeScenario.toUpperCase() + "/" + district_n + "ZZ_" + hazardname[CurrRisk] + ".tif";
             //if (checkcrop2() === false) {
-            urlstr = "./Hazards/" + activeCrop + "/" + modelName + "/" + district_n + activeScenario.toUpperCase() + "/ZZ_" + hazardname[CurrRisk] + ".tif";
+            urlstr =
+              "./Hazards/" +
+              activeCrop +
+              "/" +
+              modelName +
+              "/" +
+              district_n +
+              activeScenario.toUpperCase() +
+              "/" +
+              `${district_prefix}${activeScenario.toUpperCase()}_${modelName}_${activeCrop}_${hazardname[CurrRisk]}` +
+              ".tif";
             //}
           }
         }
@@ -1256,13 +1269,13 @@ export default function MApp({
         /* if (CurrRisk === "Flood") {
           opt = 99;
         } */
-        if (CurrRisk === "Seasonal Rainfall" || CurrRisk === "Maximum Temperature" || CurrRisk === "Minimum Temperature") {
+        /* if (CurrRisk === "Seasonal Rainfall" || CurrRisk === "Maximum Temperature" || CurrRisk === "Minimum Temperature") {
           opt = 4;
           urlstr = "./BaseClimate/" + hazardname[CurrRisk] + ".tif";
-        }
-        if (checkcrop2() === false) {
+        } */
+        /* if (checkcrop2() === false) {
           opt = 101;
-        }
+        } */
         settiffFilePath(urlstr);
         source1 = new GeoTIFF({
           sources: [{ url: urlstr }],
@@ -1337,20 +1350,6 @@ export default function MApp({
         newOverl.setStyle(color4);
       } else if (opt === 99) {
         newOverl.setStyle(color_hazard_25);
-      } else if (opt === 101) {
-        newOverl.setStyle(color_hazard_livestock);
-        if (
-          CurrRisk === "Irrigation" ||
-          CurrRisk === "Volumetric Soil Water" ||
-          CurrRisk === "Agriculture Income" ||
-          CurrRisk === "Soil Organic Carbon" ||
-          CurrRisk === "Feed/Fodder" ||
-          CurrRisk === "Rural infrastructure" ||
-          CurrRisk === "Economic Development Indicator" ||
-          CurrRisk === "Income"
-        ) {
-          newOverl.setStyle(color_hazard_reverse);
-        }
       } else if (opt === 102) {
         newOverl.setStyle(color_hazard3);
       } else if (opt === 801) {

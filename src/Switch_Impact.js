@@ -11,17 +11,12 @@ import IconButton from "@mui/material/IconButton";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import LightTooltip from "./LightTooltip";
 
-export default function SwitchImpact({
-  activeImpact,
-  changeImpact,
-  activeCrop,
-  exploreType,
-}) {
+export default function SwitchImpact({ activeImpact, changeImpact, activeCrop, exploreType }) {
   const switchh = ["Productivity", "Resilience", "Value of Production"];
 
   const disvar = {
-    Productivity: true,
-    Resilience: true,
+    "Productivity": true,
+    "Resilience": true,
     "Value of Production": true,
   };
 
@@ -102,7 +97,7 @@ export default function SwitchImpact({
     "Goat",
     "Sheep",
     "Pig",
-    "Poultry",
+    "Chicken",
     "Freshwater",
     "Bracklish",
     "Marine",
@@ -123,20 +118,19 @@ export default function SwitchImpact({
   });
 
   const AntSwitch = styled(Switch)(({ theme }) => ({
-    width: 32 + padd,
-    height: 14 + padd,
-    padding: padd / 2,
-    display: "flex",
+    "width": 32 + padd,
+    "height": 14 + padd,
+    "padding": padd / 2,
+    "display": "flex",
 
     "& .MuiSwitch-switchBase": {
-      padding: 2 + padd / 2,
+      "padding": 2 + padd / 2,
       "&.Mui-checked": {
-        transform: "translateX(16px)",
-        color: "#fff",
+        "transform": "translateX(16px)",
+        "color": "#fff",
         "& + .MuiSwitch-track": {
           opacity: 1,
-          backgroundColor:
-            theme.palette.mode === "dark" ? "#61c258" : "#4ba046",
+          backgroundColor: theme.palette.mode === "dark" ? "#61c258" : "#4ba046",
         },
       },
     },
@@ -152,36 +146,29 @@ export default function SwitchImpact({
     "& .MuiSwitch-track": {
       borderRadius: 14 / 2,
       opacity: 1,
-      backgroundColor:
-        theme.palette.mode === "dark"
-          ? "rgba(255,255,255,.25)"
-          : "rgba(0,0,0,.10)",
+      backgroundColor: theme.palette.mode === "dark" ? "rgba(255,255,255,.25)" : "rgba(0,0,0,.10)",
       boxSizing: "border-box",
     },
-    '&:hover': { 
-      backgroundColor: theme.palette.mode === 'dark' ? '#554d38' : '#ffe89c', 
-      opacity: 1,
-      borderRadius: 12,
-      '& .MuiSwitch-track': {
-          opacity: 1,
-          backgroundColor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,.25)' : 'rgba(255,255,255,.7)',
+    "&:hover": {
+      "backgroundColor": theme.palette.mode === "dark" ? "#554d38" : "#ffe89c",
+      "opacity": 1,
+      "borderRadius": 12,
+      "& .MuiSwitch-track": {
+        opacity: 1,
+        backgroundColor: theme.palette.mode === "dark" ? "rgba(255,255,255,.25)" : "rgba(255,255,255,.7)",
       },
-  },
+    },
   }));
 
   const CustomFormControlLabel = styled(FormControlLabel)(({ theme }) => ({
-    alignItems: "flex-start",
+    "alignItems": "flex-start",
     "&.Mui-disabled .MuiTypography-body2": {
       color: theme.palette.mode === "dark" ? "#888" : "#E8E8E8",
     },
   }));
 
   return (
-    <FormControl
-      component="fieldset"
-      variant="standard"
-      sx={{ paddingBottom: 1, paddingLeft: 3 }}
-    >
+    <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 3 }}>
       {exploreType === "Commodity" && (
         <FormLabel sx={{ display: "flex", paddingBottom: 1 }}>
           <Typography
@@ -215,14 +202,7 @@ export default function SwitchImpact({
       {switchh.map((sname, index) => (
         <FormGroup>
           <CustomFormControlLabel
-            control={
-              <AntSwitch
-                inputProps={{ "aria-label": "ant design" }}
-                checked={activeImpact[sname]}
-                onChange={changeImpact(sname)}
-                name={sname}
-              />
-            }
+            control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeImpact[sname]} onChange={changeImpact(sname)} name={sname} />}
             key={sname}
             disabled={false}
             label={
@@ -230,31 +210,29 @@ export default function SwitchImpact({
                 {sname.charAt(0).toUpperCase() + sname.toLowerCase().slice(1)}
                 {disvar[sname] && (
                   <LightTooltip
-                  title={
-                    <>
-                      <span>{season[index]}</span>
-                      <br />
-                      <Link
-                        href={`#/resources?tab=2&term=${switchh[index].toLowerCase()}`}
-                        target="_blank"
-                        sx={(theme) => ({
-                          color: theme.palette.mode === "dark" ? "black" : "white",
-                          fontWeight: "bold",
-                        })}
-                      >
-                        Read More
-                      </Link>
-                    </>
-                  }
-                  placement="right"
-                  arrow
-                >
-                  <IconButton sx={{ padding: 0, margin: 0, paddingX: "4px" }}>
-                    <InfoOutlinedIcon
-                      sx={{ fontSize: "12px", padding: 0, margin: 0 }}
-                    />
-                  </IconButton>
-                </LightTooltip>
+                    title={
+                      <>
+                        <span>{season[index]}</span>
+                        <br />
+                        <Link
+                          href={`#/resources?tab=2&term=${switchh[index].toLowerCase()}`}
+                          target="_blank"
+                          sx={(theme) => ({
+                            color: theme.palette.mode === "dark" ? "black" : "white",
+                            fontWeight: "bold",
+                          })}
+                        >
+                          Read More
+                        </Link>
+                      </>
+                    }
+                    placement="right"
+                    arrow
+                  >
+                    <IconButton sx={{ padding: 0, margin: 0, paddingX: "4px" }}>
+                      <InfoOutlinedIcon sx={{ fontSize: "12px", padding: 0, margin: 0 }} />
+                    </IconButton>
+                  </LightTooltip>
                 )}
               </Typography>
             }

@@ -46,7 +46,7 @@ const color_comm = {
   Cow: "#ac8e59",
   Buffalo: "#5c2f08",
   Pig: "#FFC0CB",
-  Poultry: "#FF8C00",
+  Chicken: "#FF8C00",
   Sheep: "#5fdbfa",
   Goat: "#7ca67c",
   Barley: "#5ec962",
@@ -102,7 +102,7 @@ export default function LocationCard({ location, commodity, adaption, activeOptL
   });
 
   function checkcrop() {
-    const diffcrop = ["Cattle", "Buffalo", "Goat", "Sheep", "Pig", "Poultry"];
+    const diffcrop = ["Cattle", "Buffalo", "Goat", "Sheep", "Pig", "Chicken"];
     let ans = true;
     diffcrop.forEach((sname) => {
       if (commodity === sname) {
@@ -116,8 +116,8 @@ export default function LocationCard({ location, commodity, adaption, activeOptL
   if (activeOptLayer["Biophysical Suitability"]) {
     AdaptLayerName = "Biophysical Suitability";
   }
-  if (activeOptLayer["Adaptation Benefits"]) {
-    AdaptLayerName = "Adaptation Benefits";
+  if (activeOptLayer["Yield"]) {
+    AdaptLayerName = "Yield Benefits";
   }
   if (activeOptLayer["Economic"]) {
     AdaptLayerName = "Economic Viability";
@@ -128,12 +128,16 @@ export default function LocationCard({ location, commodity, adaption, activeOptL
   if (activeOptLayer["Gender"]) {
     AdaptLayerName = "Gender Suitability";
   }
+  if (activeOptLayer["Adaptation Benefits"]) {
+    AdaptLayerName = "Adaptation Benefits";
+  }
   if (
     activeOptLayer["Biophysical Suitability"] === false &&
     activeOptLayer["Adaptation Benefits"] === false &&
     activeOptLayer["Economic"] === false &&
     activeOptLayer["Scalability"] === false &&
-    activeOptLayer["Gender"] === false
+    activeOptLayer["Gender"] === false &&
+    activeOptLayer["Yield"] === false
   ) {
     AdaptLayerName = "Biophysical Suitability";
   }
@@ -338,7 +342,7 @@ export default function LocationCard({ location, commodity, adaption, activeOptL
                     })}
                     flexWrap
                   >
-                    Technical suitability of&nbsp;
+                    {AdaptLayerName.charAt(0).toUpperCase() + AdaptLayerName.toLowerCase().slice(1)} of&nbsp;
                     <strong>{adaption.charAt(0).toUpperCase() + adaption.slice(1, 4) + adaption.toLowerCase().slice(4)}</strong> by area %:
                   </Typography>
                 </Box>

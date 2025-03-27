@@ -9,22 +9,22 @@ import { Divider, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 export default function SwitchesGroup({ activeCrop, changeCrop }) {
-  const switchh = ["Cattle", "Buffalo", "Goat", "Sheet", "Pig", "Poultry"];
+  const switchh = ["Cattle", "Buffalo", "Goat", "Sheet", "Pig", "Chicken"];
   const switchid = ["cattle", "buffalo", "goat", "sheet", "pig", "poultry"];
 
   const padd = 8;
 
   const AntSwitch = styled(Switch)(({ theme }) => ({
-    width: 32 + padd,
-    height: 14 + padd,
-    padding: padd / 2,
-    display: "flex",
+    "width": 32 + padd,
+    "height": 14 + padd,
+    "padding": padd / 2,
+    "display": "flex",
 
     "& .MuiSwitch-switchBase": {
-      padding: 2 + padd / 2,
+      "padding": 2 + padd / 2,
       "&.Mui-checked": {
-        transform: "translateX(16px)",
-        color: "#fff",
+        "transform": "translateX(16px)",
+        "color": "#fff",
         "& + .MuiSwitch-track": {
           opacity: 1,
           // 4ba046 and 4aba03 and dea426 and b9f04d
@@ -48,9 +48,9 @@ export default function SwitchesGroup({ activeCrop, changeCrop }) {
       boxSizing: "border-box",
     },
     "&:hover": {
-      backgroundColor: theme.palette.mode === "dark" ? "#554d38" : "#ffe89c",
-      opacity: 1,
-      borderRadius: 12,
+      "backgroundColor": theme.palette.mode === "dark" ? "#554d38" : "#ffe89c",
+      "opacity": 1,
+      "borderRadius": 12,
       "& .MuiSwitch-track": {
         opacity: 1,
         backgroundColor: theme.palette.mode === "dark" ? "rgba(255,255,255,.25)" : "rgba(255,255,255,.7)",

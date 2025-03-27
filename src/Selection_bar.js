@@ -6,7 +6,7 @@ import { Popper, Paper, Grid } from "@mui/material";
 
 export default function Selection_bar({ location, commodity, adaption, RiskName, scenario, ImpactName, modelName, exploreType, activeScale, activeDrawer }) {
   function checkcrop() {
-    const diffcrop = ["Cattle", "Buffalo", "Goat", "Sheep", "Pig", "Poultry"];
+    const diffcrop = ["Cattle", "Buffalo", "Goat", "Sheep", "Pig", "Chicken"];
     let ans = true;
     diffcrop.forEach((sname) => {
       if (commodity === sname) {

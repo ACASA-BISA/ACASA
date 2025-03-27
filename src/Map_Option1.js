@@ -120,7 +120,7 @@ export default function Map_Option({ activeCrop, focus = "Region", activeRegion,
   const key = "TrN2dn4maoO3C2x0sUpH";
 
   function checkcrop2() {
-    const livestock = ["Cattle", "Buffalo", "Goat", "Sheep", "Pig", "Poultry"];
+    const livestock = ["Cattle", "Buffalo", "Goat", "Sheep", "Pig", "Chicken"];
     let ans = true;
     livestock.forEach((sname) => {
       if (activeCrop === sname) {

@@ -30,7 +30,7 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
   const switchBasic = ["Seasonal Rainfall", "Maximum Temperature", "Minimum Temperature"];
   const switchBasicID = ["seasonalrain", "maxtemp", "mintemp"];
 
-  const switchHazard = ["Days of Frost", "Excess Rainfall days", "Delayed Monsoon", "Rainfall Deficit Index", "Dry Spell", "Flood", "Cyclone", "Heat Stress"];
+  const switchHazard = ["Days of Frost", "Excess Rainfall days", "Delayed Monsoon", "Drought", "Dry Spell", "Flood", "Cyclone", "Heat Stress"];
   const switchHazardID = ["FROST", "ER", "DELMON", "SPI", "DSN", "FLOOD", "CYCL", "HEAT STRESS"];
 
   const switchExposureReg = ["Agricultural Area", "Number of animals"];
@@ -54,7 +54,7 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
     "Days of Frost",
     "Excess Rainfall and Waterlogging",
     "Delayed Monsoon",
-    "Rainfall Deficit Index",
+    "Drought",
     "Dry Spell",
     "Flood",
     "Lodging",
@@ -124,7 +124,7 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
     "Days of Frost",
     "Excess Rainfall and Waterlogging",
     "Delayed Monsoon",
-    "Rainfall Deficit Index",
+    "Drought",
     "Dry Spell",
     "Flood",
     "Lodging",
@@ -218,7 +218,7 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
     "Goat",
     "Sheep",
     "Pig",
-    "Poultry",
+    "Chicken",
     "Freshwater",
     "Bracklish",
     "Marine",
@@ -452,7 +452,7 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
     "Days of Frost",
     "Excess Rainfall and Waterlogging",
     "Delayed Monsoon",
-    "Rainfall Deficit Index",
+    "Drought",
     "Dry Spell",
     "Flood",
     "Lodging",

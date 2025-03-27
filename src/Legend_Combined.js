@@ -26,7 +26,7 @@ export default function LegendCard({ location, commodity, adaption, RiskName, sc
   const cardRef = useRef(null);
 
   function checkcrop() {
-    const diffcrop = ["Cattle", "Buffalo", "Goat", "Sheep", "Pig", "Poultry"];
+    const diffcrop = ["Cattle", "Buffalo", "Goat", "Sheep", "Pig", "Chicken"];
     let ans = true;
     diffcrop.forEach((sname) => {
       if (commodity === sname) {

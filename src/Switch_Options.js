@@ -50,7 +50,7 @@ export default function SwitchOpt({ activeCrop, activeOpt, changeOpt, activeOptL
   const fertilizer = ["Smart fertilizer management", "Precision fertilizer management"];
   const fertilizer_popup = ["Smart fertilizer management", "Precision fertilizer management"];
 
-  const livestock_names = ["Cattle", "Buffalo", "Goat", "Sheep", "Pig", "Poultry"];
+  const livestock_names = ["Cattle", "Buffalo", "Goat", "Sheep", "Pig", "Chicken"];
   const livestock = ["Shelter Management", "Feed Management", "Healthcare Management"];
 
   const marine = ["To be Updated"];
@@ -222,7 +222,7 @@ export default function SwitchOpt({ activeCrop, activeOpt, changeOpt, activeOptL
     "Goat",
     "Sheep",
     "Pig",
-    "Poultry",
+    "Chicken",
     "Freshwater",
     "Bracklish",
     "Marine",

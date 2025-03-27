@@ -537,7 +537,7 @@ export default function Description() {
                   <MenuItem value="Goat">Goat</MenuItem>
                   <MenuItem value="Sheep">Sheep</MenuItem>
                   <MenuItem value="Pig">Pig</MenuItem>
-                  <MenuItem value="Poultry">Poultry</MenuItem>
+                  <MenuItem value="Chicken">Chicken</MenuItem>
                 </Select>
               </FormControl>
 

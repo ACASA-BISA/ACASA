@@ -107,6 +107,9 @@ export function fetchthedataHzd(activeScale, RiskName, ImpactName, displayLayer,
     "Temperature-Humidity Index": "THI",
     "Economic Development Indicator": "Human development index",
     "Value of Production": "vop_NT_wheat_USD",
+    "Seasonal Rainfall": "Seasonal Rainfall",
+    "Maximum Temperature": "Maximum Temperature",
+    "Minimum Temperature": "Minimum Temperature",
   };
 
   if (activeScale === "District Level") {

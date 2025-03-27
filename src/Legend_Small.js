@@ -7,7 +7,7 @@ import { fetchthedataHzd } from "./fetchDataHzd";
 
 export default function Legend_Small({ location, commodity, adaption, RiskName, scenario, ImpactName, area_data3, area_data4, AdaptLayerName, displayLayer, activeScale }) {
   function checkcrop() {
-    const diffcrop = ["Cattle", "Buffalo", "Goat", "Sheep", "Pig", "Poultry"];
+    const diffcrop = ["Cattle", "Buffalo", "Goat", "Sheep", "Pig", "Chicken"];
     let ans = true;
     diffcrop.forEach((sname) => {
       if (commodity === sname) {
