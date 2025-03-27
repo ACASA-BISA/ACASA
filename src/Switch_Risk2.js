@@ -253,15 +253,15 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
     //"DelayedMonsoon": "Delayed monsoon","PollinationCold": "Low temperature induced pollen sterility","ColdStress":"Cold stress",
     //"terminalHeat":"Terminal heat"}
     if (sname === "rice") {
-      HazardList = ["HEAT STRESS", "HIGH POLLEN", "LOW POLLEN", "DELMON", "SPI", "DSN", "FLOOD"]; //spiklet changed to pollen //1
+      HazardList = ["HEAT STRESS", "HIGH POLLEN", "LOW POLLEN", "DELMON", "SPI", "DSN"]; //spiklet changed to pollen //1
     } else if (sname === "wheat") {
-      HazardList = ["HIGH POLLEN", "TERMINAL HEAT", "HEAT STRESS", "ERWL2", "SPI"]; //, "LODGE", "FROST" //2
+      HazardList = ["HIGH POLLEN", "TERMINAL HEAT", "HEAT STRESS", "ERWL2", "SPI", "FROST"]; //, "LODGE",  //2
     } else if (sname === "barley") {
-      HazardList = ["HEAT STRESS", "HIGH POLLEN", "ERWL2", "SPI"]; //, "TERMINAL HEAT", "LODGE", "FROST"//3
+      HazardList = ["HEAT STRESS", "HIGH POLLEN", "ERWL2", "SPI", "FROST"]; //, "TERMINAL HEAT", "LODGE"//3
     } else if (sname === "maize") {
       HazardList = ["HEAT STRESS", "HIGH POLLEN", "LOW POLLEN", "ERWL", "DELMON", "SPI", "DSN", "FLOOD"]; // COLD STRESS tO LOW POLLEN //4
     } else if (sname === "potato") {
-      HazardList = ["HEAT STRESS", "ERWL2", "SPI", "LOW POLLEN"]; //  "PCOLD", , "BIOTIC", "COLD STRESS",  "FROST" //5
+      HazardList = ["HEAT STRESS", "ERWL2", "SPI", "LOW POLLEN", "FROST"]; //  "PCOLD", , "BIOTIC", "COLD STRESS",  "FROST" //5
     } else if (sname === "sorghum") {
       HazardList = ["LOW POLLEN", "COLD STRESS", "ERWL2", "SPI"]; //"HEAT STRESS",  "DELMON",  "DSN", "FLOOD" //6
     } else if (sname === "millets") {
@@ -271,17 +271,17 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
     } else if (sname === "cotton") {
       HazardList = ["HEAT STRESS", "DELMON", "DSN", "FLOOD", "HIGH POLLEN", "ERWL", "SPI"]; // "ERWL2" //9
     } else if (sname === "rapeseed") {
-      HazardList = ["HEAT STRESS", "ERWL2", "SPI", "HIGH POLLEN"]; //10
+      HazardList = ["HEAT STRESS", "ERWL2", "SPI", "HIGH POLLEN", "FROST"]; //10
     } else if (sname === "chickpea") {
-      HazardList = ["HEAT STRESS", "HIGH POLLEN", "ERWL2", "SPI"]; // "LOW POLLEN", "FROST", //11
+      HazardList = ["HEAT STRESS", "HIGH POLLEN", "ERWL2", "SPI", "FROST"]; // "LOW POLLEN", //11
     } else if (sname === "groundnut") {
       HazardList = ["HEAT STRESS", "HIGH POLLEN", "ERWL", "DELMON", "SPI", "DSN", "FLOOD"]; // "LOW POLLEN", //12
     } else if (sname === "ppea") {
       HazardList = ["HEAT STRESS", "ERWL", "DELMON", "SPI", "DSN", "FLOOD"]; //13
     } else if (sname === "jute") {
-      HazardList = ["HEAT STRESS", "HIGH POLLEN", "ERWL", "SPI", "DELMON"]; // "COLD STRESS", "DSN" //14
+      HazardList = ["HEAT STRESS", "HIGH POLLEN", "ERWL", "SPI", "DSN", "DELMON"]; // "COLD STRESS", "DSN" //14
     } else if (sname === "lentil") {
-      HazardList = ["HEAT STRESS", "HIGH POLLEN", "ERWL2", "SPI"]; //  "COLD STRESS", "FROST",  //15
+      HazardList = ["HEAT STRESS", "HIGH POLLEN", "ERWL2", "SPI", "FROST"]; //  "COLD STRESS",  //15
     } else if (sname === "sugarcane") {
       HazardList = ["HEAT STRESS", "COLD STRESS", "SPI", "DSN", "FLOOD"];
     } else if (sname === "buffalo" || sname === "cattle" || sname === "pig" || sname === "sheep" || sname === "poultry" || sname === "goat") {
