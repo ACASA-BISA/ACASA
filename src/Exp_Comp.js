@@ -700,7 +700,7 @@ export default function CompV({
                           area_dict4={area_dict4}
                           modelName={modelName}
                         ></Map_Option>
-                        {(CurrRisk !== "" || activeOpt !== "" || NameImpact !== "") && RiskType() !== "Vulnerability" && RiskType() !== "Exposure" && (
+                        {(CurrRisk !== "" || activeOpt !== "" || NameImpact !== "") /* && RiskType() !== "Vulnerability" && RiskType() !== "Exposure" */ && (
                           <Popper
                             open={true} // Always open
                             anchorEl={gridRefs[index].current} // Anchor to the Grid container
@@ -739,7 +739,7 @@ export default function CompV({
                             </Paper>
                           </Popper>
                         )}
-                        {(RiskType() === "Vulnerability" || RiskType() === "Exposure" || CurrRisk === "Exposure Index" || CurrRisk === "Vulnerability Index") && (
+                        {/* {(RiskType() === "Vulnerability" || RiskType() === "Exposure" || CurrRisk === "Exposure Index" || CurrRisk === "Vulnerability Index") && (
                           <Popper
                             open={true} // Always open
                             anchorEl={gridRefs[index].current} // Anchor to the Grid container
@@ -775,7 +775,7 @@ export default function CompV({
                               </Typography>
                             </Box>
                           </Popper>
-                        )}
+                        )} */}
                         {/* CurrRisk !== "" && (
                           <Popper
                             open={true}

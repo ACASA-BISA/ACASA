@@ -147,6 +147,14 @@ export default function Map_Hazard({ activeCrop, focus = "Region", activeRegion,
     ],
   };
 
+  const color_hazard_livestock = {
+    color: [
+      "palette",
+      ["interpolate", ["linear"], ["*", ["band", 2], 385], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 8],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#059212", "#00FF00", "#FFDE4D", "#FFDE4D", "#FFA500", "#FF0000"],
+    ],
+  };
+
   const colorGradientEx = {
     color: ["interpolate", ["linear"], ["*", ["band", 1], 310], 0, "rgba(0,0,0,0)", 10, "#FFF9C4", 20, "#FFE680", 30, "#FFD700", 40, "#DAA520", 50, "#A0522D", 60, "#6B3D1B"],
   };
@@ -645,16 +653,36 @@ export default function Map_Hazard({ activeCrop, focus = "Region", activeRegion,
     if (CurrRisk !== "") {
       opt = 3;
       let urlstr = "xyz.tif";
-      if (activeScenario === "baseline") {
-        urlstr = "./Hazards/" + activeCrop + "/Baseline/ZZ_" + hazardname[CurrRisk] + ".tif";
-      } else if (activeScenario === "ssp245") {
-        urlstr = "./Hazards/" + activeCrop + "/SSP245/ZZ_" + hazardname[CurrRisk] + ".tif";
-      } else {
-        urlstr = "./Hazards/" + activeCrop + "/SSP585/ZZ_" + hazardname[CurrRisk] + ".tif";
+      let district_n = "";
+      let district_prefix = "";
+      let modelName = "CHC";
+      let activeScale = "Pixel Level";
+      if (activeScale === "District Level") {
+        district_n = "District/";
+        district_prefix = "District_";
       }
-      if (CurrRisk === "Hazard Index") {
-        opt = 4;
-        urlstr = "./Hazard_index/" + activeCrop + ".tif";
+      if (activeScale === "State Level") {
+        district_n = "State/";
+        district_prefix = "District_";
+      }
+      if (activeScenario === "baseline") {
+        //urlstr = "./Hazards/" + activeCrop + "/Baseline/" + district_n + "ZZ_" + hazardname[CurrRisk] + ".tif";
+        //if (checkcrop2() === false) {
+        urlstr = "./Hazards/" + activeCrop + "/" + modelName + "/" + district_n + "Baseline/" + `${district_prefix}Baseline_${modelName}_${activeCrop}_${hazardname[CurrRisk]}` + ".tif";
+        //}
+      } else {
+        urlstr =
+          "./Hazards/" +
+          activeCrop +
+          "/" +
+          modelName +
+          "/" +
+          district_n +
+          activeScenario.toUpperCase() +
+          "/" +
+          `${district_prefix}${activeScenario.toUpperCase()}_${modelName}_${activeCrop}_${hazardname[CurrRisk]}` +
+          ".tif";
+        //}
       }
       source1 = new GeoTIFF({
         sources: [{ url: urlstr }],
@@ -687,7 +715,7 @@ export default function Map_Hazard({ activeCrop, focus = "Region", activeRegion,
       if (opt === 2) {
         newOverl.setStyle(color2);
       } else if (opt === 3) {
-        newOverl.setStyle(color_hazard);
+        newOverl.setStyle(color_hazard_livestock);
       } else if (opt === 4) {
         newOverl.setStyle(color4);
       } else {

@@ -109,6 +109,14 @@ export default function Map_Option({ activeCrop, focus = "Region", activeRegion,
     color: ["palette", ["clamp", ["*", ["band", 2], 25], 0, 6], ["rgba(0,0,0,0)", "rgba(150,150,150,1)", "#059212", "#00FF00", "#FFDE4D", "#FFA500", "#FF0000"]],
   };
 
+  const color_hazard_reverse = {
+    color: [
+      "palette",
+      ["interpolate", ["linear"], ["*", ["band", 2], 385], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 8],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#FF0000", "#FFA500", "#FFDE4D", "#FFDE4D", "#00FF00", "#059212"],
+    ],
+  };
+
   const color_adaptation_change = {
     color: [
       "palette",
@@ -461,11 +469,11 @@ export default function Map_Option({ activeCrop, focus = "Region", activeRegion,
     if (activeOptLayer === "Biophysical Suitability") {
       opt = 2;
       if (activeScenario === "baseline") {
-        urlstr = "./Adap/" + activeCrop + "/Baseline/Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+        urlstr = "./Adap/" + activeCrop + "/" + modelName + "/Baseline/Suitability_" + activeCrop + "_" + optcode[activeOpt] + "_baseline.tif";
       } else if (activeScenario === "ssp245") {
-        urlstr = "./Adap/" + activeCrop + "/SSP245/Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+        urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP245/Suitability_" + activeCrop + "_" + optcode[activeOpt] + "_ssp245.tif";
       } else {
-        urlstr = "./Adap/" + activeCrop + "/SSP585/Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+        urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Suitability_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
       }
     } else if (activeOptLayer === "Adaptation Benefits") {
       opt = 3;
@@ -525,7 +533,7 @@ export default function Map_Option({ activeCrop, focus = "Region", activeRegion,
       });
 
       if (opt === 2) {
-        newOverl.setStyle(color_hazard4);
+        newOverl.setStyle(color_hazard_reverse);
       } else if (opt === 3) {
         newOverl.setStyle(color_adaptation_change);
       } else if (opt === 4) {

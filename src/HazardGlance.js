@@ -20,7 +20,7 @@ export default function HazardGlance({ handleChangeSumm, cropid, focus2, activeR
   };
 
   const HazardData = {
-    Rice: ["Heat Stress", "Delayed Monsoon", "High temperature induced spikelet sterility", "Dry Spell", "Flood", "Low temperature induced spikelet sterility"],
+    Rice: ["Heat Stress", "Delayed Monsoon", "High temperature induced pollen sterility", "Dry Spell", "Crop water deficit index", "Low temperature induced pollen sterility"],
     Wheat: ["High temperature induced pollen sterility", "Terminal Heat", "Days of Frost", "Untimely Rainfall", "Rainfall Deficit index", "Lodging"],
   };
 

@@ -621,6 +621,10 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
     return ans;
   }
 
+  if (checklivestock()) {
+    switchBasic[0] = "Annual rainfall";
+  }
+
   function checkFish() {
     const fishes = ["freshwater", "bracklish", "marine", "coldwater"];
     let ans = false;
