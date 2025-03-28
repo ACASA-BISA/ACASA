@@ -1,18 +1,9 @@
 import * as React from "react"; // Import React for building UI components
 import TryIcon from "@mui/icons-material/Try"; // Import an icon from Material-UI icons library
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Link,
-  Box,
-  Button,
-  Container,
-  ImageList,
-  ImageListItem,
-} from "@mui/material"; // Import Material-UI components
+import { AppBar, Toolbar, Typography, Link, Box, Button, Container, ImageList, ImageListItem, TextField } from "@mui/material"; // Import Material-UI components
 import { styled } from "@mui/system"; // Import styled function from Material-UI for custom styling
-import WavingHandIcon from '@mui/icons-material/WavingHand';
+import WavingHandIcon from "@mui/icons-material/WavingHand";
+import emailjs from "@emailjs/browser";
 
 // Styled AppBar component with custom styles
 const AppBarStyled = styled(AppBar)(({ theme }) => ({
@@ -45,21 +36,21 @@ const BodyText = styled(Typography)(({ theme }) => ({
 
 // Styled Button component with custom styles
 const ButtonStyled = styled(Button)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#61c258" : "#4c9c44", // Green background color to match AppBar
-  color: theme.palette.mode === "dark" ? "#000" : "#fff", // White text color
-  textTransform: "none", // Disable text transformation
-  height: "40px", // Set height
-  marginTop: theme.spacing(2), // Add top margin
-  fontSize: "16px", // Set font size
-  padding: theme.spacing(1.5), // Add padding
+  "backgroundColor": theme.palette.mode === "dark" ? "#61c258" : "#4c9c44", // Green background color to match AppBar
+  "color": theme.palette.mode === "dark" ? "#000" : "#fff", // White text color
+  "textTransform": "none", // Disable text transformation
+  "height": "40px", // Set height
+  "marginTop": theme.spacing(2), // Add top margin
+  "fontSize": "16px", // Set font size
+  "padding": theme.spacing(1.5), // Add padding
   "&:hover": {
-    backgroundColor: theme.palette.mode === "dark" ? "#4f4c45": "#f5f3ed", // Change background color on hover
+    backgroundColor: theme.palette.mode === "dark" ? "#4f4c45" : "#f5f3ed", // Change background color on hover
     boxShadow: "none", // Remove box shadow on hover
     color: theme.palette.mode === "dark" ? "#fff" : "#000", // Change text color on hover
   },
   "&.Mui-selected, &.Mui-selected:hover": {
     boxShadow: "none", // Remove box shadow when selected
-    backgroundColor: theme.palette.mode === "dark" ? "#c9a227": "#fece2f", // Change background color when selected
+    backgroundColor: theme.palette.mode === "dark" ? "#c9a227" : "#fece2f", // Change background color when selected
   },
 }));
 
@@ -134,6 +125,39 @@ function MasonryImageList() {
 
 // Main functional component for Feedback1
 function Feedback1() {
+  const [feedback, setFeedback] = React.useState("");
+  const [email, setEmail] = React.useState(""); // User email
+  const [status, setStatus] = React.useState("");
+
+  const handleSendFeedback = async () => {
+    if (!email || !feedback) {
+      setStatus("Please enter both your email and feedback.");
+      return;
+    }
+
+    const templateParams = {
+      email: email, // User's email
+      message: feedback, // Feedback message
+      time: new Date().toLocaleString(), 
+    };
+
+    try {
+      await emailjs.send(
+        "service_mm98fmv",  // EmailJS Service ID
+        "template_99myhyl",  // EmailJS Template Id
+        templateParams,
+        "XnGCjN6mQ1SweFpJ1"  // EmailJS Public key
+      );
+      setStatus("Feedback sent successfully!");
+      setFeedback("");
+      setEmail("");
+      window.alert("Feedback sent successfully! Thank you for your input.");
+    } catch (error) {
+      setStatus("Failed to send feedback. Please try again.");
+      console.error("EmailJS Error:", error);
+    }
+  };
+
   return (
     <Box sx={(theme) => ({ flexGrow: 1, marginTop: "80px", backgroundColor: theme.palette.background.paper, height: "100vh" })}>
       {" "}
@@ -144,7 +168,8 @@ function Feedback1() {
         <Typography fontSize={16} sx={{ fontStyle: "italic", justifyItems: "center" }}>
           {" "}
           {/* Typography for AppBar text */}
-          Hey<WavingHandIcon sx={{fontSize: "1rem", display: "inline", justifyItems: "center", marginLeft: "0.5rem"}}/> {/*👋 */} Your feedback means the world to us. Share your opinion.
+          Hey
+          <WavingHandIcon sx={{ fontSize: "1rem", display: "inline", justifyItems: "center", marginLeft: "0.5rem" }} /> {/*👋 */} Your feedback means the world to us. Share your opinion.
         </Typography>
       </AppBarStyled>
       <CenteredContainer>
@@ -158,14 +183,11 @@ function Feedback1() {
               Feedback <TryIcon fontSize="11px" /> {/* Heading with icon */}
             </Heading>
             <BodyText>
-              Thank you for visiting the test version of the Atlas of Climate
-              Adaptation in South Asian Agriculture (ACASA). We value your
-              feedback on this test version, which will help us improve our data
-              analytics and content before the official release of the first
-              version. Please take a moment to complete this quick feedback and
-              share your thoughts with us.
+              {/*Thank you for visiting the test version of the Atlas of Climate Adaptation in South Asian Agriculture (ACASA). We value your feedback on this test version, which will help us improve our
+              data analytics and content before the official release of the first version. Please take a moment to complete this quick feedback and share your thoughts with us.*/}
+              Thank you for exploring the Atlas of Climate Adaptation in South Asian Agriculture (ACASA). This is our first official release, and we appreciate your feedback to help us refine and enhance the platform. Your insights will contribute to improving our data analytics, content, and overall user experience. Please take a moment to share your thoughts with us.
             </BodyText>
-            <ButtonStyled
+            {/*<ButtonStyled
               variant="contained"
               component="a"
               href="https://docs.google.com/forms/d/e/1FAIpQLSe7C-wqIeJ2myFs-7bBfzf5RvrZTFec17nLVQsawNRj4vftdw/viewform" // Feedback form URL
@@ -173,6 +195,22 @@ function Feedback1() {
               rel="noopener noreferrer" // Prevents security vulnerabilities
             >
               Feedback Form
+            </ButtonStyled>*/}
+
+            {/*}
+            <TextField label="Your Feedback" multiline rows={4} variant="outlined" fullWidth value={feedback} onChange={(e) => setFeedback(e.target.value)} sx={{ marginTop: 2 }} />
+
+            <ButtonStyled onClick={handleSendFeedback}>Submit Feedback</ButtonStyled>
+            */}
+            {/* Email Input */}
+            <TextField label="Your Email" type="email" variant="outlined" fullWidth value={email} onChange={(e) => setEmail(e.target.value)} sx={{ marginTop: 1 }} />
+
+            {/* Feedback Input */}
+            <TextField label="Your Feedback" multiline rows={4} variant="outlined" fullWidth value={feedback} onChange={(e) => setFeedback(e.target.value)} sx={{ marginTop: 2 }} />
+
+            {/* Submit Button */}
+            <ButtonStyled variant="contained" onClick={handleSendFeedback} sx={{ marginTop: 2 }}>
+              Submit Feedback
             </ButtonStyled>
           </Box>
         </ContentBox>

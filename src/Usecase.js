@@ -1,4 +1,253 @@
-import React, { useState, useCallback } from "react";
+import { useState } from "react";
+import { Card, CardContent, Typography, Grid, Box } from "@mui/material";
+import { styled } from "@mui/system";
+import { Gavel, School, Public, Security, Agriculture } from "@mui/icons-material";
+
+const Data = [
+  {
+    key: "keyGov",
+    header: "Government",
+    description:
+      "ACASA can be useful for climate risk profiling and regional adaptation prioritisation. Insights from ACASA would help government agencies determine future investment requirements and regional scaling opportunities.",
+    points: [
+      "**Evidence-based policymaking:** The Atlas provides data and analysis to support policymaking for climate-resilient agriculture and strategic resource allocation. The Atlas identifies sustainable practices and resilient farming methods to support rural climate-resilient infrastructure and finance requirements.",
+      "**National Adaptation Plan:** Atlas could provide relevant stakeholder-validated adaptation options to be integrated into the National Adaptation Plans of respective countries.",
+      "**Climate-Smart Villages:** Atlas will support scaling climate-resilient agriculture and villages by providing granular information on select implementation sites.",
+    ],
+    image: "farm1.png",
+    alt: "Government",
+    icon: <Gavel />,
+  },
+  {
+    key: "keyRes",
+    header: "Research, Civil Society and Non-governmental Organisations",
+    description: "ACASA provides open-access and freely downloadable products on climate risk management in agriculture.",
+    points: [
+      "**Academic research:** Atlas provides a comprehensive platform for climate-related data products for agricultural research. Commodity-specific hazard and adaptation identification methodology and tools can be used for interdisciplinary research on various aspects of climate risk management.",
+      "**Climate-resilient agriculture:** Promote climate-resilient agriculture through technologies such as, stress-tolerant crops, water-saving irrigation, and soil conservation techniques to adapt to climate change. ASASA can help civil societies to prioritize the interventions for climate action.",
+      "**Climate-related proposal:** Stakeholders can use ACASA to write proposal funding for interventions related to agriculture risk management in agriculture.",
+    ],
+    image: "research1.jpg",
+    alt: "Research",
+    icon: <School />,
+  },
+  {
+    key: "keyMul",
+    header: "Multi-lateral Agencies and other Donor Organisations",
+    description:
+      "ACASA will provide multi-lateral agencies with strategic data insights and directions for adaptation investments in South Asia and facilitate more effective project design and planning.",
+    points: [
+      "**Climate finance:** Agencies can systematically integrate ACASA  adaptation recommendations in their climate finance planning process to align with the Paris Agreement and sustainable development goals. Data will support agencies in focusing on targeted investments such as climate-resilient food systems, landscapes, and livelihoods, especially in regions with high adaptation benefits.",
+      "**Targeted high-impact investments:** Donors can utilise ACASA to prioritise climate-smart agriculture projects benefiting small-scale farmers and promote adaptation strategies. Donors can utilise the Atlas to ensure targeted climate adaptation for high-impact locations and vulnerable populations with targeted projects.",
+      "**Gender-intentional adaptations:** The Atlas includes information on gender-intentional adaptations, guiding donors to promote equity in climate adaptation projects.",
+      "**Monitoring and evaluation:** ACASA is an innovative tool for agencies as they constantly seek information and expertise in improving the effectiveness and impact of their initiative. Atlas provides accessible and actionable data through open-access, user-friendly tables, and maps for informed resource allocation and structured interventions.",
+    ],
+    image: "farm3.jpg",
+    alt: "Multilateral agencies",
+    icon: <Public />,
+  },
+  {
+    key: "keyIns",
+    header: "Insurance Industry",
+    description:
+      "Atlas can support Agri-insurance agencies in developing satisfactory crop insurance products for dynamic small-scale producers, providing sufficient resolution at the village level.",
+    points: [
+      "**Methodology Improvement:** A granular risk assessment of Atlas can aid in improving the existing methodology for insurance product design and payout mechanism. Implementing a parametric mechanism for insurance claims could improve efficiency, triggered only by specific conditions rather than random samples.",
+      "**Premium set-up:** Enhancing risk quantification and identification to boost insurance penetration from current levels and premium set-up.",
+    ],
+    image: "insurance_usecase.png",
+    alt: "Insurance Industry",
+    icon: <Security />,
+  },
+  {
+    key: "keyAgr",
+    header: "Agri-food Industry",
+    description: "ACASA is committed to ensuring a sustainable agri-food industry and inclusive supply chains.",
+    points: [
+      "**Climate-friendly supply chains:** Collaboration with farmers for sustainable and climate-resilient practices and equitable climate-friendly supply chains, ensuring an uninterrupted supply.",
+      "**Capacity development:** Enhancing the capacity of the farming community for the adaptation to climatic hazards for livestock production.",
+    ],
+    image: "farm4.jpg",
+    alt: "Agrifood Industry",
+    icon: <Agriculture />,
+  },
+];
+
+const HoverBox = styled(Box)(({ theme }) => ({
+  backgroundColor: "#c4cbd3",
+  padding: theme.spacing(3),
+  minHeight: "300px",
+  flex: 1,
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  transition: "background-image 0.3s ease-in-out",
+  backgroundSize: "cover",
+  backgroundPosition: "center",
+  color: theme.palette.mode === "dark" ? "white" : "black",
+  backgroundColor: theme.palette.mode === "dark" ? "rgba(0, 0, 0, 0.5)" : "rgba(170, 170, 170, 0.5)",
+}));
+
+const GridContainer = styled(Grid)({
+  flex: 1,
+  display: "grid",
+  gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+  gap: "10px",
+});
+
+const LayoutContainer = styled(Box)({
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "flex-start",
+  gap: "20px",
+  marginTop: "20px",
+  maxWidth: "80vw",
+  marginLeft: "auto",
+  marginRight: "auto",
+});
+
+const IntroBox = styled(Box)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === "dark" ? "#2c2f34" : "#f5f5f5", // Theme-aware background
+  padding: theme.spacing(4),
+  borderRadius: "12px",
+  textAlign: "center",
+  boxShadow: theme.palette.mode === "dark" ? "0px 4px 10px rgba(0,0,0,0.4)" : "0px 4px 10px rgba(0,0,0,0.1)",
+  marginBottom: theme.spacing(3),
+}));
+
+const lightColors = ["#64b5f6", "#4db6ac", "#ffb74d", "#ff8a65", "#81c784"];
+const darkColors = ["#4a7097", "#357a7e", "#c99043", "#b25f4e", "#4e6b50"];
+
+export default function Usecase() {
+  const [hoveredItem, setHoveredItem] = useState(null);
+
+  return (
+    <Box sx={{ paddingTop: "100px", textAlign: "center", height: "100vh", overflow: "auto" }}>
+      <IntroBox>
+        <Typography variant="h4" gutterBottom sx={(theme) => ({ color: theme.palette.mode === "dark" ? "#61c258" : "#4ba046", textAlign: "left", fontFamily: "revert", fontWeight: "bold" })}>
+          Use Cases of ACASA
+        </Typography>
+        <Typography paragraph sx={(theme) => ({ color: theme.palette.text.primary, textAlign: "left", fontFamily: "revert" })}>
+          ACASA is a unique platform that provides granular climate risk profiles and a suite of adaptation options for South Asian agriculture for major commodities at a 5 km<sup>2</sup> resolution.
+          ACASA uses a distinctive approach combining commodity-specific granular risk profiles and potential adaptation options for future scenarios at a spatial scale. This integrated assessment
+          combines commodity-wise risk profiling, impact estimation, adaptation option identification, and quantification of investment opportunities. In addition, it also identifies regions where
+          adaptation benefits would emerge through gender-friendly technology adoption and would curtail maladaptation.
+        </Typography>
+
+        <Typography paragraph sx={(theme) => ({ color: theme.palette.text.primary, textAlign: "left", fontFamily: "revert" })}>
+          Our adaptation options are rigorously formulated from the relevant literature and validated stakeholder consultations across South Asia. Therefore, ACASA provides a unique opportunity for
+          various stakeholders to meet their potential needs in broader areas of climate risk management and adaptation in agriculture. The open-access nature of the Atlas promotes knowledge
+          dissemination and unrestricted use for desired purposes. ACASA data can be freely downloaded in a tabular, user-friendly format with geographic information datasets for specific
+          applications.
+        </Typography>
+
+        <Typography paragraph sx={(theme) => ({ color: theme.palette.text.primary, textAlign: "left", fontFamily: "revert" })}>
+          We conducted a dedicated Use Case workshop on Oct 1-3, 2024, in Colombo, Sri Lanka, for potential stakeholders who will put the Atlas into use. The following stakeholders and potential use
+          cases were mapped:
+        </Typography>
+      </IntroBox>
+
+      <LayoutContainer>
+        {/* Grey Box */}
+        <HoverBox
+          sx={(theme) => ({
+            backgroundColor: hoveredItem
+              ? theme.palette.mode === "dark"
+                ? darkColors[Data.findIndex((item) => item.key === hoveredItem.key) % darkColors.length]
+                : lightColors[Data.findIndex((item) => item.key === hoveredItem.key) % lightColors.length]
+              : theme.palette.mode === "dark"
+              ? "#2c2f34"
+              : "#f5f5f5",
+          })}
+        >
+          {hoveredItem ? (
+            <>
+              <Typography variant="h6" sx={{ textAlign: "left", fontFamily: "revert" }}>
+                {hoveredItem.header}
+              </Typography>
+              <Typography variant="body2" sx={{ marginBottom: 1, textAlign: "left", fontFamily: "revert" }}>
+                {hoveredItem.description}
+              </Typography>
+              <ul style={{ textAlign: "left", paddingLeft: "20px", listStyleType: "disc" }}>
+                {hoveredItem.points.map((point, index) => (
+                  <li key={index} style={{ marginBottom: "5px" }}>
+                    <Typography
+                      variant="body2"
+                      component="span"
+                      sx={{ textAlign: "left", fontFamily: "revert" }}
+                      dangerouslySetInnerHTML={{ __html: point.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") }}
+                    />
+                  </li>
+                ))}
+              </ul>
+            </>
+          ) : (
+            <Typography variant="body2" sx={{ fontFamily: "revert" }}>
+              Hover over a category to see details
+            </Typography>
+          )}
+        </HoverBox>
+
+        {/* Grid */}
+        <GridContainer>
+          {Data.map((item, index) => (
+            <Card
+              key={item.key}
+              sx={(theme) => ({
+                "cursor": "pointer",
+                "p": 2,
+                "transition": "0.3s",
+                "aspectRatio": "1 / 1", // Ensures a square shape
+                "display": "flex",
+                "alignItems": "flex-end",
+                "justifyContent": "flex-start",
+                "position": "relative", // Allows absolute positioning for content
+                "&:hover": { transform: "scale(1.05)" },
+                "backgroundImage": `url(${item.image})`,
+                "backgroundSize": "cover",
+                "backgroundPosition": "center",
+              })}
+              onMouseEnter={() => setHoveredItem(item)}
+              onMouseLeave={() => setHoveredItem(null)}
+            >
+              <CardContent
+                sx={(theme) => ({
+                  position: "absolute",
+                  bottom: 10,
+                  left: 10,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 0.5,
+                  backgroundColor: theme.palette.mode === "dark" ? "rgba(0, 0, 0, 0.5)" : "rgba(255, 255, 255, 0.5)",
+                  padding: "2px 6px", 
+                  borderRadius: "4px",
+                })}
+              >
+                {item.icon && <Box sx={(theme) => ({ fontSize: 24, color: theme.palette.text.primary })}>{item.icon}</Box>}
+                <Typography
+                  variant="h6"
+                  sx={(theme) => ({
+                    fontSize: "1rem",
+                    fontFamily: "revert",
+                    fontWeight: "bold",
+                    color: theme.palette.text.primary,
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  })}
+                >
+                  {item.header.includes(" ") ? item.header.split(" ")[0] + "..." : item.header}
+                </Typography>
+              </CardContent>
+            </Card>
+          ))}
+        </GridContainer>
+      </LayoutContainer>
+    </Box>
+  );
+}
+
+/*import React, { useState, useCallback } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight, faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { Box, Button } from "@mui/material";
@@ -150,7 +399,7 @@ const Usecase = () => {
   return (
     <div style={{ position: "relative", width: "100%", display: "flex", justifyContent: "center", height: "100vh" }}>
       <div className="carousel-container" style={{ overflow: "visible", position: "relative" }}>
-        {/* Category Buttons */}
+        // Category Buttons 
         <Box sx={{ marginTop: "10px", textAlign: "left", display: { xs: "none", md: "block" } }}>
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             {carouselData.map((item, index) => (
@@ -161,7 +410,7 @@ const Usecase = () => {
           </Box>
         </Box>
 
-        {/* 3D Carousel */}
+        // 3D Carousel 
         <div className="slideC" style={{ position: "relative", height: "55vh", paddingBottom: "50px", display: "flex", justifyContent: "center", alignItems: "stretch" }}>
           {carouselData.map((item, i) => (
             <StyledSlide key={item.key} style={{ ...getStyles(i, activeSlide), height: "100%" }}>
@@ -180,7 +429,7 @@ const Usecase = () => {
             </StyledSlide>
           ))}
         </div>
-        {/* Navigation Buttons */}
+        // Navigation Buttons 
         <Box
           className="btns"
           sx={{
@@ -221,3 +470,4 @@ const Usecase = () => {
 };
 
 export default Usecase;
+*/

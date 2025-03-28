@@ -60,7 +60,7 @@ export const BlogCard = ({ imgSrc, imgAlt, keywords = [], title, author, link, d
           {author && <Typography sx={(theme) => ({ color: theme.palette.mode == "dark" ? "#81c784" : "#52911f", fontSize: "13px", fontFamily: "revert" })}>{author}</Typography>}
         </p>
         <a href={link} className="blog-card__title">
-          {title && <Typography sx={(theme) => ({ color: theme.palette.mode === "dark" ? "#fff" : "#000", fontSize: "16px", fontWeight: "bold", fontFamily: "revert" })}>{title} </Typography>}
+          {title && <Typography textAlign="left" sx={(theme) => ({ color: theme.palette.mode === "dark" ? "#fff" : "#000", fontSize: "16px", fontWeight: "bold", fontFamily: "revert" })}>{title} </Typography>}
         </a>
       </div>
     </div>

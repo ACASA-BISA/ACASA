@@ -94,7 +94,7 @@ function createData(Commodity, Scenario, LayerType, Title, Description, Source, 
 // Hazard data
 const data = [
   // Hazard data
-  createData(
+  /*createData(
     "Rice",
     "Baseline",
     "Hazard",
@@ -112,11 +112,11 @@ const data = [
     "Low temperature stress leads to spikelet sterility (55 to 65 days after transplanting/upland direct seeded need to be corrected by adding 30 days) where Tmin < 15",
     "https://global-flood-database.cloudtostreet.info/",
     "Download"
-  ),
+  ),*/
   createData("Rice", "Baseline", "Hazard", "Delayed Monsoon", "Number of events of delayed monsoon where delay is more than 15 days", "https://www.chc.ucsb.edu/data/chirps", "Download"),
   createData("Rice", "Baseline", "Hazard", "Crop water deficit index", "SPI below -1 (moderate and severe drought)", "http://data.chc.ucsb.edu/products/CHIRTSdaily/", "Download"),
   createData("Rice", "Baseline", "Hazard", "Dry Spell", "Number of dry spells with length of 15 days or more in a season", "https://www.chc.ucsb.edu/data/chirps", "Download"),
-  createData("Rice", "Baseline", "Hazard", "Flood", "Flood layer", "https://www.chc.ucsb.edu/data/chirps", "Download"),
+  /*createData("Rice", "Baseline", "Hazard", "Flood", "Flood layer", "https://www.chc.ucsb.edu/data/chirps", "Download"),*/
   createData(
     "Wheat",
     "Baseline",
@@ -139,7 +139,7 @@ const data = [
   createData("Wheat", "Baseline", "Hazard", "Untimely Rainfall", "Whole season consecutive two-day rainfall > 100 mm ", "https://www.chc.ucsb.edu/data/chirps", "Download"),
   createData("Wheat", "Baseline", "Hazard", "Crop water deficit index", "Sept/Oct/Nov and season drought", "http://data.chc.ucsb.edu/products/CHIRTSdaily/", "Download"),
   createData("Wheat", "Baseline", "Hazard", "Lodging", "Windspeed and rainfall criteria after booting (85 to 115 days)", "http://data.chc.ucsb.edu/products/CHIRTSdaily/", "Download"),
-  createData("Pig", "Baseline", "Hazard", "Temperature-Humidity Index (THI)", "The average number of days when THI exceeds a threshold (79)", "", "Download"),
+  /*createData("Pig", "Baseline", "Hazard", "Temperature-Humidity Index (THI)", "The average number of days when THI exceeds a threshold (79)", "", "Download"),
   createData("Pig", "Baseline", "Hazard", "Heat wave", "Sudden change in temperature by 4°C (during APR to June/July)", "", "Download"),
   createData("Pig", "Baseline", "Hazard", "Cold stress", "Lower critical temperature (LCT)  limit for the thermoneutral zone goes below (15) degrees C", "", "Download"),
   createData("Pig", "Baseline", "Hazard", "Extreme rainfall days", "The average number of days when daily rainfall exceeds 115 mm", "", "Download"),
@@ -161,7 +161,7 @@ const data = [
     "We used flood event data from the Global Flood Database, documented by the Dartmouth Flood Observatory (DFO) from 2000 to 2018. We computed the average annual count of flood events per pixel to represent the flood hazard",
     "",
     "Download"
-  ),
+  ),*/
 
   // Risk data
   createData("Rice", "Baseline", "Risk", "Downscaled risk", "Analyzed", "Crop statistics, crop mask and primary productivity", "Download"),
@@ -190,10 +190,10 @@ const data = [
   createData("Wheat", "Baseline", "Adaptation", "Smart fertilizer management", "Analyzed", "Heurisitic Model", "Download"),
 
   // Direct Adaptation data
-  createData("Rice", "Baseline", "Direct Adaptation", "Direct seeded rice", "Analyzed", "Heurisitic Model", "Download"),
+  /*createData("Rice", "Baseline", "Direct Adaptation", "Direct seeded rice", "Analyzed", "Heurisitic Model", "Download"),
   createData("Rice", "Baseline", "Direct Adaptation", "Precision water management", "Analyzed", "Heurisitic Model", "Download"),
   createData("Wheat", "Baseline", "Direct Adaptation", "Stress tolerant variety", "Analyzed", "Heurisitic Model", "Download"),
-  createData("Wheat", "Baseline", "Direct Adaptation", "Early sowing/changing planting dates", "Analyzed", "Heurisitic Model", "Download"),
+  createData("Wheat", "Baseline", "Direct Adaptation", "Early sowing/changing planting dates", "Analyzed", "Heurisitic Model", "Download"),*/
 ];
 
 // Main component function
@@ -680,7 +680,7 @@ export default function Description() {
                     commodity={item.Commodity}
                     scenario={item.Scenario}
                     layertype={item.LayerType}
-                    imgSrc="Topo-photoroom.png"
+                    imgSrc="dataaccess2.png"
                     imgAlt={`${item.Commodity}-${item.Title}`}
                     title={item.Title}
                     description={item.Description}
