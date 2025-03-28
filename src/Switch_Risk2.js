@@ -36,7 +36,16 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
   const switchExposureReg = ["Agricultural Area", "Number of animals"];
   const switchExposureRegID = ["c-area", "animals"];
 
-  const switchVulnerReg = ["Irrigation", "Volumetric Soil Water", "Income", "Rural road coverage", "Fertilizer consumption", "Economic Development Indicator", "Marginal Farmers", "Holding size"];
+  const switchVulnerReg = [
+    "Irrigation",
+    "Volumetric Soil Water",
+    "Income",
+    "Rural road coverage",
+    "Fertilizer consumption",
+    "Socio-economic Development Indicator",
+    "Marginal Farmers",
+    "Holding size",
+  ];
   const switchVulnerRegID = ["irrigation", "waterholding", "GDP", "ROAD", "FERTILIZER", "HDI", "FARMERS", "HSIZE"];
 
   const MasterHazard = [
@@ -357,14 +366,14 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
   // Get hazard names and descriptions
   const { HazardNames: CurrHazardName, HazardDesc: CurrHazardDesc } = HazardData();
 
-  const switchVulner = ["Irrigation", "Income", "Volumetric Soil Water", "Rural infrastructure", "Economic Development Indicator"];
+  const switchVulner = ["Irrigation", "Income", "Volumetric Soil Water", "Rural infrastructure", "Socio-economic Development Indicator"];
   const switchVulnerID = ["irrigation", "GDP", "waterholding", "ROAD", "HDI"];
   const switchVulnerPopup = ["To be updated.", "To be updated.", "To be updated.", "To be updated.", "To be updated."];
 
-  /*   const switchvul_Livestock = ['Vulnerability Index',"Feed/Fodder","Income","Rural infrastructure","Economic Development Indicator"];
+  /*   const switchvul_Livestock = ['Vulnerability Index',"Feed/Fodder","Income","Rural infrastructure","Socio-economic Development Indicator"];
   const switchvul_LivestockID = ['vulne',"CROPRES","GDP","ROAD",'HDI']; */
 
-  const switchvul_Livestock = ["Feed/Fodder", "Income", "Economic Development Indicator", "Rural infrastructure"];
+  const switchvul_Livestock = ["Feed/Fodder", "Income", "Socio-economic Development Indicator", "Rural infrastructure"];
   const switchvul_LivestockID = ["CROPRES", "GDP", "HDI", "ROAD"];
   const switchvul_Livestock_Popup = ["To be updated.", "To be updated.", "To be updated.", "To be updated."];
 
@@ -479,7 +488,7 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
     "Soil Organic Carbon",
     "Agriculture Income",
     "Rural infrastructure",
-    "Economic Development Indicator",
+    "Socio-economic Development Indicator",
     "Feed/Fodder",
     "Exposure Index",
     "Cropped Area",

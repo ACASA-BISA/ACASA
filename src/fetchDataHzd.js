@@ -47,7 +47,7 @@ export function fetchthedataHzd(activeScale, RiskName, ImpactName, displayLayer,
       RiskName === "Soil Organic Carbon" ||
       RiskName === "Feed/Fodder" ||
       RiskName === "Rural infrastructure" ||
-      RiskName === "Economic Development Indicator" ||
+      RiskName === "Socio-economic Development Indicator" ||
       RiskName === "Income"
     ) {
       str = "Vulnerability";
@@ -105,7 +105,7 @@ export function fetchthedataHzd(activeScale, RiskName, ImpactName, displayLayer,
     "Cold days": "Cold Stress",
     "Hot days": "Heat stress or hot days",
     "Temperature-Humidity Index": "THI",
-    "Economic Development Indicator": "Human development index",
+    "Socio-economic Development Indicator": "Human development index",
     "Value of Production": "vop_NT_wheat_USD",
     "Seasonal Rainfall": "Seasonal Rainfall",
     "Maximum Temperature": "Maximum Temperature",

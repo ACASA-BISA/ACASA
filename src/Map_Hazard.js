@@ -647,7 +647,7 @@ export default function Map_Hazard({ activeCrop, focus = "Region", activeRegion,
       "Cold days": "Cold Stress",
       "Hot days": "Heat stress or hot days",
       "Temperature-Humidity Index": "THI",
-      "Economic Development Indicator": "Human development index",
+      "Socio-economic Development Indicator": "Human development index",
     };
 
     if (CurrRisk !== "") {

@@ -314,7 +314,7 @@ export default function DrawerMapShow({ activeBar }) {
     "Soil Organic Carbon",
     "Income",
     "Rural infrastructure",
-    "Economic Development Indicator",
+    "Socio-economic Development Indicator",
     "Feed/Fodder",
     "Exposure Index",
     "Cropped Area",

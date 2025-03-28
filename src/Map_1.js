@@ -805,7 +805,7 @@ export default function MApp({ activeCrop, focus = "Region", activeRegion, activ
       "Cold days": "Cold Stress",
       "Hot days": "Heat stress or hot days",
       "Temperature-Humidity Index": "THI",
-      "Economic Development Indicator": "Human development index",
+      "Socio-economic Development Indicator": "Human development index",
     };
 
     if (activeCrop === "" || activeCrop === "blank") {

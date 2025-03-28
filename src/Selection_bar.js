@@ -32,7 +32,7 @@ export default function Selection_bar({ location, commodity, adaption, RiskName,
       RiskName === "Soil Organic Carbon" ||
       RiskName === "Feed/Fodder" ||
       RiskName === "Rural infrastructure" ||
-      RiskName === "Economic Development Indicator"
+      RiskName === "Socio-economic Development Indicator"
     ) {
       str = "Vulnerability";
     }

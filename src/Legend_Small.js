@@ -99,7 +99,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
       RiskName === "Soil Organic Carbon" ||
       RiskName === "Feed/Fodder" ||
       RiskName === "Rural infrastructure" ||
-      RiskName === "Economic Development Indicator" ||
+      RiskName === "Socio-economic Development Indicator" ||
       RiskName === "Income"
     ) {
       str = "Vulnerability";
@@ -145,7 +145,8 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
           <div>
             <Box sx={{ display: "flex", marginTop: "-10px", justifyContent: "center" }}>
               <Typography sx={(theme) => ({ fontSize: 11.5, marginBottom: "2px", color: theme.palette.mode === "dark" ? "white" : "black" })}>
-                <strong>{RiskName.charAt(0).toUpperCase() + RiskName.toLowerCase().slice(1)}</strong>
+                {RiskName === "Seasonal Rainfall" && <strong>Annual rainfall</strong>}
+                {RiskName !== "Seasonal Rainfall" && <strong>{RiskName.charAt(0).toUpperCase() + RiskName.toLowerCase().slice(1)}</strong>}
               </Typography>
             </Box>
           </div>

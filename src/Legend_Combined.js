@@ -116,7 +116,7 @@ export default function LegendCard({ location, commodity, adaption, RiskName, sc
     "Cold days": "Cold Stress",
     "Hot days": "Heat stress or hot days",
     "Temperature-Humidity Index": "THI",
-    "Economic Development Indicator": "Human development index",
+    "Socio-economic Development Indicator": "Human development index",
   };
 
   function fetchthedataTable() {
@@ -309,7 +309,7 @@ export default function LegendCard({ location, commodity, adaption, RiskName, sc
       RiskName === "Soil Organic Carbon" ||
       RiskName === "Feed/Fodder" ||
       RiskName === "Rural infrastructure" ||
-      RiskName === "Economic Development Indicator"
+      RiskName === "Socio-economic Development Indicator"
     ) {
       str = "Vulnerability";
     }

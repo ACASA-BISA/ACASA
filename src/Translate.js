@@ -8,9 +8,8 @@ const Translate = () => {
           {
             pageLanguage: "en",
             autoDisplay: false,
-            includedLanguages: "en,fr,hi,bn,ta,ne,si,ur,dz,ps", // Add languages as needed
-            layout:
-              window.google.translate.TranslateElement.InlineLayout.SIMPLE,
+            includedLanguages: "en,fr,hi,bn,ta,ne,si,ur,dz,ps,es,zh-CN", // Add languages as needed
+            layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE,
           },
           "google_translate_element"
         );
@@ -24,8 +23,7 @@ const Translate = () => {
     if (!document.querySelector("#google-translate-script")) {
       const addScript = document.createElement("script");
       addScript.id = "google-translate-script";
-      addScript.src =
-        "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+      addScript.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
       document.body.appendChild(addScript);
     }
 
@@ -79,9 +77,9 @@ const Translate = () => {
       
     `;
     document.head.appendChild(style);
-  }, []); 
+  }, []);
 
-  return <div id="google_translate_element" style={{margin:'0px',marginRight:'10px'}}></div>;
+  return <div id="google_translate_element" style={{ margin: "0px", marginRight: "10px" }}></div>;
 };
 
 export default Translate;

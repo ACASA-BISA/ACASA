@@ -340,7 +340,7 @@ export default function CompV({
       CurrRisk === "Soil Organic Carbon" ||
       CurrRisk === "Feed/Fodder" ||
       CurrRisk === "Rural infrastructure" ||
-      CurrRisk === "Economic Development Indicator" ||
+      CurrRisk === "Socio-economic Development Indicator" ||
       CurrRisk === "Income"
     ) {
       str = "Vulnerability";

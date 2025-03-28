@@ -1197,7 +1197,7 @@ export default function MApp({
       "Cold days": "Cold Stress",
       "Hot days": "Heat stress or hot days",
       "Temperature-Humidity Index": "THI",
-      "Economic Development Indicator": "Human development index",
+      "Socio-economic Development Indicator": "Human development index",
       "Seasonal Rainfall": "Seasonal Rainfall",
       "Maximum Temperature": "Maximum Temperature",
       "Minimum Temperature": "Minimum Temperature",
@@ -1338,7 +1338,7 @@ export default function MApp({
           CurrRisk === "Soil Organic Carbon" ||
           CurrRisk === "Feed/Fodder" ||
           CurrRisk === "Rural infrastructure" ||
-          CurrRisk === "Economic Development Indicator" ||
+          CurrRisk === "Socio-economic Development Indicator" ||
           CurrRisk === "Income"
         ) {
           newOverl.setStyle(color_hazard_reverse);
