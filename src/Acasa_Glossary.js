@@ -19,6 +19,15 @@ const glossaryData = {
       term: "Adaptation benefits",
       definition: "Yield benefits because of the adoption of technology options over conventional/farmers' practice.",
     },
+    {
+      term: "Ad libitum water",
+      definition: "Provision of water to cattle without restriction"
+    },
+    {
+      term: "Adoption of climate resilient breeds",
+      definition: "Selective breeding and upgrading to climate-resilient breeds"
+    }
+    
   ],
   B: [
     {
@@ -44,7 +53,7 @@ const glossaryData = {
     },
     {
       term: "Balanced concentrate with buffer",
-      definition: "",
+      definition: "Combining concentrate feed and a buffering agent that helps maintain the pH balance in the cow’s rumen",
     },
     {
       term: "Biotic",
@@ -54,6 +63,10 @@ const glossaryData = {
       term: "Biotic stress",
       definition: "",
     },
+    {
+      term: "Bypass protein and fats",
+      definition: "Blend of essential minerals to correct mineral deficiencies and improve productivity"
+    }
     /*{
       term: "Buffalo",
       definition: "The analysis is done for milk production"
@@ -116,6 +129,10 @@ const glossaryData = {
       term: "Cropped area",
       definition: "",
     },
+    {
+      term: "Control of ectoparasites and other vectors",
+      definition: "Physical and chemical controls of ectoparasites and other vectors"
+    }
     /*{
       term: "Chickpea",
       definition: "Here the analysis is done only for winter season"
@@ -154,6 +171,10 @@ const glossaryData = {
       term: "Dry spell",
       definition: "",
     },
+    {
+      term: "Deworming",
+      definition: "Control of endoparasites"
+    }
   ],
   E: [
     {
@@ -184,13 +205,12 @@ const glossaryData = {
       term: "Exposure index",
       definition: "",
     },
+    {
+      term: "Estrous confirmation and synchronisation",
+      definition: "A process that uses hormones to bring female mammals into heat at a predetermined time"
+    }
   ],
   F: [
-    {
-      term: "Smart fertilizer management",
-      definition:
-        "Fertilizer to be adjusted to meet the nutrient demands of crop growth and avoid nutrient loss when crop biomass decreases due to water and temperature stress over time under climate change",
-    },
     {
       term: "Flood",
       definition: "",
@@ -199,6 +219,14 @@ const glossaryData = {
       term: "Feed/fodder",
       definition: "",
     },
+    {
+      term: "Feed additive, antioxidants, vitamins and probiotics",
+      definition: "For cattle’s health and nutritional needs during climatic stress period"
+    },
+    {
+      term: "Fodder conservation",
+      definition: "Preserving fodder to meet the demand during climatic stress period"
+    }
     /*{
       term: "Finger millet",
       definition: "Finger Millet is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif')"
@@ -271,6 +299,10 @@ const glossaryData = {
       term: "Irrigation",
       definition: "",
     },
+    {
+      term: "Inclusion of ad libitum green fodder",
+      definition: "Perennial grass, pasture legume, fodder trees, cultivated grasses"
+    }
   ],
   J: [
     /*{
@@ -312,21 +344,25 @@ const glossaryData = {
         "A low-pressure, low-flow-rate type of irrigation that can reduce the likelihood of overwatering a landscape. Drip irrigation or trickle irrigation is an irrigation method that allows water to drip slowly to the roots of plants, either onto the soil surface or directly onto the root zone, through a network of valves, pipes, tubing, and emitters",
     },
     {
-      term: "Micro-climate modification shelter",
-      definition: "",
+      term: "Microclimate modification shelter",
+      definition: "Modify shelter, ventilation, adjusting roof heights",
     },
     {
       term: "Modification of shelter",
-      definition: "",
+      definition: "Appropriate shelter to protect animals from natural hazards",
     },
     {
       term: "Mechanical cooling",
-      definition: "",
+      definition: "Cooling using misting, fogging, sprinklers, fans, exhaust",
     },
     {
       term: "Mineral mixture supplementation",
-      definition: "",
+      definition: "Blend of essential minerals to correct mineral deficiencies and improve productivity",
     },
+    {
+      term: "Modification in feeding pattern, schedule, grazing",
+      definition: "Adjust feeding times and grazing patterns to minimize heat stress"
+    }
   ],
   N: [
     {
@@ -370,7 +406,7 @@ const glossaryData = {
     },
     {
       term: "Planting of trees",
-      definition: "",
+      definition: "Provide a way for shade, food, and a way to increase the production",
     },
     /*{
       term: "Pearl millet",
@@ -452,6 +488,11 @@ const glossaryData = {
       term: "Scalability",
       definition: "Scalability is indicated by using a composite indicator of credit availability, input access, social network, education, and information access",
     },
+    {
+      term: "Smart fertilizer management",
+      definition:
+        "Fertilizer to be adjusted to meet the nutrient demands of crop growth and avoid nutrient loss when crop biomass decreases due to water and temperature stress over time under climate change",
+    },
     /*{
       term: "Sorghum",
       definition: "Sorghum is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif')",
@@ -486,6 +527,10 @@ const glossaryData = {
       term: "Vulnerability index",
       definition: "",
     },
+    {
+      term: "Vaccination",
+      definition: "Vaccination against contagious diseases as a prophylactic measure"
+    }
   ],
   W: [
     {
