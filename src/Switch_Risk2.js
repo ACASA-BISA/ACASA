@@ -251,7 +251,7 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
     //{"Frost": "Days of frost","HeatStress": "Heat stress","PollinationHeat": "High temperature induced pollen sterility",
     //"ERWL": "Excess rain and waterlogging","untimelyRainfall": "Untimely rainfall","DrySpell": "Number of dry spells",
     //"DelayedMonsoon": "Delayed monsoon","PollinationCold": "Low temperature induced pollen sterility","ColdStress":"Cold stress",
-    //"terminalHeat":"Terminal heat"}
+    //"terminalHeat":"Terminal heat", "Crop water deficit index",}
     if (sname === "rice") {
       HazardList = ["HEAT STRESS", "HIGH POLLEN", "LOW POLLEN", "DELMON", "SPI", "DSN"]; //spiklet changed to pollen //1
     } else if (sname === "wheat") {
