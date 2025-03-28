@@ -64,15 +64,24 @@ export function fetchDataAdap(adaption, location, AdaptLayerName, commodity, sce
     }
 
     let row_data = area_data3[rowstr.toLowerCase()] || {
-      "Nil": NaN,
-      "Very Low": NaN,
-      "Low": NaN,
-      "Medium": NaN,
-      "High": NaN,
-      "Very High": NaN,
+      "Cropped Area/Number of animals under Nil suitability": NaN,
+      "Cropped Area/Number of animals under Very Low suitability": NaN,
+      "Cropped Area/Number of animals under Low suitability": NaN,
+      "Cropped Area/Number of animals under Medium suitability": NaN,
+      "Cropped Area/Number of animals under High suitability": NaN,
+      "Cropped Area/Number of animals under Very High suitability": NaN,
     };
 
-    let total = row_data ? ["Nil", "Very Low", "Low", "Medium", "High", "Very High"].reduce((sum, key) => sum + (Number(row_data[key]) || 0), 0) : 1;
+    let total = row_data
+      ? [
+          "Cropped Area/Number of animals under Nil suitability",
+          "Cropped Area/Number of animals under Very Low suitability",
+          "Cropped Area/Number of animals under Low suitability",
+          "Cropped Area/Number of animals under Medium suitability",
+          "Cropped Area/Number of animals under High suitability",
+          "Cropped Area/Number of animals under Very High suitability",
+        ].reduce((sum, key) => sum + (Number(row_data[key]) || 0), 0)
+      : 1;
 
     const layerMappings = {
       "Biophysical Suitability": [
@@ -106,9 +115,42 @@ export function fetchDataAdap(adaption, location, AdaptLayerName, commodity, sce
       createData(
         color,
         label,
-        row_data[["Nil", "Very Low", "Low", "Medium", "High", "Very High"][index]],
-        ((row_data[["Nil", "Very Low", "Low", "Medium", "High", "Very High"][index]] * 100) / total).toFixed(2),
-        (row_data[["Nil Population", "Very Low Population", "Low Population", "Medium Population", "High Population", "Very High Population"][index]] * 0.16) / 1000000
+        row_data[
+          [
+            "Cropped Area/Number of animals under Nil suitability",
+            "Cropped Area/Number of animals under Very Low suitability",
+            "Cropped Area/Number of animals under Low suitability",
+            "Cropped Area/Number of animals under Medium suitability",
+            "Cropped Area/Number of animals under High suitability",
+            "Cropped Area/Number of animals under Very High suitability",
+          ][index]
+        ],
+        (
+          (row_data[
+            [
+              "Cropped Area/Number of animals under Nil suitability",
+              "Cropped Area/Number of animals under Very Low suitability",
+              "Cropped Area/Number of animals under Low suitability",
+              "Cropped Area/Number of animals under Medium suitability",
+              "Cropped Area/Number of animals under High suitability",
+              "Cropped Area/Number of animals under Very High suitability",
+            ][index]
+          ] *
+            100) /
+          total
+        ).toFixed(2),
+        (row_data[
+          [
+            "Rural population under Nil suitability",
+            "Rural population under Very Low suitability",
+            "Rural population under Low suitability",
+            "Rural population under Medium suitability",
+            "Rural population under High suitability",
+            "Rural population under Very High suitability",
+          ][index]
+        ] *
+          0.16) /
+          1000000
       )
     );
   }

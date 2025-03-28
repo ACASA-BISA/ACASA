@@ -107,6 +107,10 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
     return str;
   }
   //maxWidth:'320px'
+
+  if (adaption === "Supplemental irrigation (water harvesting structures/farm ponds)") {
+    adaption = "Supplemental irrigation";
+  }
   return (
     <div style={{ maxWidth: "400px" }}>
       <Paper elevation={1} sx={{ padding: "10px", paddingBottom: "1px", borderRadius: "5px", boxShadow: "0px 0px 0px #aaa", textAlign: "left", justifyItems: "center" }}>
