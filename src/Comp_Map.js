@@ -20,7 +20,7 @@ import Overlay from "ol/Overlay";
 import { Control, ZoomToExtent, FullScreen, Zoom } from "ol/control.js";
 import "./olsm.css";
 import Typography from "@mui/material/Typography";
-import { Popper } from "@mui/material";
+import { Popper, Tooltip } from "@mui/material";
 import Slide from "@mui/material/Slide";
 import ReactDOMServer from "react-dom/server";
 import DownloadIcon from "@mui/icons-material/Download";
@@ -230,6 +230,22 @@ export default function MApp({
       "palette",
       ["interpolate", ["linear"], ["*", ["band", 2], 385], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 8],
       ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#FF0000", "#FFA500", "#FFDE4D", "#FFDE4D", "#00FF00", "#059212"],
+    ],
+  };
+
+  const color_adaptation2 = {
+    color: [
+      "palette",
+      ["interpolate", ["linear"], ["*", ["band", 2], 385], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 8],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#8B0000", "#FF4500", "#FFDE4D", "#FFDE4D", "#00FF00", "#059212"],
+    ],
+  };
+
+  const color_hazard_district = {
+    color: [
+      "palette",
+      ["interpolate", ["linear"], ["*", ["band", 2], 385], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 8],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "#059212", "#059212", "#00FF00", "#FFDE4D", "#FFDE4D", "#FFA500", "#FF0000"],
     ],
   };
 
@@ -1285,9 +1301,9 @@ export default function MApp({
         let urlstr = "xyz.tif";
         opt = 3;
         if (activeImpact["Productivity"]) {
-          urlstr = "./Impact/" + activeCrop + "_DR.tif";
+          urlstr = "./Impact/" + activeCrop + "_Productivity_" + activeScenario + ".tif";
         } else if (activeImpact["Resilience"]) {
-          urlstr = "./Impact/" + activeCrop + "/ZZ_NT_" + activeScenario + "_CV.tif";
+          urlstr = "./Impact/" + activeCrop + "_CV_" + activeScenario + ".tif";
         } else {
           urlstr = "./Impact/" + activeCrop + "/ZZ_" + activeScenario + "_vop_NT_wheat_USD.tif";
         }
@@ -1331,6 +1347,9 @@ export default function MApp({
         newOverl.setStyle(color_hazard);
       } else if (opt === 3) {
         newOverl.setStyle(color_hazard_livestock);
+        if (activeScale === "District Level") {
+          newOverl.setStyle(color_hazard_district);
+        }
         if (
           CurrRisk === "Irrigation" ||
           CurrRisk === "Volumetric Soil Water" ||
@@ -1344,7 +1363,7 @@ export default function MApp({
           newOverl.setStyle(color_hazard_reverse);
         }
       } else if (opt === 333) {
-        newOverl.setStyle(color_hazard_reverse);
+        newOverl.setStyle(color_adaptation2);
         //newOverl.setStyle(color_hazard4);
       } else if (opt === 4) {
         newOverl.setStyle(color4);
@@ -1546,12 +1565,50 @@ export default function MApp({
     }
   }, [activeOptLayer, activeOpt, mapRef]);
   //let optionname = activeOpt;
+  function for_unavailabe_future_data() {
+    if (
+      CurrRisk === "Irrigation" ||
+      CurrRisk === "Volumetric Soil Water" ||
+      CurrRisk === "Agriculture Income" ||
+      CurrRisk === "Soil Organic Carbon" ||
+      CurrRisk === "Feed/Fodder" ||
+      CurrRisk === "Rural infrastructure" ||
+      CurrRisk === "Socio-economic Development Indicator" ||
+      CurrRisk === "Income" ||
+      CurrRisk === "Cropped Area" ||
+      CurrRisk === "Number of Animals per grid"
+    ) {
+      if (activeScenario !== "baseline") {
+        return true;
+      }
+    }
+    return false;
+  }
   return (
     <div style={{ overflow: "hidden" }}>
       <div id="popup2" class="ol-popup">
         <div id="popup-content2" style={{ textTransform: "capitalize", fontSize: "13px" }}></div>
       </div>
-      <div ref={ref} style={{ height: activeOpt === "" ? "calc(100vh - 155px)" : "calc(100vh - 175px)", width: "auto", marginLeft: 0, marginBottom: "0px", padding: 0 }} className="map-container" />
+      <Tooltip
+        title={<Typography sx={{ fontSize: 12 }}>Since no data is available for this scenario, we have replicated the baseline data</Typography>}
+        open={for_unavailabe_future_data()}
+        placement="top"
+        slotProps={{
+          popper: {
+            modifiers: [
+              {
+                name: "offset",
+                options: {
+                  offset: [0, -70],
+                },
+              },
+            ],
+          },
+        }}
+        PopperProps={{ style: { zIndex: 0 } }}
+      >
+        <div ref={ref} style={{ height: activeOpt === "" ? "calc(100vh - 155px)" : "calc(100vh - 175px)", width: "auto", marginLeft: 0, marginBottom: "0px", padding: 0 }} className="map-container" />
+      </Tooltip>
 
       <Popper open={missingSource}>
         <div

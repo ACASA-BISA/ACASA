@@ -437,13 +437,13 @@ export default function DrawerMapShow({ activeBar }) {
     switchscenarioid.forEach((sname) => {
       initialTodos[sname] = false;
     });
-    initialTodos["baseline"] = true;
+    initialTodos["ssp585"] = true;
     return initialTodos;
   }
 
   const [scenario, setscenario] = React.useState(createInitialScenario);
 
-  const [NameScenario, setNameScenario] = React.useState("Baseline");
+  const [NameScenario, setNameScenario] = React.useState("SSP 5-8.5");
 
   const handleScenarioChange = (name) => (event) => {
     const oldscenario = { ...scenario };

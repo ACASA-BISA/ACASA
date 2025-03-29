@@ -161,6 +161,11 @@ function ResponsiveAppBar({}) {
       boxShadow: "none",
       backgroundColor: theme.palette.mode === "dark" ? "#B88F1A" : "#fece2f",
     },
+    "&.Mui-disabled": {
+      border: "0px solid",
+      color: theme.palette.mode === "dark" ? "#eee" : "#888",
+      backgroundColor: theme.palette.mode === "dark" ? "#3a3d42" : "#EFEFEF",
+    },
   }));
 
   // Styled Button with custom styles for images
@@ -248,13 +253,14 @@ function ResponsiveAppBar({}) {
                           }}
                           key={pageid[index]}
                           href={"/#/".concat(pageid[index])}
+                          disabled={page === "Guide"}
                         >
                           <Typography
                             textAlign="center"
                             sx={{
                               fontSize: "14px",
                               fontWeight: 700,
-                              color: (theme) => (theme.palette.mode === "dark" ? "#fff" : "#000"),
+                              //color: (theme) => (theme.palette.mode === "dark" ? "#fff" : "#000"),
                               fontFamily: "Karla",
                             }}
                           >

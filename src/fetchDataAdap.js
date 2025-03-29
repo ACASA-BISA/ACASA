@@ -86,11 +86,11 @@ export function fetchDataAdap(adaption, location, AdaptLayerName, commodity, sce
     const layerMappings = {
       "Biophysical Suitability": [
         ["#969696", "No significant change"],
-        ["#E4003A", "Very low"],
-        ["#FFA500", "Low"],
-        ["#FFDE4D", "Medium"],
-        ["#00FF00", "High"],
-        ["#059212", "Very high"],
+        ["#8B0000", "Unsuitable"], //"#E4003A"
+        ["#FF4500", "Very Low"], //"#FFA500"
+        ["#FFDE4D", "Low"],
+        ["#00FF00", "Medium"],
+        ["#059212", "High"],
       ],
       "Scalability": [
         ["#969696", "No significant change"],

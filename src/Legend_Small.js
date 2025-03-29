@@ -128,7 +128,8 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
         {ImpactName !== "" && (
           <Box sx={{ display: "flex", marginTop: "-10px", justifyContent: "center" }}>
             <Typography sx={(theme) => ({ fontSize: 11.5, marginBottom: "2px", color: theme.palette.mode === "dark" ? "white" : "black" })}>
-              Impact on <strong>{ImpactName.toLowerCase()}</strong>
+              {scenario !== "baseline" && "Percent change in "}
+              <strong>{ImpactName.charAt(0).toUpperCase() + ImpactName.toLowerCase().slice(1)}</strong>
             </Typography>
           </Box>
         )}
