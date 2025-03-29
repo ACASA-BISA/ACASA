@@ -1513,7 +1513,7 @@ export default function MApp({
       });
 
       if (opt === 2) {
-        newOverl.setStyle(color_hazard_reverse);
+        newOverl.setStyle(color_adaptation2);
       }
       if (mapRef.current) {
         mapRef.current.addLayer(newOverl);

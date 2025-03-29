@@ -21,7 +21,26 @@ export default function HazardGlance({ handleChangeSumm, cropid, focus2, activeR
 
   const HazardData = {
     Rice: ["Heat Stress", "Delayed Monsoon", "High temperature induced pollen sterility", "Dry Spell", "Crop water deficit index", "Low temperature induced pollen sterility"],
-    Wheat: ["High temperature induced pollen sterility", "Terminal Heat", "Days of Frost", "Untimely Rainfall", "Rainfall Deficit index", "Lodging"],
+    Wheat: ["High temperature induced pollen sterility", "Terminal Heat", "Days of Frost", "Untimely Rainfall", "Crop water deficit index", "Days of Frost"],
+    Barley: ["Heat Stress", "Days of Frost", "Untimely Rainfall", "High temperature induced pollen sterility", "Crop water deficit index"],
+    Maize: ["Heat Stress", "Delayed Monsoon", "High temperature induced pollen sterility", "Dry Spell", "Excess Rainfall and Waterlogging", "Crop water deficit index"],
+    Millets: ["Heat Stress", "Delayed Monsoon", "High temperature induced pollen sterility", "Dry Spell", "Excess Rainfall and Waterlogging", "Crop water deficit index"],
+    Sorghum: ["Low temperature induced pollen sterility", "Untimely Rainfall", "Cold Stress", "Crop water deficit index"],
+    Chickpea: ["Heat Stress", "High temperature induced pollen sterility", "Untimely Rainfall", "Crop water deficit index", "Days of Frost"],
+    Pigeonpea: ["Heat Stress", "Excess Rainfall and Waterlogging", "Delayed Monsoon", "Dry Spell", "Flood", "Crop water deficit index"],
+    Mustard: ["Heat Stress", "High temperature induced pollen sterility", "Untimely Rainfall", "Crop water deficit index", "Days of Frost"],
+    Soybean: ["Heat Stress", "Delayed Monsoon", "High temperature induced pollen sterility", "Dry Spell", "Excess Rainfall and Waterlogging", "Crop water deficit index"],
+    Groundnut: ["Heat Stress", "Delayed Monsoon", "High temperature induced pollen sterility", "Dry Spell", "Excess Rainfall and Waterlogging", "Crop water deficit index"],
+    Lentil: ["Heat Stress", "Days of Frost", "Untimely Rainfall", "High temperature induced pollen sterility", "Crop water deficit index"],
+    Cotton: ["Heat Stress", "Delayed Monsoon", "High temperature induced pollen sterility", "Dry Spell", "Excess Rainfall and Waterlogging", "Crop water deficit index"],
+    Potato: ["Heat Stress", "Days of Frost", "Untimely Rainfall", "Low temperature induced pollen sterility", "Crop water deficit index"],
+    Jute: ["Heat Stress", "Excess Rainfall and Waterlogging", "Delayed Monsoon", "Dry Spell", "High temperature induced pollen sterility", "Crop water deficit index"],
+    Cattle: ["Temperature-Humidity Index", "Cold Stress", "Rainfall Deficit", "Excess Rainfall", "Flood", "Cyclone"],
+    Buffalo: ["Temperature-Humidity Index", "Cold Stress", "Rainfall Deficit", "Excess Rainfall", "Flood", "Cyclone"],
+    Pig: ["Temperature-Humidity Index", "Cold Stress", "Rainfall Deficit", "Excess Rainfall", "Flood", "Cyclone"],
+    Chicken: ["Temperature-Humidity Index", "Cold Stress", "Rainfall Deficit", "Excess Rainfall", "Flood", "Cyclone"],
+    Sheep: ["Temperature-Humidity Index", "Cold Stress", "Rainfall Deficit", "Excess Rainfall", "Flood", "Cyclone"],
+    Goat: ["Temperature-Humidity Index", "Cold Stress", "Rainfall Deficit", "Excess Rainfall", "Flood", "Cyclone"],
   };
 
   const [NameModel, setNameModel] = React.useState("CHC");

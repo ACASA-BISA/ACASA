@@ -7,26 +7,35 @@ import { Typography } from "@mui/material";
 export default function Summ_Comm({ changeComm, comm }) {
   const [val2, setVal2] = React.useState(comm);
 
-  const switchco = ["Rice", "Wheat", "Maize", "Barley", "Sorghum", "Finger Millet", "Pearl Millet"];
-  const switchcoid = ["rice", "wheat", "maize", "barley", "sorghum", "fmillet", "pmillet"];
+  const switchco = ["Rice", "Wheat", "Maize", "Barley", "Sorghum", "Millets"];
+  const switchcoid = ["rice", "wheat", "maize", "barley", "sorghum", "millets"];
 
-  const switchffp = ["Potato", "Onion", "Tomato", "Chillies", "Mango", "Banana"];
-  const switchffpid = ["potato", "onion", "tomato", "chilli", "mango", "banana"];
+  //const switchffp = ["Potato", "Onion", "Tomato", "Chillies", "Mango", "Banana"];
+  //const switchffpid = ["potato", "onion", "tomato", "chilli", "mango", "banana"];
 
-  const switchfish = ["Freshwater", "Bracklish", "Marine", "Cold water"];
-  const switchfishid = ["freshwater", "bracklish", "marine", "coldwater"];
+  //const switchfish = ["Freshwater", "Bracklish", "Marine", "Cold water"];
+  //const switchfishid = ["freshwater", "bracklish", "marine", "coldwater"];
 
   const switchls = ["Cattle", "Buffalo", "Goat", "Sheep", "Pig", "Chicken"];
   const switchlsid = ["cattle", "buffalo", "goat", "sheep", "pig", "poultry"];
 
-  const switchind = ["Cotton", "Jute", "Rubber", "Sugarcane", "Tea", "Coconut"];
-  const switchindid = ["cotton", "jute", "rubber", "sugarcane", "tea", "coconut"];
+  //const switchind = ["Cotton", "Jute", "Rubber", "Sugarcane", "Tea", "Coconut"];
+  //const switchindid = ["cotton", "jute", "rubber", "sugarcane", "tea", "coconut"];
 
-  const switchhc = ["Chickpea", "Pigeonpea", "Black Gram", "Green Gram", "Lentil"];
-  const switchhcid = ["chickpea", "ppea", "bgram", "ggram", "lentil"];
+  const switchind = ["Cotton", "Jute", "Potato"];
+  const switchindid = ["cotton", "jute", "potato"];
 
-  const switchoil = ["Soybean", "Safflower", "Sunflower", "Mustard", "Sesame", "Groundnut"];
-  const switchoilid = ["soyabean", "safflower", "sunflower", "rapeseed", "sesame", "groundnut"];
+  //const switchhc = ["Chickpea", "Pigeonpea", "Black Gram", "Green Gram", "Lentil"];
+  //const switchhcid = ["chickpea", "ppea", "bgram", "ggram", "lentil"];
+
+  const switchhc = ["Chickpea", "Pigeonpea", "Lentil"];
+  const switchhcid = ["chickpea", "ppea", "lentil"];
+
+  //const switchoil = ["Soybean", "Safflower", "Sunflower", "Mustard", "Sesame", "Groundnut"];
+  //const switchoilid = ["soyabean", "safflower", "sunflower", "rapeseed", "sesame", "groundnut"];
+
+  const switchoil = ["Soybean", "Mustard", "Groundnut"];
+  const switchoilid = ["soyabean", "rapeseed", "groundnut"];
 
   const handleChange2 = (event) => {
     setVal2(event.target.value);
@@ -69,16 +78,16 @@ export default function Summ_Comm({ changeComm, comm }) {
             {switchoil[idx]}
           </MenuItem>
         ))}
-        <Typography variant="subtitle1" sx={{ paddingLeft: 1, fontSize: 13, fontWeight: "bold" }}>
+        {/* <Typography variant="subtitle1" sx={{ paddingLeft: 1, fontSize: 13, fontWeight: "bold" }}>
           Fruits & Vegetables
         </Typography>
         {switchffpid.map((naam, idx) => (
           <MenuItem value={naam} sx={{ fontSize: 13, paddingY: "2px" }}>
             {switchffp[idx]}
           </MenuItem>
-        ))}
+        ))} */}
         <Typography variant="subtitle1" sx={{ paddingLeft: 1, fontSize: 13, fontWeight: "bold" }}>
-          Industrial
+          Others
         </Typography>
         {switchindid.map((naam, idx) => (
           <MenuItem value={naam} sx={{ fontSize: 13, paddingY: "2px" }}>

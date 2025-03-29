@@ -112,7 +112,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
     adaption = "Supplemental irrigation";
   }
   return (
-    <div style={{ maxWidth: "400px" }}>
+    <div style={{ maxWidth: "450px" }}>
       <Paper elevation={1} sx={{ padding: "10px", paddingBottom: "1px", borderRadius: "5px", boxShadow: "0px 0px 0px #aaa", textAlign: "left", justifyItems: "center" }}>
         {adaption !== "" && (
           <div>

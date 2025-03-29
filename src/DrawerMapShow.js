@@ -399,12 +399,12 @@ export default function DrawerMapShow({ activeBar }) {
     return initialTodos;
   }
 
-  const [opt2, setopt2] = React.useState("Precision fertilizer management");
-  const [opt3, setopt3] = React.useState("Early sowing/changing planting dates");
+  const [opt2, setopt2] = React.useState("Stress tolerant variety");
+  const [opt3, setopt3] = React.useState("Crop insurance");
   const [opt4, setopt4] = React.useState("ICT linked input management");
-  const [opt5, setopt5] = React.useState("Microirrigation");
-  const [opt6, setopt6] = React.useState("Zero tillage with residue retention");
-  const [opt7, setopt7] = React.useState("Smart fertilizer management");
+  const [opt5, setopt5] = React.useState("");
+  const [opt6, setopt6] = React.useState("");
+  const [opt7, setopt7] = React.useState("");
   const [acc, setacc] = React.useState(false);
 
   function InitialHazard() {

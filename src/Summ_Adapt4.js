@@ -4,7 +4,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { Typography } from "@mui/material";
 
-export default function Summ_Adapt4({ changeOption, activeCrop, activv }) {
+export default function Summ_Adapt4({ changeOption, activeCrop, activv, CropName }) {
   const [val2, setVal2] = React.useState(activv);
 
   function checkcrop() {
@@ -32,22 +32,82 @@ export default function Summ_Adapt4({ changeOption, activeCrop, activv }) {
   const directswitch = ["Stress tolerant variety"];
   const directswitchdown = ["ICT linked input management", "Crop insurance"];
 
-  const planting_rice = [
-    "Early sowing/changing planting dates",
-    "Precision land levelling",
-    "Zero tillage with residue retention",
-    "Dry - Direct seeded rice",
-    "Wet - Direct seeded rice",
-    "System of rice intensification",
-  ];
+  function checkpulses() {
+    const cropwithoutfertilizer = ["soyabean", "chickpea", "ppea", "millets"];
+    let ans = false;
+    cropwithoutfertilizer.forEach((sname) => {
+      if (activeCrop[sname] === true) {
+        ans = true;
+      }
+    });
+    return ans;
+  }
 
-  const water = ["Supplemental irrigation (water harvesting structures/farm ponds)", "Microirrigation", "Precision water management"];
+  function thirdComb() {
+    const cropwithoutfertilizer = ["groundnut", "lentil"];
+    let ans = false;
+    cropwithoutfertilizer.forEach((sname) => {
+      if (activeCrop[sname] === true) {
+        ans = true;
+      }
+    });
+    return ans;
+  }
 
-  const water_rice = ["Supplemental irrigation (water harvesting structures/farm ponds)", "Microirrigation", "Precision water management", "Alternate wetting and drying"];
+  function forthComb() {
+    const cropwithoutfertilizer = ["cotton", "jute"];
+    let ans = false;
+    cropwithoutfertilizer.forEach((sname) => {
+      if (activeCrop[sname] === true) {
+        ans = true;
+      }
+    });
+    return ans;
+  }
 
-  const fertilizer_rice = ["Smart fertilizer management", "Precision fertilizer management", "Precision fertilizer management - High tech"];
+  const cropTechnologies = {
+    planting: {
+      Rice: ["Early sowing/changing planting dates", "Dry - Direct seeded rice", "Wet - Direct seeded rice", "System of rice intensification"],
+      Wheat: ["Precision land levelling", "Zero tillage with residue retention", "Broadbed and furrow", "Early sowing/changing planting dates"],
+      Barley: ["Zero tillage with residue retention", "Broadbed and furrow", "Early sowing/changing planting dates"],
+      Maize: ["Zero tillage with residue retention", "Broadbed and furrow", "Early sowing/changing planting dates", "Mulching"],
+      Sorghum: ["Mulching"],
+      Millets: ["Mulching"],
+      Chickpea: ["Mulching"],
+      Pigeonpea: ["Mulching"],
+      Soybean: ["Broadbed and furrow", "Mulching"],
+      Mustard: ["Broadbed and furrow"],
+      Cotton: [],
+      Potato: ["Precision land levelling", "Broadbed and furrow"],
+      Groundnut: [],
+      Lentil: [],
+      Jute: [],
+    },
+    water: {
+      Rice: ["Microirrigation", "Alternate wetting and drying", "Precision water management"],
+      Wheat: ["Microirrigation", "Precision water management"],
+      Barley: ["Microirrigation", "Precision water management"],
+      Maize: ["Microirrigation", "Precision water management", "Supplemental irrigation (water harvesting structures/farm ponds)"],
+      Sorghum: ["Supplemental irrigation (water harvesting structures/farm ponds)"],
+      Millets: ["Supplemental irrigation (water harvesting structures/farm ponds)"],
+      Chickpea: ["Supplemental irrigation (water harvesting structures/farm ponds)"],
+      Pigeonpea: ["Supplemental irrigation (water harvesting structures/farm ponds)"],
+      Soybean: ["Supplemental irrigation (water harvesting structures/farm ponds)"],
+      Mustard: ["Microirrigation", "Precision water management"],
+      Cotton: ["Microirrigation", "Precision water management", "Supplemental irrigation (water harvesting structures/farm ponds)"],
+      Potato: ["Microirrigation", "Precision water management"],
+      Groundnut: ["Supplemental irrigation (water harvesting structures/farm ponds)"],
+      Lentil: ["Microirrigation", "Precision water management"],
+      Jute: ["Supplemental irrigation (water harvesting structures/farm ponds)"],
+    },
+    getPlantingTechniques(cropName) {
+      return this.planting[cropName] || [];
+    },
 
-  const planting = ["Early sowing/changing planting dates", "Precision land levelling", "Zero tillage with residue retention", "Broadbed and furrow"];
+    getWaterTechniques(cropName) {
+      return this.water[cropName] || [];
+    },
+  };
 
   const fertilizer = ["Smart fertilizer management", "Precision fertilizer management"];
 
@@ -89,57 +149,47 @@ export default function Summ_Adapt4({ changeOption, activeCrop, activv }) {
               {directswitchdown[idx]}
             </MenuItem>
           ))}
-        {(checkcrop() === true || activeCrop["rice"] === true) && (
-          <Typography variant="subtitle1" sx={{ paddingLeft: 1, fontWeight: "bold", fontSize: 12 }}>
-            Planting Technology
-          </Typography>
+        {(checkcrop() === true || activeCrop["rice"] === true) && forthComb() === false && thirdComb() === false && (
+          <div>
+            <Typography variant="subtitle1" sx={{ paddingLeft: 1, fontWeight: "bold", fontSize: 12 }}>
+              Planting Technology
+            </Typography>
+            {cropTechnologies.getPlantingTechniques(CropName).map((naam) => (
+              <MenuItem value={naam} sx={{ fontSize: 12 }}>
+                {naam}
+              </MenuItem>
+            ))}
+          </div>
         )}
-        {checkcrop() === true &&
-          planting.map((naam, idx) => (
-            <MenuItem value={naam} sx={{ fontSize: 12 }}>
-              {planting[idx]}
-            </MenuItem>
-          ))}
-        {activeCrop["rice"] === true &&
-          planting_rice.map((naam, idx) => (
-            <MenuItem value={naam} sx={{ fontSize: 12 }}>
-              {planting_rice[idx]}
-            </MenuItem>
-          ))}
         {(checkcrop() === true || activeCrop["rice"] === true) && (
-          <Typography variant="subtitle1" sx={{ paddingLeft: 1, fontWeight: "bold", fontSize: 12 }}>
-            Water Management
-          </Typography>
+          <div>
+            <Typography variant="subtitle1" sx={{ paddingLeft: 1, fontWeight: "bold", fontSize: 12 }}>
+              Water Management
+            </Typography>
+            {cropTechnologies.getWaterTechniques(CropName).map((naam) => (
+              <MenuItem value={naam} sx={{ fontSize: 12 }}>
+                {naam}
+              </MenuItem>
+            ))}
+          </div>
         )}
-        {checkcrop() === true &&
-          water.map((naam, idx) => (
-            <MenuItem value={naam} sx={{ fontSize: 12 }}>
-              {water[idx]}
-            </MenuItem>
-          ))}
-        {activeCrop["rice"] === true &&
-          water_rice.map((naam, idx) => (
-            <MenuItem value={naam} sx={{ fontSize: 12 }}>
-              {water_rice[idx]}
-            </MenuItem>
-          ))}
-        {(checkcrop() === true || activeCrop["rice"] === true) && (
+        {(checkcrop() === true || activeCrop["rice"] === true) && checkpulses() === false && thirdComb() === false && (
           <Typography variant="subtitle1" sx={{ paddingLeft: 1, fontWeight: "bold", fontSize: 12 }}>
             Fertilizer Management
           </Typography>
         )}
-        {checkcrop() === true &&
+        {(checkcrop() === true || activeCrop["rice"] === true) &&
+          checkpulses() === false &&
+          thirdComb() === false &&
           fertilizer.map((naam, idx) => (
             <MenuItem value={naam} sx={{ fontSize: 12 }}>
               {fertilizer[idx]}
             </MenuItem>
           ))}
-        {activeCrop["rice"] === true &&
-          fertilizer_rice.map((naam, idx) => (
-            <MenuItem value={naam} sx={{ fontSize: 12 }}>
-              {fertilizer_rice[idx]}
-            </MenuItem>
-          ))}
+
+        {
+          //Livestock From Here.....
+        }
         {checkcrop() === false &&
           activeCrop["rice"] === false &&
           checkFish() === true &&

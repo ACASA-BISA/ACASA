@@ -184,7 +184,7 @@ export default function AdaptationGlance({
                   >
                     Adaptation:{" "}
                   </Typography>
-                  <Summ_Adapt activv={opt2} changeOption={handleChangeOptSumm} activeCrop={crop3}></Summ_Adapt>
+                  <Summ_Adapt activv={opt2} changeOption={handleChangeOptSumm} activeCrop={crop3} CropName={crop2}></Summ_Adapt>
                 </Box>
                 <Map_Option
                   activeCrop={crop2}
@@ -236,7 +236,7 @@ export default function AdaptationGlance({
                   >
                     Adaptation:{" "}
                   </Typography>
-                  <Summ_Adapt2 activv={opt3} changeOption={handleChangeOptSumm2} activeCrop={crop3}></Summ_Adapt2>
+                  <Summ_Adapt2 activv={opt3} changeOption={handleChangeOptSumm2} activeCrop={crop3} CropName={crop2}></Summ_Adapt2>
                 </Box>
                 <Map_Option
                   activeCrop={crop2}
@@ -288,7 +288,7 @@ export default function AdaptationGlance({
                   >
                     Adaptation:{" "}
                   </Typography>
-                  <Summ_Adapt3 activv={opt4} changeOption={handleChangeOptSumm3} activeCrop={crop3}></Summ_Adapt3>
+                  <Summ_Adapt3 activv={opt4} changeOption={handleChangeOptSumm3} activeCrop={crop3} CropName={crop2}></Summ_Adapt3>
                 </Box>
                 <Map_Option
                   activeCrop={crop2}
@@ -340,7 +340,7 @@ export default function AdaptationGlance({
                   >
                     Adaptation:{" "}
                   </Typography>
-                  <Summ_Adapt4 activv={opt5} changeOption={handleChangeOptSumm4} activeCrop={crop3}></Summ_Adapt4>
+                  <Summ_Adapt4 activv={opt5} changeOption={handleChangeOptSumm4} activeCrop={crop3} CropName={crop2}></Summ_Adapt4>
                 </Box>
                 <Map_Option
                   activeCrop={crop2}
@@ -392,7 +392,7 @@ export default function AdaptationGlance({
                   >
                     Adaptation:{" "}
                   </Typography>
-                  <Summ_Adapt5 activv={opt6} changeOption={handleChangeOptSumm5} activeCrop={crop3}></Summ_Adapt5>
+                  <Summ_Adapt5 activv={opt6} changeOption={handleChangeOptSumm5} activeCrop={crop3} CropName={crop2}></Summ_Adapt5>
                 </Box>
                 <Map_Option
                   activeCrop={crop2}
@@ -444,7 +444,7 @@ export default function AdaptationGlance({
                   >
                     Adaptation:{" "}
                   </Typography>
-                  <Summ_Adapt6 activv={opt7} changeOption={handleChangeOptSumm6} activeCrop={crop3}></Summ_Adapt6>
+                  <Summ_Adapt6 activv={opt7} changeOption={handleChangeOptSumm6} activeCrop={crop3} CropName={crop2}></Summ_Adapt6>
                 </Box>
                 <Map_Option
                   activeCrop={crop2}
