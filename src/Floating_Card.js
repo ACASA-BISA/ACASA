@@ -25,9 +25,9 @@ const size = {
   height: 150,
 };
 
-const palette = ["#00FF00", "#FFDE4D", "#FFA500", "#FF0000", "#969696"];
+const palette = ["#FF0000", "#FFA500", "#FFDE4D", "#00FF00", "#059212"];
 
-const palette2 = ["#059212", "#00FF00", "#FFDE4D", "#FFA500", "#FF0000", "#969696"];
+const palette2 = ["#059212", "#00FF00", "#FFDE4D", "#FFA500", "#FF0000"];
 
 const color_comm = {
   Rice: "#5ec962",
@@ -824,21 +824,7 @@ export default function LocationCard({ location, commodity, adaption, activeOptL
                       
                       </Box> 
                     } */}
-              {((RiskName !== "" && RiskName !== "Hazard Index" && RiskType() === "Hazard") ||
-                (RiskName !== "" &&
-                  RiskName !== "District Level" &&
-                  RiskName !== "Downscaled Risk" &&
-                  (checkcrop() === false ||
-                    commodity === "Rice" ||
-                    commodity === "Wheat" ||
-                    commodity === "Barley" ||
-                    commodity === "Soybean" ||
-                    commodity === "Cotton" ||
-                    commodity === "Jute" ||
-                    commodity === "Chickpea" ||
-                    commodity === "Maize" ||
-                    commodity === "Mustard")) ||
-                ((RiskName === "District Level" || RiskName === "Downscaled Risk") && commodity === "Rice")) && (
+              {RiskName !== "" && (
                 <Box sx={{ marginTop: "2px", marginBottom: "-5px" }}>
                   {/* <Box sx={{width:'100%', display:'flex',alignContent:'center'}}>
                     <PieChart
