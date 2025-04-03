@@ -51,6 +51,46 @@ const optcode = {
   "Manure Management": "MNMGT",
   "Information Use": "INFO",
   "Heat Stress Management": "HSMGT",
+  // Newly added entries
+  "Micro climate modification-sheds": "Shelter1",
+  "Modification of shelter": "Shelter2",
+  "Planting of trees": "Shelter3",
+  "Heating management": "Shelter4",
+  "Mechanical cooling": "Shelter5",
+  "Modify sheds, planting trees, bathing, and mechanical cooling, wallowing": "Shelter6",
+  "Modify shelters": "Shelter7",
+  "Shelter for natural hazards": "Shelter8",
+  "Modify sheds, planting trees, ventilation, roof height": "Shelter9",
+  "Modify sheds, planting trees, bathing, and mechanical cooling": "Shelter10",
+
+  "Fat supplementation": "Feed1",
+  "Protein and amino acid supplementation": "Feed2",
+  "Ad lib water": "Feed3",
+  "Feed additives, electrolyte, antioxidants, vitamins and probiotics": "Feed4",
+  "Modification in feeding pattern, schedule and space": "Feed5",
+  "Balanced concentrate with buffer, feed additives, antioxidants, vitamins and probiotics": "Feed6",
+  "Mineral mixture supplementation": "Feed7",
+  "Modification in feeding pattern, schedule": "Feed8",
+  "Mineral mixture supplementation, bypass proteins and fats": "Feed9",
+  "Modification in feeding pattern, schedule, grazing": "Feed10",
+  "Grassland and Silvi-pasture management": "Feed11",
+  "Fodder conservation": "Feed12",
+  "Inclusion of green fodder": "Feed13",
+
+  "Parasite control": "Health1",
+  "Thinning of flock": "Health2",
+  "Vaccination": "Health3",
+  "Deworming": "Health4",
+  "Control of ectoparasites and other vectors": "Health5",
+
+  "Adoption of climate resilient breed/strain": "Resilient1",
+  "Adoption of climate resilient breeds": "Resilient2",
+
+  "Use of ART tools": "Reproductivemngt1",
+  "Estrous confirmation and synchronisation": "Reproductivemngt2",
+
+  "Climate information services and safety nets": "Safetynet",
+  "Diversification": "Diversify",
 };
 
 export default function Map_Option({ activeCrop, focus = "Region", activeRegion, activeOpt, area_dict, activeScenario, activeOptLayer, modelName }) {

@@ -829,7 +829,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                 />
                 {livestockstate[snamelive] && snamelive === "Shelter management" && (
                   <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
-                    {["Microclimate modification of the shelter", "Modification of shelter", "Planting of trees", "Bathing", "Mechanical cooling"].map((sname_shelter) => (
+                    {["Modify shelters", "Shelter for natural hazards", "Modify sheds, planting tress, bathing, and mechanical cooling"].map((sname_shelter) => (
                       <FormGroup>
                         <CustomFormControlLabel
                           control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname_shelter]} onChange={changeOpt(sname_shelter)} name={sname_shelter} />}
@@ -857,14 +857,12 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                 {livestockstate[snamelive] && snamelive === "Feed management" && (
                   <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
                     {[
-                      "Balanced concentrate with buffer",
-                      "Mineral mixture supplementation",
-                      "Bypass protein and fats",
-                      "Feed additive, antioxidants, vitamins and probiotics",
+                      "Ad lib water",
+                      "Balanced concentrate with buffer, feed additives, antioxidants, vitamins and probiotics",
+                      "Mineral mixture supplementation, by pass proteins and fats",
                       "Modification in feeding pattern, schedule, grazing",
-                      "Inclusion of ad libitum green fodder",
                       "Fodder conservation",
-                      "Ad libitum water",
+                      "Inclusion of green fodder",
                     ].map((sname_feed) => (
                       <FormGroup>
                         <CustomFormControlLabel
@@ -892,7 +890,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                 )}
                 {livestockstate[snamelive] && snamelive === "Healthcare management" && (
                   <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
-                    {["Deworming", "Control of ectoparasites and other vectors", "Vaccination"].map((sname_health) => (
+                    {["Vaccination", "Deworming", "Control of ectoparasites and other vectors"].map((sname_health) => (
                       <FormGroup>
                         <CustomFormControlLabel
                           control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname_health]} onChange={changeOpt(sname_health)} name={sname_health} />}
@@ -921,35 +919,31 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
             ))}
           {activeCrop["cattle"] && (
             <FormControl component="fieldset" variant="standard">
-              {[
-                "Reproductive management: Estrous confirmation and synchronisation",
-                "Adoption of climate resilient breeds",
-                "Weather forecasts/THI-based advisory services",
-                "Livestock insurance",
-                "Diversification",
-              ].map((sname_health) => (
-                <FormGroup>
-                  <CustomFormControlLabel
-                    control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname_health]} onChange={changeOpt(sname_health)} name={sname_health} />}
-                    key={sname_health}
-                    label={
-                      <Typography
-                        variant="body2"
-                        align="left"
-                        sx={{
-                          peddingLeft: "3px",
-                          maxWidth: "250px",
-                          wordBreak: "break-word",
-                          whiteSpace: "normal",
-                        }}
-                        style={{ wordWrap: "break-word" }}
-                      >
-                        {sname_health}
-                      </Typography>
-                    }
-                  />
-                </FormGroup>
-              ))}
+              {["Adoption of climate resillient breeds", "Reproductive management: Estrous confirmation and synchronisation", "Climate information servics and safetynets", "Diversification"].map(
+                (sname_health) => (
+                  <FormGroup>
+                    <CustomFormControlLabel
+                      control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname_health]} onChange={changeOpt(sname_health)} name={sname_health} />}
+                      key={sname_health}
+                      label={
+                        <Typography
+                          variant="body2"
+                          align="left"
+                          sx={{
+                            peddingLeft: "3px",
+                            maxWidth: "250px",
+                            wordBreak: "break-word",
+                            whiteSpace: "normal",
+                          }}
+                          style={{ wordWrap: "break-word" }}
+                        >
+                          {sname_health}
+                        </Typography>
+                      }
+                    />
+                  </FormGroup>
+                )
+              )}
             </FormControl>
           )}
           {(activeCrop["sheep"] === true || activeCrop["goat"] === true) &&
@@ -976,7 +970,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                 />
                 {livestockstate[snamelive] && snamelive === "Shelter management" && (
                   <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
-                    {["Microclimate modification of the shelter", "Modification of shelter", "Planting of trees"].map((sname_shelter) => (
+                    {["Modify shelters", "Shelter for natural hazards", "Modify sheds, planting tress, ventilation, roof height"].map((sname_shelter) => (
                       <FormGroup>
                         <CustomFormControlLabel
                           control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname_shelter]} onChange={changeOpt(sname_shelter)} name={sname_shelter} />}
@@ -1004,13 +998,12 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                 {livestockstate[snamelive] && snamelive === "Feed management" && (
                   <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
                     {[
-                      "Balanced concentrate",
-                      "Mineral mixture supplementation",
-                      "Feed additive, antioxidants, vitamins and probiotics",
+                      "Ad lib water",
+                      "Balanced concentrate with buffer, feed additives, antioxidants, vitamins and probiotics",
+                      "Mineral mixture supplementation, by pass proteins and fats",
                       "Modification in feeding pattern, schedule, grazing",
                       "Grassland and Silvi-pasture management",
                       "Fodder conservation",
-                      "Ad libitum water",
                     ].map((sname_feed) => (
                       <FormGroup>
                         <CustomFormControlLabel
@@ -1038,7 +1031,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                 )}
                 {livestockstate[snamelive] && snamelive === "Healthcare management" && (
                   <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
-                    {["Deworming", "Control of ectoparasites and other vectors", "Vaccination"].map((sname_health) => (
+                    {["Vaccination", "Deworming", "Control of ectoparasites and other vectors"].map((sname_health) => (
                       <FormGroup>
                         <CustomFormControlLabel
                           control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname_health]} onChange={changeOpt(sname_health)} name={sname_health} />}
@@ -1067,7 +1060,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
             ))}
           {(activeCrop["sheep"] === true || activeCrop["goat"] === true) && (
             <FormControl component="fieldset" variant="standard">
-              {["Adoption of climate resilient breeds", "Weather forecasts/THI-based advisory services", "Livestock insurance"].map((sname_health) => (
+              {["Adoption of climate resillient breeds", "Reproductive management: Estrous confirmation and synchronisation", "Climate information servics and safetynets"].map((sname_health) => (
                 <FormGroup>
                   <CustomFormControlLabel
                     control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname_health]} onChange={changeOpt(sname_health)} name={sname_health} />}
@@ -1116,7 +1109,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                 />
                 {livestockstate[snamelive] && snamelive === "Shelter management" && (
                   <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
-                    {["Microclimate modification of the shelter", "Modification of shelter", "Planting of trees", "Wallowing", "Mechanical cooling"].map((sname_shelter) => (
+                    {["Modify sheds, planting tress, bathing, and mechanical cooling, wallowing", "Modify shelters", "Shelter for natural hazards"].map((sname_shelter) => (
                       <FormGroup>
                         <CustomFormControlLabel
                           control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname_shelter]} onChange={changeOpt(sname_shelter)} name={sname_shelter} />}
@@ -1144,14 +1137,12 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                 {livestockstate[snamelive] && snamelive === "Feed management" && (
                   <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
                     {[
-                      "Balanced concentrate with buffer",
-                      "Mineral mixture supplementation",
-                      "Bypass protein and fats",
-                      "Feed additive, antioxidants, vitamins and probiotics",
+                      "Ad lib water",
+                      "Balanced concentrate with buffer, feed additives, antioxidants, vitamins and probiotics",
+                      "Mineral mixture supplementation, by pass proteins and fats",
                       "Modification in feeding pattern, schedule, grazing",
-                      "Inclusion of ad libitum green fodder",
                       "Fodder conservation",
-                      "Ad libitum water",
+                      "Inclusion of green fodder",
                     ].map((sname_feed) => (
                       <FormGroup>
                         <CustomFormControlLabel
@@ -1208,34 +1199,31 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
             ))}
           {activeCrop["buffalo"] === true && (
             <FormControl component="fieldset" variant="standard">
-              {[
-                "Reproductive management: Estrous confirmation and synchronisation",
-                "Adoption of climate resilient breeds",
-                "Weather forecasts/THI-based advisory services",
-                "Livestock insurance",
-              ].map((sname_health) => (
-                <FormGroup>
-                  <CustomFormControlLabel
-                    control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname_health]} onChange={changeOpt(sname_health)} name={sname_health} />}
-                    key={sname_health}
-                    label={
-                      <Typography
-                        variant="body2"
-                        align="left"
-                        sx={{
-                          peddingLeft: "3px",
-                          maxWidth: "250px",
-                          wordBreak: "break-word",
-                          whiteSpace: "normal",
-                        }}
-                        style={{ wordWrap: "break-word" }}
-                      >
-                        {sname_health}
-                      </Typography>
-                    }
-                  />
-                </FormGroup>
-              ))}
+              {["Reproductive management: Estrous confirmation and synchronisation", "Adoption of climate resilient breeds", "Climate information servics and safetynets", "Diversification"].map(
+                (sname_health) => (
+                  <FormGroup>
+                    <CustomFormControlLabel
+                      control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname_health]} onChange={changeOpt(sname_health)} name={sname_health} />}
+                      key={sname_health}
+                      label={
+                        <Typography
+                          variant="body2"
+                          align="left"
+                          sx={{
+                            peddingLeft: "3px",
+                            maxWidth: "250px",
+                            wordBreak: "break-word",
+                            whiteSpace: "normal",
+                          }}
+                          style={{ wordWrap: "break-word" }}
+                        >
+                          {sname_health}
+                        </Typography>
+                      }
+                    />
+                  </FormGroup>
+                )
+              )}
             </FormControl>
           )}
           {activeCrop["poultry"] === true &&
@@ -1262,7 +1250,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                 />
                 {livestockstate[snamelive] && snamelive === "Shelter management" && (
                   <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
-                    {["Microclimate modification of the shelter", "Modification of shelter", "Planting of trees", "Heating management", "Mechanical cooling"].map((sname_shelter) => (
+                    {["Micro climate modification-sheds", "Modification of shelter", "Planting of trees", "Heating management", "Mechanical cooling"].map((sname_shelter) => (
                       <FormGroup>
                         <CustomFormControlLabel
                           control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname_shelter]} onChange={changeOpt(sname_shelter)} name={sname_shelter} />}
@@ -1291,10 +1279,10 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                   <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
                     {[
                       "Fat supplementation",
-                      "Protein and amino acid supplementation",
-                      "Feed additive, electrolyte, antioxidants, vitamins and probiotics",
+                      "Protien and amino acid supplementation",
+                      "Ad lib water",
+                      "Feed addtivies, electrolyte, antioxidants, vitamins and probiotics",
                       "Modification in feeding pattern, schedule and space",
-                      "Ad libitum water",
                     ].map((sname_feed) => (
                       <FormGroup>
                         <CustomFormControlLabel
@@ -1322,7 +1310,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                 )}
                 {livestockstate[snamelive] && snamelive === "Healthcare management" && (
                   <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
-                    {["Parasite control", "Thinning of flock", "Separation of multi-aged flock", "Vaccination"].map((sname_health) => (
+                    {["Parasite control", "Thinning of flock", "Vaccination"].map((sname_health) => (
                       <FormGroup>
                         <CustomFormControlLabel
                           control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname_health]} onChange={changeOpt(sname_health)} name={sname_health} />}
@@ -1351,7 +1339,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
             ))}
           {activeCrop["poultry"] === true && (
             <FormControl component="fieldset" variant="standard">
-              {["Adoption of climate resilient breed/strain", "Weather forecasts/THI-based advisory services", "Livestock insurance", "Diversification"].map((sname_health) => (
+              {["Adoption of climate resillient breed/strain", "Climate information servics and safetynets", "Diversification"].map((sname_health) => (
                 <FormGroup>
                   <CustomFormControlLabel
                     control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname_health]} onChange={changeOpt(sname_health)} name={sname_health} />}
@@ -1400,7 +1388,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                 />
                 {livestockstate[snamelive] && snamelive === "Shelter management" && (
                   <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
-                    {["Microclimate modification of the shelter", "Modification of shelter", "Planting of trees", "Wallowing", "Mechanical cooling"].map((sname_shelter) => (
+                    {["Modify sheds, planting tress, bathing, and mechanical cooling, wallowing", "Modify shelters", "Shelter for natural hazards"].map((sname_shelter) => (
                       <FormGroup>
                         <CustomFormControlLabel
                           control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname_shelter]} onChange={changeOpt(sname_shelter)} name={sname_shelter} />}
@@ -1428,11 +1416,10 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                 {livestockstate[snamelive] && snamelive === "Feed management" && (
                   <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
                     {[
-                      "Balanced concentrate with buffer",
+                      "Ad lib water",
+                      "Balanced concentrate with buffer, feed additives, antioxidants, vitamins and probiotics",
                       "Mineral mixture supplementation",
-                      "Feed additive, antioxidants, vitamins and probiotics",
                       "Modification in feeding pattern, schedule",
-                      "Ad libitum water",
                     ].map((sname_feed) => (
                       <FormGroup>
                         <CustomFormControlLabel
@@ -1460,7 +1447,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                 )}
                 {livestockstate[snamelive] && snamelive === "Healthcare management" && (
                   <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
-                    {["Deworming against endoparasites", "Control of ectoparasites and other vectors", "Vaccination"].map((sname_health) => (
+                    {["Vaccination", "Deworming", "Control of ectoparasites and other vectors"].map((sname_health) => (
                       <FormGroup>
                         <CustomFormControlLabel
                           control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname_health]} onChange={changeOpt(sname_health)} name={sname_health} />}
@@ -1489,12 +1476,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
             ))}
           {activeCrop["pig"] === true && (
             <FormControl component="fieldset" variant="standard">
-              {[
-                "Reproductive management: Use of assisted reproductive technologies",
-                "Adoption of climate resilient breeds",
-                "Weather forecasts/THI-based advisory services",
-                "Livestock insurance",
-              ].map((sname_health) => (
+              {["Adoption of climate resillient breeds", "Reproductive management: Use of ART tools", "Climate information servics and safetynets"].map((sname_health) => (
                 <FormGroup>
                   <CustomFormControlLabel
                     control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname_health]} onChange={changeOpt(sname_health)} name={sname_health} />}

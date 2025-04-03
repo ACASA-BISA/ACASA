@@ -413,7 +413,7 @@ export default function CompV({
                       maxWidth: "250px",
                       wordBreak: "break-word",
                       whiteSpace: "normal",
-                      fontSize: "12px",
+                      fontSize: "11px",
                     }}
                     style={{ wordWrap: "break-word" }}
                   >

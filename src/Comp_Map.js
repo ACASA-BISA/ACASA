@@ -1166,6 +1166,47 @@ export default function MApp({
       "Manure Management": "MNMGT",
       "Information Use": "INFO",
       "Heat Stress Management": "HSMGT",
+
+      // Newly added entries
+      "Micro climate modification-sheds": "Shelter1",
+      "Modification of shelter": "Shelter2",
+      "Planting of trees": "Shelter3",
+      "Heating management": "Shelter4",
+      "Mechanical cooling": "Shelter5",
+      "Modify sheds, planting trees, bathing, and mechanical cooling, wallowing": "Shelter6",
+      "Modify shelters": "Shelter7",
+      "Shelter for natural hazards": "Shelter8",
+      "Modify sheds, planting trees, ventilation, roof height": "Shelter9",
+      "Modify sheds, planting trees, bathing, and mechanical cooling": "Shelter10",
+
+      "Fat supplementation": "Feed1",
+      "Protein and amino acid supplementation": "Feed2",
+      "Ad lib water": "Feed3",
+      "Feed additives, electrolyte, antioxidants, vitamins and probiotics": "Feed4",
+      "Modification in feeding pattern, schedule and space": "Feed5",
+      "Balanced concentrate with buffer, feed additives, antioxidants, vitamins and probiotics": "Feed6",
+      "Mineral mixture supplementation": "Feed7",
+      "Modification in feeding pattern, schedule": "Feed8",
+      "Mineral mixture supplementation, bypass proteins and fats": "Feed9",
+      "Modification in feeding pattern, schedule, grazing": "Feed10",
+      "Grassland and Silvi-pasture management": "Feed11",
+      "Fodder conservation": "Feed12",
+      "Inclusion of green fodder": "Feed13",
+
+      "Parasite control": "Health1",
+      "Thinning of flock": "Health2",
+      "Vaccination": "Health3",
+      "Deworming": "Health4",
+      "Control of ectoparasites and other vectors": "Health5",
+
+      "Adoption of climate resilient breed/strain": "Resilient1",
+      "Adoption of climate resilient breeds": "Resilient2",
+
+      "Use of ART tools": "Reproductivemngt1",
+      "Estrous confirmation and synchronisation": "Reproductivemngt2",
+
+      "Climate information services and safety nets": "Safetynet",
+      "Diversification": "Diversify",
     };
 
     const hazardname = {
@@ -1237,6 +1278,16 @@ export default function MApp({
           urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP245/Suitability_" + activeCrop + "_" + optcode[activeOpt] + "_ssp245.tif";
         } else {
           urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Suitability_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
+        }
+
+        if (checkcrop2() === false) {
+          if (activeScenario === "baseline") {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/Baseline/Baseline_CHC_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+          } else if (activeScenario === "ssp245") {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP245/SSP245_CHC_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+          } else {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/SSP585_CHC_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+          }
         }
         if (activeOptLayer["Yield"]) {
           if (activeScenario === "baseline") {
@@ -1354,7 +1405,7 @@ export default function MApp({
         });
       } else if (activeImpact["Productivity"] || activeImpact["Value of Production"] || activeImpact["Resilience"]) {
         let urlstr = "xyz.tif";
-        opt = 3;
+        opt = 555;
         if (activeImpact["Productivity"]) {
           urlstr = "./Impact/" + activeCrop + "_Productivity_" + activeScenario + ".tif";
         } else if (activeImpact["Resilience"]) {
@@ -1420,6 +1471,8 @@ export default function MApp({
       } else if (opt === 333) {
         newOverl.setStyle(color_adaptation2);
         //newOverl.setStyle(color_hazard4);
+      } else if (opt === 555) {
+        newOverl.setStyle(color_hazard_reverse);
       } else if (opt === 4) {
         newOverl.setStyle(color4);
       } else if (opt === 99) {
@@ -1631,13 +1684,15 @@ export default function MApp({
       CurrRisk === "Socio-economic Development Indicator" ||
       CurrRisk === "Income" ||
       CurrRisk === "Cropped Area" ||
-      CurrRisk === "Number of Animals per grid"
+      CurrRisk === "Number of Animals per grid" ||
+      CurrRisk === "Exposure Index" ||
+      CurrRisk === "Vulnerability Index"
     ) {
       if (activeScenario !== "baseline") {
         return 1;
       }
     }
-    if (activeOptLayer["Gender"]) {
+    if (activeOptLayer["Gender"] && activeOptLayer["Adaptation Benefits"] === false) {
       return 3;
     }
     return 2;

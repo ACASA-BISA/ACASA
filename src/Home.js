@@ -68,7 +68,7 @@ const Home = (props) => {
   const navigate = useNavigate();
 
   const toComponentB = () => {
-    navigate("/viewer", { state: { Region: reg, Commodity: comm } });
+    navigate("/exploredata", { state: { Region: reg, Commodity: comm } });
   };
 
   const { mode } = useContext(ThemeContext);
@@ -216,7 +216,7 @@ const Home = (props) => {
             }}
           >
             <a
-              href="/#/viewer"
+              href="/#/exploredata"
               onClick={() => {
                 toComponentB();
               }}
@@ -535,7 +535,7 @@ function Item(props) {
           </Box>
           <Button
             variant="contained"
-            href="/#/viewer"
+            href="/#/exploredata"
             sx={(theme) => ({
               "width": "160px",
               "mt": 6,

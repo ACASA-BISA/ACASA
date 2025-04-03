@@ -210,7 +210,7 @@ export function fetchthedataHzd(activeScale, RiskName, ImpactName, displayLayer,
             (row_data["Rural population under Very High category"] * 0.16) / 1000000
           ),
         ];
-      } else if (RiskName2 === "Productivity" || RiskName2 === "Resilience") {
+      } else if (RiskName2 === "Productivity") {
         data = [
           createData(
             "#969696",
@@ -228,14 +228,14 @@ export function fetchthedataHzd(activeScale, RiskName, ImpactName, displayLayer,
           ),
           createData(
             "#FFA500",
-            "Low loss",
+            "Med loss",
             row_data["Cropped Area/Number of animals under Low category"],
             ((row_data["Cropped Area/Number of animals under Low category"] * 100) / total).toFixed(2),
             (row_data["Rural population under Low category"] * 0.16) / 1000000
           ),
           createData(
             "#FFDE4D",
-            "Low impact",
+            "Nil",
             row_data["Cropped Area/Number of animals under Medium category"],
             ((row_data["Cropped Area/Number of animals under Medium category"] * 100) / total).toFixed(2),
             (row_data["Rural population under Medium category"] * 0.16) / 1000000
