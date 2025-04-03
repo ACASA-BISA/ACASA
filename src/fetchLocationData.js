@@ -59,16 +59,12 @@ export function fetchLocationData(location, commodity, scenario, hazard, data, a
     "Hot days": "Heat stress or hot days",
     "Temperature-Humidity Index": "THI",
     "Socio-economic Development Indicator": "Human development index",
-<<<<<<< Updated upstream
-    "Value of Production": "vop_NT_wheat_USD",
-=======
     "Productivity": "Productivity",
     "Resilience": "CV",
     "Value of Production": "VOP",
     "Seasonal Rainfall": "Seasonal Rainfall",
     "Maximum Temperature": "Maximum Temperature",
     "Minimum Temperature": "Minimum Temperature",
->>>>>>> Stashed changes
   };
 
   // Location-based filtering

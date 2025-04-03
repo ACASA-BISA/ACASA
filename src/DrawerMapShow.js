@@ -51,12 +51,12 @@ async function fetchCsv() {
 }
 
 async function fetchCsv2() {
-  const response = await fetch("./Computed.json");
+  const response = await fetch("./All_adaptation_crops_corrected2.json");
   return await response.json();
 }
 
 async function fetchCsv3() {
-  const response = await fetch("./Computed_Hazard.json");
+  const response = await fetch("./All_hazards_crops_corrected2.json");
   return await response.json();
 }
 
@@ -823,6 +823,14 @@ export default function DrawerMapShow({ activeBar }) {
   }, []);
 
   const area_dict4 = area_data4;
+
+  if (typeof area_dict3 === "object" && typeof area_dict === "object") {
+    Object.assign(area_dict3, area_dict);
+  }
+
+  if (typeof area_dict4 === "object" && typeof area_dict2 === "object") {
+    Object.assign(area_dict4, area_dict2);
+  }
 
   const OnFocus = ["Region", "Country", "State"];
 
