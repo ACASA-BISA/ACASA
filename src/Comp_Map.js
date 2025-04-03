@@ -237,7 +237,15 @@ export default function MApp({
     color: [
       "palette",
       ["interpolate", ["linear"], ["*", ["band", 2], 385], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 8],
-      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#8B0000", "#FF4500", "#FFDE4D", "#FFDE4D", "#00FF00", "#059212"],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#A52A2A", "#FF4500", "#FFDE4D", "#FFDE4D", "#00FF00", "#059212"],
+    ],
+  };
+
+  const color_adaptation_livestock = {
+    color: [
+      "palette",
+      ["interpolate", ["linear"], ["*", ["band", 2], 385], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 8],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "rgba(150,150,150,1)", "#FF4500", "#FFDE4D", "#FFDE4D", "#00FF00", "#059212"],
     ],
   };
 
@@ -245,7 +253,7 @@ export default function MApp({
     color: [
       "palette",
       ["interpolate", ["linear"], ["*", ["band", 2], 385], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 8],
-      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#8B0000", "rgb(248, 36, 36)", "rgba(245, 140, 170, 1)", "rgba(245, 140, 170, 1)", "rgba(109, 233, 109, 1)", "rgba(4, 145, 4, 1)"],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#A52A2A", "rgb(248, 36, 36)", "rgba(245, 140, 170, 1)", "rgba(245, 140, 170, 1)", "rgba(109, 233, 109, 1)", "rgba(4, 145, 4, 1)"],
     ],
   };
   const color_hazard_district = {
@@ -1470,6 +1478,9 @@ export default function MApp({
         }
       } else if (opt === 333) {
         newOverl.setStyle(color_adaptation2);
+        if (checkcrop2() === false) {
+          newOverl.setStyle(color_adaptation_livestock);
+        }
         //newOverl.setStyle(color_hazard4);
       } else if (opt === 555) {
         newOverl.setStyle(color_hazard_reverse);
@@ -1694,9 +1705,16 @@ export default function MApp({
         return 1;
       }
     }
-    if (activeOptLayer["Gender"] && activeOptLayer["Adaptation Benefits"] === false) {
-      return 3;
+    if (activeOptLayer["Yield"]) {
+      if (activeOptLayer["Gender"] && activeOptLayer["Adaptation Benefits"] === false) {
+        return 3;
+      }
+      if (activeOptLayer["Scalability"] && activeOptLayer["Adaptation Benefits"] === false) {
+        return 2;
+      }
+      return 4;
     }
+
     return 2;
   }
   return (
@@ -1709,6 +1727,7 @@ export default function MApp({
           <Typography sx={{ fontSize: 12 }}>
             {for_unavailabe_future_data() === 1 && "Since no data is available for this scenario, we have replicated the baseline data"}
             {for_unavailabe_future_data() === 3 && "This denotes technology suitability for women"}
+            {for_unavailabe_future_data() === 4 && "These are test results for understanding the website layout, results will be updated in future."}
           </Typography>
         }
         open={for_unavailabe_future_data() !== 2}
