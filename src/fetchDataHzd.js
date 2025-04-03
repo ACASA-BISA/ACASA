@@ -165,11 +165,7 @@ export function fetchthedataHzd(activeScale, RiskName, ImpactName, displayLayer,
           (row_data["Cropped Area/Number of animals under Very High category"] || 0) +
           (row_data["Cropped Area/Number of animals under Nil category"] || 0) || 1;
 
-<<<<<<< Updated upstream
-      if (RiskType() === "Vulnerability") {
-=======
       if (RiskType() === "Vulnerability" || RiskName2 === "Resilience" || RiskName2 === "Value of Production") {
->>>>>>> Stashed changes
         data = [
           createData(
             "#969696",
