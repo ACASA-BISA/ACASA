@@ -108,6 +108,7 @@ export function fetchthedataHzd(activeScale, RiskName, ImpactName, displayLayer,
     "Socio-economic Development Indicator": "Human development index",
     "Productivity": "Productivity",
     "Resilience": "CV",
+    "Value of Production": "VOP",
     "Seasonal Rainfall": "Seasonal Rainfall",
     "Maximum Temperature": "Maximum Temperature",
     "Minimum Temperature": "Minimum Temperature",
@@ -123,10 +124,6 @@ export function fetchthedataHzd(activeScale, RiskName, ImpactName, displayLayer,
       let y = "";
       let x = "";
       let rowstr = "";
-
-      if (ImpactName === "Value of Production") {
-        urlstr += scenario.toLowerCase() + "_";
-      }
 
       let RiskName2 = RiskName !== "" ? RiskName : ImpactName;
 
