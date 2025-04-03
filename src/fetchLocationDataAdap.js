@@ -1,4 +1,4 @@
-export function fetchLocationDataAdap(location, commodity, scenario, adaptation, data, AdaptLayerName, analysis_level) {
+export function fetchLocationDataAdap(location, commodity, scenario, adaptation, data, activeOptLayer, analysis_level) {
   let filteredData = Object.values(data);
 
   if (scenario === "baseline") {
@@ -36,12 +36,85 @@ export function fetchLocationDataAdap(location, commodity, scenario, adaptation,
     "Manure Management": "MNMGT",
     "Information Use": "INFO",
     "Heat Stress Management": "HSMGT",
+
+    // Newly added entries
+    "Micro climate modification-sheds": "Shelter1",
+    "Modification of shelter": "Shelter2",
+    "Planting of trees": "Shelter3",
+    "Heating management": "Shelter4",
+    "Mechanical cooling": "Shelter5",
+    "Modify sheds, planting trees, bathing, and mechanical cooling, wallowing": "Shelter6",
+    "Modify shelters": "Shelter7",
+    "Shelter for natural hazards": "Shelter8",
+    "Modify sheds, planting trees, ventilation, roof height": "Shelter9",
+    "Modify sheds, planting trees, bathing, and mechanical cooling": "Shelter10",
+
+    "Fat supplementation": "Feed1",
+    "Protein and amino acid supplementation": "Feed2",
+    "Ad lib water": "Feed3",
+    "Feed additives, electrolyte, antioxidants, vitamins and probiotics": "Feed4",
+    "Modification in feeding pattern, schedule and space": "Feed5",
+    "Balanced concentrate with buffer, feed additives, antioxidants, vitamins and probiotics": "Feed6",
+    "Mineral mixture supplementation": "Feed7",
+    "Modification in feeding pattern, schedule": "Feed8",
+    "Mineral mixture supplementation, bypass proteins and fats": "Feed9",
+    "Modification in feeding pattern, schedule, grazing": "Feed10",
+    "Grassland and Silvi-pasture management": "Feed11",
+    "Fodder conservation": "Feed12",
+    "Inclusion of green fodder": "Feed13",
+
+    "Parasite control": "Health1",
+    "Thinning of flock": "Health2",
+    "Vaccination": "Health3",
+    "Deworming": "Health4",
+    "Control of ectoparasites and other vectors": "Health5",
+
+    "Adoption of climate resilient breed/strain": "Resilient1",
+    "Adoption of climate resilient breeds": "Resilient2",
+
+    "Use of ART tools": "Reproductivemngt1",
+    "Estrous confirmation and synchronisation": "Reproductivemngt2",
+
+    "Climate information services and safety nets": "Safetynet",
+    "Diversification": "Diversify",
   };
 
-  let opt_suffix = "";
-  if (AdaptLayerName["Adaptation Benefits"]) opt_suffix = "_ADAP";
-  if (AdaptLayerName["Economic"]) opt_suffix = "_ECO";
-  if (AdaptLayerName["Scalability"]) opt_suffix = "_SCA";
+  let AdaptLayerName = "";
+  if (activeOptLayer["Biophysical Suitability"]) {
+    AdaptLayerName = "Biophysical Suitability";
+  }
+  if (activeOptLayer["Yield"]) {
+    AdaptLayerName = "Yield Benefits";
+  }
+  if (activeOptLayer["Economic"]) {
+    AdaptLayerName = "Economic Viability";
+  }
+  if (activeOptLayer["Scalability"]) {
+    AdaptLayerName = "Scalability";
+  }
+  if (activeOptLayer["Gender"]) {
+    AdaptLayerName = "Gender Suitability";
+  }
+  if (activeOptLayer["Adaptation Benefits"]) {
+    AdaptLayerName = "Adaptation Benefits";
+  }
+  if (
+    activeOptLayer["Biophysical Suitability"] === false &&
+    activeOptLayer["Adaptation Benefits"] === false &&
+    activeOptLayer["Economic"] === false &&
+    activeOptLayer["Scalability"] === false &&
+    activeOptLayer["Gender"] === false &&
+    activeOptLayer["Yield"] === false
+  ) {
+    AdaptLayerName = "Biophysical Suitability";
+  }
+
+  let opt_prefix = "";
+  if (AdaptLayerName === "Yield Benefits") opt_prefix = "Yield";
+  if (AdaptLayerName === "Economic Viability") opt_prefix = "Economic";
+  if (AdaptLayerName === "Scalability") opt_prefix = "Scalability";
+  if (AdaptLayerName === "Gender Suitability") opt_prefix = "Gender";
+  if (AdaptLayerName === "Adaptation Benefits") opt_prefix = "Adaptation";
 
   // Location-based filtering
   if (!location.includes(",")) {
@@ -71,7 +144,7 @@ export function fetchLocationDataAdap(location, commodity, scenario, adaptation,
   // Apply additional filters (Commodity, Scenario, adaptation)
   filteredData = filteredData.filter((row) => row.Commodity === commodity);
   filteredData = filteredData.filter((row) => row.Scenario === scenario);
-  filteredData = filteredData.filter((row) => row.Adaptation === `${optcode[adaptation]}${opt_suffix}`);
+  filteredData = filteredData.filter((row) => row.Adaptation === `${opt_prefix}${optcode[adaptation]}`);
 
   if (analysis_level === "District Level") filteredData = filteredData.filter((row) => row["Analysis Level"] === "DISTRICT");
   if (analysis_level === "Pixel Level") filteredData = filteredData.filter((row) => row["Analysis Level"] === "PIXEL");

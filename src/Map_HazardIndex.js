@@ -23,7 +23,7 @@ import { ZoomToExtent, FullScreen, defaults as defaultControls } from "ol/contro
 import "./olsm.css";
 import Box from "@mui/material/Box";
 
-export default function Map_Index({ activeCrop, focus = "Region", activeRegion, CurrRisk }) {
+export default function Map_Index({ activeCrop, focus = "Region", activeRegion, CurrRisk, activeScenario }) {
   const ref = useRef(null);
   const mapRef = useRef(null);
   const [overl, setOverl] = useState(null);
@@ -409,7 +409,20 @@ export default function Map_Index({ activeCrop, focus = "Region", activeRegion, 
 
   useEffect(() => {
     let source1 = null;
-    const urlstr = "./Hazard_index/" + activeCrop + ".tif";
+    let urlstr = "xyz.tif";
+    let modelName = "CHC";
+    if (activeScenario === "baseline") {
+      //urlstr = "./Hazards/" + activeCrop + "/Baseline/" + district_n + "ZZ_" + hazardname[CurrRisk] + ".tif";
+      //if (checkcrop2() === false) {
+      urlstr = "./Hazards/" + activeCrop + "/" + modelName + "/" + "Baseline/" + `Baseline_${modelName}_${activeCrop}_Hazard Index` + ".tif";
+      //}
+    } else {
+      //urlstr = "./Hazards/" + activeCrop + "/" + activeScenario.toUpperCase() + "/" + district_n + "ZZ_" + hazardname[CurrRisk] + ".tif";
+      //if (checkcrop2() === false) {
+      urlstr = "./Hazards/" + activeCrop + "/" + modelName + "/" + activeScenario.toUpperCase() + "/" + `${activeScenario.toUpperCase()}_${modelName}_${activeCrop}_Hazard Index` + ".tif";
+      //}
+    }
+
     source1 = new GeoTIFF({
       sources: [{ url: urlstr }],
       sourceOptions: { allowFullFile: true },

@@ -241,6 +241,13 @@ export default function MApp({
     ],
   };
 
+  const color_adaptation_yield = {
+    color: [
+      "palette",
+      ["interpolate", ["linear"], ["*", ["band", 2], 385], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 8],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#8B0000", "rgb(248, 36, 36)", "rgba(245, 140, 170, 1)", "rgba(245, 140, 170, 1)", "rgba(109, 233, 109, 1)", "rgba(4, 145, 4, 1)"],
+    ],
+  };
   const color_hazard_district = {
     color: [
       "palette",
@@ -580,8 +587,8 @@ export default function MApp({
       dropdown.appendChild(geoTiffOption);
       dropdown.appendChild(divider_custom);
       dropdown.appendChild(csvOption);
-      dropdown.appendChild(divider_custom2);
-      dropdown.appendChild(imageOption);
+      //dropdown.appendChild(divider_custom2);
+      //dropdown.appendChild(imageOption);
 
       // Create control container
       const element = document.createElement("div");
@@ -840,7 +847,7 @@ export default function MApp({
     mapRef.current.addControl(downloadControl);
     downloadControlRef.current = downloadControl;
 
-    if (CurrRisk !== "") {
+    /* if (CurrRisk !== "") {
       if (!popperControlRef.current) {
         // Prevent duplicate addition
         const popperControl = new PopperControl();
@@ -852,7 +859,7 @@ export default function MApp({
         mapRef.current.removeControl(popperControlRef.current);
         popperControlRef.current = null;
       }
-    }
+    } */
   }, [filename, CurrRisk]);
 
   useEffect(() => {
@@ -1159,6 +1166,47 @@ export default function MApp({
       "Manure Management": "MNMGT",
       "Information Use": "INFO",
       "Heat Stress Management": "HSMGT",
+
+      // Newly added entries
+      "Micro climate modification-sheds": "Shelter1",
+      "Modification of shelter": "Shelter2",
+      "Planting of trees": "Shelter3",
+      "Heating management": "Shelter4",
+      "Mechanical cooling": "Shelter5",
+      "Modify sheds, planting trees, bathing, and mechanical cooling, wallowing": "Shelter6",
+      "Modify shelters": "Shelter7",
+      "Shelter for natural hazards": "Shelter8",
+      "Modify sheds, planting trees, ventilation, roof height": "Shelter9",
+      "Modify sheds, planting trees, bathing, and mechanical cooling": "Shelter10",
+
+      "Fat supplementation": "Feed1",
+      "Protein and amino acid supplementation": "Feed2",
+      "Ad lib water": "Feed3",
+      "Feed additives, electrolyte, antioxidants, vitamins and probiotics": "Feed4",
+      "Modification in feeding pattern, schedule and space": "Feed5",
+      "Balanced concentrate with buffer, feed additives, antioxidants, vitamins and probiotics": "Feed6",
+      "Mineral mixture supplementation": "Feed7",
+      "Modification in feeding pattern, schedule": "Feed8",
+      "Mineral mixture supplementation, bypass proteins and fats": "Feed9",
+      "Modification in feeding pattern, schedule, grazing": "Feed10",
+      "Grassland and Silvi-pasture management": "Feed11",
+      "Fodder conservation": "Feed12",
+      "Inclusion of green fodder": "Feed13",
+
+      "Parasite control": "Health1",
+      "Thinning of flock": "Health2",
+      "Vaccination": "Health3",
+      "Deworming": "Health4",
+      "Control of ectoparasites and other vectors": "Health5",
+
+      "Adoption of climate resilient breed/strain": "Resilient1",
+      "Adoption of climate resilient breeds": "Resilient2",
+
+      "Use of ART tools": "Reproductivemngt1",
+      "Estrous confirmation and synchronisation": "Reproductivemngt2",
+
+      "Climate information services and safety nets": "Safetynet",
+      "Diversification": "Diversify",
     };
 
     const hazardname = {
@@ -1223,6 +1271,7 @@ export default function MApp({
       if (activeOpt !== "") {
         opt = 333;
         let urlstr = "xyz.tif";
+
         if (activeScenario === "baseline") {
           urlstr = "./Adap/" + activeCrop + "/" + modelName + "/Baseline/Suitability_" + activeCrop + "_" + optcode[activeOpt] + "_baseline.tif";
         } else if (activeScenario === "ssp245") {
@@ -1230,10 +1279,67 @@ export default function MApp({
         } else {
           urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Suitability_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
         }
+
         if (checkcrop2() === false) {
-          opt = 333;
-          urlstr = "./Adap/" + activeCrop + "/" + activeOpt + " Baseline.tif";
+          if (activeScenario === "baseline") {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/Baseline/Baseline_CHC_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+          } else if (activeScenario === "ssp245") {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP245/SSP245_CHC_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+          } else {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/SSP585_CHC_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+          }
         }
+        if (activeOptLayer["Yield"]) {
+          if (activeScenario === "baseline") {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/Baseline/Yield_" + activeCrop + "_" + optcode[activeOpt] + "_baseline.tif";
+          } else if (activeScenario === "ssp245") {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP245/Yield_" + activeCrop + "_" + optcode[activeOpt] + "_ssp245.tif";
+          } else {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Yield_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
+          }
+          opt = 222;
+        }
+        if (activeOptLayer["Economic"]) {
+          if (activeScenario === "baseline") {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/Baseline/Economic_" + activeCrop + "_" + optcode[activeOpt] + "_baseline.tif";
+          } else if (activeScenario === "ssp245") {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP245/Economic_" + activeCrop + "_" + optcode[activeOpt] + "_ssp245.tif";
+          } else {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Economic_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
+          }
+          opt = 333;
+        }
+        if (activeOptLayer["Scalability"]) {
+          if (activeScenario === "baseline") {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/Baseline/Scalability_" + activeCrop + "_" + optcode[activeOpt] + "_baseline.tif";
+          } else if (activeScenario === "ssp245") {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP245/Scalability_" + activeCrop + "_" + optcode[activeOpt] + "_ssp245.tif";
+          } else {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Scalability_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
+          }
+          opt = 333;
+        }
+        if (activeOptLayer["Gender"]) {
+          if (activeScenario === "baseline") {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/Baseline/Gender_" + activeCrop + "_" + optcode[activeOpt] + "_baseline.tif";
+          } else if (activeScenario === "ssp245") {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP245/Gender_" + activeCrop + "_" + optcode[activeOpt] + "_ssp245.tif";
+          } else {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Gender_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
+          }
+          opt = 333;
+        }
+        if (activeOptLayer["Adaptation Benefits"]) {
+          if (activeScenario === "baseline") {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/Baseline/Yield_" + activeCrop + "_" + optcode[activeOpt] + "_baseline.tif";
+          } else if (activeScenario === "ssp245") {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP245/Adaptation_" + activeCrop + "_" + optcode[activeOpt] + "_ssp245.tif";
+          } else {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Adaptation_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
+          }
+          opt = 222;
+        }
+        //console.log(urlstr);
         settiffFilePath(urlstr);
         source1 = new GeoTIFF({ sources: [{ url: urlstr }], sourceOptions: { allowFullFile: true } });
       } else if (CurrRisk !== "") {
@@ -1299,13 +1405,13 @@ export default function MApp({
         });
       } else if (activeImpact["Productivity"] || activeImpact["Value of Production"] || activeImpact["Resilience"]) {
         let urlstr = "xyz.tif";
-        opt = 3;
+        opt = 555;
         if (activeImpact["Productivity"]) {
           urlstr = "./Impact/" + activeCrop + "_Productivity_" + activeScenario + ".tif";
         } else if (activeImpact["Resilience"]) {
           urlstr = "./Impact/" + activeCrop + "_CV_" + activeScenario + ".tif";
         } else {
-          urlstr = "./Impact/" + activeCrop + "/ZZ_" + activeScenario + "_vop_NT_wheat_USD.tif";
+          urlstr = "./Impact/" + activeCrop + "_VOP_" + activeScenario + ".tif";
         }
         settiffFilePath(urlstr);
         source1 = new GeoTIFF({
@@ -1365,14 +1471,16 @@ export default function MApp({
       } else if (opt === 333) {
         newOverl.setStyle(color_adaptation2);
         //newOverl.setStyle(color_hazard4);
+      } else if (opt === 555) {
+        newOverl.setStyle(color_hazard_reverse);
       } else if (opt === 4) {
         newOverl.setStyle(color4);
       } else if (opt === 99) {
         newOverl.setStyle(color_hazard_25);
       } else if (opt === 102) {
         newOverl.setStyle(color_hazard3);
-      } else if (opt === 801) {
-        newOverl.setStyle(color_hazard_change);
+      } else if (opt === 222) {
+        newOverl.setStyle(color_adaptation_yield);
       } else {
         newOverl.setStyle(colorGradientEx);
       }
@@ -1381,9 +1489,9 @@ export default function MApp({
         setOverl(newOverl);
       }
     }
-  }, [CurrRisk, activeCrop, activeOpt, activeImpact, mapRef, activeScenario, displayLayer, activeScale, exploreType]);
+  }, [CurrRisk, activeCrop, activeOpt, activeImpact, mapRef, activeScenario, displayLayer, activeScale, exploreType, activeOptLayer]);
 
-  useEffect(() => {
+  /*   useEffect(() => {
     let source_bio = null;
     let source_adapt = null;
     let source_socio = null;
@@ -1426,11 +1534,11 @@ export default function MApp({
       if (!Biolayer && activeOptLayer["Biophysical Suitability"]) {
         found = true;
         if (activeScenario === "baseline") {
-          urlstr = "./Adap/" + activeCrop + "/Baseline/Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+          urlstr = "./Adap/" + activeCrop + "/" + modelName + "/Baseline/Suitability_" + activeCrop + "_" + optcode[activeOpt] + "_baseline.tif";
         } else if (activeScenario === "ssp245") {
-          urlstr = "./Adap/" + activeCrop + "/SSP245/Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+          urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP245/Suitability_" + activeCrop + "_" + optcode[activeOpt] + "_ssp245.tif";
         } else {
-          urlstr = "./Adap/" + activeCrop + "/SSP585/Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+          urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Suitability_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
         }
         source_bio = new GeoTIFF({
           sources: [{ url: urlstr }],
@@ -1471,11 +1579,11 @@ export default function MApp({
       if (!Scalelayer && activeOptLayer["Scalability"]) {
         found = true;
         if (activeScenario === "baseline") {
-          urlstr = "./Adap/" + activeCrop + "/Baseline/Scale/SCA_Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+          urlstr = "./Adap/" + activeCrop + "/" + modelName + "/Baseline/Scalability_" + activeCrop + "_" + optcode[activeOpt] + "_baseline.tif";
         } else if (activeScenario === "ssp245") {
-          urlstr = "./Adap/" + activeCrop + "/SSP245/Scale/SCA_Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+          urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP245/Scalability_" + activeCrop + "_" + optcode[activeOpt] + "_ssp245.tif";
         } else {
-          urlstr = "./Adap/" + activeCrop + "/SSP585/Scale/SCA_Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+          urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Scalability_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
         }
         source_scale = new GeoTIFF({
           sources: [{ url: urlstr }],
@@ -1556,14 +1664,14 @@ export default function MApp({
         zIndex: 95,
       });
       if (opt === 2) {
-        newOverl.setStyle(color_adaptation);
+        newOverl.setStyle(color_adaptation2);
       }
       if (mapRef.current) {
         mapRef.current.addLayer(newOverl);
         setScaleLayer(newOverl);
       }
     }
-  }, [activeOptLayer, activeOpt, mapRef]);
+  }, [activeOptLayer, activeOpt, mapRef]); */
   //let optionname = activeOpt;
   function for_unavailabe_future_data() {
     if (
@@ -1576,13 +1684,18 @@ export default function MApp({
       CurrRisk === "Socio-economic Development Indicator" ||
       CurrRisk === "Income" ||
       CurrRisk === "Cropped Area" ||
-      CurrRisk === "Number of Animals per grid"
+      CurrRisk === "Number of Animals per grid" ||
+      CurrRisk === "Exposure Index" ||
+      CurrRisk === "Vulnerability Index"
     ) {
       if (activeScenario !== "baseline") {
-        return true;
+        return 1;
       }
     }
-    return false;
+    if (activeOptLayer["Gender"] && activeOptLayer["Adaptation Benefits"] === false) {
+      return 3;
+    }
+    return 2;
   }
   return (
     <div style={{ overflow: "hidden" }}>
@@ -1590,8 +1703,13 @@ export default function MApp({
         <div id="popup-content2" style={{ textTransform: "capitalize", fontSize: "13px" }}></div>
       </div>
       <Tooltip
-        title={<Typography sx={{ fontSize: 12 }}>Since no data is available for this scenario, we have replicated the baseline data</Typography>}
-        open={for_unavailabe_future_data()}
+        title={
+          <Typography sx={{ fontSize: 12 }}>
+            {for_unavailabe_future_data() === 1 && "Since no data is available for this scenario, we have replicated the baseline data"}
+            {for_unavailabe_future_data() === 3 && "This denotes technology suitability for women"}
+          </Typography>
+        }
+        open={for_unavailabe_future_data() !== 2}
         placement="top"
         slotProps={{
           popper: {
@@ -1599,7 +1717,7 @@ export default function MApp({
               {
                 name: "offset",
                 options: {
-                  offset: [0, -70],
+                  offset: [0, -60],
                 },
               },
             ],

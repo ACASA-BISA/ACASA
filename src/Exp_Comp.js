@@ -413,7 +413,7 @@ export default function CompV({
                       maxWidth: "250px",
                       wordBreak: "break-word",
                       whiteSpace: "normal",
-                      fontSize: "12px",
+                      fontSize: "11px",
                     }}
                     style={{ wordWrap: "break-word" }}
                   >
@@ -496,7 +496,7 @@ export default function CompV({
                     <Paper
                       elevation={1}
                       sx={{
-                        maxWidth: paperWidth,
+                        maxWidth: "400px",
                         borderRadius: "5px",
                         padding: "3px",
                       }}

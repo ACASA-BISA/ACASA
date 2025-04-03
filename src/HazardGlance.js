@@ -116,7 +116,10 @@ export default function HazardGlance({ handleChangeSumm, cropid, focus2, activeR
               <Typography sx={{ marginLeft: "5px", fontSize: 13, fontWeight: "bold" }}>Model: </Typography>
               <Summ_Model handleModel={handleModel} mdl={NameModel}></Summ_Model>
             </Box>
-            <Map_Index activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} CurrRisk={CurrRisk2}></Map_Index>
+            {/*
+            <Map_Hazard activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} CurrRisk="Hazard Index" activeScenario={NameScenario}></Map_Hazard>
+            */}
+            <Map_Index activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} CurrRisk="Hazard Index" activeScenario={NameScenario}></Map_Index>
           </Paper>
           <Popper
             open={true} // Always open
