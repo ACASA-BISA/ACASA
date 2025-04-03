@@ -1223,6 +1223,7 @@ export default function MApp({
       if (activeOpt !== "") {
         opt = 333;
         let urlstr = "xyz.tif";
+
         if (activeScenario === "baseline") {
           urlstr = "./Adap/" + activeCrop + "/" + modelName + "/Baseline/Suitability_" + activeCrop + "_" + optcode[activeOpt] + "_baseline.tif";
         } else if (activeScenario === "ssp245") {
@@ -1230,10 +1231,34 @@ export default function MApp({
         } else {
           urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Suitability_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
         }
-        if (checkcrop2() === false) {
-          opt = 333;
-          urlstr = "./Adap/" + activeCrop + "/" + activeOpt + " Baseline.tif";
+        if (activeOptLayer["Economic"]) {
+          if (activeScenario === "baseline") {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/Baseline/Economic_" + activeCrop + "_" + optcode[activeOpt] + "_baseline.tif";
+          } else if (activeScenario === "ssp245") {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP245/Economic_" + activeCrop + "_" + optcode[activeOpt] + "_ssp245.tif";
+          } else {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Economic_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
+          }
         }
+        if (activeOptLayer["Scalability"]) {
+          if (activeScenario === "baseline") {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/Baseline/Scalability_" + activeCrop + "_" + optcode[activeOpt] + "_baseline.tif";
+          } else if (activeScenario === "ssp245") {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP245/Scalability_" + activeCrop + "_" + optcode[activeOpt] + "_ssp245.tif";
+          } else {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Scalability_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
+          }
+        }
+        if (activeOptLayer["Gender"]) {
+          if (activeScenario === "baseline") {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/Baseline/Gender_" + activeCrop + "_" + optcode[activeOpt] + "_baseline.tif";
+          } else if (activeScenario === "ssp245") {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP245/Gender_" + activeCrop + "_" + optcode[activeOpt] + "_ssp245.tif";
+          } else {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Gender_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
+          }
+        }
+        //console.log(urlstr);
         settiffFilePath(urlstr);
         source1 = new GeoTIFF({ sources: [{ url: urlstr }], sourceOptions: { allowFullFile: true } });
       } else if (CurrRisk !== "") {
@@ -1381,9 +1406,9 @@ export default function MApp({
         setOverl(newOverl);
       }
     }
-  }, [CurrRisk, activeCrop, activeOpt, activeImpact, mapRef, activeScenario, displayLayer, activeScale, exploreType]);
+  }, [CurrRisk, activeCrop, activeOpt, activeImpact, mapRef, activeScenario, displayLayer, activeScale, exploreType, activeOptLayer]);
 
-  useEffect(() => {
+  /*   useEffect(() => {
     let source_bio = null;
     let source_adapt = null;
     let source_socio = null;
@@ -1426,11 +1451,11 @@ export default function MApp({
       if (!Biolayer && activeOptLayer["Biophysical Suitability"]) {
         found = true;
         if (activeScenario === "baseline") {
-          urlstr = "./Adap/" + activeCrop + "/Baseline/Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+          urlstr = "./Adap/" + activeCrop + "/" + modelName + "/Baseline/Suitability_" + activeCrop + "_" + optcode[activeOpt] + "_baseline.tif";
         } else if (activeScenario === "ssp245") {
-          urlstr = "./Adap/" + activeCrop + "/SSP245/Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+          urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP245/Suitability_" + activeCrop + "_" + optcode[activeOpt] + "_ssp245.tif";
         } else {
-          urlstr = "./Adap/" + activeCrop + "/SSP585/Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+          urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Suitability_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
         }
         source_bio = new GeoTIFF({
           sources: [{ url: urlstr }],
@@ -1471,11 +1496,11 @@ export default function MApp({
       if (!Scalelayer && activeOptLayer["Scalability"]) {
         found = true;
         if (activeScenario === "baseline") {
-          urlstr = "./Adap/" + activeCrop + "/Baseline/Scale/SCA_Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+          urlstr = "./Adap/" + activeCrop + "/" + modelName + "/Baseline/Scalability_" + activeCrop + "_" + optcode[activeOpt] + "_baseline.tif";
         } else if (activeScenario === "ssp245") {
-          urlstr = "./Adap/" + activeCrop + "/SSP245/Scale/SCA_Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+          urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP245/Scalability_" + activeCrop + "_" + optcode[activeOpt] + "_ssp245.tif";
         } else {
-          urlstr = "./Adap/" + activeCrop + "/SSP585/Scale/SCA_Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+          urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Scalability_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
         }
         source_scale = new GeoTIFF({
           sources: [{ url: urlstr }],
@@ -1556,14 +1581,14 @@ export default function MApp({
         zIndex: 95,
       });
       if (opt === 2) {
-        newOverl.setStyle(color_adaptation);
+        newOverl.setStyle(color_adaptation2);
       }
       if (mapRef.current) {
         mapRef.current.addLayer(newOverl);
         setScaleLayer(newOverl);
       }
     }
-  }, [activeOptLayer, activeOpt, mapRef]);
+  }, [activeOptLayer, activeOpt, mapRef]); */
   //let optionname = activeOpt;
   function for_unavailabe_future_data() {
     if (

@@ -44,11 +44,12 @@ export function fetchDataAdap(adaption, location, AdaptLayerName, commodity, sce
     let y = "";
     let x = "";
     let rowstr = "";
-    let opt_suffix = "";
+    let opt_prefix = "";
 
-    if (AdaptLayerName === "Adaptation Benefits") opt_suffix = "_ADAP";
-    if (AdaptLayerName === "Economic Viability") opt_suffix = "_ECO";
-    if (AdaptLayerName === "Scalability") opt_suffix = "_SCA";
+    if (AdaptLayerName === "Adaptation Benefits") opt_prefix = "_ADAP";
+    if (AdaptLayerName === "Economic Viability") opt_prefix = "_ECO";
+    if (AdaptLayerName === "Scalability") opt_prefix = "Scalability";
+    if (AdaptLayerName === "Gender Suitability") opt_prefix = "Gender";
 
     if (sec > 0) {
       y = location.substring(0, sec);
@@ -57,12 +58,13 @@ export function fetchDataAdap(adaption, location, AdaptLayerName, commodity, sce
 
       if (["Bangladesh", "Nepal", "Bhutan", "Maldives", "Afghanistan", "India", "Sri Lanka", "Pakistan"].includes(x)) {
         statecode = x === "Bangladesh" ? y.substring(0, y.length - 9) + "DIV" : y + "DIV";
-        rowstr = `${commodity}_${statecode}_${optcode[adaption]}${opt_suffix}_${scenario}`;
+        rowstr = `${commodity}_${statecode}_${opt_prefix}${optcode[adaption]}_${scenario}`;
       }
     } else {
-      rowstr = `Calculated_${commodity}_${location}_${optcode[adaption]}${opt_suffix}_${scenario}`;
+      rowstr = `Calculated_${commodity}_${location}_${opt_prefix}${optcode[adaption]}_${scenario}`;
     }
 
+    //console.log(rowstr);
     let row_data = area_data3[rowstr.toLowerCase()] || {
       "Cropped Area/Number of animals under Nil suitability": NaN,
       "Cropped Area/Number of animals under Very Low suitability": NaN,
@@ -93,12 +95,26 @@ export function fetchDataAdap(adaption, location, AdaptLayerName, commodity, sce
         ["#059212", "High"],
       ],
       "Scalability": [
-        ["#969696", "No significant change"],
+        /* ["#969696", "No significant change"],
         ["#E4003A", "Very low"],
         ["#FFA500", "Low"],
         ["#FFDE4D", "Medium"],
         ["#00FF00", "High"],
-        ["#059212", "Very high"],
+        ["#059212", "Very high"], */
+        ["#969696", "No significant change"],
+        ["#8B0000", "Unsuitable"], //"#E4003A"
+        ["#FF4500", "Very Low"], //"#FFA500"
+        ["#FFDE4D", "Low"],
+        ["#00FF00", "Medium"],
+        ["#059212", "High"],
+      ],
+      "Gender Suitability": [
+        ["#969696", "No significant change"],
+        ["#8B0000", "Unsuitable"], //"#E4003A"
+        ["#FF4500", "Very Low"], //"#FFA500"
+        ["#FFDE4D", "Low"],
+        ["#00FF00", "Medium"],
+        ["#059212", "High"],
       ],
       "default": [
         ["#969696", "No significant change"],
