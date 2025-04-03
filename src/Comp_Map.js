@@ -1686,7 +1686,9 @@ export default function MApp({
       CurrRisk === "Cropped Area" ||
       CurrRisk === "Number of Animals per grid" ||
       CurrRisk === "Exposure Index" ||
-      CurrRisk === "Vulnerability Index"
+      CurrRisk === "Vulnerability Index" ||
+      CurrRisk === "Flood" ||
+      CurrRisk === "Cyclone"
     ) {
       if (activeScenario !== "baseline") {
         return 1;
