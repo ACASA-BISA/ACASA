@@ -82,7 +82,7 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
       Cotton: [],
       Potato: ["Precision land levelling", "Broadbed and furrow"],
       Groundnut: [],
-      Lentil: [],
+      Lentil: ["Broadbed and furrow"],
       Jute: [],
     },
     water: {
