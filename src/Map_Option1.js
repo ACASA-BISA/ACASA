@@ -105,6 +105,14 @@ export default function Map_Option({ activeCrop, focus = "Region", activeRegion,
     color: ["palette", ["clamp", ["*", ["band", 2], 250], 0, 4], ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "#059212", "#00FF00", "#FFDE4D", "#FFA500", "#FF0000"]],
   };
 
+  const color_adaptation_yield = {
+    color: [
+      "palette",
+      ["interpolate", ["linear"], ["*", ["band", 2], 385], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 8],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#8B0000", "rgb(248, 36, 36)", "rgba(245, 140, 170, 1)", "rgba(245, 140, 170, 1)", "rgba(109, 233, 109, 1)", "rgba(4, 145, 4, 1)"],
+    ],
+  };
+
   const color_hazard = {
     color: ["palette", ["clamp", ["*", ["band", 2], 25], 0, 6], ["rgba(0,0,0,0)", "rgba(150,150,150,1)", "#059212", "#00FF00", "#FFDE4D", "#FFA500", "#FF0000"]],
   };
@@ -122,6 +130,14 @@ export default function Map_Option({ activeCrop, focus = "Region", activeRegion,
       "palette",
       ["clamp", ["*", ["band", 2], 25], 0, 6],
       ["rgba(0,0,0,0)", "rgba(200,200,200,1)", "rgba(200,200,200,1)", "rgba(184, 23, 23, 1)", "rgba(245, 140, 170, 1)", "rgba(241, 233, 119, 1)", "rgba(109, 233, 109, 1)", "rgba(4, 145, 4, 1)"],
+    ],
+  };
+
+  const color_adaptation2 = {
+    color: [
+      "palette",
+      ["interpolate", ["linear"], ["*", ["band", 2], 385], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 8],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#8B0000", "#FF4500", "#FFDE4D", "#FFDE4D", "#00FF00", "#059212"],
     ],
   };
 
@@ -466,50 +482,62 @@ export default function Map_Option({ activeCrop, focus = "Region", activeRegion,
     let source1 = null;
     let opt = 1;
     let urlstr = "xyz.tif";
-    if (activeOptLayer === "Biophysical Suitability") {
-      opt = 2;
-      if (activeScenario === "baseline") {
-        urlstr = "./Adap/" + activeCrop + "/" + modelName + "/Baseline/Suitability_" + activeCrop + "_" + optcode[activeOpt] + "_baseline.tif";
-      } else if (activeScenario === "ssp245") {
-        urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP245/Suitability_" + activeCrop + "_" + optcode[activeOpt] + "_ssp245.tif";
-      } else {
-        urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Suitability_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
-      }
-    } else if (activeOptLayer === "Adaptation Benefits") {
-      opt = 3;
-      if (activeScenario === "baseline") {
-        urlstr = "./Adap/" + activeCrop + "/Baseline/Tech/ADAP_Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
-      } else if (activeScenario === "ssp245") {
-        urlstr = "./Adap/" + activeCrop + "/SSP245/Tech/ADAP_Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
-      } else {
-        urlstr = "./Adap/" + activeCrop + "/SSP585/Tech/ADAP_Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
-      }
-    } else if (activeOptLayer === "Economic") {
-      opt = 4;
-      if (activeScenario === "baseline") {
-        urlstr = "./Adap/" + activeCrop + "/Baseline/Socio/ECO_Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
-      } else if (activeScenario === "ssp245") {
-        urlstr = "./Adap/" + activeCrop + "/SSP245/Socio/ECO_Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
-      } else {
-        urlstr = "./Adap/" + activeCrop + "/SSP585/Socio/ECO_Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
-      }
-    } else if (activeOptLayer === "Scalability") {
-      opt = 5;
-      if (activeScenario === "baseline") {
-        urlstr = "./Adap/" + activeCrop + "/Baseline/Scale/SCA_Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
-      } else if (activeScenario === "ssp245") {
-        urlstr = "./Adap/" + activeCrop + "/SSP245/Scale/SCA_Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
-      } else {
-        urlstr = "./Adap/" + activeCrop + "/SSP585/Scale/SCA_Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
-      }
+    if (activeScenario === "baseline") {
+      urlstr = "./Adap/" + activeCrop + "/" + modelName + "/Baseline/Suitability_" + activeCrop + "_" + optcode[activeOpt] + "_baseline.tif";
+    } else if (activeScenario === "ssp245") {
+      urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP245/Suitability_" + activeCrop + "_" + optcode[activeOpt] + "_ssp245.tif";
     } else {
+      urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Suitability_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
+    }
+    if (activeOptLayer === "Yield Benefits") {
       if (activeScenario === "baseline") {
-        urlstr = "./Adap/" + activeCrop + "/Baseline/Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+        urlstr = "./Adap/" + activeCrop + "/" + modelName + "/Baseline/Yield_" + activeCrop + "_" + optcode[activeOpt] + "_baseline.tif";
       } else if (activeScenario === "ssp245") {
-        urlstr = "./Adap/" + activeCrop + "/SSP245/Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+        urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP245/Yield_" + activeCrop + "_" + optcode[activeOpt] + "_ssp245.tif";
       } else {
-        urlstr = "./Adap/" + activeCrop + "/SSP585/Suitability_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+        urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Yield_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
       }
+      opt = 222;
+    }
+    if (activeOptLayer === "Economic Viability") {
+      if (activeScenario === "baseline") {
+        urlstr = "./Adap/" + activeCrop + "/" + modelName + "/Baseline/Economic_" + activeCrop + "_" + optcode[activeOpt] + "_baseline.tif";
+      } else if (activeScenario === "ssp245") {
+        urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP245/Economic_" + activeCrop + "_" + optcode[activeOpt] + "_ssp245.tif";
+      } else {
+        urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Economic_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
+      }
+      opt = 1;
+    }
+    if (activeOptLayer === "Scalability") {
+      if (activeScenario === "baseline") {
+        urlstr = "./Adap/" + activeCrop + "/" + modelName + "/Baseline/Scalability_" + activeCrop + "_" + optcode[activeOpt] + "_baseline.tif";
+      } else if (activeScenario === "ssp245") {
+        urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP245/Scalability_" + activeCrop + "_" + optcode[activeOpt] + "_ssp245.tif";
+      } else {
+        urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Scalability_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
+      }
+      opt = 1;
+    }
+    if (activeOptLayer === "Gender Suitability") {
+      if (activeScenario === "baseline") {
+        urlstr = "./Adap/" + activeCrop + "/" + modelName + "/Baseline/Gender_" + activeCrop + "_" + optcode[activeOpt] + "_baseline.tif";
+      } else if (activeScenario === "ssp245") {
+        urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP245/Gender_" + activeCrop + "_" + optcode[activeOpt] + "_ssp245.tif";
+      } else {
+        urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Gender_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
+      }
+      opt = 1;
+    }
+    if (activeOptLayer === "Adaptation Benefits") {
+      if (activeScenario === "baseline") {
+        urlstr = "./Adap/" + activeCrop + "/" + modelName + "/Baseline/Yield_" + activeCrop + "_" + optcode[activeOpt] + "_baseline.tif";
+      } else if (activeScenario === "ssp245") {
+        urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP245/Adaptation_" + activeCrop + "_" + optcode[activeOpt] + "_ssp245.tif";
+      } else {
+        urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Adaptation_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
+      }
+      opt = 222;
     }
     if (checkcrop2() === false) {
       opt = 333;
@@ -536,12 +564,12 @@ export default function Map_Option({ activeCrop, focus = "Region", activeRegion,
         newOverl.setStyle(color_hazard_reverse);
       } else if (opt === 3) {
         newOverl.setStyle(color_adaptation_change);
-      } else if (opt === 4) {
-        newOverl.setStyle(color_adaptation_change);
+      } else if (opt === 222) {
+        newOverl.setStyle(color_adaptation_yield);
       } else if (opt == 5) {
         newOverl.setStyle(color_hazard);
       } else {
-        newOverl.setStyle(color2);
+        newOverl.setStyle(color_adaptation2);
       }
 
       if (mapRef.current) {

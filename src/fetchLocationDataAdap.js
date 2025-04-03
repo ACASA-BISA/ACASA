@@ -1,4 +1,4 @@
-export function fetchLocationDataAdap(location, commodity, scenario, adaptation, data, AdaptLayerName, analysis_level) {
+export function fetchLocationDataAdap(location, commodity, scenario, adaptation, data, activeOptLayer, analysis_level) {
   let filteredData = Object.values(data);
 
   if (scenario === "baseline") {
@@ -38,10 +38,42 @@ export function fetchLocationDataAdap(location, commodity, scenario, adaptation,
     "Heat Stress Management": "HSMGT",
   };
 
-  let opt_suffix = "";
-  if (AdaptLayerName["Adaptation Benefits"]) opt_suffix = "_ADAP";
-  if (AdaptLayerName["Economic"]) opt_suffix = "_ECO";
-  if (AdaptLayerName["Scalability"]) opt_suffix = "_SCA";
+  let AdaptLayerName = "";
+  if (activeOptLayer["Biophysical Suitability"]) {
+    AdaptLayerName = "Biophysical Suitability";
+  }
+  if (activeOptLayer["Yield"]) {
+    AdaptLayerName = "Yield Benefits";
+  }
+  if (activeOptLayer["Economic"]) {
+    AdaptLayerName = "Economic Viability";
+  }
+  if (activeOptLayer["Scalability"]) {
+    AdaptLayerName = "Scalability";
+  }
+  if (activeOptLayer["Gender"]) {
+    AdaptLayerName = "Gender Suitability";
+  }
+  if (activeOptLayer["Adaptation Benefits"]) {
+    AdaptLayerName = "Adaptation Benefits";
+  }
+  if (
+    activeOptLayer["Biophysical Suitability"] === false &&
+    activeOptLayer["Adaptation Benefits"] === false &&
+    activeOptLayer["Economic"] === false &&
+    activeOptLayer["Scalability"] === false &&
+    activeOptLayer["Gender"] === false &&
+    activeOptLayer["Yield"] === false
+  ) {
+    AdaptLayerName = "Biophysical Suitability";
+  }
+
+  let opt_prefix = "";
+  if (AdaptLayerName === "Yield Benefits") opt_prefix = "Yield";
+  if (AdaptLayerName === "Economic Viability") opt_prefix = "Economic";
+  if (AdaptLayerName === "Scalability") opt_prefix = "Scalability";
+  if (AdaptLayerName === "Gender Suitability") opt_prefix = "Gender";
+  if (AdaptLayerName === "Adaptation Benefits") opt_prefix = "Adaptation";
 
   // Location-based filtering
   if (!location.includes(",")) {
@@ -71,7 +103,7 @@ export function fetchLocationDataAdap(location, commodity, scenario, adaptation,
   // Apply additional filters (Commodity, Scenario, adaptation)
   filteredData = filteredData.filter((row) => row.Commodity === commodity);
   filteredData = filteredData.filter((row) => row.Scenario === scenario);
-  filteredData = filteredData.filter((row) => row.Adaptation === `${optcode[adaptation]}${opt_suffix}`);
+  filteredData = filteredData.filter((row) => row.Adaptation === `${opt_prefix}${optcode[adaptation]}`);
 
   if (analysis_level === "District Level") filteredData = filteredData.filter((row) => row["Analysis Level"] === "DISTRICT");
   if (analysis_level === "Pixel Level") filteredData = filteredData.filter((row) => row["Analysis Level"] === "PIXEL");

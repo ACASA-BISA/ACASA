@@ -118,8 +118,9 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
           <div>
             <Box sx={{ display: "flex", marginTop: "-10px", justifyContent: "center" }}>
               <Typography sx={(theme) => ({ fontSize: 11.5, marginBottom: "2px", color: theme.palette.mode === "dark" ? "white" : "black" })}>
-                {scenario !== "baseline" && AdaptLayerName !== "Biophysical Suitability" && ""}
-                {AdaptLayerName.charAt(0).toUpperCase() + AdaptLayerName.toLowerCase().slice(1)} of&nbsp;
+                {(AdaptLayerName === "Yield Benefits" || AdaptLayerName === "Adaptation Benefits") && "Percent change in "}
+                {scenario === "baseline" && AdaptLayerName === "Adaptation Benefits" && "yield benefits"}
+                {(scenario !== "baseline" || AdaptLayerName !== "Adaptation Benefits") && AdaptLayerName.charAt(0).toUpperCase() + AdaptLayerName.toLowerCase().slice(1)} of&nbsp;
                 <strong>{adaption.charAt(0).toUpperCase() + adaption.slice(1, 4) + adaption.toLowerCase().slice(4)}</strong>
               </Typography>
             </Box>

@@ -496,7 +496,7 @@ export default function CompV({
                     <Paper
                       elevation={1}
                       sx={{
-                        maxWidth: paperWidth,
+                        maxWidth: "400px",
                         borderRadius: "5px",
                         padding: "3px",
                       }}

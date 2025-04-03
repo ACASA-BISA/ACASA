@@ -26,17 +26,20 @@ export default function Summ_Adaptation_Indicator({ handleIndicator, indc }) {
         <MenuItem value="Biophysical Suitability" sx={{ fontSize: 13, paddingY: "2px" }}>
           Biophysical Suitability
         </MenuItem>
-        <MenuItem value="Adaptation Benefits" sx={{ fontSize: 13, paddingY: "2px" }}>
-          Adaptation Benefits
+        <MenuItem value="Yield Benefits" sx={{ fontSize: 13, paddingY: "2px" }}>
+          Yield Benefits
         </MenuItem>
-        <MenuItem value="Economic" sx={{ fontSize: 13, paddingY: "2px" }}>
+        <MenuItem value="Economic Viability" sx={{ fontSize: 13, paddingY: "2px" }}>
           Economic Viability
         </MenuItem>
         <MenuItem value="Scalability" sx={{ fontSize: 13, paddingY: "2px" }}>
           Scalibility
         </MenuItem>
-        <MenuItem value="Gender" sx={{ fontSize: 13, paddingY: "2px" }}>
+        <MenuItem value="Gender Suitability" sx={{ fontSize: 13, paddingY: "2px" }}>
           Gender Suitability
+        </MenuItem>
+        <MenuItem value="Adaptation Benefits" sx={{ fontSize: 13, paddingY: "2px" }}>
+          Adaptation Benefits
         </MenuItem>
       </Select>
     </FormControl>

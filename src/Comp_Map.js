@@ -241,6 +241,13 @@ export default function MApp({
     ],
   };
 
+  const color_adaptation_yield = {
+    color: [
+      "palette",
+      ["interpolate", ["linear"], ["*", ["band", 2], 385], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 8],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#8B0000", "rgb(248, 36, 36)", "rgba(245, 140, 170, 1)", "rgba(245, 140, 170, 1)", "rgba(109, 233, 109, 1)", "rgba(4, 145, 4, 1)"],
+    ],
+  };
   const color_hazard_district = {
     color: [
       "palette",
@@ -580,8 +587,8 @@ export default function MApp({
       dropdown.appendChild(geoTiffOption);
       dropdown.appendChild(divider_custom);
       dropdown.appendChild(csvOption);
-      dropdown.appendChild(divider_custom2);
-      dropdown.appendChild(imageOption);
+      //dropdown.appendChild(divider_custom2);
+      //dropdown.appendChild(imageOption);
 
       // Create control container
       const element = document.createElement("div");
@@ -840,7 +847,7 @@ export default function MApp({
     mapRef.current.addControl(downloadControl);
     downloadControlRef.current = downloadControl;
 
-    if (CurrRisk !== "") {
+    /* if (CurrRisk !== "") {
       if (!popperControlRef.current) {
         // Prevent duplicate addition
         const popperControl = new PopperControl();
@@ -852,7 +859,7 @@ export default function MApp({
         mapRef.current.removeControl(popperControlRef.current);
         popperControlRef.current = null;
       }
-    }
+    } */
   }, [filename, CurrRisk]);
 
   useEffect(() => {
@@ -1231,6 +1238,16 @@ export default function MApp({
         } else {
           urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Suitability_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
         }
+        if (activeOptLayer["Yield"]) {
+          if (activeScenario === "baseline") {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/Baseline/Yield_" + activeCrop + "_" + optcode[activeOpt] + "_baseline.tif";
+          } else if (activeScenario === "ssp245") {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP245/Yield_" + activeCrop + "_" + optcode[activeOpt] + "_ssp245.tif";
+          } else {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Yield_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
+          }
+          opt = 222;
+        }
         if (activeOptLayer["Economic"]) {
           if (activeScenario === "baseline") {
             urlstr = "./Adap/" + activeCrop + "/" + modelName + "/Baseline/Economic_" + activeCrop + "_" + optcode[activeOpt] + "_baseline.tif";
@@ -1239,6 +1256,7 @@ export default function MApp({
           } else {
             urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Economic_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
           }
+          opt = 333;
         }
         if (activeOptLayer["Scalability"]) {
           if (activeScenario === "baseline") {
@@ -1248,6 +1266,7 @@ export default function MApp({
           } else {
             urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Scalability_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
           }
+          opt = 333;
         }
         if (activeOptLayer["Gender"]) {
           if (activeScenario === "baseline") {
@@ -1257,6 +1276,17 @@ export default function MApp({
           } else {
             urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Gender_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
           }
+          opt = 333;
+        }
+        if (activeOptLayer["Adaptation Benefits"]) {
+          if (activeScenario === "baseline") {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/Baseline/Yield_" + activeCrop + "_" + optcode[activeOpt] + "_baseline.tif";
+          } else if (activeScenario === "ssp245") {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP245/Adaptation_" + activeCrop + "_" + optcode[activeOpt] + "_ssp245.tif";
+          } else {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Adaptation_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
+          }
+          opt = 222;
         }
         //console.log(urlstr);
         settiffFilePath(urlstr);
@@ -1330,7 +1360,7 @@ export default function MApp({
         } else if (activeImpact["Resilience"]) {
           urlstr = "./Impact/" + activeCrop + "_CV_" + activeScenario + ".tif";
         } else {
-          urlstr = "./Impact/" + activeCrop + "/ZZ_" + activeScenario + "_vop_NT_wheat_USD.tif";
+          urlstr = "./Impact/" + activeCrop + "_VOP_" + activeScenario + ".tif";
         }
         settiffFilePath(urlstr);
         source1 = new GeoTIFF({
@@ -1396,8 +1426,8 @@ export default function MApp({
         newOverl.setStyle(color_hazard_25);
       } else if (opt === 102) {
         newOverl.setStyle(color_hazard3);
-      } else if (opt === 801) {
-        newOverl.setStyle(color_hazard_change);
+      } else if (opt === 222) {
+        newOverl.setStyle(color_adaptation_yield);
       } else {
         newOverl.setStyle(colorGradientEx);
       }
@@ -1604,10 +1634,13 @@ export default function MApp({
       CurrRisk === "Number of Animals per grid"
     ) {
       if (activeScenario !== "baseline") {
-        return true;
+        return 1;
       }
     }
-    return false;
+    if (activeOptLayer["Gender"]) {
+      return 3;
+    }
+    return 2;
   }
   return (
     <div style={{ overflow: "hidden" }}>
@@ -1615,8 +1648,13 @@ export default function MApp({
         <div id="popup-content2" style={{ textTransform: "capitalize", fontSize: "13px" }}></div>
       </div>
       <Tooltip
-        title={<Typography sx={{ fontSize: 12 }}>Since no data is available for this scenario, we have replicated the baseline data</Typography>}
-        open={for_unavailabe_future_data()}
+        title={
+          <Typography sx={{ fontSize: 12 }}>
+            {for_unavailabe_future_data() === 1 && "Since no data is available for this scenario, we have replicated the baseline data"}
+            {for_unavailabe_future_data() === 3 && "This denotes technology suitability for women"}
+          </Typography>
+        }
+        open={for_unavailabe_future_data() !== 2}
         placement="top"
         slotProps={{
           popper: {
@@ -1624,7 +1662,7 @@ export default function MApp({
               {
                 name: "offset",
                 options: {
-                  offset: [0, -70],
+                  offset: [0, -60],
                 },
               },
             ],

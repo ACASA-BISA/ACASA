@@ -46,10 +46,13 @@ export function fetchDataAdap(adaption, location, AdaptLayerName, commodity, sce
     let rowstr = "";
     let opt_prefix = "";
 
-    if (AdaptLayerName === "Adaptation Benefits") opt_prefix = "_ADAP";
-    if (AdaptLayerName === "Economic Viability") opt_prefix = "_ECO";
+    if (AdaptLayerName === "Yield Benefits") opt_prefix = "Yield";
+    if (AdaptLayerName === "Economic Viability") opt_prefix = "Economic";
     if (AdaptLayerName === "Scalability") opt_prefix = "Scalability";
     if (AdaptLayerName === "Gender Suitability") opt_prefix = "Gender";
+    if (AdaptLayerName === "Adaptation Benefits") opt_prefix = "Adaptation";
+
+    if (AdaptLayerName === "Adaptation Benefits" && scenario === "baseline") opt_prefix = "Yield";
 
     if (sec > 0) {
       y = location.substring(0, sec);
@@ -94,6 +97,22 @@ export function fetchDataAdap(adaption, location, AdaptLayerName, commodity, sce
         ["#00FF00", "Medium"],
         ["#059212", "High"],
       ],
+      "Yield Benefits": [
+        ["#969696", "No significant change"],
+        ["#8B0000", "Unsuitable"], //"#E4003A"
+        ["rgb(248, 36, 36)", "High loss"],
+        ["rgba(245, 140, 170, 1)", "Low loss"],
+        ["rgba(109, 233, 109, 1)", "Low gain"],
+        ["rgba(4, 145, 4, 1)", "High gain"],
+      ],
+      "Economic Viability": [
+        ["#969696", "No significant change"],
+        ["#8B0000", "Unsuitable"], //"#E4003A"
+        ["#FF4500", "Very Low"], //"#FFA500"
+        ["#FFDE4D", "Low"],
+        ["#00FF00", "Medium"],
+        ["#059212", "High"],
+      ],
       "Scalability": [
         /* ["#969696", "No significant change"],
         ["#E4003A", "Very low"],
@@ -116,13 +135,27 @@ export function fetchDataAdap(adaption, location, AdaptLayerName, commodity, sce
         ["#00FF00", "Medium"],
         ["#059212", "High"],
       ],
-      "default": [
+      "Adaptation Benefits": [
         ["#969696", "No significant change"],
+        ["#8B0000", "Unsuitable"], //"#E4003A"
+        ["rgb(248, 36, 36)", "High loss"],
+        ["rgba(245, 140, 170, 1)", "Low loss"],
+        ["rgba(109, 233, 109, 1)", "Low gain"],
+        ["rgba(4, 145, 4, 1)", "High gain"],
+      ],
+      "default": [
+        /* ["#969696", "No significant change"],
         ["rgba(184, 23, 23, 1)", "High dcrs"],
         ["rgba(245, 140, 170, 1)", "Decrease"],
         ["rgba(241, 233, 119, 1)", "No change"],
         ["rgba(109, 233, 109, 1)", "Increase"],
-        ["rgba(4, 145, 4, 1)", "High incr"],
+        ["rgba(4, 145, 4, 1)", "High incr"], */
+        ["#969696", "No significant change"],
+        ["#8B0000", "Unsuitable"], //"#E4003A"
+        ["#FF4500", "Very Low"], //"#FFA500"
+        ["#FFDE4D", "Low"],
+        ["#00FF00", "Medium"],
+        ["#059212", "High"],
       ],
     };
 
