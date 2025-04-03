@@ -72,8 +72,8 @@ export function fetchLocationDataAdap(location, commodity, scenario, adaptation,
     "Adoption of climate resilient breed/strain": "Resilient1",
     "Adoption of climate resilient breeds": "Resilient2",
 
-    "Use of ART tools": "Reproductivemngt1",
-    "Estrous confirmation and synchronisation": "Reproductivemngt2",
+    "Reproductive management: Use of ART tools": "Reproductivemngt1",
+    "Reproductive management: Estrous confirmation and synchronisation": "Reproductivemngt2",
 
     "Climate information services and safety nets": "Safetynet",
     "Diversification": "Diversify",

@@ -1060,7 +1060,11 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
             ))}
           {(activeCrop["sheep"] === true || activeCrop["goat"] === true) && (
             <FormControl component="fieldset" variant="standard">
+<<<<<<< Updated upstream
               {["Adoption of climate resillient breeds", "Reproductive management: Estrous confirmation and synchronisation", "Climate information servics and safetynets"].map((sname_health) => (
+=======
+              {["Adoption of climate resilient breeds", "Reproductive management: Estrous confirmation and synchronisation", "Climate information services and safety nets"].map((sname_health) => (
+>>>>>>> Stashed changes
                 <FormGroup>
                   <CustomFormControlLabel
                     control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname_health]} onChange={changeOpt(sname_health)} name={sname_health} />}
