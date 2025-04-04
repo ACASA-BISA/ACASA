@@ -11,7 +11,7 @@ const glossaryData = {
       image: "acasa.png",
     },
     {
-      term: "Alternate wetting and drying (AWD)- Rice",
+      term: "Alternate wetting and drying",
       definition:
         "The AWD practices in rice involves intermittent flooding (alternate cycles of saturated and unsaturated conditions) of a rice field, typically to a water depth of around 5 cm, and allowing the field to dry until the water level drops to a certain threshold moisture level i.e., around 10 cm below the soil surface, and then reflooding the field. It saves se irrigation water use and reduces greenhouse gas (GHG) emissions while maintaining or improving grain yields",
     },
@@ -21,13 +21,12 @@ const glossaryData = {
     },
     {
       term: "Ad libitum water",
-      definition: "Provision of water to cattle without restriction"
+      definition: "Provision of water to cattle without restriction",
     },
     {
       term: "Adoption of climate resilient breeds",
-      definition: "Selective breeding and upgrading to climate-resilient breeds"
-    }
-    
+      definition: "Selective breeding and upgrading to climate-resilient breeds",
+    },
   ],
   B: [
     {
@@ -65,8 +64,8 @@ const glossaryData = {
     },
     {
       term: "Bypass protein and fats",
-      definition: "Blend of essential minerals to correct mineral deficiencies and improve productivity"
-    }
+      definition: "Blend of essential minerals to correct mineral deficiencies and improve productivity",
+    },
     /*{
       term: "Buffalo",
       definition: "The analysis is done for milk production"
@@ -131,8 +130,8 @@ const glossaryData = {
     },
     {
       term: "Control of ectoparasites and other vectors",
-      definition: "Physical and chemical controls of ectoparasites and other vectors"
-    }
+      definition: "Physical and chemical controls of ectoparasites and other vectors",
+    },
     /*{
       term: "Chickpea",
       definition: "Here the analysis is done only for winter season"
@@ -173,8 +172,8 @@ const glossaryData = {
     },
     {
       term: "Deworming",
-      definition: "Control of endoparasites"
-    }
+      definition: "Control of endoparasites",
+    },
   ],
   E: [
     {
@@ -203,12 +202,12 @@ const glossaryData = {
     },
     {
       term: "Exposure index",
-      definition: "",
+      definition: "This includes the mapping of commodity specific density layer and development of an integrated index through Z-score normalization.",
     },
     {
       term: "Estrous confirmation and synchronisation",
-      definition: "A process that uses hormones to bring female mammals into heat at a predetermined time"
-    }
+      definition: "A process that uses hormones to bring female mammals into heat at a predetermined time",
+    },
   ],
   F: [
     {
@@ -221,12 +220,12 @@ const glossaryData = {
     },
     {
       term: "Feed additive, antioxidants, vitamins and probiotics",
-      definition: "For cattle’s health and nutritional needs during climatic stress period"
+      definition: "For cattle’s health and nutritional needs during climatic stress period",
     },
     {
       term: "Fodder conservation",
-      definition: "Preserving fodder to meet the demand during climatic stress period"
-    }
+      definition: "Preserving fodder to meet the demand during climatic stress period",
+    },
     /*{
       term: "Finger millet",
       definition: "Finger Millet is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif')"
@@ -249,7 +248,7 @@ const glossaryData = {
   H: [
     {
       term: "Hazard index",
-      definition: "",
+      definition: "The index was built by enlisting hazards through literature review and stakeholder validation. This composite index was formulated through Z-score normalization, principal component analysis, and stakeholders' inputs.",
     },
     {
       term: "Heating management",
@@ -301,8 +300,8 @@ const glossaryData = {
     },
     {
       term: "Inclusion of ad libitum green fodder",
-      definition: "Perennial grass, pasture legume, fodder trees, cultivated grasses"
-    }
+      definition: "Perennial grass, pasture legume, fodder trees, cultivated grasses",
+    },
   ],
   J: [
     /*{
@@ -361,8 +360,8 @@ const glossaryData = {
     },
     {
       term: "Modification in feeding pattern, schedule, grazing",
-      definition: "Adjust feeding times and grazing patterns to minimize heat stress"
-    }
+      definition: "Adjust feeding times and grazing patterns to minimize heat stress",
+    },
   ],
   N: [
     {
@@ -379,7 +378,7 @@ const glossaryData = {
   P: [
     {
       term: "Productivity",
-      definition: "",
+      definition: "Productivity refers to crop yield in T/Ha. It was calculated using remote sensing derived gross primary productivity and crop statistics.",
     },
     {
       term: "Planting technology",
@@ -449,8 +448,12 @@ const glossaryData = {
     },
     {
       term: "Risk index",
-      definition: "",
+      definition: "The Risk Index is a composite measure that combines hazard, vulnerability, and exposure indices to assess the overall risk of climate  impacts on a particular commodity.",
     },
+    {
+      term: "Resilience",
+      definition: "Resilience is stability of the yield across the years. It is denoted by coefficient of variance."
+    }
     /*{
       term: "Rice",
       definition:
@@ -525,11 +528,15 @@ const glossaryData = {
   V: [
     {
       term: "Vulnerability index",
-      definition: "",
+      definition: "This includes vulnerability layers identified through literature review, and supplemented with expert inputs and stakeholder validation. These layers were then mapped and an integrated vulnerability index was formulated through Z-score normalization, principal component analysis, and stakeholders' inputs.",
     },
     {
       term: "Vaccination",
-      definition: "Vaccination against contagious diseases as a prophylactic measure"
+      definition: "Vaccination against contagious diseases as a prophylactic measure.",
+    },
+    {
+      term: "Value of production",
+      definition: "Total value of production of a specific commodity in USD per hectare at 2019 prices."
     }
   ],
   W: [
@@ -556,8 +563,13 @@ const glossaryData = {
 export default function Glossary() {
   const [selectedLetter, setSelectedLetter] = React.useState(""); // Default to show all terms
   const [searchTerm, setSearchTerm] = React.useState("");
+  const [showOverlay, setShowOverlay] = React.useState(true);
 
   const Ref = React.useRef(null);
+
+  const handleCloseOverlay = () => {
+    setShowOverlay(false);
+  };
 
   const filteredTerms =
     glossaryData[selectedLetter]?.filter((item) => item.term.toLowerCase().includes(searchTerm.toLowerCase())) ||
@@ -583,13 +595,46 @@ export default function Glossary() {
   }, [filteredTerms]);
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        gap: 3,
-        padding: 3,
-      }}
-    >
+    <Box sx={{ display: "flex", gap: 3, padding: 3 }}>
+      {showOverlay && (
+        <Box
+          sx={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+            color: "white",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 1000,
+          }}
+        >
+          <Typography variant="h5" sx={{ marginBottom: 2, fontFamily: "revert" }}>
+            This is a new feature currently in development. Some content may be missing.
+          </Typography>
+          <Button
+            variant="contained"
+            onClick={() => setShowOverlay(false)}
+            sx={(theme) => ({
+              "backgroundColor": theme.palette.mode === "dark" ? "#61c258" : "#4ba046",
+              "color": "white",
+              "fontWeight": "bold",
+              "textTransform": "none",
+              "paddingX": 3,
+              "fontFamily": "revert",
+              "&:hover": {
+                backgroundColor: theme.palette.mode === "dark" ? "#57ad4f" : "#43953e",
+              },
+            })}
+          >
+            GOT IT
+          </Button>
+        </Box>
+      )}
       {/* Left Side - Alphabet & Glossary List */}
       <Box
         sx={(theme) => ({
