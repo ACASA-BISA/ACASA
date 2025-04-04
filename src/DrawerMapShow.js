@@ -232,7 +232,7 @@ export default function DrawerMapShow({ activeBar }) {
     "Climate-smart agriculture",
     "Insurance",
     "Micro climate modification-sheds",
-    "Modification of shelter",
+    ,
     "Planting of trees",
     "Heating management",
     "Mechanical cooling",
