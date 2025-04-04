@@ -267,7 +267,7 @@ const Home = (props) => {
               }}
             >
               How to use this Atlas?{" "}
-              <a href="/#/guide">
+              <a href="/#/guide" style={{ pointerEvents: "none", textDecoration: "none" }}>
                 <OpenInNewIcon sx={{ fontSize: 30, color: "#4b9e44" }} />
               </a>
             </Typography>

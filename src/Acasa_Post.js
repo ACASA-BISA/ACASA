@@ -31,7 +31,6 @@ const data = [
     "ASM Roshan, Agribusiness Development Centre, Department of Agriculture, Sri Lanka, and WMUK Rathnayake, Natural Resources Management Centre (NRMC), Department of Agriculture, Sri Lanka",
     "https://bisa.org/building-capabilities-of-medium-and-large-scale-sri-lankan-maize-growers-in-agricultural-risk-management/",
     ["Maize,", "agribusiness"],
-    "Jan, 2025"
   ),
   createData(
     "/Blog-11.jpg",

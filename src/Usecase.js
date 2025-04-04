@@ -91,7 +91,7 @@ const HoverBox = styled(Box)(({ theme }) => ({
 const GridContainer = styled(Grid)({
   flex: 1,
   display: "grid",
-  gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+  gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
   gap: "10px",
 });
 
@@ -219,7 +219,7 @@ export default function Usecase() {
                   alignItems: "center",
                   gap: 0.5,
                   backgroundColor: theme.palette.mode === "dark" ? "rgba(0, 0, 0, 0.5)" : "rgba(255, 255, 255, 0.5)",
-                  padding: "2px 6px", 
+                  padding: "2px 6px",
                   borderRadius: "4px",
                 })}
               >
@@ -241,7 +241,20 @@ export default function Usecase() {
               </CardContent>
             </Card>
           ))}
+          <Typography
+            variant="body2"
+            sx={(theme) => ({
+              marginTop: 2,
+              textAlign: "center",
+              fontSize: "0.75rem",
+              fontStyle: "italic",
+              color: theme.palette.text.secondary,
+            })}
+          >
+            Photo credits: CIMMYT; BISA
+          </Typography>
         </GridContainer>
+        {/* Image Credit */}
       </LayoutContainer>
     </Box>
   );

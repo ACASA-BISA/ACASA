@@ -25,7 +25,7 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
 
   const switchRisk = ["Risk Index", "Hazard Index", "Exposure Index", "Vulnerability Index"];
   const switchRiskID = ["riskindex", "HINDEX", "expoindex", "vulne"];
-  const SwitchRiskPopup = ["To be updated", "To be updated", "To be updated", "To be updated"];
+  const SwitchRiskPopup = ["Combines hazard, vulnerability, and exposure to assess climate risk.", "Derived from hazards, stakeholder input, Z-score normalization, and PCA.", "Maps commodity density, integrated via Z-score normalization.", "Based on vulnerability layers, expert input, Z-score normalization, and PCA."];
 
   const switchBasic = ["Seasonal Rainfall", "Maximum Temperature", "Minimum Temperature"];
   const switchBasicID = ["seasonalrain", "maxtemp", "mintemp"];
@@ -368,14 +368,14 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
 
   const switchVulner = ["Irrigation", "Income", "Volumetric Soil Water", "Rural infrastructure", "Socio-economic Development Indicator"];
   const switchVulnerID = ["irrigation", "GDP", "waterholding", "ROAD", "HDI"];
-  const switchVulnerPopup = ["To be updated.", "To be updated.", "To be updated.", "To be updated.", "To be updated."];
+  const switchVulnerPopup = ["Irrigation", "Income", "Volumetric Soil Water", "Rural infrastructure", "Socio-economic Development Indicator"];
 
   /*   const switchvul_Livestock = ['Vulnerability Index',"Feed/Fodder","Income","Rural infrastructure","Socio-economic Development Indicator"];
   const switchvul_LivestockID = ['vulne',"CROPRES","GDP","ROAD",'HDI']; */
 
   const switchvul_Livestock = ["Feed/Fodder", "Income", "Socio-economic Development Indicator", "Rural infrastructure"];
   const switchvul_LivestockID = ["CROPRES", "GDP", "HDI", "ROAD"];
-  const switchvul_Livestock_Popup = ["To be updated.", "To be updated.", "To be updated.", "To be updated."];
+  const switchvul_Livestock_Popup = ["Feed/Fodder", "Income", "Socio-economic Development Indicator", "Rural infrastructure"];
 
   const switchvul_Fisheries = [];
   const switchvul_FisheriesID = [];

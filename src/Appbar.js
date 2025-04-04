@@ -246,10 +246,15 @@ function ResponsiveAppBar({}) {
                         <MyButton
                           value={pageid[index]}
                           sx={{
-                            paddingRight: 2,
-                            paddingLeft: 2,
-                            paddingTop: 1,
-                            paddingBottom: 1,
+                            "paddingRight": 2,
+                            "paddingLeft": 2,
+                            "paddingTop": 1,
+                            "paddingBottom": 1,
+                            "&.Mui-disabled": {
+                              backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#3a3f45" : "#e0e0e0"),
+                              color: (theme) => (theme.palette.mode === "dark" ? "#7d848b" : "#9e9e9e"),
+                              cursor: "not-allowed",
+                            },
                           }}
                           key={pageid[index]}
                           href={"/#/".concat(pageid[index])}
@@ -260,7 +265,6 @@ function ResponsiveAppBar({}) {
                             sx={{
                               fontSize: "14px",
                               fontWeight: 700,
-                              //color: (theme) => (theme.palette.mode === "dark" ? "#fff" : "#000"),
                               fontFamily: "Karla",
                             }}
                           >

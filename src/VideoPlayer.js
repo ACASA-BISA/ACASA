@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+/*import React, { useState } from "react";
 import { Box } from "@mui/material";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
@@ -63,6 +63,59 @@ const VideoPlayer = () => {
           <PlayArrowIcon sx={{fontSize:'50px'}}/>
         </div>
       )}
+    </Box>
+  );
+};
+
+export default VideoPlayer;
+*/
+
+import React from "react";
+import { Box } from "@mui/material";
+
+const VideoPlayer = () => {
+  return (
+    <Box
+      sx={{
+        margin: "auto",
+        boxShadow: 1,
+        width: '100%',
+        borderRadius: 2,
+        overflow: "hidden",
+        position: "relative",
+        "& video": {
+          display: 'block',
+          filter: "grayscale(100%) brightness(50%)", // Greyed out effect
+          pointerEvents: "none", // Disable interaction
+        }
+      }}
+    >
+      {/* Video Element (Disabled) */}
+      <video width="100%" height="100%">
+        <source src={`${process.env.PUBLIC_URL}/vid11.mp4`} type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+
+      {/* Greyed-out Overlay */}
+      <Box
+        sx={(theme) => ({
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          backgroundColor: theme.palette.mode === "dark" ?  "rgba(0, 0, 0, 0.5)" : "rgba(255, 255, 255, 0.5)", 
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          color: theme.palette.mode === "dark" ? "#fff" : "#000",
+          fontSize: "18px",
+          fontWeight: "bold",
+          fontStyle: "revert"
+        })}
+      >
+        Video is currently unavailable
+      </Box>
     </Box>
   );
 };

@@ -119,6 +119,18 @@ function MasonryImageList() {
           </ImageListItem>
         ))}
       </ImageList>
+      {/* Credit Line */}
+      <Typography
+        variant="body2"
+        sx={(theme) => ({
+          marginTop: 2,
+          textAlign: "center",
+          color: theme.palette.mode === "dark" ? theme.palette.text.secondary : "#555",
+          fontStyle: "italic",
+        })}
+      >
+        Photo credits: CIMMYT; ACASA-BISA
+      </Typography>
     </Box>
   );
 }
@@ -138,15 +150,15 @@ function Feedback1() {
     const templateParams = {
       email: email, // User's email
       message: feedback, // Feedback message
-      time: new Date().toLocaleString(), 
+      time: new Date().toLocaleString(),
     };
 
     try {
       await emailjs.send(
-        "service_mm98fmv",  // EmailJS Service ID
-        "template_99myhyl",  // EmailJS Template Id
+        "service_myrqyfj", // EmailJS Service ID
+        "template_awkgclo", // EmailJS Template Id
         templateParams,
-        "XnGCjN6mQ1SweFpJ1"  // EmailJS Public key
+        "gftnbV5-h7bxkgqP-" // EmailJS Public key
       );
       setStatus("Feedback sent successfully!");
       setFeedback("");
@@ -185,7 +197,9 @@ function Feedback1() {
             <BodyText>
               {/*Thank you for visiting the test version of the Atlas of Climate Adaptation in South Asian Agriculture (ACASA). We value your feedback on this test version, which will help us improve our
               data analytics and content before the official release of the first version. Please take a moment to complete this quick feedback and share your thoughts with us.*/}
-              Thank you for exploring the Atlas of Climate Adaptation in South Asian Agriculture (ACASA). This is our first official release, and we appreciate your feedback to help us refine and enhance the platform. Your insights will contribute to improving our data analytics, content, and overall user experience. Please take a moment to share your thoughts with us.
+              Thank you for exploring the Atlas of Climate Adaptation in South Asian Agriculture (ACASA). This is our first official version or Version 1.0. We appreciate your feedback to help us
+              refine and enhance the platform. Your insights will contribute to improving our data, analytics, content, and overall user experience. Please take a moment to share your overall thought
+              and tab-specific insights with us, if any.
             </BodyText>
             {/*<ButtonStyled
               variant="contained"
