@@ -26,16 +26,16 @@ export default function SwitchScale({ exploreType, handleExploreTypeChange, acti
   const padd = 8;
 
   const AntSwitch = styled(Switch)(({ theme }) => ({
-    width: 30 + padd,
-    height: 12 + padd,
-    padding: padd / 2,
-    display: "flex",
+    "width": 30 + padd,
+    "height": 12 + padd,
+    "padding": padd / 2,
+    "display": "flex",
 
     "& .MuiSwitch-switchBase": {
-      padding: 2 + padd / 2,
+      "padding": 2 + padd / 2,
       "&.Mui-checked": {
-        transform: "translateX(16px)",
-        color: "#fff",
+        "transform": "translateX(16px)",
+        "color": "#fff",
         "& + .MuiSwitch-track": {
           opacity: 1,
           backgroundColor: theme.palette.mode === "dark" ? "#61c258" : "#4ba046",
@@ -58,9 +58,9 @@ export default function SwitchScale({ exploreType, handleExploreTypeChange, acti
       boxSizing: "border-box",
     },
     "&:hover": {
-      backgroundColor: theme.palette.mode === "dark" ? "#554d38" : "#ffe89c",
-      opacity: 1,
-      borderRadius: 12,
+      "backgroundColor": theme.palette.mode === "dark" ? "#554d38" : "#ffe89c",
+      "opacity": 1,
+      "borderRadius": 12,
       "& .MuiSwitch-track": {
         opacity: 1,
         backgroundColor: theme.palette.mode === "dark" ? "rgba(255,255,255,.25)" : "rgba(255,255,255,.7)",
@@ -69,7 +69,7 @@ export default function SwitchScale({ exploreType, handleExploreTypeChange, acti
   }));
 
   const CustomFormControlLabel = styled(FormControlLabel)(({ theme }) => ({
-    alignItems: "flex-start",
+    "alignItems": "flex-start",
     "&.Mui-disabled .MuiTypography-body2": {
       color: theme.palette.mode === "dark" ? "#888" : "#CCC",
     },
@@ -131,9 +131,7 @@ export default function SwitchScale({ exploreType, handleExploreTypeChange, acti
                     arrow
                   >
                     <IconButton sx={{ padding: 0, margin: 0, paddingX: "4px" }}>
-                      <InfoOutlinedIcon
-                        sx={{ fontSize: "12px", padding: 0, margin: 0 }}
-                      />
+                      <InfoOutlinedIcon sx={{ fontSize: "12px", padding: 0, margin: 0 }} />
                     </IconButton>
                   </LightTooltip>
                 </Typography>
@@ -159,7 +157,7 @@ export default function SwitchScale({ exploreType, handleExploreTypeChange, acti
           <FormGroup>
             <CustomFormControlLabel
               control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={sname === activeScale ? true : false} onChange={changeScale(sname)} name={sname} />}
-              disabled={false}
+              disabled={sname === "District Level"}
               key={sname}
               label={
                 <Typography
@@ -195,9 +193,7 @@ export default function SwitchScale({ exploreType, handleExploreTypeChange, acti
                     arrow
                   >
                     <IconButton sx={{ padding: 0, margin: 0, paddingX: "4px" }}>
-                      <InfoOutlinedIcon
-                        sx={{ fontSize: "12px", padding: 0, margin: 0 }}
-                      />
+                      <InfoOutlinedIcon sx={{ fontSize: "12px", padding: 0, margin: 0 }} />
                     </IconButton>
                   </LightTooltip>
                 </Typography>
@@ -209,4 +205,3 @@ export default function SwitchScale({ exploreType, handleExploreTypeChange, acti
     </div>
   );
 }
-

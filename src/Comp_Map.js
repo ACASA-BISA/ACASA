@@ -241,6 +241,14 @@ export default function MApp({
     ],
   };
 
+  const color_IMPACT_reverse = {
+    color: [
+      "palette",
+      ["interpolate", ["linear"], ["*", ["band", 2], 385], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 8, 9, 9],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#059212", "#00FF00", "#FFDE4D", "#FFDE4D", "#FFA500", "#FF0000", "rgba(150,150,150,1)"],
+    ],
+  };
+
   const color_adaptation2 = {
     color: [
       "palette",
@@ -261,9 +269,18 @@ export default function MApp({
     color: [
       "palette",
       ["interpolate", ["linear"], ["*", ["band", 2], 385], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 8],
-      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#A52A2A", "rgb(248, 36, 36)", "rgba(245, 140, 170, 1)", "rgba(245, 140, 170, 1)", "rgba(109, 233, 109, 1)", "rgba(4, 145, 4, 1)"],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#A52A2A", "rgb(248, 36, 36)", "#FF8C00", "#FF8C00", "rgba(109, 233, 109, 1)", "rgba(4, 145, 4, 1)"],
     ],
   };
+
+  const color_adaptation_yield2 = {
+    color: [
+      "palette",
+      ["interpolate", ["linear"], ["*", ["band", 2], 385], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 8, 9, 9],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "rgb(248, 36, 36)", "#FF8C00", "#FFDE4D", "#FFDE4D", "rgba(109, 233, 109, 1)", "rgba(4, 145, 4, 1)", "#A52A2A"],
+    ],
+  };
+
   const color_hazard_district = {
     color: [
       "palette",
@@ -288,7 +305,7 @@ export default function MApp({
     color: [
       "palette",
       ["clamp", ["*", ["band", 2], 25], 0, 6],
-      ["rgba(0,0,0,0)", "rgba(150,150,150,0)", "rgba(4, 145, 4, 1)", "rgba(109, 233, 109, 1)", "rgba(241, 233, 119, 1)", "rgba(245, 140, 170, 1)", "rgba(184, 23, 23, 1)"],
+      ["rgba(0,0,0,0)", "rgba(150,150,150,0)", "rgba(4, 145, 4, 1)", "rgba(109, 233, 109, 1)", "rgba(241, 233, 119, 1)", "#FF8C00", "rgba(184, 23, 23, 1)"],
     ],
   };
 
@@ -313,7 +330,7 @@ export default function MApp({
     color: [
       "palette",
       ["interpolate", ["linear"], ["*", ["band", 2], 250], 0, 1, 24, 2, 48, 3, 72, 5, 96, 6],
-      ["rgba(0,0,0,0)", "rgba(150,150,150,0)", "rgba(184, 23, 23, 1)", "rgba(245, 140, 170, 1)", "rgba(241, 233, 119, 1)", "rgba(109, 233, 109, 1)", "rgba(4, 145, 4, 1)"],
+      ["rgba(0,0,0,0)", "rgba(150,150,150,0)", "rgba(184, 23, 23, 1)", "#FF8C00", "rgba(241, 233, 119, 1)", "rgba(109, 233, 109, 1)", "rgba(4, 145, 4, 1)"],
     ],
   };
 
@@ -1323,7 +1340,7 @@ export default function MApp({
           } else {
             urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Economic_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
           }
-          opt = 333;
+          opt = 222;
         }
         if (activeOptLayer["Scalability"]) {
           if (activeScenario === "baseline") {
@@ -1333,7 +1350,7 @@ export default function MApp({
           } else {
             urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Scalability_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
           }
-          opt = 333;
+          opt = 222;
         }
         if (activeOptLayer["Gender"]) {
           if (activeScenario === "baseline") {
@@ -1343,17 +1360,19 @@ export default function MApp({
           } else {
             urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Gender_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
           }
-          opt = 333;
+          opt = 222;
         }
         if (activeOptLayer["Adaptation Benefits"]) {
           if (activeScenario === "baseline") {
-            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/Baseline/Yield_" + activeCrop + "_" + optcode[activeOpt] + "_baseline.tif";
+            urlstr = "./Impact/" + activeCrop + "_Productivity_" + activeScenario + ".tif";
+            opt = 222;
           } else if (activeScenario === "ssp245") {
             urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP245/Adaptation_" + activeCrop + "_" + optcode[activeOpt] + "_ssp245.tif";
+            opt = 444;
           } else {
             urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Adaptation_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
+            opt = 444;
           }
-          opt = 222;
         }
         //console.log(urlstr);
         settiffFilePath(urlstr);
@@ -1426,6 +1445,7 @@ export default function MApp({
           urlstr = "./Impact/" + activeCrop + "_Productivity_" + activeScenario + ".tif";
         } else if (activeImpact["Resilience"]) {
           urlstr = "./Impact/" + activeCrop + "_CV_" + activeScenario + ".tif";
+          opt = 666;
         } else {
           urlstr = "./Impact/" + activeCrop + "_VOP_" + activeScenario + ".tif";
         }
@@ -1492,6 +1512,10 @@ export default function MApp({
         //newOverl.setStyle(color_hazard4);
       } else if (opt === 555) {
         newOverl.setStyle(color_IMPACT);
+      } else if (opt === 444) {
+        newOverl.setStyle(color_adaptation_yield);
+      } else if (opt === 666) {
+        newOverl.setStyle(color_IMPACT_reverse);
       } else if (opt === 4) {
         newOverl.setStyle(color4);
       } else if (opt === 99) {
@@ -1499,7 +1523,10 @@ export default function MApp({
       } else if (opt === 102) {
         newOverl.setStyle(color_hazard3);
       } else if (opt === 222) {
-        newOverl.setStyle(color_adaptation_yield);
+        newOverl.setStyle(color_adaptation_yield2);
+        if (checkcrop2() === false) {
+          newOverl.setStyle(color_adaptation_livestock);
+        }
       } else {
         newOverl.setStyle(colorGradientEx);
       }
@@ -1736,7 +1763,7 @@ export default function MApp({
             {for_unavailabe_future_data() === 1 && "Since no data is available for this scenario, we have replicated the baseline data"}
             {for_unavailabe_future_data() === 3 && "This denotes technology suitability for women. Analysis for outside India in progress."}
             {for_unavailabe_future_data() === 4 && "These are test results for understanding the website layout, results will be updated in future."}
-            {for_unavailabe_future_data() === 5 && " Analysis for outside India in progress."}
+            {for_unavailabe_future_data() === 5 && "Analysis for outside India in progress."}
           </Typography>
         }
         open={for_unavailabe_future_data() !== 2}

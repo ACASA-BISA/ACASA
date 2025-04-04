@@ -161,19 +161,20 @@ export function fetchDataAdap(adaption, location, AdaptLayerName, commodity, sce
             ],
       "Yield Benefits": [
         ["#969696", "No significant change"],
-        ["#A52A2A", "Unsuitable"], //"#E4003A"
-        ["rgb(248, 36, 36)", "High loss"],
-        ["rgba(245, 140, 170, 1)", "Low loss"],
+        //["#A52A2A", "Unsuitable"], //"#E4003A"
+        ["rgb(248, 36, 36)", "Med loss"],
+        ["#FF8C00", "Low loss"],
+        ["#FFDE4D", "Nil"],
         ["rgba(109, 233, 109, 1)", "Low gain"],
-        ["rgba(4, 145, 4, 1)", "High gain"],
+        ["rgba(4, 145, 4, 1)", "Med gain"],
       ],
       "Economic Viability": [
         ["#969696", "No significant change"],
-        ["#A52A2A", "Unsuitable"], //"#E4003A"
-        ["#FF4500", "Very Low"], //"#FFA500"
-        ["#FFDE4D", "Low"],
-        ["#00FF00", "Medium"],
-        ["#059212", "High"],
+        ["rgb(248, 36, 36)", "Very Low"], //"#E4003A"
+        ["#FF8C00", "Low"], //"#FFA500"
+        ["#FFDE4D", "Medium"],
+        ["rgba(109, 233, 109, 1)", "High"],
+        ["rgba(4, 145, 4, 1)", "Very High"],
       ],
       "Scalability": [
         /* ["#969696", "No significant change"],
@@ -183,32 +184,42 @@ export function fetchDataAdap(adaption, location, AdaptLayerName, commodity, sce
         ["#00FF00", "High"],
         ["#059212", "Very high"], */
         ["#969696", "No significant change"],
-        ["#A52A2A", "Unsuitable"], //"#E4003A"
-        ["#FF4500", "Very Low"], //"#FFA500"
-        ["#FFDE4D", "Low"],
-        ["#00FF00", "Medium"],
-        ["#059212", "High"],
+        ["rgb(248, 36, 36)", "Very Low"], //"#E4003A"
+        ["#FF8C00", "Low"], //"#FFA500"
+        ["#FFDE4D", "Medium"],
+        ["rgba(109, 233, 109, 1)", "High"],
+        ["rgba(4, 145, 4, 1)", "Very High"],
       ],
       "Gender Suitability": [
         ["#969696", "No significant change"],
-        ["#A52A2A", "Unsuitable"], //"#E4003A"
-        ["#FF4500", "Very Low"], //"#FFA500"
-        ["#FFDE4D", "Low"],
-        ["#00FF00", "Medium"],
-        ["#059212", "High"],
+        ["rgb(248, 36, 36)", "Very Low"], //"#E4003A"
+        ["#FF8C00", "Low"], //"#FFA500"
+        ["#FFDE4D", "Medium"],
+        ["rgba(109, 233, 109, 1)", "High"],
+        ["rgba(4, 145, 4, 1)", "Very High"],
       ],
-      "Adaptation Benefits": [
-        ["#969696", "No significant change"],
-        ["#A52A2A", "Unsuitable"], //"#E4003A"
-        ["rgb(248, 36, 36)", "High loss"],
-        ["rgba(245, 140, 170, 1)", "Low loss"],
-        ["rgba(109, 233, 109, 1)", "Low gain"],
-        ["rgba(4, 145, 4, 1)", "High gain"],
-      ],
+      "Adaptation Benefits":
+        scenario === "baseline"
+          ? [
+              ["#969696", "No significant change"],
+              ["rgb(248, 36, 36)", "Very Low"], //"#E4003A"
+              ["#FF8C00", "Low"], //"#FFA500"
+              ["#FFDE4D", "Medium"],
+              ["rgba(109, 233, 109, 1)", "High"],
+              ["rgba(4, 145, 4, 1)", "Very High"],
+            ]
+          : [
+              ["#969696", "No significant change"],
+              ["rgb(248, 36, 36)", "Med loss"],
+              ["#FF8C00", "Low loss"],
+              //["#FFDE4D", "Nil"],
+              ["rgba(109, 233, 109, 1)", "Low gain"],
+              ["rgba(4, 145, 4, 1)", "Med gain"],
+            ],
       "default": [
         /* ["#969696", "No significant change"],
         ["rgba(184, 23, 23, 1)", "High dcrs"],
-        ["rgba(245, 140, 170, 1)", "Decrease"],
+        ["#FF8C00", "Decrease"],
         ["rgba(241, 233, 119, 1)", "No change"],
         ["rgba(109, 233, 109, 1)", "Increase"],
         ["rgba(4, 145, 4, 1)", "High incr"], */

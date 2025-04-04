@@ -208,7 +208,7 @@ export default function CompV({
     AdaptLayerName = "Biophysical Suitability";
   }
 
-  const Adapt_Title = ["Yield benefits in current climate (Baseline)", "Adaptation Benefits (2050s)", "Adaptation Benefits (2080s)"];
+  const Adapt_Title = ["Yield (Baseline)", "Adaptation Benefits (2050s)", "Adaptation Benefits (2080s)"];
   const gridRefs = [React.useRef(null), React.useRef(null), React.useRef(null)];
   const Only_Baseline = React.useRef(null);
 
@@ -402,7 +402,7 @@ export default function CompV({
               {tabs.map((label, index) => (
                 <ArrowTab
                   key={label}
-                  selected={index <= selectedIndex}
+                  selected={index == selectedIndex}
                   isLast={index === tabs.length - 1} // Identify last tab
                   isFirst={index === 0}
                   onClick={() => handleSelect(index)}

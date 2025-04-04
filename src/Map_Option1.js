@@ -149,7 +149,7 @@ export default function Map_Option({ activeCrop, focus = "Region", activeRegion,
     color: [
       "palette",
       ["interpolate", ["linear"], ["*", ["band", 2], 385], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 8],
-      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#A52A2A", "rgb(248, 36, 36)", "rgba(245, 140, 170, 1)", "rgba(245, 140, 170, 1)", "rgba(109, 233, 109, 1)", "rgba(4, 145, 4, 1)"],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#A52A2A", "rgb(248, 36, 36)", "#FF8C00", "#FF8C00", "rgba(109, 233, 109, 1)", "rgba(4, 145, 4, 1)"],
     ],
   };
 
@@ -169,7 +169,7 @@ export default function Map_Option({ activeCrop, focus = "Region", activeRegion,
     color: [
       "palette",
       ["clamp", ["*", ["band", 2], 25], 0, 6],
-      ["rgba(0,0,0,0)", "rgba(200,200,200,1)", "rgba(200,200,200,1)", "rgba(184, 23, 23, 1)", "rgba(245, 140, 170, 1)", "rgba(241, 233, 119, 1)", "rgba(109, 233, 109, 1)", "rgba(4, 145, 4, 1)"],
+      ["rgba(0,0,0,0)", "rgba(200,200,200,1)", "rgba(200,200,200,1)", "rgba(184, 23, 23, 1)", "#FF8C00", "rgba(241, 233, 119, 1)", "rgba(109, 233, 109, 1)", "rgba(4, 145, 4, 1)"],
     ],
   };
 

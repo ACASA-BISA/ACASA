@@ -162,7 +162,7 @@ export function fetchthedataHzd(activeScale, RiskName, ImpactName, displayLayer,
           (row_data["Cropped Area/Number of animals under Very High category"] || 0) +
           (row_data["Cropped Area/Number of animals under Nil category"] || 0) || 1;
 
-      if (RiskType() === "Vulnerability" || RiskName2 === "Resilience" || RiskName2 === "Value of Production") {
+      if (RiskType() === "Vulnerability" || RiskName2 === "Resilience" || RiskName2 === "Value of Production" || (RiskName2 === "Productivity" && scenario === "baseline")) {
         data = [
           createData(
             "#969696",
@@ -207,7 +207,7 @@ export function fetchthedataHzd(activeScale, RiskName, ImpactName, displayLayer,
             (row_data["Rural population under Very High category"] * 0.16) / 1000000
           ),
         ];
-      } else if (RiskName2 === "Productivity") {
+      } else if (RiskName2 === "Productivity" && scenario !== "baseline") {
         data = [
           createData(
             "#969696",
@@ -218,14 +218,14 @@ export function fetchthedataHzd(activeScale, RiskName, ImpactName, displayLayer,
           ),
           createData(
             "#E4003A",
-            "High loss",
+            "Med loss",
             row_data["Cropped Area/Number of animals under Very Low category"],
             ((row_data["Cropped Area/Number of animals under Very Low category"] * 100) / total).toFixed(2),
             (row_data["Rural population under Very Low category"] * 0.16) / 1000000
           ),
           createData(
             "#FFA500",
-            "Med loss",
+            "low loss",
             row_data["Cropped Area/Number of animals under Low category"],
             ((row_data["Cropped Area/Number of animals under Low category"] * 100) / total).toFixed(2),
             (row_data["Rural population under Low category"] * 0.16) / 1000000
@@ -246,7 +246,7 @@ export function fetchthedataHzd(activeScale, RiskName, ImpactName, displayLayer,
           ),
           createData(
             "#059212",
-            "High gain",
+            "Med gain",
             row_data["Cropped Area/Number of animals under Very High category"],
             ((row_data["Cropped Area/Number of animals under Very High category"] * 100) / total).toFixed(2),
             (row_data["Rural population under Very High category"] * 0.16) / 1000000
@@ -414,7 +414,7 @@ export function fetchthedataHzd(activeScale, RiskName, ImpactName, displayLayer,
         createData("rgba(0,0,128,1)", "High dcr", row_data["Very Low"], ((row_data["Very Low"] * 100) / total).toFixed(2), (row_data["Very Low Population"] * 0.16) / 1000000),
         createData("rgba(135,206,250,1)", "Decrease", row_data["Low"], ((row_data["Low"] * 100) / total).toFixed(2), (row_data["Low Population"] * 0.16) / 1000000),
         createData("rgba(241, 233, 119, 1)", "No change", row_data["Medium"], ((row_data["Medium"] * 100) / total).toFixed(2), (row_data["Medium Population"] * 0.16) / 1000000),
-        createData("rgba(245, 140, 170, 1)", "Increase", row_data["High"], ((row_data["High"] * 100) / total).toFixed(2), (row_data["High Population"] * 0.16) / 1000000),
+        createData("#FF8C00", "Increase", row_data["High"], ((row_data["High"] * 100) / total).toFixed(2), (row_data["High Population"] * 0.16) / 1000000),
         createData("rgba(184, 23, 23, 1)", "High incr", row_data["Very High"], ((row_data["Very High"] * 100) / total).toFixed(2), (row_data["Very High Population"] * 0.16) / 1000000),
       ];
     } else {
@@ -459,7 +459,7 @@ export function fetchthedataHzd(activeScale, RiskName, ImpactName, displayLayer,
         createData("rgba(4, 145, 4, 1)", "High dcr", row_data["Very Low"], ((row_data["Very Low"] * 100) / total).toFixed(2), (row_data["Very Low Population"] * 0.16) / 1000000),
         createData("rgba(109, 233, 109, 1)", "Decrease", row_data["Low"], ((row_data["Low"] * 100) / total).toFixed(2), (row_data["Low Population"] * 0.16) / 1000000),
         createData("rgba(241, 233, 119, 1)", "No change", row_data["Medium"], ((row_data["Medium"] * 100) / total).toFixed(2), (row_data["Medium Population"] * 0.16) / 1000000),
-        createData("rgba(245, 140, 170, 1)", "Increase", row_data["High"], ((row_data["High"] * 100) / total).toFixed(2), (row_data["High Population"] * 0.16) / 1000000),
+        createData("#FF8C00", "Increase", row_data["High"], ((row_data["High"] * 100) / total).toFixed(2), (row_data["High Population"] * 0.16) / 1000000),
         createData("rgba(184, 23, 23, 1)", "High incr", row_data["Very High"], ((row_data["Very High"] * 100) / total).toFixed(2), (row_data["Very High Population"] * 0.16) / 1000000),
       ];
     }

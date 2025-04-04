@@ -1,7 +1,7 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { Paper } from "@mui/material";
+import { Paper, Tooltip } from "@mui/material";
 import { fetchDataAdap } from "./fetchDataAdap";
 import { fetchthedataHzd } from "./fetchDataHzd";
 
@@ -118,14 +118,21 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
           <div>
             <Box sx={{ display: "flex", marginTop: "-10px", justifyContent: "center" }}>
               <Typography sx={(theme) => ({ fontSize: 11.5, marginBottom: "2px", color: theme.palette.mode === "dark" ? "white" : "black" })}>
-                {(AdaptLayerName === "Yield Benefits" || AdaptLayerName === "Adaptation Benefits") && "Percent change in "}
+                {AdaptLayerName === "Yield Benefits" && "Percent change in "}
+                {/* {AdaptLayerName === "Adaptation Benefits" && scenario === "baseline" && "Percent change in "} */}
                 {AdaptLayerName === "Biophysical Suitability" && checkcrop() === false && "Adaptation requirement"}
-                {scenario === "baseline" && (AdaptLayerName === "Adaptation Benefits" || AdaptLayerName === "Yield Benefits") && "yield"}
-                {(scenario !== "baseline" || (AdaptLayerName !== "Adaptation Benefits" && AdaptLayerName !== "Yield Benefits")) &&
+                {scenario === "baseline" && AdaptLayerName === "Adaptation Benefits" && <strong>Yield</strong>}
+                {AdaptLayerName === "Yield Benefits" && "yield"}
+                {(scenario !== "baseline" || AdaptLayerName !== "Adaptation Benefits") &&
                   (AdaptLayerName !== "Biophysical Suitability" || checkcrop() !== false) &&
+                  AdaptLayerName !== "Yield Benefits" &&
                   AdaptLayerName.charAt(0).toUpperCase() + AdaptLayerName.toLowerCase().slice(1)}{" "}
-                for&nbsp;
-                <strong>{adaption.charAt(0).toUpperCase() + adaption.slice(1, 4) + adaption.toLowerCase().slice(4)}</strong>
+                {(scenario !== "baseline" || AdaptLayerName !== "Adaptation Benefits") && (
+                  <span>
+                    for&nbsp;
+                    <strong>{adaption.charAt(0).toUpperCase() + adaption.slice(1, 4) + adaption.toLowerCase().slice(4)}</strong>
+                  </span>
+                )}
               </Typography>
             </Box>
           </div>
@@ -133,9 +140,9 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
         {ImpactName !== "" && (
           <Box sx={{ display: "flex", marginTop: "-10px", justifyContent: "center" }}>
             <Typography sx={(theme) => ({ fontSize: 11.5, marginBottom: "2px", color: theme.palette.mode === "dark" ? "white" : "black" })}>
-              {scenario === "baseline" && ImpactName === "Productivity" && <strong>Yield</strong>}
-              {scenario !== "baseline" && "Percent change in "}
-              <strong>{(scenario !== "baseline" || ImpactName !== "Productivity") && ImpactName.charAt(0).toUpperCase() + ImpactName.toLowerCase().slice(1)}</strong>
+              {scenario !== "baseline" && ImpactName === "Productivity" && "Percent change in "}
+              {ImpactName === "Productivity" && <strong>Yield</strong>}
+              <strong>{ImpactName !== "Productivity" && ImpactName.charAt(0).toUpperCase() + ImpactName.toLowerCase().slice(1)}</strong>
             </Typography>
           </Box>
         )}
@@ -239,6 +246,36 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                       <strong>NA</strong>
                     </Typography>
                   </Box>
+                )}
+                {(AdaptLayerName === "Yield Benefits" ||
+                  AdaptLayerName === "Adaptation Benefits" ||
+                  AdaptLayerName === "Economic Viability" ||
+                  AdaptLayerName === "Scalability" ||
+                  AdaptLayerName === "Gender Suitability") && (
+                  <Tooltip title={<Typography sx={{ fontSize: 10 }}>Unsuitable</Typography>} placement="left" arrow open={true}>
+                    <Box
+                      sx={{
+                        width: 20,
+                        height: 18,
+                        borderRadius: 0,
+                        bgcolor: "#A52A2A",
+                        alignContent: "center",
+                        marginTop: "16px",
+                        marginRight: "2px",
+                      }}
+                    >
+                      <Typography
+                        sx={{
+                          fontSize: 10,
+                          marginY: "auto",
+                          marginLeft: "3px",
+                        }}
+                        color="white"
+                      >
+                        <strong>US</strong>
+                      </Typography>
+                    </Box>
+                  </Tooltip>
                 )}
                 {rowshzd.map((row, index) => (
                   <div>
