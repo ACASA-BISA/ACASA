@@ -14,7 +14,7 @@ export default function SwitchScenario({ activeScenario, changeScenario, activeM
   const switchh = ["Baseline", "SSP 2-4.5", "SSP 5-8.5"];
   const switchid = ["baseline", "ssp245", "ssp585"];
   const disvar = { baseline: false, ssp245: false, ssp585: false };
-  const scenarioinfo = ["To be updated later.", "To be updated later.", "To be updated later."];
+  const scenarioinfo = ["Current scenario.", "Moderate emissions, intermediate climate change.", "High emissions, severe climate change."];
 
   const parents = ["ISIMIP"];
   const switchh2 = ["CHC"];
@@ -142,7 +142,7 @@ export default function SwitchScenario({ activeScenario, changeScenario, activeM
                         </Link>
                       </>
                     }
-                    placement="top"
+                    placement="right"
                     arrow
                   >
                     <IconButton sx={{ padding: 0, margin: 0, paddingX: "4px" }}>

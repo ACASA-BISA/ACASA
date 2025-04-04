@@ -47,7 +47,7 @@ const layerMappings = {
   hazardname: {
     "District Level": "District Level",
     "Downscaled Risk": "Downscaled Risk",
-    "Risk Index": "Risk Index",
+    "Risk Index": "Risk index",
     "Hazard Index": "Hazard Index",
     "Low temperature induced spikelet sterility": "Low temperature induced spikelet sterility",
     "Low temperature induced pollen sterility": "Low temperature induced pollen sterility",
@@ -58,37 +58,54 @@ const layerMappings = {
     "Low temperature induced tuberization failure": "Low temperature induced tuberization failure",
     "Untimely Rainfall": "Untimely rainfall",
     "Terminal Heat": "Terminal heat",
-    "Days of Frost": "Days of Frost",
+    "Days of Frost": "Days of frost",
     "Excess Rainfall and Waterlogging": "Excess rain and waterlogging",
     "Delayed Monsoon": "Delayed monsoon",
     "Crop water deficit index": "Crop water deficit index",
     "Dry Spell": "Number of dry spells",
     "Flood": "Flood",
+    "Soil Organic Carbon": "Soil organic carbon",
     "Lodging": "Rain and wind causing lodging",
     "Biotic": "High humidity and temperature for blight",
     "Irrigation": "Irrigation",
-    "Water Holding": "Water Holding",
-    "Income": "Income",
+    "Volumetric Soil Water": "Water holding capacity",
+    "Income": "Agricultural GDP",
     "Access to Credit": "Access to Credit",
     "Access to Market": "Access to Market",
     "Elevation": "Elevation",
     "Access to Knowledge": "Access to Knowledge",
     "Exposure Index": "Exposure Index",
     "Number of Farmers": "Number of Farmers",
-    "Cropped Area": "Cropped Area",
+    "Cropped Area": "Extent",
     "Excess Rainfall": "Excess rainfall",
+    "Number of Animals per grid": "Number of animals per grid",
     "Cold stress in reproductive stage": "Cold stress in reproductive stage",
     "Heat stress in reproductive stage": "Heat stress in reproductive stage",
     "Heat stress during boll formation": "Heat stress during boll formation",
     "Cold stress during flowering": "Cold stress during flowering",
     "High tempearture during flowering": "High tempearture during flowering",
     "Biotic Stress": "Biotic stress",
+    "Vulnerability Index": "Vulnerability Index",
+    "Feed/Fodder": "Residue",
+    "Rural infrastructure": "Rural Infra",
+    "Cyclone": "Cyclone",
+    "Rainfall Deficit": "Rainfall deficit",
+    "Rainfall Deficit index": "Rainfall deficit",
+    "Rainfall Deficit Index": "Rainfall deficit",
+    "Extreme Rainfall days": "Extreme Rainfall Days",
+    "Cold days": "Cold Stress",
+    "Hot days": "Heat stress or hot days",
+    "Temperature-Humidity Index": "THI",
+    "Socio-economic Development Indicator": "Human development index",
+    "Seasonal Rainfall": "Seasonal Rainfall",
+    "Maximum Temperature": "Maximum Temperature",
+    "Minimum Temperature": "Minimum Temperature",
   },
 };
 
 //Function to create a data row for the tables
-function createData(Commodity, Scenario, LayerType, Title, Description, Source, Action) {
-  return { Commodity, Scenario, LayerType, Title, Description, Source, Action };
+function createData(Commodity, Scenario, LayerType, Title, Description, Source, imgSource, Action) {
+  return { Commodity, Scenario, LayerType, Title, Description, Source, imgSource, Action };
 }
 
 // Hazard data
@@ -113,9 +130,39 @@ const data = [
     "https://global-flood-database.cloudtostreet.info/",
     "Download"
   ),*/
-  createData("Rice", "Baseline", "Hazard", "Delayed Monsoon", "Number of events of delayed monsoon where delay is more than 15 days", "https://www.chc.ucsb.edu/data/chirps", "Download"),
-  createData("Rice", "Baseline", "Hazard", "Crop water deficit index", "SPI below -1 (moderate and severe drought)", "http://data.chc.ucsb.edu/products/CHIRTSdaily/", "Download"),
-  createData("Rice", "Baseline", "Hazard", "Dry Spell", "Number of dry spells with length of 15 days or more in a season", "https://www.chc.ucsb.edu/data/chirps", "Download"),
+  createData("Rice", "Baseline", "Hazard", "Heat Stress", "", "", "cardimg/Baseline_CHC_Rice_HeatStress_IF.jpeg", "Download"),
+  createData("Rice", "Baseline", "Hazard", "High temperature induced pollen sterility", "", "", "cardimg/Baseline_CHC_Rice_PollinationHeat_IF.jpeg", "Download"),
+  createData("Rice", "Baseline", "Hazard", "Low temperature induced pollen sterility", "", "", "cardimg/Baseline_CHC_Rice_PollinationCold_IF.jpeg", "Download"),
+  createData(
+    "Rice",
+    "Baseline",
+    "Hazard",
+    "Delayed Monsoon",
+    "Number of events of delayed monsoon where delay is more than 15 days",
+    "https://www.chc.ucsb.edu/data/chirps",
+    "cardimg/Baseline_CHC_Rice_DelayedMonsoon_DelayDays.jpeg",
+    "Download"
+  ),
+  createData(
+    "Rice",
+    "Baseline",
+    "Hazard",
+    "Crop water deficit index",
+    "SPI below -1 (moderate and severe drought)",
+    "http://data.chc.ucsb.edu/products/CHIRTSdaily/",
+    "cardimg/Baseline_CHC_Rice_RainfallDeviation_IF.jpeg",
+    "Download"
+  ),
+  createData(
+    "Rice",
+    "Baseline",
+    "Hazard",
+    "Dry Spell",
+    "Number of dry spells with length of 15 days or more in a season",
+    "https://www.chc.ucsb.edu/data/chirps",
+    "cardimg/Baseline_CHC_Rice_DrySpell_DS.jpeg",
+    "Download"
+  ),
   /*createData("Rice", "Baseline", "Hazard", "Flood", "Flood layer", "https://www.chc.ucsb.edu/data/chirps", "Download"),*/
   createData(
     "Wheat",
@@ -124,6 +171,7 @@ const data = [
     "High temperature induced pollen sterility",
     "High temperature during pollination: Tday > 28 for two days",
     "http://data.chc.ucsb.edu/products/CHIRTSdaily/",
+    "cardimg/Baseline_CHC_Wheat_PollinationHeat_IF.jpeg",
     "Download"
   ),
   createData(
@@ -133,13 +181,100 @@ const data = [
     "Terminal Heat",
     "GDD concept (degrees above normal GDD) [tbase=8 degrees] during grain filling",
     "http://data.chc.ucsb.edu/products/CHIRTSdaily/",
+    "cardimg/Baseline_CHC_Wheat_terminalHeat_IF.jpeg",
     "Download"
   ),
-  createData("Wheat", "Baseline", "Hazard", "Days of Frost", "Minimum temperature less than zero degree for more than three days", "https://www.chc.ucsb.edu/data/chirps", "Download"),
-  createData("Wheat", "Baseline", "Hazard", "Untimely Rainfall", "Whole season consecutive two-day rainfall > 100 mm ", "https://www.chc.ucsb.edu/data/chirps", "Download"),
-  createData("Wheat", "Baseline", "Hazard", "Crop water deficit index", "Sept/Oct/Nov and season drought", "http://data.chc.ucsb.edu/products/CHIRTSdaily/", "Download"),
-  createData("Wheat", "Baseline", "Hazard", "Lodging", "Windspeed and rainfall criteria after booting (85 to 115 days)", "http://data.chc.ucsb.edu/products/CHIRTSdaily/", "Download"),
-  /*createData("Pig", "Baseline", "Hazard", "Temperature-Humidity Index (THI)", "The average number of days when THI exceeds a threshold (79)", "", "Download"),
+  createData("Wheat", "Baseline", "Hazard", "Heat stress", "", "", "cardimg/Baseline_CHC_Wheat_HeatStress_IF.jpeg", "Download"),
+  createData(
+    "Wheat",
+    "Baseline",
+    "Hazard",
+    "Untimely Rainfall",
+    "Whole season consecutive two-day rainfall > 100 mm ",
+    "https://www.chc.ucsb.edu/data/chirps",
+    "cardimg/Baseline_CHC_Wheat_untimelyRainfall_IF.jpeg",
+    "Download"
+  ),
+  createData(
+    "Wheat",
+    "Baseline",
+    "Hazard",
+    "Crop water deficit index",
+    "Sept/Oct/Nov and season drought",
+    "http://data.chc.ucsb.edu/products/CHIRTSdaily/",
+    "cardimg/Baseline_CHC_Wheat_RainfallDeviation_IF.jpeg",
+    "Download"
+  ),
+  createData(
+    "Wheat",
+    "Baseline",
+    "Hazard",
+    "Days of Frost",
+    "Minimum temperature less than zero degree for more than three days",
+    "https://www.chc.ucsb.edu/data/chirps",
+    "cardimg/Baseline_CHC_Wheat_Frost_IF.jpeg",
+    "Download"
+  ),
+
+  createData("Maize", "Baseline", "Hazard", "Heat stress", "", "", "cardimg/Baseline_CHC_Maize_HeatStress_IF.jpeg", "Download"),
+  createData("Maize", "Baseline", "Hazard", "High temperature induced pollen sterility", "", "", "cardimg/Baseline_CHC_Maize_PollinationHeat_IF.jpeg", "Download"),
+  createData("Maize", "Baseline", "Hazard", "Low temperature induced pollen sterility", "", "", "cardimg/Baseline_CHC_Maize_PollinationCold_IF.jpeg", "Download"),
+  createData("Maize", "Baseline", "Hazard", "Excess rainfall and waterlogging", "", "", "cardimg/Baseline_CHC_Maize_RainfallDeviation_IF.jpeg", "Download"),
+  createData("Maize", "Baseline", "Hazard", "Delayed monsoon", "", "", "cardimg/Baseline_CHC_Maize_DelayedMonsoon_DelayDays.jpeg", "Download"),
+  createData("Maize", "Baseline", "Hazard", "Crop water deficit index", "", "", "cardimg/Baseline_CHC_Maize_RainfallDeviation_IF.jpeg", "Download"),
+  createData("Maize", "Baseline", "Hazard", "Dry spell", "", "", "cardimg/Baseline_CHC_Maize_DrySpell_DS.jpeg", "Download"),
+  createData("Maize", "Baseline", "Hazard", "Flood", "", "", "cardimg/.jpeg", "Download"),
+
+  createData("Barley", "Baseline", "Hazard", "Heat stress", "", "", "cardimg/Baseline_CHC_Barley_HeatStress_IF.jpeg", "Download"),
+  createData("Barley", "Baseline", "Hazard", "High temperture induced pollen sterility", "", "", "cardimg/Baseline_CHC_Barley_PollinationHeat_IF.jpeg", "Download"),
+  createData("Barley", "Baseline", "Hazard", "Untimely rainfall", "", "", "cardimg/Baseline_CHC_Barley_untimelyRainfall_IF.jpeg", "Download"),
+  createData("Barley", "Baseline", "Hazard", "Crop water deficit index", "", "", "cardimg/Baseline_CHC_Barley_RainfallDeviation_IF.jpeg", "Download"),
+  createData("Barley", "Baseline", "Hazard", "Days of frost", "", "", "cardimg/Baseline_CHC_Barley_Frost_IF.jpeg", "Download"),
+
+  createData("Millets", "Baseline", "Hazard", "Heat stress", "", "", "cardimg/Baseline_CHC_Millets_HeatStress_IF.jpeg", "Download"),
+  createData("Millets", "Baseline", "Hazard", "Delayed monsoon", "", "", "cardimg/Baseline_CHC_Millets_DelayedMonsoon_DelayDays.jpeg", "Download"),
+  createData("Millets", "Baseline", "Hazard", "Dry spell", "", "", "cardimg/Baseline_CHC_Millets_DrySpell_DS.jpeg", "Download"),
+  createData("Millets", "Baseline", "Hazard", "Flood", "", "", "cardimg/.jpeg", "Download"),
+  createData("Millets", "Baseline", "Hazard", "High temperature induced pollen sterility", "", "", "cardimg/Baseline_CHC_Millets_PollinationHeat_IF.jpeg", "Download"),
+  createData("Millets", "Baseline", "Hazard", "Excess rainfall and waterlogging", "", "", "cardimg/Baseline_CHC_Millets_ERWL_IF.jpeg", "Download"),
+  createData("Millets", "Baseline", "Hazard", "Crop water deficit index", "", "", "cardimg/Baseline_CHC_Millets_RainfallDeviation_IF.jpeg", "Download"),
+
+  createData("Lentil", "Baseline", "Hazard", "Heat stress", "", "", "cardimg/Baseline_CHC_Lentil_PollinationHeat_IF.jpeg", "Download"),
+  createData("Lentil", "Baseline", "Hazard", "High temperature induced pollen sterility", "", "", "cardimg/Baseline_CHC_Lentil_PollinationHeat_IF.jpeg", "Download"),
+  createData("Lentil", "Baseline", "Hazard", "Untimely rainfall", "", "", "cardimg/Baseline_CHC_Lentil_untimelyRainfall_IF.jpeg", "Download"),
+  createData("Lentil", "Baseline", "Hazard", "Crop water deficit index", "", "", "cardimg/Baseline_CHC_Lentil_RainfallDeviation_IF.jpeg", "Download"),
+  createData("Lentil", "Baseline", "Hazard", "Days of frost", "", "", "cardimg/Baseline_CHC_Lentil_Frost_IF.jpeg", "Download"),
+
+  createData("Rapeseed/Mustard", "Baseline", "Hazard", "Heat stress", "", "", "cardimg/Baseline_CHC_Mustard_HeatStress_IF.jpeg", "Download"),
+  createData("Rapeseed/Mustard", "Baseline", "Hazard", "Untimely rainfall", "", "", "cardimg/Baseline_CHC_Mustard_untimelyRainfall_IF.jpeg", "Download"),
+  createData("Rapeseed/Mustard", "Baseline", "Hazard", "Crop water deficit index", "", "", "cardimg/Baseline_CHC_Mustard_RainfallDeviation_IF.jpeg", "Download"),
+  createData("Rapeseed/Mustard", "Baseline", "Hazard", "High temperature induced pollen sterility", "", "", "cardimg/Baseline_CHC_Mustard_PollinationHeat_IF.jpeg", "Download"),
+  createData("Rapeseed/Mustard", "Baseline", "Hazard", "Days of frost", "", "", "cardimg/Baseline_CHC_Mustard_Frost_IF.jpeg", "Download"),
+
+  createData("Potato", "Baseline", "Hazard", "Heat stress", "", "", "cardimg/Baseline_CHC_Potato_HeatStress_IF.jpeg", "Download"),
+  createData("Potato", "Baseline", "Hazard", "Untimely rainfall", "", "", "cardimg/Baseline_CHC_Potato_untimelyRainfall_IF.jpeg", "Download"),
+  createData("Potato", "Baseline", "Hazard", "Crop water deficit index", "", "", "cardimg/Baseline_CHC_Potato_RainfallDeviation_IF.jpeg", "Download"),
+  createData("Potato", "Baseline", "Hazard", "Low temperature induced pollen sterility", "", "", "cardimg/Baseline_CHC_Potato_PollinationCold_IF.jpeg", "Download"),
+  createData("Potato", "Baseline", "Hazard", "Days of frost", "", "", "cardimg/Baseline_CHC_Potato_Frost_IF.jpeg", "Download"),
+
+  createData("Cotton", "Baseline", "Hazard", "Heat stress", "", "", "cardimg/Baseline_CHC_Cotton_HeatStress_IF.jpeg", "Download"),
+  createData("Cotton", "Baseline", "Hazard", "Delayed monsoon", "", "", "cardimg/Baseline_CHC_Cotton_DelayedMonsoon_DelayDays.jpeg", "Download"),
+  createData("Cotton", "Baseline", "Hazard", "Dry spell", "", "", "cardimg/Baseline_CHC_Cotton_DrySpell_DS.jpeg", "Download"),
+  /*createData("Cotton", "Baseline", "Hazard", "Flood", "", "", "cardimg/Baseline_CHC_Potato_Frost_IF.jpeg", "Download"),*/
+  createData("Cotton", "Baseline", "Hazard", "High temperature induced pollen sterility", "", "", "cardimg/Baseline_CHC_Cotton_PollinationHeat_IF.jpeg", "Download"),
+  createData("Cotton", "Baseline", "Hazard", "Excess rainfall and waterlogging", "", "", "cardimg/Baseline_CHC_Cotton_ERWL_IF.jpeg", "Download"),
+  createData("Cotton", "Baseline", "Hazard", "Crop water deficit index", "", "", "cardimg/Baseline_CHC_Cotton_RainfallDeviation_IF.jpeg", "Download"),
+
+  createData("Jute", "Baseline", "Hazard", "Heat stress", "", "", "cardimg/Baseline_CHC_Jute_HeatStress_IF.jpeg", "Download"),
+  createData("Jute", "Baseline", "Hazard", "High temperature induced pollen sterility", "", "", "cardimg/Baseline_CHC_Jute_PollinationHeat_IF.jpeg", "Download"),
+  createData("Jute", "Baseline", "Hazard", "Excess rainfall and waterlogging", "", "", "cardimg/Baseline_CHC_Jute_ERWL_IF.jpeg", "Download"),
+  createData("Jute", "Baseline", "Hazard", "Crop water deficit index", "", "", "cardimg/Baseline_CHC_Jute_RainfallDeviation_IF.jpeg", "Download"),
+  createData("Jute", "Baseline", "Hazard", "Dry spell", "", "", "cardimg/Baseline_CHC_Jute_DrySpell_DS.jpeg", "Download"),
+  createData("Jute", "Baseline", "Hazard", "Delayed monsoon", "", "", "cardimg/Baseline_CHC_Jute_DelayedMonsoon_DelayDays.jpeg", "Download"),
+
+  
+  /*createData("Wheat", "Baseline", "Hazard", "Lodging", "Windspeed and rainfall criteria after booting (85 to 115 days)", "http://data.chc.ucsb.edu/products/CHIRTSdaily/", "Download"),
+  createData("Pig", "Baseline", "Hazard", "Temperature-Humidity Index (THI)", "The average number of days when THI exceeds a threshold (79)", "", "Download"),
   createData("Pig", "Baseline", "Hazard", "Heat wave", "Sudden change in temperature by 4°C (during APR to June/July)", "", "Download"),
   createData("Pig", "Baseline", "Hazard", "Cold stress", "Lower critical temperature (LCT)  limit for the thermoneutral zone goes below (15) degrees C", "", "Download"),
   createData("Pig", "Baseline", "Hazard", "Extreme rainfall days", "The average number of days when daily rainfall exceeds 115 mm", "", "Download"),
@@ -511,7 +646,7 @@ export default function Description() {
                   <MenuItem value="Soybean">Soybean</MenuItem>
                   <MenuItem value="Safflower">Safflower</MenuItem>
                   <MenuItem value="Sunflower">Sunflower</MenuItem>
-                  <MenuItem value="Mustard">Mustard</MenuItem>
+                  <MenuItem value="Mustard">Rapeseed/Mustard</MenuItem>
                   <MenuItem value="Sesame">Sesame</MenuItem>
                   <MenuItem value="Groundnut">Groundnut</MenuItem>
 
@@ -606,11 +741,10 @@ export default function Description() {
                     <em>None</em>
                   </MenuItem>
                   <MenuItem value="Hazard">Hazard</MenuItem>
-                  <MenuItem value="Risk">Risk</MenuItem>
-                  <MenuItem value="Adaptation">Adaptation</MenuItem>
-                  <MenuItem value="Direct Adaptation">Direct Adaptation</MenuItem>
                   <MenuItem value="Exposure">Exposure</MenuItem>
                   <MenuItem value="Vulnerability">Vulnerability</MenuItem>
+                  <MenuItem value="Risk">Risk</MenuItem>
+                  <MenuItem value="Adaptation">Adaptation</MenuItem>
                 </Select>
               </FormControl>
 
@@ -680,11 +814,11 @@ export default function Description() {
                     commodity={item.Commodity}
                     scenario={item.Scenario}
                     layertype={item.LayerType}
-                    imgSrc="dataaccess2.png"
                     imgAlt={`${item.Commodity}-${item.Title}`}
                     title={item.Title}
                     description={item.Description}
                     source={item.Source}
+                    imgSrc={item.imgSource}
                     buttonText={item.Action}
                     onButtonClick={() => handleIndividualDownload(item)}
                   />
