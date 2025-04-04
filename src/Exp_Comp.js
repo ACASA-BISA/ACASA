@@ -47,11 +47,12 @@ const tabs = ["Biophysical suitability", "Yield Benefits", "Economic viability",
 
 const ArrowTab = styled(Button)(({ theme, selected, isLast, isFirst }) => ({
   "position": "relative",
-  "padding": "2px 40px 2px 40px",
+  //"padding": "2px 40px 2px 40px",
+  "padding": "2px 2px 2px 2px",
   "borderRadius": 0,
   "width": "450px",
-  "marginLeft": "-35px",
-  "clipPath": isLast ? "polygon(0 0, 100% 0, 100% 50%, 100% 100%, 0 100%, 10% 50%)" : "polygon(0 0, 90% 0, 100% 50%, 90% 100%, 0 100%, 10% 50%)",
+  //"marginLeft": "-35px",
+  //"clipPath": isLast ? "polygon(0 0, 100% 0, 100% 50%, 100% 100%, 0 100%, 10% 50%)" : "polygon(0 0, 90% 0, 100% 50%, 90% 100%, 0 100%, 10% 50%)",
   "backgroundColor": selected ? "#BFD77A" : "#A0A0A0",
   "color": selected ? "black" : "white",
   "fontWeight": "bold",
@@ -59,8 +60,8 @@ const ArrowTab = styled(Button)(({ theme, selected, isLast, isFirst }) => ({
   "transition": "all 0.3s",
   "&:first-of-type": {
     marginLeft: 0,
-    clipPath: "polygon(0 0, 90% 0, 100% 50%, 90% 100%, 0 100%)",
-    paddingLeft: "35px",
+    ///clipPath: "polygon(0 0, 90% 0, 100% 50%, 90% 100%, 0 100%)",
+    //paddingLeft: "35px",
   },
   "&:hover": {
     backgroundColor: selected ? theme.palette.grey[300] : theme.palette.grey[500],
@@ -69,14 +70,14 @@ const ArrowTab = styled(Button)(({ theme, selected, isLast, isFirst }) => ({
   "&::before": {
     content: '""',
     position: "absolute",
-    width: isFirst ? "0" : "12%",
+    width: isFirst ? "0" : "1%",
     height: "100%",
     backgroundColor: "white",
     top: "0px",
     left: "-2px",
     right: "0px",
     bottom: "0px",
-    clipPath: "polygon(0 0, 15% 0, 100% 50%, 15% 100%, 0 100%, 15% 50%)",
+    //clipPath: "polygon(0 0, 15% 0, 100% 50%, 15% 100%, 0 100%, 15% 50%)",
     zIndex: 1,
   },
 }));
@@ -488,7 +489,7 @@ export default function CompV({
                       {
                         name: "offset",
                         options: {
-                          offset: [3, -115], // Adjust distance from the container
+                          offset: [3, -120], // Adjust distance from the container
                         },
                       },
                     ]}
@@ -616,7 +617,7 @@ export default function CompV({
                               {
                                 name: "offset",
                                 options: {
-                                  offset: [3, -115], // Adjust distance from the container
+                                  offset: [3, -120], // Adjust distance from the container
                                 },
                               },
                             ]}
@@ -710,7 +711,7 @@ export default function CompV({
                               {
                                 name: "offset",
                                 options: {
-                                  offset: [3, -115], // Adjust distance from the container
+                                  offset: [3, -120], // Adjust distance from the container
                                 },
                               },
                             ]}
@@ -895,7 +896,7 @@ export default function CompV({
                               {
                                 name: "offset",
                                 options: {
-                                  offset: [3, -115], // Adjust distance from the container
+                                  offset: [3, -120], // Adjust distance from the container
                                 },
                               },
                             ]}
@@ -989,7 +990,7 @@ export default function CompV({
                               {
                                 name: "offset",
                                 options: {
-                                  offset: [3, -115], // Adjust distance from the container
+                                  offset: [3, -120], // Adjust distance from the container
                                 },
                               },
                             ]}
@@ -1083,7 +1084,7 @@ export default function CompV({
                               {
                                 name: "offset",
                                 options: {
-                                  offset: [3, -115], // Adjust distance from the container
+                                  offset: [3, -120], // Adjust distance from the container
                                 },
                               },
                             ]}

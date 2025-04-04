@@ -25,7 +25,7 @@ const size = {
   height: 150,
 };
 
-const palette = ["#8B0000", "#FF4500", "#FFDE4D", "#00FF00", "#059212"];
+const palette = ["#A52A2A", "#FF4500", "#FFDE4D", "#00FF00", "#059212"];
 
 const palette2 = ["#059212", "#00FF00", "#FFDE4D", "#FFA500", "#FF0000"];
 

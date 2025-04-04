@@ -119,8 +119,12 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
             <Box sx={{ display: "flex", marginTop: "-10px", justifyContent: "center" }}>
               <Typography sx={(theme) => ({ fontSize: 11.5, marginBottom: "2px", color: theme.palette.mode === "dark" ? "white" : "black" })}>
                 {(AdaptLayerName === "Yield Benefits" || AdaptLayerName === "Adaptation Benefits") && "Percent change in "}
-                {scenario === "baseline" && AdaptLayerName === "Adaptation Benefits" && "yield benefits"}
-                {(scenario !== "baseline" || AdaptLayerName !== "Adaptation Benefits") && AdaptLayerName.charAt(0).toUpperCase() + AdaptLayerName.toLowerCase().slice(1)} of&nbsp;
+                {AdaptLayerName === "Biophysical Suitability" && checkcrop() === false && "Adaptation requirement"}
+                {scenario === "baseline" && (AdaptLayerName === "Adaptation Benefits" || AdaptLayerName === "Yield Benefits") && "yield"}
+                {(scenario !== "baseline" || (AdaptLayerName !== "Adaptation Benefits" && AdaptLayerName !== "Yield Benefits")) &&
+                  (AdaptLayerName !== "Biophysical Suitability" || checkcrop() !== false) &&
+                  AdaptLayerName.charAt(0).toUpperCase() + AdaptLayerName.toLowerCase().slice(1)}{" "}
+                for&nbsp;
                 <strong>{adaption.charAt(0).toUpperCase() + adaption.slice(1, 4) + adaption.toLowerCase().slice(4)}</strong>
               </Typography>
             </Box>
@@ -212,6 +216,30 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                   marginTop: "1px",
                 }}
               >
+                {(ImpactName === "Productivity" || ImpactName == "Resilience") && (
+                  <Box
+                    sx={{
+                      width: 20,
+                      height: 18,
+                      borderRadius: 0,
+                      bgcolor: "rgba(150,150,150,1)",
+                      alignContent: "center",
+                      marginTop: "16px",
+                      marginRight: "2px",
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        fontSize: 10,
+                        marginY: "auto",
+                        marginLeft: "3px",
+                      }}
+                      color="white"
+                    >
+                      <strong>NA</strong>
+                    </Typography>
+                  </Box>
+                )}
                 {rowshzd.map((row, index) => (
                   <div>
                     {index !== 0 && (

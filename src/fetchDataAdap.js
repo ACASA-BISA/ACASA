@@ -108,6 +108,17 @@ export function fetchDataAdap(adaption, location, AdaptLayerName, commodity, sce
       rowstr = `Calculated_${commodity}_${location}_${opt_prefix}${optcode[adaption]}_${scenario}`;
     }
 
+    function checkcrop2() {
+      const livestock = ["Cattle", "Buffalo", "Goat", "Sheep", "Pig", "Chicken"];
+      let ans = true;
+      livestock.forEach((sname) => {
+        if (commodity === sname) {
+          ans = false;
+        }
+      });
+      return ans;
+    }
+
     //console.log(rowstr);
     let row_data = area_data3[rowstr.toLowerCase()] || {
       "Cropped Area/Number of animals under Nil suitability": NaN,
@@ -130,17 +141,27 @@ export function fetchDataAdap(adaption, location, AdaptLayerName, commodity, sce
       : 1;
 
     const layerMappings = {
-      "Biophysical Suitability": [
-        ["#969696", "No significant change"],
-        ["#8B0000", "Unsuitable"], //"#E4003A"
-        ["#FF4500", "Very Low"], //"#FFA500"
-        ["#FFDE4D", "Low"],
-        ["#00FF00", "Medium"],
-        ["#059212", "High"],
-      ],
+      "Biophysical Suitability":
+        checkcrop2() === false
+          ? [
+              ["#969696", "No significant change"],
+              ["rgba(150,150,150,1)", "No Hazard"], //"#E4003A"
+              ["#FF4500", "Very Low"], //"#FFA500"
+              ["#FFDE4D", "Low"],
+              ["#00FF00", "Medium"],
+              ["#059212", "High"],
+            ]
+          : [
+              ["#969696", "No significant change"],
+              ["#A52A2A", "Unsuitable"], //"#E4003A"
+              ["#FF4500", "Very Low"], //"#FFA500"
+              ["#FFDE4D", "Low"],
+              ["#00FF00", "Medium"],
+              ["#059212", "High"],
+            ],
       "Yield Benefits": [
         ["#969696", "No significant change"],
-        ["#8B0000", "Unsuitable"], //"#E4003A"
+        ["#A52A2A", "Unsuitable"], //"#E4003A"
         ["rgb(248, 36, 36)", "High loss"],
         ["rgba(245, 140, 170, 1)", "Low loss"],
         ["rgba(109, 233, 109, 1)", "Low gain"],
@@ -148,7 +169,7 @@ export function fetchDataAdap(adaption, location, AdaptLayerName, commodity, sce
       ],
       "Economic Viability": [
         ["#969696", "No significant change"],
-        ["#8B0000", "Unsuitable"], //"#E4003A"
+        ["#A52A2A", "Unsuitable"], //"#E4003A"
         ["#FF4500", "Very Low"], //"#FFA500"
         ["#FFDE4D", "Low"],
         ["#00FF00", "Medium"],
@@ -162,7 +183,7 @@ export function fetchDataAdap(adaption, location, AdaptLayerName, commodity, sce
         ["#00FF00", "High"],
         ["#059212", "Very high"], */
         ["#969696", "No significant change"],
-        ["#8B0000", "Unsuitable"], //"#E4003A"
+        ["#A52A2A", "Unsuitable"], //"#E4003A"
         ["#FF4500", "Very Low"], //"#FFA500"
         ["#FFDE4D", "Low"],
         ["#00FF00", "Medium"],
@@ -170,7 +191,7 @@ export function fetchDataAdap(adaption, location, AdaptLayerName, commodity, sce
       ],
       "Gender Suitability": [
         ["#969696", "No significant change"],
-        ["#8B0000", "Unsuitable"], //"#E4003A"
+        ["#A52A2A", "Unsuitable"], //"#E4003A"
         ["#FF4500", "Very Low"], //"#FFA500"
         ["#FFDE4D", "Low"],
         ["#00FF00", "Medium"],
@@ -178,7 +199,7 @@ export function fetchDataAdap(adaption, location, AdaptLayerName, commodity, sce
       ],
       "Adaptation Benefits": [
         ["#969696", "No significant change"],
-        ["#8B0000", "Unsuitable"], //"#E4003A"
+        ["#A52A2A", "Unsuitable"], //"#E4003A"
         ["rgb(248, 36, 36)", "High loss"],
         ["rgba(245, 140, 170, 1)", "Low loss"],
         ["rgba(109, 233, 109, 1)", "Low gain"],
@@ -192,7 +213,7 @@ export function fetchDataAdap(adaption, location, AdaptLayerName, commodity, sce
         ["rgba(109, 233, 109, 1)", "Increase"],
         ["rgba(4, 145, 4, 1)", "High incr"], */
         ["#969696", "No significant change"],
-        ["#8B0000", "Unsuitable"], //"#E4003A"
+        ["#A52A2A", "Unsuitable"], //"#E4003A"
         ["#FF4500", "Very Low"], //"#FFA500"
         ["#FFDE4D", "Low"],
         ["#00FF00", "Medium"],
