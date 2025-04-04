@@ -862,9 +862,9 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                   <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
                     <FormGroup>
                       {[
-                        { short: "Modify shelters", full: "Modify shelters" },
+                        { short: "For cold stress", full: "Modify shelters" },
                         { short: "Shelter for natural hazards", full: "Shelter for natural hazards" },
-                        { short: "Modify sheds", full: "Modify sheds, planting trees, bathing, and mechanical cooling" },
+                        { short: "Modify sheds and bathing", full: "Modify sheds, planting trees, bathing, and mechanical cooling" },
                       ].map(({ short, full }) => (
                         <CustomFormControlLabel
                           key={full}
@@ -952,11 +952,11 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                     <FormGroup>
                       {[
                         { short: "Ad lib water", full: "Ad lib water" },
-                        { short: "Balanced concentrate with buffer", full: "Balanced concentrate with buffer, feed additives, antioxidants, vitamins and probiotics" },
-                        { short: "Mineral mix supplementation", full: "Mineral mixture supplementation, by pass proteins and fats" },
-                        { short: "Modification in feeding pattern", full: "Modification in feeding pattern, schedule, grazing" },
+                        { short: "Balanced concentrate", full: "Balanced concentrate with buffer, feed additives, antioxidants, vitamins and probiotics" },
+                        { short: "Mineral mixture", full: "Mineral mixture supplementation, by pass proteins and fats" },
+                        { short: "Change feeding and grazing pattern", full: "Modification in feeding pattern, schedule, grazing" },
                         { short: "Fodder conservation", full: "Fodder conservation" },
-                        { short: "Green fodder inclusion", full: "Inclusion of green fodder" },
+                        { short: "Green fodder", full: "Inclusion of green fodder" },
                       ].map(({ short, full }) => (
                         <CustomFormControlLabel
                           key={full}
@@ -1075,7 +1075,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                   },
                   {
                     short: "Climate information",
-                    full: "Climate information services and safetynets",
+                    full: "Climate information services and safety nets",
                   },
                   {
                     short: "Diversification",
@@ -2034,7 +2034,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                       {[
                         {
                           short: "Modify sheds and bathing",
-                          full: "Modify sheds, planting trees, bathing, mechanical cooling, and wallowing",
+                          full: "Modify sheds, planting trees, bathing, and mechanical cooling, wallowing",
                         },
                         {
                           short: "For cold stress",
@@ -2102,7 +2102,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                         },
                         {
                           short: "Balanced concentrate",
-                          full: "Balanced concentrate with buffer, feed additives, antioxidants, vitamins, and probiotics",
+                          full: "Balanced concentrate with buffer, feed additives, antioxidants, vitamins and probiotics",
                         },
                         {
                           short: "Mineral mixture",

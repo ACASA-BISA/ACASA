@@ -632,25 +632,29 @@ export default function Description() {
                   <MenuItem value="Wheat">Wheat</MenuItem>
                   <MenuItem value="Maize">Maize</MenuItem>
                   <MenuItem value="Barley">Barley</MenuItem>
-                  <MenuItem value="Finger Millet">Finger Millet</MenuItem>
-                  <MenuItem value="Pearl Millet">Pearl Millet</MenuItem>
+                  <MenuItem value="Millets">Millets</MenuItem>
 
-                  <ListSubheader>Legumes</ListSubheader>
+                  <ListSubheader>Pulses</ListSubheader>
                   <MenuItem value="Chickpea">Chickpea</MenuItem>
                   <MenuItem value="Pigeonpea">Pigeonpea</MenuItem>
-                  <MenuItem value="Black Gram">Black Gram</MenuItem>
-                  <MenuItem value="Green Gram">Green Gram</MenuItem>
-                  <MenuItem value="Lentil">lentil</MenuItem>
+                  {/*<MenuItem value="Black Gram">Black Gram</MenuItem>
+                  <MenuItem value="Green Gram">Green Gram</MenuItem>*/}
+                  <MenuItem value="Lentil">Lentil</MenuItem>
 
                   <ListSubheader>Oilseeds</ListSubheader>
                   <MenuItem value="Soybean">Soybean</MenuItem>
-                  <MenuItem value="Safflower">Safflower</MenuItem>
-                  <MenuItem value="Sunflower">Sunflower</MenuItem>
+                  {/*<MenuItem value="Safflower">Safflower</MenuItem>
+                  <MenuItem value="Sunflower">Sunflower</MenuItem>*/}
                   <MenuItem value="Mustard">Rapeseed/Mustard</MenuItem>
-                  <MenuItem value="Sesame">Sesame</MenuItem>
+                  {/*<MenuItem value="Sesame">Sesame</MenuItem>*/}
                   <MenuItem value="Groundnut">Groundnut</MenuItem>
 
-                  <ListSubheader>Fruits & Vegetables</ListSubheader>
+                  <ListSubheader>Others</ListSubheader>
+                  <MenuItem value="Cotton">Cotton</MenuItem>
+                  <MenuItem value="Jute">Jute</MenuItem>
+                  <MenuItem value="Potato">Potato</MenuItem>
+
+                  {/*<ListSubheader>Fruits & Vegetables</ListSubheader>
                   <MenuItem value="Potato">Potato</MenuItem>
                   <MenuItem value="Onion">Onion</MenuItem>
                   <MenuItem value="Tomato">Tomato</MenuItem>
@@ -664,7 +668,7 @@ export default function Description() {
                   <MenuItem value="Rubber">Rubber</MenuItem>
                   <MenuItem value="Sugarcane">Sugarcane</MenuItem>
                   <MenuItem value="Tea">Tea</MenuItem>
-                  <MenuItem value="Coconut">Coconut</MenuItem>
+                  <MenuItem value="Coconut">Coconut</MenuItem>*/}
 
                   <ListSubheader>Livestock</ListSubheader>
                   <MenuItem value="Cattle">Cattle</MenuItem>

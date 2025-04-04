@@ -279,7 +279,7 @@ const Home = (props) => {
                 marginTop: 2,
               }}
             >
-              The functionalities of the Atlas can be best utilized in the following order: start by visualizing the data layers in detail in the Explore Data tab. The Adaptation at a glance tab is
+              The functionalities of the Atlas can be best utilized in the following order: start by visualizing the data layers in detail in the Explore Data tab. The Data at a glance tab is
               then used to look at multiple data layers at once. The Data Access tab gives information about the data and their download links. The Use Cases tab discusses several possible uses of the
               ACASA Atlas. Additionally, visit the Resources and About Us tab to know more about us, ACASA team, data briefs, newsletter updates, expert opinions, and media coverage.
             </Typography>

@@ -141,7 +141,7 @@ export default function SwitchOpt({ activeCrop, activeOpt, changeOpt, activeOptL
 
   const livestock_standalone = [
     "Reproductive management: Estrous confirmation and synchronisation",
-    "Adoption of climate resillient breeds",
+    "Adoption of climate resilient breeds",
     "Adopting climate-resilient breed/strain",
     "Weather forecasts / THI advisory services",
     "Livestock insurance",

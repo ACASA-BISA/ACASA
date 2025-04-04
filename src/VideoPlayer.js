@@ -114,7 +114,7 @@ const VideoPlayer = () => {
           fontStyle: "revert"
         })}
       >
-        Video is currently unavailable
+        To be updated
       </Box>
     </Box>
   );

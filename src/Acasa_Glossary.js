@@ -248,7 +248,8 @@ const glossaryData = {
   H: [
     {
       term: "Hazard index",
-      definition: "The index was built by enlisting hazards through literature review and stakeholder validation. This composite index was formulated through Z-score normalization, principal component analysis, and stakeholders' inputs.",
+      definition:
+        "The index was built by enlisting hazards through literature review and stakeholder validation. This composite index was formulated through Z-score normalization, principal component analysis, and stakeholders' inputs.",
     },
     {
       term: "Heating management",
@@ -452,8 +453,8 @@ const glossaryData = {
     },
     {
       term: "Resilience",
-      definition: "Resilience is stability of the yield across the years. It is denoted by coefficient of variance."
-    }
+      definition: "Resilience is stability of the yield across the years. It is denoted by coefficient of variance.",
+    },
     /*{
       term: "Rice",
       definition:
@@ -528,7 +529,8 @@ const glossaryData = {
   V: [
     {
       term: "Vulnerability index",
-      definition: "This includes vulnerability layers identified through literature review, and supplemented with expert inputs and stakeholder validation. These layers were then mapped and an integrated vulnerability index was formulated through Z-score normalization, principal component analysis, and stakeholders' inputs.",
+      definition:
+        "This includes vulnerability layers identified through literature review, and supplemented with expert inputs and stakeholder validation. These layers were then mapped and an integrated vulnerability index was formulated through Z-score normalization, principal component analysis, and stakeholders' inputs.",
     },
     {
       term: "Vaccination",
@@ -536,8 +538,8 @@ const glossaryData = {
     },
     {
       term: "Value of production",
-      definition: "Total value of production of a specific commodity in USD per hectare at 2019 prices."
-    }
+      definition: "Total value of production of a specific commodity in USD per hectare at 2019 prices.",
+    },
   ],
   W: [
     {
@@ -614,7 +616,7 @@ export default function Glossary() {
           }}
         >
           <Typography variant="h5" sx={{ marginBottom: 2, fontFamily: "revert" }}>
-            This is a new feature currently in development. Some content may be missing.
+            Some definitions are still being updated. This is a work in progress and subject to refinement.
           </Typography>
           <Button
             variant="contained"
