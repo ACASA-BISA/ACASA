@@ -279,7 +279,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
               variant="body2"
               align="left"
               sx={{
-                peddingLeft: "3px",
+                paddingLeft: "1px",
                 maxWidth: "250px",
                 wordBreak: "break-word",
                 whiteSpace: "normal",
@@ -306,7 +306,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
               variant="body2"
               align="left"
               sx={{
-                peddingLeft: "3px",
+                paddingLeft: "1px",
                 maxWidth: "250px",
                 wordBreak: "break-word",
                 whiteSpace: "normal",
@@ -333,7 +333,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
               variant="body2"
               align="left"
               sx={{
-                peddingLeft: "3px",
+                paddingLeft: "1px",
                 maxWidth: "250px",
                 wordBreak: "break-word",
                 whiteSpace: "normal",
@@ -360,7 +360,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
               variant="body2"
               align="left"
               sx={{
-                peddingLeft: "3px",
+                paddingLeft: "1px",
                 maxWidth: "250px",
                 wordBreak: "break-word",
                 whiteSpace: "normal",
@@ -387,7 +387,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
               variant="body2"
               align="left"
               sx={{
-                peddingLeft: "3px",
+                paddingLeft: "1px",
                 maxWidth: "250px",
                 wordBreak: "break-word",
                 whiteSpace: "normal",
@@ -427,7 +427,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                       variant="body2"
                       align="left"
                       sx={{
-                        peddingLeft: "3px",
+                        paddingLeft: "1px",
                         maxWidth: "250px",
                         wordBreak: "break-word",
                         whiteSpace: "normal",
@@ -470,7 +470,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                       variant="body2"
                       align="left"
                       sx={{
-                        peddingLeft: "3px",
+                        paddingLeft: "1px",
                         maxWidth: "250px",
                         wordBreak: "break-word",
                         whiteSpace: "normal",
@@ -495,7 +495,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                       variant="body2"
                       align="left"
                       sx={{
-                        peddingLeft: "3px",
+                        paddingLeft: "1px",
                         maxWidth: "250px",
                         wordBreak: "break-word",
                         whiteSpace: "normal",
@@ -519,7 +519,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                               variant="body2"
                               align="left"
                               sx={{
-                                peddingLeft: "3px",
+                                paddingLeft: "1px",
                                 maxWidth: "250px",
                                 wordBreak: "break-word",
                                 whiteSpace: "normal",
@@ -547,7 +547,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                               variant="body2"
                               align="left"
                               sx={{
-                                peddingLeft: "3px",
+                                paddingLeft: "1px",
                                 maxWidth: "250px",
                                 wordBreak: "break-word",
                                 whiteSpace: "normal",
@@ -575,7 +575,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                               variant="body2"
                               align="left"
                               sx={{
-                                peddingLeft: "3px",
+                                paddingLeft: "1px",
                                 maxWidth: "250px",
                                 wordBreak: "break-word",
                                 whiteSpace: "normal",
@@ -604,7 +604,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                       variant="body2"
                       align="left"
                       sx={{
-                        peddingLeft: "3px",
+                        paddingLeft: "1px",
                         maxWidth: "250px",
                         wordBreak: "break-word",
                         whiteSpace: "normal",
@@ -628,7 +628,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                               variant="body2"
                               align="left"
                               sx={{
-                                peddingLeft: "3px",
+                                paddingLeft: "1px",
                                 maxWidth: "250px",
                                 wordBreak: "break-word",
                                 whiteSpace: "normal",
@@ -656,7 +656,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                               variant="body2"
                               align="left"
                               sx={{
-                                peddingLeft: "3px",
+                                paddingLeft: "1px",
                                 maxWidth: "250px",
                                 wordBreak: "break-word",
                                 whiteSpace: "normal",
@@ -684,7 +684,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                       variant="body2"
                       align="left"
                       sx={{
-                        peddingLeft: "3px",
+                        paddingLeft: "1px",
                         maxWidth: "250px",
                         wordBreak: "break-word",
                         whiteSpace: "normal",
@@ -708,7 +708,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                               variant="body2"
                               align="left"
                               sx={{
-                                peddingLeft: "3px",
+                                paddingLeft: "1px",
                                 maxWidth: "250px",
                                 wordBreak: "break-word",
                                 whiteSpace: "normal",
@@ -736,7 +736,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                               variant="body2"
                               align="left"
                               sx={{
-                                peddingLeft: "3px",
+                                paddingLeft: "1px",
                                 maxWidth: "250px",
                                 wordBreak: "break-word",
                                 whiteSpace: "normal",
@@ -764,7 +764,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                               variant="body2"
                               align="left"
                               sx={{
-                                peddingLeft: "3px",
+                                paddingLeft: "1px",
                                 maxWidth: "250px",
                                 wordBreak: "break-word",
                                 whiteSpace: "normal",
@@ -793,7 +793,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                       variant="body2"
                       align="left"
                       sx={{
-                        peddingLeft: "3px",
+                        paddingLeft: "1px",
                         maxWidth: "250px",
                         wordBreak: "break-word",
                         whiteSpace: "normal",
@@ -820,7 +820,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                       variant="body2"
                       align="left"
                       sx={{
-                        peddingLeft: "3px",
+                        paddingLeft: "1px",
                         maxWidth: "250px",
                         wordBreak: "break-word",
                         whiteSpace: "normal",
@@ -833,7 +833,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                 />
                 {/*{livestockstate[snamelive] && snamelive === "Shelter management" && (
                   <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
-                    {["Modify shelters", "Shelter for natural hazards", "Modify sheds, planting tress, bathing, and mechanical cooling"].map((sname_shelter) => (
+                    {["Modify shelters", "Shelter for natural hazards", "Modify sheds, planting trees, bathing, and mechanical cooling"].map((sname_shelter) => (
                       <FormGroup>
                         <CustomFormControlLabel
                           control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname_shelter]} onChange={changeOpt(sname_shelter)} name={sname_shelter} />}
@@ -843,7 +843,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                               variant="body2"
                               align="left"
                               sx={{
-                                peddingLeft: "3px",
+                                paddingLeft: "1px",
                                 maxWidth: "250px",
                                 wordBreak: "break-word",
                                 whiteSpace: "normal",
@@ -874,7 +874,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                               variant="body2"
                               align="left"
                               sx={{
-                                paddingLeft: "3px",
+                                paddingLeft: "1px",
                                 maxWidth: "250px",
                                 wordBreak: "break-word",
                                 whiteSpace: "normal",
@@ -918,7 +918,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                     {[
                       "Ad lib water",
                       "Balanced concentrate with buffer, feed additives, antioxidants, vitamins and probiotics",
-                      "Mineral mixture supplementation, by pass proteins and fats",
+                      "Mineral mixture supplementation, bypass proteins and fats",
                       "Modification in feeding pattern, schedule, grazing",
                       "Fodder conservation",
                       "Inclusion of green fodder",
@@ -932,7 +932,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                               variant="body2"
                               align="left"
                               sx={{
-                                peddingLeft: "3px",
+                                paddingLeft: "1px",
                                 maxWidth: "250px",
                                 wordBreak: "break-word",
                                 whiteSpace: "normal",
@@ -966,7 +966,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                               variant="body2"
                               align="left"
                               sx={{
-                                paddingLeft: "3px",
+                                paddingLeft: "1px",
                                 maxWidth: "250px",
                                 wordBreak: "break-word",
                                 whiteSpace: "normal",
@@ -1021,7 +1021,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                               variant="body2"
                               align="left"
                               sx={{
-                                paddingLeft: "3px",
+                                paddingLeft: "1px",
                                 maxWidth: "250px",
                                 wordBreak: "break-word",
                                 whiteSpace: "normal",
@@ -1090,7 +1090,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                         variant="body2"
                         align="left"
                         sx={{
-                          paddingLeft: "3px",
+                          paddingLeft: "1px",
                           maxWidth: "250px",
                           wordBreak: "break-word",
                           whiteSpace: "normal",
@@ -1139,7 +1139,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                       variant="body2"
                       align="left"
                       sx={{
-                        peddingLeft: "3px",
+                        paddingLeft: "1px",
                         maxWidth: "250px",
                         wordBreak: "break-word",
                         whiteSpace: "normal",
@@ -1175,7 +1175,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                               variant="body2"
                               align="left"
                               sx={{
-                                paddingLeft: "3px",
+                                paddingLeft: "1px",
                                 maxWidth: "250px",
                                 wordBreak: "break-word",
                                 whiteSpace: "normal",
@@ -1251,7 +1251,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                               variant="body2"
                               align="left"
                               sx={{
-                                paddingLeft: "3px",
+                                paddingLeft: "1px",
                                 maxWidth: "250px",
                                 wordBreak: "break-word",
                                 whiteSpace: "normal",
@@ -1315,7 +1315,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                               variant="body2"
                               align="left"
                               sx={{
-                                paddingLeft: "3px",
+                                paddingLeft: "1px",
                                 maxWidth: "250px",
                                 wordBreak: "break-word",
                                 whiteSpace: "normal",
@@ -1380,7 +1380,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                         variant="body2"
                         align="left"
                         sx={{
-                          paddingLeft: "3px",
+                          paddingLeft: "1px",
                           maxWidth: "250px",
                           wordBreak: "break-word",
                           whiteSpace: "normal",
@@ -1429,7 +1429,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                       variant="body2"
                       align="left"
                       sx={{
-                        peddingLeft: "3px",
+                        paddingLeft: "1px",
                         maxWidth: "250px",
                         wordBreak: "break-word",
                         whiteSpace: "normal",
@@ -1465,7 +1465,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                               variant="body2"
                               align="left"
                               sx={{
-                                paddingLeft: "3px",
+                                paddingLeft: "1px",
                                 maxWidth: "250px",
                                 wordBreak: "break-word",
                                 whiteSpace: "normal",
@@ -1541,7 +1541,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                               variant="body2"
                               align="left"
                               sx={{
-                                paddingLeft: "3px",
+                                paddingLeft: "1px",
                                 maxWidth: "250px",
                                 wordBreak: "break-word",
                                 whiteSpace: "normal",
@@ -1605,7 +1605,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                               variant="body2"
                               align="left"
                               sx={{
-                                paddingLeft: "3px",
+                                paddingLeft: "1px",
                                 maxWidth: "250px",
                                 wordBreak: "break-word",
                                 whiteSpace: "normal",
@@ -1674,7 +1674,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                         variant="body2"
                         align="left"
                         sx={{
-                          paddingLeft: "3px",
+                          paddingLeft: "1px",
                           maxWidth: "250px",
                           wordBreak: "break-word",
                           whiteSpace: "normal",
@@ -1723,7 +1723,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                       variant="body2"
                       align="left"
                       sx={{
-                        peddingLeft: "3px",
+                        paddingLeft: "1px",
                         maxWidth: "250px",
                         wordBreak: "break-word",
                         whiteSpace: "normal",
@@ -1767,7 +1767,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                               variant="body2"
                               align="left"
                               sx={{
-                                paddingLeft: "3px",
+                                paddingLeft: "1px",
                                 maxWidth: "250px",
                                 wordBreak: "break-word",
                                 whiteSpace: "normal",
@@ -1839,7 +1839,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                               variant="body2"
                               align="left"
                               sx={{
-                                paddingLeft: "3px",
+                                paddingLeft: "1px",
                                 maxWidth: "250px",
                                 wordBreak: "break-word",
                                 whiteSpace: "normal",
@@ -1903,7 +1903,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                               variant="body2"
                               align="left"
                               sx={{
-                                paddingLeft: "3px",
+                                paddingLeft: "1px",
                                 maxWidth: "250px",
                                 wordBreak: "break-word",
                                 whiteSpace: "normal",
@@ -1968,7 +1968,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                         variant="body2"
                         align="left"
                         sx={{
-                          paddingLeft: "3px",
+                          paddingLeft: "1px",
                           maxWidth: "250px",
                           wordBreak: "break-word",
                           whiteSpace: "normal",
@@ -2017,7 +2017,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                       variant="body2"
                       align="left"
                       sx={{
-                        peddingLeft: "3px",
+                        paddingLeft: "1px",
                         maxWidth: "250px",
                         wordBreak: "break-word",
                         whiteSpace: "normal",
@@ -2053,7 +2053,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                               variant="body2"
                               align="left"
                               sx={{
-                                paddingLeft: "3px",
+                                paddingLeft: "1px",
                                 maxWidth: "250px",
                                 wordBreak: "break-word",
                                 whiteSpace: "normal",
@@ -2121,7 +2121,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                               variant="body2"
                               align="left"
                               sx={{
-                                paddingLeft: "3px",
+                                paddingLeft: "1px",
                                 maxWidth: "250px",
                                 wordBreak: "break-word",
                                 whiteSpace: "normal",
@@ -2185,7 +2185,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                               variant="body2"
                               align="left"
                               sx={{
-                                paddingLeft: "3px",
+                                paddingLeft: "1px",
                                 maxWidth: "250px",
                                 wordBreak: "break-word",
                                 whiteSpace: "normal",
@@ -2250,7 +2250,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                         variant="body2"
                         align="left"
                         sx={{
-                          paddingLeft: "3px",
+                          paddingLeft: "1px",
                           maxWidth: "250px",
                           wordBreak: "break-word",
                           whiteSpace: "normal",
