@@ -233,6 +233,14 @@ export default function MApp({
     ],
   };
 
+  const color_IMPACT = {
+    color: [
+      "palette",
+      ["interpolate", ["linear"], ["*", ["band", 2], 385], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 8, 9, 9],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#FF0000", "#FFA500", "#FFDE4D", "#FFDE4D", "#00FF00", "#059212", "rgba(150,150,150,1)"],
+    ],
+  };
+
   const color_adaptation2 = {
     color: [
       "palette",
@@ -1483,7 +1491,7 @@ export default function MApp({
         }
         //newOverl.setStyle(color_hazard4);
       } else if (opt === 555) {
-        newOverl.setStyle(color_hazard_reverse);
+        newOverl.setStyle(color_IMPACT);
       } else if (opt === 4) {
         newOverl.setStyle(color4);
       } else if (opt === 99) {
@@ -1709,8 +1717,8 @@ export default function MApp({
       if (activeOptLayer["Gender"] && activeOptLayer["Adaptation Benefits"] === false) {
         return 3;
       }
-      if (activeOptLayer["Scalability"] && activeOptLayer["Adaptation Benefits"] === false) {
-        return 2;
+      if (activeOptLayer["Scalability"] && activeOptLayer["Gender"] === false) {
+        return 5;
       }
       return 4;
     }
@@ -1726,8 +1734,9 @@ export default function MApp({
         title={
           <Typography sx={{ fontSize: 12 }}>
             {for_unavailabe_future_data() === 1 && "Since no data is available for this scenario, we have replicated the baseline data"}
-            {for_unavailabe_future_data() === 3 && "This denotes technology suitability for women"}
+            {for_unavailabe_future_data() === 3 && "This denotes technology suitability for women. Analysis for outside India in progress."}
             {for_unavailabe_future_data() === 4 && "These are test results for understanding the website layout, results will be updated in future."}
+            {for_unavailabe_future_data() === 5 && " Analysis for outside India in progress."}
           </Typography>
         }
         open={for_unavailabe_future_data() !== 2}
