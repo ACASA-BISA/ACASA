@@ -1322,26 +1322,6 @@ export default function MApp({
             urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/SSP585_CHC_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
           }
         }
-        if (activeOptLayer["Yield"]) {
-          if (activeScenario === "baseline") {
-            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/Baseline/Yield_" + activeCrop + "_" + optcode[activeOpt] + "_baseline.tif";
-          } else if (activeScenario === "ssp245") {
-            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP245/Yield_" + activeCrop + "_" + optcode[activeOpt] + "_ssp245.tif";
-          } else {
-            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Yield_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
-          }
-          opt = 222;
-        }
-        if (activeOptLayer["Economic"]) {
-          if (activeScenario === "baseline") {
-            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/Baseline/Economic_" + activeCrop + "_" + optcode[activeOpt] + "_baseline.tif";
-          } else if (activeScenario === "ssp245") {
-            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP245/Economic_" + activeCrop + "_" + optcode[activeOpt] + "_ssp245.tif";
-          } else {
-            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Economic_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
-          }
-          opt = 222;
-        }
         if (activeOptLayer["Scalability"]) {
           if (activeScenario === "baseline") {
             urlstr = "./Adap/" + activeCrop + "/" + modelName + "/Baseline/Scalability_" + activeCrop + "_" + optcode[activeOpt] + "_baseline.tif";
@@ -1362,6 +1342,26 @@ export default function MApp({
           }
           opt = 222;
         }
+        if (activeOptLayer["Yield"]) {
+          if (activeScenario === "baseline") {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/Baseline/Yield_" + activeCrop + "_" + optcode[activeOpt] + "_baseline.tif";
+          } else if (activeScenario === "ssp245") {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP245/Yield_" + activeCrop + "_" + optcode[activeOpt] + "_ssp245.tif";
+          } else {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Yield_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
+          }
+          opt = 222;
+        }
+        if (activeOptLayer["Economic"]) {
+          if (activeScenario === "baseline") {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/Baseline/Economic_" + activeCrop + "_" + optcode[activeOpt] + "_baseline.tif";
+          } else if (activeScenario === "ssp245") {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP245/Economic_" + activeCrop + "_" + optcode[activeOpt] + "_ssp245.tif";
+          } else {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Economic_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
+          }
+          opt = 222;
+        }
         if (activeOptLayer["Adaptation Benefits"]) {
           if (activeScenario === "baseline") {
             urlstr = "./Impact/" + activeCrop + "_Productivity_" + activeScenario + ".tif";
@@ -1375,6 +1375,7 @@ export default function MApp({
           }
         }
         //console.log(urlstr);
+        console.log(activeOptLayer);
         settiffFilePath(urlstr);
         source1 = new GeoTIFF({ sources: [{ url: urlstr }], sourceOptions: { allowFullFile: true } });
       } else if (CurrRisk !== "") {

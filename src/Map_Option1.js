@@ -529,26 +529,6 @@ export default function Map_Option({ activeCrop, focus = "Region", activeRegion,
     } else {
       urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Suitability_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
     }
-    if (activeOptLayer === "Yield Benefits") {
-      if (activeScenario === "baseline") {
-        urlstr = "./Adap/" + activeCrop + "/" + modelName + "/Baseline/Yield_" + activeCrop + "_" + optcode[activeOpt] + "_baseline.tif";
-      } else if (activeScenario === "ssp245") {
-        urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP245/Yield_" + activeCrop + "_" + optcode[activeOpt] + "_ssp245.tif";
-      } else {
-        urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Yield_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
-      }
-      opt = 222;
-    }
-    if (activeOptLayer === "Economic Viability") {
-      if (activeScenario === "baseline") {
-        urlstr = "./Adap/" + activeCrop + "/" + modelName + "/Baseline/Economic_" + activeCrop + "_" + optcode[activeOpt] + "_baseline.tif";
-      } else if (activeScenario === "ssp245") {
-        urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP245/Economic_" + activeCrop + "_" + optcode[activeOpt] + "_ssp245.tif";
-      } else {
-        urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Economic_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
-      }
-      opt = 1;
-    }
     if (activeOptLayer === "Scalability") {
       if (activeScenario === "baseline") {
         urlstr = "./Adap/" + activeCrop + "/" + modelName + "/Baseline/Scalability_" + activeCrop + "_" + optcode[activeOpt] + "_baseline.tif";
@@ -566,6 +546,26 @@ export default function Map_Option({ activeCrop, focus = "Region", activeRegion,
         urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP245/Gender_" + activeCrop + "_" + optcode[activeOpt] + "_ssp245.tif";
       } else {
         urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Gender_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
+      }
+      opt = 1;
+    }
+    if (activeOptLayer === "Yield Benefits") {
+      if (activeScenario === "baseline") {
+        urlstr = "./Adap/" + activeCrop + "/" + modelName + "/Baseline/Yield_" + activeCrop + "_" + optcode[activeOpt] + "_baseline.tif";
+      } else if (activeScenario === "ssp245") {
+        urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP245/Yield_" + activeCrop + "_" + optcode[activeOpt] + "_ssp245.tif";
+      } else {
+        urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Yield_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
+      }
+      opt = 222;
+    }
+    if (activeOptLayer === "Economic Viability") {
+      if (activeScenario === "baseline") {
+        urlstr = "./Adap/" + activeCrop + "/" + modelName + "/Baseline/Economic_" + activeCrop + "_" + optcode[activeOpt] + "_baseline.tif";
+      } else if (activeScenario === "ssp245") {
+        urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP245/Economic_" + activeCrop + "_" + optcode[activeOpt] + "_ssp245.tif";
+      } else {
+        urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Economic_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
       }
       opt = 1;
     }

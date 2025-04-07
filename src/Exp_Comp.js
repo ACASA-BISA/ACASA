@@ -43,7 +43,7 @@ function useInterval(callback, delay) {
   }, [delay]);
 }
 
-const tabs = ["Biophysical suitability", "Yield Benefits", "Economic viability", "Scalability", "Gender suitability", "Adaptation benefits"];
+const tabs = ["Biophysical suitability", "Scalability", "Gender suitability", "Yield Benefits", "Economic viability", "Adaptation benefits"];
 
 const ArrowTab = styled(Button)(({ theme, selected, isLast, isFirst }) => ({
   "position": "relative",
@@ -182,17 +182,17 @@ export default function CompV({
   if (activeOptLayer["Biophysical Suitability"]) {
     AdaptLayerName = "Biophysical Suitability";
   }
-  if (activeOptLayer["Yield"]) {
-    AdaptLayerName = "Yield Benefits";
-  }
-  if (activeOptLayer["Economic"]) {
-    AdaptLayerName = "Economic Viability";
-  }
   if (activeOptLayer["Scalability"]) {
     AdaptLayerName = "Scalability";
   }
   if (activeOptLayer["Gender"]) {
     AdaptLayerName = "Gender Suitability";
+  }
+  if (activeOptLayer["Yield"]) {
+    AdaptLayerName = "Yield Benefits";
+  }
+  if (activeOptLayer["Economic"]) {
+    AdaptLayerName = "Economic Viability";
   }
   if (activeOptLayer["Adaptation Benefits"]) {
     AdaptLayerName = "Adaptation Benefits";
@@ -299,7 +299,7 @@ export default function CompV({
     },
   }));
 
-  const values = ["Biophysical Suitability", "Yield", "Economic", "Scalability", "Gender", "Adaptation Benefits"];
+  const values = ["Biophysical Suitability", "Scalability", "Gender", "Yield", "Economic", "Adaptation Benefits"];
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const handleSelect = (index) => {
