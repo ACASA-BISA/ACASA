@@ -459,6 +459,21 @@ export default function DrawerMapShow({ activeBar }) {
   const [crop2, setCrop2] = React.useState("Wheat");
   const [cropid, setCropid] = React.useState("wheat");
 
+  /* React.useEffect(() => {
+    if (crop2 == "Rice" || crop2 == "Wheat" || crop2 == "Barley" || crop2 == "Maize") {
+      setopt5("Early sowing/changing planting dates");
+      setopt6("Smart fertilizer management");
+      setopt7("Microirrigation");
+    } else if (crop2 == "Sorghum" || crop2 == "Millets" || crop2 == "Chickpea" || crop2 == "Pigeonpea" || crop2 == "Soybean") {
+      setopt5("Mulching");
+      setopt6("Supplemental irrigation (water harvesting structures/farm ponds)");
+    } else if (crop2 == "Lentil" || crop2 == "Mustard" || crop2 == "Potato") {
+      setopt5("Broadbed and furrow");
+      setopt6("Smart fertilizer management");
+      setopt7("Microirrigation");
+    }
+  }, [crop2]); */
+
   const [crop3, setCrop3] = React.useState(createInitialCrops);
 
   const [option, setOption] = React.useState(IntialOptions);

@@ -44,7 +44,7 @@ export default function Summ_Adapt2({ changeOption, activeCrop, activv, CropName
   }
 
   function thirdComb() {
-    const cropwithoutfertilizer = ["groundnut", "lentil"];
+    const cropwithoutfertilizer = ["groundnut"];
     let ans = false;
     cropwithoutfertilizer.forEach((sname) => {
       if (activeCrop[sname] === true) {
@@ -80,7 +80,7 @@ export default function Summ_Adapt2({ changeOption, activeCrop, activv, CropName
       Cotton: [],
       Potato: ["Precision land levelling", "Broadbed and furrow"],
       Groundnut: [],
-      Lentil: [],
+      Lentil: ["Broadbed and furrow"],
       Jute: [],
     },
     water: {
@@ -117,7 +117,7 @@ export default function Summ_Adapt2({ changeOption, activeCrop, activv, CropName
 
   const handleChange2 = (event) => {
     setVal2(event.target.value);
-    console.log(event.target.value);
+    //console.log(event.target.value);
     changeOption(event.target.value);
   };
 
@@ -150,29 +150,29 @@ export default function Summ_Adapt2({ changeOption, activeCrop, activv, CropName
             </MenuItem>
           ))}
         {(checkcrop() === true || activeCrop["rice"] === true) && forthComb() === false && thirdComb() === false && (
-          <div>
-            <Typography variant="subtitle1" sx={{ paddingLeft: 1, fontWeight: "bold", fontSize: 12 }}>
-              Planting Technology
-            </Typography>
-            {cropTechnologies.getPlantingTechniques(CropName).map((naam) => (
-              <MenuItem value={naam} sx={{ fontSize: 12 }}>
-                {naam}
-              </MenuItem>
-            ))}
-          </div>
+          <Typography variant="subtitle1" sx={{ paddingLeft: 1, fontWeight: "bold", fontSize: 12 }}>
+            Planting Technology
+          </Typography>
         )}
+        {(checkcrop() === true || activeCrop["rice"] === true) &&
+          forthComb() === false &&
+          thirdComb() === false &&
+          cropTechnologies.getPlantingTechniques(CropName).map((naam) => (
+            <MenuItem value={naam} sx={{ fontSize: 12 }}>
+              {naam}
+            </MenuItem>
+          ))}
         {(checkcrop() === true || activeCrop["rice"] === true) && (
-          <div>
-            <Typography variant="subtitle1" sx={{ paddingLeft: 1, fontWeight: "bold", fontSize: 12 }}>
-              Water Management
-            </Typography>
-            {cropTechnologies.getWaterTechniques(CropName).map((naam) => (
-              <MenuItem value={naam} sx={{ fontSize: 12 }}>
-                {naam}
-              </MenuItem>
-            ))}
-          </div>
+          <Typography variant="subtitle1" sx={{ paddingLeft: 1, fontWeight: "bold", fontSize: 12 }}>
+            Water Management
+          </Typography>
         )}
+        {(checkcrop() === true || activeCrop["rice"] === true) &&
+          cropTechnologies.getWaterTechniques(CropName).map((naam) => (
+            <MenuItem value={naam} sx={{ fontSize: 12 }}>
+              {naam}
+            </MenuItem>
+          ))}
         {(checkcrop() === true || activeCrop["rice"] === true) && checkpulses() === false && thirdComb() === false && (
           <Typography variant="subtitle1" sx={{ paddingLeft: 1, fontWeight: "bold", fontSize: 12 }}>
             Fertilizer Management
