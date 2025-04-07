@@ -619,7 +619,7 @@ export default function Map_Option({ activeCrop, focus = "Region", activeRegion,
     }
   }, [activeCrop, activeOpt, activeOptLayer, activeScenario, mapRef]);
 
-  function getpopulation() {
+  /* function getpopulation() {
     if (activeOpt !== "" && Object.keys(area_dict).length > 0) {
       let sec = activeRegion.indexOf(",");
       let y = "";
@@ -653,7 +653,7 @@ export default function Map_Option({ activeCrop, focus = "Region", activeRegion,
     }
     return 0;
   }
-  const dt = getpopulation();
+  const dt = getpopulation(); */
 
   return (
     <div>

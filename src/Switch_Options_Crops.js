@@ -143,7 +143,7 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
   }
 
   function thirdComb() {
-    const cropwithoutfertilizer = ["groundnut", "lentil"];
+    const cropwithoutfertilizer = ["groundnut"];
     let ans = false;
     cropwithoutfertilizer.forEach((sname) => {
       if (activeCrop[sname] === true) {
