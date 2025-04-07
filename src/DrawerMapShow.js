@@ -71,7 +71,7 @@ async function fetchCsv5() {
 }
 
 export default function DrawerMapShow({ activeBar }) {
-  let Homecrop = "rice";
+  let Homecrop = "wheat";
   let Homefocus = "Region";
   let Homeregion = "South Asia";
   let activeTab = 0;
@@ -456,8 +456,8 @@ export default function DrawerMapShow({ activeBar }) {
 
   const [crop, setCrop] = React.useState(createInitialCrops);
 
-  const [crop2, setCrop2] = React.useState("Rice");
-  const [cropid, setCropid] = React.useState("rice");
+  const [crop2, setCrop2] = React.useState("Wheat");
+  const [cropid, setCropid] = React.useState("wheat");
 
   const [crop3, setCrop3] = React.useState(createInitialCrops);
 
@@ -887,7 +887,7 @@ export default function DrawerMapShow({ activeBar }) {
     if (activeBar === "future2") {
       handleChange("cattle")(null);
     } else {
-      handleChange("rice")(null);
+      handleChange("wheat")(null);
     }
     //console.log("Livecheck");
   }, [activeBar]);
