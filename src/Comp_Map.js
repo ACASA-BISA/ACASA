@@ -4,7 +4,6 @@ import { Feature, Map, View } from "ol";
 import TileLayer from "ol/layer/WebGLTile";
 import TileLayer2 from "ol/layer/Tile";
 import TileJSON from "ol/source/TileJSON";
-import tilesource from "ol/source/TileJSON";
 import Polygon from "ol/geom/Polygon.js";
 import "ol/ol.css";
 import "./index.css";
@@ -52,10 +51,10 @@ export default function MApp({
   const ref = useRef(null);
   const mapRef = useRef(null);
   const [overl, setOverl] = useState(null);
-  const [Sociolayer, setSocioLayer] = useState(null);
+  /* const [Sociolayer, setSocioLayer] = useState(null);
   const [Scalelayer, setScaleLayer] = useState(null);
   const [Adaptlayer, setAdaptLayer] = useState(null);
-  const [Biolayer, setBioLayer] = useState(null);
+  const [Biolayer, setBioLayer] = useState(null); */
   const [vectorLayerr, setvectorLayerr] = useState(null);
   const [countryLayer, setcountryLayer] = useState(null);
   const [maskLayer1, setmaskLayer1] = useState(null);
@@ -113,7 +112,7 @@ export default function MApp({
     zoom: 3.5,
   });
 
-  function checkcrop() {
+  /* function checkcrop() {
     const diffcrop = ["Cattle", "Buffalo", "Goat", "Sheep", "Pig", "Chicken", "Rice", "Wheat", "Maize", "Mustard", "Cotton", "Soybean", "Chickpea", "Barley", "Jute"];
     let ans = true;
     diffcrop.forEach((sname) => {
@@ -122,7 +121,8 @@ export default function MApp({
       }
     });
     return ans;
-  }
+  } */
+
   function checkcrop2() {
     const livestock = ["Cattle", "Buffalo", "Goat", "Sheep", "Pig", "Chicken"];
     let ans = true;
@@ -139,7 +139,7 @@ export default function MApp({
     return ["/", value, max];
   }
 
-  const red = normalize(["band", 1]);
+  /* const red = normalize(["band", 1]);
   const green = normalize(["band", 2]);
   const blue = normalize(["band", 3]);
   const nir = normalize(["band", 4]);
@@ -166,8 +166,8 @@ export default function MApp({
     Sheep: "#5fdbfa",
     Goat: "#7ca67c",
     Barley: "#5ec962",
-  };
-  const color1 = {
+  }; */
+  /* const color1 = {
     color: ["palette", ["interpolate", ["linear"], ["/", ["-", nir, green], ["+", nir, blue]], -0.1, 0, 3, 10], ["rgba(98, 181, 209, 0)", color_comm[activeCrop]]],
   };
 
@@ -189,7 +189,7 @@ export default function MApp({
       ],
       ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(180, 70, 109, 1)", "#FF9A00", "#06D001", "rgba(0,0,0,0)"],
     ],
-  };
+  }; */
 
   const color4 = {
     color: [
@@ -293,13 +293,13 @@ export default function MApp({
     color: ["palette", ["interpolate", ["linear"], ["*", ["band", 2], 385]], ["rgba(0,0,0,0)", "rgba(150,150,150,1)", "#FF0000", "#FFA500", "#FFDE4D", "#00FF00", "#059212"]],
   };
  */
-  const color_hazard2 = {
+  /* const color_hazard2 = {
     color: ["palette", ["clamp", ["*", ["band", 2], 25], 0, 6], ["rgba(0,0,0,0)", "#059212", "#00FF00", "#FFDE4D", "#FFA500", "#FF0000"]],
   };
   //Old Yellow: '#FFFF00'
   const color_hazard4 = {
     color: ["palette", ["clamp", ["*", ["band", 2], 250], 0, 4], ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "#059212", "#00FF00", "#FFDE4D", "#FFA500", "#FF0000"]],
-  };
+  }; */
 
   const color_hazard3 = {
     color: [
@@ -309,7 +309,7 @@ export default function MApp({
     ],
   };
 
-  const color_adaptation_change = {
+  /* const color_adaptation_change = {
     color: [
       "palette",
       ["clamp", ["*", ["band", 2], 25], 0, 6],
@@ -332,7 +332,7 @@ export default function MApp({
       ["interpolate", ["linear"], ["*", ["band", 2], 250], 0, 1, 24, 2, 48, 3, 72, 5, 96, 6],
       ["rgba(0,0,0,0)", "rgba(150,150,150,0)", "rgba(184, 23, 23, 1)", "#FF8C00", "rgba(241, 233, 119, 1)", "rgba(109, 233, 109, 1)", "rgba(4, 145, 4, 1)"],
     ],
-  };
+  }; */
 
   const color_hazard_livestock = {
     color: [

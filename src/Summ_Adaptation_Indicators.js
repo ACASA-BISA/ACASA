@@ -4,7 +4,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 
 export default function Summ_Adaptation_Indicator({ handleIndicator, indc }) {
-  const switchh2 = ["Biophysical Suitability", "Gender", "Adaptation Benefits", "Economic", "Scalability"];
+  //const switchh2 = ["Biophysical Suitability", "Gender", "Adaptation Benefits", "Economic", "Scalability"];
 
   const handleChange = (event) => {
     handleIndicator(event.target.value);

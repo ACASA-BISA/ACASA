@@ -223,7 +223,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                   marginTop: "1px",
                 }}
               >
-                {(ImpactName === "Productivity" || ImpactName == "Resilience") && (
+                {(ImpactName === "Productivity" || ImpactName === "Resilience") && (
                   <Box
                     sx={{
                       width: 20,
