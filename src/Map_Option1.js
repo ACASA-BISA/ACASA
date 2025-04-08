@@ -606,7 +606,7 @@ export default function Map_Option({ activeCrop, focus = "Region", activeRegion,
         newOverl.setStyle(color_adaptation_change);
       } else if (opt === 222) {
         newOverl.setStyle(color_adaptation_yield);
-      } else if (opt == 5) {
+      } else if (opt === 5) {
         newOverl.setStyle(color_hazard);
       } else {
         newOverl.setStyle(color_adaptation2);
