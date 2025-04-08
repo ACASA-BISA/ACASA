@@ -401,33 +401,33 @@ export default function DrawerMapShow({ activeBar }) {
   const [cropid, setCropid] = React.useState("wheat");
 
   function IntialOptionsopt5() {
-    if (crop2 == "Rice" || crop2 == "Wheat" || crop2 == "Barley" || crop2 == "Maize") {
+    if (crop2 === "Rice" || crop2 === "Wheat" || crop2 === "Barley" || crop2 === "Maize") {
       return "Early sowing/changing planting dates";
-    } else if (crop2 == "Sorghum" || crop2 == "Millets" || crop2 == "Chickpea" || crop2 == "Pigeonpea" || crop2 == "Soybean") {
+    } else if (crop2 === "Sorghum" || crop2 === "Millets" || crop2 === "Chickpea" || crop2 === "Pigeonpea" || crop2 === "Soybean") {
       return "Mulching";
-    } else if (crop2 == "Lentil" || crop2 == "Mustard" || crop2 == "Potato") {
+    } else if (crop2 === "Lentil" || crop2 === "Mustard" || crop2 === "Potato") {
       return "Broadbed and furrow";
     }
     return "";
   }
 
   function IntialOptionsopt6() {
-    if (crop2 == "Rice" || crop2 == "Wheat" || crop2 == "Barley" || crop2 == "Maize") {
+    if (crop2 === "Rice" || crop2 === "Wheat" || crop2 === "Barley" || crop2 === "Maize") {
       return "Smart fertilizer management";
-    } else if (crop2 == "Sorghum" || crop2 == "Millets" || crop2 == "Chickpea" || crop2 == "Pigeonpea" || crop2 == "Soybean") {
+    } else if (crop2 === "Sorghum" || crop2 === "Millets" || crop2 === "Chickpea" || crop2 === "Pigeonpea" || crop2 === "Soybean") {
       return "Supplemental irrigation (water harvesting structures/farm ponds)";
-    } else if (crop2 == "Lentil" || crop2 == "Mustard" || crop2 == "Potato") {
+    } else if (crop2 === "Lentil" || crop2 === "Mustard" || crop2 === "Potato") {
       return "Smart fertilizer management";
     }
     return "";
   }
 
   function IntialOptionsopt7() {
-    if (crop2 == "Rice" || crop2 == "Wheat" || crop2 == "Barley" || crop2 == "Maize") {
+    if (crop2 === "Rice" || crop2 === "Wheat" || crop2 === "Barley" || crop2 === "Maize") {
       return "Microirrigation";
-    } else if (crop2 == "Sorghum" || crop2 == "Millets" || crop2 == "Chickpea" || crop2 == "Pigeonpea" || crop2 == "Soybean") {
+    } else if (crop2 === "Sorghum" || crop2 === "Millets" || crop2 === "Chickpea" || crop2 === "Pigeonpea" || crop2 === "Soybean") {
       return "";
-    } else if (crop2 == "Lentil" || crop2 == "Mustard" || crop2 == "Potato") {
+    } else if (crop2 === "Lentil" || crop2 === "Mustard" || crop2 === "Potato") {
       return "Microirrigation";
     }
     return "";

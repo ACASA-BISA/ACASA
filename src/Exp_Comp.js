@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Grid, Paper, Typography, Box, MenuItem, Select, FormControl, Popper, InputLabel, Slider, IconButton, Checkbox, Button } from "@mui/material";
+import { Grid, Paper, Typography, Box, Popper, Slider, Button } from "@mui/material";
 import Map_Option from "./Comp_Map"; // Assuming this is your map component
 import "./font.css";
 import "./extra.css";
 import "./font2.css";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import PauseIcon from "@mui/icons-material/Pause";
+//import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+//import PauseIcon from "@mui/icons-material/Pause";
 import { styled } from "@mui/material/styles";
-import FormGroup from "@mui/material/FormGroup";
+//import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Legend_Small from "./Legend_Small";
-import PopperGif from "./PopperGif";
+//import PopperGif from "./PopperGif";
 
 // Array of image URLs, one for each year
 const images = [
@@ -402,7 +402,7 @@ export default function CompV({
               {tabs.map((label, index) => (
                 <ArrowTab
                   key={label}
-                  selected={index == selectedIndex}
+                  selected={index === selectedIndex}
                   isLast={index === tabs.length - 1} // Identify last tab
                   isFirst={index === 0}
                   onClick={() => handleSelect(index)}
