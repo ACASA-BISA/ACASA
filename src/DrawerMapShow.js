@@ -397,12 +397,48 @@ export default function DrawerMapShow({ activeBar }) {
     return initialTodos;
   }
 
+  const [crop2, setCrop2] = React.useState("Wheat");
+  const [cropid, setCropid] = React.useState("wheat");
+
+  function IntialOptionsopt5() {
+    if (crop2 == "Rice" || crop2 == "Wheat" || crop2 == "Barley" || crop2 == "Maize") {
+      return "Early sowing/changing planting dates";
+    } else if (crop2 == "Sorghum" || crop2 == "Millets" || crop2 == "Chickpea" || crop2 == "Pigeonpea" || crop2 == "Soybean") {
+      return "Mulching";
+    } else if (crop2 == "Lentil" || crop2 == "Mustard" || crop2 == "Potato") {
+      return "Broadbed and furrow";
+    }
+    return "";
+  }
+
+  function IntialOptionsopt6() {
+    if (crop2 == "Rice" || crop2 == "Wheat" || crop2 == "Barley" || crop2 == "Maize") {
+      return "Smart fertilizer management";
+    } else if (crop2 == "Sorghum" || crop2 == "Millets" || crop2 == "Chickpea" || crop2 == "Pigeonpea" || crop2 == "Soybean") {
+      return "Supplemental irrigation (water harvesting structures/farm ponds)";
+    } else if (crop2 == "Lentil" || crop2 == "Mustard" || crop2 == "Potato") {
+      return "Smart fertilizer management";
+    }
+    return "";
+  }
+
+  function IntialOptionsopt7() {
+    if (crop2 == "Rice" || crop2 == "Wheat" || crop2 == "Barley" || crop2 == "Maize") {
+      return "Microirrigation";
+    } else if (crop2 == "Sorghum" || crop2 == "Millets" || crop2 == "Chickpea" || crop2 == "Pigeonpea" || crop2 == "Soybean") {
+      return "";
+    } else if (crop2 == "Lentil" || crop2 == "Mustard" || crop2 == "Potato") {
+      return "Microirrigation";
+    }
+    return "";
+  }
+
   const [opt2, setopt2] = React.useState("Stress tolerant variety");
   const [opt3, setopt3] = React.useState("Crop insurance");
   const [opt4, setopt4] = React.useState("ICT linked input management");
-  const [opt5, setopt5] = React.useState("");
-  const [opt6, setopt6] = React.useState("");
-  const [opt7, setopt7] = React.useState("");
+  const [opt5, setopt5] = React.useState(IntialOptionsopt5);
+  const [opt6, setopt6] = React.useState(IntialOptionsopt6);
+  const [opt7, setopt7] = React.useState(IntialOptionsopt7);
   const [acc, setacc] = React.useState(false);
 
   function InitialHazard() {
@@ -455,24 +491,6 @@ export default function DrawerMapShow({ activeBar }) {
   };
 
   const [crop, setCrop] = React.useState(createInitialCrops);
-
-  const [crop2, setCrop2] = React.useState("Wheat");
-  const [cropid, setCropid] = React.useState("wheat");
-
-  /* React.useEffect(() => {
-    if (crop2 == "Rice" || crop2 == "Wheat" || crop2 == "Barley" || crop2 == "Maize") {
-      setopt5("Early sowing/changing planting dates");
-      setopt6("Smart fertilizer management");
-      setopt7("Microirrigation");
-    } else if (crop2 == "Sorghum" || crop2 == "Millets" || crop2 == "Chickpea" || crop2 == "Pigeonpea" || crop2 == "Soybean") {
-      setopt5("Mulching");
-      setopt6("Supplemental irrigation (water harvesting structures/farm ponds)");
-    } else if (crop2 == "Lentil" || crop2 == "Mustard" || crop2 == "Potato") {
-      setopt5("Broadbed and furrow");
-      setopt6("Smart fertilizer management");
-      setopt7("Microirrigation");
-    }
-  }, [crop2]); */
 
   const [crop3, setCrop3] = React.useState(createInitialCrops);
 
@@ -651,6 +669,12 @@ export default function DrawerMapShow({ activeBar }) {
     });
     setCrop3(newState);
     setCropid(name);
+    setopt2("Stress tolerant variety");
+    setopt3("Crop insurance");
+    setopt4("ICT linked input management");
+    setopt5(IntialOptionsopt5);
+    setopt6(IntialOptionsopt6);
+    setopt7(IntialOptionsopt7);
   };
 
   const changeRisk = (name) => {

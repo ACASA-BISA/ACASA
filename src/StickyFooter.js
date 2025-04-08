@@ -20,7 +20,7 @@ import ListItemText from "@mui/material/ListItemText";
 function Copyright() {
   return (
     <Typography sx={{ fontSize: 12, color: "#aaaaaa" }}>
-      {"Copyright © ACASA-BISA, 2024. All rights reserved."}
+      {"Copyright © ACASA-BISA, 2025. All rights reserved."}
       {/* <Link color="inherit" href="https://mui.com/">
         Your Website
       </Link> {' '}*/}
