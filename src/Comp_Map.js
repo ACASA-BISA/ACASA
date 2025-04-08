@@ -1741,13 +1741,14 @@ export default function MApp({
         return 1;
       }
     }
+
+    if (activeOptLayer["Gender"] && activeOptLayer["Yield"] === false) {
+      return 3;
+    }
+    if (activeOptLayer["Scalability"] && activeOptLayer["Gender"] === false) {
+      return 5;
+    }
     if (activeOptLayer["Yield"]) {
-      if (activeOptLayer["Gender"] && activeOptLayer["Adaptation Benefits"] === false) {
-        return 3;
-      }
-      if (activeOptLayer["Scalability"] && activeOptLayer["Gender"] === false) {
-        return 5;
-      }
       return 4;
     }
 
