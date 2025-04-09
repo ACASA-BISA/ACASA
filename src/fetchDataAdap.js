@@ -189,7 +189,7 @@ export function fetchDataAdap(adaption, location, AdaptLayerName, commodity, sce
           : [
               ["#969696", "No significant change"],
               ["#A52A2A", "Unsuitable"], //"#E4003A"
-              ["#FF4500", "Very Low"], //"#FFA500"
+              ["rgba(150,150,150,1)", "No hazards"], //"#FFA500"
               ["#FFDE4D", "Low"],
               ["#00FF00", "Medium"],
               ["#059212", "High"],
