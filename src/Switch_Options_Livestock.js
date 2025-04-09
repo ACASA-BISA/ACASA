@@ -863,12 +863,12 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                     <FormGroup>
                       {[
                         { short: "For cold stress", full: "Modify shelters" },
-                        { short: "Shelter for natural hazards", full: "Shelter for natural hazards" },
+                        { short: "For natural hazards", full: "Shelter for natural hazards" },
                         { short: "Modify sheds and bathing", full: "Modify sheds, planting trees, bathing, and mechanical cooling" },
                       ].map(({ short, full }) => (
                         <CustomFormControlLabel
-                          key={full}
-                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[full]} onChange={changeOpt(full)} name={full} />}
+                          key={short}
+                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[short]} onChange={changeOpt(short)} name={short} />}
                           label={
                             <Typography
                               variant="body2"
@@ -959,8 +959,8 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                         { short: "Green fodder", full: "Inclusion of green fodder" },
                       ].map(({ short, full }) => (
                         <CustomFormControlLabel
-                          key={full}
-                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[full]} onChange={changeOpt(full)} name={full} />}
+                          key={short}
+                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[short]} onChange={changeOpt(short)} name={short} />}
                           label={
                             <Typography
                               variant="body2"
@@ -1014,8 +1014,8 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                         { short: "Control of vectors", full: "Control of ectoparasites and other vectors" },
                       ].map(({ short, full }) => (
                         <CustomFormControlLabel
-                          key={full}
-                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[full]} onChange={changeOpt(full)} name={full} />}
+                          key={short}
+                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[short]} onChange={changeOpt(short)} name={short} />}
                           label={
                             <Typography
                               variant="body2"
@@ -1083,8 +1083,8 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                   },
                 ].map(({ short, full }) => (
                   <CustomFormControlLabel
-                    key={full}
-                    control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[full]} onChange={changeOpt(full)} name={full} />}
+                    key={short}
+                    control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[short]} onChange={changeOpt(short)} name={short} />}
                     label={
                       <Typography
                         variant="body2"
@@ -1168,8 +1168,8 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                         },
                       ].map(({ short, full }) => (
                         <CustomFormControlLabel
-                          key={full}
-                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[full]} onChange={changeOpt(full)} name={full} />}
+                          key={short}
+                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[short]} onChange={changeOpt(short)} name={short} />}
                           label={
                             <Typography
                               variant="body2"
@@ -1244,8 +1244,8 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                         },
                       ].map(({ short, full }) => (
                         <CustomFormControlLabel
-                          key={full}
-                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[full]} onChange={changeOpt(full)} name={full} />}
+                          key={short}
+                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[short]} onChange={changeOpt(short)} name={short} />}
                           label={
                             <Typography
                               variant="body2"
@@ -1308,8 +1308,8 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                         },
                       ].map(({ short, full }) => (
                         <CustomFormControlLabel
-                          key={full}
-                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[full]} onChange={changeOpt(full)} name={full} />}
+                          key={short}
+                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[short]} onChange={changeOpt(short)} name={short} />}
                           label={
                             <Typography
                               variant="body2"
@@ -1373,8 +1373,8 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                   },
                 ].map(({ short, full }) => (
                   <CustomFormControlLabel
-                    key={full}
-                    control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[full]} onChange={changeOpt(full)} name={full} />}
+                    key={short}
+                    control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[short]} onChange={changeOpt(short)} name={short} />}
                     label={
                       <Typography
                         variant="body2"
@@ -1458,8 +1458,8 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                         },
                       ].map(({ short, full }) => (
                         <CustomFormControlLabel
-                          key={full}
-                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[full]} onChange={changeOpt(full)} name={full} />}
+                          key={short}
+                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[short]} onChange={changeOpt(short)} name={short} />}
                           label={
                             <Typography
                               variant="body2"
@@ -1534,8 +1534,8 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                         },
                       ].map(({ short, full }) => (
                         <CustomFormControlLabel
-                          key={full}
-                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[full]} onChange={changeOpt(full)} name={full} />}
+                          key={short}
+                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[short]} onChange={changeOpt(short)} name={short} />}
                           label={
                             <Typography
                               variant="body2"
@@ -1598,8 +1598,8 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                         },
                       ].map(({ short, full }) => (
                         <CustomFormControlLabel
-                          key={full}
-                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[full]} onChange={changeOpt(full)} name={full} />}
+                          key={short}
+                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[short]} onChange={changeOpt(short)} name={short} />}
                           label={
                             <Typography
                               variant="body2"
@@ -1667,8 +1667,8 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                   },
                 ].map(({ short, full }) => (
                   <CustomFormControlLabel
-                    key={full}
-                    control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[full]} onChange={changeOpt(full)} name={full} />}
+                    key={short}
+                    control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[short]} onChange={changeOpt(short)} name={short} />}
                     label={
                       <Typography
                         variant="body2"
@@ -1760,8 +1760,8 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                         },
                       ].map(({ short, full }) => (
                         <CustomFormControlLabel
-                          key={full}
-                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[full]} onChange={changeOpt(full)} name={full} />}
+                          key={short}
+                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[short]} onChange={changeOpt(short)} name={short} />}
                           label={
                             <Typography
                               variant="body2"
@@ -1832,8 +1832,8 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                         },
                       ].map(({ short, full }) => (
                         <CustomFormControlLabel
-                          key={full}
-                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[full]} onChange={changeOpt(full)} name={full} />}
+                          key={short}
+                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[short]} onChange={changeOpt(short)} name={short} />}
                           label={
                             <Typography
                               variant="body2"
@@ -1896,8 +1896,8 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                         },
                       ].map(({ short, full }) => (
                         <CustomFormControlLabel
-                          key={full}
-                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[full]} onChange={changeOpt(full)} name={full} />}
+                          key={short}
+                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[short]} onChange={changeOpt(short)} name={short} />}
                           label={
                             <Typography
                               variant="body2"
@@ -1943,69 +1943,65 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                 )}
               </FormGroup>
             ))}
-          {activeCrop["poultry"] && (
-            <FormControl component="fieldset" variant="standard">
-              <FormGroup>
-                {[
-                  {
-                    short: "Climate resilient breed",
-                    full: "Adoption of climate resilient breed/strain",
-                  },
-                  {
-                    short: "Climate information",
-                    full: "Climate information services and safety nets",
-                  },
-                  {
-                    short: "Diversification",
-                    full: "Diversification",
-                  },
-                ].map(({ short, full }) => (
-                  <CustomFormControlLabel
-                    key={full}
-                    control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[full]} onChange={changeOpt(full)} name={full} />}
-                    label={
-                      <Typography
-                        variant="body2"
-                        align="left"
-                        sx={{
-                          paddingLeft: "1px",
-                          maxWidth: "250px",
-                          wordBreak: "break-word",
-                          whiteSpace: "normal",
-                        }}
+          {activeCrop["poultry"] &&
+            [
+              {
+                short: "Climate resilient breed",
+                full: "Adoption of climate resilient breed/strain",
+              },
+              {
+                short: "Climate information",
+                full: "Climate information services and safety nets",
+              },
+              {
+                short: "Diversification",
+                full: "Diversification",
+              },
+            ].map(({ short, full }) => (
+              <FormGroup key={short}>
+                <CustomFormControlLabel
+                  control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[short]} onChange={changeOpt(short)} name={short} />}
+                  label={
+                    <Typography
+                      variant="body2"
+                      align="left"
+                      sx={{
+                        paddingLeft: "1px",
+                        maxWidth: "250px",
+                        wordBreak: "break-word",
+                        whiteSpace: "normal",
+                      }}
+                    >
+                      {short}
+                      <LightTooltip
+                        title={
+                          <>
+                            <span>{full}</span>
+                            <br />
+                            <Link
+                              href={`#/resources?tab=2&term=${full.toLowerCase().replace(/\s+/g, "-")}`}
+                              target="_blank"
+                              sx={(theme) => ({
+                                color: theme.palette.mode === "dark" ? "black" : "white",
+                                fontWeight: "bold",
+                              })}
+                            >
+                              Read More
+                            </Link>
+                          </>
+                        }
+                        placement="right"
+                        arrow
                       >
-                        {short}
-                        <LightTooltip
-                          title={
-                            <>
-                              <span>{full}</span>
-                              <br />
-                              <Link
-                                href={`#/resources?tab=2&term=${full.toLowerCase().replace(/\s+/g, "-")}`}
-                                target="_blank"
-                                sx={(theme) => ({
-                                  color: theme.palette.mode === "dark" ? "black" : "white",
-                                  fontWeight: "bold",
-                                })}
-                              >
-                                Read More
-                              </Link>
-                            </>
-                          }
-                          placement="right"
-                          arrow
-                        >
-                          <IconButton sx={{ padding: 0, margin: 0, paddingX: "4px" }}>
-                            <InfoOutlinedIcon sx={{ fontSize: "12px", padding: 0, margin: 0 }} />
-                          </IconButton>
-                        </LightTooltip>
-                      </Typography>
-                    }
-                  />
-                ))}
+                        <IconButton sx={{ padding: 0, margin: 0, paddingX: "4px" }}>
+                          <InfoOutlinedIcon sx={{ fontSize: "12px", padding: 0, margin: 0 }} />
+                        </IconButton>
+                      </LightTooltip>
+                    </Typography>
+                  }
+                />
               </FormGroup>
-            </FormControl>
-          )}
+            ))}
           {activeCrop["pig"] === true &&
             ["Shelter management", "Feed management", "Healthcare management"].map((snamelive) => (
               <FormGroup>
@@ -2046,8 +2042,8 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                         },
                       ].map(({ short, full }) => (
                         <CustomFormControlLabel
-                          key={full}
-                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[full]} onChange={changeOpt(full)} name={full} />}
+                          key={short}
+                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[short]} onChange={changeOpt(short)} name={short} />}
                           label={
                             <Typography
                               variant="body2"
@@ -2114,8 +2110,8 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                         },
                       ].map(({ short, full }) => (
                         <CustomFormControlLabel
-                          key={full}
-                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[full]} onChange={changeOpt(full)} name={full} />}
+                          key={short}
+                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[short]} onChange={changeOpt(short)} name={short} />}
                           label={
                             <Typography
                               variant="body2"
@@ -2178,8 +2174,8 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                         },
                       ].map(({ short, full }) => (
                         <CustomFormControlLabel
-                          key={full}
-                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[full]} onChange={changeOpt(full)} name={full} />}
+                          key={short}
+                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[short]} onChange={changeOpt(short)} name={short} />}
                           label={
                             <Typography
                               variant="body2"
@@ -2225,69 +2221,65 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                 )}
               </FormGroup>
             ))}
-          {activeCrop["pig"] === true && (
-            <FormControl component="fieldset" variant="standard">
-              <FormGroup>
-                {[
-                  {
-                    short: "Climate resilient breed",
-                    full: "Adoption of climate resilient breeds",
-                  },
-                  {
-                    short: "ART tools",
-                    full: "Reproductive management: Use of ART tools",
-                  },
-                  {
-                    short: "Climate information",
-                    full: "Climate information servics and safetynets",
-                  },
-                ].map(({ short, full }) => (
-                  <CustomFormControlLabel
-                    key={full}
-                    control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[full]} onChange={changeOpt(full)} name={full} />}
-                    label={
-                      <Typography
-                        variant="body2"
-                        align="left"
-                        sx={{
-                          paddingLeft: "1px",
-                          maxWidth: "250px",
-                          wordBreak: "break-word",
-                          whiteSpace: "normal",
-                        }}
+          {activeCrop["pig"] === true &&
+            [
+              {
+                short: "Climate resilient breed",
+                full: "Adoption of climate resilient breeds",
+              },
+              {
+                short: "ART tools",
+                full: "Reproductive management: Use of ART tools",
+              },
+              {
+                short: "Climate information",
+                full: "Climate information servics and safetynets",
+              },
+            ].map(({ short, full }) => (
+              <FormGroup key={short}>
+                <CustomFormControlLabel
+                  control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[short]} onChange={changeOpt(short)} name={short} />}
+                  label={
+                    <Typography
+                      variant="body2"
+                      align="left"
+                      sx={{
+                        paddingLeft: "1px",
+                        maxWidth: "250px",
+                        wordBreak: "break-word",
+                        whiteSpace: "normal",
+                      }}
+                    >
+                      {short}
+                      <LightTooltip
+                        title={
+                          <>
+                            <span>{full}</span>
+                            <br />
+                            <Link
+                              href={`#/resources?tab=2&term=${full.toLowerCase().replace(/\s+/g, "-")}`}
+                              target="_blank"
+                              sx={(theme) => ({
+                                color: theme.palette.mode === "dark" ? "black" : "white",
+                                fontWeight: "bold",
+                              })}
+                            >
+                              Read More
+                            </Link>
+                          </>
+                        }
+                        placement="right"
+                        arrow
                       >
-                        {short}
-                        <LightTooltip
-                          title={
-                            <>
-                              <span>{full}</span>
-                              <br />
-                              <Link
-                                href={`#/resources?tab=2&term=${full.toLowerCase().replace(/\s+/g, "-")}`}
-                                target="_blank"
-                                sx={(theme) => ({
-                                  color: theme.palette.mode === "dark" ? "black" : "white",
-                                  fontWeight: "bold",
-                                })}
-                              >
-                                Read More
-                              </Link>
-                            </>
-                          }
-                          placement="right"
-                          arrow
-                        >
-                          <IconButton sx={{ padding: 0, margin: 0, paddingX: "4px" }}>
-                            <InfoOutlinedIcon sx={{ fontSize: "12px", padding: 0, margin: 0 }} />
-                          </IconButton>
-                        </LightTooltip>
-                      </Typography>
-                    }
-                  />
-                ))}
+                        <IconButton sx={{ padding: 0, margin: 0, paddingX: "4px" }}>
+                          <InfoOutlinedIcon sx={{ fontSize: "12px", padding: 0, margin: 0 }} />
+                        </IconButton>
+                      </LightTooltip>
+                    </Typography>
+                  }
+                />
               </FormGroup>
-            </FormControl>
-          )}
+            ))}
           {checkcrop() === false &&
             activeCrop["rice"] === false &&
             checknotFish() === false &&

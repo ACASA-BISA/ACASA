@@ -73,7 +73,7 @@ export default function LegendCard({ location, commodity, adaption, RiskName, sc
     "Heat Stress Management": "HSMGT",
 
     // Newly added entries
-    "Micro climate modification-sheds": "Shelter1",
+    /*"Micro climate modification-sheds": "Shelter1",
     "Modification of shelter": "Shelter2",
     "Planting of trees": "Shelter3",
     "Heating management": "Shelter4",
@@ -111,7 +111,42 @@ export default function LegendCard({ location, commodity, adaption, RiskName, sc
     "Estrous confirmation and synchronisation": "Reproductivemngt2",
 
     "Climate information services and safety nets": "Safetynet",
-    "Diversification": "Diversify",
+    "Diversification": "Diversify",*/
+
+    "Micro climate": "Micro climate",
+    "For natural hazards": "For natural hazards",
+    "Planting trees": "Planting trees",
+    "Heating management": "Heating management",
+    "Mechanical cooling": "Mechanical cooling",
+    "Modify sheds and bathing": "Modify sheds and bathing",
+    "For cold stress": "For cold stress",
+    "Modify sheds": "Modify sheds",
+
+    "Fat supplementation": "Fat supplementation",
+    "Protein supplementation": "Protein supplementation",
+    "Ad lib water": "Ad lib water",
+    "Feed additives": "Feed additives",
+    "Feeding pattern change": "Feeding pattern change",
+    "Balanced concentrate": "Balanced concentrate",
+    "Mineral mixture": "Mineral mixture",
+    "Change feeding and grazing pattern": "Change feeding and grazing pattern",
+    "Grassland and Silvi-pasture management": "Grassland and Silvi-pasture management",
+    "Fodder conservation": "Fodder conservation",
+    "Green fodder": "Green fodder",
+
+    "Parasite control": "Parasite control",
+    "Thinning of flock": "Thinning of flock",
+    "Vaccination": "Vaccination",
+    "Deworming": "Deworming",
+    "Control of vectors": "Control of vectors",
+
+    "Climate resilient breed": "Climate resilient breed",
+
+    "ART tools": "ART tools",
+    "Estrous confirmation and synchronisation": "Estrous confirmation and synchronisation",
+
+    "Climate information": "Climate information",
+    "Diversification": "Diversification",
   };
 
   const hazardname = {

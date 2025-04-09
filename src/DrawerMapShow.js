@@ -233,7 +233,7 @@ export default function DrawerMapShow({ activeBar }) {
     "Insurance",
     "Micro climate modification-sheds",
     ,
-    "Planting of trees",
+    /*"Planting of trees",
     "Heating management",
     "Mechanical cooling",
     "Modify sheds, planting trees, bathing, and mechanical cooling, wallowing",
@@ -264,6 +264,46 @@ export default function DrawerMapShow({ activeBar }) {
     "Reproductive management: Use of ART tools",
     "Reproductive management: Estrous confirmation and synchronisation",
     "Climate information services and safety nets",
+    "Diversification",*/
+
+    "Micro climate",
+    "For natural hazards",
+    "Planting trees",
+    "Heating management",
+    "Mechanical cooling",
+    "Modify sheds and bathing",
+    "For cold stress",
+    "For natural hazards",
+    "Modify sheds",
+    "Modify sheds and bathing",
+
+    "Fat supplementation",
+    "Protein supplementation",
+    "Ad lib water",
+    "Feed additives",
+    "Feeding pattern change",
+    "Balanced concentrate",
+    "Mineral mixture",
+    "Feeding pattern change",
+    "Mineral mixture",
+    "Change feeding and grazing pattern",
+    "Grassland and Silvi-pasture management",
+    "Fodder conservation",
+    "Green fodder",
+
+    "Parasite control",
+    "Thinning of flock",
+    "Vaccination",
+    "Deworming",
+    "Control of vectors",
+
+    "Climate resilient breed",
+    "Climate resilient breed",
+
+    "ART tools",
+    "Estrous confirmation and synchronisation",
+
+    "Climate information",
     "Diversification",
   ];
 
