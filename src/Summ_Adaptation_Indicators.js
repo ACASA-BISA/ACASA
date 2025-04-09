@@ -27,7 +27,7 @@ export default function Summ_Adaptation_Indicator({ handleIndicator, indc }) {
           Biophysical Suitability
         </MenuItem>
         <MenuItem value="Scalability" sx={{ fontSize: 13, paddingY: "2px" }}>
-          Scalibility
+          Scalability
         </MenuItem>
         <MenuItem value="Gender Suitability" sx={{ fontSize: 13, paddingY: "2px" }}>
           Gender Suitability

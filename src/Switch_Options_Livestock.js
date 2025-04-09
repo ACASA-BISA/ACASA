@@ -348,8 +348,8 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
           control={
             <Checkbox
               size="small"
-              checked={activeOptLayer["Scalibility"]}
-              name="Scalibility"
+              checked={activeOptLayer["Scalability"]}
+              name="Scalability"
               onChange={changeOptLayer}
               color="success"
               sx={{ padding: 0, marginLeft: 1, marginRight: "2px" }}

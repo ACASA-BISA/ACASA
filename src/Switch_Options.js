@@ -728,8 +728,8 @@ export default function SwitchOpt({ activeCrop, activeOpt, changeOpt, activeOptL
           control={
             <Checkbox
               size="small"
-              checked={activeOptLayer["Scalibility"]}
-              name="Scalibility"
+              checked={activeOptLayer["Scalability"]}
+              name="Scalability"
               onChange={changeOptLayer}
               color="success"
               sx={{ padding: 0, marginLeft: 1, marginRight: "2px" }}
