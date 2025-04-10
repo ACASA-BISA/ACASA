@@ -141,7 +141,7 @@ export default function AdaptationGlance({
               <Typography sx={{ fontSize: 13, fontWeight: "bold" }}>Adaptation Indicator: </Typography>
               <Summ_Adaptation_Indicator handleIndicator={changeOptLayer2} indc={optionlayer2}></Summ_Adaptation_Indicator>
             </Box>
-            <Map_Risk activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} CurrRisk={CurrRisk2}></Map_Risk>
+            <Map_Risk activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeScenario={NameScenario}></Map_Risk>
           </Paper>
           <Popper
             open={true} // Always open
@@ -157,7 +157,7 @@ export default function AdaptationGlance({
               },
             ]}
           >
-            <LegendComp legendData={fetchthedataHzd("Pixel Level", "", "Value of Production", "Absolute", activeRegion2, NameScenario, crop2, area_data4)} />
+            <LegendComp legendData={fetchthedataHzd("Pixel Level", "", "Productivity", "Absolute", activeRegion2, NameScenario, crop2, area_data4)} />
           </Popper>
         </Grid>
         <Grid item xs={9}>

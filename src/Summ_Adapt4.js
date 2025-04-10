@@ -121,6 +121,10 @@ export default function Summ_Adapt4({ changeOption, activeCrop, activv, CropName
     changeOption(event.target.value);
   };
 
+  React.useEffect(() => {
+    setVal2(activv);
+  }, [activv]);
+
   return (
     <FormControl sx={{ width: "160px" }}>
       <Select
@@ -139,13 +143,13 @@ export default function Summ_Adapt4({ changeOption, activeCrop, activv, CropName
       >
         {(checkcrop() === true || activeCrop["rice"] === true) &&
           directswitch.map((naam, idx) => (
-            <MenuItem value={naam} sx={{ fontSize: 12 }}>
+            <MenuItem value={naam} key={naam} sx={{ fontSize: 12 }}>
               {directswitch[idx]}
             </MenuItem>
           ))}
         {(checkcrop() === true || activeCrop["rice"] === true) &&
           directswitchdown.map((naam, idx) => (
-            <MenuItem value={naam} sx={{ fontSize: 12 }}>
+            <MenuItem value={naam} key={naam} sx={{ fontSize: 12 }}>
               {directswitchdown[idx]}
             </MenuItem>
           ))}
@@ -158,7 +162,7 @@ export default function Summ_Adapt4({ changeOption, activeCrop, activv, CropName
           forthComb() === false &&
           thirdComb() === false &&
           cropTechnologies.getPlantingTechniques(CropName).map((naam) => (
-            <MenuItem value={naam} sx={{ fontSize: 12 }}>
+            <MenuItem value={naam} key={naam} sx={{ fontSize: 12 }}>
               {naam}
             </MenuItem>
           ))}
@@ -169,7 +173,7 @@ export default function Summ_Adapt4({ changeOption, activeCrop, activv, CropName
         )}
         {(checkcrop() === true || activeCrop["rice"] === true) &&
           cropTechnologies.getWaterTechniques(CropName).map((naam) => (
-            <MenuItem value={naam} sx={{ fontSize: 12 }}>
+            <MenuItem value={naam} key={naam} sx={{ fontSize: 12 }}>
               {naam}
             </MenuItem>
           ))}
@@ -182,7 +186,7 @@ export default function Summ_Adapt4({ changeOption, activeCrop, activv, CropName
           checkpulses() === false &&
           thirdComb() === false &&
           fertilizer.map((naam, idx) => (
-            <MenuItem value={naam} sx={{ fontSize: 12 }}>
+            <MenuItem value={naam} key={naam} sx={{ fontSize: 12 }}>
               {fertilizer[idx]}
             </MenuItem>
           ))}
@@ -194,7 +198,7 @@ export default function Summ_Adapt4({ changeOption, activeCrop, activv, CropName
           activeCrop["rice"] === false &&
           checkFish() === true &&
           livestock.map((naam, idx) => (
-            <MenuItem value={naam} sx={{ fontSize: 12 }}>
+            <MenuItem value={naam} key={naam} sx={{ fontSize: 12 }}>
               {livestock[idx]}
             </MenuItem>
           ))}
@@ -202,7 +206,7 @@ export default function Summ_Adapt4({ changeOption, activeCrop, activv, CropName
           activeCrop["rice"] === false &&
           checkFish() === false &&
           marine.map((naam, idx) => (
-            <MenuItem value={naam} sx={{ fontSize: 12 }}>
+            <MenuItem value={naam} key={naam} sx={{ fontSize: 12 }}>
               {marine[idx]}
             </MenuItem>
           ))}

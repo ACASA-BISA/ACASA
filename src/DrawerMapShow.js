@@ -712,9 +712,9 @@ export default function DrawerMapShow({ activeBar }) {
     setopt2("Stress tolerant variety");
     setopt3("Crop insurance");
     setopt4("ICT linked input management");
-    setopt5(IntialOptionsopt5);
-    setopt6(IntialOptionsopt6);
-    setopt7(IntialOptionsopt7);
+    setopt5(IntialOptionsopt5());
+    setopt6(IntialOptionsopt6());
+    setopt7(IntialOptionsopt7());
   };
 
   const changeRisk = (name) => {

@@ -15,11 +15,11 @@ import GeoTIFF from "ol/source/GeoTIFF.js";
 import GeoJSON from "ol/format/GeoJSON.js";
 import TileLayer2 from "ol/layer/Tile";
 //import BingMaps from "ol/source/BingMaps";
-import tilesource from "ol/source/TileJSON";
+//import tilesource from "ol/source/TileJSON";
 import TileJSON from "ol/source/TileJSON";
 import { Control, ZoomToExtent, FullScreen, Zoom } from "ol/control.js";
 import "./olsm.css";
-import { Tooltip, Typography, Box } from "@mui/material";
+//import { Tooltip, Typography, Box } from "@mui/material";
 import ReactDOMServer from "react-dom/server";
 import DownloadIcon from "@mui/icons-material/Download";
 
@@ -136,7 +136,7 @@ export default function Map_Option({ activeCrop, focus = "Region", activeRegion,
   const [vectorLayerr, setvectorLayerr] = useState(null);
   const [countryLayer, setcountryLayer] = useState(null);
   const [maskLayer1, setmaskLayer1] = useState(null);
-  const [population, setpopulation] = useState(0);
+  //const [population, setpopulation] = useState(0);
 
   const { mode } = useContext(ThemeContext);
 
@@ -159,26 +159,12 @@ export default function Map_Option({ activeCrop, focus = "Region", activeRegion,
     zoom: 3.5,
   });
 
-  const color2 = {
+  const color_adaptation_yield2 = {
     color: [
       "palette",
-      [
-        "interpolate",
-        ["linear"],
-        ["*", ["band", 2], 16],
-        0, // Start color (minimum value)
-        1, // Intermediate color
-        2,
-        4,
-        3,
-        5,
-      ],
-      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(180, 70, 109, 1)", "#FF9A00", "#06D001", "#004D00"],
+      ["interpolate", ["linear"], ["*", ["band", 2], 385], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 8, 9, 9],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "rgb(248, 36, 36)", "#FF8C00", "#FFDE4D", "#FFDE4D", "rgba(109, 233, 109, 1)", "rgba(4, 145, 4, 1)", "#A52A2A"],
     ],
-  };
-
-  const color_hazard4 = {
-    color: ["palette", ["clamp", ["*", ["band", 2], 250], 0, 4], ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "#059212", "#00FF00", "#FFDE4D", "#FFA500", "#FF0000"]],
   };
 
   const color_adaptation_yield = {
@@ -213,7 +199,7 @@ export default function Map_Option({ activeCrop, focus = "Region", activeRegion,
     color: [
       "palette",
       ["interpolate", ["linear"], ["*", ["band", 2], 385], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 8],
-      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#A52A2A", "rgba(150,150,150,1)", "#FFDE4D", "#FFDE4D", "#00FF00", "#059212"],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#A52A2A", "#FFDE4D", "#B6F792", "#B6F792", "#00D95A", "#267F2E"],
     ],
   };
 
@@ -573,7 +559,7 @@ export default function Map_Option({ activeCrop, focus = "Region", activeRegion,
       } else {
         urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Scalability_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
       }
-      opt = 1;
+      opt = 666;
     }
     if (activeOptLayer === "Gender Suitability") {
       if (activeScenario === "baseline") {
@@ -583,7 +569,7 @@ export default function Map_Option({ activeCrop, focus = "Region", activeRegion,
       } else {
         urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Gender_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
       }
-      opt = 1;
+      opt = 666;
     }
     if (activeOptLayer === "Yield Benefits") {
       if (activeScenario === "baseline") {
@@ -593,7 +579,7 @@ export default function Map_Option({ activeCrop, focus = "Region", activeRegion,
       } else {
         urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Yield_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
       }
-      opt = 222;
+      opt = 666;
     }
     if (activeOptLayer === "Economic Viability") {
       if (activeScenario === "baseline") {
@@ -603,7 +589,7 @@ export default function Map_Option({ activeCrop, focus = "Region", activeRegion,
       } else {
         urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Economic_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
       }
-      opt = 1;
+      opt = 666;
     }
     if (activeOptLayer === "Adaptation Benefits") {
       if (activeScenario === "baseline") {
@@ -640,6 +626,8 @@ export default function Map_Option({ activeCrop, focus = "Region", activeRegion,
         newOverl.setStyle(color_hazard_reverse);
       } else if (opt === 3) {
         newOverl.setStyle(color_adaptation_change);
+      } else if (opt === 666) {
+        newOverl.setStyle(color_adaptation_yield2);
       } else if (opt === 222) {
         newOverl.setStyle(color_adaptation_yield);
       } else if (opt === 5) {
