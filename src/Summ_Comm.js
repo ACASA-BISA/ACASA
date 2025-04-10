@@ -58,7 +58,7 @@ export default function Summ_Comm({ changeComm, comm }) {
           Cereals
         </Typography>
         {switchcoid.map((naam, idx) => (
-          <MenuItem value={naam} sx={{ fontSize: 13, paddingY: "2px" }}>
+          <MenuItem value={naam} key={naam} sx={{ fontSize: 13, paddingY: "2px" }}>
             {switchco[idx]}
           </MenuItem>
         ))}
@@ -66,7 +66,7 @@ export default function Summ_Comm({ changeComm, comm }) {
           Pulses
         </Typography>
         {switchhcid.map((naam, idx) => (
-          <MenuItem value={naam} sx={{ fontSize: 13, paddingY: "2px" }}>
+          <MenuItem value={naam} key={naam} sx={{ fontSize: 13, paddingY: "2px" }}>
             {switchhc[idx]}
           </MenuItem>
         ))}
@@ -74,7 +74,7 @@ export default function Summ_Comm({ changeComm, comm }) {
           Oilseeds
         </Typography>
         {switchoilid.map((naam, idx) => (
-          <MenuItem value={naam} sx={{ fontSize: 13, paddingY: "2px" }}>
+          <MenuItem value={naam} key={naam} sx={{ fontSize: 13, paddingY: "2px" }}>
             {switchoil[idx]}
           </MenuItem>
         ))}
@@ -82,7 +82,7 @@ export default function Summ_Comm({ changeComm, comm }) {
           Fruits & Vegetables
         </Typography>
         {switchffpid.map((naam, idx) => (
-          <MenuItem value={naam} sx={{ fontSize: 13, paddingY: "2px" }}>
+          <MenuItem value={naam} key={naam} sx={{ fontSize: 13, paddingY: "2px" }}>
             {switchffp[idx]}
           </MenuItem>
         ))} */}
@@ -90,7 +90,7 @@ export default function Summ_Comm({ changeComm, comm }) {
           Others
         </Typography>
         {switchindid.map((naam, idx) => (
-          <MenuItem value={naam} sx={{ fontSize: 13, paddingY: "2px" }}>
+          <MenuItem value={naam} key={naam} sx={{ fontSize: 13, paddingY: "2px" }}>
             {switchind[idx]}
           </MenuItem>
         ))}
@@ -98,13 +98,13 @@ export default function Summ_Comm({ changeComm, comm }) {
           Livestock
         </Typography>
         {switchlsid.map((naam, idx) => (
-          <MenuItem value={naam} sx={{ fontSize: 13, paddingY: "2px" }}>
+          <MenuItem value={naam} key={naam} sx={{ fontSize: 13, paddingY: "2px" }}>
             {switchls[idx]}
           </MenuItem>
         ))}
         {/* <Typography variant="subtitle1" sx={{paddingLeft:1,fontSize:13,fontWeight:'bold'}}>Fisheries</Typography>
         {switchfishid.map((naam,idx) => (
-            <MenuItem value={naam} sx={{fontSize:13,paddingY:'2px'}}>{switchfish[idx]}</MenuItem>
+            <MenuItem value={naam} key={naam} sx={{fontSize:13,paddingY:'2px'}}>{switchfish[idx]}</MenuItem>
         ))} */}
       </Select>
     </FormControl>

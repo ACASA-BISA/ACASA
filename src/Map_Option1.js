@@ -15,11 +15,11 @@ import GeoTIFF from "ol/source/GeoTIFF.js";
 import GeoJSON from "ol/format/GeoJSON.js";
 import TileLayer2 from "ol/layer/Tile";
 //import BingMaps from "ol/source/BingMaps";
-import tilesource from "ol/source/TileJSON";
+//import tilesource from "ol/source/TileJSON";
 import TileJSON from "ol/source/TileJSON";
 import { Control, ZoomToExtent, FullScreen, Zoom } from "ol/control.js";
 import "./olsm.css";
-import { Tooltip, Typography, Box } from "@mui/material";
+//import { Tooltip, Typography, Box } from "@mui/material";
 import ReactDOMServer from "react-dom/server";
 import DownloadIcon from "@mui/icons-material/Download";
 
@@ -136,7 +136,7 @@ export default function Map_Option({ activeCrop, focus = "Region", activeRegion,
   const [vectorLayerr, setvectorLayerr] = useState(null);
   const [countryLayer, setcountryLayer] = useState(null);
   const [maskLayer1, setmaskLayer1] = useState(null);
-  const [population, setpopulation] = useState(0);
+  //const [population, setpopulation] = useState(0);
 
   const { mode } = useContext(ThemeContext);
 
@@ -627,9 +627,9 @@ export default function Map_Option({ activeCrop, focus = "Region", activeRegion,
       } else if (opt === 3) {
         newOverl.setStyle(color_adaptation_change);
       } else if (opt === 666) {
-        newOverl.setStyle(color_adaptation_change);
-      } else if (opt === 222) {
         newOverl.setStyle(color_adaptation_yield2);
+      } else if (opt === 222) {
+        newOverl.setStyle(color_adaptation_yield);
       } else if (opt === 5) {
         newOverl.setStyle(color_hazard);
       } else {
