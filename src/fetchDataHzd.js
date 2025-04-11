@@ -162,7 +162,283 @@ export function fetchthedataHzd(activeScale, RiskName, ImpactName, displayLayer,
           (row_data["Cropped Area/Number of animals under Very High category"] || 0) +
           (row_data["Cropped Area/Number of animals under Nil category"] || 0) || 1;
 
-      if (RiskType() === "Vulnerability" || RiskName2 === "Resilience" || RiskName2 === "Value of Production" || (RiskName2 === "Productivity" && scenario === "baseline")) {
+      if (RiskName2 === "Seasonal Rainfall") {
+        if (commodity === "Wheat" || commodity === "Sorghum" || commodity === "Chickpea" || commodity === "Lentil" || commodity === "Mustard") {
+          data = [
+            createData(
+              "#969696",
+              "No significant " + typrstr(),
+              row_data["Cropped Area/Number of animals under Nil category"],
+              ((row_data["Cropped Area/Number of animals under Nil category"] * 100) / total).toFixed(2),
+              (row_data["Rural population under Nil category"] * 0.16) / 1000000
+            ),
+            createData(
+              "#059212",
+              "<25 mm",
+              row_data["Cropped Area/Number of animals under Very Low category"],
+              ((row_data["Cropped Area/Number of animals under Very Low category"] * 100) / total).toFixed(2),
+              (row_data["Rural population under Very Low category"] * 0.16) / 1000000
+            ),
+            createData(
+              "#00FF00",
+              "25-50 mm",
+              row_data["Cropped Area/Number of animals under Low category"],
+              ((row_data["Cropped Area/Number of animals under Low category"] * 100) / total).toFixed(2),
+              (row_data["Rural population under Low category"] * 0.16) / 1000000
+            ),
+            createData(
+              "#FFDE4D",
+              "50-75 mm",
+              row_data["Cropped Area/Number of animals under Medium category"],
+              ((row_data["Cropped Area/Number of animals under Medium category"] * 100) / total).toFixed(2),
+              (row_data["Rural population under Medium category"] * 0.16) / 1000000
+            ),
+            createData(
+              "#FFA500",
+              "75-100 mm",
+              row_data["Cropped Area/Number of animals under High category"],
+              ((row_data["Cropped Area/Number of animals under High category"] * 100) / total).toFixed(2),
+              (row_data["Rural population under High category"] * 0.16) / 1000000
+            ),
+            createData(
+              "#E4003A",
+              ">100 mm",
+              row_data["Cropped Area/Number of animals under Very High category"],
+              ((row_data["Cropped Area/Number of animals under Very High category"] * 100) / total).toFixed(2),
+              (row_data["Rural population under Very High category"] * 0.16) / 1000000
+            ),
+          ];
+        } else {
+          data = [
+            createData(
+              "#969696",
+              "No significant " + typrstr(),
+              row_data["Cropped Area/Number of animals under Nil category"],
+              ((row_data["Cropped Area/Number of animals under Nil category"] * 100) / total).toFixed(2),
+              (row_data["Rural population under Nil category"] * 0.16) / 1000000
+            ),
+            createData(
+              "#059212",
+              "<250 mm",
+              row_data["Cropped Area/Number of animals under Very Low category"],
+              ((row_data["Cropped Area/Number of animals under Very Low category"] * 100) / total).toFixed(2),
+              (row_data["Rural population under Very Low category"] * 0.16) / 1000000
+            ),
+            createData(
+              "#00FF00",
+              "250-500",
+              row_data["Cropped Area/Number of animals under Low category"],
+              ((row_data["Cropped Area/Number of animals under Low category"] * 100) / total).toFixed(2),
+              (row_data["Rural population under Low category"] * 0.16) / 1000000
+            ),
+            createData(
+              "#FFDE4D",
+              "500-750",
+              row_data["Cropped Area/Number of animals under Medium category"],
+              ((row_data["Cropped Area/Number of animals under Medium category"] * 100) / total).toFixed(2),
+              (row_data["Rural population under Medium category"] * 0.16) / 1000000
+            ),
+            createData(
+              "#FFA500",
+              "750-1000",
+              row_data["Cropped Area/Number of animals under High category"],
+              ((row_data["Cropped Area/Number of animals under High category"] * 100) / total).toFixed(2),
+              (row_data["Rural population under High category"] * 0.16) / 1000000
+            ),
+            createData(
+              "#E4003A",
+              ">1000 mm",
+              row_data["Cropped Area/Number of animals under Very High category"],
+              ((row_data["Cropped Area/Number of animals under Very High category"] * 100) / total).toFixed(2),
+              (row_data["Rural population under Very High category"] * 0.16) / 1000000
+            ),
+          ];
+        }
+      } else if (RiskName2 === "Maximum Temperature") {
+        if (commodity === "Wheat" || commodity === "Sorghum" || commodity === "Chickpea" || commodity === "Lentil" || commodity === "Mustard") {
+          data = [
+            createData(
+              "#969696",
+              "No significant " + typrstr(),
+              row_data["Cropped Area/Number of animals under Nil category"],
+              ((row_data["Cropped Area/Number of animals under Nil category"] * 100) / total).toFixed(2),
+              (row_data["Rural population under Nil category"] * 0.16) / 1000000
+            ),
+            createData(
+              "#059212",
+              "<16 °C",
+              row_data["Cropped Area/Number of animals under Very Low category"],
+              ((row_data["Cropped Area/Number of animals under Very Low category"] * 100) / total).toFixed(2),
+              (row_data["Rural population under Very Low category"] * 0.16) / 1000000
+            ),
+            createData(
+              "#00FF00",
+              "16-20 °C",
+              row_data["Cropped Area/Number of animals under Low category"],
+              ((row_data["Cropped Area/Number of animals under Low category"] * 100) / total).toFixed(2),
+              (row_data["Rural population under Low category"] * 0.16) / 1000000
+            ),
+            createData(
+              "#FFDE4D",
+              "20-24 °C",
+              row_data["Cropped Area/Number of animals under Medium category"],
+              ((row_data["Cropped Area/Number of animals under Medium category"] * 100) / total).toFixed(2),
+              (row_data["Rural population under Medium category"] * 0.16) / 1000000
+            ),
+            createData(
+              "#FFA500",
+              "24-28 °C",
+              row_data["Cropped Area/Number of animals under High category"],
+              ((row_data["Cropped Area/Number of animals under High category"] * 100) / total).toFixed(2),
+              (row_data["Rural population under High category"] * 0.16) / 1000000
+            ),
+            createData(
+              "#E4003A",
+              ">28 °C",
+              row_data["Cropped Area/Number of animals under Very High category"],
+              ((row_data["Cropped Area/Number of animals under Very High category"] * 100) / total).toFixed(2),
+              (row_data["Rural population under Very High category"] * 0.16) / 1000000
+            ),
+          ];
+        } else {
+          data = [
+            createData(
+              "#969696",
+              "No significant " + typrstr(),
+              row_data["Cropped Area/Number of animals under Nil category"],
+              ((row_data["Cropped Area/Number of animals under Nil category"] * 100) / total).toFixed(2),
+              (row_data["Rural population under Nil category"] * 0.16) / 1000000
+            ),
+            createData(
+              "#059212",
+              "<27.5 °C",
+              row_data["Cropped Area/Number of animals under Very Low category"],
+              ((row_data["Cropped Area/Number of animals under Very Low category"] * 100) / total).toFixed(2),
+              (row_data["Rural population under Very Low category"] * 0.16) / 1000000
+            ),
+            createData(
+              "#00FF00",
+              "27.5-30 °C",
+              row_data["Cropped Area/Number of animals under Low category"],
+              ((row_data["Cropped Area/Number of animals under Low category"] * 100) / total).toFixed(2),
+              (row_data["Rural population under Low category"] * 0.16) / 1000000
+            ),
+            createData(
+              "#FFDE4D",
+              "30-32.5 °C",
+              row_data["Cropped Area/Number of animals under Medium category"],
+              ((row_data["Cropped Area/Number of animals under Medium category"] * 100) / total).toFixed(2),
+              (row_data["Rural population under Medium category"] * 0.16) / 1000000
+            ),
+            createData(
+              "#FFA500",
+              "32.5-35 °C",
+              row_data["Cropped Area/Number of animals under High category"],
+              ((row_data["Cropped Area/Number of animals under High category"] * 100) / total).toFixed(2),
+              (row_data["Rural population under High category"] * 0.16) / 1000000
+            ),
+            createData(
+              "#E4003A",
+              ">35 °C",
+              row_data["Cropped Area/Number of animals under Very High category"],
+              ((row_data["Cropped Area/Number of animals under Very High category"] * 100) / total).toFixed(2),
+              (row_data["Rural population under Very High category"] * 0.16) / 1000000
+            ),
+          ];
+        }
+      } else if (RiskName2 === "Minimum Temperature") {
+        if (commodity === "Wheat" || commodity === "Sorghum" || commodity === "Chickpea" || commodity === "Lentil" || commodity === "Mustard") {
+          data = [
+            createData(
+              "#969696",
+              "No significant " + typrstr(),
+              row_data["Cropped Area/Number of animals under Nil category"],
+              ((row_data["Cropped Area/Number of animals under Nil category"] * 100) / total).toFixed(2),
+              (row_data["Rural population under Nil category"] * 0.16) / 1000000
+            ),
+            createData(
+              "#059212",
+              "<10 °C",
+              row_data["Cropped Area/Number of animals under Very Low category"],
+              ((row_data["Cropped Area/Number of animals under Very Low category"] * 100) / total).toFixed(2),
+              (row_data["Rural population under Very Low category"] * 0.16) / 1000000
+            ),
+            createData(
+              "#00FF00",
+              "10-12 °C",
+              row_data["Cropped Area/Number of animals under Low category"],
+              ((row_data["Cropped Area/Number of animals under Low category"] * 100) / total).toFixed(2),
+              (row_data["Rural population under Low category"] * 0.16) / 1000000
+            ),
+            createData(
+              "#FFDE4D",
+              "12-14 °C",
+              row_data["Cropped Area/Number of animals under Medium category"],
+              ((row_data["Cropped Area/Number of animals under Medium category"] * 100) / total).toFixed(2),
+              (row_data["Rural population under Medium category"] * 0.16) / 1000000
+            ),
+            createData(
+              "#FFA500",
+              "14-16 °C",
+              row_data["Cropped Area/Number of animals under High category"],
+              ((row_data["Cropped Area/Number of animals under High category"] * 100) / total).toFixed(2),
+              (row_data["Rural population under High category"] * 0.16) / 1000000
+            ),
+            createData(
+              "#E4003A",
+              ">16 °C",
+              row_data["Cropped Area/Number of animals under Very High category"],
+              ((row_data["Cropped Area/Number of animals under Very High category"] * 100) / total).toFixed(2),
+              (row_data["Rural population under Very High category"] * 0.16) / 1000000
+            ),
+          ];
+        } else {
+          data = [
+            createData(
+              "#969696",
+              "No significant " + typrstr(),
+              row_data["Cropped Area/Number of animals under Nil category"],
+              ((row_data["Cropped Area/Number of animals under Nil category"] * 100) / total).toFixed(2),
+              (row_data["Rural population under Nil category"] * 0.16) / 1000000
+            ),
+            createData(
+              "#059212",
+              "<19 °C",
+              row_data["Cropped Area/Number of animals under Very Low category"],
+              ((row_data["Cropped Area/Number of animals under Very Low category"] * 100) / total).toFixed(2),
+              (row_data["Rural population under Very Low category"] * 0.16) / 1000000
+            ),
+            createData(
+              "#00FF00",
+              "19-21 °C",
+              row_data["Cropped Area/Number of animals under Low category"],
+              ((row_data["Cropped Area/Number of animals under Low category"] * 100) / total).toFixed(2),
+              (row_data["Rural population under Low category"] * 0.16) / 1000000
+            ),
+            createData(
+              "#FFDE4D",
+              "21-23 °C",
+              row_data["Cropped Area/Number of animals under Medium category"],
+              ((row_data["Cropped Area/Number of animals under Medium category"] * 100) / total).toFixed(2),
+              (row_data["Rural population under Medium category"] * 0.16) / 1000000
+            ),
+            createData(
+              "#FFA500",
+              "23-25 °C",
+              row_data["Cropped Area/Number of animals under High category"],
+              ((row_data["Cropped Area/Number of animals under High category"] * 100) / total).toFixed(2),
+              (row_data["Rural population under High category"] * 0.16) / 1000000
+            ),
+            createData(
+              "#E4003A",
+              ">25 °C",
+              row_data["Cropped Area/Number of animals under Very High category"],
+              ((row_data["Cropped Area/Number of animals under Very High category"] * 100) / total).toFixed(2),
+              (row_data["Rural population under Very High category"] * 0.16) / 1000000
+            ),
+          ];
+        }
+      } else if (RiskType() === "Vulnerability" || RiskName2 === "Resilience" || RiskName2 === "Value of Production" || (RiskName2 === "Productivity" && scenario === "baseline")) {
         data = [
           createData(
             "#969696",
