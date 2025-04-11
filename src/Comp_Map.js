@@ -28,6 +28,171 @@ import { fetchLocationData } from "./fetchLocationData";
 import { fetchLocationDataAdap } from "./fetchLocationDataAdap";
 import ReactDOM from "react-dom";
 import PopperGif from "./PopperGif";
+import { file } from "jszip";
+
+const optcode = {
+  "Stress tolerant variety": "ADVAR",
+  "Early sowing/changing planting dates": "ADPTI",
+  "Precision land levelling": "LASLV",
+  "Zero tillage with residue retention": "ZTILL",
+  "Broadbed and furrow": "BBFIB",
+  "Dry - Direct seeded rice": "DSDRY",
+  "Wet - Direct seeded rice": "DSWET",
+  "System of rice intensification": "SRIUT",
+  "Supplemental irrigation (water harvesting structures/farm ponds)": "WHSRC",
+  "Microirrigation": "MICIR",
+  "Precision water management": "PWMGT",
+  "Precision fertilizer management": "PNMLT",
+  "Precision fertilizer management - High tech": "PNMHT",
+  "Deep Placement of Urea": "DR",
+  "ICT linked input management": "WEAGA",
+  "Crop insurance": "INSUR",
+  "Land Management": "LMGT",
+  "Feed Management": "FMGT",
+  "Herd Management": "HMGT",
+  "Animal Health": "ANHLT",
+  "Animal Productivity": "ANPRO",
+  "Mulching": "MULCH",
+  "Alternate wetting and drying": "AWD",
+  "Smart fertilizer management": "FRT",
+  "Manure Management": "MNMGT",
+  "Information Use": "INFO",
+  "Heat Stress Management": "HSMGT",
+
+  // Newly added entries
+  /*"Micro climate modification-sheds": "Shelter1",
+  "Modification of shelter": "Shelter2",
+  "Planting of trees": "Shelter3",
+  "Heating management": "Shelter4",
+  "Mechanical cooling": "Shelter5",
+  "Modify sheds, planting trees, bathing, and mechanical cooling, wallowing": "Shelter6",
+  "Modify shelters": "Shelter7",
+  "Shelter for natural hazards": "Shelter8",
+  "Modify sheds, planting trees, ventilation, roof height": "Shelter9",
+  "Modify sheds, planting trees, bathing, and mechanical cooling": "Shelter10",
+
+  "Fat supplementation": "Feed1",
+  "Protein and amino acid supplementation": "Feed2",
+  "Ad lib water": "Feed3",
+  "Feed additives, electrolyte, antioxidants, vitamins and probiotics": "Feed4",
+  "Modification in feeding pattern, schedule and space": "Feed5",
+  "Balanced concentrate with buffer, feed additives, antioxidants, vitamins and probiotics": "Feed6",
+  "Mineral mixture supplementation": "Feed7",
+  "Modification in feeding pattern, schedule": "Feed8",
+  "Mineral mixture supplementation, bypass proteins and fats": "Feed9",
+  "Modification in feeding pattern, schedule, grazing": "Feed10",
+  "Grassland and Silvi-pasture management": "Feed11",
+  "Fodder conservation": "Feed12",
+  "Inclusion of green fodder": "Feed13",
+
+  "Parasite control": "Health1",
+  "Thinning of flock": "Health2",
+  "Vaccination": "Health3",
+  "Deworming": "Health4",
+  "Control of ectoparasites and other vectors": "Health5",
+
+  "Adoption of climate resilient breed/strain": "Resilient1",
+  "Adoption of climate resilient breeds": "Resilient2",
+
+  "Reproductive management: Use of ART tools": "Reproductivemngt1",
+  "Reproductive management: Estrous confirmation and synchronisation": "Reproductivemngt2",
+
+  "Climate information services and safety nets": "Safetynet",
+  "Diversification": "Diversify",*/
+
+  "Micro climate": "Micro climate",
+  "For natural hazards": "For natural hazards",
+  "Planting trees": "Planting trees",
+  "Heating management": "Heating management",
+  "Mechanical cooling": "Mechanical cooling",
+  "Modify sheds and bathing": "Modify sheds and bathing",
+  "For cold stress": "For cold stress",
+  "Modify sheds": "Modify sheds",
+
+  "Fat supplementation": "Fat supplementation",
+  "Protein supplementation": "Protein supplementation",
+  "Ad lib water": "Ad lib water",
+  "Feed additives": "Feed additives",
+  "Feeding pattern change": "Feeding pattern change",
+  "Balanced concentrate": "Balanced concentrate",
+  "Mineral mixture": "Mineral mixture",
+  "Change feeding and grazing pattern": "Change feeding and grazing pattern",
+  "Grassland and Silvi-pasture management": "Grassland and Silvi-pasture management",
+  "Fodder conservation": "Fodder conservation",
+  "Green fodder": "Green fodder",
+
+  "Parasite control": "Parasite control",
+  "Thinning of flock": "Thinning of flock",
+  "Vaccination": "Vaccination",
+  "Deworming": "Deworming",
+  "Control of vectors": "Control of vectors",
+
+  "Climate resilient breed": "Climate resilient breed",
+
+  "ART tools": "ART tools",
+  "Estrous confirmation and synchronisation": "Estrous confirmation and synchronisation",
+
+  "Climate information": "Climate information",
+  "Diversification": "Diversification",
+};
+
+const hazardname = {
+  "District Level": "District Level",
+  "Downscaled Risk": "Downscaled Risk",
+  "Risk Index": "Risk index",
+  "Hazard Index": "Hazard Index",
+  "Low temperature induced spikelet sterility": "Low temperature induced spikelet sterility",
+  "Low temperature induced pollen sterility": "Low temperature induced pollen sterility",
+  "High temperature induced pollen sterility": "High temperature induced pollen sterility",
+  "Heat Stress": "Heat stress",
+  "High temperature induced spikelet sterility": "High temperature induced spikelet sterility",
+  "Cold Stress": "Cold stress",
+  "Low temperature induced tuberization failure": "Low temperature induced tuberization failure",
+  "Untimely Rainfall": "Untimely rainfall",
+  "Terminal Heat": "Terminal heat",
+  "Days of Frost": "Days of frost",
+  "Excess Rainfall and Waterlogging": "Excess rain and waterlogging",
+  "Delayed Monsoon": "Delayed monsoon",
+  "Crop water deficit index": "Crop water deficit index",
+  "Dry Spell": "Number of dry spells",
+  "Flood": "Flood",
+  "Soil Organic Carbon": "Soil organic carbon",
+  "Lodging": "Rain and wind causing lodging",
+  "Biotic": "High humidity and temperature for blight",
+  "Irrigation": "Irrigation",
+  "Volumetric Soil Water": "Water holding capacity",
+  "Income": "Agricultural GDP",
+  "Access to Credit": "Access to Credit",
+  "Access to Market": "Access to Market",
+  "Elevation": "Elevation",
+  "Access to Knowledge": "Access to Knowledge",
+  "Exposure Index": "Exposure Index",
+  "Number of Farmers": "Number of Farmers",
+  "Cropped Area": "Extent",
+  "Excess Rainfall": "Excess rainfall",
+  "Number of Animals per grid": "Number of animals per grid",
+  "Cold stress in reproductive stage": "Cold stress in reproductive stage",
+  "Heat stress in reproductive stage": "Heat stress in reproductive stage",
+  "Heat stress during boll formation": "Heat stress during boll formation",
+  "Cold stress during flowering": "Cold stress during flowering",
+  "High tempearture during flowering": "High tempearture during flowering",
+  "Biotic Stress": "Biotic stress",
+  "Vulnerability Index": "Vulnerability Index",
+  "Feed/Fodder": "Residue",
+  "Rural infrastructure": "Rural Infra",
+  "Cyclone": "Cyclone",
+  "Rainfall Deficit": "Rainfall deficit",
+  "Rainfall Deficit index": "Rainfall deficit",
+  "Rainfall Deficit Index": "Rainfall deficit",
+  "Extreme Rainfall days": "Extreme Rainfall Days",
+  "Cold days": "Cold Stress",
+  "Hot days": "Heat stress or hot days",
+  "Temperature-Humidity Index": "THI",
+  "Socio-economic Development Indicator": "Human development index",
+  "Seasonal Rainfall": "Seasonal Rainfall",
+  "Maximum Temperature": "Maximum Temperature",
+  "Minimum Temperature": "Minimum Temperature",
+};
 
 export default function MApp({
   activeCrop,
@@ -603,7 +768,7 @@ export default function MApp({
       imageOption.innerText = "Download Image";
       imageOption.style.cursor = "pointer";
       // To be updated...
-      imageOption.onclick = () => this.handleDownloadGeoTIFF();
+      imageOption.onclick = () => this.handleDownloadJPEG();
 
       const divider_custom = document.createElement("div");
       divider_custom.style.width = "150px";
@@ -621,8 +786,8 @@ export default function MApp({
       dropdown.appendChild(geoTiffOption);
       dropdown.appendChild(divider_custom);
       dropdown.appendChild(csvOption);
-      //dropdown.appendChild(divider_custom2);
-      //dropdown.appendChild(imageOption);
+      dropdown.appendChild(divider_custom2);
+      dropdown.appendChild(imageOption);
 
       // Create control container
       const element = document.createElement("div");
@@ -653,6 +818,50 @@ export default function MApp({
       } else {
         alert("No GeoTIFF layer is currently displayed on the map.");
       }
+    }
+
+    handleDownloadJPEG() {
+      let urlstr;
+      let district_n = "";
+      let district_prefix = "";
+      if (activeScale === "District Level") {
+        district_n = "District/";
+        district_prefix = "District_";
+      }
+      if (activeScenario === "baseline") {
+        urlstr = "./Hazard_imgs/" + activeCrop + "/" + modelName + "/" + district_n + "Baseline/" + `${district_prefix}Baseline_${modelName}_${activeCrop}_${hazardname[CurrRisk]}.jpeg`;
+      } else {
+        urlstr =
+          "./Hazard_imgs/" +
+          activeCrop +
+          "/" +
+          modelName +
+          "/" +
+          district_n +
+          activeScenario.toUpperCase() +
+          "/" +
+          `${district_prefix}${activeScenario.toUpperCase()}_${modelName}_${activeCrop}_${hazardname[CurrRisk]}.jpeg`;
+      }
+
+      const filename = urlstr.split("/").pop(); // Extract file name for download
+      console.log(filename);
+
+      fetch(urlstr)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`Failed to fetch: ${urlstr}`);
+          }
+          return response.blob();
+        })
+        .then((blob) => {
+          const fileURL = window.URL.createObjectURL(blob);
+          this.downloadFile(fileURL, filename);
+          URL.revokeObjectURL(fileURL);
+        })
+        .catch((err) => {
+          console.error("Error downloading JPEG:", err);
+          alert("Failed to download the JPEG image.");
+        });
     }
 
     handleDownloadCSV() {
@@ -1172,169 +1381,6 @@ export default function MApp({
   useEffect(() => {
     let source1 = null;
     let opt = 1;
-    const optcode = {
-      "Stress tolerant variety": "ADVAR",
-      "Early sowing/changing planting dates": "ADPTI",
-      "Precision land levelling": "LASLV",
-      "Zero tillage with residue retention": "ZTILL",
-      "Broadbed and furrow": "BBFIB",
-      "Dry - Direct seeded rice": "DSDRY",
-      "Wet - Direct seeded rice": "DSWET",
-      "System of rice intensification": "SRIUT",
-      "Supplemental irrigation (water harvesting structures/farm ponds)": "WHSRC",
-      "Microirrigation": "MICIR",
-      "Precision water management": "PWMGT",
-      "Precision fertilizer management": "PNMLT",
-      "Precision fertilizer management - High tech": "PNMHT",
-      "Deep Placement of Urea": "DR",
-      "ICT linked input management": "WEAGA",
-      "Crop insurance": "INSUR",
-      "Land Management": "LMGT",
-      "Feed Management": "FMGT",
-      "Herd Management": "HMGT",
-      "Animal Health": "ANHLT",
-      "Animal Productivity": "ANPRO",
-      "Mulching": "MULCH",
-      "Alternate wetting and drying": "AWD",
-      "Smart fertilizer management": "FRT",
-      "Manure Management": "MNMGT",
-      "Information Use": "INFO",
-      "Heat Stress Management": "HSMGT",
-
-      // Newly added entries
-      /*"Micro climate modification-sheds": "Shelter1",
-      "Modification of shelter": "Shelter2",
-      "Planting of trees": "Shelter3",
-      "Heating management": "Shelter4",
-      "Mechanical cooling": "Shelter5",
-      "Modify sheds, planting trees, bathing, and mechanical cooling, wallowing": "Shelter6",
-      "Modify shelters": "Shelter7",
-      "Shelter for natural hazards": "Shelter8",
-      "Modify sheds, planting trees, ventilation, roof height": "Shelter9",
-      "Modify sheds, planting trees, bathing, and mechanical cooling": "Shelter10",
-
-      "Fat supplementation": "Feed1",
-      "Protein and amino acid supplementation": "Feed2",
-      "Ad lib water": "Feed3",
-      "Feed additives, electrolyte, antioxidants, vitamins and probiotics": "Feed4",
-      "Modification in feeding pattern, schedule and space": "Feed5",
-      "Balanced concentrate with buffer, feed additives, antioxidants, vitamins and probiotics": "Feed6",
-      "Mineral mixture supplementation": "Feed7",
-      "Modification in feeding pattern, schedule": "Feed8",
-      "Mineral mixture supplementation, bypass proteins and fats": "Feed9",
-      "Modification in feeding pattern, schedule, grazing": "Feed10",
-      "Grassland and Silvi-pasture management": "Feed11",
-      "Fodder conservation": "Feed12",
-      "Inclusion of green fodder": "Feed13",
-
-      "Parasite control": "Health1",
-      "Thinning of flock": "Health2",
-      "Vaccination": "Health3",
-      "Deworming": "Health4",
-      "Control of ectoparasites and other vectors": "Health5",
-
-      "Adoption of climate resilient breed/strain": "Resilient1",
-      "Adoption of climate resilient breeds": "Resilient2",
-
-      "Reproductive management: Use of ART tools": "Reproductivemngt1",
-      "Reproductive management: Estrous confirmation and synchronisation": "Reproductivemngt2",
-
-      "Climate information services and safety nets": "Safetynet",
-      "Diversification": "Diversify",*/
-
-      "Micro climate": "Micro climate",
-      "For natural hazards": "For natural hazards",
-      "Planting trees": "Planting trees",
-      "Heating management": "Heating management",
-      "Mechanical cooling": "Mechanical cooling",
-      "Modify sheds and bathing": "Modify sheds and bathing",
-      "For cold stress": "For cold stress",
-      "Modify sheds": "Modify sheds",
-
-      "Fat supplementation": "Fat supplementation",
-      "Protein supplementation": "Protein supplementation",
-      "Ad lib water": "Ad lib water",
-      "Feed additives": "Feed additives",
-      "Feeding pattern change": "Feeding pattern change",
-      "Balanced concentrate": "Balanced concentrate",
-      "Mineral mixture": "Mineral mixture",
-      "Change feeding and grazing pattern": "Change feeding and grazing pattern",
-      "Grassland and Silvi-pasture management": "Grassland and Silvi-pasture management",
-      "Fodder conservation": "Fodder conservation",
-      "Green fodder": "Green fodder",
-
-      "Parasite control": "Parasite control",
-      "Thinning of flock": "Thinning of flock",
-      "Vaccination": "Vaccination",
-      "Deworming": "Deworming",
-      "Control of vectors": "Control of vectors",
-
-      "Climate resilient breed": "Climate resilient breed",
-
-      "ART tools": "ART tools",
-      "Estrous confirmation and synchronisation": "Estrous confirmation and synchronisation",
-
-      "Climate information": "Climate information",
-      "Diversification": "Diversification",
-    };
-
-    const hazardname = {
-      "District Level": "District Level",
-      "Downscaled Risk": "Downscaled Risk",
-      "Risk Index": "Risk index",
-      "Hazard Index": "Hazard Index",
-      "Low temperature induced spikelet sterility": "Low temperature induced spikelet sterility",
-      "Low temperature induced pollen sterility": "Low temperature induced pollen sterility",
-      "High temperature induced pollen sterility": "High temperature induced pollen sterility",
-      "Heat Stress": "Heat stress",
-      "High temperature induced spikelet sterility": "High temperature induced spikelet sterility",
-      "Cold Stress": "Cold stress",
-      "Low temperature induced tuberization failure": "Low temperature induced tuberization failure",
-      "Untimely Rainfall": "Untimely rainfall",
-      "Terminal Heat": "Terminal heat",
-      "Days of Frost": "Days of frost",
-      "Excess Rainfall and Waterlogging": "Excess rain and waterlogging",
-      "Delayed Monsoon": "Delayed monsoon",
-      "Crop water deficit index": "Crop water deficit index",
-      "Dry Spell": "Number of dry spells",
-      "Flood": "Flood",
-      "Soil Organic Carbon": "Soil organic carbon",
-      "Lodging": "Rain and wind causing lodging",
-      "Biotic": "High humidity and temperature for blight",
-      "Irrigation": "Irrigation",
-      "Volumetric Soil Water": "Water holding capacity",
-      "Income": "Agricultural GDP",
-      "Access to Credit": "Access to Credit",
-      "Access to Market": "Access to Market",
-      "Elevation": "Elevation",
-      "Access to Knowledge": "Access to Knowledge",
-      "Exposure Index": "Exposure Index",
-      "Number of Farmers": "Number of Farmers",
-      "Cropped Area": "Extent",
-      "Excess Rainfall": "Excess rainfall",
-      "Number of Animals per grid": "Number of animals per grid",
-      "Cold stress in reproductive stage": "Cold stress in reproductive stage",
-      "Heat stress in reproductive stage": "Heat stress in reproductive stage",
-      "Heat stress during boll formation": "Heat stress during boll formation",
-      "Cold stress during flowering": "Cold stress during flowering",
-      "High tempearture during flowering": "High tempearture during flowering",
-      "Biotic Stress": "Biotic stress",
-      "Vulnerability Index": "Vulnerability Index",
-      "Feed/Fodder": "Residue",
-      "Rural infrastructure": "Rural Infra",
-      "Cyclone": "Cyclone",
-      "Rainfall Deficit": "Rainfall deficit",
-      "Rainfall Deficit index": "Rainfall deficit",
-      "Rainfall Deficit Index": "Rainfall deficit",
-      "Extreme Rainfall days": "Extreme Rainfall Days",
-      "Cold days": "Cold Stress",
-      "Hot days": "Heat stress or hot days",
-      "Temperature-Humidity Index": "THI",
-      "Socio-economic Development Indicator": "Human development index",
-      "Seasonal Rainfall": "Seasonal Rainfall",
-      "Maximum Temperature": "Maximum Temperature",
-      "Minimum Temperature": "Minimum Temperature",
-    };
 
     if (exploreType === "Commodity") {
       if (activeOpt !== "") {
