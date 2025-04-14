@@ -453,7 +453,7 @@ export default function Map_Option({ activeCrop, focus = "Region", activeRegion,
               const polyy = featuress[0].getGeometry();
               const extentt = polyy.getExtent();
               const sizee = mapRef.current.getSize();
-              mapRef.current.getView().fit(extentt, { size: [sizee[0] * 1, sizee[1] * 1] });
+              mapRef.current.getView().fit(extentt, { size: [sizee[0] * 1, sizee[1] * 1], padding: [0, 0, 70, 0] });
             }
           }
         });
