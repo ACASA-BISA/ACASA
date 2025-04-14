@@ -41,6 +41,82 @@ const layerMappings = {
     "Manure Management": "MNMGT",
     "Information Use": "INFO",
     "Heat Stress Management": "HSMGT",
+
+    // Newly added entries
+    /*"Micro climate modification-sheds": "Shelter1",
+    "Modification of shelter": "Shelter2",
+    "Planting of trees": "Shelter3",
+    "Heating management": "Shelter4",
+    "Mechanical cooling": "Shelter5",
+    "Modify sheds, planting trees, bathing, and mechanical cooling, wallowing": "Shelter6",
+    "Modify shelters": "Shelter7",
+    "Shelter for natural hazards": "Shelter8",
+    "Modify sheds, planting trees, ventilation, roof height": "Shelter9",
+    "Modify sheds, planting trees, bathing, and mechanical cooling": "Shelter10",
+
+    "Fat supplementation": "Feed1",
+    "Protein and amino acid supplementation": "Feed2",
+    "Ad lib water": "Feed3",
+    "Feed additives, electrolyte, antioxidants, vitamins and probiotics": "Feed4",
+    "Modification in feeding pattern, schedule and space": "Feed5",
+    "Balanced concentrate with buffer, feed additives, antioxidants, vitamins and probiotics": "Feed6",
+    "Mineral mixture supplementation": "Feed7",
+    "Modification in feeding pattern, schedule": "Feed8",
+    "Mineral mixture supplementation, bypass proteins and fats": "Feed9",
+    "Modification in feeding pattern, schedule, grazing": "Feed10",
+    "Grassland and Silvi-pasture management": "Feed11",
+    "Fodder conservation": "Feed12",
+    "Inclusion of green fodder": "Feed13",
+
+    "Parasite control": "Health1",
+    "Thinning of flock": "Health2",
+    "Vaccination": "Health3",
+    "Deworming": "Health4",
+    "Control of ectoparasites and other vectors": "Health5",
+
+    "Adoption of climate resilient breed/strain": "Resilient1",
+    "Adoption of climate resilient breeds": "Resilient2",
+
+    "Reproductive management: Use of ART tools": "Reproductivemngt1",
+    "Reproductive management: Estrous confirmation and synchronisation": "Reproductivemngt2",
+
+    "Climate information services and safety nets": "Safetynet",
+    "Diversification": "Diversify",*/
+
+    "Micro climate": "Micro climate",
+    "For natural hazards": "For natural hazards",
+    "Planting trees": "Planting trees",
+    "Heating management": "Heating management",
+    "Mechanical cooling": "Mechanical cooling",
+    "Modify sheds and bathing": "Modify sheds and bathing",
+    "For cold stress": "For cold stress",
+    "Modify sheds": "Modify sheds",
+
+    "Fat supplementation": "Fat supplementation",
+    "Protein supplementation": "Protein supplementation",
+    "Ad lib water": "Ad lib water",
+    "Feed additives": "Feed additives",
+    "Feeding pattern change": "Feeding pattern change",
+    "Balanced concentrate": "Balanced concentrate",
+    "Mineral mixture": "Mineral mixture",
+    "Change feeding and grazing pattern": "Change feeding and grazing pattern",
+    "Grassland and Silvi-pasture management": "Grassland and Silvi-pasture management",
+    "Fodder conservation": "Fodder conservation",
+    "Green fodder": "Green fodder",
+
+    "Parasite control": "Parasite control",
+    "Thinning of flock": "Thinning of flock",
+    "Vaccination": "Vaccination",
+    "Deworming": "Deworming",
+    "Control of vectors": "Control of vectors",
+
+    "Climate resilient breed": "Climate resilient breed",
+
+    "ART tools": "ART tools",
+    "Estrous confirmation and synchronisation": "Estrous confirmation and synchronisation",
+
+    "Climate information": "Climate information",
+    "Diversification": "Diversification",
   },
 
   // Mapping of hazard names to descriptions
@@ -90,22 +166,17 @@ const layerMappings = {
     "Rural infrastructure": "Rural Infra",
     "Cyclone": "Cyclone",
     "Rainfall Deficit": "Rainfall deficit",
-    "Rainfall Deficit index": "Rainfall deficit",
-    "Rainfall Deficit Index": "Rainfall deficit",
     "Extreme Rainfall days": "Extreme Rainfall Days",
     "Cold days": "Cold Stress",
     "Hot days": "Heat stress or hot days",
     "Temperature-Humidity Index": "THI",
     "Socio-economic Development Indicator": "Human development index",
-    "Seasonal Rainfall": "Seasonal Rainfall",
-    "Maximum Temperature": "Maximum Temperature",
-    "Minimum Temperature": "Minimum Temperature",
   },
 };
 
 //Function to create a data row for the tables
-function createData(Commodity, Scenario, LayerType, Title, Description, Source, imgSource, Action) {
-  return { Commodity, Scenario, LayerType, Title, Description, Source, imgSource, Action };
+function createData(Commodity, Scenario, LayerType, Title, Description, Source, Action) {
+  return { Commodity, Scenario, LayerType, Title, Description, Source, Action };
 }
 
 // Hazard data
@@ -130,39 +201,15 @@ const data = [
     "https://global-flood-database.cloudtostreet.info/",
     "Download"
   ),*/
-  createData("Rice", "Baseline", "Hazard", "Heat Stress", "", "", "cardimg/Baseline_CHC_Rice_HeatStress_IF.jpeg", "Download"),
-  createData("Rice", "Baseline", "Hazard", "High temperature induced pollen sterility", "", "", "cardimg/Baseline_CHC_Rice_PollinationHeat_IF.jpeg", "Download"),
-  createData("Rice", "Baseline", "Hazard", "Low temperature induced pollen sterility", "", "", "cardimg/Baseline_CHC_Rice_PollinationCold_IF.jpeg", "Download"),
-  createData(
-    "Rice",
-    "Baseline",
-    "Hazard",
-    "Delayed Monsoon",
-    "Number of events of delayed monsoon where delay is more than 15 days",
-    "https://www.chc.ucsb.edu/data/chirps",
-    "cardimg/Baseline_CHC_Rice_DelayedMonsoon_DelayDays.jpeg",
-    "Download"
-  ),
-  createData(
-    "Rice",
-    "Baseline",
-    "Hazard",
-    "Crop water deficit index",
-    "SPI below -1 (moderate and severe drought)",
-    "http://data.chc.ucsb.edu/products/CHIRTSdaily/",
-    "cardimg/Baseline_CHC_Rice_RainfallDeviation_IF.jpeg",
-    "Download"
-  ),
-  createData(
-    "Rice",
-    "Baseline",
-    "Hazard",
-    "Dry Spell",
-    "Number of dry spells with length of 15 days or more in a season",
-    "https://www.chc.ucsb.edu/data/chirps",
-    "cardimg/Baseline_CHC_Rice_DrySpell_DS.jpeg",
-    "Download"
-  ),
+
+  // BASELINE HAZARD
+
+  createData("Rice", "Baseline", "Hazard", "Heat Stress", "", "", "Download"),
+  createData("Rice", "Baseline", "Hazard", "High temperature induced pollen sterility", "", "", "Download"),
+  createData("Rice", "Baseline", "Hazard", "Low temperature induced pollen sterility", "", "", "Download"),
+  createData("Rice", "Baseline", "Hazard", "Delayed monsoon", "Number of events of delayed monsoon where delay is more than 15 days", "https://www.chc.ucsb.edu/data/chirps", "Download"),
+  createData("Rice", "Baseline", "Hazard", "Crop water deficit index", "SPI below -1 (moderate and severe drought)", "http://data.chc.ucsb.edu/products/CHIRTSdaily/", "Download"),
+  createData("Rice", "Baseline", "Hazard", "Dry spell", "Number of dry spells with length of 15 days or more in a season", "https://www.chc.ucsb.edu/data/chirps", "Download"),
   /*createData("Rice", "Baseline", "Hazard", "Flood", "Flood layer", "https://www.chc.ucsb.edu/data/chirps", "Download"),*/
   createData(
     "Wheat",
@@ -171,108 +218,346 @@ const data = [
     "High temperature induced pollen sterility",
     "High temperature during pollination: Tday > 28 for two days",
     "http://data.chc.ucsb.edu/products/CHIRTSdaily/",
-    "cardimg/Baseline_CHC_Wheat_PollinationHeat_IF.jpeg",
     "Download"
   ),
   createData(
     "Wheat",
     "Baseline",
     "Hazard",
-    "Terminal Heat",
+    "Terminal heat",
     "GDD concept (degrees above normal GDD) [tbase=8 degrees] during grain filling",
     "http://data.chc.ucsb.edu/products/CHIRTSdaily/",
-    "cardimg/Baseline_CHC_Wheat_terminalHeat_IF.jpeg",
     "Download"
   ),
-  createData("Wheat", "Baseline", "Hazard", "Heat stress", "", "", "cardimg/Baseline_CHC_Wheat_HeatStress_IF.jpeg", "Download"),
-  createData(
-    "Wheat",
-    "Baseline",
-    "Hazard",
-    "Untimely Rainfall",
-    "Whole season consecutive two-day rainfall > 100 mm ",
-    "https://www.chc.ucsb.edu/data/chirps",
-    "cardimg/Baseline_CHC_Wheat_untimelyRainfall_IF.jpeg",
-    "Download"
-  ),
-  createData(
-    "Wheat",
-    "Baseline",
-    "Hazard",
-    "Crop water deficit index",
-    "Sept/Oct/Nov and season drought",
-    "http://data.chc.ucsb.edu/products/CHIRTSdaily/",
-    "cardimg/Baseline_CHC_Wheat_RainfallDeviation_IF.jpeg",
-    "Download"
-  ),
-  createData(
-    "Wheat",
-    "Baseline",
-    "Hazard",
-    "Days of Frost",
-    "Minimum temperature less than zero degree for more than three days",
-    "https://www.chc.ucsb.edu/data/chirps",
-    "cardimg/Baseline_CHC_Wheat_Frost_IF.jpeg",
-    "Download"
-  ),
+  createData("Wheat", "Baseline", "Hazard", "Heat stress", "", "", "Download"),
+  createData("Wheat", "Baseline", "Hazard", "Untimely rainfall", "Whole season consecutive two-day rainfall > 100 mm ", "https://www.chc.ucsb.edu/data/chirps", "Download"),
+  createData("Wheat", "Baseline", "Hazard", "Crop water deficit index", "Sept/Oct/Nov and season drought", "http://data.chc.ucsb.edu/products/CHIRTSdaily/", "Download"),
+  createData("Wheat", "Baseline", "Hazard", "Days of frost", "Minimum temperature less than zero degree for more than three days", "https://www.chc.ucsb.edu/data/chirps", "Download"),
 
-  createData("Maize", "Baseline", "Hazard", "Heat stress", "", "", "cardimg/Baseline_CHC_Maize_HeatStress_IF.jpeg", "Download"),
-  createData("Maize", "Baseline", "Hazard", "High temperature induced pollen sterility", "", "", "cardimg/Baseline_CHC_Maize_PollinationHeat_IF.jpeg", "Download"),
-  createData("Maize", "Baseline", "Hazard", "Low temperature induced pollen sterility", "", "", "cardimg/Baseline_CHC_Maize_PollinationCold_IF.jpeg", "Download"),
-  createData("Maize", "Baseline", "Hazard", "Excess rainfall and waterlogging", "", "", "cardimg/Baseline_CHC_Maize_RainfallDeviation_IF.jpeg", "Download"),
-  createData("Maize", "Baseline", "Hazard", "Delayed monsoon", "", "", "cardimg/Baseline_CHC_Maize_DelayedMonsoon_DelayDays.jpeg", "Download"),
-  createData("Maize", "Baseline", "Hazard", "Crop water deficit index", "", "", "cardimg/Baseline_CHC_Maize_RainfallDeviation_IF.jpeg", "Download"),
-  createData("Maize", "Baseline", "Hazard", "Dry spell", "", "", "cardimg/Baseline_CHC_Maize_DrySpell_DS.jpeg", "Download"),
-  createData("Maize", "Baseline", "Hazard", "Flood", "", "", "cardimg/.jpeg", "Download"),
+  createData("Maize", "Baseline", "Hazard", "Heat stress", "", "", "Download"),
+  createData("Maize", "Baseline", "Hazard", "High temperature induced pollen sterility", "", "", "Download"),
+  createData("Maize", "Baseline", "Hazard", "Low temperature induced pollen sterility", "", "", "Download"),
+  createData("Maize", "Baseline", "Hazard", "Excess rainfall and waterlogging", "", "", "Download"),
+  createData("Maize", "Baseline", "Hazard", "Delayed monsoon", "", "", "Download"),
+  createData("Maize", "Baseline", "Hazard", "Crop water deficit index", "", "", "Download"),
+  createData("Maize", "Baseline", "Hazard", "Dry spell", "", "", "Download"),
+  createData("Maize", "Baseline", "Hazard", "Flood", "", "", "Download"),
 
-  createData("Barley", "Baseline", "Hazard", "Heat stress", "", "", "cardimg/Baseline_CHC_Barley_HeatStress_IF.jpeg", "Download"),
-  createData("Barley", "Baseline", "Hazard", "High temperture induced pollen sterility", "", "", "cardimg/Baseline_CHC_Barley_PollinationHeat_IF.jpeg", "Download"),
-  createData("Barley", "Baseline", "Hazard", "Untimely rainfall", "", "", "cardimg/Baseline_CHC_Barley_untimelyRainfall_IF.jpeg", "Download"),
-  createData("Barley", "Baseline", "Hazard", "Crop water deficit index", "", "", "cardimg/Baseline_CHC_Barley_RainfallDeviation_IF.jpeg", "Download"),
-  createData("Barley", "Baseline", "Hazard", "Days of frost", "", "", "cardimg/Baseline_CHC_Barley_Frost_IF.jpeg", "Download"),
+  createData("Barley", "Baseline", "Hazard", "Heat stress", "", "", "Download"),
+  createData("Barley", "Baseline", "Hazard", "High temperature induced pollen sterility", "", "", "Download"),
+  createData("Barley", "Baseline", "Hazard", "Untimely rainfall", "", "", "Download"),
+  createData("Barley", "Baseline", "Hazard", "Crop water deficit index", "", "", "Download"),
+  createData("Barley", "Baseline", "Hazard", "Days of frost", "", "", "Download"),
 
-  createData("Millets", "Baseline", "Hazard", "Heat stress", "", "", "cardimg/Baseline_CHC_Millets_HeatStress_IF.jpeg", "Download"),
-  createData("Millets", "Baseline", "Hazard", "Delayed monsoon", "", "", "cardimg/Baseline_CHC_Millets_DelayedMonsoon_DelayDays.jpeg", "Download"),
-  createData("Millets", "Baseline", "Hazard", "Dry spell", "", "", "cardimg/Baseline_CHC_Millets_DrySpell_DS.jpeg", "Download"),
-  createData("Millets", "Baseline", "Hazard", "Flood", "", "", "cardimg/.jpeg", "Download"),
-  createData("Millets", "Baseline", "Hazard", "High temperature induced pollen sterility", "", "", "cardimg/Baseline_CHC_Millets_PollinationHeat_IF.jpeg", "Download"),
-  createData("Millets", "Baseline", "Hazard", "Excess rainfall and waterlogging", "", "", "cardimg/Baseline_CHC_Millets_ERWL_IF.jpeg", "Download"),
-  createData("Millets", "Baseline", "Hazard", "Crop water deficit index", "", "", "cardimg/Baseline_CHC_Millets_RainfallDeviation_IF.jpeg", "Download"),
+  createData("Millets", "Baseline", "Hazard", "Heat stress", "", "", "Download"),
+  createData("Millets", "Baseline", "Hazard", "Delayed monsoon", "", "", "Download"),
+  createData("Millets", "Baseline", "Hazard", "Dry spell", "", "", "Download"),
+  createData("Millets", "Baseline", "Hazard", "Flood", "", "", "Download"),
+  createData("Millets", "Baseline", "Hazard", "High temperature induced pollen sterility", "", "", "Download"),
+  createData("Millets", "Baseline", "Hazard", "Excess rainfall and waterlogging", "", "", "Download"),
+  createData("Millets", "Baseline", "Hazard", "Crop water deficit index", "", "", "Download"),
 
-  createData("Lentil", "Baseline", "Hazard", "Heat stress", "", "", "cardimg/Baseline_CHC_Lentil_PollinationHeat_IF.jpeg", "Download"),
-  createData("Lentil", "Baseline", "Hazard", "High temperature induced pollen sterility", "", "", "cardimg/Baseline_CHC_Lentil_PollinationHeat_IF.jpeg", "Download"),
-  createData("Lentil", "Baseline", "Hazard", "Untimely rainfall", "", "", "cardimg/Baseline_CHC_Lentil_untimelyRainfall_IF.jpeg", "Download"),
-  createData("Lentil", "Baseline", "Hazard", "Crop water deficit index", "", "", "cardimg/Baseline_CHC_Lentil_RainfallDeviation_IF.jpeg", "Download"),
-  createData("Lentil", "Baseline", "Hazard", "Days of frost", "", "", "cardimg/Baseline_CHC_Lentil_Frost_IF.jpeg", "Download"),
+  createData("Lentil", "Baseline", "Hazard", "Heat stress", "", "", "Download"),
+  createData("Lentil", "Baseline", "Hazard", "High temperature induced pollen sterility", "", "", "Download"),
+  createData("Lentil", "Baseline", "Hazard", "Untimely rainfall", "", "", "Download"),
+  createData("Lentil", "Baseline", "Hazard", "Crop water deficit index", "", "", "Download"),
+  createData("Lentil", "Baseline", "Hazard", "Days of frost", "", "", "Download"),
 
-  createData("Rapeseed/Mustard", "Baseline", "Hazard", "Heat stress", "", "", "cardimg/Baseline_CHC_Mustard_HeatStress_IF.jpeg", "Download"),
-  createData("Rapeseed/Mustard", "Baseline", "Hazard", "Untimely rainfall", "", "", "cardimg/Baseline_CHC_Mustard_untimelyRainfall_IF.jpeg", "Download"),
-  createData("Rapeseed/Mustard", "Baseline", "Hazard", "Crop water deficit index", "", "", "cardimg/Baseline_CHC_Mustard_RainfallDeviation_IF.jpeg", "Download"),
-  createData("Rapeseed/Mustard", "Baseline", "Hazard", "High temperature induced pollen sterility", "", "", "cardimg/Baseline_CHC_Mustard_PollinationHeat_IF.jpeg", "Download"),
-  createData("Rapeseed/Mustard", "Baseline", "Hazard", "Days of frost", "", "", "cardimg/Baseline_CHC_Mustard_Frost_IF.jpeg", "Download"),
+  createData("Mustard", "Baseline", "Hazard", "Heat stress", "", "", "Download"),
+  createData("Mustard", "Baseline", "Hazard", "Untimely rainfall", "", "", "Download"),
+  createData("Mustard", "Baseline", "Hazard", "Crop water deficit index", "", "", "Download"),
+  createData("Mustard", "Baseline", "Hazard", "High temperature induced pollen sterility", "", "", "Download"),
+  createData("Mustard", "Baseline", "Hazard", "Days of frost", "", "", "Download"),
 
-  createData("Potato", "Baseline", "Hazard", "Heat stress", "", "", "cardimg/Baseline_CHC_Potato_HeatStress_IF.jpeg", "Download"),
-  createData("Potato", "Baseline", "Hazard", "Untimely rainfall", "", "", "cardimg/Baseline_CHC_Potato_untimelyRainfall_IF.jpeg", "Download"),
-  createData("Potato", "Baseline", "Hazard", "Crop water deficit index", "", "", "cardimg/Baseline_CHC_Potato_RainfallDeviation_IF.jpeg", "Download"),
-  createData("Potato", "Baseline", "Hazard", "Low temperature induced pollen sterility", "", "", "cardimg/Baseline_CHC_Potato_PollinationCold_IF.jpeg", "Download"),
-  createData("Potato", "Baseline", "Hazard", "Days of frost", "", "", "cardimg/Baseline_CHC_Potato_Frost_IF.jpeg", "Download"),
+  createData("Potato", "Baseline", "Hazard", "Heat stress", "", "", "Download"),
+  createData("Potato", "Baseline", "Hazard", "Untimely rainfall", "", "", "Download"),
+  createData("Potato", "Baseline", "Hazard", "Crop water deficit index", "", "", "Download"),
+  createData("Potato", "Baseline", "Hazard", "Low temperature induced pollen sterility", "", "", "Download"),
+  createData("Potato", "Baseline", "Hazard", "Days of frost", "", "", "Download"),
 
-  createData("Cotton", "Baseline", "Hazard", "Heat stress", "", "", "cardimg/Baseline_CHC_Cotton_HeatStress_IF.jpeg", "Download"),
-  createData("Cotton", "Baseline", "Hazard", "Delayed monsoon", "", "", "cardimg/Baseline_CHC_Cotton_DelayedMonsoon_DelayDays.jpeg", "Download"),
-  createData("Cotton", "Baseline", "Hazard", "Dry spell", "", "", "cardimg/Baseline_CHC_Cotton_DrySpell_DS.jpeg", "Download"),
-  /*createData("Cotton", "Baseline", "Hazard", "Flood", "", "", "cardimg/Baseline_CHC_Potato_Frost_IF.jpeg", "Download"),*/
-  createData("Cotton", "Baseline", "Hazard", "High temperature induced pollen sterility", "", "", "cardimg/Baseline_CHC_Cotton_PollinationHeat_IF.jpeg", "Download"),
-  createData("Cotton", "Baseline", "Hazard", "Excess rainfall and waterlogging", "", "", "cardimg/Baseline_CHC_Cotton_ERWL_IF.jpeg", "Download"),
-  createData("Cotton", "Baseline", "Hazard", "Crop water deficit index", "", "", "cardimg/Baseline_CHC_Cotton_RainfallDeviation_IF.jpeg", "Download"),
+  createData("Cotton", "Baseline", "Hazard", "Heat stress", "", "", "Download"),
+  createData("Cotton", "Baseline", "Hazard", "Delayed monsoon", "", "", "Download"),
+  createData("Cotton", "Baseline", "Hazard", "Dry spell", "", "", "Download"),
+  /*createData("Cotton", "Baseline", "Hazard", "Flood", "", "", "Download"),*/
+  createData("Cotton", "Baseline", "Hazard", "High temperature induced pollen sterility", "", "", "Download"),
+  createData("Cotton", "Baseline", "Hazard", "Excess rainfall and waterlogging", "", "", "Download"),
+  createData("Cotton", "Baseline", "Hazard", "Crop water deficit index", "", "", "Download"),
 
-  createData("Jute", "Baseline", "Hazard", "Heat stress", "", "", "cardimg/Baseline_CHC_Jute_HeatStress_IF.jpeg", "Download"),
-  createData("Jute", "Baseline", "Hazard", "High temperature induced pollen sterility", "", "", "cardimg/Baseline_CHC_Jute_PollinationHeat_IF.jpeg", "Download"),
-  createData("Jute", "Baseline", "Hazard", "Excess rainfall and waterlogging", "", "", "cardimg/Baseline_CHC_Jute_ERWL_IF.jpeg", "Download"),
-  createData("Jute", "Baseline", "Hazard", "Crop water deficit index", "", "", "cardimg/Baseline_CHC_Jute_RainfallDeviation_IF.jpeg", "Download"),
-  createData("Jute", "Baseline", "Hazard", "Dry spell", "", "", "cardimg/Baseline_CHC_Jute_DrySpell_DS.jpeg", "Download"),
-  createData("Jute", "Baseline", "Hazard", "Delayed monsoon", "", "", "cardimg/Baseline_CHC_Jute_DelayedMonsoon_DelayDays.jpeg", "Download"),
+  createData("Jute", "Baseline", "Hazard", "Heat stress", "", "", "Download"),
+  createData("Jute", "Baseline", "Hazard", "High temperature induced pollen sterility", "", "", "Download"),
+  createData("Jute", "Baseline", "Hazard", "Excess rainfall and waterlogging", "", "", "Download"),
+  createData("Jute", "Baseline", "Hazard", "Crop water deficit index", "", "", "Download"),
+  createData("Jute", "Baseline", "Hazard", "Dry spell", "", "", "Download"),
+  createData("Jute", "Baseline", "Hazard", "Delayed monsoon", "", "", "Download"),
 
+  createData("Cattle", "Baseline", "Hazard", "Temperature-humidity index", "", "", "Download"),
+  createData("Cattle", "Baseline", "Hazard", "Cold stress", "", "", "Download"),
+  createData("Cattle", "Baseline", "Hazard", "Excess rainfall", "", "", "Download"),
+  createData("Cattle", "Baseline", "Hazard", "Rainfall deficit", "", "", "Download"),
+  createData("Cattle", "Baseline", "Hazard", "Flood", "", "", "Download"),
+  createData("Cattle", "Baseline", "Hazard", "Cyclone", "", "", "Download"),
+
+  createData("Buffalo", "Baseline", "Hazard", "Temperature-humidity index", "", "", "Download"),
+  createData("Buffalo", "Baseline", "Hazard", "Cold stress", "", "", "Download"),
+  createData("Buffalo", "Baseline", "Hazard", "Excess rainfall", "", "", "Download"),
+  createData("Buffalo", "Baseline", "Hazard", "Rainfall deficit", "", "", "Download"),
+  createData("Buffalo", "Baseline", "Hazard", "Flood", "", "", "Download"),
+  createData("Buffalo", "Baseline", "Hazard", "Cyclone", "", "", "Download"),
+
+  createData("Goat", "Baseline", "Hazard", "Temperature-humidity index", "", "", "Download"),
+  createData("Goat", "Baseline", "Hazard", "Cold stress", "", "", "Download"),
+  createData("Goat", "Baseline", "Hazard", "Excess rainfall", "", "", "Download"),
+  createData("Goat", "Baseline", "Hazard", "Rainfall deficit", "", "", "Download"),
+  createData("Goat", "Baseline", "Hazard", "Flood", "", "", "Download"),
+  createData("Goat", "Baseline", "Hazard", "Cyclone", "", "", "Download"),
+
+  createData("Sheep", "Baseline", "Hazard", "Temperature-humidity index", "", "", "Download"),
+  createData("Sheep", "Baseline", "Hazard", "Cold stress", "", "", "Download"),
+  createData("Sheep", "Baseline", "Hazard", "Excess rainfall", "", "", "Download"),
+  createData("Sheep", "Baseline", "Hazard", "Rainfall deficit", "", "", "Download"),
+  createData("Sheep", "Baseline", "Hazard", "Flood", "", "", "Download"),
+  createData("Sheep", "Baseline", "Hazard", "Cyclone", "", "", "Download"),
+
+  createData("Pig", "Baseline", "Hazard", "Temperature-humidity index", "", "", "Download"),
+  createData("Pig", "Baseline", "Hazard", "Cold stress", "", "", "Download"),
+  createData("Pig", "Baseline", "Hazard", "Excess rainfall", "", "", "Download"),
+  createData("Pig", "Baseline", "Hazard", "Rainfall deficit", "", "", "Download"),
+  createData("Pig", "Baseline", "Hazard", "Flood", "", "", "Download"),
+  createData("Pig", "Baseline", "Hazard", "Cyclone", "", "", "Download"),
+
+  createData("Chicken", "Baseline", "Hazard", "Temperature-humidity index", "", "", "Download"),
+  createData("Chicken", "Baseline", "Hazard", "Cold stress", "", "", "Download"),
+  createData("Chicken", "Baseline", "Hazard", "Excess rainfall", "", "", "Download"),
+  createData("Chicken", "Baseline", "Hazard", "Rainfall deficit", "", "", "Download"),
+  createData("Chicken", "Baseline", "Hazard", "Flood", "", "", "Download"),
+  createData("Chicken", "Baseline", "Hazard", "Cyclone", "", "", "Download"),
+
+  // SSP245 HAZARD
+
+  createData("Rice", "SSP245", "Hazard", "Heat Stress", "", "", "Download"),
+  createData("Rice", "SSP245", "Hazard", "High temperature induced pollen sterility", "", "", "Download"),
+  createData("Rice", "SSP245", "Hazard", "Low temperature induced pollen sterility", "", "", "Download"),
+  createData("Rice", "SSP245", "Hazard", "Delayed monsoon", "", "", "Download"),
+  createData("Rice", "SSP245", "Hazard", "Crop water deficit index", "", "", "Download"),
+  createData("Rice", "SSP245", "Hazard", "Dry spell", "", "", "Download"),
+
+  createData("Wheat", "SSP245", "Hazard", "High temperature induced pollen sterility", "", "", "Download"),
+  createData("Wheat", "SSP245", "Hazard", "Terminal heat", "", "", "Download"),
+  createData("Wheat", "SSP245", "Hazard", "Heat stress", "", "", "Download"),
+  createData("Wheat", "SSP245", "Hazard", "Untimely rainfall", "", "", "Download"),
+  createData("Wheat", "SSP245", "Hazard", "Crop water deficit index", "", "", "Download"),
+  createData("Wheat", "SSP245", "Hazard", "Days of frost", "", "", "Download"),
+
+  createData("Maize", "SSP245", "Hazard", "Heat stress", "", "", "Download"),
+  createData("Maize", "SSP245", "Hazard", "High temperature induced pollen sterility", "", "", "Download"),
+  createData("Maize", "SSP245", "Hazard", "Low temperature induced pollen sterility", "", "", "Download"),
+  createData("Maize", "SSP245", "Hazard", "Excess rainfall and waterlogging", "", "", "Download"),
+  createData("Maize", "SSP245", "Hazard", "Delayed monsoon", "", "", "Download"),
+  createData("Maize", "SSP245", "Hazard", "Crop water deficit index", "", "", "Download"),
+  createData("Maize", "SSP245", "Hazard", "Dry spell", "", "", "Download"),
+  createData("Maize", "SSP245", "Hazard", "Flood", "", "", "Download"),
+
+  createData("Barley", "SSP245", "Hazard", "Heat stress", "", "", "Download"),
+  createData("Barley", "SSP245", "Hazard", "High temperature induced pollen sterility", "", "", "Download"),
+  createData("Barley", "SSP245", "Hazard", "Untimely rainfall", "", "", "Download"),
+  createData("Barley", "SSP245", "Hazard", "Crop water deficit index", "", "", "Download"),
+  createData("Barley", "SSP245", "Hazard", "Days of frost", "", "", "Download"),
+
+  createData("Millets", "SSP245", "Hazard", "Heat stress", "", "", "Download"),
+  createData("Millets", "SSP245", "Hazard", "Delayed monsoon", "", "", "Download"),
+  createData("Millets", "SSP245", "Hazard", "Dry spell", "", "", "Download"),
+  createData("Millets", "SSP245", "Hazard", "Flood", "", "", "Download"),
+  createData("Millets", "SSP245", "Hazard", "High temperature induced pollen sterility", "", "", "Download"),
+  createData("Millets", "SSP245", "Hazard", "Excess rainfall and waterlogging", "", "", "Download"),
+  createData("Millets", "SSP245", "Hazard", "Crop water deficit index", "", "", "Download"),
+
+  createData("Lentil", "SSP245", "Hazard", "Heat stress", "", "", "Download"),
+  createData("Lentil", "SSP245", "Hazard", "High temperature induced pollen sterility", "", "", "Download"),
+  createData("Lentil", "SSP245", "Hazard", "Untimely rainfall", "", "", "Download"),
+  createData("Lentil", "SSP245", "Hazard", "Crop water deficit index", "", "", "Download"),
+  createData("Lentil", "SSP245", "Hazard", "Days of frost", "", "", "Download"),
+
+  createData("Mustard", "SSP245", "Hazard", "Heat stress", "", "", "Download"),
+  createData("Mustard", "SSP245", "Hazard", "Untimely rainfall", "", "", "Download"),
+  createData("Mustard", "SSP245", "Hazard", "Crop water deficit index", "", "", "Download"),
+  createData("Mustard", "SSP245", "Hazard", "High temperature induced pollen sterility", "", "", "Download"),
+  createData("Mustard", "SSP245", "Hazard", "Days of frost", "", "", "Download"),
+
+  createData("Potato", "SSP245", "Hazard", "Heat stress", "", "", "Download"),
+  createData("Potato", "SSP245", "Hazard", "Untimely rainfall", "", "", "Download"),
+  createData("Potato", "SSP245", "Hazard", "Crop water deficit index", "", "", "Download"),
+  createData("Potato", "SSP245", "Hazard", "Low temperature induced pollen sterility", "", "", "Download"),
+  createData("Potato", "SSP245", "Hazard", "Days of frost", "", "", "Download"),
+
+  createData("Cotton", "SSP245", "Hazard", "Heat stress", "", "", "Download"),
+  createData("Cotton", "SSP245", "Hazard", "Delayed monsoon", "", "", "Download"),
+  createData("Cotton", "SSP245", "Hazard", "Dry spell", "", "", "Download"),
+  createData("Cotton", "SSP245", "Hazard", "High temperature induced pollen sterility", "", "", "Download"),
+  createData("Cotton", "SSP245", "Hazard", "Excess rainfall and waterlogging", "", "", "Download"),
+  createData("Cotton", "SSP245", "Hazard", "Crop water deficit index", "", "", "Download"),
+
+  createData("Jute", "SSP245", "Hazard", "Heat stress", "", "", "Download"),
+  createData("Jute", "SSP245", "Hazard", "High temperature induced pollen sterility", "", "", "Download"),
+  createData("Jute", "SSP245", "Hazard", "Excess rainfall and waterlogging", "", "", "Download"),
+  createData("Jute", "SSP245", "Hazard", "Crop water deficit index", "", "", "Download"),
+  createData("Jute", "SSP245", "Hazard", "Dry spell", "", "", "Download"),
+  createData("Jute", "SSP245", "Hazard", "Delayed monsoon", "", "", "Download"),
+
+  createData("Cattle", "SSP245", "Hazard", "Temperature-humidity index", "", "", "Download"),
+  createData("Cattle", "SSP245", "Hazard", "Cold stress", "", "", "Download"),
+  createData("Cattle", "SSP245", "Hazard", "Excess rainfall", "", "", "Download"),
+  createData("Cattle", "SSP245", "Hazard", "Rainfall deficit", "", "", "Download"),
+  createData("Cattle", "SSP245", "Hazard", "Flood", "", "", "Download"),
+  createData("Cattle", "SSP245", "Hazard", "Cyclone", "", "", "Download"),
+
+  createData("Buffalo", "SSP245", "Hazard", "Temperature-humidity index", "", "", "Download"),
+  createData("Buffalo", "SSP245", "Hazard", "Cold stress", "", "", "Download"),
+  createData("Buffalo", "SSP245", "Hazard", "Excess rainfall", "", "", "Download"),
+  createData("Buffalo", "SSP245", "Hazard", "Rainfall deficit", "", "", "Download"),
+  createData("Buffalo", "SSP245", "Hazard", "Flood", "", "", "Download"),
+  createData("Buffalo", "SSP245", "Hazard", "Cyclone", "", "", "Download"),
+
+  createData("Goat", "SSP245", "Hazard", "Temperature-humidity index", "", "", "Download"),
+  createData("Goat", "SSP245", "Hazard", "Cold stress", "", "", "Download"),
+  createData("Goat", "SSP245", "Hazard", "Excess rainfall", "", "", "Download"),
+  createData("Goat", "SSP245", "Hazard", "Rainfall deficit", "", "", "Download"),
+  createData("Goat", "SSP245", "Hazard", "Flood", "", "", "Download"),
+  createData("Goat", "SSP245", "Hazard", "Cyclone", "", "", "Download"),
+
+  createData("Sheep", "SSP245", "Hazard", "Temperature-humidity index", "", "", "Download"),
+  createData("Sheep", "SSP245", "Hazard", "Cold stress", "", "", "Download"),
+  createData("Sheep", "SSP245", "Hazard", "Excess rainfall", "", "", "Download"),
+  createData("Sheep", "SSP245", "Hazard", "Rainfall deficit", "", "", "Download"),
+  createData("Sheep", "SSP245", "Hazard", "Flood", "", "", "Download"),
+  createData("Sheep", "SSP245", "Hazard", "Cyclone", "", "", "Download"),
+
+  createData("Pig", "SSP245", "Hazard", "Temperature-humidity index", "", "", "Download"),
+  createData("Pig", "SSP245", "Hazard", "Cold stress", "", "", "Download"),
+  createData("Pig", "SSP245", "Hazard", "Excess rainfall", "", "", "Download"),
+  createData("Pig", "SSP245", "Hazard", "Rainfall deficit", "", "", "Download"),
+  createData("Pig", "SSP245", "Hazard", "Flood", "", "", "Download"),
+  createData("Pig", "SSP245", "Hazard", "Cyclone", "", "", "Download"),
+
+  createData("Chicken", "SSP245", "Hazard", "Temperature-humidity index", "", "", "Download"),
+  createData("Chicken", "SSP245", "Hazard", "Cold stress", "", "", "Download"),
+  createData("Chicken", "SSP245", "Hazard", "Excess rainfall", "", "", "Download"),
+  createData("Chicken", "SSP245", "Hazard", "Rainfall deficit", "", "", "Download"),
+  createData("Chicken", "SSP245", "Hazard", "Flood", "", "", "Download"),
+  createData("Chicken", "SSP245", "Hazard", "Cyclone", "", "", "Download"),
+
+  // SSP585 HAZARD
+
+  createData("Rice", "SSP585", "Hazard", "Heat Stress", "", "", "Download"),
+  createData("Rice", "SSP585", "Hazard", "High temperature induced pollen sterility", "", "", "Download"),
+  createData("Rice", "SSP585", "Hazard", "Low temperature induced pollen sterility", "", "", "Download"),
+  createData("Rice", "SSP585", "Hazard", "Delayed monsoon", "", "", "Download"),
+  createData("Rice", "SSP585", "Hazard", "Crop water deficit index", "", "", "Download"),
+  createData("Rice", "SSP585", "Hazard", "Dry spell", "", "", "Download"),
   
+  createData("Wheat", "SSP585", "Hazard", "High temperature induced pollen sterility", "", "", "Download"),
+  createData("Wheat", "SSP585", "Hazard", "Terminal heat", "", "", "Download"),
+  createData("Wheat", "SSP585", "Hazard", "Heat stress", "", "", "Download"),
+  createData("Wheat", "SSP585", "Hazard", "Untimely rainfall", "", "", "Download"),
+  createData("Wheat", "SSP585", "Hazard", "Crop water deficit index", "", "", "Download"),
+  createData("Wheat", "SSP585", "Hazard", "Days of frost", "", "", "Download"),
+
+  createData("Maize", "SSP585", "Hazard", "Heat stress", "", "", "Download"),
+  createData("Maize", "SSP585", "Hazard", "High temperature induced pollen sterility", "", "", "Download"),
+  createData("Maize", "SSP585", "Hazard", "Low temperature induced pollen sterility", "", "", "Download"),
+  createData("Maize", "SSP585", "Hazard", "Excess rainfall and waterlogging", "", "", "Download"),
+  createData("Maize", "SSP585", "Hazard", "Delayed monsoon", "", "", "Download"),
+  createData("Maize", "SSP585", "Hazard", "Crop water deficit index", "", "", "Download"),
+  createData("Maize", "SSP585", "Hazard", "Dry spell", "", "", "Download"),
+  createData("Maize", "SSP585", "Hazard", "Flood", "", "", "Download"),
+
+  createData("Barley", "SSP585", "Hazard", "Heat stress", "", "", "Download"),
+  createData("Barley", "SSP585", "Hazard", "High temperature induced pollen sterility", "", "", "Download"),
+  createData("Barley", "SSP585", "Hazard", "Untimely rainfall", "", "", "Download"),
+  createData("Barley", "SSP585", "Hazard", "Crop water deficit index", "", "", "Download"),
+  createData("Barley", "SSP585", "Hazard", "Days of frost", "", "", "Download"),
+
+  createData("Millets", "SSP585", "Hazard", "Heat stress", "", "", "Download"),
+  createData("Millets", "SSP585", "Hazard", "Delayed monsoon", "", "", "Download"),
+  createData("Millets", "SSP585", "Hazard", "Dry spell", "", "", "Download"),
+  createData("Millets", "SSP585", "Hazard", "Flood", "", "", "Download"),
+  createData("Millets", "SSP585", "Hazard", "High temperature induced pollen sterility", "", "", "Download"),
+  createData("Millets", "SSP585", "Hazard", "Excess rainfall and waterlogging", "", "", "Download"),
+  createData("Millets", "SSP585", "Hazard", "Crop water deficit index", "", "", "Download"),
+
+  createData("Lentil", "SSP585", "Hazard", "Heat stress", "", "", "Download"),
+  createData("Lentil", "SSP585", "Hazard", "High temperature induced pollen sterility", "", "", "Download"),
+  createData("Lentil", "SSP585", "Hazard", "Untimely rainfall", "", "", "Download"),
+  createData("Lentil", "SSP585", "Hazard", "Crop water deficit index", "", "", "Download"),
+  createData("Lentil", "SSP585", "Hazard", "Days of frost", "", "", "Download"),
+
+  createData("Mustard", "SSP585", "Hazard", "Heat stress", "", "", "Download"),
+  createData("Mustard", "SSP585", "Hazard", "Untimely rainfall", "", "", "Download"),
+  createData("Mustard", "SSP585", "Hazard", "Crop water deficit index", "", "", "Download"),
+  createData("Mustard", "SSP585", "Hazard", "High temperature induced pollen sterility", "", "", "Download"),
+  createData("Mustard", "SSP585", "Hazard", "Days of frost", "", "", "Download"),
+
+  createData("Potato", "SSP585", "Hazard", "Heat stress", "", "", "Download"),
+  createData("Potato", "SSP585", "Hazard", "Untimely rainfall", "", "", "Download"),
+  createData("Potato", "SSP585", "Hazard", "Crop water deficit index", "", "", "Download"),
+  createData("Potato", "SSP585", "Hazard", "Low temperature induced pollen sterility", "", "", "Download"),
+  createData("Potato", "SSP585", "Hazard", "Days of frost", "", "", "Download"),
+
+  createData("Cotton", "SSP585", "Hazard", "Heat stress", "", "", "Download"),
+  createData("Cotton", "SSP585", "Hazard", "Delayed monsoon", "", "", "Download"),
+  createData("Cotton", "SSP585", "Hazard", "Dry spell", "", "", "Download"),
+  createData("Cotton", "SSP585", "Hazard", "High temperature induced pollen sterility", "", "", "Download"),
+  createData("Cotton", "SSP585", "Hazard", "Excess rainfall and waterlogging", "", "", "Download"),
+  createData("Cotton", "SSP585", "Hazard", "Crop water deficit index", "", "", "Download"),
+
+  createData("Jute", "SSP585", "Hazard", "Heat stress", "", "", "Download"),
+  createData("Jute", "SSP585", "Hazard", "High temperature induced pollen sterility", "", "", "Download"),
+  createData("Jute", "SSP585", "Hazard", "Excess rainfall and waterlogging", "", "", "Download"),
+  createData("Jute", "SSP585", "Hazard", "Crop water deficit index", "", "", "Download"),
+  createData("Jute", "SSP585", "Hazard", "Dry spell", "", "", "Download"),
+  createData("Jute", "SSP585", "Hazard", "Delayed monsoon", "", "", "Download"),
+
+  createData("Cattle", "SSP585", "Hazard", "Temperature-humidity index", "", "", "Download"),
+  createData("Cattle", "SSP585", "Hazard", "Cold stress", "", "", "Download"),
+  createData("Cattle", "SSP585", "Hazard", "Excess rainfall", "", "", "Download"),
+  createData("Cattle", "SSP585", "Hazard", "Rainfall deficit", "", "", "Download"),
+  createData("Cattle", "SSP585", "Hazard", "Flood", "", "", "Download"),
+  createData("Cattle", "SSP585", "Hazard", "Cyclone", "", "", "Download"),
+
+  createData("Buffalo", "SSP585", "Hazard", "Temperature-humidity index", "", "", "Download"),
+  createData("Buffalo", "SSP585", "Hazard", "Cold stress", "", "", "Download"),
+  createData("Buffalo", "SSP585", "Hazard", "Excess rainfall", "", "", "Download"),
+  createData("Buffalo", "SSP585", "Hazard", "Rainfall deficit", "", "", "Download"),
+  createData("Buffalo", "SSP585", "Hazard", "Flood", "", "", "Download"),
+  createData("Buffalo", "SSP585", "Hazard", "Cyclone", "", "", "Download"),
+
+  createData("Goat", "SSP585", "Hazard", "Temperature-humidity index", "", "", "Download"),
+  createData("Goat", "SSP585", "Hazard", "Cold stress", "", "", "Download"),
+  createData("Goat", "SSP585", "Hazard", "Excess rainfall", "", "", "Download"),
+  createData("Goat", "SSP585", "Hazard", "Rainfall deficit", "", "", "Download"),
+  createData("Goat", "SSP585", "Hazard", "Flood", "", "", "Download"),
+  createData("Goat", "SSP585", "Hazard", "Cyclone", "", "", "Download"),
+
+  createData("Sheep", "SSP585", "Hazard", "Temperature-humidity index", "", "", "Download"),
+  createData("Sheep", "SSP585", "Hazard", "Cold stress", "", "", "Download"),
+  createData("Sheep", "SSP585", "Hazard", "Excess rainfall", "", "", "Download"),
+  createData("Sheep", "SSP585", "Hazard", "Rainfall deficit", "", "", "Download"),
+  createData("Sheep", "SSP585", "Hazard", "Flood", "", "", "Download"),
+  createData("Sheep", "SSP585", "Hazard", "Cyclone", "", "", "Download"),
+
+  createData("Pig", "SSP585", "Hazard", "Temperature-humidity index", "", "", "Download"),
+  createData("Pig", "SSP585", "Hazard", "Cold stress", "", "", "Download"),
+  createData("Pig", "SSP585", "Hazard", "Excess rainfall", "", "", "Download"),
+  createData("Pig", "SSP585", "Hazard", "Rainfall deficit", "", "", "Download"),
+  createData("Pig", "SSP585", "Hazard", "Flood", "", "", "Download"),
+  createData("Pig", "SSP585", "Hazard", "Cyclone", "", "", "Download"),
+
+  createData("Chicken", "SSP585", "Hazard", "Temperature-humidity index", "", "", "Download"),
+  createData("Chicken", "SSP585", "Hazard", "Cold stress", "", "", "Download"),
+  createData("Chicken", "SSP585", "Hazard", "Excess rainfall", "", "", "Download"),
+  createData("Chicken", "SSP585", "Hazard", "Rainfall deficit", "", "", "Download"),
+  createData("Chicken", "SSP585", "Hazard", "Flood", "", "", "Download"),
+  createData("Chicken", "SSP585", "Hazard", "Cyclone", "", "", "Download"),
+
   /*createData("Wheat", "Baseline", "Hazard", "Lodging", "Windspeed and rainfall criteria after booting (85 to 115 days)", "http://data.chc.ucsb.edu/products/CHIRTSdaily/", "Download"),
   createData("Pig", "Baseline", "Hazard", "Temperature-Humidity Index (THI)", "The average number of days when THI exceeds a threshold (79)", "", "Download"),
   createData("Pig", "Baseline", "Hazard", "Heat wave", "Sudden change in temperature by 4°C (during APR to June/July)", "", "Download"),
@@ -299,11 +584,421 @@ const data = [
   ),*/
 
   // Risk data
-  createData("Rice", "Baseline", "Risk", "Downscaled risk", "Analyzed", "Crop statistics, crop mask and primary productivity", "Download"),
-  createData("Rice", "Baseline", "Risk", "Insurance", "Analyzed", "Heurisitic Model", "Download"),
+  /*createData("Rice", "Baseline", "Risk", "Downscaled risk", "Analyzed", "Crop statistics, crop mask and primary productivity", "Download"),
+  createData("Rice", "Baseline", "Risk", "Insurance", "Analyzed", "Heurisitic Model", "Download"),*/
+
+  // Exposure data
+  createData("Rice", "Baseline", "Exposure", "Cropped area", "", "", "Download"),
+  createData("Wheat", "Baseline", "Exposure", "Cropped area", "", "", "Download"),
+  createData("Maize", "Baseline", "Exposure", "Cropped area", "", "", "Download"),
+  createData("Barley", "Baseline", "Exposure", "Cropped area", "", "", "Download"),
+  createData("Millets", "Baseline", "Exposure", "Cropped area", "", "", "Download"),
+  createData("Chickpea", "Baseline", "Exposure", "Cropped area", "", "", "Download"),
+  createData("Pigeonpea", "Baseline", "Exposure", "Cropped area", "", "", "Download"),
+  createData("Lentil", "Baseline", "Exposure", "Cropped area", "", "", "Download"),
+  createData("Soybean", "Baseline", "Exposure", "Cropped area", "", "", "Download"),
+  createData("Mustard", "Baseline", "Exposure", "Cropped area", "", "", "Download"),
+  createData("Groundnut", "Baseline", "Exposure", "Cropped area", "", "", "Download"),
+  createData("Cotton", "Baseline", "Exposure", "Cropped area", "", "", "Download"),
+  createData("Jute", "Baseline", "Exposure", "Cropped area", "", "", "Download"),
+  createData("Potato", "Baseline", "Exposure", "Cropped area", "", "", "Download"),
+  createData("Buffalo", "Baseline", "Exposure", "Number of animals per grid", "", "", "Download"),
+  createData("Goat", "Baseline", "Exposure", "Number of animals per grid", "", "", "Download"),
+  createData("Sheep", "Baseline", "Exposure", "Number of animals per grid", "", "", "Download"),
+  createData("Pig", "Baseline", "Exposure", "Number of animals per grid", "", "", "Download"),
+  createData("Chicken", "Baseline", "Exposure", "Number of animals per grid", "", "", "Download"),
+
+  createData("Rice", "SSP245", "Exposure", "Cropped area", "", "", "Download"),
+  createData("Wheat", "SSP245", "Exposure", "Cropped area", "", "", "Download"),
+  createData("Maize", "SSP245", "Exposure", "Cropped area", "", "", "Download"),
+  createData("Barley", "SSP245", "Exposure", "Cropped area", "", "", "Download"),
+  createData("Millets", "SSP245", "Exposure", "Cropped area", "", "", "Download"),
+  createData("Chickpea", "SSP245", "Exposure", "Cropped area", "", "", "Download"),
+  createData("Pigeonpea", "SSP245", "Exposure", "Cropped area", "", "", "Download"),
+  createData("Lentil", "SSP245", "Exposure", "Cropped area", "", "", "Download"),
+  createData("Soybean", "SSP245", "Exposure", "Cropped area", "", "", "Download"),
+  createData("Mustard", "SSP245", "Exposure", "Cropped area", "", "", "Download"),
+  createData("Groundnut", "SSP245", "Exposure", "Cropped area", "", "", "Download"),
+  createData("Cotton", "SSP245", "Exposure", "Cropped area", "", "", "Download"),
+  createData("Jute", "SSP245", "Exposure", "Cropped area", "", "", "Download"),
+  createData("Potato", "SSP245", "Exposure", "Cropped area", "", "", "Download"),
+  createData("Buffalo", "SSP245", "Exposure", "Number of animals per grid", "", "", "Download"),
+  createData("Goat", "SSP245", "Exposure", "Number of animals per grid", "", "", "Download"),
+  createData("Sheep", "SSP245", "Exposure", "Number of animals per grid", "", "", "Download"),
+  createData("Pig", "SSP245", "Exposure", "Number of animals per grid", "", "", "Download"),
+  createData("Chicken", "SSP245", "Exposure", "Number of animals per grid", "", "", "Download"),
+
+  createData("Rice", "SSP585", "Exposure", "Cropped area", "", "", "Download"),
+  createData("Wheat", "SSP585", "Exposure", "Cropped area", "", "", "Download"),
+  createData("Maize", "SSP585", "Exposure", "Cropped area", "", "", "Download"),
+  createData("Barley", "SSP585", "Exposure", "Cropped area", "", "", "Download"),
+  createData("Millets", "SSP585", "Exposure", "Cropped area", "", "", "Download"),
+  createData("Chickpea", "SSP585", "Exposure", "Cropped area", "", "", "Download"),
+  createData("Pigeonpea", "SSP585", "Exposure", "Cropped area", "", "", "Download"),
+  createData("Lentil", "SSP585", "Exposure", "Cropped area", "", "", "Download"),
+  createData("Soybean", "SSP585", "Exposure", "Cropped area", "", "", "Download"),
+  createData("Mustard", "SSP585", "Exposure", "Cropped area", "", "", "Download"),
+  createData("Groundnut", "SSP585", "Exposure", "Cropped area", "", "", "Download"),
+  createData("Cotton", "SSP585", "Exposure", "Cropped area", "", "", "Download"),
+  createData("Jute", "SSP585", "Exposure", "Cropped area", "", "", "Download"),
+  createData("Potato", "SSP585", "Exposure", "Cropped area", "", "", "Download"),
+  createData("Buffalo", "SSP585", "Exposure", "Number of animals per grid", "", "", "Download"),
+  createData("Goat", "SSP585", "Exposure", "Number of animals per grid", "", "", "Download"),
+  createData("Sheep", "SSP585", "Exposure", "Number of animals per grid", "", "", "Download"),
+  createData("Pig", "SSP585", "Exposure", "Number of animals per grid", "", "", "Download"),
+  createData("Chicken", "SSP585", "Exposure", "Number of animals per grid", "", "", "Download"),
+
+  /* -------------------------------- Vulnerability data -------------------------------- */
+  // Baseline
+
+  createData("Rice", "Baseline", "Vulnerability", "Irrigation", "", "", "Download"),
+  createData("Rice", "Baseline", "Vulnerability", "Income", "", "", "Download"),
+  createData("Rice", "Baseline", "Vulnerability", "Volumetric soil water", "", "", "Download"),
+  createData("Rice", "Baseline", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+  createData("Rice", "Baseline", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+
+  createData("Wheat", "Baseline", "Vulnerability", "Irrigation", "", "", "Download"),
+  createData("Wheat", "Baseline", "Vulnerability", "Income", "", "", "Download"),
+  createData("Wheat", "Baseline", "Vulnerability", "Volumetric soil water", "", "", "Download"),
+  createData("Wheat", "Baseline", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+  createData("Wheat", "Baseline", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+
+  createData("Maize", "Baseline", "Vulnerability", "Irrigation", "", "", "Download"),
+  createData("Maize", "Baseline", "Vulnerability", "Income", "", "", "Download"),
+  createData("Maize", "Baseline", "Vulnerability", "Volumetric soil water", "", "", "Download"),
+  createData("Maize", "Baseline", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+  createData("Maize", "Baseline", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+
+  createData("Barley", "Baseline", "Vulnerability", "Irrigation", "", "", "Download"),
+  createData("Barley", "Baseline", "Vulnerability", "Income", "", "", "Download"),
+  createData("Barley", "Baseline", "Vulnerability", "Volumetric soil water", "", "", "Download"),
+  createData("Barley", "Baseline", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+  createData("Barley", "Baseline", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+
+  createData("Millets", "Baseline", "Vulnerability", "Irrigation", "", "", "Download"),
+  createData("Millets", "Baseline", "Vulnerability", "Income", "", "", "Download"),
+  createData("Millets", "Baseline", "Vulnerability", "Volumetric soil water", "", "", "Download"),
+  createData("Millets", "Baseline", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+  createData("Millets", "Baseline", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+
+  createData("Chickpea", "Baseline", "Vulnerability", "Irrigation", "", "", "Download"),
+  createData("Chickpea", "Baseline", "Vulnerability", "Income", "", "", "Download"),
+  createData("Chickpea", "Baseline", "Vulnerability", "Volumetric soil water", "", "", "Download"),
+  createData("Chickpea", "Baseline", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+  createData("Chickpea", "Baseline", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+
+  createData("Pigeopea", "Baseline", "Vulnerability", "Irrigation", "", "", "Download"),
+  createData("Pigeonpea", "Baseline", "Vulnerability", "Income", "", "", "Download"),
+  createData("Pigeonpea", "Baseline", "Vulnerability", "Volumetric soil water", "", "", "Download"),
+  createData("Pigeonpea", "Baseline", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+  createData("Pigeonpea", "Baseline", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+
+  createData("Lentil", "Baseline", "Vulnerability", "Irrigation", "", "", "Download"),
+  createData("Lentil", "Baseline", "Vulnerability", "Income", "", "", "Download"),
+  createData("Lentil", "Baseline", "Vulnerability", "Volumetric soil water", "", "", "Download"),
+  createData("Lentil", "Baseline", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+  createData("Lentil", "Baseline", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+
+  createData("Soybean", "Baseline", "Vulnerability", "Irrigation", "", "", "Download"),
+  createData("Soybean", "Baseline", "Vulnerability", "Income", "", "", "Download"),
+  createData("Soybean", "Baseline", "Vulnerability", "Volumetric soil water", "", "", "Download"),
+  createData("soybean", "Baseline", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+  createData("Soybean", "Baseline", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+
+  createData("Mustard", "Baseline", "Vulnerability", "Irrigation", "", "", "Download"),
+  createData("Mustard", "Baseline", "Vulnerability", "Income", "", "", "Download"),
+  createData("Mustard", "Baseline", "Vulnerability", "Volumetric soil water", "", "", "Download"),
+  createData("Mustard", "Baseline", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+  createData("Mustard", "Baseline", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+
+  createData("Groundnut", "Baseline", "Vulnerability", "Irrigation", "", "", "Download"),
+  createData("Groundnut", "Baseline", "Vulnerability", "Income", "", "", "Download"),
+  createData("Groundnut", "Baseline", "Vulnerability", "Volumetric soil water", "", "", "Download"),
+  createData("Grountnut", "Baseline", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+  createData("Groundnut", "Baseline", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+  
+  createData("Cotton", "Baseline", "Vulnerability", "Irrigation", "", "", "Download"),
+  createData("Cotton", "Baseline", "Vulnerability", "Income", "", "", "Download"),
+  createData("Cotton", "Baseline", "Vulnerability", "Volumetric soil water", "", "", "Download"),
+  createData("Cotton", "Baseline", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+  createData("Cotton", "Baseline", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+
+  createData("Jute", "Baseline", "Vulnerability", "Irrigation", "", "", "Download"),
+  createData("Jute", "Baseline", "Vulnerability", "Income", "", "", "Download"),
+  createData("Jute", "Baseline", "Vulnerability", "Volumetric soil water", "", "", "Download"),
+  createData("Jute", "Baseline", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+  createData("Jute", "Baseline", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+
+  createData("Potato", "Baseline", "Vulnerability", "Irrigation", "", "", "Download"),
+  createData("Potato", "Baseline", "Vulnerability", "Income", "", "", "Download"),
+  createData("Potato", "Baseline", "Vulnerability", "Volumetric soil water", "", "", "Download"),
+  createData("Potato", "Baseline", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+  createData("Potato", "Baseline", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+
+  createData("Cattle", "Baseline", "Vulnerability", "Feed∕Fodder", "", "", "Download"),
+  createData("Cattle", "Baseline", "Vulnerability", "Income", "", "", "Download"),
+  createData("Cattle", "Baseline", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+  createData("Cattle", "Baseline", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+
+  createData("Buffalo", "Baseline", "Vulnerability", "Feed∕Fodder", "", "", "Download"),
+  createData("Buffalo", "Baseline", "Vulnerability", "Income", "", "", "Download"),
+  createData("Buffalo", "Baseline", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+  createData("Buffalo", "Baseline", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+
+  createData("Goat", "Baseline", "Vulnerability", "Feed∕Fodder", "", "", "Download"),
+  createData("Goat", "Baseline", "Vulnerability", "Income", "", "", "Download"),
+  createData("Goat", "Baseline", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+  createData("Goat", "Baseline", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+
+  createData("Sheep", "Baseline", "Vulnerability", "Feed∕Fodder", "", "", "Download"),
+  createData("Sheep", "Baseline", "Vulnerability", "Income", "", "", "Download"),
+  createData("Sheep", "Baseline", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+  createData("Sheep", "Baseline", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+
+  createData("Pig", "Baseline", "Vulnerability", "Feed∕Fodder", "", "", "Download"),
+  createData("Pig", "Baseline", "Vulnerability", "Income", "", "", "Download"),
+  createData("Pig", "Baseline", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+  createData("Pig", "Baseline", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+
+  createData("Chicken", "Baseline", "Vulnerability", "Feed∕Fodder", "", "", "Download"),
+  createData("Chicken", "Baseline", "Vulnerability", "Income", "", "", "Download"),
+  createData("Chicken", "Baseline", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+  createData("Chicken", "Baseline", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+
+  // SSP245
+
+  createData("Rice", "SSP245", "Vulnerability", "Irrigation", "", "", "Download"),
+  createData("Rice", "SSP245", "Vulnerability", "Income", "", "", "Download"),
+  createData("Rice", "SSP245", "Vulnerability", "Volumetric soil water", "", "", "Download"),
+  createData("Rice", "SSP245", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+  createData("Rice", "SSP245", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+
+  createData("Wheat", "SSP245", "Vulnerability", "Irrigation", "", "", "Download"),
+  createData("Wheat", "SSP245", "Vulnerability", "Income", "", "", "Download"),
+  createData("Wheat", "SSP245", "Vulnerability", "Volumetric soil water", "", "", "Download"),
+  createData("Wheat", "SSP245", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+  createData("Wheat", "SSP245", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+
+  createData("Maize", "SSP245", "Vulnerability", "Irrigation", "", "", "Download"),
+  createData("Maize", "SSP245", "Vulnerability", "Income", "", "", "Download"),
+  createData("Maize", "SSP245", "Vulnerability", "Volumetric soil water", "", "", "Download"),
+  createData("Maize", "SSP245", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+  createData("Maize", "SSP245", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+
+  createData("Barley", "SSP245", "Vulnerability", "Irrigation", "", "", "Download"),
+  createData("Barley", "SSP245", "Vulnerability", "Income", "", "", "Download"),
+  createData("Barley", "SSP245", "Vulnerability", "Volumetric soil water", "", "", "Download"),
+  createData("Barley", "SSP245", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+  createData("Barley", "SSP245", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+
+  createData("Millets", "SSP245", "Vulnerability", "Irrigation", "", "", "Download"),
+  createData("Millets", "SSP245", "Vulnerability", "Income", "", "", "Download"),
+  createData("Millets", "SSP245", "Vulnerability", "Volumetric soil water", "", "", "Download"),
+  createData("Millets", "SSP245", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+  createData("Millets", "SSP245", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+
+  createData("Chickpea", "SSP245", "Vulnerability", "Irrigation", "", "", "Download"),
+  createData("Chickpea", "SSP245", "Vulnerability", "Income", "", "", "Download"),
+  createData("Chickpea", "SSP245", "Vulnerability", "Volumetric soil water", "", "", "Download"),
+  createData("Chickpea", "SSP245", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+  createData("Chickpea", "SSP245", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+
+  createData("Pigeopea", "SSP245", "Vulnerability", "Irrigation", "", "", "Download"),
+  createData("Pigeonpea", "SSP245", "Vulnerability", "Income", "", "", "Download"),
+  createData("Pigeonpea", "SSP245", "Vulnerability", "Volumetric soil water", "", "", "Download"),
+  createData("Pigeonpea", "SSP245", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+  createData("Pigeonpea", "SSP245", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+
+  createData("Lentil", "SSP245", "Vulnerability", "Irrigation", "", "", "Download"),
+  createData("Lentil", "SSP245", "Vulnerability", "Income", "", "", "Download"),
+  createData("Lentil", "SSP245", "Vulnerability", "Volumetric soil water", "", "", "Download"),
+  createData("Lentil", "SSP245", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+  createData("Lentil", "SSP245", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+
+  createData("Soybean", "SSP245", "Vulnerability", "Irrigation", "", "", "Download"),
+  createData("Soybean", "SSP245", "Vulnerability", "Income", "", "", "Download"),
+  createData("Soybean", "SSP245", "Vulnerability", "Volumetric soil water", "", "", "Download"),
+  createData("soybean", "SSP245", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+  createData("Soybean", "SSP245", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+
+  createData("Mustard", "SSP245", "Vulnerability", "Irrigation", "", "", "Download"),
+  createData("Mustard", "SSP245", "Vulnerability", "Income", "", "", "Download"),
+  createData("Mustard", "SSP245", "Vulnerability", "Volumetric soil water", "", "", "Download"),
+  createData("Mustard", "SSP245", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+  createData("Mustard", "SSP245", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+
+  createData("Groundnut", "SSP245", "Vulnerability", "Irrigation", "", "", "Download"),
+  createData("Groundnut", "SSP245", "Vulnerability", "Income", "", "", "Download"),
+  createData("Groundnut", "SSP245", "Vulnerability", "Volumetric soil water", "", "", "Download"),
+  createData("Grountnut", "SSP245", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+  createData("Groundnut", "SSP245", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+  
+  createData("Cotton", "SSP245", "Vulnerability", "Irrigation", "", "", "Download"),
+  createData("Cotton", "SSP245", "Vulnerability", "Income", "", "", "Download"),
+  createData("Cotton", "SSP245", "Vulnerability", "Volumetric soil water", "", "", "Download"),
+  createData("Cotton", "SSP245", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+  createData("Cotton", "SSP245", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+
+  createData("Jute", "SSP245", "Vulnerability", "Irrigation", "", "", "Download"),
+  createData("Jute", "SSP245", "Vulnerability", "Income", "", "", "Download"),
+  createData("Jute", "SSP245", "Vulnerability", "Volumetric soil water", "", "", "Download"),
+  createData("Jute", "SSP245", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+  createData("Jute", "SSP245", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+
+  createData("Potato", "SSP245", "Vulnerability", "Irrigation", "", "", "Download"),
+  createData("Potato", "SSP245", "Vulnerability", "Income", "", "", "Download"),
+  createData("Potato", "SSP245", "Vulnerability", "Volumetric soil water", "", "", "Download"),
+  createData("Potato", "SSP245", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+  createData("Potato", "SSP245", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+
+  createData("Cattle", "SSP245", "Vulnerability", "Feed∕Fodder", "", "", "Download"),
+  createData("Cattle", "SSP245", "Vulnerability", "Income", "", "", "Download"),
+  createData("Cattle", "SSP245", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+  createData("Cattle", "SSP245", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+
+  createData("Buffalo", "SSP245", "Vulnerability", "Feed∕Fodder", "", "", "Download"),
+  createData("Buffalo", "SSP245", "Vulnerability", "Income", "", "", "Download"),
+  createData("Buffalo", "SSP245", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+  createData("Buffalo", "SSP245", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+
+  createData("Goat", "SSP245", "Vulnerability", "Feed∕Fodder", "", "", "Download"),
+  createData("Goat", "SSP245", "Vulnerability", "Income", "", "", "Download"),
+  createData("Goat", "SSP245", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+  createData("Goat", "SSP245", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+
+  createData("Sheep", "SSP245", "Vulnerability", "Feed∕Fodder", "", "", "Download"),
+  createData("Sheep", "SSP245", "Vulnerability", "Income", "", "", "Download"),
+  createData("Sheep", "SSP245", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+  createData("Sheep", "SSP245", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+
+  createData("Pig", "SSP245", "Vulnerability", "Feed∕Fodder", "", "", "Download"),
+  createData("Pig", "SSP245", "Vulnerability", "Income", "", "", "Download"),
+  createData("Pig", "SSP245", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+  createData("Pig", "SSP245", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+
+  createData("Chicken", "SSP245", "Vulnerability", "Feed∕Fodder", "", "", "Download"),
+  createData("Chicken", "SSP245", "Vulnerability", "Income", "", "", "Download"),
+  createData("Chicken", "SSP245", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+  createData("Chicken", "SSP245", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+
+  // SSP585
+
+  createData("Rice", "SSP585", "Vulnerability", "Irrigation", "", "", "Download"),
+  createData("Rice", "SSP585", "Vulnerability", "Income", "", "", "Download"),
+  createData("Rice", "SSP585", "Vulnerability", "Volumetric soil water", "", "", "Download"),
+  createData("Rice", "SSP585", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+  createData("Rice", "SSP585", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+
+  createData("Wheat", "SSP585", "Vulnerability", "Irrigation", "", "", "Download"),
+  createData("Wheat", "SSP585", "Vulnerability", "Income", "", "", "Download"),
+  createData("Wheat", "SSP585", "Vulnerability", "Volumetric soil water", "", "", "Download"),
+  createData("Wheat", "SSP585", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+  createData("Wheat", "SSP585", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+
+  createData("Maize", "SSP585", "Vulnerability", "Irrigation", "", "", "Download"),
+  createData("Maize", "SSP585", "Vulnerability", "Income", "", "", "Download"),
+  createData("Maize", "SSP585", "Vulnerability", "Volumetric soil water", "", "", "Download"),
+  createData("Maize", "SSP585", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+  createData("Maize", "SSP585", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+
+  createData("Barley", "SSP585", "Vulnerability", "Irrigation", "", "", "Download"),
+  createData("Barley", "SSP585", "Vulnerability", "Income", "", "", "Download"),
+  createData("Barley", "SSP585", "Vulnerability", "Volumetric soil water", "", "", "Download"),
+  createData("Barley", "SSP585", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+  createData("Barley", "SSP585", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+
+  createData("Millets", "SSP585", "Vulnerability", "Irrigation", "", "", "Download"),
+  createData("Millets", "SSP585", "Vulnerability", "Income", "", "", "Download"),
+  createData("Millets", "SSP585", "Vulnerability", "Volumetric soil water", "", "", "Download"),
+  createData("Millets", "SSP585", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+  createData("Millets", "SSP585", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+
+  createData("Chickpea", "SSP585", "Vulnerability", "Irrigation", "", "", "Download"),
+  createData("Chickpea", "SSP585", "Vulnerability", "Income", "", "", "Download"),
+  createData("Chickpea", "SSP585", "Vulnerability", "Volumetric soil water", "", "", "Download"),
+  createData("Chickpea", "SSP585", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+  createData("Chickpea", "SSP585", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+
+  createData("Pigeopea", "SSP585", "Vulnerability", "Irrigation", "", "", "Download"),
+  createData("Pigeonpea", "SSP585", "Vulnerability", "Income", "", "", "Download"),
+  createData("Pigeonpea", "SSP585", "Vulnerability", "Volumetric soil water", "", "", "Download"),
+  createData("Pigeonpea", "SSP585", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+  createData("Pigeonpea", "SSP585", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+
+  createData("Lentil", "SSP585", "Vulnerability", "Irrigation", "", "", "Download"),
+  createData("Lentil", "SSP585", "Vulnerability", "Income", "", "", "Download"),
+  createData("Lentil", "SSP585", "Vulnerability", "Volumetric soil water", "", "", "Download"),
+  createData("Lentil", "SSP585", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+  createData("Lentil", "SSP585", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+
+  createData("Soybean", "SSP585", "Vulnerability", "Irrigation", "", "", "Download"),
+  createData("Soybean", "SSP585", "Vulnerability", "Income", "", "", "Download"),
+  createData("Soybean", "SSP585", "Vulnerability", "Volumetric soil water", "", "", "Download"),
+  createData("soybean", "SSP585", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+  createData("Soybean", "SSP585", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+
+  createData("Mustard", "SSP585", "Vulnerability", "Irrigation", "", "", "Download"),
+  createData("Mustard", "SSP585", "Vulnerability", "Income", "", "", "Download"),
+  createData("Mustard", "SSP585", "Vulnerability", "Volumetric soil water", "", "", "Download"),
+  createData("Mustard", "SSP585", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+  createData("Mustard", "SSP585", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+
+  createData("Groundnut", "SSP585", "Vulnerability", "Irrigation", "", "", "Download"),
+  createData("Groundnut", "SSP585", "Vulnerability", "Income", "", "", "Download"),
+  createData("Groundnut", "SSP585", "Vulnerability", "Volumetric soil water", "", "", "Download"),
+  createData("Grountnut", "SSP585", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+  createData("Groundnut", "SSP585", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+  
+  createData("Cotton", "SSP585", "Vulnerability", "Irrigation", "", "", "Download"),
+  createData("Cotton", "SSP585", "Vulnerability", "Income", "", "", "Download"),
+  createData("Cotton", "SSP585", "Vulnerability", "Volumetric soil water", "", "", "Download"),
+  createData("Cotton", "SSP585", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+  createData("Cotton", "SSP585", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+
+  createData("Jute", "SSP585", "Vulnerability", "Irrigation", "", "", "Download"),
+  createData("Jute", "SSP585", "Vulnerability", "Income", "", "", "Download"),
+  createData("Jute", "SSP585", "Vulnerability", "Volumetric soil water", "", "", "Download"),
+  createData("Jute", "SSP585", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+  createData("Jute", "SSP585", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+
+  createData("Potato", "SSP585", "Vulnerability", "Irrigation", "", "", "Download"),
+  createData("Potato", "SSP585", "Vulnerability", "Income", "", "", "Download"),
+  createData("Potato", "SSP585", "Vulnerability", "Volumetric soil water", "", "", "Download"),
+  createData("Potato", "SSP585", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+  createData("Potato", "SSP585", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+
+  createData("Cattle", "SSP585", "Vulnerability", "Feed∕Fodder", "", "", "Download"),
+  createData("Cattle", "SSP585", "Vulnerability", "Income", "", "", "Download"),
+  createData("Cattle", "SSP585", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+  createData("Cattle", "SSP585", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+
+  createData("Buffalo", "SSP585", "Vulnerability", "Feed∕Fodder", "", "", "Download"),
+  createData("Buffalo", "SSP585", "Vulnerability", "Income", "", "", "Download"),
+  createData("Buffalo", "SSP585", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+  createData("Buffalo", "SSP585", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+
+  createData("Goat", "SSP585", "Vulnerability", "Feed∕Fodder", "", "", "Download"),
+  createData("Goat", "SSP585", "Vulnerability", "Income", "", "", "Download"),
+  createData("Goat", "SSP585", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+  createData("Goat", "SSP585", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+
+  createData("Sheep", "SSP585", "Vulnerability", "Feed∕Fodder", "", "", "Download"),
+  createData("Sheep", "SSP585", "Vulnerability", "Income", "", "", "Download"),
+  createData("Sheep", "SSP585", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+  createData("Sheep", "SSP585", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+
+  createData("Pig", "SSP585", "Vulnerability", "Feed∕Fodder", "", "", "Download"),
+  createData("Pig", "SSP585", "Vulnerability", "Income", "", "", "Download"),
+  createData("Pig", "SSP585", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+  createData("Pig", "SSP585", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+
+  createData("Chicken", "SSP585", "Vulnerability", "Feed∕Fodder", "", "", "Download"),
+  createData("Chicken", "SSP585", "Vulnerability", "Income", "", "", "Download"),
+  createData("Chicken", "SSP585", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+  createData("Chicken", "SSP585", "Vulnerability", "Rural infrastructure", "", "", "Download"),
 
   // Adaptation data
-  createData("Rice", "Baseline", "Adaptation", "DSR (Dry Seed)", "Analyzed", "Heurisitic Model", "Download"),
+  /*createData("Rice", "Baseline", "Adaptation", "DSR (Dry Seed)", "Analyzed", "Heurisitic Model", "Download"),
   createData("Rice", "Baseline", "Adaptation", "DSR (Wet Seed)", "Analyzed", "Heurisitic Model", "Download"),
   createData("Rice", "Baseline", "Adaptation", "System of rice intensification", "Analyzed", "Heurisitic Model", "Download"),
   createData("Rice", "Baseline", "Adaptation", "Alternate wetting and drying", "Analyzed", "Heurisitic Model", "Download"),
@@ -322,13 +1017,7 @@ const data = [
   createData("Wheat", "Baseline", "Adaptation", "Stress tolerant variety", "Analyzed", "Heurisitic Model", "Download"),
   createData("Wheat", "Baseline", "Adaptation", "Early sowing/changing planting dates", "Analyzed", "Heurisitic Model", "Download"),
   createData("Wheat", "Baseline", "Adaptation", "Zero tillage with residue retention", "Analyzed", "Heurisitic Model", "Download"),
-  createData("Wheat", "Baseline", "Adaptation", "Smart fertilizer management", "Analyzed", "Heurisitic Model", "Download"),
-
-  // Direct Adaptation data
-  /*createData("Rice", "Baseline", "Direct Adaptation", "Direct seeded rice", "Analyzed", "Heurisitic Model", "Download"),
-  createData("Rice", "Baseline", "Direct Adaptation", "Precision water management", "Analyzed", "Heurisitic Model", "Download"),
-  createData("Wheat", "Baseline", "Direct Adaptation", "Stress tolerant variety", "Analyzed", "Heurisitic Model", "Download"),
-  createData("Wheat", "Baseline", "Direct Adaptation", "Early sowing/changing planting dates", "Analyzed", "Heurisitic Model", "Download"),*/
+  createData("Wheat", "Baseline", "Adaptation", "Smart fertilizer management", "Analyzed", "Heurisitic Model", "Download"),*/
 ];
 
 // Main component function
@@ -645,7 +1334,7 @@ export default function Description() {
                   <MenuItem value="Soybean">Soybean</MenuItem>
                   {/*<MenuItem value="Safflower">Safflower</MenuItem>
                   <MenuItem value="Sunflower">Sunflower</MenuItem>*/}
-                  <MenuItem value="Mustard">Rapeseed/Mustard</MenuItem>
+                  <MenuItem value="Mustard">Mustard</MenuItem>
                   {/*<MenuItem value="Sesame">Sesame</MenuItem>*/}
                   <MenuItem value="Groundnut">Groundnut</MenuItem>
 
@@ -710,8 +1399,8 @@ export default function Description() {
                     <em>None</em>
                   </MenuItem>
                   <MenuItem value="Baseline">Baseline</MenuItem>
-                  <MenuItem value="SSP 2-4.5">SSP 2-4.5</MenuItem>
-                  <MenuItem value="SSP 5-8.5">SSP 5-8.5</MenuItem>
+                  <MenuItem value="SSP245">SSP 2-4.5</MenuItem>
+                  <MenuItem value="SSP585">SSP 5-8.5</MenuItem>
                 </Select>
               </FormControl>
 
@@ -822,7 +1511,7 @@ export default function Description() {
                     title={item.Title}
                     description={item.Description}
                     source={item.Source}
-                    imgSrc={item.imgSource}
+                    imgSrc={`Data_access_compressed/${item.LayerType}/${item.Commodity}/CHC/${item.Scenario}/${item.Scenario}_CHC_${item.Commodity}_${item.Title.replaceAll(" ", "%20")}.PNG`}
                     buttonText={item.Action}
                     onButtonClick={() => handleIndividualDownload(item)}
                   />
