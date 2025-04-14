@@ -25,7 +25,12 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
 
   const switchRisk = ["Risk Index", "Hazard Index", "Exposure Index", "Vulnerability Index"];
   const switchRiskID = ["riskindex", "HINDEX", "expoindex", "vulne"];
-  const SwitchRiskPopup = ["Combines hazard, vulnerability, and exposure to assess climate risk.", "Derived from hazards, stakeholder input, Z-score normalization, and PCA.", "Maps commodity density, integrated via Z-score normalization.", "Based on vulnerability layers, expert input, Z-score normalization, and PCA."];
+  const SwitchRiskPopup = [
+    "Combines hazard, vulnerability, and exposure to assess climate risk.",
+    "Derived from hazards, stakeholder input, Z-score normalization, and PCA.",
+    "Maps commodity density, integrated via Z-score normalization.",
+    "Based on vulnerability layers, expert input, Z-score normalization, and PCA.",
+  ];
 
   const switchBasic = ["Seasonal Rainfall", "Maximum Temperature", "Minimum Temperature"];
   const switchBasicID = ["seasonalrain", "maxtemp", "mintemp"];
@@ -826,7 +831,30 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
                     Season: Spring wheat
                   </Typography>
                 )}*/}
-        {exploreType === "Commodity" && activeCrop["rice"] && (
+        {exploreType === "Commodity" &&
+          (activeCrop["rice"] ||
+            activeCrop["maize"] ||
+            activeCrop["barley"] ||
+            activeCrop["millets"] ||
+            activeCrop["Pigeonpea"] ||
+            activeCrop["Soybean"] ||
+            activeCrop["groundnut"] ||
+            activeCrop["cotton"] ||
+            activeCrop["potato"] ||
+            activeCrop["jute"]) && (
+            <Typography
+              sx={(theme) => ({
+                color: theme.palette.mode === "dark" ? "white" : "black",
+                fontSize: 13,
+                paddingTop: -1,
+                textAlign: "left",
+                paddingLeft: 2,
+              })}
+            >
+              Season: Monsoon Season
+            </Typography>
+          )}
+        {exploreType === "Commodity" && (activeCrop["sorghum"] || activeCrop["chickpea"] || activeCrop["lentil"] || activeCrop["mustard"]) && (
           <Typography
             sx={(theme) => ({
               color: theme.palette.mode === "dark" ? "white" : "black",
@@ -836,7 +864,7 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
               paddingLeft: 2,
             })}
           >
-            Season: Monsoon Season
+            Season: Winter Season
           </Typography>
         )}
         {exploreType === "Commodity" && (

@@ -506,7 +506,7 @@ export default function Map_Hazard({ activeCrop, focus = "Region", activeRegion,
                 setpolycord(polygoncordinates); */
               const extentt = polyy.getExtent();
               const sizee = mapRef.current.getSize();
-              mapRef.current.getView().fit(extentt, { size: [sizee[0] * 1, sizee[1] * 1] });
+              mapRef.current.getView().fit(extentt, { size: [sizee[0] * 1, sizee[1] * 1], padding: [0, 0, 70, 0] });
               defext = extentt;
             }
           }
