@@ -250,6 +250,7 @@
   border-radius: 0.5rem;
   font-size: 12px;
   text-align: center;
+  white-space: nowrap;
   box-shadow: var(--grouped-button-boxshadow);
 }
 

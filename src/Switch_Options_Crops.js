@@ -11,6 +11,7 @@ import { styled } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import LightTooltip from "./LightTooltip";
+import { textHeights } from "ol/render/canvas";
 
 export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, activeOptLayer, changeOptLayer, exploreType, CropName }) {
   const switchh = ["Planting Technology", "Water Management", "Fertilizer Management"];
@@ -29,29 +30,17 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
     "Wet - Direct seeded rice",
     "System of rice intensification",
   ];
-  const planting_rice_popup = [
-    "Early sowing/changing planting dates",
-    "Precision land levelling",
-    "Zero tillage with residue retention",
-    "Dry - Direct seeded rice",
-    "Wet - Direct seeded rice",
-    "System of rice intensification",
-  ];
 
   const water = ["Supplemental irrigation (water harvesting structures/farm ponds)", "Microirrigation", "Precision water management"];
-  const water_popup = ["Supplemental irrigation (water harvesting structures/farm ponds)", "Microirrigation", "Precision water management"];
 
   const water_rice = ["Supplemental irrigation (water harvesting structures/farm ponds)", "Microirrigation", "Alternate wetting and drying", "Precision water management"];
-  const water_rice_popup = ["Supplemental irrigation (water harvesting structures/farm ponds)", "Microirrigation", "Alternate wetting and drying", "Precision water management"];
 
   const fertilizer_rice = ["Smart fertilizer management", "Precision fertilizer management"];
-  const fertilizer_rice_popup = ["Smart fertilizer management", "Precision fertilizer management"];
 
   const planting = ["Early sowing/changing planting dates", "Precision land levelling", "Zero tillage with residue retention", "Broadbed and furrow"];
-  const planting_popup = ["Early sowing/changing planting dates", "Precision land levelling", "Zero tillage with residue retention", "Broadbed and furrow"];
 
   const fertilizer = ["Smart fertilizer management", "Precision fertilizer management"];
-  const fertilizer_popup = ["Smart fertilizer management", "Precision fertilizer management"];
+  const fertilizer_popup = ["Smart fertilizer management", "Precision water management uses sensor-based tech to optimize irrigation based on crop, soil, weather, and field data."];
 
   const RegionalAdaptation = [
     "Stress tolerant varieties",
@@ -69,38 +58,90 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
 
   const cropTechnologies = {
     planting: {
-      Rice: ["Early sowing/changing planting dates", "Dry - Direct seeded rice", "Wet - Direct seeded rice", "System of rice intensification"],
-      Wheat: ["Precision land levelling", "Zero tillage with residue retention", "Broadbed and furrow", "Early sowing/changing planting dates"],
-      Barley: ["Zero tillage with residue retention", "Broadbed and furrow", "Early sowing/changing planting dates"],
-      Maize: ["Zero tillage with residue retention", "Broadbed and furrow", "Early sowing/changing planting dates", "Mulching"],
-      Sorghum: ["Mulching"],
-      Millets: ["Mulching"],
-      Chickpea: ["Mulching"],
-      Pigeonpea: ["Mulching"],
-      Soybean: ["Broadbed and furrow", "Mulching"],
-      Mustard: ["Broadbed and furrow"],
+      Rice: [
+        { name: "Early sowing/changing planting dates", description: "Planting timed to match key crop stages with ideal climate." },
+        { name: "Dry - Direct seeded rice", description: "Dry - Direct seeded rice." },
+        { name: "Wet - Direct seeded rice", description: "Wet - Direct seeded rice." },
+        { name: "System of rice intensification", description: "SRI incorporates young seedlings, wide spacing, organic inputs, intermittent watering." },
+      ],
+      Wheat: [
+        { name: "Precision land levelling", description: "PLL uses laser-guided leveling to create smooth, uniform fields for efficient water use." },
+        { name: "Zero tillage with residue retention", description: "Zero-till farming, plants crops in untilled soil with minimal disturbance." },
+        { name: "Broadbed and furrow", description: "BBF is a water-saving, soil-conserving technique with raised beds." },
+        { name: "Early sowing/changing planting dates", description: "Planting timed to match key crop stages with ideal climate" },
+      ],
+      Barley: [
+        { name: "Zero tillage with residue retention", description: "Zero-till farming, plants crops in untilled soil with minimal disturbance." },
+        { name: "Broadbed and furrow", description: "BBF is a water-saving, soil-conserving technique with raised beds." },
+        { name: "Early sowing/changing planting dates", description: "Planting timed to match key crop stages with ideal climate" },
+      ],
+      Maize: [
+        { name: "Zero tillage with residue retention", description: "Zero-till farming, plants crops in untilled soil with minimal disturbance." },
+        { name: "Broadbed and furrow", description: "BBF is a water-saving, soil-conserving technique with raised beds." },
+        { name: "Early sowing/changing planting dates", description: "Planting timed to match key crop stages with ideal climate" },
+        { name: "Mulching", description: "Mulching" },
+      ],
+      Sorghum: [{ name: "Mulching", description: "Mulching" }],
+      Millets: [{ name: "Mulching", description: "Mulching" }],
+      Chickpea: [{ name: "Mulching", description: "Mulching" }],
+      Pigeonpea: [{ name: "Mulching", description: "Mulching" }],
+      Soybean: [
+        { name: "Broadbed and furrow", description: "BBF is a water-saving, soil-conserving technique with raised beds." },
+        { name: "Mulching", description: "Mulching" },
+      ],
+      Mustard: [{ name: "Broadbed and furrow", description: "BBF is a water-saving, soil-conserving technique with raised beds." }],
       Cotton: [],
-      Potato: ["Precision land levelling", "Broadbed and furrow"],
+      Potato: [
+        { name: "Precision land levelling", description: "PLL uses laser-guided leveling to create smooth, uniform fields for efficient water use." },
+        { name: "Broadbed and furrow", description: "BBF is a water-saving, soil-conserving technique with raised beds." },
+      ],
       Groundnut: [],
-      Lentil: ["Broadbed and furrow"],
+      Lentil: [{ name: "Broadbed and furrow", description: "BBF is a water-saving, soil-conserving technique with raised beds." }],
       Jute: [],
     },
     water: {
-      Rice: ["Microirrigation", "Alternate wetting and drying", "Precision water management"],
-      Wheat: ["Microirrigation", "Precision water management"],
-      Barley: ["Microirrigation", "Precision water management"],
-      Maize: ["Microirrigation", "Precision water management", "Supplemental irrigation (water harvesting structures/farm ponds)"],
-      Sorghum: ["Supplemental irrigation (water harvesting structures/farm ponds)"],
-      Millets: ["Supplemental irrigation (water harvesting structures/farm ponds)"],
-      Chickpea: ["Supplemental irrigation (water harvesting structures/farm ponds)"],
-      Pigeonpea: ["Supplemental irrigation (water harvesting structures/farm ponds)"],
-      Soybean: ["Supplemental irrigation (water harvesting structures/farm ponds)"],
-      Mustard: ["Microirrigation", "Precision water management"],
-      Cotton: ["Microirrigation", "Precision water management", "Supplemental irrigation (water harvesting structures/farm ponds)"],
-      Potato: ["Microirrigation", "Precision water management"],
-      Groundnut: ["Supplemental irrigation (water harvesting structures/farm ponds)"],
-      Lentil: ["Microirrigation", "Precision water management"],
-      Jute: ["Supplemental irrigation (water harvesting structures/farm ponds)"],
+      Rice: [
+        { name: "Microirrigation", description: "Microirrigation methods delivers water slowly to plant roots, reducing overwatering." },
+        { name: "Alternate wetting and drying", description: "AWD alternates flooding and drying rice fields, saving water, reducing GHG emissions, and maintaining yields." },
+        { name: "Precision water management", description: "Precision water management uses sensors and data for efficient, targeted irrigation." },
+      ],
+      Wheat: [
+        { name: "Microirrigation", description: "Microirrigation methods delivers water slowly to plant roots, reducing overwatering." },
+        { name: "Precision water management", description: "Precision water management uses sensors and data for efficient, targeted irrigation." },
+      ],
+      Barley: [
+        { name: "Microirrigation", description: "Microirrigation methods delivers water slowly to plant roots, reducing overwatering." },
+        { name: "Precision water management", description: "Precision water management uses sensors and data for efficient, targeted irrigation." },
+      ],
+      Maize: [
+        { name: "Microirrigation", description: "Microirrigation methods delivers water slowly to plant roots, reducing overwatering." },
+        { name: "Precision water management", description: "Precision water management uses sensors and data for efficient, targeted irrigation." },
+        { name: "Supplemental irrigation (water harvesting structures/farm ponds)", description: "Supplemental irrigation uses water harvesting structures to aid plants during droughts." },
+      ],
+      Sorghum: [{ name: "Supplemental irrigation (water harvesting structures/farm ponds)", description: "Supplemental irrigation uses water harvesting structures to aid plants during droughts." }],
+      Millets: [{ name: "Supplemental irrigation (water harvesting structures/farm ponds)", description: "Supplemental irrigation uses water harvesting structures to aid plants during droughts." }],
+      Chickpea: [{ name: "Supplemental irrigation (water harvesting structures/farm ponds)", description: "Supplemental irrigation uses water harvesting structures to aid plants during droughts." }],
+      Pigeonpea: [{ name: "Supplemental irrigation (water harvesting structures/farm ponds)", description: "Supplemental irrigation uses water harvesting structures to aid plants during droughts." }],
+      Soybean: [{ name: "Supplemental irrigation (water harvesting structures/farm ponds)", description: "Supplemental irrigation uses water harvesting structures to aid plants during droughts." }],
+      Mustard: [
+        { name: "Microirrigation", description: "Microirrigation methods delivers water slowly to plant roots, reducing overwatering." },
+        { name: "Precision water management", description: "Precision water management uses sensors and data for efficient, targeted irrigation." },
+      ],
+      Cotton: [
+        { name: "Microirrigation", description: "Microirrigation methods delivers water slowly to plant roots, reducing overwatering." },
+        { name: "Precision water management", description: "Precision water management uses sensors and data for efficient, targeted irrigation." },
+        { name: "Supplemental irrigation (water harvesting structures/farm ponds)", description: "Supplemental irrigation uses water harvesting structures to aid plants during droughts." },
+      ],
+      Potato: [
+        { name: "Microirrigation", description: "Microirrigation methods delivers water slowly to plant roots, reducing overwatering." },
+        { name: "Precision water management", description: "Precision water management uses sensors and data for efficient, targeted irrigation." },
+      ],
+      Groundnut: [{ name: "Supplemental irrigation (water harvesting structures/farm ponds)", description: "Supplemental irrigation uses water harvesting structures to aid plants during droughts." }],
+      Lentil: [
+        { name: "Microirrigation", description: "Microirrigation methods delivers water slowly to plant roots, reducing overwatering." },
+        { name: "Precision water management", description: "Precision water management uses sensors and data for efficient, targeted irrigation." },
+      ],
+      Jute: [{ name: "Supplemental irrigation (water harvesting structures/farm ponds)", description: "Supplemental irrigation uses water harvesting structures to aid plants during droughts." }],
     },
 
     getPlantingTechniques(cropName) {
@@ -337,12 +378,11 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
                 />
                 {state[sname1] && sname1 === "Planting Technology" && (
                   <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
-                    {cropTechnologies.getPlantingTechniques(CropName).map((sname, idx) => (
-                      <FormGroup>
+                    {cropTechnologies.getPlantingTechniques(CropName).map((tech, idx) => (
+                      <FormGroup key={tech.name}>
                         <CustomFormControlLabel
-                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname]} onChange={changeOpt(sname)} name={sname} />}
+                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[tech.name]} onChange={changeOpt(tech.name)} name={tech.name} />}
                           disabled={false}
-                          key={sname}
                           label={
                             <Typography
                               variant="body2"
@@ -355,14 +395,14 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
                               }}
                               style={{ wordWrap: "break-word" }}
                             >
-                              {sname}
+                              {tech.name}
                               <LightTooltip
                                 title={
                                   <>
-                                    <span>{planting_popup[idx]}</span>
+                                    <span>{tech.description}</span>
                                     <br />
                                     <Link
-                                      href={`#/resources?tab=2&term=${sname.toLowerCase()}`}
+                                      href={`#/resources?tab=2&term=${tech.name.toLowerCase()}`}
                                       target="_blank"
                                       sx={(theme) => ({
                                         color: theme.palette.mode === "dark" ? "black" : "white",
@@ -441,12 +481,12 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
                 )}
                 {state[sname1] && sname1 === "Water Management" && (
                   <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
-                    {cropTechnologies.getWaterTechniques(CropName).map((sname, idx) => (
+                    {cropTechnologies.getWaterTechniques(CropName).map((tech, idx) => (
                       <FormGroup>
                         <CustomFormControlLabel
-                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname]} onChange={changeOpt(sname)} name={sname} />}
+                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[tech.name]} onChange={changeOpt(tech.name)} name={tech.name} />}
                           disabled={false}
-                          key={sname}
+                          key={tech.name}
                           label={
                             <Typography
                               variant="body2"
@@ -459,14 +499,14 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
                               }}
                               style={{ wordWrap: "break-word" }}
                             >
-                              {sname}
+                              {tech.name}
                               <LightTooltip
                                 title={
                                   <>
-                                    <span>{water_popup[idx]}</span>
+                                    <span>{tech.description}</span>
                                     <br />
                                     <Link
-                                      href={`#/resources?tab=2&term=${sname.toLowerCase()}`}
+                                      href={`#/resources?tab=2&term=${tech.name.toLowerCase()}`}
                                       target="_blank"
                                       sx={(theme) => ({
                                         color: theme.palette.mode === "dark" ? "black" : "white",
@@ -518,12 +558,12 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
                 />
                 {state[sname1] && sname1 === "Planting Technology" && (
                   <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
-                    {cropTechnologies.getPlantingTechniques(CropName).map((sname) => (
+                    {cropTechnologies.getPlantingTechniques(CropName).map((tech, idx) => (
                       <FormGroup>
                         <CustomFormControlLabel
-                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname]} onChange={changeOpt(sname)} name={sname} />}
+                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[tech.name]} onChange={changeOpt(tech.name)} name={tech.name} />}
                           disabled={false}
-                          key={sname}
+                          key={tech.name}
                           label={
                             <Typography
                               variant="body2"
@@ -536,7 +576,31 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
                               }}
                               style={{ wordWrap: "break-word" }}
                             >
-                              {sname}
+                              {tech.name}
+                              <LightTooltip
+                                title={
+                                  <>
+                                    <span>{tech.description}</span>
+                                    <br />
+                                    <Link
+                                      href={`#/resources?tab=2&term=${tech.name.toLowerCase()}`}
+                                      target="_blank"
+                                      sx={(theme) => ({
+                                        color: theme.palette.mode === "dark" ? "black" : "white",
+                                        fontWeight: "bold",
+                                      })}
+                                    >
+                                      Read More
+                                    </Link>
+                                  </>
+                                }
+                                placement="right"
+                                arrow
+                              >
+                                <IconButton sx={{ padding: 0, margin: 0, paddingX: "4px" }}>
+                                  <InfoOutlinedIcon sx={{ fontSize: "12px", padding: 0, margin: 0 }} />
+                                </IconButton>
+                              </LightTooltip>
                             </Typography>
                           }
                         />
@@ -546,12 +610,12 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
                 )}
                 {state[sname1] && sname1 === "Water Management" && (
                   <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
-                    {cropTechnologies.getWaterTechniques(CropName).map((sname, idx) => (
+                    {cropTechnologies.getWaterTechniques(CropName).map((tech, idx) => (
                       <FormGroup>
                         <CustomFormControlLabel
-                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname]} onChange={changeOpt(sname)} name={sname} />}
+                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[tech.name]} onChange={changeOpt(tech.name)} name={tech.name} />}
                           disabled={false}
-                          key={sname}
+                          key={tech.name}
                           label={
                             <Typography
                               variant="body2"
@@ -564,14 +628,14 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
                               }}
                               style={{ wordWrap: "break-word" }}
                             >
-                              {sname}
+                              {tech.name}
                               <LightTooltip
                                 title={
                                   <>
-                                    <span>{water_popup[idx]}</span>
+                                    <span>{tech.description}</span>
                                     <br />
                                     <Link
-                                      href={`#/resources?tab=2&term=${sname.toLowerCase()}`}
+                                      href={`#/resources?tab=2&term=${tech.name.toLowerCase()}`}
                                       target="_blank"
                                       sx={(theme) => ({
                                         color: theme.palette.mode === "dark" ? "black" : "white",
@@ -675,12 +739,12 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
                 )}
                 {state[sname1] && sname1 === "Water Management" && (
                   <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
-                    {cropTechnologies.getWaterTechniques(CropName).map((sname, idx) => (
+                    {cropTechnologies.getWaterTechniques(CropName).map((tech, idx) => (
                       <FormGroup>
                         <CustomFormControlLabel
-                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname]} onChange={changeOpt(sname)} name={sname} />}
+                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[tech.name]} onChange={changeOpt(tech.name)} name={tech.name} />}
                           disabled={false}
-                          key={sname}
+                          key={tech.name}
                           label={
                             <Typography
                               variant="body2"
@@ -693,14 +757,14 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
                               }}
                               style={{ wordWrap: "break-word" }}
                             >
-                              {sname}
+                              {tech.name}
                               <LightTooltip
                                 title={
                                   <>
-                                    <span>{water_popup[idx]}</span>
+                                    <span>{tech.description}</span>
                                     <br />
                                     <Link
-                                      href={`#/resources?tab=2&term=${sname.toLowerCase()}`}
+                                      href={`#/resources?tab=2&term=${tech.name.toLowerCase()}`}
                                       target="_blank"
                                       sx={(theme) => ({
                                         color: theme.palette.mode === "dark" ? "black" : "white",
@@ -752,12 +816,12 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
                 />
                 {state[sname1] && sname1 === "Water Management" && (
                   <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
-                    {cropTechnologies.getWaterTechniques(CropName).map((sname, idx) => (
+                    {cropTechnologies.getWaterTechniques(CropName).map((tech, idx) => (
                       <FormGroup>
                         <CustomFormControlLabel
-                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname]} onChange={changeOpt(sname)} name={sname} />}
+                          control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[tech.name]} onChange={changeOpt(tech.name)} name={tech.name} />}
                           disabled={false}
-                          key={sname}
+                          key={tech.name}
                           label={
                             <Typography
                               variant="body2"
@@ -770,14 +834,14 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
                               }}
                               style={{ wordWrap: "break-word" }}
                             >
-                              {sname}
+                              {tech.name}
                               <LightTooltip
                                 title={
                                   <>
-                                    <span>{water_popup[idx]}</span>
+                                    <span>{tech.description}</span>
                                     <br />
                                     <Link
-                                      href={`#/resources?tab=2&term=${sname.toLowerCase()}`}
+                                      href={`#/resources?tab=2&term=${tech.name.toLowerCase()}`}
                                       target="_blank"
                                       sx={(theme) => ({
                                         color: theme.palette.mode === "dark" ? "black" : "white",
