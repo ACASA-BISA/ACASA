@@ -252,8 +252,55 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                   AdaptLayerName === "Economic Viability" ||
                   AdaptLayerName === "Scalability" ||
                   AdaptLayerName === "Gender Suitability") && (
-                  <Tooltip title={<Typography sx={{ fontSize: 10 }}>Unsuitable</Typography>} placement="top" arrow open={true}>
-                    <Box
+                  <Tooltip
+                    title={
+                      <Box
+                        sx={{
+                          width: 58,
+                          height: 18,
+                          borderRadius: 0,
+                          bgcolor: "#A52A2A",
+                          alignContent: "center",
+                          marginTop: "16px",
+                          marginRight: "2px",
+                        }}
+                      >
+                        <Typography
+                          sx={{
+                            fontSize: 10,
+                            marginY: "auto",
+                            marginX: "3px",
+                          }}
+                          color="white"
+                        >
+                          <strong>Unsuitable</strong>
+                        </Typography>
+                      </Box>
+                    }
+                    placement="top"
+                    open={true}
+                    componentsProps={{
+                      tooltip: {
+                        sx: {
+                          backgroundColor: "white",
+                          padding: 0,
+                          //boxShadow: "0px 0px 2px rgba(0,0,0,0.2)",
+                        },
+                      },
+                      popper: {
+                        modifiers: [
+                          {
+                            name: "offset",
+                            options: {
+                              offset: [0, 25], // adjust this if you want to tweak distance from anchor
+                            },
+                          },
+                        ],
+                      },
+                    }}
+                  >
+                    <div></div>
+                    {/* <Box
                       sx={{
                         width: 20,
                         height: 18,
@@ -274,7 +321,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                       >
                         <strong>US</strong>
                       </Typography>
-                    </Box>
+                    </Box> */}
                   </Tooltip>
                 )}
                 {rowshzd.map((row, index) => (
