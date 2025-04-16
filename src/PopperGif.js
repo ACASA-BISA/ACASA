@@ -37,7 +37,7 @@ function useInterval(callback, delay) {
 
 export default function PopperGif({ activeCrop, activeScenario, activeRegion, focus, activeOpt, CurrRisk, activeImpact, activeOptLayer, modelName, displayLayer, activeScale, exploreType }) {
   const [currentYearIndex, setCurrentYearIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
 
   useInterval(
     () => {
