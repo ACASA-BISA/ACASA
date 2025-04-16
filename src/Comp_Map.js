@@ -1090,7 +1090,7 @@ export default function MApp({
     mapRef.current.addControl(downloadControl);
     downloadControlRef.current = downloadControl;
 
-    /* if (CurrRisk !== "") {
+    if (CurrRisk !== "") {
       if (!popperControlRef.current) {
         // Prevent duplicate addition
         const popperControl = new PopperControl();
@@ -1102,7 +1102,7 @@ export default function MApp({
         mapRef.current.removeControl(popperControlRef.current);
         popperControlRef.current = null;
       }
-    } */
+    }
   }, [filename, CurrRisk]);
 
   useEffect(() => {

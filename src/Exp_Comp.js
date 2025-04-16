@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Grid, Paper, Typography, Box, Popper, Slider, Button } from "@mui/material";
+import { Grid, Paper, Typography, Box, Popper, Slider, Button, FormControl, MenuItem, Select } from "@mui/material";
 import Map_Option from "./Comp_Map"; // Assuming this is your map component
 import "./font.css";
 import "./extra.css";
@@ -114,7 +114,7 @@ export default function CompV({
     scn = "ssp585";
   }
 
-  const [futureModel, setFutureModel] = React.useState(displayLayer);
+  const [futureModel, setFutureModel] = React.useState("Gender Suitability");
   let sec = activeRegion.indexOf(",");
 
   const countryMap1 = {};
@@ -154,7 +154,7 @@ export default function CompV({
   countryMap["MV"] = "Maldives";
 
   const handleScenariochange = (event) => {
-    changeScenario(event.target.value);
+    //changeScenario(event.target.value);
     setFutureModel(event.target.value);
   };
 
@@ -408,18 +408,57 @@ export default function CompV({
                   onClick={() => handleSelect(index)}
                   disableRipple
                 >
-                  <Typography
-                    fontWeight="bold"
-                    sx={{
-                      maxWidth: "250px",
-                      wordBreak: "break-word",
-                      whiteSpace: "normal",
-                      fontSize: "11px",
-                    }}
-                    style={{ wordWrap: "break-word" }}
-                  >
-                    {label}
-                  </Typography>
+                  {label !== "Gender suitability" && (
+                    <Typography
+                      fontWeight="bold"
+                      sx={{
+                        maxWidth: "250px",
+                        wordBreak: "break-word",
+                        whiteSpace: "normal",
+                        fontSize: "11px",
+                        fontFamily: "Karla",
+                      }}
+                      style={{ wordWrap: "break-word" }}
+                    >
+                      {label}
+                    </Typography>
+                  )}
+                  {label === "Gender suitability" && (
+                    <Typography
+                      fontWeight="bold"
+                      sx={{
+                        maxWidth: "250px",
+                        wordBreak: "break-word",
+                        whiteSpace: "normal",
+                        fontSize: "11px",
+                        fontFamily: "Karla",
+                      }}
+                      style={{ wordWrap: "break-word" }}
+                    >
+                      <FormControl size="small">
+                        <Select
+                          labelId="GenderOptions"
+                          id="future-model-select-idx"
+                          sx={{ fontSize: "11px", height: "16px", fontFamily: "Karla", fontWeight: "bold", color: "white" }}
+                          value={futureModel}
+                          onChange={handleScenariochange}
+                        >
+                          <MenuItem value="Gender Suitability" sx={{ fontSize: "12px", height: "16px", fontFamily: "Karla" }}>
+                            Gender Suitability
+                          </MenuItem>
+                          <MenuItem value="Female Labourers" sx={{ fontSize: "12px", height: "16px", fontFamily: "Karla" }}>
+                            Female Labourers
+                          </MenuItem>
+                          <MenuItem value="Female Cultivators" sx={{ fontSize: "12px", height: "16px", fontFamily: "Karla" }}>
+                            Female Cultivators
+                          </MenuItem>
+                          <MenuItem value="Agri Labourers" sx={{ fontSize: "12px", height: "16px", fontFamily: "Karla" }}>
+                            Percentage agri labourers
+                          </MenuItem>
+                        </Select>
+                      </FormControl>
+                    </Typography>
+                  )}
                 </ArrowTab>
               ))}
             </Box>

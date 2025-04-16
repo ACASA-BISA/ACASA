@@ -252,7 +252,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                   AdaptLayerName === "Economic Viability" ||
                   AdaptLayerName === "Scalability" ||
                   AdaptLayerName === "Gender Suitability") && (
-                  <Tooltip title={<Typography sx={{ fontSize: 10 }}>Unsuitable</Typography>} placement="left" arrow open={true}>
+                  <Tooltip title={<Typography sx={{ fontSize: 10 }}>Unsuitable</Typography>} placement="top" arrow open={true}>
                     <Box
                       sx={{
                         width: 20,
@@ -298,26 +298,66 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                               </Typography>
                             </Box>
                           }
-                          <Box
-                            sx={{
-                              width: 58,
-                              height: 18,
-                              borderRadius: 0,
-                              bgcolor: row.color,
-                              alignContent: "center",
-                            }}
-                          >
-                            <Typography
+                          {(AdaptLayerName === "Biophysical Suitability" || AdaptLayerName === "Yield Benefits") && adaption !== "" && (
+                            <Box
                               sx={{
-                                fontSize: 10,
-                                marginY: "auto",
-                                marginLeft: "3px",
+                                width: 58,
+                                height: 18 + 10,
+                                borderRadius: 0,
+                                bgcolor: row.color,
+                                alignContent: "center",
                               }}
-                              color={row.color === "rgba(241, 233, 119, 1)" ? "black" : "white"}
                             >
-                              <strong>{row.Cat}</strong>
-                            </Typography>
-                          </Box>
+                              <Typography
+                                sx={{
+                                  fontSize: 10,
+                                  marginY: "auto",
+                                  marginX: "1px",
+                                  //alignContent: "center",
+                                  //justifyContent: "center",
+                                }}
+                                color={index <= 4 && index >= 2 ? "#111" : "white"}
+                                align="center"
+                              >
+                                {row.Cat.split("\n").map((line, i) => (
+                                  <span
+                                    key={i}
+                                    style={{
+                                      display: "block",
+                                      lineHeight: "1.3", // Reduce this value as needed
+                                      fontStyle: i === 1 ? "italic" : "normal",
+                                      fontWeight: i === 1 ? "normal" : "bold",
+                                      fontSize: i === 1 ? 8 : 10,
+                                    }}
+                                  >
+                                    {line}
+                                  </span>
+                                ))}
+                              </Typography>
+                            </Box>
+                          )}
+                          {((AdaptLayerName !== "Biophysical Suitability" && AdaptLayerName !== "Yield Benefits") || adaption === "") && (
+                            <Box
+                              sx={{
+                                width: 58,
+                                height: 18,
+                                borderRadius: 0,
+                                bgcolor: row.color,
+                                alignContent: "center",
+                              }}
+                            >
+                              <Typography
+                                sx={{
+                                  fontSize: 10,
+                                  marginY: "auto",
+                                  marginLeft: "3px",
+                                }}
+                                color={index <= 4 && index >= 2 ? "#111" : "white"}
+                              >
+                                <strong>{row.Cat}</strong>
+                              </Typography>
+                            </Box>
+                          )}
                           <Box sx={{ width: 58, height: 18, borderRadius: 0 }}>
                             <Typography
                               sx={(theme) => ({ fontSize: 10, margin: "2px", marginTop: "0px", color: theme.palette.mode === "dark" ? theme.palette.text.secondary : "#111" })}
