@@ -923,7 +923,7 @@ export default function MApp({
       right: 30px;
       background-color: ${mode === "dark" ? "#25292e" : "white"};
       border: 1px solid ${mode === "dark" ? "#e0e0e0" : "black"};
-      padding: 10px;
+      padding: 2px;
       border-radius: 5px;
       box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.2);
       z-index:1000;
@@ -942,6 +942,7 @@ export default function MApp({
       });
 
       this.popperContainer = popperContainer;
+      popperContainer.style.display = "block";
     }
 
     setReactComponent(reactComponent) {
@@ -1091,11 +1092,33 @@ export default function MApp({
     downloadControlRef.current = downloadControl;
 
     if (CurrRisk !== "") {
-      if (!popperControlRef.current) {
-        // Prevent duplicate addition
-        const popperControl = new PopperControl();
-        mapRef.current.addControl(popperControl);
-        popperControlRef.current = popperControl;
+      if (
+        CurrRisk === "Irrigation" ||
+        CurrRisk === "Volumetric Soil Water" ||
+        CurrRisk === "Agriculture Income" ||
+        CurrRisk === "Soil Organic Carbon" ||
+        CurrRisk === "Feed/Fodder" ||
+        CurrRisk === "Rural infrastructure" ||
+        CurrRisk === "Socio-economic Development Indicator" ||
+        CurrRisk === "Income" ||
+        CurrRisk === "Cropped Area" ||
+        CurrRisk === "Number of Animals per grid" ||
+        CurrRisk === "Exposure Index" ||
+        CurrRisk === "Vulnerability Index" ||
+        CurrRisk === "Hazard Index" ||
+        CurrRisk === "Risk Index"
+      ) {
+        if (popperControlRef.current) {
+          mapRef.current.removeControl(popperControlRef.current);
+          popperControlRef.current = null;
+        }
+      } else {
+        if (!popperControlRef.current) {
+          // Prevent duplicate addition
+          const popperControl = new PopperControl();
+          mapRef.current.addControl(popperControl);
+          popperControlRef.current = popperControl;
+        }
       }
     } else {
       if (popperControlRef.current) {
