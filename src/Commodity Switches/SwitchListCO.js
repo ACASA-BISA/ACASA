@@ -30,9 +30,7 @@ export default function SwitchCereals({ activeCrop, changeCrop }) {
     "Here this analysis is done for winter season.",
     "Here this analysis is for monsoon season.",
     "Here this analysis is for winter season",
-    "Here this analysis is for monsoon season.",
-    "Here this analysis is for monsoon season.",
-    "Here this analysis is for monsoon season.",
+    "Here this analysis is for winter season.",
     "Here this analysis is for monsoon season.",
   ];
 

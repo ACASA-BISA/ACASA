@@ -1295,14 +1295,12 @@ export default function MApp({
         mapRef.current.addLayer(newcountrylayer);
         setcountryLayer(newcountrylayer);
       }
-      if (mapRef.current) {
+      /**if (mapRef.current) {
         countryboundary.on("change", function () {
           if (countryboundary.getState() === "ready") {
             if (countryboundary.getFeatures()) {
               const featuress = countryboundary.getFeatures();
               const polyy = featuress[0].getGeometry();
-              /* const polygoncordinates  = polyy.getCoordinates();
-                setpolycord(polygoncordinates); */
               const extentt = polyy.getExtent();
               const sizee = mapRef.current.getSize();
               let x = 0;
@@ -1317,6 +1315,130 @@ export default function MApp({
             }
           }
         });
+      }*/
+
+      { 
+        /* Zoom syncing implementation 1 - Debounce method
+        if (mapRef.current) {
+          const currentMap = mapRef.current;
+          const currentView = currentMap.getView();
+        
+          // Global array to hold all synced views
+          window.syncedViews = window.syncedViews || [];
+          if (!window.syncedViews.includes(currentView)) {
+            window.syncedViews.push(currentView);
+          }
+        
+          // Fit extent logic
+          countryboundary.on("change", function () {
+            if (countryboundary.getState() === "ready") {
+              if (countryboundary.getFeatures()) {
+                const featuress = countryboundary.getFeatures();
+                const polyy = featuress[0].getGeometry();
+                const extentt = polyy.getExtent();
+                const sizee = mapRef.current.getSize();
+                let x = 0;
+                if (CurrRisk !== "" || activeOpt !== "" || ImpactName !== "") {
+                  x = 90;
+                }
+                currentView.fit(extentt, {
+                  size: [sizee[0] * 0.9, sizee[1] * 0.9],
+                  padding: [0, 0, x, 0],
+                });
+                defext = extentt;
+              }
+            }
+          });
+        
+          // Prevent jitter by checking before syncing
+          let lastZoom = currentView.getZoom();
+          let lastCenter = currentView.getCenter();
+        
+          const syncZoom = () => {
+            const zoom = currentView.getZoom();
+            const center = currentView.getCenter();
+        
+            // Only broadcast if zoom or center has actually changed significantly
+            const zoomChanged = zoom !== lastZoom;
+            const centerChanged =
+              center[0] !== lastCenter[0] || center[1] !== lastCenter[1];
+        
+            if (zoomChanged || centerChanged) {
+              for (const view of window.syncedViews) {
+                if (view !== currentView) {
+                  if (zoomChanged) view.setZoom(zoom);
+                  if (centerChanged) view.setCenter(center);
+                }
+              }
+        
+              lastZoom = zoom;
+              lastCenter = center;
+            }
+          };
+        
+          // Use a slight debounce to reduce jitter
+          let zoomTimeout;
+          currentView.on("change:resolution", () => {
+            clearTimeout(zoomTimeout);
+            zoomTimeout = setTimeout(syncZoom, 50); // adjust timing as needed
+          });
+        
+          currentView.on("change:center", () => {
+            clearTimeout(zoomTimeout);
+            zoomTimeout = setTimeout(syncZoom, 50);
+          });
+        }
+        */
+      }
+      // Zoom syncing implementation 2 - Continuous sync approach
+      if (mapRef.current) {
+        const currentMap = mapRef.current;
+        const currentView = currentMap.getView();
+
+        // Global array to hold all synced views
+        window.syncedViews = window.syncedViews || [];
+        if (!window.syncedViews.includes(currentView)) {
+          window.syncedViews.push(currentView);
+        }
+
+        // Fit extent logic
+        countryboundary.on("change", function () {
+          if (countryboundary.getState() === "ready") {
+            if (countryboundary.getFeatures()) {
+              const featuress = countryboundary.getFeatures();
+              const polyy = featuress[0].getGeometry();
+              const extentt = polyy.getExtent();
+              const sizee = mapRef.current.getSize();
+              let x = 0;
+              if (CurrRisk !== "" || activeOpt !== "" || ImpactName !== "") {
+                x = 90;
+              }
+              currentView.fit(extentt, {
+                size: [sizee[0] * 0.9, sizee[1] * 0.9],
+                padding: [0, 0, x, 0],
+              });
+              defext = extentt;
+            }
+          }
+        });
+
+        // Sync zoom and center continuously
+        const syncZoom = () => {
+          const zoom = currentView.getZoom();
+          const center = currentView.getCenter();
+
+          for (const view of window.syncedViews) {
+            if (view !== currentView) {
+              // Directly apply zoom and center to synced maps
+              view.setZoom(zoom);
+              view.setCenter(center);
+            }
+          }
+        };
+
+        // Continuously monitor zoom and center changes
+        currentView.on("change:resolution", syncZoom);
+        currentView.on("change:center", syncZoom);
       }
     }
     if (sourcet) {

@@ -249,6 +249,11 @@ const data = [
   createData("Barley", "Baseline", "Hazard", "Crop water deficit index", "", "", "Download"),
   createData("Barley", "Baseline", "Hazard", "Days of frost", "", "", "Download"),
 
+  createData("Sorghum", "Baseline", "Hazard", "Low temperature induced pollen sterility", "", "", "Download"),
+  createData("Sorghum", "Baseline", "Hazard", "Cold stress", "", "", "Download"),
+  createData("Sorghum", "Baseline", "Hazard", "Untimely rainfall", "", "", "Download"),
+  createData("Sorghum", "Baseline", "Hazard", "Crop water deficit index", "", "", "Download"),
+
   createData("Millets", "Baseline", "Hazard", "Heat stress", "", "", "Download"),
   createData("Millets", "Baseline", "Hazard", "Delayed monsoon", "", "", "Download"),
   createData("Millets", "Baseline", "Hazard", "Dry spell", "", "", "Download"),
@@ -363,6 +368,11 @@ const data = [
   createData("Barley", "SSP245", "Hazard", "Crop water deficit index", "", "", "Download"),
   createData("Barley", "SSP245", "Hazard", "Days of frost", "", "", "Download"),
 
+  createData("Sorghum", "SSP245", "Hazard", "Low temperature induced pollen sterility", "", "", "Download"),
+  createData("Sorghum", "SSP245", "Hazard", "Cold stress", "", "", "Download"),
+  createData("Sorghum", "SSP245", "Hazard", "Untimely rainfall", "", "", "Download"),
+  createData("Sorghum", "SSP245", "Hazard", "Crop water deficit index", "", "", "Download"),
+
   createData("Millets", "SSP245", "Hazard", "Heat stress", "", "", "Download"),
   createData("Millets", "SSP245", "Hazard", "Delayed monsoon", "", "", "Download"),
   createData("Millets", "SSP245", "Hazard", "Dry spell", "", "", "Download"),
@@ -475,6 +485,11 @@ const data = [
   createData("Barley", "SSP585", "Hazard", "Untimely rainfall", "", "", "Download"),
   createData("Barley", "SSP585", "Hazard", "Crop water deficit index", "", "", "Download"),
   createData("Barley", "SSP585", "Hazard", "Days of frost", "", "", "Download"),
+
+  createData("Sorghum", "SSP585", "Hazard", "Low temperature induced pollen sterility", "", "", "Download"),
+  createData("Sorghum", "SSP585", "Hazard", "Cold stress", "", "", "Download"),
+  createData("Sorghum", "SSP585", "Hazard", "Untimely rainfall", "", "", "Download"),
+  createData("Sorghum", "SSP585", "Hazard", "Crop water deficit index", "", "", "Download"),
 
   createData("Millets", "SSP585", "Hazard", "Heat stress", "", "", "Download"),
   createData("Millets", "SSP585", "Hazard", "Delayed monsoon", "", "", "Download"),
@@ -592,6 +607,7 @@ const data = [
   createData("Wheat", "Baseline", "Exposure", "Cropped area", "", "", "Download"),
   createData("Maize", "Baseline", "Exposure", "Cropped area", "", "", "Download"),
   createData("Barley", "Baseline", "Exposure", "Cropped area", "", "", "Download"),
+  createData("Sorghum", "Baseline", "Exposure", "Cropped area", "", "", "Download"),
   createData("Millets", "Baseline", "Exposure", "Cropped area", "", "", "Download"),
   createData("Chickpea", "Baseline", "Exposure", "Cropped area", "", "", "Download"),
   createData("Pigeonpea", "Baseline", "Exposure", "Cropped area", "", "", "Download"),
@@ -612,6 +628,7 @@ const data = [
   createData("Wheat", "SSP245", "Exposure", "Cropped area", "", "", "Download"),
   createData("Maize", "SSP245", "Exposure", "Cropped area", "", "", "Download"),
   createData("Barley", "SSP245", "Exposure", "Cropped area", "", "", "Download"),
+  createData("Sorghum", "SSP245", "Exposure", "Cropped area", "", "", "Download"),
   createData("Millets", "SSP245", "Exposure", "Cropped area", "", "", "Download"),
   createData("Chickpea", "SSP245", "Exposure", "Cropped area", "", "", "Download"),
   createData("Pigeonpea", "SSP245", "Exposure", "Cropped area", "", "", "Download"),
@@ -632,6 +649,7 @@ const data = [
   createData("Wheat", "SSP585", "Exposure", "Cropped area", "", "", "Download"),
   createData("Maize", "SSP585", "Exposure", "Cropped area", "", "", "Download"),
   createData("Barley", "SSP585", "Exposure", "Cropped area", "", "", "Download"),
+  createData("Sorghum", "SSP585", "Exposure", "Cropped area", "", "", "Download"),
   createData("Millets", "SSP585", "Exposure", "Cropped area", "", "", "Download"),
   createData("Chickpea", "SSP585", "Exposure", "Cropped area", "", "", "Download"),
   createData("Pigeonpea", "SSP585", "Exposure", "Cropped area", "", "", "Download"),
@@ -674,6 +692,12 @@ const data = [
   createData("Barley", "Baseline", "Vulnerability", "Volumetric soil water", "", "", "Download"),
   createData("Barley", "Baseline", "Vulnerability", "Rural infrastructure", "", "", "Download"),
   createData("Barley", "Baseline", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+
+  createData("Sorghum", "Baseline", "Vulnerability", "Irrigation", "", "", "Download"),
+  createData("Sorghum", "Baseline", "Vulnerability", "Income", "", "", "Download"),
+  createData("Sorghum", "Baseline", "Vulnerability", "Volumetric soil water", "", "", "Download"),
+  createData("Sorghum", "Baseline", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+  createData("Sorghum", "Baseline", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
 
   createData("Millets", "Baseline", "Vulnerability", "Irrigation", "", "", "Download"),
   createData("Millets", "Baseline", "Vulnerability", "Income", "", "", "Download"),
@@ -791,6 +815,12 @@ const data = [
   createData("Barley", "SSP245", "Vulnerability", "Rural infrastructure", "", "", "Download"),
   createData("Barley", "SSP245", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
 
+  createData("Sorghum", "SSP245", "Vulnerability", "Irrigation", "", "", "Download"),
+  createData("Sorghum", "SSP245", "Vulnerability", "Income", "", "", "Download"),
+  createData("Sorghum", "SSP245", "Vulnerability", "Volumetric soil water", "", "", "Download"),
+  createData("Sorghum", "SSP245", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+  createData("Sorghum", "SSP245", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+
   createData("Millets", "SSP245", "Vulnerability", "Irrigation", "", "", "Download"),
   createData("Millets", "SSP245", "Vulnerability", "Income", "", "", "Download"),
   createData("Millets", "SSP245", "Vulnerability", "Volumetric soil water", "", "", "Download"),
@@ -906,6 +936,12 @@ const data = [
   createData("Barley", "SSP585", "Vulnerability", "Volumetric soil water", "", "", "Download"),
   createData("Barley", "SSP585", "Vulnerability", "Rural infrastructure", "", "", "Download"),
   createData("Barley", "SSP585", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
+
+  createData("Sorghum", "SSP585", "Vulnerability", "Irrigation", "", "", "Download"),
+  createData("Sorghum", "SSP585", "Vulnerability", "Income", "", "", "Download"),
+  createData("Sorghum", "SSP585", "Vulnerability", "Volumetric soil water", "", "", "Download"),
+  createData("Sorghum", "SSP585", "Vulnerability", "Rural infrastructure", "", "", "Download"),
+  createData("Sorghum", "SSP585", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
 
   createData("Millets", "SSP585", "Vulnerability", "Irrigation", "", "", "Download"),
   createData("Millets", "SSP585", "Vulnerability", "Income", "", "", "Download"),
@@ -1321,6 +1357,7 @@ export default function Description() {
                   <MenuItem value="Wheat">Wheat</MenuItem>
                   <MenuItem value="Maize">Maize</MenuItem>
                   <MenuItem value="Barley">Barley</MenuItem>
+                  <MenuItem value="Sorghum">Sorghum</MenuItem>
                   <MenuItem value="Millets">Millets</MenuItem>
 
                   <ListSubheader>Pulses</ListSubheader>
@@ -1453,7 +1490,7 @@ export default function Description() {
               >
                 <DownloadIcon />
                 <span className="button-text">
-                  <Typography>{totalFileSize === 0 ? "Download Group - Calculating..." : `Download Group - ${formatFileSize(totalFileSize)}`}</Typography>
+                  <Typography>{totalFileSize === 0 ? "Batch download - Calculating size..." : `Batch download - ${formatFileSize(totalFileSize)}`}</Typography>
                 </span>
               </IconButton>
 
@@ -1511,7 +1548,7 @@ export default function Description() {
                     title={item.Title}
                     description={item.Description}
                     source={item.Source}
-                    imgSrc={`Data_access_compressed/${item.LayerType}/${item.Commodity}/CHC/${item.Scenario}/${item.Scenario}_CHC_${item.Commodity}_${item.Title.replaceAll(" ", "%20")}.PNG`}
+                    imgSrc={`Data_access_compressed/${item.LayerType}/${item.Commodity}/CHC/${item.Scenario}/${item.Scenario}_CHC_${item.Commodity}_${item.Title.replaceAll(" ", "%20")}.png`}
                     buttonText={item.Action}
                     onButtonClick={() => handleIndividualDownload(item)}
                   />
