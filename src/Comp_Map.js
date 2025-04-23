@@ -1091,7 +1091,7 @@ export default function MApp({
     mapRef.current.addControl(downloadControl);
     downloadControlRef.current = downloadControl;
 
-    if (CurrRisk !== "") {
+    /* if (CurrRisk !== "") {
       if (
         CurrRisk === "Irrigation" ||
         CurrRisk === "Volumetric Soil Water" ||
@@ -1125,7 +1125,7 @@ export default function MApp({
         mapRef.current.removeControl(popperControlRef.current);
         popperControlRef.current = null;
       }
-    }
+    } */
   }, [filename, CurrRisk]);
 
   useEffect(() => {
@@ -1317,7 +1317,7 @@ export default function MApp({
         });
       }*/
 
-      { 
+      {
         /* Zoom syncing implementation 1 - Debounce method
         if (mapRef.current) {
           const currentMap = mapRef.current;
