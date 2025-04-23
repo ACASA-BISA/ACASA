@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Paper, Button, Typography, Box, Grid, FormControl, InputLabel, Select, MenuItem, IconButton, TextField, InputAdornment, Menu, ListSubheader } from "@mui/material";
+import { Paper, Typography, Box, FormControl, InputLabel, Select, MenuItem, IconButton, TextField, InputAdornment, ListSubheader } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import DownloadIcon from "@mui/icons-material/Download";
 
@@ -7,8 +7,8 @@ import DownloadIcon from "@mui/icons-material/Download";
 import { DataCatalog } from "./Data_Catalog/Data_Catalog";
 // Import JSZip as grouped downloads require zipping
 import JSZip from "jszip";
-import { create } from "ol/transform";
-import { disable } from "ol/rotationconstraint";
+//import { create } from "ol/transform";
+//import { disable } from "ol/rotationconstraint";
 
 // Mapping for different layer types
 const layerMappings = {
@@ -463,7 +463,7 @@ const data = [
   createData("Rice", "SSP585", "Hazard", "Delayed monsoon", "", "", "Download"),
   createData("Rice", "SSP585", "Hazard", "Crop water deficit index", "", "", "Download"),
   createData("Rice", "SSP585", "Hazard", "Dry spell", "", "", "Download"),
-  
+
   createData("Wheat", "SSP585", "Hazard", "High temperature induced pollen sterility", "", "", "Download"),
   createData("Wheat", "SSP585", "Hazard", "Terminal heat", "", "", "Download"),
   createData("Wheat", "SSP585", "Hazard", "Heat stress", "", "", "Download"),
@@ -740,7 +740,7 @@ const data = [
   createData("Groundnut", "Baseline", "Vulnerability", "Volumetric soil water", "", "", "Download"),
   createData("Grountnut", "Baseline", "Vulnerability", "Rural infrastructure", "", "", "Download"),
   createData("Groundnut", "Baseline", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
-  
+
   createData("Cotton", "Baseline", "Vulnerability", "Irrigation", "", "", "Download"),
   createData("Cotton", "Baseline", "Vulnerability", "Income", "", "", "Download"),
   createData("Cotton", "Baseline", "Vulnerability", "Volumetric soil water", "", "", "Download"),
@@ -862,7 +862,7 @@ const data = [
   createData("Groundnut", "SSP245", "Vulnerability", "Volumetric soil water", "", "", "Download"),
   createData("Grountnut", "SSP245", "Vulnerability", "Rural infrastructure", "", "", "Download"),
   createData("Groundnut", "SSP245", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
-  
+
   createData("Cotton", "SSP245", "Vulnerability", "Irrigation", "", "", "Download"),
   createData("Cotton", "SSP245", "Vulnerability", "Income", "", "", "Download"),
   createData("Cotton", "SSP245", "Vulnerability", "Volumetric soil water", "", "", "Download"),
@@ -984,7 +984,7 @@ const data = [
   createData("Groundnut", "SSP585", "Vulnerability", "Volumetric soil water", "", "", "Download"),
   createData("Grountnut", "SSP585", "Vulnerability", "Rural infrastructure", "", "", "Download"),
   createData("Groundnut", "SSP585", "Vulnerability", "Socio-economic development indicator", "", "", "Download"),
-  
+
   createData("Cotton", "SSP585", "Vulnerability", "Irrigation", "", "", "Download"),
   createData("Cotton", "SSP585", "Vulnerability", "Income", "", "", "Download"),
   createData("Cotton", "SSP585", "Vulnerability", "Volumetric soil water", "", "", "Download"),

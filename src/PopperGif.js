@@ -37,7 +37,7 @@ function useInterval(callback, delay) {
 
 export default function PopperGif({ activeCrop, activeScenario, activeRegion, focus, activeOpt, CurrRisk, activeImpact, activeOptLayer, modelName, displayLayer, activeScale, exploreType }) {
   const [currentYearIndex, setCurrentYearIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
 
   useInterval(
     () => {
@@ -101,14 +101,14 @@ export default function PopperGif({ activeCrop, activeScenario, activeRegion, fo
     <div>
       {CurrRisk !== "" && (
         <Box display="flex" flexDirection="column" alignItems="center" sx={{ border: "1px solid #eee" }}>
-          <Box sx={{ width: "90%", bgcolor: "#E4E0E1", height: "18px", marginTop: "1px" }}>
-            <Typography align="center" sx={{ fontSize: "12px", fontWeight: "bold" }}>
+          <Box sx={{ width: "90%", bgcolor: "#E4E0E1", height: "15px", marginTop: "1px" }}>
+            <Typography align="center" sx={{ fontSize: "10px", fontWeight: "normal" }}>
               Year: {currentImage.year}
             </Typography>
           </Box>
-          <Box display="flex" flexDirection="row" sx={{ width: "100%" }} alignItems="center" justifyContent="center" gap="8px">
-            <IconButton onClick={handlePlayPause} sx={{ color: color_for_button, border: "1px solid #eee", borderRadius: "8px", padding: "2px" }}>
-              {isPlaying ? <PauseIcon sx={{ fontSize: "15px" }} /> : <PlayArrowIcon sx={{ fontSize: "15px" }} />}
+          <Box display="flex" flexDirection="row" sx={{ width: "100%", marginBottom: "-5px", marginTop: "-8px" }} alignItems="center" justifyContent="center" gap="15px">
+            <IconButton onClick={handlePlayPause} sx={{ color: color_for_button, border: "1px solid #eee", borderRadius: "6px", padding: "1px", height: "13px !important" }}>
+              {isPlaying ? <PauseIcon sx={{ fontSize: "12px" }} /> : <PlayArrowIcon sx={{ fontSize: "12px" }} />}
             </IconButton>
             <Box sx={{ width: "60%", mt: 0, mb: 0 }}>
               <PrettoSlider
@@ -126,7 +126,7 @@ export default function PopperGif({ activeCrop, activeScenario, activeRegion, fo
               />
             </Box>
           </Box>
-          <Box component="img" src={currentImage.url} alt={`Year ${currentImage.year}`} sx={{ width: "100%", maxWidth: "200px", height: "auto", mb: 0 }} />
+          <Box component="img" src={currentImage.url} alt={`Year ${currentImage.year}`} sx={{ width: "100%", maxWidth: "150px", height: "auto", mb: 0, mt: "-5px" }} />
         </Box>
       )}
     </div>

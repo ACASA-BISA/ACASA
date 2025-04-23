@@ -189,7 +189,7 @@ export function fetchDataAdap(adaption, location, AdaptLayerName, commodity, sce
           : [
               ["#969696", "No significant change"],
               ["#A52A2A", "Unsuitable"], //"#E4003A"
-              ["#FFDE4D", "Negligible"], //"#FFA500"
+              ["#FFDE4D", "Suitable - No hazards"], //"#FFA500"
               ["#B6F792", "Low"],
               ["#00D95A", "Medium"],
               ["#267F2E", "High"],
@@ -197,11 +197,11 @@ export function fetchDataAdap(adaption, location, AdaptLayerName, commodity, sce
       "Yield Benefits": [
         ["#969696", "No significant change"],
         //["#A52A2A", "Unsuitable"], //"#E4003A"
-        ["rgb(248, 36, 36)", "Med loss"],
-        ["#FF8C00", "Low loss"],
-        ["#FFDE4D", "Nil"],
-        ["rgba(109, 233, 109, 1)", "Low gain"],
-        ["rgba(4, 145, 4, 1)", "Med gain"],
+        ["rgb(248, 36, 36)", "Medium loss\n<-15%"],
+        ["#FF8C00", "Low loss\n-15% to -5%"],
+        ["#FFDE4D", "Nil\n-5% to 5%"],
+        ["rgba(109, 233, 109, 1)", "Low gain\n5% to 15%"],
+        ["rgba(4, 145, 4, 1)", "Medium gain\n>15%"],
       ],
       "Economic Viability": [
         ["#969696", "No significant change"],
@@ -245,11 +245,11 @@ export function fetchDataAdap(adaption, location, AdaptLayerName, commodity, sce
             ]
           : [
               ["#969696", "No significant change"],
-              ["rgb(248, 36, 36)", "Med loss"],
+              ["rgb(248, 36, 36)", "Medium loss"],
               ["#FF8C00", "Low loss"],
               //["#FFDE4D", "Nil"],
               ["rgba(109, 233, 109, 1)", "Low gain"],
-              ["rgba(4, 145, 4, 1)", "Med gain"],
+              ["rgba(4, 145, 4, 1)", "Medium gain"],
             ],
       "default": [
         /* ["#969696", "No significant change"],

@@ -955,6 +955,21 @@ export default function DrawerMapShow({ activeBar }) {
 
   const handleModelchange = (name) => (event) => {
     setModel(name);
+    setOption(IntialOptions);
+    setCurrOpt("");
+    setOptionLayer({
+      ...optionlayer,
+      "Biophysical Suitability": false,
+      "Adaptation Benefits": false,
+      "Economic": false,
+      "Scalability": false,
+      "Gender": false,
+      "Yield": false,
+    });
+    setRisk(InitialHazard);
+    setRiskName("");
+    setImpact(InitialImpact);
+    setImpactName("");
   };
 
   const [NameModel, setNameModel] = React.useState("CHC");
