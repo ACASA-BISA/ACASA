@@ -227,11 +227,11 @@ export function fetchDataAdap(adaption, location, AdaptLayerName, commodity, sce
       ],
       "Gender Suitability": [
         ["#969696", "No significant change"],
-        ["rgb(248, 36, 36)", "Very Low"], //"#E4003A"
-        ["#FF8C00", "Low"], //"#FFA500"
-        ["#FFDE4D", "Medium"],
-        ["rgba(109, 233, 109, 1)", "High"],
-        ["rgba(4, 145, 4, 1)", "Very High"],
+        ["#FF8C00", "Very Low"], //"#E4003A" "#FF8C00", "#FFDE4D", "#B6F792", "#B6F792", "#00D95A", "#267F2E",
+        ["#FFDE4D", "Low"], //"#FFA500"
+        ["#B6F792", "Medium"],
+        ["#00D95A", "High"],
+        ["#267F2E", "Very High"],
       ],
       "Adaptation Benefits":
         scenario === "baseline"

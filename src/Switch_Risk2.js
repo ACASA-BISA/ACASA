@@ -255,7 +255,11 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
         sname = comm;
         cropname = Common[id].toLowerCase();
         switchIPCC[1] += " of " + cropname;
-        switchIPCC[2] += " of " + cropname;
+        if (checklivestock()) {
+          switchIPCC[2] += " (number of " + cropname + " per grid)";
+        } else {
+          switchIPCC[2] += " (area of " + cropname + ")";
+        }
         switchIPCC[3] += " of " + cropname;
       }
     });
@@ -564,6 +568,14 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
 
   const handleChangeP3aipcc = (name) => (event) => {
     setP3aipcc({ ...P3aipcc, [name]: event.target.checked });
+    if (name === "exposure") {
+      console.log("checkin");
+      if (checklivestock()) {
+        handleChangeP3("animals");
+      } else {
+        handleChangeP3("c-area");
+      }
+    }
   };
 
   const [P3bipcc, setP3bipcc] = React.useState(createInitialP3ipcc);
@@ -1170,7 +1182,7 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
                         ))}
                       </FormControl>
                     )}
-                    {P3aipcc[switchIPCCID[idx]] && switchIPCCID[idx] === "exposure" && (
+                    {/* {P3aipcc[switchIPCCID[idx]] && switchIPCCID[idx] === "exposure" && (
                       <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 5 }}>
                         {checkFish() === false &&
                           checklivestock() === false &&
@@ -1276,7 +1288,7 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
                             </FormGroup>
                           ))}
                       </FormControl>
-                    )}
+                    )} */}
                   </FormGroup>
                 ))}
               </FormControl>

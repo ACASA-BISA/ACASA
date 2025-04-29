@@ -78,7 +78,7 @@ const glossaryData = {
         "The Climate Hazards Center is an alliance of multidisciplinary scientists and food security analysts utilizing climate and crop models, satellite-based earth observations, and socioeconomic data sets to predict and monitor droughts and food shortages among the world's most vulnerable populations. Through partnerships with USAID, USGS, and FEWS NET, the CHC provides early warning to save lives and secure livelihoods",
     },
     {
-      term: "CANESM5",
+      term: "GFDL-ESM4",
       definition:
         "The Canadian Earth System Model version 5 (CanESM5) is a global model developed to simulate historical climate change and variability, to make centennial-scale projections of future climate, and to produce initialized seasonal and decadal predictions. This paper describes the model components and their coupling, as well as various aspects of model development, including tuning, optimization, and a reproducibility strategy",
     },
@@ -92,11 +92,11 @@ const glossaryData = {
       definition: "Centre Européen de Recherche et Formation Avancée en Calcul Scientifique (CERFACS) is a European Center in Research and Advanced Training on Scientific Computing",
     },
     {
-      term: "CNRM-CM6-1",
-      definition: "CNRM-CM6-1 is the climate model developped by the CNRM/CERFACS modelling group for CMIP6. It is the successor of the CNRM-CM5.1 climate model that participates to CMIP5",
+      term: "IPSL-CM6A-LR",
+      definition: "IPSL-CM6A-LR is the climate model developped by the CNRM/CERFACS modelling group for CMIP6. It is the successor of the CNRM-CM5.1 climate model that participates to CMIP5",
     },
     {
-      term: "CNRM-ESM-1",
+      term: "MPI-ESM1-2-HR",
       definition: "",
     },
     {
@@ -331,7 +331,7 @@ const glossaryData = {
   ],
   M: [
     {
-      term: "MIROC6",
+      term: "UKESM1-0-LL",
       defintion: "",
     },
     /*{

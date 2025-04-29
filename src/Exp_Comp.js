@@ -292,6 +292,17 @@ export default function CompV({
     }
   }, [gridRefs[1].current]);
 
+  function checkcrop() {
+    const diffcrop = ["Cattle", "Buffalo", "Goat", "Sheep", "Pig", "Chicken"];
+    let ans = true;
+    diffcrop.forEach((sname) => {
+      if (activeCrop === sname) {
+        ans = false;
+      }
+    });
+    return ans;
+  }
+
   const CustomFormControlLabel = styled(FormControlLabel)(({ theme }) => ({
     "alignItems": "flex-start", // Align items to the start
     "&.Mui-disabled .MuiTypography-body2": {
@@ -352,7 +363,7 @@ export default function CompV({
   return (
     <div className="viewer-container" style={{ overflow: "hidden" }}>
       <Grid container sx={{ marginTop: "0px", paddingX: "1rem" }} columns={12}>
-        {activeOpt !== "" && (
+        {activeOpt !== "" && checkcrop() && (
           <Box
             sx={{
               width: "100%",
@@ -447,10 +458,10 @@ export default function CompV({
                             Gender Suitability
                           </MenuItem>
                           <MenuItem value="Female Labourers" sx={{ fontSize: "12px", height: "16px", fontFamily: "Karla" }}>
-                            Female Labourers
+                            Female Labourers (%)
                           </MenuItem>
                           <MenuItem value="Female Cultivators" sx={{ fontSize: "12px", height: "16px", fontFamily: "Karla" }}>
-                            Female Cultivators
+                            Female Cultivators (%)
                           </MenuItem>
                           <MenuItem value="Agri Labourers" sx={{ fontSize: "12px", height: "16px", fontFamily: "Karla" }}>
                             Percentage agri labourers

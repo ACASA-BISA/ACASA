@@ -31,7 +31,7 @@ export default function Adaptation_Analytics2({ cropid, focus2, activeRegion2, a
     setNameScenario(name);
   };
 
-  const [NameModel, setNameModel] = React.useState("CANESM5");
+  const [NameModel, setNameModel] = React.useState("GFDL-ESM4");
 
   const handleModel = (name) => {
     setNameModel(name);

@@ -21,16 +21,16 @@ export default function SwitchScenario({ activeScenario, changeScenario, activeM
   const switchid2 = ["CHC"];
   const parentinfo = ["To be updated later.", "To be updated later."];
 
-  const switchh3 = ["CANESM5", "CNRM-CM6-1", "CNRM-ESM-1", "EC-Earth3", "MIROC6", "Ensemble"];
-  const switchid3 = ["CANESM5", "CNRM-CM6-1", "CNRM-ESM-1", "EC-Earth3", "MIROC6", "Ensemble"];
+  const switchh3 = ["GFDL-ESM4", "IPSL-CM6A-LR", "MPI-ESM1-2-HR", "MPI-ESM2-0", "UKESM1-0-LL", "Ensemble"];
+  const switchid3 = ["GFDL-ESM4", "IPSL-CM6A-LR", "MPI-ESM1-2-HR", "MPI-ESM2-0", "UKESM1-0-LL", "Ensemble"];
   const disvar2 = {
     "CHC": false,
     "ISIMIP": false,
-    "CANESM5": false,
-    "CNRM-CM6-1": false,
-    "CNRM-ESM-1": false,
-    "EC-Earth3": false,
-    "MIROC6": false,
+    "GFDL-ESM4": false,
+    "IPSL-CM6A-LR": false,
+    "MPI-ESM1-2-HR": false,
+    "MPI-ESM2-0": false,
+    "UKESM1-0-LL": false,
     "Ensemble": false,
   };
   const datainfo = ["To be updated later.", "To be updated later.", "To be updated later.", "To be updated later.", "To be updated later.", "To be updated later."];
