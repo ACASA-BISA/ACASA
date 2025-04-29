@@ -256,7 +256,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                     title={
                       <Box
                         sx={{
-                          width: 60,
+                          width: 63,
                           height: 18,
                           borderRadius: 0,
                           bgcolor: "#A52A2A",
@@ -339,7 +339,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                         >
                           {
                             //checkcrop() === true && ()
-                            <Box sx={{ width: 60, height: 18, borderRadius: 0, marginBottom: "-4px" }}>
+                            <Box sx={{ width: 63, height: 18, borderRadius: 0, marginBottom: "-4px" }}>
                               <Typography sx={(theme) => ({ fontSize: 10, marginLeft: "2px", color: theme.palette.mode === "dark" ? theme.palette.text.secondary : "#111" })} fontWeight="bold">
                                 {calcpop(row.Population)}
                               </Typography>
@@ -348,7 +348,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                           {(AdaptLayerName === "Biophysical Suitability" || AdaptLayerName === "Yield Benefits") && adaption !== "" && (
                             <Box
                               sx={{
-                                width: 60,
+                                width: 63,
                                 height: 18 + 10,
                                 borderRadius: 0,
                                 bgcolor: row.color,
@@ -386,7 +386,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                           {((AdaptLayerName !== "Biophysical Suitability" && AdaptLayerName !== "Yield Benefits") || adaption === "") && (
                             <Box
                               sx={{
-                                width: 60,
+                                width: 63,
                                 height: 18,
                                 borderRadius: 0,
                                 bgcolor: row.color,
@@ -406,7 +406,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                               </Typography>
                             </Box>
                           )}
-                          <Box sx={{ width: 60, height: 18, borderRadius: 0 }}>
+                          <Box sx={{ width: 63, height: 18, borderRadius: 0 }}>
                             <Typography
                               sx={(theme) => ({ fontSize: 10, margin: "2px", marginTop: "0px", color: theme.palette.mode === "dark" ? theme.palette.text.secondary : "#111" })}
                               fontWeight="bold"
@@ -451,15 +451,15 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                           {index!==0 && 
                                 <div>
                                     <Box sx={{display:'flex',alignItems:'left',flexDirection:'column',width:'100%',gap:'2px'}}>
-                                    {checkcrop()===true && <Box sx={{width: 60, height: 18, borderRadius: 0}}>
+                                    {checkcrop()===true && <Box sx={{width: 63, height: 18, borderRadius: 0}}>
                                         <Typography sx={{ fontSize: 10, margin:'2px'}} color="#AA5486" fontWeight='bold'> {calcpop(row.Population)}</Typography>
                                         </Box>}
-                                        <Box sx={{width: 60, height: 18, borderRadius: 0, bgcolor:row.color, alignContent:'center'}}>
+                                        <Box sx={{width: 63, height: 18, borderRadius: 0, bgcolor:row.color, alignContent:'center'}}>
                                         <Typography sx={{ fontSize: 10, marginY:'auto',marginLeft:'3px'}} color="white" > 
                                         <strong>{row.Cat}</strong>
                                         </Typography>
                                         </Box>
-                                        <Box sx={{width: 60, height: 18, borderRadius: 0}}>
+                                        <Box sx={{width: 63, height: 18, borderRadius: 0}}>
                                         <Typography sx={{ fontSize: 10, margin:'2px'}} color="#859F3D" fontWeight='bold'> {calcarea(row.Area)}</Typography>
                                         </Box>
                                     </Box>
@@ -478,15 +478,15 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                           {index!==0 && 
                                 <div>
                                     <Box sx={{display:'flex',alignItems:'left',flexDirection:'column',width:'100%',gap:'2px'}}>
-                                    {checkcrop()===true && <Box sx={{width: 60, height: 18, borderRadius: 0}}>
+                                    {checkcrop()===true && <Box sx={{width: 63, height: 18, borderRadius: 0}}>
                                         <Typography sx={{ fontSize: 10, margin:'2px'}} color="#AA5486" fontWeight='bold'> {calcpop(row.Population)}</Typography>
                                         </Box>}
-                                        <Box sx={{width: 60, height: 18, borderRadius: 0, bgcolor:row.color, alignContent:'center'}}>
+                                        <Box sx={{width: 63, height: 18, borderRadius: 0, bgcolor:row.color, alignContent:'center'}}>
                                         <Typography sx={{ fontSize: 10, marginY:'auto',marginLeft:'3px'}} color="white" > 
                                         <strong>{row.Cat}</strong>
                                         </Typography>
                                         </Box>
-                                        <Box sx={{width: 60, height: 18, borderRadius: 0}}>
+                                        <Box sx={{width: 63, height: 18, borderRadius: 0}}>
                                         <Typography sx={{ fontSize: 10, margin:'2px'}} color="#859F3D" fontWeight='bold'> {calcarea(row.Area)}</Typography>
                                         </Box>
                                     </Box>

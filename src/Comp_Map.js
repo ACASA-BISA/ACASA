@@ -382,11 +382,11 @@ export default function MApp({
     color: ["palette", ["clamp", ["*", ["band", 2], 25], 0, 6], ["rgba(0,0,0,0)", "rgba(150,150,150,1)", "#059212", "#00FF00", "#FFDE4D", "#FFA500", "#FF0000"]],
   };
 
-  const color_adaptation = {
+  const color_hazard_gender = {
     color: [
       "palette",
-      ["clamp", ["*", ["band", 2], 25], 0, 6],
-      ["rgba(0,0,0,0)", "rgba(150,150,150,1)", "rgba(5,146,18,0.5)", "rgba(0,255,0,0.5)", "rgba(255,222,77,0.5)", "rgba(255,165,0,0.5)", "rgba(255,0,0,0.5)"],
+      ["interpolate", ["linear"], ["*", ["band", 2], 385], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 8, 9, 9],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#FF8C00", "#FFDE4D", "#B6F792", "#B6F792", "#00D95A", "#267F2E", "#A52A2A"],
     ],
   };
 
@@ -1567,7 +1567,7 @@ export default function MApp({
           } else {
             urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Gender_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
           }
-          opt = 222;
+          opt = 777;
         }
         if (activeOptLayer["Yield"]) {
           if (activeScenario === "baseline") {
@@ -1750,6 +1750,8 @@ export default function MApp({
         newOverl.setStyle(color_hazard_25);
       } else if (opt === 102) {
         newOverl.setStyle(color_hazard3);
+      } else if (opt === 777) {
+        newOverl.setStyle(color_hazard_gender);
       } else if (opt === 222) {
         newOverl.setStyle(color_adaptation_yield2);
         if (checkcrop2() === false) {
@@ -1976,7 +1978,7 @@ export default function MApp({
       return 5;
     }
     if (activeOptLayer["Yield"]) {
-      return 4;
+      //return 4;
     }
 
     return 2;
@@ -2003,7 +2005,7 @@ export default function MApp({
               {
                 name: "offset",
                 options: {
-                  offset: [0, -60],
+                  offset: [0, for_unavailabe_future_data() === 5 ? -40 : -60],
                 },
               },
             ],
@@ -2011,7 +2013,11 @@ export default function MApp({
         }}
         PopperProps={{ style: { zIndex: 0 } }}
       >
-        <div ref={ref} style={{ height: activeOpt === "" ? "calc(100vh - 155px)" : "calc(100vh - 175px)", width: "auto", marginLeft: 0, marginBottom: "0px", padding: 0 }} className="map-container" />
+        <div
+          ref={ref}
+          style={{ height: activeOpt === "" && checkcrop2() ? "calc(100vh - 155px)" : "calc(100vh - 175px)", width: "auto", marginLeft: 0, marginBottom: "0px", padding: 0 }}
+          className="map-container"
+        />
       </Tooltip>
 
       <Popper open={missingSource}>

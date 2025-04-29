@@ -24,20 +24,20 @@ export default function Summ_Model({ handleModel, mdl }) {
         <MenuItem value="CHC" sx={{ fontSize: 13, paddingY: "2px" }}>
           CHC
         </MenuItem>
-        <MenuItem value="CANESM5" sx={{ fontSize: 13, paddingY: "2px" }}>
-          CANESM5
+        <MenuItem value="GFDL-ESM4" sx={{ fontSize: 13, paddingY: "2px" }}>
+          GFDL-ESM4
         </MenuItem>
-        <MenuItem value="CNRM-CM6-1" sx={{ fontSize: 13, paddingY: "2px" }}>
-          CNRM-CM6-1
+        <MenuItem value="IPSL-CM6A-LR" sx={{ fontSize: 13, paddingY: "2px" }}>
+          IPSL-CM6A-LR
         </MenuItem>
-        <MenuItem value="CNRM-ESM-1" sx={{ fontSize: 13, paddingY: "2px" }}>
-          CNRM-ESM-1
+        <MenuItem value="MPI-ESM1-2-HR" sx={{ fontSize: 13, paddingY: "2px" }}>
+          MPI-ESM1-2-HR
         </MenuItem>
-        <MenuItem value="EC-Earth3" sx={{ fontSize: 13, paddingY: "2px" }}>
-          EC-Earth3
+        <MenuItem value="MPI-ESM2-0" sx={{ fontSize: 13, paddingY: "2px" }}>
+          MPI-ESM2-0
         </MenuItem>
-        <MenuItem value="MIROC6" sx={{ fontSize: 13, paddingY: "2px" }}>
-          MIROC6
+        <MenuItem value="UKESM1-0-LL" sx={{ fontSize: 13, paddingY: "2px" }}>
+          UKESM1-0-LL
         </MenuItem>
         <MenuItem value="Ensemble" sx={{ fontSize: 13, paddingY: "2px" }}>
           Ensemble
