@@ -546,6 +546,7 @@ export default function CompV({
                   >
                     <Paper
                       elevation={1}
+                      id={`legend-baseline`}
                       sx={{
                         maxWidth: "400px",
                         borderRadius: "5px",
@@ -674,6 +675,7 @@ export default function CompV({
                           >
                             <Paper
                               elevation={1}
+                              id={`legend-baseline`}
                               sx={{
                                 maxWidth: boxWidth - 18,
                                 borderRadius: "5px",
@@ -768,6 +770,7 @@ export default function CompV({
                           >
                             <Paper
                               elevation={1}
+                              id={`legend-${scn}`}
                               sx={{
                                 maxWidth: boxWidth - 18,
                                 borderRadius: "5px",
@@ -873,9 +876,9 @@ export default function CompV({
               {["Baseline", "2050s", "2080s"].map((label, index) => (
                 <Grid item xs={4} key={index} ref={gridRefs[index]}>
                   <Box
-                    sx={{
+                    sx={(theme) => ({
                       width: "100%",
-                      bgcolor: "#C1E1C1",
+                      bgcolor: theme.palette.mode === "dark" ? "#2f6742" : "#C1E1C1",
                       height: "24px",
                       display: "flex",
                       flexDirection: "row",
@@ -883,7 +886,7 @@ export default function CompV({
                       justifyContent: "center",
                       alignItems: "center",
                       gap: "10px",
-                    }}
+                    })}
                   >
                     <Typography
                       align="center"
@@ -891,6 +894,7 @@ export default function CompV({
                         fontSize: "14px",
                         fontWeight: "bold",
                         fontFamily: "Karla",
+                        color: "text.primary",
                       }}
                     >
                       {label}
@@ -953,6 +957,7 @@ export default function CompV({
                           >
                             <Paper
                               elevation={1}
+                              id={`legend-baseline`}
                               sx={{
                                 maxWidth: boxWidth - 18,
                                 borderRadius: "5px",
@@ -1047,6 +1052,7 @@ export default function CompV({
                           >
                             <Paper
                               elevation={1}
+                              id={`legend-${scn}`}
                               sx={{
                                 maxWidth: boxWidth - 18,
                                 borderRadius: "5px",
@@ -1141,6 +1147,7 @@ export default function CompV({
                           >
                             <Paper
                               elevation={1}
+                              id={`legend-${scn}`}
                               sx={{
                                 maxWidth: boxWidth - 18,
                                 borderRadius: "5px",

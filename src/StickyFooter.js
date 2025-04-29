@@ -125,7 +125,9 @@ export default function StickyFooter() {
                   autocomplete: "off",
                   ariaLabel: "Enter your email address",
                 }}
-                sx={{ backgroundColor: "#ffffff" }}
+                sx={{
+                  backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#2c2f33" : "#ffffff"),
+                }}
               />
               <Button
                 variant="contained"

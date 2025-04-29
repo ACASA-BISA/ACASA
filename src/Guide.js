@@ -1,4 +1,768 @@
-import * as React from "react";
+import React, { useContext, useState } from "react";
+import { Box, Grid, Paper, Typography, Divider, Link, Button, Modal, Backdrop, IconButton } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import { ThemeContext } from "./ThemeContext";
+
+const lastModified = new Date();
+const formattedDate = lastModified.toLocaleString("en-US", {
+  month: "short",
+  day: "numeric",
+  year: "numeric",
+  hour: "2-digit",
+  minute: "2-digit",
+  hour12: false,
+});
+
+const scrollTo = (id) => {
+  const el = document.getElementById(id);
+  if (el) {
+    const yOffset = -100; // scroll up by 100px to offset fixed headers
+    const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+    window.scrollTo({ top: y, behavior: "smooth" });
+  }
+};
+
+const Guidee = () => {
+  const { mode } = useContext(ThemeContext);
+
+  const [open, setOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const handleOpen = (src) => {
+    setSelectedImage(src);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setSelectedImage(null);
+  };
+
+  return (
+    <Box sx={(theme) => ({ p: 4, backgroundColor: theme.palette.background.paper, paddingTop: "100px" })}>
+      <Grid container spacing={4}>
+        {/* Left Pane - TOC */}
+        <Grid item xs={12} md={3}>
+          <Paper
+            elevation={4}
+            sx={(theme) => ({
+              p: 2,
+              height: "100vh",
+              backgroundColor: theme.palette.background.default,
+              borderRadius: 2,
+              border: `1px solid ${theme.palette.mode === "dark" ? "#444" : "#ddd"}`,
+              position: "sticky",
+              top: 0, // Add this to define how far from the top the sticky element should be
+              zIndex: 10, // Increase z-index if necessary
+              boxShadow: theme.palette.mode === "dark" ? "0px 4px 15px rgba(0, 0, 0, 0.5)" : "0px 4px 15px rgba(0, 0, 0, 0.1)",
+            })}
+          >
+            <Typography variant="h6" align="left" gutterBottom sx={{ color: "text.primary", fontFamily: "revert" }}>
+              Table of Contents
+            </Typography>
+            <Box component="nav" align="left">
+              <Button onClick={() => scrollTo("home")} sx={{ pl: 1, color: "text.secondary", fontFamily: "revert", textTransform: "none", justifyContent: "flex-start" }} fullWidth>
+                1. Home
+              </Button>
+              <Button onClick={() => scrollTo("appbar")} sx={{ pl: 1, color: "text.secondary", fontFamily: "revert", textTransform: "none", justifyContent: "flex-start" }} fullWidth>
+                2. Navigation bar
+              </Button>
+              <Button onClick={() => scrollTo("explore-data")} sx={{ pl: 1, color: "text.secondary", fontFamily: "revert", textTransform: "none", justifyContent: "flex-start" }} fullWidth>
+                3. Explore Data
+              </Button>
+              <Button onClick={() => scrollTo("drawers")} sx={{ pl: 3, color: "text.secondary", fontFamily: "revert", textTransform: "none", justifyContent: "flex-start" }} fullWidth>
+                3.1. Drawers
+              </Button>
+              <Button onClick={() => scrollTo("map-viewer")} sx={{ pl: 3, color: "text.secondary", fontFamily: "revert", textTransform: "none", justifyContent: "flex-start" }} fullWidth>
+                3.2. Map viewer
+              </Button>
+              <Button onClick={() => scrollTo("select-risk")} sx={{ pl: 3, color: "text.secondary", fontFamily: "revert", textTransform: "none", justifyContent: "flex-start" }} fullWidth>
+                3.3. Selecting risks
+              </Button>
+              <Button onClick={() => scrollTo("select-adaptation")} sx={{ pl: 3, color: "text.secondary", fontFamily: "revert", textTransform: "none", justifyContent: "flex-start" }} fullWidth>
+                3.4. Selecting adaptation options
+              </Button>
+              <Button onClick={() => scrollTo("data-glance")} sx={{ pl: 1, color: "text.secondary", fontFamily: "revert", textTransform: "none", justifyContent: "flex-start" }} fullWidth>
+                4. Data at a glance
+              </Button>
+              <Button onClick={() => scrollTo("hazard-glance")} sx={{ pl: 3, color: "text.secondary", fontFamily: "revert", textTransform: "none", justifyContent: "flex-start" }} fullWidth>
+                4.1 Hazards at a glance
+              </Button>
+              <Button onClick={() => scrollTo("adaptation-glance")} sx={{ pl: 3, color: "text.secondary", fontFamily: "revert", textTransform: "none", justifyContent: "flex-start" }} fullWidth>
+                4.2 Adaptation at a glance
+              </Button>
+              <Button onClick={() => scrollTo("data-access")} sx={{ pl: 1, color: "text.secondary", fontFamily: "revert", textTransform: "none", justifyContent: "flex-start" }} fullWidth>
+                5. Data Access
+              </Button>
+              <Button onClick={() => scrollTo("use-cases")} sx={{ pl: 1, color: "text.secondary", fontFamily: "revert", textTransform: "none", justifyContent: "flex-start" }} fullWidth>
+                6. Use Cases
+              </Button>
+              <Button onClick={() => scrollTo("resources")} sx={{ pl: 1, color: "text.secondary", fontFamily: "revert", textTransform: "none", justifyContent: "flex-start" }} fullWidth>
+                7. Resources
+              </Button>
+              <Button onClick={() => scrollTo("aboutus")} sx={{ pl: 1, color: "text.secondary", fontFamily: "revert", textTransform: "none", justifyContent: "flex-start" }} fullWidth>
+                8. About Us
+              </Button>
+              <Button onClick={() => scrollTo("feedback")} sx={{ pl: 1, color: "text.secondary", fontFamily: "revert", textTransform: "none", justifyContent: "flex-start" }} fullWidth>
+                9. Feedback
+              </Button>
+              <Button onClick={() => scrollTo("theme")} sx={{ pl: 1, color: "text.secondary", fontFamily: "revert", textTransform: "none", justifyContent: "flex-start" }} fullWidth>
+                10. Theme toggle
+              </Button>
+            </Box>
+          </Paper>
+        </Grid>
+
+        {/* Right Content Pane */}
+        <Grid item xs={12} md={9}>
+          <Typography variant="h4" gutterBottom align="left" sx={{ color: "text.primary", fontFamily: "revert", fontWeight: "bold" }}>
+            ACASA User Guide
+          </Typography>
+          <Typography
+            variant="body2"
+            gutterBottom
+            align="left"
+            sx={(theme) => ({ backgroundColor: theme.palette.mode === "dark" ? "#444" : "#e0e0e0", px: 1, py: 0.5, borderRadius: 1, color: "text.secondary", fontFamily: "revert" })}
+          >
+            Last modified on {formattedDate}
+          </Typography>
+
+          <Box mt={4}>
+            <Typography id="home" variant="h6" gutterBottom align="left" sx={{ color: "text.primary", fontFamily: "revert" }}>
+              1. Home
+            </Typography>
+            <Divider sx={{ mb: 2 }} />
+            <Typography variant="body2" align="left" sx={{ color: "text.primary", fontFamily: "revert" }}>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis laoreet facilisis viverra. Nam quis mollis lorem. Vestibulum ex nibh, tincidunt sit amet elementum in, iaculis sed urna.
+              Suspendisse pellentesque volutpat ligula ut varius. Morbi posuere posuere eros vitae commodo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce leo lorem, pulvinar id ex a,
+              fringilla porta elit. Mauris rhoncus ipsum eget varius pellentesque. In sed interdum magna. Mauris luctus velit vel quam ultrices elementum.
+            </Typography>
+          </Box>
+
+          <Box mt={4}>
+            <Typography id="appbar" variant="h6" gutterBottom align="left" sx={{ color: "text.primary", fontFamily: "revert" }}>
+              2. Navigation bar
+            </Typography>
+            <Divider sx={{ mb: 2 }} />
+            <Typography variant="body2" align="left" sx={{ color: "text.primary", fontFamily: "revert" }}>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis laoreet facilisis viverra. Nam quis mollis lorem. Vestibulum ex nibh, tincidunt sit amet elementum in, iaculis sed urna.
+              Suspendisse pellentesque volutpat ligula ut varius. Morbi posuere posuere eros vitae commodo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce leo lorem, pulvinar id ex a,
+              fringilla porta elit. Mauris rhoncus ipsum eget varius pellentesque. In sed interdum magna. Mauris luctus velit vel quam ultrices elementum.
+            </Typography>
+            <Box
+              component="img"
+              src={mode === "dark" ? "Guide/appbar-dark.png" : "Guide/appbar.png"}
+              alt="Explore data"
+              sx={(theme) => ({
+                width: "80%",
+                maxHeight: 400,
+                objectFit: "cover",
+                my: 2,
+                borderRadius: 2,
+                boxShadow: theme.palette.mode === "dark" ? "0 2px 8px rgba(255, 255, 255, 0.3)" : 3,
+              })}
+            />
+            <Typography variant="body2" align="left" sx={{ color: "text.primary", fontFamily: "revert" }}>
+              <strong>Figure 1. </strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis laoreet facilisis viverra. Nam quis mollis lorem. Vestibulum ex nibh, tincidunt sit amet
+              elementum in, iaculis sed urna. Suspendisse pellentesque volutpat ligula ut varius. Morbi posuere posuere eros vitae commodo. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              Fusce leo lorem, pulvinar id ex a, fringilla porta elit. Mauris rhoncus ipsum eget varius pellentesque. In sed interdum magna. Mauris luctus velit vel quam ultrices elementum.
+            </Typography>
+          </Box>
+          <Box sx={{ display: "flex", justifyContent: "center", alignItems: "flex-start", gap: 2, my: 4 }}>
+            {/* Left column: Image 1 stacked above Image 2 */}
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+              <Box
+                component="img"
+                src={mode === "dark" ? "Guide/appbar-hover1-dark.png" : "Guide/appbar-hover1.png"}
+                alt="Image 1"
+                sx={(theme) => ({
+                  width: 100,
+                  height: 100,
+                  objectFit: "cover",
+                  borderRadius: 1,
+                  boxShadow: theme.palette.mode === "dark" ? "0 2px 8px rgba(255, 255, 255, 0.3)" : 3,
+                })}
+              />
+              <Box
+                component="img"
+                src={mode === "dark" ? "Guide/appbar-hover2-dark.png" : "Guide/appbar-hover2.png"}
+                alt="Image 2"
+                sx={(theme) => ({
+                  width: 100,
+                  height: 100,
+                  objectFit: "cover",
+                  borderRadius: 1,
+                  boxShadow: theme.palette.mode === "dark" ? "0 2px 8px rgba(255, 255, 255, 0.3)" : 3,
+                })}
+              />
+            </Box>
+
+            {/* Right column: Image 3 stretching full height */}
+            <Box
+              component="img"
+              src="Guide/translate.png"
+              alt="Image 3"
+              sx={(theme) => ({
+                width: 150,
+                height: 215, // height of Image 1 + Image 2 + gap
+                objectFit: "cover",
+                borderRadius: 1,
+                boxShadow: theme.palette.mode === "dark" ? "0 2px 8px rgba(255, 255, 255, 0.3)" : 3,
+              })}
+            />
+          </Box>
+
+          <Typography variant="body2" align="left" sx={{ color: "text.primary", fontFamily: "revert" }}>
+            <strong>Figure 2. </strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis laoreet facilisis viverra. Nam quis mollis lorem. Vestibulum ex nibh, tincidunt sit amet elementum
+            in, iaculis sed urna. Suspendisse pellentesque volutpat ligula ut varius. Morbi posuere posuere eros vitae commodo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce leo
+            lorem, pulvinar id ex a, fringilla porta elit. Mauris rhoncus ipsum eget varius pellentesque. In sed interdum magna. Mauris luctus velit vel quam ultrices elementum.
+          </Typography>
+
+          <Box mt={4}>
+            <Typography id="explore-data" variant="h6" gutterBottom align="left" sx={{ color: "text.primary", fontFamily: "revert" }}>
+              3. Explore data
+            </Typography>
+            <Divider sx={{ mb: 2 }} />
+            <Typography variant="body2" align="left" sx={{ color: "text.primary", fontFamily: "revert" }}>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis laoreet facilisis viverra. Nam quis mollis lorem. Vestibulum ex nibh, tincidunt sit amet elementum in, iaculis sed urna.
+              Suspendisse pellentesque volutpat ligula ut varius. Morbi posuere posuere eros vitae commodo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce leo lorem, pulvinar id ex a,
+              fringilla porta elit. Mauris rhoncus ipsum eget varius pellentesque. In sed interdum magna. Mauris luctus velit vel quam ultrices elementum. Quisque convallis sem in leo vulputate
+              iaculis.
+            </Typography>
+            <br />
+            <Box
+              component="img"
+              src={mode === "dark" ? "Guide/explore-dark.png" : "Guide/explore.png"}
+              alt="Explore data"
+              onClick={() => setOpen(true)}
+              sx={(theme) => ({
+                width: "90%",
+                maxHeight: 400,
+                objectFit: "cover",
+                my: 2,
+                borderRadius: 2,
+                boxShadow: theme.palette.mode === "dark" ? "0 2px 8px rgba(255, 255, 255, 0.3)" : 3,
+              })}
+            />
+            <Typography variant="body2" align="left" sx={{ color: "text.primary", fontFamily: "revert" }}>
+              <strong>Figure 3. </strong>Integer egestas, neque eu fermentum pharetra, nisl orci fringilla erat, a facilisis justo diam semper dui. Fusce et tempus eros. Nullam eget facilisis massa.
+              Duis tempus dui nec congue auctor. Aliquam in hendrerit eros. Etiam sagittis ante nec nisl dictum placerat. Nam suscipit lacus quis eros tempor mollis. Nulla vitae turpis eget magna
+              varius porttitor nec et turpis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Class aptent taciti sociosqu ad litora torquent per conubia
+              nostra, per inceptos himenaeos. Aliquam et blandit nunc, sed posuere felis.
+            </Typography>
+          </Box>
+
+          <Box mt={4}>
+            <Typography id="drawers" variant="h6" gutterBottom align="left" sx={{ color: "text.primary", fontFamily: "revert" }}>
+              3.1. Drawers
+            </Typography>
+            <Divider sx={{ mb: 2 }} />
+            <Typography variant="body2" align="left" sx={{ color: "text.primary", fontFamily: "revert" }}>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis laoreet facilisis viverra. Nam quis mollis lorem. Vestibulum ex nibh, tincidunt sit amet elementum in, iaculis sed urna.
+              Suspendisse pellentesque volutpat ligula ut varius. Morbi posuere posuere eros vitae commodo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce leo lorem, pulvinar id ex a,
+              fringilla porta elit. Mauris rhoncus ipsum eget varius pellentesque. In sed interdum magna. Mauris luctus velit vel quam ultrices elementum. Quisque convallis sem in leo vulputate
+              iaculis.
+            </Typography>
+            <br />
+
+            <Box sx={{ display: "flex", justifyContent: "center", gap: 2, flexWrap: "wrap", my: 4 }}>
+              {Array.from({ length: 7 }).map((_, index) => {
+                const src = mode === "dark" ? `/Guide/drawer-dark${index + 1}.png` : `/Guide/drawer${index + 1}.png`;
+                return (
+                  <Box
+                    key={index}
+                    sx={(theme) => ({
+                      flex: "1 1 10%",
+                      maxWidth: "10%",
+                      aspectRatio: "370 / 620",
+                      overflow: "hidden",
+                      borderRadius: 1,
+                      boxShadow: theme.palette.mode === "dark" ? "0 2px 8px rgba(255, 255, 255, 0.3)" : 3,
+                      cursor: "pointer",
+                    })}
+                    onClick={() => handleOpen(src)}
+                  >
+                    <Box
+                      component="img"
+                      src={src}
+                      alt={`Image ${index + 1}`}
+                      sx={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                      }}
+                    />
+                  </Box>
+                );
+              })}
+            </Box>
+
+            <Modal
+              open={open}
+              onClose={handleClose}
+              closeAfterTransition
+              BackdropComponent={Backdrop}
+              BackdropProps={{
+                timeout: 500,
+                sx: { backgroundColor: "rgba(0, 0, 0, 0.8)" },
+              }}
+            >
+              <Box
+                sx={{
+                  position: "fixed",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  maxWidth: "90%",
+                  maxHeight: "90%",
+                  outline: "none",
+                }}
+              >
+                {/* Close Button */}
+                <IconButton
+                  onClick={handleClose}
+                  sx={{
+                    "position": "absolute",
+                    "top": 8,
+                    "right": 8,
+                    "color": "#fff",
+                    "backgroundColor": "rgba(0, 0, 0, 0.5)",
+                    "&:hover": {
+                      backgroundColor: "rgba(0, 0, 0, 0.7)",
+                    },
+                  }}
+                >
+                  <CloseIcon />
+                </IconButton>
+
+                {/* Full Image */}
+                <Box
+                  component="img"
+                  src={selectedImage}
+                  alt="Selected"
+                  sx={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "contain",
+                    borderRadius: 2,
+                    boxShadow: 24,
+                  }}
+                />
+              </Box>
+            </Modal>
+
+            <Typography variant="body2" align="left" sx={{ color: "text.primary", fontFamily: "revert" }}>
+              <strong>Figure 3. </strong>Integer egestas, neque eu fermentum pharetra, nisl orci fringilla erat, a facilisis justo diam semper dui. Fusce et tempus eros. Nullam eget facilisis massa.
+              Duis tempus dui nec congue auctor. Aliquam in hendrerit eros. Etiam sagittis ante nec nisl dictum placerat. Nam suscipit lacus quis eros tempor mollis. Nulla vitae turpis eget magna
+              varius porttitor nec et turpis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Class aptent taciti sociosqu ad litora torquent per conubia
+              nostra, per inceptos himenaeos. Aliquam et blandit nunc, sed posuere felis.
+            </Typography>
+          </Box>
+
+          <Box mt={4}>
+            <Typography id="map-viewer" variant="h6" gutterBottom align="left" sx={{ color: "text.primary", fontFamily: "revert" }}>
+              3.3. Map viewer
+            </Typography>
+            <Divider sx={{ mb: 2 }} />
+            <Typography variant="body2" align="left" sx={{ color: "text.primary", fontFamily: "revert" }}>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis laoreet facilisis viverra. Nam quis mollis lorem. Vestibulum ex nibh, tincidunt sit amet elementum in, iaculis sed urna.
+              Suspendisse pellentesque volutpat ligula ut varius. Morbi posuere posuere eros vitae commodo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce leo lorem, pulvinar id ex a,
+              fringilla porta elit. Mauris rhoncus ipsum eget varius pellentesque. In sed interdum magna. Mauris luctus velit vel quam ultrices elementum. Quisque convallis sem in leo vulputate
+              iaculis.
+            </Typography>
+            <br />
+
+            <Box
+              component="img"
+              src={mode === "dark" ? "Guide/map-array-dark1.png" : "Guide/map-array1.png"}
+              alt="Explore data"
+              sx={(theme) => ({
+                flex: "1 1 60%",
+                maxWidth: "60%",
+                aspectRatio: 1426 / 856,
+                objectFit: "cover",
+                my: 2,
+                borderRadius: 1,
+                boxShadow: theme.palette.mode === "dark" ? "0 2px 8px rgba(255, 255, 255, 0.3)" : 3,
+              })}
+            />
+
+            <Typography variant="body2" align="left" sx={{ color: "text.primary", fontFamily: "revert" }}>
+              <strong>Figure 3. </strong>Integer egestas, neque eu fermentum pharetra, nisl orci fringilla erat, a facilisis justo diam semper dui. Fusce et tempus eros. Nullam eget facilisis massa.
+              Duis tempus dui nec congue auctor. Aliquam in hendrerit eros. Etiam sagittis ante nec nisl dictum placerat. Nam suscipit lacus quis eros tempor mollis. Nulla vitae turpis eget magna
+              varius porttitor nec et turpis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Class aptent taciti sociosqu ad litora torquent per conubia
+              nostra, per inceptos himenaeos. Aliquam et blandit nunc, sed posuere felis.
+            </Typography>
+
+            <Box sx={{ display: "flex", justifyContent: "center", gap: 2, flexWrap: "wrap", my: 4 }}>
+              {Array.from({ length: 2 }).map((_, index) => {
+                const src = mode === "dark" ? `/Guide/map-array-dark${index + 2}.png` : `/Guide/map-array${index + 2}.png`;
+                return (
+                  <Box
+                    key={index}
+                    sx={(theme) => ({
+                      flex: "1 1 45%",
+                      maxWidth: "45%",
+                      aspectRatio: "1684 / 620",
+                      overflow: "hidden",
+                      borderRadius: 1,
+                      boxShadow: theme.palette.mode === "dark" ? "0 2px 8px rgba(255, 255, 255, 0.3)" : 3,
+                      cursor: "pointer",
+                    })}
+                    onClick={() => handleOpen(src)}
+                  >
+                    <Box
+                      component="img"
+                      src={src}
+                      alt={`Image ${index + 1}`}
+                      sx={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                      }}
+                    />
+                  </Box>
+                );
+              })}
+            </Box>
+
+            <Modal
+              open={open}
+              onClose={handleClose}
+              closeAfterTransition
+              BackdropComponent={Backdrop}
+              BackdropProps={{
+                timeout: 500,
+                sx: { backgroundColor: "rgba(0, 0, 0, 0.8)" },
+              }}
+            >
+              <Box
+                sx={{
+                  position: "fixed",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  maxWidth: "90%",
+                  maxHeight: "90%",
+                  outline: "none",
+                }}
+              >
+                {/* Close Button */}
+                <IconButton
+                  onClick={handleClose}
+                  sx={{
+                    "position": "absolute",
+                    "top": 8,
+                    "right": 8,
+                    "color": "#fff",
+                    "backgroundColor": "rgba(0, 0, 0, 0.5)",
+                    "&:hover": {
+                      backgroundColor: "rgba(0, 0, 0, 0.7)",
+                    },
+                  }}
+                >
+                  <CloseIcon />
+                </IconButton>
+
+                {/* Full Image */}
+                <Box
+                  component="img"
+                  src={selectedImage}
+                  alt="Selected"
+                  sx={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "contain",
+                    borderRadius: 2,
+                    boxShadow: 24,
+                  }}
+                />
+              </Box>
+            </Modal>
+
+            <Typography variant="body2" align="left" sx={{ color: "text.primary", fontFamily: "revert" }}>
+              <strong>Figure 3. </strong>Integer egestas, neque eu fermentum pharetra, nisl orci fringilla erat, a facilisis justo diam semper dui. Fusce et tempus eros. Nullam eget facilisis massa.
+              Duis tempus dui nec congue auctor. Aliquam in hendrerit eros. Etiam sagittis ante nec nisl dictum placerat. Nam suscipit lacus quis eros tempor mollis. Nulla vitae turpis eget magna
+              varius porttitor nec et turpis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Class aptent taciti sociosqu ad litora torquent per conubia
+              nostra, per inceptos himenaeos. Aliquam et blandit nunc, sed posuere felis.
+            </Typography>
+          </Box>
+
+          <Box mt={4}>
+            <Typography id="select-risk" variant="h6" gutterBottom align="left" sx={{ color: "text.primary", fontFamily: "revert" }}>
+              3.3. Selecting risks
+            </Typography>
+            <Divider sx={{ mb: 2 }} />
+            <Typography variant="body2" align="left" sx={{ color: "text.primary", fontFamily: "revert" }}>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis laoreet facilisis viverra. Nam quis mollis lorem. Vestibulum ex nibh, tincidunt sit amet elementum in, iaculis sed urna.
+              Suspendisse pellentesque volutpat ligula ut varius. Morbi posuere posuere eros vitae commodo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce leo lorem, pulvinar id ex a,
+              fringilla porta elit. Mauris rhoncus ipsum eget varius pellentesque. In sed interdum magna. Mauris luctus velit vel quam ultrices elementum. Quisque convallis sem in leo vulputate
+              iaculis.
+            </Typography>
+            <br />
+            <Box
+              component="img"
+              src={mode === "dark" ? "Guide/risk-dark.png" : "Guide/risk.png"}
+              alt="Explore data"
+              onClick={() => setOpen(true)}
+              sx={(theme) => ({
+                flex: "1 1 80%",
+                maxWidth: "80%",
+                aspectRatio: "1901 / 736",
+                objectFit: "cover",
+                my: 2,
+                borderRadius: 2,
+                boxShadow: theme.palette.mode === "dark" ? "0 2px 8px rgba(255, 255, 255, 0.3)" : 3,
+              })}
+            />
+            <Typography variant="body2" align="left" sx={{ color: "text.primary", fontFamily: "revert" }}>
+              <strong>Figure 3. </strong>Integer egestas, neque eu fermentum pharetra, nisl orci fringilla erat, a facilisis justo diam semper dui. Fusce et tempus eros. Nullam eget facilisis massa.
+              Duis tempus dui nec congue auctor. Aliquam in hendrerit eros. Etiam sagittis ante nec nisl dictum placerat. Nam suscipit lacus quis eros tempor mollis. Nulla vitae turpis eget magna
+              varius porttitor nec et turpis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Class aptent taciti sociosqu ad litora torquent per conubia
+              nostra, per inceptos himenaeos. Aliquam et blandit nunc, sed posuere felis.
+            </Typography>
+          </Box>
+
+          <Box mt={4}>
+            <Typography id="select-adaptation" variant="h6" gutterBottom align="left" sx={{ color: "text.primary", fontFamily: "revert" }}>
+              3.3. Selecting adaptation options
+            </Typography>
+            <Divider sx={{ mb: 2 }} />
+            <Typography variant="body2" align="left" sx={{ color: "text.primary", fontFamily: "revert" }}>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis laoreet facilisis viverra. Nam quis mollis lorem. Vestibulum ex nibh, tincidunt sit amet elementum in, iaculis sed urna.
+              Suspendisse pellentesque volutpat ligula ut varius. Morbi posuere posuere eros vitae commodo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce leo lorem, pulvinar id ex a,
+              fringilla porta elit. Mauris rhoncus ipsum eget varius pellentesque. In sed interdum magna. Mauris luctus velit vel quam ultrices elementum. Quisque convallis sem in leo vulputate
+              iaculis.
+            </Typography>
+            <br />
+            <Box
+              component="img"
+              src={mode === "dark" ? "Guide/adapt-dark.png" : "Guide/adapt.png"}
+              alt="Explore data"
+              onClick={() => setOpen(true)}
+              sx={(theme) => ({
+                flex: "1 1 80%",
+                maxWidth: "80%",
+                aspectRatio: "1901 / 720",
+                objectFit: "cover",
+                my: 2,
+                borderRadius: 2,
+                boxShadow: theme.palette.mode === "dark" ? "0 2px 8px rgba(255, 255, 255, 0.3)" : 3,
+              })}
+            />
+            <Typography variant="body2" align="left" sx={{ color: "text.primary", fontFamily: "revert" }}>
+              <strong>Figure 3. </strong>Integer egestas, neque eu fermentum pharetra, nisl orci fringilla erat, a facilisis justo diam semper dui. Fusce et tempus eros. Nullam eget facilisis massa.
+              Duis tempus dui nec congue auctor. Aliquam in hendrerit eros. Etiam sagittis ante nec nisl dictum placerat. Nam suscipit lacus quis eros tempor mollis. Nulla vitae turpis eget magna
+              varius porttitor nec et turpis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Class aptent taciti sociosqu ad litora torquent per conubia
+              nostra, per inceptos himenaeos. Aliquam et blandit nunc, sed posuere felis.
+            </Typography>
+          </Box>
+
+          <Box mt={4}>
+            <Typography id="data-glance" variant="h6" gutterBottom align="left" sx={{ color: "text.primary", fontFamily: "revert" }}>
+              4. Data at a glance
+            </Typography>
+            <Divider sx={{ mb: 2 }} />
+            <Typography variant="body2" align="left" sx={{ color: "text.primary", fontFamily: "revert" }}>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis laoreet facilisis viverra. Nam quis mollis lorem. Vestibulum ex nibh, tincidunt sit amet elementum in, iaculis sed urna.
+              Suspendisse pellentesque volutpat ligula ut varius. Morbi posuere posuere eros vitae commodo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce leo lorem, pulvinar id ex a,
+              fringilla porta elit. Mauris rhoncus ipsum eget varius pellentesque. In sed interdum magna. Mauris luctus velit vel quam ultrices elementum. Quisque convallis sem in leo vulputate
+              iaculis.
+            </Typography>
+          </Box>
+          <Box mt={4}>
+            <Typography id="hazard-glance" variant="h6" gutterBottom align="left" sx={{ color: "text.primary", fontFamily: "revert" }}>
+              4.1. Hazards at a glance
+            </Typography>
+            <Divider sx={{ mb: 2 }} />
+            <Typography variant="body2" align="left" sx={{ color: "text.primary", fontFamily: "revert" }}>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis laoreet facilisis viverra. Nam quis mollis lorem. Vestibulum ex nibh, tincidunt sit amet elementum in, iaculis sed urna.
+              Suspendisse pellentesque volutpat ligula ut varius. Morbi posuere posuere eros vitae commodo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce leo lorem, pulvinar id ex a,
+              fringilla porta elit. Mauris rhoncus ipsum eget varius pellentesque. In sed interdum magna. Mauris luctus velit vel quam ultrices elementum. Quisque convallis sem in leo vulputate
+              iaculis.
+            </Typography>
+            <br />
+            <Box
+              component="img"
+              src={mode === "dark" ? "Guide/hazard-glance-dark.png" : "Guide/hazard-glance.png"}
+              alt="Explore data"
+              onClick={() => setOpen(true)}
+              sx={(theme) => ({
+                flex: "1 1 7%",
+                maxWidth: "70%",
+                aspectRatio: "1582 / 954",
+                objectFit: "cover",
+                my: 2,
+                borderRadius: 2,
+                boxShadow: theme.palette.mode === "dark" ? "0 2px 8px rgba(255, 255, 255, 0.3)" : 3,
+              })}
+            />
+            <Typography variant="body2" align="left" sx={{ color: "text.primary", fontFamily: "revert" }}>
+              <strong>Figure 3. </strong>Integer egestas, neque eu fermentum pharetra, nisl orci fringilla erat, a facilisis justo diam semper dui. Fusce et tempus eros. Nullam eget facilisis massa.
+              Duis tempus dui nec congue auctor. Aliquam in hendrerit eros. Etiam sagittis ante nec nisl dictum placerat. Nam suscipit lacus quis eros tempor mollis. Nulla vitae turpis eget magna
+              varius porttitor nec et turpis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Class aptent taciti sociosqu ad litora torquent per conubia
+              nostra, per inceptos himenaeos. Aliquam et blandit nunc, sed posuere felis.
+            </Typography>
+          </Box>
+          <Box mt={4}>
+            <Typography id="adaptation-glance" variant="h6" gutterBottom align="left" sx={{ color: "text.primary", fontFamily: "revert" }}>
+              4.2. Adaptation at a glance
+            </Typography>
+            <Divider sx={{ mb: 2 }} />
+            <Typography variant="body2" align="left" sx={{ color: "text.primary", fontFamily: "revert" }}>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis laoreet facilisis viverra. Nam quis mollis lorem. Vestibulum ex nibh, tincidunt sit amet elementum in, iaculis sed urna.
+              Suspendisse pellentesque volutpat ligula ut varius. Morbi posuere posuere eros vitae commodo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce leo lorem, pulvinar id ex a,
+              fringilla porta elit. Mauris rhoncus ipsum eget varius pellentesque. In sed interdum magna. Mauris luctus velit vel quam ultrices elementum. Quisque convallis sem in leo vulputate
+              iaculis.
+            </Typography>
+            <Box
+              component="img"
+              src={mode === "dark" ? "Guide/adapt-glance-dark.png" : "Guide/adapt-glance.png"}
+              alt="Explore data"
+              onClick={() => setOpen(true)}
+              sx={(theme) => ({
+                flex: "1 1 70%",
+                maxWidth: "70%",
+                aspectRatio: "1582 / 954",
+                objectFit: "cover",
+                my: 3,
+                borderRadius: 2,
+                boxShadow: theme.palette.mode === "dark" ? "0 2px 8px rgba(255, 255, 255, 0.3)" : 3,
+              })}
+            />
+            <Typography variant="body2" align="left" sx={{ color: "text.primary", fontFamily: "revert" }}>
+              <strong>Figure 3. </strong>Integer egestas, neque eu fermentum pharetra, nisl orci fringilla erat, a facilisis justo diam semper dui. Fusce et tempus eros. Nullam eget facilisis massa.
+              Duis tempus dui nec congue auctor. Aliquam in hendrerit eros. Etiam sagittis ante nec nisl dictum placerat. Nam suscipit lacus quis eros tempor mollis. Nulla vitae turpis eget magna
+              varius porttitor nec et turpis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Class aptent taciti sociosqu ad litora torquent per conubia
+              nostra, per inceptos himenaeos. Aliquam et blandit nunc, sed posuere felis.
+            </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "flex-start", // Align at top
+                gap: 2,
+                flexWrap: "wrap", // Allows wrapping if screen is too small
+                my: 2,
+                //my: 4,
+              }}
+            >
+              <Box
+                component="img"
+                src={mode === "dark" ? "Guide/adapt-drop-dark1.png" : "Guide/adapt-drop1.png"}
+                alt="Explore data"
+                onClick={() => setOpen(true)}
+                sx={(theme) => ({
+                  flex: "1 1 20%",
+                  maxWidth: "20%",
+                  aspectRatio: "308 / 194",
+                  objectFit: "cover",
+                  my: 2,
+                  borderRadius: 2,
+                  boxShadow: theme.palette.mode === "dark" ? "0 2px 8px rgba(255, 255, 255, 0.3)" : 3,
+                })}
+              />
+              <Box
+                component="img"
+                src={mode === "dark" ? "Guide/adapt-drop-dark2.png" : "Guide/adapt-drop2.png"}
+                alt="Explore data"
+                onClick={() => setOpen(true)}
+                sx={(theme) => ({
+                  flex: "1 1 20%",
+                  maxWidth: "20%",
+                  aspectRatio: "300 / 450",
+                  objectFit: "cover",
+                  my: 2,
+                  borderRadius: 2,
+                  boxShadow: theme.palette.mode === "dark" ? "0 2px 8px rgba(255, 255, 255, 0.3)" : 3,
+                })}
+              />
+            </Box>
+
+            <Typography variant="body2" align="left" sx={{ color: "text.primary", fontFamily: "revert" }}>
+              <strong>Figure 3. </strong>Integer egestas, neque eu fermentum pharetra, nisl orci fringilla erat, a facilisis justo diam semper dui. Fusce et tempus eros. Nullam eget facilisis massa.
+              Duis tempus dui nec congue auctor. Aliquam in hendrerit eros. Etiam sagittis ante nec nisl dictum placerat. Nam suscipit lacus quis eros tempor mollis. Nulla vitae turpis eget magna
+              varius porttitor nec et turpis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Class aptent taciti sociosqu ad litora torquent per conubia
+              nostra, per inceptos himenaeos. Aliquam et blandit nunc, sed posuere felis.
+            </Typography>
+          </Box>
+
+          <Box mt={4}>
+            <Typography id="data-access" variant="h6" gutterBottom align="left" sx={{ color: "text.primary", fontFamily: "revert" }}>
+              5. Data access
+            </Typography>
+            <Divider sx={{ mb: 2 }} />
+            <Typography variant="body2" align="left" sx={{ color: "text.primary", fontFamily: "revert" }}>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis laoreet facilisis viverra. Nam quis mollis lorem. Vestibulum ex nibh, tincidunt sit amet elementum in, iaculis sed urna.
+              Suspendisse pellentesque volutpat ligula ut varius. Morbi posuere posuere eros vitae commodo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce leo lorem, pulvinar id ex a,
+              fringilla porta elit. Mauris rhoncus ipsum eget varius pellentesque. In sed interdum magna. Mauris luctus velit vel quam ultrices elementum. Quisque convallis sem in leo vulputate
+              iaculis.
+            </Typography>
+            <Box
+              component="img"
+              src={mode === "dark" ? "Guide/data-access-dark.png" : "Guide/data-access.png"}
+              alt="Explore data"
+              onClick={() => setOpen(true)}
+              sx={(theme) => ({
+                flex: "1 1 70%",
+                maxWidth: "70%",
+                aspectRatio: "1507 / 742",
+                objectFit: "cover",
+                my: 3,
+                borderRadius: 2,
+                boxShadow: theme.palette.mode === "dark" ? "0 2px 8px rgba(255, 255, 255, 0.3)" : 3,
+              })}
+            />
+            <Typography variant="body2" align="left" sx={{ color: "text.primary", fontFamily: "revert" }}>
+              <strong>Figure 3. </strong>Integer egestas, neque eu fermentum pharetra, nisl orci fringilla erat, a facilisis justo diam semper dui. Fusce et tempus eros. Nullam eget facilisis massa.
+              Duis tempus dui nec congue auctor. Aliquam in hendrerit eros. Etiam sagittis ante nec nisl dictum placerat. Nam suscipit lacus quis eros tempor mollis. Nulla vitae turpis eget magna
+              varius porttitor nec et turpis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Class aptent taciti sociosqu ad litora torquent per conubia
+              nostra, per inceptos himenaeos. Aliquam et blandit nunc, sed posuere felis.
+            </Typography>
+          </Box>
+
+          <Box mt={4}>
+            <Typography id="use-cases" variant="h6" gutterBottom align="left" sx={{ color: "text.primary", fontFamily: "revert" }}>
+              6. Use Cases
+            </Typography>
+            <Divider sx={{ mb: 2 }} />
+            <Typography variant="body2" align="left" sx={{ color: "text.primary", fontFamily: "revert" }}>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis laoreet facilisis viverra. Nam quis mollis lorem. Vestibulum ex nibh, tincidunt sit amet elementum in, iaculis sed urna.
+              Suspendisse pellentesque volutpat ligula ut varius. Morbi posuere posuere eros vitae commodo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce leo lorem, pulvinar id ex a,
+              fringilla porta elit. Mauris rhoncus ipsum eget varius pellentesque. In sed interdum magna. Mauris luctus velit vel quam ultrices elementum. Quisque convallis sem in leo vulputate
+              iaculis.
+            </Typography>
+            <Box
+              component="img"
+              src={mode === "dark" ? "Guide/use-case-dark.png" : "Guide/use-case.png"}
+              alt="Explore data"
+              onClick={() => setOpen(true)}
+              sx={(theme) => ({
+                flex: "1 1 70%",
+                maxWidth: "70%",
+                aspectRatio: "1920 / 500",
+                objectFit: "cover",
+                my: 3,
+                borderRadius: 2,
+                boxShadow: theme.palette.mode === "dark" ? "0 2px 8px rgba(255, 255, 255, 0.3)" : 3,
+              })}
+            />
+            <Typography variant="body2" align="left" sx={{ color: "text.primary", fontFamily: "revert" }}>
+              <strong>Figure 3. </strong>Integer egestas, neque eu fermentum pharetra, nisl orci fringilla erat, a facilisis justo diam semper dui. Fusce et tempus eros. Nullam eget facilisis massa.
+              Duis tempus dui nec congue auctor. Aliquam in hendrerit eros. Etiam sagittis ante nec nisl dictum placerat. Nam suscipit lacus quis eros tempor mollis. Nulla vitae turpis eget magna
+              varius porttitor nec et turpis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Class aptent taciti sociosqu ad litora torquent per conubia
+              nostra, per inceptos himenaeos. Aliquam et blandit nunc, sed posuere felis.
+            </Typography>
+          </Box>
+        </Grid>
+      </Grid>
+    </Box>
+  );
+};
+
+export default Guidee;
+
+/*import * as React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Timeline from "@mui/lab/Timeline";
@@ -306,4 +1070,4 @@ export default function Guidee() {
       </Box>
     </div>
   );
-}
+}*/

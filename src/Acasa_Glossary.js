@@ -692,9 +692,9 @@ export default function Glossary() {
               variant={selectedLetter === letter ? "contained" : "outlined"}
               onClick={() => setSelectedLetter(selectedLetter === letter ? "" : letter)}
               sx={(theme) => ({
-                "width": "min(8vw, 40px)",
-                "height": "min(8vw, 40px)",
-                "minWidth": "min(8vw, 40px)",
+                "width": "min(8vw, 35px)",
+                "height": "min(8vw, 35px)",
+                "minWidth": "min(8vw, 35px)",
                 "fontSize": "1rem",
                 "fontWeight": "bold",
                 "textTransform": "none",

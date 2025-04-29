@@ -1612,7 +1612,7 @@ export default function AboutUs() {
                   fontFamily: "revert",
                 })}
               >
-                11. Purvanii Pragya, WebGIS Consultant
+                11. Purvanii Pragya, WebGIS Developer
               </Typography>
             </Box>
           </Box>
