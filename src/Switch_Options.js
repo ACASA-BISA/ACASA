@@ -179,7 +179,7 @@ export default function SwitchOpt({ activeCrop, activeOpt, changeOpt, activeOptL
     "goat",
     "sheep",
     "pig",
-    "poultry",
+    "chicken",
     "freshwater",
     "bracklish",
     "marine",
@@ -275,7 +275,7 @@ export default function SwitchOpt({ activeCrop, activeOpt, changeOpt, activeOptL
       goat: ["MICROMOD", "MOD", "PLANT"],
       sheep: ["MICROMOD", "MOD", "PLANT"],
       pig: ["MICROMOD", "MOD", "PLANT", "WALLOW", "MECHCOOL"],
-      poultry: ["MICROMOD", "MOD", "PLANT", "HEATMNGT", "MECHCOOL"],
+      chicken: ["MICROMOD", "MOD", "PLANT", "HEATMNGT", "MECHCOOL"],
     };
 
     ShelterList = shelterMapping[lname] || [];
@@ -320,7 +320,7 @@ export default function SwitchOpt({ activeCrop, activeOpt, changeOpt, activeOptL
       goat: ["BCONC", "MINMIXSUPP", "FEEDADD", "MODFEED", "GRASS", "FODDER", "ADLIBWATER"],
       sheep: ["BCONC", "MINMIXSUPP", "FEEDADD", "MODFEED", "GRASS", "FODDER", "ADLIBWATER"],
       pig: ["BCONCWBUFF", "ADLIBWATER", "MINMIXSUPP", "FEEDADD", "MODFEED"],
-      poultry: ["FATSUPP", "PROTEINSUPP", "ADLIBWATER", "FEEDADDELECTROLYTE", "MODFEEDSPACE"],
+      chicken: ["FATSUPP", "PROTEINSUPP", "ADLIBWATER", "FEEDADDELECTROLYTE", "MODFEEDSPACE"],
     };
 
     FeedList = feedMapping[lname] || [];
@@ -365,7 +365,7 @@ export default function SwitchOpt({ activeCrop, activeOpt, changeOpt, activeOptL
       goat: ["DEWORM", "CONTROL", "VACC"],
       sheep: ["DEWORM", "CONTROL", "VACC"],
       pig: ["DEWORMENDOPARASITE", "CONTROL", "VACC"],
-      poultry: ["PARASITE", "FLOCKTHIN", "FLOCKSEPARATE", "VACC"],
+      chicken: ["PARASITE", "FLOCKTHIN", "FLOCKSEPARATE", "VACC"],
     };
 
     HealthList = healthMapping[lname] || [];
@@ -410,7 +410,7 @@ export default function SwitchOpt({ activeCrop, activeOpt, changeOpt, activeOptL
       goat: ["ADOPTION", "WEATHER", "INSURANCE"],
       sheep: ["ADOPTION", "WEATHER", "INSURANCE"],
       pig: ["REPRODUCTIVE", "ADOPTION", "WEATHER", "INSURANCE"],
-      poultry: ["ADOPTIONSTRAIN", "WEATHER", "INSURANCE", "DIVERSIFY"],
+      chicken: ["ADOPTIONSTRAIN", "WEATHER", "INSURANCE", "DIVERSIFY"],
     };
 
     StandaloneList = standaloneMapping[lname] || [];
@@ -447,7 +447,7 @@ export default function SwitchOpt({ activeCrop, activeOpt, changeOpt, activeOptL
     'safflower','sunflower','rapeseed','sesame','groundnut',
     'soyabean','chickpea','ppea','bgram','ggram','lentil',
     'cotton','jute','rubber','sugarcane','tea','coconut',
-    'cattle','buffalo','goat','sheep','pig','poultry',
+    'cattle','buffalo','goat','sheep','pig','chicken',
     'freshwater','bracklish','marine','coldwater',
     'potato','onion','tomato','chilli','mango','banana'];
 
@@ -507,7 +507,7 @@ export default function SwitchOpt({ activeCrop, activeOpt, changeOpt, activeOptL
   }
 
   function checkcrop() {
-    const diffcrop = ["cattle", "buffalo", "goat", "sheep", "pig", "poultry", "freshwater", "bracklish", "marine", "coldwater", "rice"];
+    const diffcrop = ["cattle", "buffalo", "goat", "sheep", "pig", "chicken", "freshwater", "bracklish", "marine", "coldwater", "rice"];
     let ans = true;
     diffcrop.forEach((sname) => {
       if (activeCrop[sname] === true) {

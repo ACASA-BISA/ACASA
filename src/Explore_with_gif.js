@@ -367,7 +367,7 @@ export default function CompGif({
                 <MenuItem value="pig" sx={{ fontSize: "14px", height: "25px" }}>
                   Pig
                 </MenuItem>
-                <MenuItem value="poultry" sx={{ fontSize: "14px", height: "25px" }}>
+                <MenuItem value="chicken" sx={{ fontSize: "14px", height: "25px" }}>
                   Chicken
                 </MenuItem>
               </Select>

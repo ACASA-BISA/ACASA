@@ -3,12 +3,23 @@ import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 
-export default function Summ_Adaptation_Indicator({ handleIndicator, indc }) {
+export default function Summ_Adaptation_Indicator({ handleIndicator, activeCrop, indc }) {
   //const switchh2 = ["Biophysical Suitability", "Gender", "Adaptation Benefits", "Economic", "Scalability"];
 
   const handleChange = (event) => {
     handleIndicator(event.target.value);
   };
+
+  function checkcrop() {
+    const diffcrop = ["cattle", "buffalo", "goat", "sheep", "pig", "chicken"];
+    let ans = true;
+    diffcrop.forEach((sname) => {
+      if (activeCrop[sname] === true) {
+        ans = false;
+      }
+    });
+    return ans;
+  }
 
   return (
     <FormControl sx={{ width: "160px" }}>
@@ -26,21 +37,31 @@ export default function Summ_Adaptation_Indicator({ handleIndicator, indc }) {
         <MenuItem value="Biophysical Suitability" sx={{ fontSize: 13, paddingY: "2px" }}>
           Biophysical Suitability
         </MenuItem>
-        <MenuItem value="Scalability" sx={{ fontSize: 13, paddingY: "2px" }}>
-          Scalability
-        </MenuItem>
-        <MenuItem value="Gender Suitability" sx={{ fontSize: 13, paddingY: "2px" }}>
-          Gender Suitability
-        </MenuItem>
-        <MenuItem value="Yield Benefits" sx={{ fontSize: 13, paddingY: "2px" }}>
-          Yield Benefits
-        </MenuItem>
-        <MenuItem value="Economic Viability" sx={{ fontSize: 13, paddingY: "2px" }}>
-          Economic Viability
-        </MenuItem>
-        <MenuItem value="Adaptation Benefits" sx={{ fontSize: 13, paddingY: "2px" }}>
-          Adaptation Benefits
-        </MenuItem>
+        {checkcrop() && (
+          <MenuItem value="Scalability" sx={{ fontSize: 13, paddingY: "2px" }}>
+            Scalability
+          </MenuItem>
+        )}
+        {checkcrop() && (
+          <MenuItem value="Gender Suitability" sx={{ fontSize: 13, paddingY: "2px" }}>
+            Gender Suitability
+          </MenuItem>
+        )}
+        {checkcrop() && (
+          <MenuItem value="Yield Benefits" sx={{ fontSize: 13, paddingY: "2px" }}>
+            Yield Benefits
+          </MenuItem>
+        )}
+        {checkcrop() && (
+          <MenuItem value="Economic Viability" sx={{ fontSize: 13, paddingY: "2px" }}>
+            Economic Viability
+          </MenuItem>
+        )}
+        {checkcrop() && (
+          <MenuItem value="Adaptation Benefits" sx={{ fontSize: 13, paddingY: "2px" }}>
+            Adaptation Benefits
+          </MenuItem>
+        )}
       </Select>
     </FormControl>
   );

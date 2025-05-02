@@ -11,14 +11,14 @@ import LightTooltip from "../LightTooltip";
 
 export default function SwitchLivestock({ activeCrop, changeCrop }) {
   const switchh = ["Cattle", "Buffalo", "Goat", "Sheep", "Pig", "Chicken"];
-  const switchid = ["cattle", "buffalo", "goat", "sheep", "pig", "poultry"];
+  const switchid = ["cattle", "buffalo", "goat", "sheep", "pig", "chicken"];
   const disvar = {
     cattle: false,
     buffalo: false,
     goat: false,
     sheep: false,
     pig: false,
-    poultry: false,
+    chicken: false,
   };
 
   const padd = 8;

@@ -139,7 +139,7 @@ export default function AdaptationGlance({
               })}
             >
               <Typography sx={{ fontSize: 13, fontWeight: "bold" }}>Adaptation Indicator: </Typography>
-              <Summ_Adaptation_Indicator handleIndicator={changeOptLayer2} indc={optionlayer2}></Summ_Adaptation_Indicator>
+              <Summ_Adaptation_Indicator handleIndicator={changeOptLayer2} activeCrop={crop3} indc={optionlayer2}></Summ_Adaptation_Indicator>
             </Box>
             <Map_Risk activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeScenario={NameScenario}></Map_Risk>
           </Paper>

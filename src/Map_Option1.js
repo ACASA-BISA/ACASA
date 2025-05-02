@@ -203,6 +203,14 @@ export default function Map_Option({ activeCrop, focus = "Region", activeRegion,
     ],
   };
 
+  const color_adaptation_livestock = {
+    color: [
+      "palette",
+      ["interpolate", ["linear"], ["*", ["band", 2], 385], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 8],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "rgba(150,150,150,1)", "#FF4500", "#FFDE4D", "#FFDE4D", "#00FF00", "#059212"],
+    ],
+  };
+
   const key = "TrN2dn4maoO3C2x0sUpH";
 
   function checkcrop2() {
@@ -544,12 +552,22 @@ export default function Map_Option({ activeCrop, focus = "Region", activeRegion,
     let source1 = null;
     let opt = 1;
     let urlstr = "xyz.tif";
+    //console.log(activeOpt);
     if (activeScenario === "baseline") {
       urlstr = "./Adap/" + activeCrop + "/" + modelName + "/Baseline/Suitability_" + activeCrop + "_" + optcode[activeOpt] + "_baseline.tif";
     } else if (activeScenario === "ssp245") {
       urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP245/Suitability_" + activeCrop + "_" + optcode[activeOpt] + "_ssp245.tif";
     } else {
       urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Suitability_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
+    }
+    if (checkcrop2() === false) {
+      if (activeScenario === "baseline") {
+        urlstr = "./Adap/" + activeCrop + "/" + modelName + "/Baseline/Baseline_CHC_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+      } else if (activeScenario === "ssp245") {
+        urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP245/SSP245_CHC_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+      } else {
+        urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/SSP585_CHC_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+      }
     }
     if (activeOptLayer === "Scalability") {
       if (activeScenario === "baseline") {
@@ -601,10 +619,7 @@ export default function Map_Option({ activeCrop, focus = "Region", activeRegion,
       }
       opt = 222;
     }
-    if (checkcrop2() === false) {
-      opt = 333;
-      urlstr = "./Adap/" + activeCrop + "/" + activeOpt + " Baseline.tif";
-    }
+
     source1 = new GeoTIFF({
       sources: [{ url: urlstr }],
       sourceOptions: { allowFullFile: true },
@@ -634,6 +649,9 @@ export default function Map_Option({ activeCrop, focus = "Region", activeRegion,
         newOverl.setStyle(color_hazard);
       } else {
         newOverl.setStyle(color_adaptation2);
+        if (checkcrop2() === false) {
+          newOverl.setStyle(color_adaptation_livestock);
+        }
       }
 
       if (mapRef.current) {

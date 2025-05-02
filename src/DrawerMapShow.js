@@ -132,7 +132,7 @@ export default function DrawerMapShow({ activeBar }) {
     "goat",
     "sheep",
     "pig",
-    "poultry",
+    "chicken",
     "freshwater",
     "bracklish",
     "marine",
