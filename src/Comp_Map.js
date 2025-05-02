@@ -29,6 +29,7 @@ import { fetchLocationDataAdap } from "./fetchLocationDataAdap";
 import ReactDOM from "react-dom";
 import PopperGif from "./PopperGif";
 import { file } from "jszip";
+import html2canvas from "html2canvas";
 
 const optcode = {
   "Stress tolerant variety": "ADVAR",
@@ -821,6 +822,102 @@ export default function MApp({
     }
 
     handleDownloadJPEG() {
+      const map = this.getMap();
+      const size = map.getSize();
+
+      let filename = "map_snapshot.jpeg";
+      if (CurrRisk !== "") {
+        filename = `${activeRegion}_${activeCrop}_${activeScenario}_${CurrRisk}_${activeScale}.jpeg`;
+      } else if (activeOpt !== "") {
+        let opt_suffix = "";
+        if (activeOptLayer["Adaptation Benefits"]) opt_suffix = "Adaptation_Benefits";
+        if (activeOptLayer["Economic"]) opt_suffix = "Economic_Viability";
+        if (activeOptLayer["Scalability"]) opt_suffix = "Scalability";
+        filename = `${activeRegion}_${activeCrop}_${activeScenario}_${activeOpt}_${opt_suffix}_${activeScale}.jpeg`;
+      } else if (activeImpact !== "") {
+        filename = `${activeRegion}_${activeCrop}_${activeScenario}_${ImpactName}_${activeScale}.jpeg`;
+      }
+
+      let titleText = `${activeRegion} - ${activeCrop} - ${activeScenario.toUpperCase()}`;
+      if (CurrRisk !== "") {
+        titleText += ` - ${CurrRisk}`;
+      } else if (activeOpt !== "") {
+        titleText += ` - ${activeOpt}`;
+      } else if (activeImpact !== "") {
+        titleText += ` - ${ImpactName}`;
+      }
+
+      const titleStripHeight = 60;
+
+      map.once("rendercomplete", async () => {
+        try {
+          const legendEl = document.getElementById(`legend-${activeScenario}`);
+          const legendCanvas = legendEl ? await html2canvas(legendEl) : null;
+          const legendHeight = legendCanvas ? legendCanvas.height : 0;
+
+          const mapCanvas = document.createElement("canvas");
+          mapCanvas.width = size[0];
+          mapCanvas.height = size[1] + titleStripHeight + legendHeight;
+          const mapContext = mapCanvas.getContext("2d");
+
+          // Draw title
+          mapContext.fillStyle = mode === "dark" ? "#25292e" : "white";
+          mapContext.fillRect(0, 0, mapCanvas.width, titleStripHeight);
+          mapContext.fillStyle = mode === "dark" ? "white" : "black";
+          mapContext.font = "bold 16px Helvetica";
+          mapContext.textAlign = "center";
+          mapContext.textBaseline = "middle";
+          mapContext.fillText(titleText, mapCanvas.width / 2, titleStripHeight / 2);
+
+          // Draw map
+          Array.from(map.getViewport().querySelectorAll("canvas")).forEach((canvas) => {
+            if (canvas.width > 0 && canvas.height > 0) {
+              const opacity = canvas.style.opacity ? Number(canvas.style.opacity) : 1;
+              mapContext.globalAlpha = opacity;
+
+              const transform = canvas.style.transform;
+              const matrix = transform.match(/^matrix\(([^\(]*)\)$/);
+              if (matrix) {
+                const values = matrix[1].split(",").map(Number);
+                mapContext.setTransform(...values);
+              }
+
+              mapContext.drawImage(canvas, 0, titleStripHeight);
+            }
+          });
+
+          // Draw legend
+          if (legendCanvas) {
+            mapContext.setTransform(1, 0, 0, 1, 0, 0); // Reset transform
+            mapContext.globalAlpha = 1;
+            const legendX = (mapCanvas.width - legendCanvas.width) / 2;
+            const legendY = titleStripHeight + size[1]; // Below the map
+            mapContext.drawImage(legendCanvas, legendX, legendY);
+          }
+
+          mapCanvas.toBlob(
+            (blob) => {
+              if (blob) {
+                const url = URL.createObjectURL(blob);
+                this.downloadFile(url, filename);
+                URL.revokeObjectURL(url);
+              } else {
+                alert("Failed to create image from map.");
+              }
+            },
+            "image/jpeg",
+            0.95
+          );
+        } catch (err) {
+          console.error("Snapshot error:", err);
+          alert("An error occurred while generating the map image.");
+        }
+      });
+
+      map.renderSync();
+    }
+
+    /*handleDownloadJPEG() {
       let urlstr;
       let district_n = "";
       let district_prefix = "";
@@ -862,7 +959,7 @@ export default function MApp({
           console.error("Error downloading JPEG:", err);
           alert("Failed to download the JPEG image.");
         });
-    }
+    }*/
 
     handleDownloadCSV() {
       let csvContent = [];

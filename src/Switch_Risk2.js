@@ -19,8 +19,8 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
   const switchChild = ["Measured Risk", "Estimated Risk"];
   const switchChildID = ["pr", "ipcc"];
 
-  const switchIPCC = ["Climatology", "Hazard", "Exposure", "Vulnerability", "Indices"];
-  const switchRegional = ["Climatology", "Hazard", "Exposure", "Vulnerability", "Risk indices"];
+  const switchIPCC = ["Climatology", "Hazards", "Exposure", "Vulnerability", "Indices"];
+  const switchRegional = ["Climatology", "Hazards", "Exposure", "Vulnerability", "Risk indices"];
   const switchIPCCID = ["basic", "hazard", "exposure", "vulner", "risk"];
 
   const switchRisk = ["Risk Index", "Hazard Index", "Exposure Index", "Vulnerability Index"];
@@ -273,7 +273,8 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
     if (sname === "rice") {
       HazardList = ["HEAT STRESS", "HIGH POLLEN", "LOW POLLEN", "DELMON", "SPI", "DSN"]; //spiklet changed to pollen //1
     } else if (sname === "wheat") {
-      HazardList = ["HIGH POLLEN", "TERMINAL HEAT", "HEAT STRESS", "ERWL2", "SPI", "FROST"]; //, "LODGE",  //2
+      HazardList = ["HEAT STRESS", "TERMINAL HEAT", "HIGH POLLEN", "FROST", "ERWL2", "SPI", ];
+      //, "LODGE",  //2
     } else if (sname === "barley") {
       HazardList = ["HEAT STRESS", "HIGH POLLEN", "ERWL2", "SPI", "FROST"]; //, "TERMINAL HEAT", "LODGE"//3
     } else if (sname === "maize") {
@@ -375,9 +376,9 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
   // Get hazard names and descriptions
   const { HazardNames: CurrHazardName, HazardDesc: CurrHazardDesc } = HazardData();
 
-  const switchVulner = ["Irrigation", "Income", "Volumetric Soil Water", "Rural infrastructure", "Socio-economic Development Indicator"];
-  const switchVulnerID = ["irrigation", "GDP", "waterholding", "ROAD", "HDI"];
-  const switchVulnerPopup = ["Irrigation", "Income", "Volumetric Soil Water", "Rural infrastructure", "Socio-economic Development Indicator"];
+  const switchVulner = ["Irrigation", "Income", "Socio-economic Development Indicator", "Volumetric Soil Water", "Rural infrastructure", ];
+  const switchVulnerID = ["irrigation", "GDP","HDI", "waterholding", "ROAD", ];
+  const switchVulnerPopup = ["Irrigation", "Income",  "Socio-economic Development Indicator", "Volumetric Soil Water", "Rural infrastructure",];
 
   /*   const switchvul_Livestock = ['Vulnerability Index',"Feed/Fodder","Income","Rural infrastructure","Socio-economic Development Indicator"];
   const switchvul_LivestockID = ['vulne',"CROPRES","GDP","ROAD",'HDI']; */
@@ -846,13 +847,13 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
         {exploreType === "Commodity" &&
           (activeCrop["rice"] ||
             activeCrop["maize"] ||
-            activeCrop["barley"] ||
+            //activeCrop["barley"] ||
             activeCrop["millets"] ||
-            activeCrop["Pigeonpea"] ||
-            activeCrop["Soybean"] ||
+            activeCrop["ppea"] ||
+            activeCrop["soyabean"] ||
             activeCrop["groundnut"] ||
             activeCrop["cotton"] ||
-            activeCrop["potato"] ||
+            //activeCrop["potato"] ||
             activeCrop["jute"]) && (
             <Typography
               sx={(theme) => ({
@@ -866,7 +867,7 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
               Season: Monsoon Season
             </Typography>
           )}
-        {exploreType === "Commodity" && (activeCrop["sorghum"] || activeCrop["chickpea"] || activeCrop["lentil"] || activeCrop["mustard"]) && (
+        {exploreType === "Commodity" && (activeCrop["sorghum"] || activeCrop["chickpea"] || activeCrop["lentil"] || activeCrop["rapeseed"] || activeCrop["barley"] || activeCrop["potato"] || activeCrop["wheat"]) && (
           <Typography
             sx={(theme) => ({
               color: theme.palette.mode === "dark" ? "white" : "black",

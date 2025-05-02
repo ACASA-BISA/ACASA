@@ -147,7 +147,7 @@ export const DataCatalog = ({
             <Typography
               className="card-title"
               sx={{
-                fontSize: "normal",
+                fontSize: "15px",
                 margin: "8px",
                 color: (theme) => (theme.palette.mode === "light" ? "#333333" : "#ffffff"),
               }}
