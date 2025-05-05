@@ -136,7 +136,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
               <Typography sx={(theme) => ({ fontSize: 11.5, marginBottom: "2px", color: theme.palette.mode === "dark" ? "white" : "black" })}>
                 {AdaptLayerName === "Yield Benefits" && "Percent change in "}
                 {/* {AdaptLayerName === "Adaptation Benefits" && scenario === "baseline" && "Percent change in "} */}
-                {AdaptLayerName === "Biophysical Suitability" && checkcrop() === false && "Adaptation requirement"}
+                {AdaptLayerName === "Biophysical Suitability" && checkcrop() === false && "Suitability"}
                 {scenario === "baseline" && AdaptLayerName === "Adaptation Benefits" && <strong>Yield</strong>}
                 {AdaptLayerName === "Yield Benefits" && "yield"}
                 {(scenario !== "baseline" || AdaptLayerName !== "Adaptation Benefits") &&
@@ -153,6 +153,8 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                   <span>
                     for&nbsp;
                     {shelter_master.includes(adaption) && <strong>shelter management: </strong>}
+                    {feed_master.includes(adaption) && <strong>feed management: </strong>}
+                    {healthcare_master.includes(adaption) && <strong>healthcare management: </strong>}
                     <strong>{adaption.toLowerCase()}</strong>
                   </span>
                 )}

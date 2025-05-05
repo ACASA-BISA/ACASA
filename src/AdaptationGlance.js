@@ -15,6 +15,7 @@ import Summ_Scenario from "./Summ_Scenario.js";
 import Summ_Model from "./Summ_Model.js";
 import Summ_Adaptation_Indicator from "./Summ_Adaptation_Indicators.js";
 import Map_Risk from "./Map_Risk1";
+import Map_Index2 from "./Map_HazardIndex2.js";
 import Map_Option from "./Map_Option1";
 import LegendComp from "./LegendComp.js";
 import { fetchthedataHzd } from "./fetchDataHzd.js";
@@ -57,6 +58,17 @@ export default function AdaptationGlance({
   const handleModel = (name) => {
     setNameModel(name);
   };
+
+  function checkcrop() {
+    const diffcrop = ["Cattle", "Buffalo", "Goat", "Sheep", "Pig", "Chicken"];
+    let ans = true;
+    diffcrop.forEach((sname) => {
+      if (crop2 === sname) {
+        ans = false;
+      }
+    });
+    return ans;
+  }
 
   const paperwidth = React.useRef(null);
   const [paperWidth, setPaperWidth] = React.useState(0);
@@ -141,7 +153,8 @@ export default function AdaptationGlance({
               <Typography sx={{ fontSize: 13, fontWeight: "bold" }}>Adaptation Indicator: </Typography>
               <Summ_Adaptation_Indicator handleIndicator={changeOptLayer2} activeCrop={crop3} indc={optionlayer2}></Summ_Adaptation_Indicator>
             </Box>
-            <Map_Risk activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeScenario={NameScenario}></Map_Risk>
+            {checkcrop() && <Map_Risk activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} activeScenario={NameScenario}></Map_Risk>}
+            {checkcrop() === false && <Map_Index2 activeCrop={crop2} focus={focus2} activeRegion={activeRegion2} CurrRisk="Hazard Index" activeScenario={NameScenario}></Map_Index2>}
           </Paper>
           <Popper
             open={true} // Always open
@@ -157,7 +170,8 @@ export default function AdaptationGlance({
               },
             ]}
           >
-            <LegendComp legendData={fetchthedataHzd("Pixel Level", "", "Productivity", "Absolute", activeRegion2, NameScenario, crop2, area_data4)} />
+            {checkcrop() && <LegendComp legendData={fetchthedataHzd("Pixel Level", "", "Productivity", "Absolute", activeRegion2, NameScenario, crop2, area_data4)} />}
+            {checkcrop() === false && <LegendComp legendData={fetchthedataHzd("Pixel Level", "Hazard Index", "", "Absolute", activeRegion2, NameScenario, crop2, area_data4)} />}
           </Popper>
         </Grid>
         <Grid item xs={9}>
