@@ -863,7 +863,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                     <FormGroup>
                       {[
                         { short: "For cold stress", full: "Modify shelters" },
-                        { short: "For natural hazards", full: "Shelter for natural hazards" },
+                        { short: "For natural hazards", full: "Appropriate shelter to protect animals from natural hazards." },
                         { short: "Modify sheds and bathing", full: "Modify sheds, planting trees, bathing, and mechanical cooling" },
                       ].map(({ short, full }) => (
                         <CustomFormControlLabel

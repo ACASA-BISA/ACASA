@@ -8,12 +8,12 @@ const glossaryData = {
     {
       term: "ACASA",
       definition: "Atlas of Climate Adaptation in South Asian Agriculture",
-      image: "acasa.png",
+      image: "acasa.PNG",
     },
     {
       term: "Alternate wetting and drying",
       definition:
-        "The AWD practices in rice involves intermittent flooding (alternate cycles of saturated and unsaturated conditions) of a rice field, typically to a water depth of around 5 cm, and allowing the field to dry until the water level drops to a certain threshold moisture level i.e., around 10 cm below the soil surface, and then reflooding the field. It saves se irrigation water use and reduces greenhouse gas (GHG) emissions while maintaining or improving grain yields",
+        "The AWD practices in rice involves intermittent flooding (alternate cycles of saturated and unsaturated conditions) of a rice field, typically to a water depth of around 5 cm, and allowing the field to dry until the water level drops to a certain threshold moisture level i.e., around 10-15 cm below the soil surface, and then reflooding the field. It saves se irrigation water use and reduces greenhouse gas (GHG) emissions while maintaining or improving grain yields.",
     },
     {
       term: "Adaptation benefits",
@@ -31,12 +31,12 @@ const glossaryData = {
   B: [
     {
       term: "Baseline",
-      definition: "Current scenario",
+      definition: "The 30-year period from 1984 to 2013 representing current climate conditions. It serves as the benchmark against which future climate projections and scenario-driven changes are assessed.",
     },
-    /*{
+    {
       term: "Barley",
-      definition: "The analysis for barley is done for Rabi/winter season",
-    },*/
+      definition: "The analysis for barley is done for 'Rabi'/winter season",
+    },
     {
       term: "Broad bed and furrow",
       definition:
@@ -46,22 +46,22 @@ const glossaryData = {
       term: "Biophysical suitability",
       definition: "Suitability of adaptation options in a particular pixel based on the heuristic model of several indicators. For detailed methodology refer to the document",
     },
-    {
+    /*{
       term: "Bathing",
       definition: "",
-    },
+    },*/
     {
       term: "Balanced concentrate with buffer",
       definition: "Combining concentrate feed and a buffering agent that helps maintain the pH balance in the cow’s rumen",
     },
-    {
+    /*{
       term: "Biotic",
       definition: "",
     },
     {
       term: "Biotic stress",
       definition: "",
-    },
+    },*/
     {
       term: "Bypass protein and fats",
       definition: "Blend of essential minerals to correct mineral deficiencies and improve productivity",
@@ -75,29 +75,7 @@ const glossaryData = {
     {
       term: "CHC",
       definition:
-        "The Climate Hazards Center is an alliance of multidisciplinary scientists and food security analysts utilizing climate and crop models, satellite-based earth observations, and socioeconomic data sets to predict and monitor droughts and food shortages among the world's most vulnerable populations. Through partnerships with USAID, USGS, and FEWS NET, the CHC provides early warning to save lives and secure livelihoods",
-    },
-    {
-      term: "GFDL-ESM4",
-      definition:
-        "The Canadian Earth System Model version 5 (CanESM5) is a global model developed to simulate historical climate change and variability, to make centennial-scale projections of future climate, and to produce initialized seasonal and decadal predictions. This paper describes the model components and their coupling, as well as various aspects of model development, including tuning, optimization, and a reproducibility strategy",
-    },
-    {
-      term: "CNRM",
-      definition:
-        "The National Center for Meteorological Research (CNRM) is a Joint Research Unit (UMR 3589) formed by the CNRS and Météo-France. Until the end of 2015, the UMR was also called the Meteorological Atmosphere Study Group.The CNRM is responsible for a large part of the research activities of the Public Administrative Establishment Météo-France, the national meteorological and climatic service",
-    },
-    {
-      term: "CERFACS",
-      definition: "Centre Européen de Recherche et Formation Avancée en Calcul Scientifique (CERFACS) is a European Center in Research and Advanced Training on Scientific Computing",
-    },
-    {
-      term: "IPSL-CM6A-LR",
-      definition: "IPSL-CM6A-LR is the climate model developped by the CNRM/CERFACS modelling group for CMIP6. It is the successor of the CNRM-CM5.1 climate model that participates to CMIP5",
-    },
-    {
-      term: "MPI-ESM1-2-HR",
-      definition: "",
+        "A suite of climate data products hosted by the Climate Hazards Center, including CHIRPS (precipitation), CHIRTS (temperature), and CHC CMIP6 bias-corrected climate projections. These datasets support climate monitoring and impact assessment, especially in data-scarce regions.",
     },
     {
       term: "Crop insurance",
@@ -106,33 +84,21 @@ const glossaryData = {
     },
     {
       term: "Commodity specific analysis",
-      definition: "",
+      definition: "The analysis is done separately for each commodity",
     },
     {
       term: "Cold stress",
-      definition: "",
-    },
-    {
-      term: "Cold stress during flowering",
-      definition: "",
-    },
-    {
-      term: "Cold stress in reproductive stage",
-      definition: "",
+      definition: "Cold stress is defined using both the intensity and frequency of extreme cold during the entire crop duration. Intensity refers to the number of days falling below a threshold of minimum temperature (Tmin), while frequency is the number of years (out of 30) in which such cold events occurred at a given location. My consider: Cold stress in crops refers to the negative impact of low temperatures on plant growth and development.",
     },
     {
       term: "Cyclone",
-      definition: "",
-    },
-    {
-      term: "Cropped area",
-      definition: "",
+      definition: "Cyclone hazard in terms of classes, which were developed using the cyclone-prone district information for India sourced from the NDMA report, and Abdul Awal 2015 for Bangladesh.",
     },
     {
       term: "Control of ectoparasites and other vectors",
       definition: "Physical and chemical controls of ectoparasites and other vectors",
     },
-    /*{
+    {
       term: "Chickpea",
       definition: "Here the analysis is done only for winter season"
     },
@@ -143,7 +109,11 @@ const glossaryData = {
     {
       term: "Cattle",
       definition: "The analysis is done for milk production"
-    }*/
+    },
+    {
+      term: "Chicken",
+      definition: "Chicken refers to chicken and analysis is done for meat production"
+    }
   ],
   D: [
     {
@@ -151,24 +121,20 @@ const glossaryData = {
       definition: "Visualisation is at district scale",
     },
     {
-      term: "Direct seeded rice - dry",
-      definition: "",
-    },
-    {
-      term: "Direct seeded rice - wet",
-      definition: "",
+      term: "Dry - Direct seeded rice",
+      definition: "A rice establishment method where dry seeds are sown directly following broadcasting, drilling and dibbling on unsaturated dry soil without prior puddling and/or raising seedling in nurseries and transplanting of rice seedling to puddle soils.",
     },
     {
       term: "Days of frost",
-      definition: "",
+      definition: "Frost is defined using intensity and frequency. Intensity refers to the number of days with temperatures below the frost threshold, during entire crop duration. Frequency is the number of years (out of 30) in which such frost events occurred at a given location.",
     },
     {
       term: "Delayed monsoon",
-      definition: "",
+      definition: "Delayed monsoon is defined using intensity and frequency. Intensity is the number of days the monsoon onset is delayed from the mean onset date, and frequency is the number of years (out of 30) in which the delay was 7 days or more.",
     },
     {
       term: "Dry spell",
-      definition: "",
+      definition: "Dry spell is defined using intensity and frequency. Intensity is measured by a Dry Spell (DS) score derived from Dharma Rao et al., 2019, while frequency is the number of years (out of 30) with at least one 14-day long dry spell, corresponding to a DS score above 2.71.",
     },
     {
       term: "Deworming",
@@ -178,7 +144,7 @@ const glossaryData = {
   E: [
     {
       term: "Ensemble",
-      definition: "",
+      definition: "An ensemble of the five models refers to combining the results of GFDL-ESM4, IPSL-CM6A-LR, MPI-ESM1-2-HR, UKESM1-0-LL, and MRI-ESM2-0 to capture a range of possible climate outcomes. This approach accounts for model uncertainty, providing more robust projections by comparing results across different models with varying assumptions and components.",
     },
     {
       term: "Early sowing/changing planting dates",
@@ -194,11 +160,11 @@ const glossaryData = {
     },
     {
       term: "Excess rainfall",
-      definition: "",
+      definition: "Excess rainfall for livestock is defined using intensity and frequency. Intensity refers to events with more than 100 mm of rainfall in a particular day, while frequency is the number of years (out of 34) in which such events occurred.",
     },
     {
       term: "Excess rainfall and waterlogging",
-      definition: "",
+      definition: "Excess rainfall is defined using intensity and frequency. Intensity refers to rainfall events of 100 mm or more over two consecutive days, while frequency is the number of years (out of 34) in which such events occurred during the crop season.",
     },
     {
       term: "Exposure index",
@@ -212,11 +178,11 @@ const glossaryData = {
   F: [
     {
       term: "Flood",
-      definition: "",
+      definition: "Flood refers to the  excessive overflow and/or stagnation of water onto the crop field normally under dry condittion, causing waterlogging over an extended period which can significantly impact crop growth and yield.",
     },
     {
       term: "Feed/fodder",
-      definition: "",
+      definition: "Crop residue for animal usage in tons per grid. We used Global Dataset (for the year 2021) for the Production and Usage of cereal residues derived from  Smerald et al., 2023.",
     },
     {
       term: "Feed additive, antioxidants, vitamins and probiotics",
@@ -226,24 +192,24 @@ const glossaryData = {
       term: "Fodder conservation",
       definition: "Preserving fodder to meet the demand during climatic stress period",
     },
-    /*{
-      term: "Finger millet",
-      definition: "Finger Millet is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif')"
-    }*/
   ],
   G: [
+    {
+      term: "GFDL-ESM4",
+      definition: "An Earth System Model developed by the Geophysical Fluid Dynamics Laboratory (GFDL), USA. It includes the AM4.0 atmospheric model, MOM6 ocean model, SIS2 sea-ice model, and LM4.1 land surface model. The model features dynamic vegetation, fully coupled terrestrial and oceanic carbon-nitrogen cycles, and advanced land–atmosphere feedbacks."
+    },
     {
       term: "Gender suitability",
       definition: "It refers to the degree of suitability of each adaptation option to women farmers",
     },
-    /*{
+    {
       term: "Groundnut",
       definition: "Groundnut is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif' in India) and Maha in Sri Lanka."
     },
     {
       term: "Goat",
       definition: "The analysis is done for meat production"
-    }*/
+    }
   ],
   H: [
     {
@@ -251,33 +217,17 @@ const glossaryData = {
       definition:
         "The index was built by enlisting hazards through literature review and stakeholder validation. This composite index was formulated through Z-score normalization, principal component analysis, and stakeholders' inputs.",
     },
-    {
+    /*{
       term: "Heating management",
       definition: "",
-    },
+    },*/
     {
       term: "Heat stress",
-      definition: "",
-    },
-    {
-      term: "Heat stress during boll formation",
-      definition: "",
-    },
-    {
-      term: "Heat stress in reproductive stage",
-      definition: "",
-    },
-    {
-      term: "High tempearture during flowering",
-      definition: "",
+      definition: "Heat stress is defined using both the intensity and frequency of extreme heat during the entire crop duration. Intensity refers to the number of days exceeding a threshold of maximum temperature (Tmax), while frequency is the number of years (out of 30) in which such extreme heat occurred at a given location. Severity refers to the extent of impact or gravity of an event, and used in contexts involving conequences.",
     },
     {
       term: "High temperature induced pollen sterility",
-      definition: "",
-    },
-    {
-      term: "High temperature induced spikelet sterility",
-      definition: "",
+      definition: "High temperature induced pollen sterility is defined using both the intensity and frequency of extreme heat during the pollination period. Intensity refers to the number of days exceeding a threshold of maximum temperature (Tmax), while frequency is the number of years (out of 30) in which such extreme heat occurred at a given location. Severity is about how harsh the consequences of high temperature on pollen germination or pollen tube elongation or pistil.",
     },
   ],
   I: [
@@ -285,6 +235,10 @@ const glossaryData = {
       term: "ISIMIP",
       definition:
         "Inter-Sectoral Impact Modal Intercomparison Project (ISIMIP) offers a framework for consistently projecting the impacts of climate change across affected sectors and spatial scales. An international network of climate-impact modellers contribute to a comprehensive and consistent picture of the world under different climate-change scenarios",
+    },
+    {
+      term: "IPSL-CM6A-LR",
+      definition: "An Earth System Model developed by the Institut Pierre-Simon Laplace (IPSL), France. It couples the LMDZ atmospheric model, NEMO ocean model, LIM3 sea-ice model, and ORCHIDEE land surface model. The model includes interactive carbon cycles and simulates key processes in land-atmosphere and ocean biogeochemical dynamics."
     },
     {
       term: "ICT input linked management",
@@ -297,7 +251,7 @@ const glossaryData = {
     },
     {
       term: "Irrigation",
-      definition: "",
+      definition: "Crop area under irrigation in percentage derived from FAO’s Global Map of Irrigation Areas (GMIA), version 5.",
     },
     {
       term: "Inclusion of ad libitum green fodder",
@@ -305,39 +259,31 @@ const glossaryData = {
     },
   ],
   J: [
-    /*{
+    {
       term: "Jute",
       definition: "Jute is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif' in India)."
-    }*/
+    }
   ],
   K: [],
   L: [
     {
-      term: "Lodging",
-      definition: "",
-    },
-    {
       term: "Low temperature induced pollen sterility",
-      definition: "",
-    },
-    {
-      term: "Low temperature induced spikelet sterility",
-      definition: "",
-    },
-    {
-      term: "Low temperature induced tuberization failure",
-      definition: "",
+      definition: "Low temperature induced pollen sterility is defined using both the intensity and frequency of extreme cold during the pollination period. Intensity refers to the number of days falling below a threshold of minimum temperature (Tmin), while frequency is the number of years (out of 30) in which such cold events occurred at a given location.Severity is about how harsh the consequences of low temperature on pollen germination or pollen tube elongation or pistil.",
     },
   ],
   M: [
     {
-      term: "UKESM1-0-LL",
-      defintion: "",
+      term: "MPI-ESM1-2-HR",
+      definition: "An Earth System Model developed by the Max Planck Institute for Meteorology, Germany. It includes the ECHAM6.3 atmospheric model, MPIOM ocean model, HAMOCC marine biogeochemistry module, and JSBACH land surface model with dynamic vegetation and carbon cycling. It focuses on coupled climate–carbon feedbacks."
     },
-    /*{
+    {
+      term: "MRI-ESM2-0",
+      definition: "An Earth System Model developed by the Meteorological Research Institute (MRI), Japan. It includes the MRI-AGCM3.5 atmospheric model, MOM4 ocean model, SIS sea-ice model, and MATSIRO land surface model. The model simulates land hydrology, snow processes, and interactive carbon-nitrogen cycles, with marine biogeochemistry represented through the TOP module."
+    },
+    {
       term: "Maize",
       definition: "Maize is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif') and 'Maha' in Sri Lanka",
-    },*/
+    },
     {
       term: "Micro-irrigation",
       definition:
@@ -408,10 +354,6 @@ const glossaryData = {
       term: "Planting of trees",
       definition: "Provide a way for shade, food, and a way to increase the production",
     },
-    /*{
-      term: "Pearl millet",
-      definition: "Pearl Millet is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif')"
-    },
     {
       term: "Pigeonpea",
       definition: "The analysis for pigeonpea is conducted exclusively for the monsoon season, as this period plays a vital role in its growth cycle. Pigeonpea, being a rainfed crop, heavily relies on the monsoon rains for optimal development"
@@ -424,28 +366,20 @@ const glossaryData = {
       term: "Pig",
       definition: "The analysis is done for meat production"
     },
-    {
-      term: "Chicken",
-      definition: "Chicken refers to chicken and analysis is done for meat production"
-    }*/
   ],
   Q: [],
   R: [
     {
       term: "Regional analysis",
-      definition: "",
+      definition: "The analysis is for a region from a general agriculture perspective, but is independent of specific commodities grown there.",
     },
     {
       term: "Rural infrastructure",
-      definition: "Rural infrastucture is proxied by nighlight luminosity data from source",
+      definition: "Rural infrastucture is proxied by nighlight luminosity data from https://www.mdpi.com/2072-4292/13/5/922",
     },
     {
       term: "Rainfall deficit",
-      definition: "",
-    },
-    {
-      term: "Rainfall deficit index",
-      definition: "",
+      definition: "Rainfall deficit refers to a condition where the amount of rainfall received over a specific period is significantly less than the normal or long-term average rainfall expected for that region and period.",
     },
     {
       term: "Risk index",
@@ -455,7 +389,7 @@ const glossaryData = {
       term: "Resilience",
       definition: "Resilience is stability of the yield across the years. It is denoted by coefficient of variance.",
     },
-    /*{
+    {
       term: "Rice",
       definition:
         "Rice is planted in multiple seasons in different countries. Here this analysis is only for monsoon season (also known as 'Kharif' in India, 'Aman' in Bangladesh,and 'Maha' in Sri Lanka)",
@@ -463,16 +397,16 @@ const glossaryData = {
     {
       term: "Rapeseed/Mustard",
       definition: "Here this analysis is done only for winter season"
-    }*/
+    }
   ],
   S: [
     {
       term: "SSP 2-4.5",
-      definition: "Shared Socioeconomic Pathways",
+      definition: "A moderate climate change scenario combining the middle-of-the-road shared socioeconomic pathway (SSP2) with a radiative forcing level of 4.5 W/m² by 2100. It assumes intermediate challenges to mitigation and adaptation, with moderate emissions reductions over time.",
     },
     {
       term: "SSP 5-8.5",
-      definition: "Shared Socioeconomic Pathways",
+      definition: "A high-emission scenario combining the fossil-fueled development pathway (SSP5) with a radiative forcing level of 8.5 W/m² by 2100. It assumes rapid economic growth driven by heavy reliance on fossil fuels and limited climate policies.",
     },
     {
       term: "Stress-tolerant varieties",
@@ -497,7 +431,7 @@ const glossaryData = {
       definition:
         "Fertilizer to be adjusted to meet the nutrient demands of crop growth and avoid nutrient loss when crop biomass decreases due to water and temperature stress over time under climate change",
     },
-    /*{
+    {
       term: "Sorghum",
       definition: "Sorghum is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif')",
     },
@@ -508,23 +442,27 @@ const glossaryData = {
     {
       term: "Sheep",
       definition: "The analysis is done for meat production"
-    }*/
+    }
   ],
   T: [
     {
       term: "Temperature-humidity index",
-      definition: "",
+      definition: "Temperature Humidity Index (THI) is a measure that combines air temperature and relative humidity to assess heat stress in animals. Higher THI values indicate greater thermal discomfort and potential stress for livestock. Intensity is defined as the number of days when THI exceeds a critical threshold, while frequency refers to the number of years (out of 30) in which such high-THI events occurred.",
     },
     {
       term: "Terminal heat",
-      definition: "",
+      definition: "Terminal heat for wheat refers to high temperatures during the late growth stages, particularly during grain filling.  It was calculated by assessing the number of days exceeding a temperature threshold (intensity) and the number of years such events occurred out of 30 (frequency).",
     },
   ],
   U: [
     {
       term: "Untimely rainfall",
-      definition: "",
+      definition: "Untimely rainfall is defined using intensity and frequency. Intensity refers to events with 100 mm or more rainfall occurring over two consecutive days, while frequency is the number of years (out of 34) in which such events occurred.",
     },
+    {
+      term: "UKESM1-0-LL",
+      definition: "An Earth System Model developed by the UK Met Office Hadley Centre and partner institutions. It is based on the HadGEM3 physical climate system and includes the NEMO ocean model, CICE sea-ice model, JULES land surface model with TRIFFID dynamic vegetation, UKCA for atmospheric chemistry and aerosols, MEDUSA for marine biogeochemistry, and BISICLES for dynamic ice sheets. Coupling across submodels is managed through the OASIS coupler."
+    }
   ],
   V: [
     {
@@ -543,13 +481,13 @@ const glossaryData = {
   ],
   W: [
     {
-      term: "Wallowing",
-      definition: "",
+      term: "Wet - Direct seeded rice",
+      definition: "A rice establishment technique where pre-germinated seeds are sown directly into  saturated soil (puddled or unpuddled), usually under wet conditions.",
     },
-    /*{
+    {
       term: "Wheat",
       definition: "The analysis for wheat (except for Afghanistan) is done for Rabi/winter season with planting time around mid-November. For Afghanistan, wheat season starts around April.",
-    },*/
+    },
   ],
   X: [],
   Y: [],

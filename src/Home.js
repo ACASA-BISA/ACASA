@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useMemo } from "react";
 import Carousel from "react-material-ui-carousel";
 import { Paper, Button } from "@mui/material";
 import StickyFooter from "./StickyFooter";
@@ -39,8 +39,36 @@ const logoStyle6 = { height: "88%", margin: "auto" };
 const logoStyle8 = { height: "55%", margin: "auto" };
 const logoStyle7 = { width: "90%", margin: "auto" };
 
+var items = [
+  {
+    name: "Atlas of Climate Adaptation in South Asian Agriculture",
+    description: "Interconnections between climate risks, practices, technologies, and policies",
+    type: "Increase the quality, availability, and utility of data and evidence",
+    video: "./vid31.mp4",
+    videothumb: "./thumb31.jpg",
+    id: 1,
+  },
+  {
+    name: "Atlas of Climate Adaptation in South Asian Agriculture",
+    description: "Interconnections between climate risks, practices, technologies, and policies",
+    type: "Improve climate adaptive capacity of agricultural systems",
+    video: "./vid5.mp4",
+    videothumb: "./thumb5.jpg",
+    id: 2,
+  },
+  {
+    name: "Atlas of Climate Adaptation in South Asian Agriculture",
+    description: "Interconnections between climate risks, practices, technologies, and policies",
+    type: "Increase the resilience of small-scale producers to climate variability and change",
+    video: "./vid41.mp4",
+    videothumb: "./thumb41.jpg",
+    id: 3,
+  },
+];
+
 const Home = (props) => {
-  const [curr, Setcurr] = useState(1);
+  const randomStartIndex = useMemo(() => Math.floor(Math.random() * items.length), []);
+  const [curr, setCurr] = useState(randomStartIndex);
   const [reg, Setreg] = useState("South Asia");
   const [comm, Setcomm] = useState("rice");
   const [loading, setLoading] = useState(true); // State to manage loading screen
@@ -53,8 +81,8 @@ const Home = (props) => {
     return () => clearTimeout(timer);
   }, []);
 
-  const handleChange = (name) => {
-    Setcurr(name + 1);
+  const handleChange = (index) => {
+    setCurr(index);
   };
 
   const handlecountrychange = (name) => {
@@ -72,33 +100,6 @@ const Home = (props) => {
   };
 
   const { mode } = useContext(ThemeContext);
-
-  var items = [
-    {
-      name: "Atlas of Climate Adaptation in South Asian Agriculture",
-      description: "Interconnections between climate risks, practices, technologies, and policies",
-      type: "Increase the quality, availability, and utility of data and evidence",
-      video: "./vid31.mp4",
-      videothumb: "./thumb31.jpg",
-      id: 1,
-    },
-    {
-      name: "Atlas of Climate Adaptation in South Asian Agriculture",
-      description: "Interconnections between climate risks, practices, technologies, and policies",
-      type: "Improve climate adaptive capacity of agricultural systems",
-      video: "./vid5.mp4",
-      videothumb: "./thumb5.jpg",
-      id: 2,
-    },
-    {
-      name: "Atlas of Climate Adaptation in South Asian Agriculture",
-      description: "Interconnections between climate risks, practices, technologies, and policies",
-      type: "Increase the resilience of small-scale producers to climate variability and change",
-      video: "./vid41.mp4",
-      videothumb: "./thumb41.jpg",
-      id: 3,
-    },
-  ];
 
   if (loading) {
     return <LoadingPage />; // Show loading screen while loading is true
@@ -139,6 +140,7 @@ const Home = (props) => {
               position: "relative",
             },
           }}
+          index={curr}
           onChange={handleChange}
           interval={2500}
           stopAutoPlayOnHover={false}
@@ -279,8 +281,8 @@ const Home = (props) => {
                 marginTop: 2,
               }}
             >
-              The functionalities of the Atlas can be best utilized in the following order: start by visualizing the data layers in detail in the Explore Data tab. The Data at a glance tab is
-              then used to look at multiple data layers at once. The Data Access tab gives information about the data and their download links. The Use Cases tab discusses several possible uses of the
+              The functionalities of the Atlas can be best utilized in the following order: start by visualizing the data layers in detail in the Explore Data tab. The Data at a glance tab is then
+              used to look at multiple data layers at once. The Data Access tab gives information about the data and their download links. The Use Cases tab discusses several possible uses of the
               ACASA Atlas. Additionally, visit the Resources and About Us tab to know more about us, ACASA team, data briefs, newsletter updates, expert opinions, and media coverage.
             </Typography>
           </Box>

@@ -273,7 +273,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                   </Box>
                 )}
                 {(AdaptLayerName === "Yield Benefits" ||
-                  AdaptLayerName === "Adaptation Benefits" ||
+                  (AdaptLayerName === "Adaptation Benefits" && scenario === "baseline") ||
                   AdaptLayerName === "Economic Viability" ||
                   AdaptLayerName === "Scalability" ||
                   AdaptLayerName === "Gender Suitability") && (
@@ -349,6 +349,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                     </Box> */}
                   </Tooltip>
                 )}
+
                 {rowshzd.map((row, index) => (
                   <div>
                     {index !== 0 && (
@@ -370,7 +371,80 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                               </Typography>
                             </Box>
                           }
-                          {(AdaptLayerName === "Biophysical Suitability" || AdaptLayerName === "Yield Benefits") && adaption !== "" && (
+                          {AdaptLayerName === "Adaptation Benefits" && scenario !== "baseline" && adaption !== "" ? (
+                            <Box
+                              sx={{
+                                width: 90, //was 63
+                                height: 18 + 10,
+                                borderRadius: 0,
+                                bgcolor: row.color,
+                                alignContent: "center",
+                              }}
+                            >
+                              <Typography
+                                sx={{
+                                  fontSize: 10,
+                                  marginY: "auto",
+                                  marginX: row.Cat.includes("Medium ") ? "0px" : "1px",
+                                }}
+                                color="white"
+                                align="center"
+                              >
+                                {row.Cat.split("\n").map((line, i) => (
+                                  <span
+                                    key={i}
+                                    style={{
+                                      display: "block",
+                                      lineHeight: "1.3", // Adjust line height
+                                      fontStyle: i === 1 ? "italic" : "normal",
+                                      fontWeight: i === 1 ? "normal" : "bold",
+                                      fontSize: i === 1 ? 8 : 10,
+                                    }}
+                                  >
+                                    {line}
+                                  </span>
+                                ))}
+                              </Typography>
+                            </Box>
+                          ) : null}
+                          {((AdaptLayerName === "Biophysical Suitability" || AdaptLayerName === "Yield Benefits") && adaption !== "") || ImpactName !== "" ? (
+                            <Box
+                              sx={{
+                                width: 63,
+                                height: 18 + 10,
+                                borderRadius: 0,
+                                bgcolor: row.color,
+                                alignContent: "center",
+                              }}
+                            >
+                              <Typography
+                                sx={{
+                                  fontSize: 10,
+                                  marginY: "auto",
+                                  marginX: row.Cat.includes("Medium ") ? "0px" : "1px",
+                                }}
+                                color={index <= 4 && index >= 2 ? "#111" : "white"}
+                                align="center"
+                              >
+                                {row.Cat.split("\n").map((line, i) => (
+                                  <span
+                                    key={i}
+                                    style={{
+                                      display: "block",
+                                      lineHeight: "1.3", // Adjust line height
+                                      fontStyle: i === 1 ? "italic" : "normal",
+                                      fontWeight: i === 1 ? "normal" : "bold",
+                                      fontSize: i === 1 ? 8 : 10,
+                                    }}
+                                  >
+                                    {line}
+                                  </span>
+                                ))}
+                              </Typography>
+                            </Box>
+                          ) : null}
+
+                          {/*{(AdaptLayerName === "Biophysical Suitability" || AdaptLayerName === "Yield Benefits") && adaption !== "" && (
                             <Box
                               sx={{
                                 width: 63,
@@ -407,8 +481,12 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                                 ))}
                               </Typography>
                             </Box>
-                          )}
-                          {((AdaptLayerName !== "Biophysical Suitability" && AdaptLayerName !== "Yield Benefits") || adaption === "") && (
+                          )}*/}
+                          {!(
+                            (AdaptLayerName === "Adaptation Benefits" && scenario !== "baseline" && adaption !== "") ||
+                            ((AdaptLayerName === "Biophysical Suitability" || AdaptLayerName === "Yield Benefits") && adaption !== "") ||
+                            ImpactName !== ""
+                          ) && (
                             <Box
                               sx={{
                                 width: 63,

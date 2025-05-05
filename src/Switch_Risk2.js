@@ -26,10 +26,10 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
   const switchRisk = ["Risk Index", "Hazard Index", "Exposure Index", "Vulnerability Index"];
   const switchRiskID = ["riskindex", "HINDEX", "expoindex", "vulne"];
   const SwitchRiskPopup = [
-    "Combines hazard, vulnerability, and exposure to assess climate risk.",
-    "Derived from hazards, stakeholder input, Z-score normalization, and PCA.",
-    "Maps commodity density, integrated via Z-score normalization.",
-    "Based on vulnerability layers, expert input, Z-score normalization, and PCA.",
+    "A composite measure combining hazard, vulnerability, and exposure to assess overall climate risk for a commodity.",
+    "Built by identifying hazards via literature and stakeholder input, then formulated using Z-score normalization, PCA, and stakeholder contributions.",
+    "Involves mapping commodity-specific density and creating an integrated index using Z-score normalization.",
+    "Based on layers identified from literature, expert input, and stakeholder validation, then mapped and integrated using Z-score normalization and PCA.",
   ];
 
   const switchBasic = ["Seasonal Rainfall", "Maximum Temperature", "Minimum Temperature"];
@@ -124,32 +124,32 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
   ];
 
   const MasterHazardDesc = [
-    "Hazard Index",
+    "Built by identifying hazards via literature and stakeholder input, then formulated using Z-score normalization, PCA, and stakeholder contributions.",
     "Low temperature induced spikelet sterility",
-    "Untimely Rainfall",
-    "Low temperature induced pollen sterility",
-    "High temperature induced pollen sterility",
-    "Heat Stress",
-    "Heat Stress",
+    "Rain that occurs at a time when it is not beneficial for crop.",
+    "Intensity in days above Tmin threshold and frequency in number of years out of 30 and severity in gravity of impact of extreme heat during pollination period.",
+    "Intensity in days above Tmax threshold and frequency in number of years out of 30 and severity in gravity of imapct of extreme heat during pollination period.",
+    "Intensity in days above Tmax threshold and frequency innumber of years out of 30 and severity in gravity of impct of extreme heat during the crop growing season.",
+    "Intensity in days above Tmax threshold and frequency innumber of years out of 30 and severity in gravity of impct of extreme heat during the crop growing season.",
     "High temperature induced spikelet sterility",
-    "Cold Stress",
+    "Refers to the negative impact of low temperatures on plant growth.",
     "Low temperature induced tuberization failure",
-    "Terminal Heat",
-    "Days of Frost",
-    "Excess Rainfall and Waterlogging",
-    "Delayed Monsoon",
-    "Crop water deficit index",
-    "Dry Spell",
-    "Flood",
+    "High temperatures during early grain filling stages.",
+    "Weather condition when air temperature continue below 2.2 C.",
+    "Rain that exceeds the optimal levels needed for healthy crop growth.",
+    "Intensity in days of delay from the mean onset date and frequency in number of years out of 30 and severity in impact of a delay of 7 days or more.",
+    "It is an agricultural drought indicator that quantifies the water deficit experienced by crops.",
+    "Dry-spell(DS) score>2.71 during crop growth stage.",
+    "Excessive overflow and/or stagnation of water onto the crop field.",
     "Lodging",
     "Biotic",
-    "Excess Rainfall",
-    "Temperature-Humidity Index",
+    "Defined by intensity (over 100 mm rainfall in a day) and frequency (number of years out of 34 with such events).",
+    "A measure of heat stress in animals, combining air temperature and humidity. Intensity refers to days when THI exceeds a critical threshold, and frequency is the number of years (out of 30) with such events.",
     "Hot days",
     "Cold days",
     "Extreme Rainfall days",
-    "Rainfall Deficit",
-    "Cyclone",
+    "Amount of rainfall received significantly less than the normal average rainfall over a specific period.",
+    "Classified based on cyclone-prone district data from the NDMA report (India) and Abdul Awal 2015 (Bangladesh).",
     "Cold stress in reproductive stage",
     "Heat stress in reproductive stage",
     "Heat stress during boll formation",
@@ -271,36 +271,36 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
     //"DelayedMonsoon": "Delayed monsoon","PollinationCold": "Low temperature induced pollen sterility","ColdStress":"Cold stress",
     //"terminalHeat":"Terminal heat", "Crop water deficit index",}
     if (sname === "rice") {
-      HazardList = ["HEAT STRESS", "HIGH POLLEN", "LOW POLLEN", "DELMON", "SPI", "DSN"]; //spiklet changed to pollen //1
+      HazardList = ["SPI", "DSN", "DELMON", "HEAT STRESS", "HIGH POLLEN", "LOW POLLEN"]; //spiklet changed to pollen //1
     } else if (sname === "wheat") {
       HazardList = ["HEAT STRESS", "TERMINAL HEAT", "HIGH POLLEN", "FROST", "ERWL2", "SPI"];
       //, "LODGE",  //2
     } else if (sname === "barley") {
-      HazardList = ["HEAT STRESS", "HIGH POLLEN", "ERWL2", "SPI", "FROST"]; //, "TERMINAL HEAT", "LODGE"//3
+      HazardList = ["HEAT STRESS", "HIGH POLLEN", "FROST", "ERWL2", "SPI"]; //, "TERMINAL HEAT", "LODGE"//3
     } else if (sname === "maize") {
-      HazardList = ["HEAT STRESS", "HIGH POLLEN", "LOW POLLEN", "ERWL", "DELMON", "SPI", "DSN", "FLOOD"]; // COLD STRESS tO LOW POLLEN //4
+      HazardList = ["SPI", "DSN", "DELMON", "HEAT STRESS", "HIGH POLLEN", "LOW POLLEN", "ERWL", "FLOOD"]; // COLD STRESS tO LOW POLLEN //4
     } else if (sname === "potato") {
-      HazardList = ["HEAT STRESS", "ERWL2", "SPI", "LOW POLLEN", "FROST"]; //  "PCOLD", , "BIOTIC", "COLD STRESS",  "FROST" //5
+      HazardList = ["HEAT STRESS", "LOW POLLEN", "FROST", "ERWL2", "SPI"]; //  "PCOLD", , "BIOTIC", "COLD STRESS",  "FROST" //5
     } else if (sname === "sorghum") {
-      HazardList = ["LOW POLLEN", "COLD STRESS", "ERWL2", "SPI"]; //"HEAT STRESS",  "DELMON",  "DSN", "FLOOD" //6
+      HazardList = ["SPI", "ERWL2", "COLD STRESS", "LOW POLLEN"]; //"HEAT STRESS",  "DELMON",  "DSN", "FLOOD" //6
     } else if (sname === "millets") {
-      HazardList = ["HEAT STRESS", "DELMON", "DSN", "FLOOD", "HIGH POLLEN", "ERWL", "SPI"]; // "COLD STRESS", //7
+      HazardList = ["SPI", "DSN", "DELMON", "HEAT STRESS", "HIGH POLLEN", "ERWL", "FLOOD"]; // "COLD STRESS", //7
     } else if (sname === "soyabean") {
-      HazardList = ["HEAT STRESS", "DELMON", "DSN", "FLOOD", "HIGH POLLEN", "ERWL", "SPI"]; // "COLD STRESS", "ERWL2" //8
+      HazardList = ["SPI", "DSN", "DELMON", "HEAT STRESS", "HIGH POLLEN", "ERWL", "FLOOD"]; // "COLD STRESS", "ERWL2" //8
     } else if (sname === "cotton") {
-      HazardList = ["HEAT STRESS", "DELMON", "DSN", "FLOOD", "HIGH POLLEN", "ERWL", "SPI"]; // "ERWL2" //9
+      HazardList = ["SPI", "DSN", "DELMON", "HEAT STRESS", "HIGH POLLEN", "ERWL", "FLOOD"]; // "ERWL2" //9
     } else if (sname === "rapeseed") {
-      HazardList = ["HEAT STRESS", "ERWL2", "SPI", "HIGH POLLEN", "FROST"]; //10
+      HazardList = ["HEAT STRESS", "FROST", "HIGH POLLEN", "ERWL2", "SPI"]; //10
     } else if (sname === "chickpea") {
-      HazardList = ["HEAT STRESS", "HIGH POLLEN", "ERWL2", "SPI", "FROST"]; // "LOW POLLEN", //11
+      HazardList = ["HEAT STRESS", "FROST", "HIGH POLLEN", "ERWL2", "SPI"]; // "LOW POLLEN", //11
     } else if (sname === "groundnut") {
-      HazardList = ["HEAT STRESS", "HIGH POLLEN", "ERWL", "DELMON", "SPI", "DSN", "FLOOD"]; // "LOW POLLEN", //12
+      HazardList = ["SPI", "DSN", "DELMON", "HEAT STRESS", "HIGH POLLEN", "ERWL", "FLOOD"]; // "LOW POLLEN", //12
     } else if (sname === "ppea") {
-      HazardList = ["HEAT STRESS", "ERWL", "DELMON", "SPI", "DSN", "FLOOD"]; //13
+      HazardList = ["SPI", "DSN", "DELMON", "HEAT STRESS", "ERWL", "FLOOD"]; //13
     } else if (sname === "jute") {
-      HazardList = ["HEAT STRESS", "HIGH POLLEN", "ERWL", "SPI", "DSN", "DELMON"]; // "COLD STRESS", "DSN" //14
+      HazardList = ["SPI", "DSN", "DELMON", "HEAT STRESS", "HIGH POLLEN", "ERWL"]; // "COLD STRESS", "DSN" //14
     } else if (sname === "lentil") {
-      HazardList = ["HEAT STRESS", "HIGH POLLEN", "ERWL2", "SPI", "FROST"]; //  "COLD STRESS",  //15
+      HazardList = ["HEAT STRESS", "HIGH POLLEN", "FROST", "ERWL2", "SPI"]; //  "COLD STRESS",  //15
     } else if (sname === "sugarcane") {
       HazardList = ["HEAT STRESS", "COLD STRESS", "SPI", "DSN", "FLOOD"];
     } else if (sname === "buffalo" || sname === "cattle" || sname === "pig" || sname === "sheep" || sname === "chicken" || sname === "goat") {
@@ -378,7 +378,8 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
 
   const switchVulner = ["Irrigation", "Income", "Socio-economic Development Indicator", "Volumetric Soil Water", "Rural infrastructure"];
   const switchVulnerID = ["irrigation", "GDP", "HDI", "waterholding", "ROAD"];
-  const switchVulnerPopup = ["Irrigation", "Income", "Socio-economic Development Indicator", "Volumetric Soil Water", "Rural infrastructure"];
+
+  const switchVulnerPopup = ["Percentage of crop area under irrigation, based on FAO’s Global Map of Irrigation Areas (GMIA), version 5.", "Agricultural Gross Domestic Product data from the World Bank’s Global Gridded AgGDP dataset.", "Socio-economic development indicator sourced from Mosaiks' HDI dataset.", "Ratio of the volume of water contained in a soil to the total volume of that soil.", "Represented using nightlight luminosity data, as a proxy, from the referenced MDPI study."];
 
   /*   const switchvul_Livestock = ['Vulnerability Index',"Feed/Fodder","Income","Rural infrastructure","Socio-economic Development Indicator"];
   const switchvul_LivestockID = ['vulne',"CROPRES","GDP","ROAD",'HDI']; */

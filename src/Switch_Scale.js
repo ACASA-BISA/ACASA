@@ -13,7 +13,7 @@ import LightTooltip from "./LightTooltip";
 export default function SwitchScale({ exploreType, handleExploreTypeChange, activeScale, changeScale }) {
   const switch_type = ["Commodity specific", "Regional (non-commodity specific)"];
   const switch_type_id = ["Commodity", "Regional"];
-  const season = ["Commodity specific analysis", "Regional analysis"];
+  const season = ["The analysis is done separately for each commodity.", "The analysis is for a region from a general agriculture perspective, but is independent of specific commodities grown there."];
 
   const switch_type2 = ["Pixel level", "District level"];
   const switch_type_id2 = ["Pixel Level", "District Level"];
@@ -111,7 +111,7 @@ export default function SwitchScale({ exploreType, handleExploreTypeChange, acti
                       <>
                         <span>{season[indexx]}</span>
                         <br />
-                        <Link
+                        {/*<Link
                           href={`#/resources?tab=2&term=${switch_type[indexx].toLowerCase()}`}
                           target="_blank"
                           sx={(theme) => ({
@@ -120,7 +120,7 @@ export default function SwitchScale({ exploreType, handleExploreTypeChange, acti
                           })}
                         >
                           Read More
-                        </Link>
+                        </Link>*/}
                       </>
                     }
                     placement="right"
@@ -153,7 +153,7 @@ export default function SwitchScale({ exploreType, handleExploreTypeChange, acti
           <FormGroup>
             <CustomFormControlLabel
               control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={sname === activeScale ? true : false} onChange={changeScale(sname)} name={sname} />}
-              disabled={sname === "District Level"}
+              //disabled={sname === "District Level"}
               key={sname}
               label={
                 <Typography
@@ -173,7 +173,7 @@ export default function SwitchScale({ exploreType, handleExploreTypeChange, acti
                       <>
                         <span>{season2[indexx]}</span>
                         <br />
-                        <Link
+                        {/*<Link
                           href={`#/resources?tab=2&term=${switch_type2[indexx].toLowerCase()}`}
                           target="_blank"
                           sx={(theme) => ({
@@ -182,7 +182,7 @@ export default function SwitchScale({ exploreType, handleExploreTypeChange, acti
                           })}
                         >
                           Read More
-                        </Link>
+                        </Link>*/}
                       </>
                     }
                     placement="right"

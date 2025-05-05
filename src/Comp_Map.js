@@ -416,11 +416,12 @@ export default function MApp({
   };
 
   //Old orange: "#FF4500"
+  // Biophysical suitability coloring
   const color_adaptation2 = {
     color: [
       "palette",
       ["interpolate", ["linear"], ["*", ["band", 2], 385], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 8],
-      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#A52A2A", "#FFDE4D", "#B6F792", "#B6F792", "#00D95A", "#267F2E"],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#A52A2A", "#d4ee9e", "#a1d99b", "#a1d99b", "#31a354", "#00441b"], //"#A52A2A", "#C5E1A5", "#B6F792", "#B6F792", "#00D95A", "#267F2E"],
     ],
   };
 
@@ -436,7 +437,7 @@ export default function MApp({
     color: [
       "palette",
       ["interpolate", ["linear"], ["*", ["band", 2], 385], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 8],
-      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#A52A2A", "rgb(248, 36, 36)", "#FF8C00", "#FF8C00", "rgba(109, 233, 109, 1)", "rgba(4, 145, 4, 1)"],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", /*"#A52A2A",*/ "rgb(248, 36, 36)", /*"#FF8C00", "#FF8C00", "rgba(109, 233, 109, 1)",*/ "rgba(4, 145, 4, 1)"],
     ],
   };
 
@@ -1602,7 +1603,7 @@ export default function MApp({
                     color: mode === "dark" ? "rgba(37, 41, 46, 1)" : "rgba(255,255,255,1)",
                   }),
                 }),
-                opacity: mode === "dark" ? 0.4 : 0.9,
+                opacity: mode === "dark" ? 0.5 : 0.9, // was 0.4 for dark mode
                 zIndex: 100,
               });
 
@@ -1663,6 +1664,26 @@ export default function MApp({
             urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP245/Gender_" + activeCrop + "_" + optcode[activeOpt] + "_ssp245.tif";
           } else {
             urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Gender_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
+          }
+          opt = 777;
+        }
+        if (activeOptLayer["Female labourer suitability"]) {
+          if (activeScenario === "baseline") {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/Baseline/Labour_" + activeCrop + "_" + optcode[activeOpt] + "_baseline.tif";
+          } else if (activeScenario === "ssp245") {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP245/Labour_" + activeCrop + "_" + optcode[activeOpt] + "_ssp245.tif";
+          } else {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Labour_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
+          }
+          opt = 777;
+        }
+        if (activeOptLayer["Female cultivator suitability"]) {
+          if (activeScenario === "baseline") {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/Baseline/Cultivator_" + activeCrop + "_" + optcode[activeOpt] + "_baseline.tif";
+          } else if (activeScenario === "ssp245") {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP245/Cultivator_" + activeCrop + "_" + optcode[activeOpt] + "_ssp245.tif";
+          } else {
+            urlstr = "./Adap/" + activeCrop + "/" + modelName + "/SSP585/Cultivator_" + activeCrop + "_" + optcode[activeOpt] + "_ssp585.tif";
           }
           opt = 777;
         }
@@ -2053,7 +2074,7 @@ export default function MApp({
       CurrRisk === "Agriculture Income" ||
       CurrRisk === "Soil Organic Carbon" ||
       CurrRisk === "Feed/Fodder" ||
-      CurrRisk === "Rural infrastructure" ||
+      //CurrRisk === "Rural infrastructure" ||
       CurrRisk === "Socio-economic Development Indicator" ||
       CurrRisk === "Income" ||
       CurrRisk === "Cropped Area" ||
