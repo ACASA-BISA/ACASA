@@ -26,12 +26,12 @@ export default function SwitchCereals({ activeCrop, changeCrop }) {
   };
   const padd = 8;
   const season = [
-    "Here this analysis is only for monsoon season.",
-    "Here this analysis is done for winter season.",
-    "Here this analysis is for monsoon season.",
-    "Here this analysis is for winter season",
-    "Here this analysis is for winter season.",
-    "Here this analysis is for monsoon season.",
+    "Monsoon season rice ('Kharif' in India and Nepal, 'Aman' in Bangladesh, and 'Maha' in Sri Lanka).",
+    "Spring wheat.",
+    "monsoon season maize ( 'Kharif' in India and Nepal and 'Maha' in Sri Lanka)",
+    "The analysis for barley is done for 'Rabi' /winter season.",
+    "Winter season sorghum",
+    "Monsoon season millet (also known as 'Kharif in India and Nepal')",
   ];
 
   const AntSwitch = styled(Switch)(({ theme }) => ({

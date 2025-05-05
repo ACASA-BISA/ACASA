@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useLocation } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
@@ -79,8 +80,14 @@ export default function DrawerV({
   const [widthh, setWidth] = React.useState("190px");
   const [vextra, setvextra] = React.useState(0);
   const [heightdrawer, setheightdrawer] = React.useState(calculateTabHeight());
+  const location = useLocation();
+  const isFuturePage = location.pathname.includes("/future");
+  const isImpactDisabled = isFuturePage;
 
   const toggleList = (name) => (event) => {
+    // Block "Impact" drawer on #/future
+    if (isFuturePage && name === "Impact") return;
+
     const newState = { ...open };
     Items.forEach((sname) => {
       newState[sname] = sname === name;
@@ -194,6 +201,34 @@ export default function DrawerV({
                 >
                   <ListItem
                     key={Item}
+                    onClick={!isImpactDisabled || Item !== "Impact" ? toggleList(Item) : undefined}
+                    disablePadding
+                    sx={(theme) => {
+                      const isDisabled = Item === "Impact" && isImpactDisabled;
+                      return {
+                        "color": isDisabled ? (theme.palette.mode === "dark" ? "#888" : "#aaa") : theme.palette.mode === "dark" ? "#000000" : "#ffffff",
+                        "backgroundColor": isDisabled ? "rgba(120, 120, 120, 0.3)" : colorofbutton(Item, theme),
+                        "height": "100%",
+                        "pointerEvents": isDisabled ? "none" : "auto",
+                        "opacity": isDisabled ? 0.5 : 1,
+                        "cursor": isDisabled ? "not-allowed" : "pointer",
+                        "&:hover": isDisabled
+                          ? {}
+                          : {
+                              backgroundColor:
+                                exploreType === "Regional" && Items2[index] === "Commodity"
+                                  ? theme.palette.mode === "dark"
+                                    ? "rgba(100, 110, 100, 0.5)"
+                                    : "rgba(140, 150, 140, 0.7)"
+                                  : theme.palette.mode === "dark"
+                                  ? "#b99b30"
+                                  : "#fece2f",
+                            },
+                      };
+                    }}
+                  >
+                    {/*<ListItem
+                    key={Item}
                     onClick={toggleList(Item)}
                     disablePadding
                     sx={(theme) => ({
@@ -211,7 +246,7 @@ export default function DrawerV({
                       "backgroundColor": colorofbutton(Item, theme),
                       "height": "100%",
                     })}
-                  >
+                  >*/}
                     <ListItemButton>
                       <Box sx={{ display: "flex", flexDirection: "row" }}>
                         {

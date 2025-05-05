@@ -189,10 +189,10 @@ export function fetchDataAdap(adaption, location, AdaptLayerName, commodity, sce
           : [
               ["#969696", "No significant change"],
               ["#A52A2A", "Unsuitable"], //"#E4003A"
-              ["#FFDE4D", "Suitable - No hazards"], //"#FFA500"
-              ["#B6F792", "Low"],
-              ["#00D95A", "Medium"],
-              ["#267F2E", "High"],
+              ["#d4ee9e", "Suitable - No hazards"], //"#FFA500", "#AED581", "#A8E6A1", "#B2F2BB", "#C5E1A5", "#C0D9AF", "#BFD8A6", "#D0E6A5", "#ACE1AF"
+              ["#a1d99b", "Low"],
+              ["#31a354", "Medium"],
+              ["#00441b", "High"],
             ],
       "Yield Benefits": [
         ["#969696", "No significant change"],
@@ -245,11 +245,11 @@ export function fetchDataAdap(adaption, location, AdaptLayerName, commodity, sce
             ]
           : [
               ["#969696", "No significant change"],
-              ["rgb(248, 36, 36)", "Medium loss"],
-              ["#FF8C00", "Low loss"],
+              ["rgb(248, 36, 36)", "Negative or no benefit"],
+              //["#FF8C00", "Low loss"],
               //["#FFDE4D", "Nil"],
-              ["rgba(109, 233, 109, 1)", "Low gain"],
-              ["rgba(4, 145, 4, 1)", "Medium gain"],
+              //["rgba(109, 233, 109, 1)", "Low gain"],
+              ["rgba(4, 145, 4, 1)", "Positive benefit"],
             ],
       "default": [
         /* ["#969696", "No significant change"],

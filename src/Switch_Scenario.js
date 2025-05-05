@@ -14,7 +14,11 @@ export default function SwitchScenario({ activeScenario, changeScenario, activeM
   const switchh = ["Baseline", "SSP 2-4.5", "SSP 5-8.5"];
   const switchid = ["baseline", "ssp245", "ssp585"];
   const disvar = { baseline: false, ssp245: false, ssp585: false };
-  const scenarioinfo = ["Current scenario.", "Moderate emissions, intermediate climate change.", "High emissions, severe climate change."];
+  const scenarioinfo = [
+    "A 30-year period (1984–2013) used as reference.",
+    "A middle-of-the-road scenario, reaching 4.5 W/m² radiative forcing by 2100 (Medium challenges to mitigation and adaptation).",
+    "A high-emission scenario, reaching 8.5 W/m² radiative forcing by 2100 (High challenges to mitigation, low challenges to adaptation).",
+  ];
 
   const parents = ["ISIMIP"];
   const switchh2 = ["CHC"];
@@ -33,7 +37,14 @@ export default function SwitchScenario({ activeScenario, changeScenario, activeM
     "UKESM1-0-LL": false,
     "Ensemble": false,
   };
-  const datainfo = ["To be updated later.", "To be updated later.", "To be updated later.", "To be updated later.", "To be updated later.", "To be updated later."];
+  const datainfo = [
+    "A model by the Geophysical Fluid Dynamics Laboratory (USA) that integrates atmospheric, ocean, sea-ice, and land surface models with dynamic vegetation and coupled carbon-nitrogen cycles.",
+    "A model by the Institut Pierre-Simon Laplace (France) that couples atmospheric, ocean, sea-ice, and land surface models, with interactive carbon cycles and biogeochemical dynamics.",
+    "A model by the Max Planck Institute (Germany) that integrates atmospheric, ocean, marine biogeochemistry, and land surface models, focusing on climate-carbon feedbacks.",
+    "A model by the Meteorological Research Institute (Japan) that combines atmospheric, ocean, sea-ice, and land surface models, simulating hydrology, snow processes, and carbon-nitrogen cycles.",
+    "A model by the UK Met Office Hadley Centre, integrating atmospheric, ocean, sea-ice, land surface, and biogeochemical models with dynamic ice sheets and coupling managed by the OASIS coupler.",
+    "Combining results from GFDL-ESM4, IPSL-CM6A-LR, MPI-ESM1-2-HR, UKESM1-0-LL, and MRI-ESM2-0 to capture diverse climate outcomes and reduce uncertainty in projections.",
+  ];
   const padd = 8;
 
   function createInitialPRT() {
@@ -223,7 +234,7 @@ export default function SwitchScenario({ activeScenario, changeScenario, activeM
                                 </Link>
                               </>
                             }
-                            placement="top"
+                            placement="right"
                             arrow
                           >
                             <IconButton sx={{ padding: 0, margin: 0, paddingX: "4px" }}>

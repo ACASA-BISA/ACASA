@@ -186,7 +186,7 @@ export default function CompV({
     AdaptLayerName = "Scalability";
   }
   if (activeOptLayer["Gender"]) {
-    AdaptLayerName = "Gender Suitability";
+    AdaptLayerName = futureModel;
   }
   if (activeOptLayer["Yield"]) {
     AdaptLayerName = "Yield Benefits";
@@ -457,14 +457,11 @@ export default function CompV({
                           <MenuItem value="Gender Suitability" sx={{ fontSize: "12px", height: "16px", fontFamily: "Karla" }}>
                             Gender Suitability
                           </MenuItem>
-                          <MenuItem value="Female Labourers" sx={{ fontSize: "12px", height: "16px", fontFamily: "Karla" }}>
-                            Female Labourers (%)
+                          <MenuItem value="Female labourer suitability" sx={{ fontSize: "12px", height: "16px", fontFamily: "Karla" }}>
+                            Female labourer suitability
                           </MenuItem>
-                          <MenuItem value="Female Cultivators" sx={{ fontSize: "12px", height: "16px", fontFamily: "Karla" }}>
-                            Female Cultivators (%)
-                          </MenuItem>
-                          <MenuItem value="Agri Labourers" sx={{ fontSize: "12px", height: "16px", fontFamily: "Karla" }}>
-                            Percentage agri labourers
+                          <MenuItem value="Female cultivator suitability" sx={{ fontSize: "12px", height: "16px", fontFamily: "Karla" }}>
+                            Female cultivator suitability
                           </MenuItem>
                         </Select>
                       </FormControl>
