@@ -8,7 +8,7 @@ export default function Summ_Adapt5({ changeOption, activeCrop, activv, CropName
   const [val2, setVal2] = React.useState(activv);
 
   function checkcrop() {
-    const diffcrop = ["cattle", "buffalo", "goat", "sheep", "pig", "poultry", "freshwater", "bracklish", "marine", "coldwater", "rice"];
+    const diffcrop = ["cattle", "buffalo", "goat", "sheep", "pig", "chicken", "freshwater", "bracklish", "marine", "coldwater", "rice"];
     let ans = true;
     diffcrop.forEach((sname) => {
       if (activeCrop[sname] === true) {
@@ -109,6 +109,56 @@ export default function Summ_Adapt5({ changeOption, activeCrop, activv, CropName
     },
   };
 
+  const livestockTechnologies = {
+    Shelter: {
+      Cattle: ["Modify sheds and bathing", "For cold stress", "For natural hazards"],
+      Buffalo: ["Modify sheds and bathing", "For cold stress", "For natural hazards"],
+      Goat: ["Modify sheds", "For cold stress", "For natural hazards"],
+      Sheep: ["Modify sheds", "For cold stress", "For natural hazards"],
+      Pig: ["Modify sheds and bathing", "For cold stress", "For natural hazards"],
+      Chicken: ["Micro climate", "For natural hazards", "Planting trees", "Heating management", "Mechanical cooling"],
+    },
+    Feed: {
+      Cattle: ["Ad lib water", "Balanced concentrate", "Mineral mixture", "Change feeding and grazing pattern", "Green fodder", "Fodder conservation"],
+      Buffalo: ["Ad lib water", "Balanced concentrate", "Mineral mixture", "Change feeding and grazing pattern", "Green fodder", "Fodder conservation"],
+      Goat: ["Ad lib water", "Balanced concentrate", "Mineral mixture", "Change feeding and grazing pattern", "Grassland and Silvi-pasture management", "Fodder conservation"],
+      Sheep: ["Ad lib water", "Balanced concentrate", "Mineral mixture", "Change feeding and grazing pattern", "Grassland and Silvi-pasture management", "Fodder conservation"],
+      Pig: ["Ad lib water", "Balanced concentrate", "Mineral mixture", "Feeding pattern change"],
+      Chicken: ["Fat supplementation", "Protein supplementation", "Ad lib water", "Feed additives", "Feeding pattern change"],
+    },
+    Healthcare: {
+      Cattle: ["Vaccination", "Deworming", "Control of vectors"],
+      Buffalo: ["Vaccination", "Deworming", "Control of vectors"],
+      Goat: ["Vaccination", "Deworming", "Control of vectors"],
+      Sheep: ["Vaccination", "Deworming", "Control of vectors"],
+      Pig: ["Vaccination", "Deworming", "Control of vectors"],
+      Chicken: ["Parasite control", "Thinning of flock", "Vaccination"],
+    },
+    Others: {
+      Cattle: ["Climate resilient breed", "Estrous confirmation and synchronisation", "Climate information", "Diversification"],
+      Buffalo: ["Climate resilient breed", "Estrous confirmation and synchronisation", "Climate information", "Diversification"],
+      Goat: ["Climate resilient breed", "Estrous confirmation and synchronisation", "Climate information"],
+      Sheep: ["Climate resilient breed", "Estrous confirmation and synchronisation", "Climate information"],
+      Pig: ["Climate resilient breed", "ART tools", "Climate information"],
+      Chicken: ["Climate resilient breed", "Climate information", "Diversification"],
+    },
+    getShelter(LivName) {
+      return this.Shelter[LivName] || [];
+    },
+
+    getFeed(LivName) {
+      return this.Feed[LivName] || [];
+    },
+
+    getHealth(LivName) {
+      return this.Healthcare[LivName] || [];
+    },
+
+    getOther(LivName) {
+      return this.Others[LivName] || [];
+    },
+  };
+
   const fertilizer = ["Smart fertilizer management", "Precision fertilizer management"];
 
   const livestock = ["Shelter Management", "Feed Management", "Healthcare Management"];
@@ -194,12 +244,56 @@ export default function Summ_Adapt5({ changeOption, activeCrop, activv, CropName
         {
           //Livestock From Here.....
         }
+        {checkcrop() === false && activeCrop["rice"] === false && checkFish() === true && (
+          <Typography variant="subtitle1" sx={{ paddingLeft: 1, fontWeight: "bold", fontSize: 12 }}>
+            Shelter Management
+          </Typography>
+        )}
         {checkcrop() === false &&
           activeCrop["rice"] === false &&
           checkFish() === true &&
-          livestock.map((naam, idx) => (
+          livestockTechnologies.getShelter(CropName).map((naam) => (
             <MenuItem value={naam} key={naam} sx={{ fontSize: 12 }}>
-              {livestock[idx]}
+              {naam}
+            </MenuItem>
+          ))}
+        {checkcrop() === false && activeCrop["rice"] === false && checkFish() === true && (
+          <Typography variant="subtitle1" sx={{ paddingLeft: 1, fontWeight: "bold", fontSize: 12 }}>
+            Feed Management
+          </Typography>
+        )}
+        {checkcrop() === false &&
+          activeCrop["rice"] === false &&
+          checkFish() === true &&
+          livestockTechnologies.getFeed(CropName).map((naam) => (
+            <MenuItem value={naam} key={naam} sx={{ fontSize: 12 }}>
+              {naam}
+            </MenuItem>
+          ))}
+        {checkcrop() === false && activeCrop["rice"] === false && checkFish() === true && (
+          <Typography variant="subtitle1" sx={{ paddingLeft: 1, fontWeight: "bold", fontSize: 12 }}>
+            Healthcare Management
+          </Typography>
+        )}
+        {checkcrop() === false &&
+          activeCrop["rice"] === false &&
+          checkFish() === true &&
+          livestockTechnologies.getHealth(CropName).map((naam) => (
+            <MenuItem value={naam} key={naam} sx={{ fontSize: 12 }}>
+              {naam}
+            </MenuItem>
+          ))}
+        {checkcrop() === false && activeCrop["rice"] === false && checkFish() === true && (
+          <Typography variant="subtitle1" sx={{ paddingLeft: 1, fontWeight: "bold", fontSize: 12 }}>
+            Others
+          </Typography>
+        )}
+        {checkcrop() === false &&
+          activeCrop["rice"] === false &&
+          checkFish() === true &&
+          livestockTechnologies.getOther(CropName).map((naam) => (
+            <MenuItem value={naam} key={naam} sx={{ fontSize: 12 }}>
+              {naam}
             </MenuItem>
           ))}
         {checkcrop() === false &&

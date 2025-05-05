@@ -54,7 +54,7 @@ export default function SwitchImpact({ activeImpact, changeImpact, activeCrop, e
     "goat",
     "sheep",
     "pig",
-    "poultry",
+    "chicken",
     "freshwater",
     "bracklish",
     "marine",

@@ -122,7 +122,7 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
     "goat",
     "sheep",
     "pig",
-    "poultry",
+    "chicken",
     "freshwater",
     "bracklish",
     "marine",
@@ -221,7 +221,7 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
       HazardList = ["HINDEX", "HEAT STRESS", "COLD STRESS", "FROST", "ERWL", "SPI"];
     } else if (sname === "sugarcane") {
       HazardList = ["HINDEX", "HEAT STRESS", "COLD STRESS", "SPI", "DSN", "FLOOD"];
-    } else if (sname === "buffalo" || sname === "cattle" || sname === "pig" || sname === "sheep" || sname === "poultry" || sname === "goat") {
+    } else if (sname === "buffalo" || sname === "cattle" || sname === "pig" || sname === "sheep" || sname === "chicken" || sname === "goat") {
       HazardList = ["HINDEX", "THI", "HD", "CD", "ERD", "RAINDEF", "FLOOD", "CYCL"];
     }
     //Kharif Onion
@@ -488,7 +488,7 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
   }));
 
   function checklivestock() {
-    const diffcrop = ["cattle", "buffalo", "goat", "sheep", "pig", "poultry"];
+    const diffcrop = ["cattle", "buffalo", "goat", "sheep", "pig", "chicken"];
     let ans = false;
     diffcrop.forEach((sname) => {
       if (activeCrop[sname] === true) {

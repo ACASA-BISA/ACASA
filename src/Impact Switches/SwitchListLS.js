@@ -10,7 +10,7 @@ import { styled } from "@mui/material/styles";
 
 export default function SwitchesGroup({ activeCrop, changeCrop }) {
   const switchh = ["Cattle", "Buffalo", "Goat", "Sheet", "Pig", "Chicken"];
-  const switchid = ["cattle", "buffalo", "goat", "sheet", "pig", "poultry"];
+  const switchid = ["cattle", "buffalo", "goat", "sheet", "pig", "chicken"];
 
   const padd = 8;
 

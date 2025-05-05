@@ -126,7 +126,7 @@ const handleLayerChange = (e) => {
         <MenuItem value="goat" sx={{fontSize:'14px',height:'25px'}}>Goat</MenuItem>
         <MenuItem value="sheep" sx={{fontSize:'14px',height:'25px'}}>Sheep</MenuItem>
         <MenuItem value="pig" sx={{fontSize:'14px',height:'25px'}}>Pig</MenuItem>
-        <MenuItem value="poultry" sx={{fontSize:'14px',height:'25px'}}>Chicken</MenuItem>
+        <MenuItem value="chicken" sx={{fontSize:'14px',height:'25px'}}>Chicken</MenuItem>
       </Select>
     </FormControl>
 

@@ -17,6 +17,22 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
     return ans;
   }
 
+  const shelter_master = ["Modify sheds and bathing", "Modify sheds", "For cold stress", "For natural hazards", "Micro climate", "Planting trees", "Heating management", "Mechanical cooling"];
+  const feed_master = [
+    "Ad lib water",
+    "Balanced concentrate",
+    "Mineral mixture",
+    "Change feeding and grazing pattern",
+    "Green fodder",
+    "Fodder conservation",
+    "Grassland and Silvi-pasture management",
+    "Feeding pattern change",
+    "Fat supplementation",
+    "Protein supplementation",
+    "Feed additives",
+  ];
+  const healthcare_master = ["Vaccination", "Deworming", "Control of vectors", "Parasite control", "Thinning of flock"];
+
   function calcpop(popu) {
     if (popu === 0) {
       return "None";
@@ -120,17 +136,26 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
               <Typography sx={(theme) => ({ fontSize: 11.5, marginBottom: "2px", color: theme.palette.mode === "dark" ? "white" : "black" })}>
                 {AdaptLayerName === "Yield Benefits" && "Percent change in "}
                 {/* {AdaptLayerName === "Adaptation Benefits" && scenario === "baseline" && "Percent change in "} */}
-                {AdaptLayerName === "Biophysical Suitability" && checkcrop() === false && "Adaptation requirement"}
+                {AdaptLayerName === "Biophysical Suitability" && checkcrop() === false && "Suitability"}
                 {scenario === "baseline" && AdaptLayerName === "Adaptation Benefits" && <strong>Yield</strong>}
                 {AdaptLayerName === "Yield Benefits" && "yield"}
                 {(scenario !== "baseline" || AdaptLayerName !== "Adaptation Benefits") &&
                   (AdaptLayerName !== "Biophysical Suitability" || checkcrop() !== false) &&
                   AdaptLayerName !== "Yield Benefits" &&
                   AdaptLayerName.charAt(0).toUpperCase() + AdaptLayerName.toLowerCase().slice(1)}{" "}
-                {(scenario !== "baseline" || AdaptLayerName !== "Adaptation Benefits") && (
+                {(scenario !== "baseline" || AdaptLayerName !== "Adaptation Benefits") && checkcrop() === true && (
                   <span>
                     for&nbsp;
                     <strong>{adaption.charAt(0).toUpperCase() + adaption.slice(1, 4) + adaption.toLowerCase().slice(4)}</strong>
+                  </span>
+                )}
+                {checkcrop() === false && (
+                  <span>
+                    for&nbsp;
+                    {shelter_master.includes(adaption) && <strong>shelter management: </strong>}
+                    {feed_master.includes(adaption) && <strong>feed management: </strong>}
+                    {healthcare_master.includes(adaption) && <strong>healthcare management: </strong>}
+                    <strong>{adaption.toLowerCase()}</strong>
                   </span>
                 )}
               </Typography>

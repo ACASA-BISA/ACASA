@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
-import { Feature, Map, View } from "ol";
 import { ThemeContext } from "./ThemeContext";
+import { Feature, Map, View } from "ol";
 import TileLayer from "ol/layer/WebGLTile";
+import TileJSON from "ol/source/TileJSON";
 import Polygon from "ol/geom/Polygon.js";
 import "ol/ol.css";
 import "./index.css";
@@ -16,14 +17,13 @@ import GeoJSON from "ol/format/GeoJSON.js";
 import Tooltip from "@mui/material/Tooltip";
 import TileLayer2 from "ol/layer/Tile";
 import tilesource from "ol/source/TileJSON";
-import TileJSON from "ol/source/TileJSON";
 import Typography from "@mui/material/Typography";
 import { Popper, Slide } from "@mui/material";
 import { ZoomToExtent, FullScreen, defaults as defaultControls } from "ol/control.js";
 import "./olsm.css";
 import Box from "@mui/material/Box";
 
-export default function Map_Risk({ activeCrop, focus = "Region", activeRegion, activeScenario }) {
+export default function Map_Index2({ activeCrop, focus = "Region", activeRegion, CurrRisk, activeScenario }) {
   const ref = useRef(null);
   const mapRef = useRef(null);
   const [overl, setOverl] = useState(null);
@@ -54,11 +54,25 @@ export default function Map_Risk({ activeCrop, focus = "Region", activeRegion, a
     zoom: 3.5,
   });
 
-  const color_IMPACT = {
+  const color4 = {
     color: [
       "palette",
-      ["interpolate", ["linear"], ["*", ["band", 2], 385], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 8, 9, 9],
-      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#FF0000", "#FFA500", "#FFDE4D", "#FFDE4D", "#00FF00", "#059212", "rgba(150,150,150,1)"],
+      [
+        "interpolate",
+        ["linear"],
+        ["*", ["band", 2], 250],
+        0, // Start color (minimum value)
+        1, // Intermediate color
+        1,
+        2,
+        2,
+        3,
+        4,
+        5,
+        5,
+        6,
+      ],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "#059212", "#00FF00", "#FFFF00", "#FFA500", "#FF0000", "#3b528b", "#21918c", "#5ec962", "#fde725"],
     ],
   };
 
@@ -143,32 +157,86 @@ export default function Map_Risk({ activeCrop, focus = "Region", activeRegion, a
     let sourcet;
     let countryboundary;
     if (focus === "Region") {
-      sourcet = new VectorSource({ url: "./CountryBoundary/SA_outline.json", format: new GeoJSON() });
-      countryboundary = new VectorSource({ url: "./CountryBoundary/SA_outline.json", format: new GeoJSON() });
+      sourcet = new VectorSource({
+        url: "./CountryBoundary/SA_outline.json",
+        format: new GeoJSON(),
+      });
+      countryboundary = new VectorSource({
+        url: "./CountryBoundary/SA_outline.json",
+        format: new GeoJSON(),
+      });
     } else if (activeRegion === "Afghanistan") {
-      sourcet = new VectorSource({ url: "./StateBoundary/AF_ST.json", format: new GeoJSON() });
-      countryboundary = new VectorSource({ url: "./CountryBoundary/AF.json", format: new GeoJSON() });
+      sourcet = new VectorSource({
+        url: "./StateBoundary/AF_ST.json",
+        format: new GeoJSON(),
+      });
+      countryboundary = new VectorSource({
+        url: "./CountryBoundary/AF.json",
+        format: new GeoJSON(),
+      });
     } else if (activeRegion === "Bangladesh") {
-      sourcet = new VectorSource({ url: "./StateBoundary/BD_ST.json", format: new GeoJSON() });
-      countryboundary = new VectorSource({ url: "./CountryBoundary/BD.json", format: new GeoJSON() });
+      sourcet = new VectorSource({
+        url: "./StateBoundary/BD_ST.json",
+        format: new GeoJSON(),
+      });
+      countryboundary = new VectorSource({
+        url: "./CountryBoundary/BD.json",
+        format: new GeoJSON(),
+      });
     } else if (activeRegion === "Bhutan") {
-      sourcet = new VectorSource({ url: "./CountryBoundary/BT.json", format: new GeoJSON() });
-      countryboundary = new VectorSource({ url: "./CountryBoundary/BT.json", format: new GeoJSON() });
+      sourcet = new VectorSource({
+        url: "./CountryBoundary/BT.json",
+        format: new GeoJSON(),
+      });
+      countryboundary = new VectorSource({
+        url: "./CountryBoundary/BT.json",
+        format: new GeoJSON(),
+      });
     } else if (activeRegion === "India") {
-      sourcet = new VectorSource({ url: "./StateBoundary/IN_ST.json", format: new GeoJSON() });
-      countryboundary = new VectorSource({ url: "./CountryBoundary/IN.json", format: new GeoJSON() });
+      sourcet = new VectorSource({
+        url: "./StateBoundary/IN_ST.json",
+        format: new GeoJSON(),
+      });
+      countryboundary = new VectorSource({
+        url: "./CountryBoundary/IN.json",
+        format: new GeoJSON(),
+      });
     } else if (activeRegion === "Maldives") {
-      sourcet = new VectorSource({ url: "./CountryBoundary/MV.json", format: new GeoJSON() });
-      countryboundary = new VectorSource({ url: "./CountryBoundary/MV.json", format: new GeoJSON() });
+      sourcet = new VectorSource({
+        url: "./CountryBoundary/MV.json",
+        format: new GeoJSON(),
+      });
+      countryboundary = new VectorSource({
+        url: "./CountryBoundary/MV.json",
+        format: new GeoJSON(),
+      });
     } else if (activeRegion === "Nepal") {
-      countryboundary = new VectorSource({ url: "./CountryBoundary/NP.json", format: new GeoJSON() });
-      sourcet = new VectorSource({ url: "./StateBoundary/NP_ST.json", format: new GeoJSON() });
+      countryboundary = new VectorSource({
+        url: "./CountryBoundary/NP.json",
+        format: new GeoJSON(),
+      });
+      sourcet = new VectorSource({
+        url: "./StateBoundary/NP_ST.json",
+        format: new GeoJSON(),
+      });
     } else if (activeRegion === "Pakistan") {
-      sourcet = new VectorSource({ url: "./StateBoundary/PK_ST.json", format: new GeoJSON() });
-      countryboundary = new VectorSource({ url: "./CountryBoundary/PK.json", format: new GeoJSON() });
+      sourcet = new VectorSource({
+        url: "./StateBoundary/PK_ST.json",
+        format: new GeoJSON(),
+      });
+      countryboundary = new VectorSource({
+        url: "./CountryBoundary/PK.json",
+        format: new GeoJSON(),
+      });
     } else if (activeRegion === "Sri Lanka") {
-      sourcet = new VectorSource({ url: "./StateBoundary/SL_ST.json", format: new GeoJSON() });
-      countryboundary = new VectorSource({ url: "./CountryBoundary/SL.json", format: new GeoJSON() });
+      sourcet = new VectorSource({
+        url: "./StateBoundary/SL_ST.json",
+        format: new GeoJSON(),
+      });
+      countryboundary = new VectorSource({
+        url: "./CountryBoundary/SL.json",
+        format: new GeoJSON(),
+      });
     } else {
       let sec = activeRegion.indexOf(",");
       let y = "";
@@ -341,8 +409,20 @@ export default function Map_Risk({ activeCrop, focus = "Region", activeRegion, a
 
   useEffect(() => {
     let source1 = null;
-    const urlstr = "./Impact/" + activeCrop + "_Productivity_" + activeScenario + ".tif";
-    //console.log(urlstr);
+    let urlstr = "xyz.tif";
+    let modelName = "CHC";
+    if (activeScenario === "baseline") {
+      //urlstr = "./Hazards/" + activeCrop + "/Baseline/" + district_n + "ZZ_" + hazardname[CurrRisk] + ".tif";
+      //if (checkcrop2() === false) {
+      urlstr = "./Hazards/" + activeCrop + "/" + modelName + "/" + "Baseline/" + `Baseline_${modelName}_${activeCrop}_Hazard Index` + ".tif";
+      //}
+    } else {
+      //urlstr = "./Hazards/" + activeCrop + "/" + activeScenario.toUpperCase() + "/" + district_n + "ZZ_" + hazardname[CurrRisk] + ".tif";
+      //if (checkcrop2() === false) {
+      urlstr = "./Hazards/" + activeCrop + "/" + modelName + "/" + activeScenario.toUpperCase() + "/" + `${activeScenario.toUpperCase()}_${modelName}_${activeCrop}_Hazard Index` + ".tif";
+      //}
+    }
+
     source1 = new GeoTIFF({
       sources: [{ url: urlstr }],
       sourceOptions: { allowFullFile: true },
@@ -369,19 +449,19 @@ export default function Map_Risk({ activeCrop, focus = "Region", activeRegion, a
       newOverl.setOpacity(0.85);
       newOverl.setZIndex(90);
 
-      newOverl.setStyle(color_IMPACT);
+      newOverl.setStyle(color4);
 
       if (mapRef.current) {
         mapRef.current.addLayer(newOverl);
         setOverl(newOverl);
       }
     }
-  }, [mode, activeCrop, mapRef]);
+  }, [activeCrop, mapRef]);
 
   return (
     <div>
       <Tooltip
-        title={<Typography sx={{ fontSize: 12 }}>Impact on Productivity</Typography>}
+        title={<Typography sx={{ fontSize: 12 }}>Hazard Index</Typography>}
         open={true}
         placement="top"
         slotProps={{
@@ -415,24 +495,32 @@ export default function Map_Risk({ activeCrop, focus = "Region", activeRegion, a
         <div
           style={{
             position: "fixed",
-            left: "calc(0vw + 10px)",
-            top: "220px",
+            left: "29vw",
+            top: 70,
             boxShadow: "0px 0px 1px #aaa",
-            backgroundColor: "rgba(240, 240, 240, 0.8)",
+            backgroundColor: "rgba(255, 255, 255, 0.8)",
             zIndex: 5,
             border: "0px solid black",
-            width: "calc(25vw - 10px)",
-            height: "calc(100vh - 230px)",
+            width: "68vw",
+            height: "calc(100vh - 70px)",
             borderRadius: "5px",
             padding: "3px",
           }}
         >
           <Slide direction="down" in={missingSource} mountOnEnter unmountOnExit>
-            <Box sx={{ height: "100%", alignContent: "center", justifyItems: "center" }}>
-              <Typography sx={{ fontSize: 15, fontWeight: "bold" }} color="black" gutterBottom>
+            <Box sx={{ height: "100%", alignContent: "center" }}>
+              <Typography
+                sx={{
+                  fontSize: 15,
+                  fontWeight: "bold",
+                  marginLeft: "calc(34vw - 140px)",
+                }}
+                color="black"
+                gutterBottom
+              >
                 Note{" "}
                 <Typography sx={{ fontSize: 14 }} color="black" gutterBottom>
-                  Data to be updated soon.
+                  Data to be updated soon. Stay tuned.
                 </Typography>
               </Typography>
             </Box>

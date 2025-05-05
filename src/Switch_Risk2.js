@@ -188,7 +188,7 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
     "goat",
     "sheep",
     "pig",
-    "poultry",
+    "chicken",
     "freshwater",
     "bracklish",
     "marine",
@@ -273,7 +273,7 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
     if (sname === "rice") {
       HazardList = ["HEAT STRESS", "HIGH POLLEN", "LOW POLLEN", "DELMON", "SPI", "DSN"]; //spiklet changed to pollen //1
     } else if (sname === "wheat") {
-      HazardList = ["HEAT STRESS", "TERMINAL HEAT", "HIGH POLLEN", "FROST", "ERWL2", "SPI", ];
+      HazardList = ["HEAT STRESS", "TERMINAL HEAT", "HIGH POLLEN", "FROST", "ERWL2", "SPI"];
       //, "LODGE",  //2
     } else if (sname === "barley") {
       HazardList = ["HEAT STRESS", "HIGH POLLEN", "ERWL2", "SPI", "FROST"]; //, "TERMINAL HEAT", "LODGE"//3
@@ -303,7 +303,7 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
       HazardList = ["HEAT STRESS", "HIGH POLLEN", "ERWL2", "SPI", "FROST"]; //  "COLD STRESS",  //15
     } else if (sname === "sugarcane") {
       HazardList = ["HEAT STRESS", "COLD STRESS", "SPI", "DSN", "FLOOD"];
-    } else if (sname === "buffalo" || sname === "cattle" || sname === "pig" || sname === "sheep" || sname === "poultry" || sname === "goat") {
+    } else if (sname === "buffalo" || sname === "cattle" || sname === "pig" || sname === "sheep" || sname === "chicken" || sname === "goat") {
       HazardList = ["THI", "COLD STRESS", "ER", "RAINDEF", "FLOOD", "CYCL"];
     }
     //Kharif Onion
@@ -343,7 +343,7 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
       HazardList = ["HEAT STRESS", "COLD STRESS", "FROST", "ERWL", "SPI"];
     } else if (sname === "sugarcane") {
       HazardList = ["HEAT STRESS", "COLD STRESS", "SPI", "DSN", "FLOOD"];
-    } else if (sname === "buffalo" || sname === "cattle" || sname === "pig" || sname === "sheep" || sname === "poultry" || sname === "goat") {
+    } else if (sname === "buffalo" || sname === "cattle" || sname === "pig" || sname === "sheep" || sname === "chicken" || sname === "goat") {
       HazardList = ["THI", "COLD STRESS", "ER", "RAINDEF", "FLOOD", "CYCL"];
     }
     //Kharif Onion
@@ -376,9 +376,9 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
   // Get hazard names and descriptions
   const { HazardNames: CurrHazardName, HazardDesc: CurrHazardDesc } = HazardData();
 
-  const switchVulner = ["Irrigation", "Income", "Socio-economic Development Indicator", "Volumetric Soil Water", "Rural infrastructure", ];
-  const switchVulnerID = ["irrigation", "GDP","HDI", "waterholding", "ROAD", ];
-  const switchVulnerPopup = ["Irrigation", "Income",  "Socio-economic Development Indicator", "Volumetric Soil Water", "Rural infrastructure",];
+  const switchVulner = ["Irrigation", "Income", "Socio-economic Development Indicator", "Volumetric Soil Water", "Rural infrastructure"];
+  const switchVulnerID = ["irrigation", "GDP", "HDI", "waterholding", "ROAD"];
+  const switchVulnerPopup = ["Irrigation", "Income", "Socio-economic Development Indicator", "Volumetric Soil Water", "Rural infrastructure"];
 
   /*   const switchvul_Livestock = ['Vulnerability Index',"Feed/Fodder","Income","Rural infrastructure","Socio-economic Development Indicator"];
   const switchvul_LivestockID = ['vulne',"CROPRES","GDP","ROAD",'HDI']; */
@@ -638,7 +638,7 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
   }));
 
   function checklivestock() {
-    const diffcrop = ["cattle", "buffalo", "goat", "sheep", "pig", "poultry"];
+    const diffcrop = ["cattle", "buffalo", "goat", "sheep", "pig", "chicken"];
     let ans = false;
     diffcrop.forEach((sname) => {
       if (activeCrop[sname] === true) {
@@ -867,19 +867,20 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
               Season: Monsoon Season
             </Typography>
           )}
-        {exploreType === "Commodity" && (activeCrop["sorghum"] || activeCrop["chickpea"] || activeCrop["lentil"] || activeCrop["rapeseed"] || activeCrop["barley"] || activeCrop["potato"] || activeCrop["wheat"]) && (
-          <Typography
-            sx={(theme) => ({
-              color: theme.palette.mode === "dark" ? "white" : "black",
-              fontSize: 13,
-              paddingTop: -1,
-              textAlign: "left",
-              paddingLeft: 2,
-            })}
-          >
-            Season: Winter Season
-          </Typography>
-        )}
+        {exploreType === "Commodity" &&
+          (activeCrop["sorghum"] || activeCrop["chickpea"] || activeCrop["lentil"] || activeCrop["rapeseed"] || activeCrop["barley"] || activeCrop["potato"] || activeCrop["wheat"]) && (
+            <Typography
+              sx={(theme) => ({
+                color: theme.palette.mode === "dark" ? "white" : "black",
+                fontSize: 13,
+                paddingTop: -1,
+                textAlign: "left",
+                paddingLeft: 2,
+              })}
+            >
+              Season: Winter Season
+            </Typography>
+          )}
         {exploreType === "Commodity" && (
           <FormControl component="" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 3 }}>
             {true && (
