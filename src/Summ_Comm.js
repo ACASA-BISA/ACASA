@@ -17,7 +17,7 @@ export default function Summ_Comm({ changeComm, comm }) {
   //const switchfishid = ["freshwater", "bracklish", "marine", "coldwater"];
 
   const switchls = ["Cattle", "Buffalo", "Goat", "Sheep", "Pig", "Chicken"];
-  const switchlsid = ["cattle", "buffalo", "goat", "sheep", "pig", "poultry"];
+  const switchlsid = ["cattle", "buffalo", "goat", "sheep", "pig", "chicken"];
 
   //const switchind = ["Cotton", "Jute", "Rubber", "Sugarcane", "Tea", "Coconut"];
   //const switchindid = ["cotton", "jute", "rubber", "sugarcane", "tea", "coconut"];

@@ -67,7 +67,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
     'safflower','sunflower','rapeseed','sesame','groundnut',
     'soyabean','chickpea','ppea','bgram','ggram','lentil',
     'cotton','jute','rubber','sugarcane','tea','coconut',
-    'cattle','buffalo','goat','sheep','pig','poultry',
+    'cattle','buffalo','goat','sheep','pig','chicken',
     'freshwater','bracklish','marine','coldwater',
     'potato','onion','tomato','chilli','mango','banana'];
 
@@ -127,7 +127,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
   }
 
   function checkcrop() {
-    const diffcrop = ["cattle", "buffalo", "goat", "sheep", "pig", "poultry", "freshwater", "bracklish", "marine", "coldwater", "rice"];
+    const diffcrop = ["cattle", "buffalo", "goat", "sheep", "pig", "chicken", "freshwater", "bracklish", "marine", "coldwater", "rice"];
     let ans = true;
     diffcrop.forEach((sname) => {
       if (activeCrop[sname] === true) {
@@ -1712,7 +1712,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
               </FormGroup>
             </FormControl>
           )}
-          {activeCrop["poultry"] === true &&
+          {activeCrop["chicken"] === true &&
             ["Shelter management", "Feed management", "Healthcare management"].map((snamelive) => (
               <FormGroup>
                 <FormControlLabel
@@ -1943,7 +1943,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                 )}
               </FormGroup>
             ))}
-          {activeCrop["poultry"] &&
+          {activeCrop["chicken"] &&
             [
               {
                 short: "Climate resilient breed",

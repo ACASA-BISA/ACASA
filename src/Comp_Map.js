@@ -1720,7 +1720,7 @@ export default function MApp({
           }
         }
         //console.log(urlstr);
-        console.log(activeOptLayer);
+        //console.log(activeOptLayer);
         settiffFilePath(urlstr);
         source1 = new GeoTIFF({ sources: [{ url: urlstr }], sourceOptions: { allowFullFile: true } });
       } else if (CurrRisk !== "") {

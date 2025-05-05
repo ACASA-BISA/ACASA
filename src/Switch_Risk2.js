@@ -188,7 +188,7 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
     "goat",
     "sheep",
     "pig",
-    "poultry",
+    "chicken",
     "freshwater",
     "bracklish",
     "marine",
@@ -303,7 +303,7 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
       HazardList = ["HEAT STRESS", "HIGH POLLEN", "FROST", "ERWL2", "SPI"]; //  "COLD STRESS",  //15
     } else if (sname === "sugarcane") {
       HazardList = ["HEAT STRESS", "COLD STRESS", "SPI", "DSN", "FLOOD"];
-    } else if (sname === "buffalo" || sname === "cattle" || sname === "pig" || sname === "sheep" || sname === "poultry" || sname === "goat") {
+    } else if (sname === "buffalo" || sname === "cattle" || sname === "pig" || sname === "sheep" || sname === "chicken" || sname === "goat") {
       HazardList = ["THI", "COLD STRESS", "ER", "RAINDEF", "FLOOD", "CYCL"];
     }
     //Kharif Onion
@@ -343,7 +343,7 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
       HazardList = ["HEAT STRESS", "COLD STRESS", "FROST", "ERWL", "SPI"];
     } else if (sname === "sugarcane") {
       HazardList = ["HEAT STRESS", "COLD STRESS", "SPI", "DSN", "FLOOD"];
-    } else if (sname === "buffalo" || sname === "cattle" || sname === "pig" || sname === "sheep" || sname === "poultry" || sname === "goat") {
+    } else if (sname === "buffalo" || sname === "cattle" || sname === "pig" || sname === "sheep" || sname === "chicken" || sname === "goat") {
       HazardList = ["THI", "COLD STRESS", "ER", "RAINDEF", "FLOOD", "CYCL"];
     }
     //Kharif Onion
@@ -378,6 +378,7 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
 
   const switchVulner = ["Irrigation", "Income", "Socio-economic Development Indicator", "Volumetric Soil Water", "Rural infrastructure"];
   const switchVulnerID = ["irrigation", "GDP", "HDI", "waterholding", "ROAD"];
+
   const switchVulnerPopup = ["Percentage of crop area under irrigation, based on FAO’s Global Map of Irrigation Areas (GMIA), version 5.", "Agricultural Gross Domestic Product data from the World Bank’s Global Gridded AgGDP dataset.", "Socio-economic development indicator sourced from Mosaiks' HDI dataset.", "Ratio of the volume of water contained in a soil to the total volume of that soil.", "Represented using nightlight luminosity data, as a proxy, from the referenced MDPI study."];
 
   /*   const switchvul_Livestock = ['Vulnerability Index',"Feed/Fodder","Income","Rural infrastructure","Socio-economic Development Indicator"];
@@ -638,7 +639,7 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
   }));
 
   function checklivestock() {
-    const diffcrop = ["cattle", "buffalo", "goat", "sheep", "pig", "poultry"];
+    const diffcrop = ["cattle", "buffalo", "goat", "sheep", "pig", "chicken"];
     let ans = false;
     diffcrop.forEach((sname) => {
       if (activeCrop[sname] === true) {

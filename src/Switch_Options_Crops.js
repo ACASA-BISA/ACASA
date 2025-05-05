@@ -162,7 +162,7 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
   }
 
   function checkcrop() {
-    const diffcrop = ["cattle", "buffalo", "goat", "sheep", "pig", "poultry", "freshwater", "bracklish", "marine", "coldwater", "rice"];
+    const diffcrop = ["cattle", "buffalo", "goat", "sheep", "pig", "chicken", "freshwater", "bracklish", "marine", "coldwater", "rice"];
     let ans = true;
     diffcrop.forEach((sname) => {
       if (activeCrop[sname] === true) {
