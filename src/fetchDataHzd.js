@@ -129,7 +129,7 @@ export function fetchthedataHzd(activeScale, RiskName, ImpactName, displayLayer,
     urlstr = "DISTRICT_";
   }
 
-  if (RiskName !== "" || ImpactName !== "") {
+  /*if (RiskName !== "" || ImpactName !== "") {
     if (displayLayer === "Absolute") {
       let sec = location.indexOf(",");
       let y = "";
@@ -154,6 +154,39 @@ export function fetchthedataHzd(activeScale, RiskName, ImpactName, displayLayer,
         rowstr = `${commodity}_${statecode}_${urlstr}${hazardname[RiskName2]}_${scenario}`;
       } else {
         rowstr = `Calculated_${commodity}_${location}_${urlstr}${hazardname[RiskName2]}_${scenario}`;
+      }*/
+
+  if (RiskName !== "" || ImpactName !== "") {
+    if (displayLayer === "Absolute") {
+      let sec = location.indexOf(",");
+      let y = "";
+      let x = "";
+      let rowstr = "";
+
+      const isImpact = RiskName === "" && ImpactName !== "";
+      const RiskName2 = isImpact ? ImpactName : RiskName;
+
+      if (sec > 0) {
+        y = location.substring(0, sec);
+        x = location.substring(sec + 2);
+        let statecode = "";
+
+        if (x === "Bangladesh") {
+          statecode = y.substring(0, y.length - 9) + "DIV";
+        } else if (x === "Nepal") {
+          statecode = y + "DIV";
+        } else {
+          statecode = y;
+        }
+
+        // Adjust hazardname logic for Impact
+        const hazardStr = isImpact ? `${hazardname[RiskName2]}${scenario.toLowerCase()}` : hazardname[RiskName2];
+
+        rowstr = `${commodity}_${statecode}_${urlstr}${hazardStr}_${scenario}`;
+      } else {
+        const hazardStr = isImpact ? `${hazardname[RiskName2]}${scenario.toLowerCase()}` : hazardname[RiskName2];
+
+        rowstr = `Calculated_${commodity}_${location}_${urlstr}${hazardStr}_${scenario}`;
       }
 
       let row_data = area_data4[rowstr.toLowerCase()] || {
@@ -629,7 +662,7 @@ export function fetchthedataHzd(activeScale, RiskName, ImpactName, displayLayer,
             (row_data["Rural population under Very High category"] * 0.16) / 1000000
           ),
         ];
-      } else if ( RiskName2 === "Resilience" ) {
+      } else if (RiskName2 === "Resilience") {
         data = [
           createData(
             "#969696",

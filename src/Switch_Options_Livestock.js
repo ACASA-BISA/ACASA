@@ -951,12 +951,12 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                   <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
                     <FormGroup>
                       {[
-                        { short: "Ad lib water", full: "Ad lib water" },
-                        { short: "Balanced concentrate", full: "Balanced concentrate with buffer, feed additives, antioxidants, vitamins and probiotics" },
-                        { short: "Mineral mixture", full: "Mineral mixture supplementation, by pass proteins and fats" },
-                        { short: "Change feeding and grazing pattern", full: "Modification in feeding pattern, schedule, grazing" },
-                        { short: "Fodder conservation", full: "Fodder conservation" },
-                        { short: "Green fodder", full: "Inclusion of green fodder" },
+                        { short: "Ad lib water", full: "Provision of water to livestock without restriction." },
+                        { short: "Balanced concentrate", full: "Balanced concentrate with buffer, feed additives, antioxidants, vitamins and probiotics." },
+                        { short: "Mineral mixture", full: "Mineral mixture supplementation, by pass proteins and fats." },
+                        { short: "Change feeding and grazing pattern", full: "Adjust feeding times and grazing patterns to minimize heat stress." },
+                        { short: "Fodder conservation", full: "Preserving fodder to meet the demand during climatic stress period." },
+                        { short: "Green fodder", full: "Inclusion of perennial grass, pasture legume, fodder trees, cultivated grasses" },
                       ].map(({ short, full }) => (
                         <CustomFormControlLabel
                           key={short}
@@ -1009,9 +1009,9 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                   <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 6 }}>
                     <FormGroup>
                       {[
-                        { short: "Vaccination", full: "Vaccination" },
-                        { short: "Deworming", full: "Deworming" },
-                        { short: "Control of vectors", full: "Control of ectoparasites and other vectors" },
+                        { short: "Vaccination", full: "Vaccination programme against contagious diseases as a prophylactic measure." },
+                        { short: "Deworming", full: "Control of endoparasites." },
+                        { short: "Control of vectors", full: "Physical and chemical controls of ectoparasites and other vectors." },
                       ].map(({ short, full }) => (
                         <CustomFormControlLabel
                           key={short}
@@ -1067,11 +1067,11 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                 {[
                   {
                     short: "Climate resilient breed",
-                    full: "Adoption of climate resilient breeds",
+                    full: "Selective breeding and upgrading to climate-resilient breeds.",
                   },
                   {
                     short: "Estrous confirmation and synchronisation",
-                    full: "Reproductive management: Estrous confirmation and synchronisation",
+                    full: "A process that uses hormones to bring female mammals into heat at a predetermined time.",
                   },
                   {
                     short: "Climate information",
@@ -1079,7 +1079,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                   },
                   {
                     short: "Diversification",
-                    full: "Diversification",
+                    full: "Diversifying into different breeds",
                   },
                 ].map(({ short, full }) => (
                   <CustomFormControlLabel
@@ -1361,7 +1361,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                 {[
                   {
                     short: "Climate resilient breed",
-                    full: "Adoption of climate resilient breeds",
+                    full: "Selective breeding and upgrading to climate-resilient breeds.",
                   },
                   {
                     short: "Estrous confirmation and synchronisation",
@@ -1655,7 +1655,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                   },
                   {
                     short: "Climate resilient breed",
-                    full: "Adoption of climate resilient breeds",
+                    full: "Selective breeding and upgrading to climate-resilient breeds.",
                   },
                   {
                     short: "Climate information",
@@ -2225,7 +2225,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
             [
               {
                 short: "Climate resilient breed",
-                full: "Adoption of climate resilient breeds",
+                full: "Selective breeding and upgrading to climate-resilient breeds.",
               },
               {
                 short: "ART tools",
