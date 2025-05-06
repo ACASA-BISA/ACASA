@@ -114,7 +114,7 @@ export default function CompV({
     scn = "ssp585";
   }
 
-  const [futureModel, setFutureModel] = React.useState("Gender Suitability");
+  const [futureModel, setFutureModel] = React.useState("Gender");
   let sec = activeRegion.indexOf(",");
 
   const countryMap1 = {};
@@ -153,11 +153,6 @@ export default function CompV({
   countryMap["LK"] = "Sri Lanka";
   countryMap["MV"] = "Maldives";
 
-  const handleScenariochange = (event) => {
-    //changeScenario(event.target.value);
-    setFutureModel(event.target.value);
-  };
-
   const [sharedView, setSharedView] = React.useState(null);
 
   const handleviewchange = (viewx) => {
@@ -186,7 +181,13 @@ export default function CompV({
     AdaptLayerName = "Scalability";
   }
   if (activeOptLayer["Gender"]) {
-    AdaptLayerName = futureModel;
+    AdaptLayerName = "Gender Suitability";
+  }
+  if (activeOptLayer["Female labourer suitability"]) {
+    AdaptLayerName = "Female labourer suitability";
+  }
+  if (activeOptLayer["Female cultivator suitability"]) {
+    AdaptLayerName = "Female cultivator suitability";
   }
   if (activeOptLayer["Yield"]) {
     AdaptLayerName = "Yield Benefits";
@@ -203,7 +204,9 @@ export default function CompV({
     activeOptLayer["Economic"] === false &&
     activeOptLayer["Scalability"] === false &&
     activeOptLayer["Gender"] === false &&
-    activeOptLayer["Yield"] === false
+    activeOptLayer["Yield"] === false &&
+    activeOptLayer["Female labourer suitability"] === false &&
+    activeOptLayer["Female cultivator suitability"] === false
   ) {
     AdaptLayerName = "Biophysical Suitability";
   }
@@ -311,16 +314,38 @@ export default function CompV({
   }));
 
   const values = ["Biophysical Suitability", "Scalability", "Gender", "Yield", "Economic", "Adaptation Benefits"];
+  const values2 = ["Biophysical Suitability", "Scalability", "Gender", "Female cultivator suitability", "Female labourer suitability", "Yield", "Economic", "Adaptation Benefits"];
+
   const [selectedIndex, setSelectedIndex] = useState(0);
 
+  let variable = "Gender";
   const handleSelect = (index) => {
     setSelectedIndex(index);
-    const updatedState = { ...activeOptLayer }; // Copy existing state
+    const updatedState = { ...activeOptLayer };
 
     values.forEach((name, i) => {
-      updatedState[name] = i <= index; // Select all previous & current tabs
+      updatedState[name] = i <= index;
     });
 
+    if (updatedState["Gender"]) {
+      ["Gender", "Female cultivator suitability", "Female labourer suitability"].forEach((sname, i) => {
+        updatedState[sname] = sname === variable;
+      });
+    }
+
+    changeOptLayer(updatedState);
+  };
+
+  const handleScenariochange = (event) => {
+    //changeScenario(event.target.value);
+    const newValue = event.target.value;
+    variable = newValue;
+    setFutureModel(newValue);
+    const updatedState = { ...activeOptLayer };
+
+    ["Gender", "Female cultivator suitability", "Female labourer suitability"].forEach((sname) => {
+      updatedState[sname] = sname === newValue;
+    });
     changeOptLayer(updatedState);
   };
 
@@ -331,7 +356,9 @@ export default function CompV({
       activeOptLayer["Economic"] === false &&
       activeOptLayer["Scalability"] === false &&
       activeOptLayer["Gender"] === false &&
-      activeOptLayer["Yield"] === false
+      activeOptLayer["Yield"] === false &&
+      activeOptLayer["Female labourer suitability"] === false &&
+      activeOptLayer["Female cultivator suitability"] === false
     ) {
       setSelectedIndex(0);
     }
@@ -416,7 +443,7 @@ export default function CompV({
                   selected={index === selectedIndex}
                   isLast={index === tabs.length - 1} // Identify last tab
                   isFirst={index === 0}
-                  onClick={() => handleSelect(index)}
+                  onClick={() => handleSelect(index, futureModel)}
                   disableRipple
                 >
                   {label !== "Gender suitability" && (
@@ -454,7 +481,7 @@ export default function CompV({
                           value={futureModel}
                           onChange={handleScenariochange}
                         >
-                          <MenuItem value="Gender Suitability" sx={{ fontSize: "12px", height: "16px", fontFamily: "Karla" }}>
+                          <MenuItem value="Gender" sx={{ fontSize: "12px", height: "16px", fontFamily: "Karla" }}>
                             Gender Suitability
                           </MenuItem>
                           <MenuItem value="Female labourer suitability" sx={{ fontSize: "12px", height: "16px", fontFamily: "Karla" }}>

@@ -543,6 +543,8 @@ export default function DrawerMapShow({ activeBar }) {
     "Adaptation Benefits": false,
     "Economic": false,
     "Scalability": false,
+    "Female labourer suitability": false,
+    "Female cultivator suitability": false,
   });
 
   function initialCrop() {
@@ -587,6 +589,8 @@ export default function DrawerMapShow({ activeBar }) {
       "Scalability": false,
       "Gender": false,
       "Yield": false,
+      "Female labourer suitability": false,
+      "Female cultivator suitability": false,
     });
     setRisk(InitialHazard);
     setRiskName("");
@@ -613,6 +617,8 @@ export default function DrawerMapShow({ activeBar }) {
       "Scalability": false,
       "Gender": false,
       "Yield": false,
+      "Female labourer suitability": false,
+      "Female cultivator suitability": false,
     });
     setRisk(InitialHazard);
     setRiskName("");
@@ -641,6 +647,8 @@ export default function DrawerMapShow({ activeBar }) {
       "Scalability": false,
       "Gender": false,
       "Yield": false,
+      "Female labourer suitability": false,
+      "Female cultivator suitability": false,
     });
     setOption(newState);
     setRisk(InitialHazard);
@@ -668,6 +676,8 @@ export default function DrawerMapShow({ activeBar }) {
       "Scalability": false,
       "Gender": false,
       "Yield": false,
+      "Female labourer suitability": false,
+      "Female cultivator suitability": false,
     });
     setRisk(InitialHazard);
     setRiskName("");
@@ -692,6 +702,8 @@ export default function DrawerMapShow({ activeBar }) {
       "Scalability": false,
       "Gender": false,
       "Yield": false,
+      "Female labourer suitability": false,
+      "Female cultivator suitability": false,
     });
     setRisk(InitialHazard);
     setRiskName("");
@@ -739,6 +751,8 @@ export default function DrawerMapShow({ activeBar }) {
       "Scalability": false,
       "Gender": false,
       "Yield": false,
+      "Female labourer suitability": false,
+      "Female cultivator suitability": false,
     });
     setImpact(InitialImpact);
     setImpactName("");
@@ -771,6 +785,8 @@ export default function DrawerMapShow({ activeBar }) {
       "Scalability": false,
       "Gender": false,
       "Yield": false,
+      "Female labourer suitability": false,
+      "Female cultivator suitability": false,
     });
     setOption(newState);
     setRisk(InitialHazard);
@@ -965,6 +981,8 @@ export default function DrawerMapShow({ activeBar }) {
       "Scalability": false,
       "Gender": false,
       "Yield": false,
+      "Female labourer suitability": false,
+      "Female cultivator suitability": false,
     });
     setRisk(InitialHazard);
     setRiskName("");
