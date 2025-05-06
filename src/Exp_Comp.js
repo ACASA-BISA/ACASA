@@ -331,6 +331,9 @@ export default function CompV({
       ["Gender", "Female cultivator suitability", "Female labourer suitability"].forEach((sname, i) => {
         updatedState[sname] = sname === variable;
       });
+    } else {
+      updatedState["Female cultivator suitability"] = false;
+      updatedState["Female labourer suitability"] = false;
     }
 
     changeOptLayer(updatedState);
