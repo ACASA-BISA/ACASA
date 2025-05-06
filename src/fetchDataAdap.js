@@ -126,6 +126,8 @@ export function fetchDataAdap(adaption, location, AdaptLayerName, commodity, sce
     if (AdaptLayerName === "Economic Viability") opt_prefix = "Economic";
     if (AdaptLayerName === "Scalability") opt_prefix = "Scalability";
     if (AdaptLayerName === "Gender Suitability") opt_prefix = "Gender";
+    if (AdaptLayerName === "Female labourer suitability") opt_prefix = "Labour";
+    if (AdaptLayerName === "Female cultivator suitability") opt_prefix = "Cultivator";
     if (AdaptLayerName === "Adaptation Benefits") opt_prefix = "Adaptation";
 
     if (AdaptLayerName === "Adaptation Benefits" && scenario === "baseline") opt_prefix = "Yield";
@@ -231,7 +233,23 @@ export function fetchDataAdap(adaption, location, AdaptLayerName, commodity, sce
         ["#FFDE4D", "Low"], //"#FFA500"
         ["#B6F792", "Medium"],
         ["#00D95A", "High"],
-        ["#267F2E", "Very High"],
+        //["#267F2E", "Very High"],
+      ],
+      "Female labourer suitability": [
+        ["#969696", "No significant change"],
+        ["#FF8C00", "Very Low"], //"#E4003A" "#FF8C00", "#FFDE4D", "#B6F792", "#B6F792", "#00D95A", "#267F2E",
+        ["#FFDE4D", "Low"], //"#FFA500"
+        ["#B6F792", "Medium"],
+        ["#00D95A", "High"],
+        //["#267F2E", "Very High"],
+      ],
+      "Female cultivator suitability": [
+        ["#969696", "No significant change"],
+        ["#FF8C00", "Very Low"], //"#E4003A" "#FF8C00", "#FFDE4D", "#B6F792", "#B6F792", "#00D95A", "#267F2E",
+        ["#FFDE4D", "Low"], //"#FFA500"
+        ["#B6F792", "Medium"],
+        ["#00D95A", "High"],
+        //["#267F2E", "Very High"],
       ],
       "Adaptation Benefits":
         scenario === "baseline"

@@ -2074,7 +2074,7 @@ export default function MApp({
       CurrRisk === "Agriculture Income" ||
       CurrRisk === "Soil Organic Carbon" ||
       CurrRisk === "Feed/Fodder" ||
-      //CurrRisk === "Rural infrastructure" ||
+      CurrRisk === "Rural infrastructure" ||
       CurrRisk === "Socio-economic Development Indicator" ||
       CurrRisk === "Income" ||
       CurrRisk === "Cropped Area" ||

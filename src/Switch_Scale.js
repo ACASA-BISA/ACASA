@@ -13,7 +13,7 @@ import LightTooltip from "./LightTooltip";
 export default function SwitchScale({ exploreType, handleExploreTypeChange, activeScale, changeScale }) {
   const switch_type = ["Commodity specific", "Regional (non-commodity specific)"];
   const switch_type_id = ["Commodity", "Regional"];
-  const season = ["The analysis is done separately for each commodity.", "The analysis is for a region from a general agriculture perspective, but is independent of specific commodities grown there."];
+  const season = ["The analysis is done separately for each commodity.", "The analysis is for a region from a generalised cropped area perspective, but is independent of specific commodities grown there."];
 
   const switch_type2 = ["Pixel level", "District level"];
   const switch_type_id2 = ["Pixel Level", "District Level"];
