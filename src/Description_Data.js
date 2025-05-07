@@ -1296,8 +1296,7 @@ export default function Description() {
               /*fontFamily: "revert",*/
             }}
           >
-            The datasets are prepared primarily from open source databases. To extract each variable standard methodologies applied. All the datasets are geo-tiff format and in 0.05 degree resolution
-            (EPSG:4326 - WGS 84, Geographic latitude and longitude).
+            The datasets are prepared primarily from open source databases. To extract each variable standard methodologies applied. All the datasets are geo-tiff format and in 0.05 degree resolution.
           </Typography>
           <Typography
             sx={{

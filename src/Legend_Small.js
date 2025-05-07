@@ -281,7 +281,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                     title={
                       <Box
                         sx={{
-                          width: 63,
+                          width: 80,
                           height: 18,
                           borderRadius: 0,
                           bgcolor: "#A52A2A",
@@ -298,7 +298,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                           }}
                           color="white"
                         >
-                          <strong>Unsuitable</strong>
+                          <strong>Unsuitable area</strong>
                         </Typography>
                       </Box>
                     }
@@ -407,6 +407,42 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                               </Typography>
                             </Box>
                           ) : null}
+                          {(AdaptLayerName === "Gender Suitability" || AdaptLayerName === "Female labourer suitability" || AdaptLayerName === "Female cultivator suitability") && adaption !== "" && (
+                            <Box
+                              sx={{
+                                width: 70,
+                                height: 18 + 10,
+                                borderRadius: 0,
+                                bgcolor: row.color,
+                                alignContent: "center",
+                              }}
+                            >
+                              <Typography
+                                sx={{
+                                  fontSize: 10,
+                                  marginY: "auto",
+                                  marginX: row.Cat.includes("Medium ") ? "0px" : "1px",
+                                }}
+                                color={index <= 3 && index >= 2 ? "#111" : "white"}
+                                align="center"
+                              >
+                                {row.Cat.split("\n").map((line, i) => (
+                                  <span
+                                    key={i}
+                                    style={{
+                                      display: "block",
+                                      lineHeight: "1.3", // Adjust line height
+                                      fontStyle: i === 1 ? "italic" : "normal",
+                                      fontWeight: i === 1 ? "normal" : "bold",
+                                      fontSize: i === 1 ? 8 : 10,
+                                    }}
+                                  >
+                                    {line}
+                                  </span>
+                                ))}
+                              </Typography>
+                            </Box>
+                          )}
                           {((AdaptLayerName === "Biophysical Suitability" || AdaptLayerName === "Yield Benefits") && adaption !== "") || ImpactName !== "" ? (
                             <Box
                               sx={{
@@ -484,7 +520,12 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                           )}*/}
                           {!(
                             (AdaptLayerName === "Adaptation Benefits" && scenario !== "baseline" && adaption !== "") ||
-                            ((AdaptLayerName === "Biophysical Suitability" || AdaptLayerName === "Yield Benefits") && adaption !== "") ||
+                            ((AdaptLayerName === "Biophysical Suitability" ||
+                              AdaptLayerName === "Yield Benefits" ||
+                              AdaptLayerName === "Gender Suitability" ||
+                              AdaptLayerName === "Female labourer suitability" ||
+                              AdaptLayerName === "Female cultivator suitability") &&
+                              adaption !== "") ||
                             ImpactName !== ""
                           ) && (
                             <Box

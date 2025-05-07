@@ -21,9 +21,11 @@ export default function SwitchScenario({ activeScenario, changeScenario, activeM
   ];
 
   const parents = ["ISIMIP"];
+  const parentinfo = ["A global modeling initiative that assesses climate change impacts across sectors and regions using consistent scenarios and methods."];
+
   const switchh2 = ["CHC"];
   const switchid2 = ["CHC"];
-  const parentinfo = ["To be updated later.", "To be updated later."];
+  const switchh2popup = ["A team of scientists using climate models, satellite data, and socioeconomic info to monitor droughts and food insecurity in vulnerable regions."]
 
   const switchh3 = ["GFDL-ESM4", "IPSL-CM6A-LR", "MPI-ESM1-2-HR", "MPI-ESM2-0", "UKESM1-0-LL", "Ensemble"];
   const switchid3 = ["GFDL-ESM4", "IPSL-CM6A-LR", "MPI-ESM1-2-HR", "MPI-ESM2-0", "UKESM1-0-LL", "Ensemble"];
@@ -188,6 +190,30 @@ export default function SwitchScenario({ activeScenario, changeScenario, activeM
             label={
               <Typography variant="body2" sx={{ paddingLeft: 1 }}>
                 {sname}
+                <LightTooltip
+                  title={
+                    <>
+                      <span>{switchh2popup}</span>
+                      <br />
+                      <Link
+                        href={`#/resources?tab=2&term=${sname.toLowerCase()}`}
+                        target="_blank"
+                        sx={(theme) => ({
+                          color: theme.palette.mode === "dark" ? "black" : "white",
+                          fontWeight: "bold",
+                        })}
+                      >
+                        Read More
+                      </Link>
+                    </>
+                  }
+                  placement="right"
+                  arrow
+                >
+                  <IconButton sx={{ padding: 0, margin: 0, paddingX: "4px" }}>
+                    <InfoOutlinedIcon sx={{ fontSize: "12px", padding: 0, margin: 0 }} />
+                  </IconButton>
+                </LightTooltip>
               </Typography>
             }
           />
@@ -202,6 +228,30 @@ export default function SwitchScenario({ activeScenario, changeScenario, activeM
             label={
               <Typography variant="body2" sx={{ paddingLeft: 1 }}>
                 {sname}
+                <LightTooltip
+                  title={
+                    <>
+                      <span>{parentinfo}</span>
+                      <br />
+                      <Link
+                        href={`#/resources?tab=2&term=${sname.toLowerCase()}`}
+                        target="_blank"
+                        sx={(theme) => ({
+                          color: theme.palette.mode === "dark" ? "black" : "white",
+                          fontWeight: "bold",
+                        })}
+                      >
+                        Read More
+                      </Link>
+                    </>
+                  }
+                  placement="right"
+                  arrow
+                >
+                  <IconButton sx={{ padding: 0, margin: 0, paddingX: "4px" }}>
+                    <InfoOutlinedIcon sx={{ fontSize: "12px", padding: 0, margin: 0 }} />
+                  </IconButton>
+                </LightTooltip>
               </Typography>
             }
           />

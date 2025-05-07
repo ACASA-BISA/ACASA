@@ -5,6 +5,8 @@ import StickyFooter from "./StickyFooter";
 import Box from "@mui/material/Box";
 import { styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
+import { Tooltip, tooltipClasses } from "@mui/material";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import ReactPlayer from "react-player";
 import Slide from "@mui/material/Slide";
 import { SelectMinimal } from "./Minimal_Select";
@@ -18,6 +20,7 @@ import GppMaybeIcon from "@mui/icons-material/GppMaybe";
 import PersonalVideoIcon from "@mui/icons-material/PersonalVideo";
 import Summary_Statistics from "./Summary_Statistics";
 import { ThemeContext } from "./ThemeContext";
+//import LightTooltip from "./LightTooltip";
 
 const logoStyle3 = {
   width: "77vw",
@@ -38,6 +41,37 @@ const thumbstyle = {
 const logoStyle6 = { height: "88%", margin: "auto" };
 const logoStyle8 = { height: "55%", margin: "auto" };
 const logoStyle7 = { width: "90%", margin: "auto" };
+
+const paperHoverStyle = {
+  "m": 1,
+  "width": "220px",
+  "height": 90,
+  "alignContent": "center",
+  "transition": "transform 0.2s ease, box-shadow 0.2s ease",
+  ":hover": {
+    boxShadow: 3,
+    transform: "scale(1.03)",
+    cursor: "pointer",
+  },
+};
+
+const SleekTooltip = styled(({ className, ...props }) => <Tooltip {...props} classes={{ popper: className }} arrow enterDelay={100} />)(({ theme }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: theme.palette.mode === "dark" ? "#2c2c2c" : "#ffffff",
+    color: theme.palette.text.primary,
+    border: `1px solid ${theme.palette.divider}`,
+    fontSize: 12,
+    padding: "6px 10px",
+    borderRadius: 8,
+    boxShadow: theme.shadows[3],
+    maxWidth: 240,
+    lineHeight: 1.4,
+    fontWeight: 400,
+  },
+  [`& .${tooltipClasses.arrow}`]: {
+    color: theme.palette.mode === "dark" ? "#2c2c2c" : "#ffffff",
+  },
+}));
 
 var items = [
   {
@@ -235,7 +269,7 @@ const Home = (props) => {
         <Box sx={{ mt: "20px" }}>
           <img src={mode === "dark" ? "acasa_approach_dark2.svg" : "acasa_approach.svg"} style={logoStyle3} alt="approach" />
         </Box>
-        <Box
+        {/*<Box
           sx={{
             mt: "20px",
             backgroundImage:
@@ -289,7 +323,7 @@ const Home = (props) => {
           <Box sx={{ width: "63%", margin: "auto" }}>
             <VideoPlayer></VideoPlayer>
           </Box>
-        </Box>
+        </Box>*/}
         {/*  */}
         <Box
           sx={{
@@ -323,51 +357,26 @@ const Home = (props) => {
               }}
               gap="0.5vw"
             >
-              <Paper
-                sx={{
-                  m: 1,
-                  width: "220px",
-                  height: 90,
-                  alignContent: "center",
-                }}
-                elevation={0}
-              >
-                <img src={"barc.png"} style={logoStyle6} alt="barc" />
-              </Paper>
-
-              <Paper
-                sx={{
-                  m: 1,
-                  width: "220px",
-                  height: 90,
-                  alignContent: "center",
-                }}
-                elevation={0}
-              >
-                <img src={"icar.png"} style={logoStyle6} alt="icar" />
-              </Paper>
-              <Paper
-                sx={{
-                  m: 1,
-                  width: "220px",
-                  height: 90,
-                  alignContent: "center",
-                }}
-                elevation={0}
-              >
-                <img src={"narc.png"} style={logoStyle6} alt="narc" />
-              </Paper>
-              <Paper
-                sx={{
-                  m: 1,
-                  width: "220px",
-                  height: 90,
-                  alignContent: "center",
-                }}
-                elevation={0}
-              >
-                <img src={"nrmc.png"} style={logoStyle6} alt="nrmc" />
-              </Paper>
+              <SleekTooltip title="Bangladesh Agriculture Research Council (BARC)" arrow placement="top">
+                <Paper sx={paperHoverStyle} elevation={0}>
+                  <img src={"barc.png"} style={logoStyle6} alt="barc" />
+                </Paper>
+              </SleekTooltip>
+              <SleekTooltip title="Indian Council of Agricultural Research" arrow placement="top">
+                <Paper sx={paperHoverStyle} elevation={0}>
+                  <img src={"icar.png"} style={logoStyle6} alt="icar" />
+                </Paper>
+              </SleekTooltip>
+              <SleekTooltip title="Nepal Agricultural Research Council" arrow placement="top">
+                <Paper sx={paperHoverStyle} elevation={0}>
+                  <img src={"narc.png"} style={logoStyle6} alt="narc" />
+                </Paper>
+              </SleekTooltip>
+              <SleekTooltip title="Natural Resources Management Center (NRMC)" arrow placement="top">
+                <Paper sx={paperHoverStyle} elevation={0}>
+                  <img src={"nrmc.png"} style={logoStyle6} alt="nrmc" />
+                </Paper>
+              </SleekTooltip>
             </Box>
             <Box
               sx={{
@@ -378,61 +387,31 @@ const Home = (props) => {
               }}
               gap="0.5vw"
             >
-              <Paper
-                sx={{
-                  m: 1,
-                  width: "220px",
-                  height: 90,
-                  alignContent: "center",
-                }}
-                elevation={0}
-              >
-                <img src={"bmgf-new.svg"} style={logoStyle7} alt="bmgf" />
-              </Paper>
-              <Paper
-                sx={{
-                  m: 1,
-                  width: "220px",
-                  height: 90,
-                  alignContent: "center",
-                }}
-                elevation={0}
-              >
-                <img src={"cimmyt-cgiar.png"} style={logoStyle7} alt="cimmyt" />
-              </Paper>
-              <Paper
-                sx={{
-                  m: 1,
-                  width: "220px",
-                  height: 90,
-                  alignContent: "center",
-                }}
-                elevation={0}
-              >
-                <img src={"south-asia-11.svg"} style={logoStyle7} alt="florida" />
-              </Paper>
-              <Paper
-                sx={{
-                  m: 1,
-                  width: "220px",
-                  height: 90,
-                  alignContent: "center",
-                }}
-                elevation={0}
-              >
-                <img src={"columbia-university.png"} style={logoStyle6} alt="columbia" />
-              </Paper>
-              <Paper
-                sx={{
-                  m: 1,
-                  width: "220px",
-                  height: 90,
-                  alignContent: "center",
-                }}
-                elevation={0}
-              >
-                <img src={"south-asia-12.svg"} style={logoStyle8} alt="washington" />
-              </Paper>
+              <SleekTooltip title="Bill & Melinda Gates Foundation" arrow>
+                <Paper sx={paperHoverStyle} elevation={0}>
+                  <img src={"bmgf-new.svg"} style={logoStyle7} alt="bmgf" />
+                </Paper>
+              </SleekTooltip>
+              <SleekTooltip title="International Maize and Wheat Improvement Center" arrow>
+                <Paper sx={paperHoverStyle} elevation={0}>
+                  <img src={"cimmyt-cgiar.png"} style={logoStyle7} alt="cimmyt" />
+                </Paper>
+              </SleekTooltip>
+              <SleekTooltip title="University of Florida" arrow>
+                <Paper sx={paperHoverStyle} elevation={0}>
+                  <img src={"south-asia-11.svg"} style={logoStyle7} alt="florida" />
+                </Paper>
+              </SleekTooltip>
+              <SleekTooltip title="University of Columbia" arrow>
+                <Paper sx={paperHoverStyle} elevation={0}>
+                  <img src={"columbia-university.png"} style={logoStyle6} alt="columbia" />
+                </Paper>
+              </SleekTooltip>
+              <SleekTooltip title="University of Washington" arrow>
+                <Paper sx={paperHoverStyle} elevation={0}>
+                  <img src={"south-asia-12.svg"} style={logoStyle8} alt="washington" />
+                </Paper>
+              </SleekTooltip>
             </Box>
           </Box>
         </Box>
