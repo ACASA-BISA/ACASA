@@ -20,7 +20,13 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
   const switch_new2 = ["Fertilizer Management", "Water Management"];
 
   const directswitch = ["Stress tolerant variety"];
+  const directswitchpopup = ["Stress-tolerant is heat tolerant for wheat and drought tolerant for all other crops."];
+
   const directswitchdown = ["ICT linked input management", "Crop insurance"];
+  const directswitchdownpopup = [
+    "A modern technological approach that integrates information technology on crop conditions, soil properties, weather, and forecasts to optimize the timing and application of all inputs.",
+    "Insurance coverage for farmers to protect against losses from crop failure, damage, or reduced yields.",
+  ];
 
   const planting_rice = [
     "Early sowing/changing planting dates",
@@ -40,7 +46,10 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
   const planting = ["Early sowing/changing planting dates", "Precision land levelling", "Zero tillage with residue retention", "Broadbed and furrow"];
 
   const fertilizer = ["Smart fertilizer management", "Precision fertilizer management"];
-  const fertilizer_popup = ["An approach of smart fertilizer application using low cost equipments to match crop nutrient needs.", "An high-tech approach using information technology to optimize fertilizer application to match crop nutrint demand."];
+  const fertilizer_popup = [
+    "An approach of smart fertilizer application using low cost equipments to match crop nutrient needs.",
+    "An high-tech approach using information technology to optimize fertilizer application to match crop nutrint demand.",
+  ];
 
   const RegionalAdaptation = [
     "Stress tolerant varieties",
@@ -116,13 +125,41 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
       Maize: [
         { name: "Microirrigation", description: "A system of applying low-flow irrigation directly applied to soil near plant roots." },
         { name: "Precision water management", description: "An irrigation approach using sensor-based technology to optimize water application." },
-        { name: "Supplemental irrigation (water harvesting structures/farm ponds)", description: "The practice additional watering provided to crops during periods of insufficient rainfall to ensure optimal growth and yield." },
+        {
+          name: "Supplemental irrigation (water harvesting structures/farm ponds)",
+          description: "The practice additional watering provided to crops during periods of insufficient rainfall to ensure optimal growth and yield.",
+        },
       ],
-      Sorghum: [{ name: "Supplemental irrigation (water harvesting structures/farm ponds)", description: "The practice additional watering provided to crops during periods of insufficient rainfall to ensure optimal growth and yield." }],
-      Millets: [{ name: "Supplemental irrigation (water harvesting structures/farm ponds)", description: "The practice additional watering provided to crops during periods of insufficient rainfall to ensure optimal growth and yield." }],
-      Chickpea: [{ name: "Supplemental irrigation (water harvesting structures/farm ponds)", description: "The practice additional watering provided to crops during periods of insufficient rainfall to ensure optimal growth and yield." }],
-      Pigeonpea: [{ name: "Supplemental irrigation (water harvesting structures/farm ponds)", description: "The practice additional watering provided to crops during periods of insufficient rainfall to ensure optimal growth and yield." }],
-      Soybean: [{ name: "Supplemental irrigation (water harvesting structures/farm ponds)", description: "The practice additional watering provided to crops during periods of insufficient rainfall to ensure optimal growth and yield." }],
+      Sorghum: [
+        {
+          name: "Supplemental irrigation (water harvesting structures/farm ponds)",
+          description: "The practice additional watering provided to crops during periods of insufficient rainfall to ensure optimal growth and yield.",
+        },
+      ],
+      Millets: [
+        {
+          name: "Supplemental irrigation (water harvesting structures/farm ponds)",
+          description: "The practice additional watering provided to crops during periods of insufficient rainfall to ensure optimal growth and yield.",
+        },
+      ],
+      Chickpea: [
+        {
+          name: "Supplemental irrigation (water harvesting structures/farm ponds)",
+          description: "The practice additional watering provided to crops during periods of insufficient rainfall to ensure optimal growth and yield.",
+        },
+      ],
+      Pigeonpea: [
+        {
+          name: "Supplemental irrigation (water harvesting structures/farm ponds)",
+          description: "The practice additional watering provided to crops during periods of insufficient rainfall to ensure optimal growth and yield.",
+        },
+      ],
+      Soybean: [
+        {
+          name: "Supplemental irrigation (water harvesting structures/farm ponds)",
+          description: "The practice additional watering provided to crops during periods of insufficient rainfall to ensure optimal growth and yield.",
+        },
+      ],
       Mustard: [
         { name: "Microirrigation", description: "A system of applying low-flow irrigation directly applied to soil near plant roots." },
         { name: "Precision water management", description: "An irrigation approach using sensor-based technology to optimize water application." },
@@ -130,18 +167,31 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
       Cotton: [
         { name: "Microirrigation", description: "A system of applying low-flow irrigation directly applied to soil near plant roots." },
         { name: "Precision water management", description: "An irrigation approach using sensor-based technology to optimize water application." },
-        { name: "Supplemental irrigation (water harvesting structures/farm ponds)", description: "The practice additional watering provided to crops during periods of insufficient rainfall to ensure optimal growth and yield." },
+        {
+          name: "Supplemental irrigation (water harvesting structures/farm ponds)",
+          description: "The practice additional watering provided to crops during periods of insufficient rainfall to ensure optimal growth and yield.",
+        },
       ],
       Potato: [
         { name: "Microirrigation", description: "A system of applying low-flow irrigation directly applied to soil near plant roots." },
         { name: "Precision water management", description: "An irrigation approach using sensor-based technology to optimize water application." },
       ],
-      Groundnut: [{ name: "Supplemental irrigation (water harvesting structures/farm ponds)", description: "The practice additional watering provided to crops during periods of insufficient rainfall to ensure optimal growth and yield." }],
+      Groundnut: [
+        {
+          name: "Supplemental irrigation (water harvesting structures/farm ponds)",
+          description: "The practice additional watering provided to crops during periods of insufficient rainfall to ensure optimal growth and yield.",
+        },
+      ],
       Lentil: [
         { name: "Microirrigation", description: "A system of applying low-flow irrigation directly applied to soil near plant roots." },
         { name: "Precision water management", description: "An irrigation approach using sensor-based technology to optimize water application." },
       ],
-      Jute: [{ name: "Supplemental irrigation (water harvesting structures/farm ponds)", description: "The practice additional watering provided to crops during periods of insufficient rainfall to ensure optimal growth and yield." }],
+      Jute: [
+        {
+          name: "Supplemental irrigation (water harvesting structures/farm ponds)",
+          description: "The practice additional watering provided to crops during periods of insufficient rainfall to ensure optimal growth and yield.",
+        },
+      ],
     },
 
     getPlantingTechniques(cropName) {
@@ -346,6 +396,30 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
                       style={{ wordWrap: "break-word" }}
                     >
                       {sname}
+                      <LightTooltip
+                        title={
+                          <>
+                            <span>{directswitchpopup}</span>
+                            <br />
+                            <Link
+                              href={`#/resources?tab=2&term=${sname.toLowerCase()}`}
+                              target="_blank"
+                              sx={(theme) => ({
+                                color: theme.palette.mode === "dark" ? "black" : "white",
+                                fontWeight: "bold",
+                              })}
+                            >
+                              Read More
+                            </Link>
+                          </>
+                        }
+                        placement="right"
+                        arrow
+                      >
+                        <IconButton sx={{ padding: 0, margin: 0, paddingX: "4px" }}>
+                          <InfoOutlinedIcon sx={{ fontSize: "12px", padding: 0, margin: 0 }} />
+                        </IconButton>
+                      </LightTooltip>
                     </Typography>
                   }
                 />
@@ -869,7 +943,7 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
               </FormGroup>
             ))}
           {(checkcrop() === true || activeCrop["rice"] === true) &&
-            directswitchdown.map((sname) => (
+            directswitchdown.map((sname, idx) => (
               <FormGroup>
                 <CustomFormControlLabel
                   control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={activeOpt[sname]} onChange={changeOpt(sname)} name={sname} />}
@@ -888,6 +962,30 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
                       style={{ wordWrap: "break-word" }}
                     >
                       {sname}
+                      <LightTooltip
+                        title={
+                          <>
+                            <span>{directswitchdownpopup[idx]}</span>
+                            <br />
+                            <Link
+                              href={`#/resources?tab=2&term=${sname.toLowerCase()}`}
+                              target="_blank"
+                              sx={(theme) => ({
+                                color: theme.palette.mode === "dark" ? "black" : "white",
+                                fontWeight: "bold",
+                              })}
+                            >
+                              Read More
+                            </Link>
+                          </>
+                        }
+                        placement="right"
+                        arrow
+                      >
+                        <IconButton sx={{ padding: 0, margin: 0, paddingX: "4px" }}>
+                          <InfoOutlinedIcon sx={{ fontSize: "12px", padding: 0, margin: 0 }} />
+                        </IconButton>
+                      </LightTooltip>
                     </Typography>
                   }
                 />

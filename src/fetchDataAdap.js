@@ -227,28 +227,36 @@ export function fetchDataAdap(adaption, location, AdaptLayerName, commodity, sce
         ["rgba(109, 233, 109, 1)", "High"],
         ["rgba(4, 145, 4, 1)", "Very High"],
       ],
+      /*"Gender Suitability": [
+        ["#969696", "No significant change"],
+        ["#FF8C00", "Highly unsuitable"], //"#E4003A" "#FF8C00", "#FFDE4D", "#B6F792", "#B6F792", "#00D95A", "#267F2E",
+        ["#FFDE4D", "Unsuitable"], //"#FFA500"
+        ["#B6F792", "Suitable"],
+        ["#00D95A", "Highly suitable"],
+        //["#267F2E", "Very High"],
+      ],*/
       "Gender Suitability": [
         ["#969696", "No significant change"],
-        ["#FF8C00", "Very Low"], //"#E4003A" "#FF8C00", "#FFDE4D", "#B6F792", "#B6F792", "#00D95A", "#267F2E",
-        ["#FFDE4D", "Low"], //"#FFA500"
-        ["#B6F792", "Medium"],
-        ["#00D95A", "High"],
+        ["#d73027", "Highly unsuitable"], //"#E4003A" "#FF8C00", "#FFDE4D", "#B6F792", "#B6F792", "#00D95A", "#267F2E",
+        ["#fc8d59", "Unsuitable"], //"#FFA500"
+        ["#91cf60", "Suitable"],
+        ["#1a9850", "Highly suitable"],
         //["#267F2E", "Very High"],
       ],
       "Female labourer suitability": [
         ["#969696", "No significant change"],
-        ["#FF8C00", "Very Low"], //"#E4003A" "#FF8C00", "#FFDE4D", "#B6F792", "#B6F792", "#00D95A", "#267F2E",
-        ["#FFDE4D", "Low"], //"#FFA500"
-        ["#B6F792", "Medium"],
-        ["#00D95A", "High"],
+        ["#d73027", "Highly unsuitable"], //"#E4003A" "#FF8C00", "#FFDE4D", "#B6F792", "#B6F792", "#00D95A", "#267F2E",
+        ["#fc8d59", "Unsuitable"], //"#FFA500"
+        ["#91cf60", "Suitable"],
+        ["#1a9850", "Highly suitable"],
         //["#267F2E", "Very High"],
       ],
       "Female cultivator suitability": [
         ["#969696", "No significant change"],
-        ["#FF8C00", "Very Low"], //"#E4003A" "#FF8C00", "#FFDE4D", "#B6F792", "#B6F792", "#00D95A", "#267F2E",
-        ["#FFDE4D", "Low"], //"#FFA500"
-        ["#B6F792", "Medium"],
-        ["#00D95A", "High"],
+        ["#d73027", "Highly unsuitable"], //"#E4003A" "#FF8C00", "#FFDE4D", "#B6F792", "#B6F792", "#00D95A", "#267F2E",
+        ["#fc8d59", "Unsuitable"], //"#FFA500"
+        ["#91cf60", "Suitable"],
+        ["#1a9850", "Highly suitable"],
         //["#267F2E", "Very High"],
       ],
       "Adaptation Benefits":

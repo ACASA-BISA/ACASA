@@ -20,7 +20,7 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
   const switchChildID = ["pr", "ipcc"];
 
   const switchIPCC = ["Climatology", "Hazards", "Exposure", "Vulnerability", "Indices"];
-  const switchRegional = ["Climatology", "Hazards", "Exposure", "Vulnerability", "Risk indices"];
+  const switchRegional = ["Climatology", "Hazards", "Exposure", "Vulnerability", "Indices"];
   const switchIPCCID = ["basic", "hazard", "exposure", "vulner", "risk"];
 
   const switchRisk = ["Risk Index", "Hazard Index", "Exposure Index", "Vulnerability Index"];
@@ -35,8 +35,8 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
   const switchBasic = ["Seasonal Rainfall", "Maximum Temperature", "Minimum Temperature"];
   const switchBasicID = ["seasonalrain", "maxtemp", "mintemp"];
 
-  const switchHazard = ["Days of Frost", "Excess Rainfall days", "Delayed Monsoon", "Crop water deficit index", "Dry Spell", "Flood", "Cyclone", "Heat Stress"];
-  const switchHazardID = ["FROST", "ER", "DELMON", "SPI", "DSN", "FLOOD", "CYCL", "HEAT STRESS"];
+  const switchHazard = ["Excess Rainfall days", "Delayed Monsoon", "Crop water deficit index", "Dry Spell", "Flood", "Cyclone", "Heat Stress", "Days of Frost", ];
+  const switchHazardID = ["ER", "DELMON", "SPI", "DSN", "FLOOD", "CYCL", "HEAT STRESS", "FROST",];
 
   const switchExposureReg = ["Agricultural Area", "Number of animals"];
   const switchExposureRegID = ["c-area", "animals"];
@@ -45,7 +45,7 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
     "Irrigation",
     "Volumetric Soil Water",
     "Income",
-    "Rural road coverage",
+    "Rural infrastructure",
     "Fertilizer consumption",
     "Socio-economic Development Indicator",
     "Marginal Farmers",
