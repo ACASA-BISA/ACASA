@@ -73,8 +73,8 @@ export default function StickyFooter() {
                   fontFamily: "revert",
                 }}
               >
-                To address the vulnerability of South Asian countries to climatic risks, with support from the Bill & Melinda Gates Foundation (BMGF), the Borlaug Institute for South Asia (BISA) is
-                working with national agriculture research systems of the region to develop ACASA.
+                To address the vulnerability of South Asian countries to climatic risks, the Borlaug Institute for South Asia (BISA) is working with national agriculture research systems of the region
+                to develop ACASA.
               </Typography>
               <Button
                 variant="contained"

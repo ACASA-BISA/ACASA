@@ -276,7 +276,9 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                   (AdaptLayerName === "Adaptation Benefits" && scenario === "baseline") ||
                   AdaptLayerName === "Economic Viability" ||
                   AdaptLayerName === "Scalability" ||
-                  AdaptLayerName === "Gender Suitability") && (
+                  AdaptLayerName === "Gender Suitability" ||
+                  AdaptLayerName === "Female labourer suitability" ||
+                  AdaptLayerName === "Female cultivator suitability") && (
                   <Tooltip
                     title={
                       <Box
