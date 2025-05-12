@@ -1057,6 +1057,116 @@ export default function MApp({
   }
 
   useEffect(() => {
+    if (!ref.current || !mapRef.current) return;
+  
+    const sourcemap = new TileJSON({
+      url: mode === "dark"
+        ? `https://api.maptiler.com/maps/dataviz-dark/tiles.json?key=${key}`
+        : `https://api.maptiler.com/maps/bright-v2/tiles.json?key=${key}`,
+      tileSize: 512,
+      crossOrigin: "anonymous",
+    });
+  
+    const BingMapNew = new TileLayer2({
+      source: sourcemap,
+      opacity: 0.9,
+      zIndex: 10,
+    });
+  
+    const layers = mapRef.current.getLayers().getArray();
+  
+    layers.forEach((layer) => {
+      if (layer && typeof layer.getSource === "function" && layer.getSource() instanceof TileJSON) {
+        mapRef.current.removeLayer(layer);
+      }
+    });
+  
+    mapRef.current.addLayer(BingMapNew);
+  }, [mode]);
+
+  useEffect(() => {
+    const container = document.getElementById("popup2");
+    const content = document.getElementById("popup-content2");
+  
+    if (!container || !content || !ref.current) return;
+  
+    const overlay = new Overlay({
+      element: container,
+      autoPan: {
+        animation: {
+          duration: 250,
+        },
+      },
+    });
+  
+    if (!mapRef.current) {
+      mapRef.current = new Map({
+        controls: [
+          new FullScreen({ className: "ol-fullscreen-comp" }),
+          new Zoom({ className: "ol-zoom-comp" }),
+          new ZoomToExtent({ extent: defext, className: "ol-zoomtoextent-comp" }),
+        ],
+        target: ref.current,
+        view: ViewV,
+      });
+    }
+  
+    const featureOverlay = new VectorLayer({
+      source: new VectorSource(),
+      map: mapRef.current,
+      style: [
+        new Style({
+          fill: h_fill,
+          stroke: h_stroke,
+        }),
+      ],
+    });
+  
+    let highlight;
+  
+    const display_state = (pixel) => {
+      const feature = mapRef.current.forEachFeatureAtPixel(pixel, (feature) => feature);
+      let state = feature?.get("D_NAME_1") || feature?.get("STATE") || null;
+  
+      if (feature !== highlight) {
+        if (highlight) featureOverlay.getSource().removeFeature(highlight);
+        if (feature && state) featureOverlay.getSource().addFeature(feature);
+        highlight = feature;
+      }
+  
+      return state;
+    };
+  
+    function getCentroidOfPolygon(geometry) {
+      const extent = geometry.getExtent();
+      return [(extent[0] + extent[2]) / 2, (extent[1] + extent[3]) / 2];
+    }
+  
+    const LocationofEvent = (pixel) => {
+      const feature = mapRef.current.forEachFeatureAtPixel(pixel, (feature) => feature);
+      return feature ? getCentroidOfPolygon(feature.getGeometry()) : null;
+    };
+  
+    mapRef.current.on("pointermove", (evt) => {
+      if (evt.dragging) return;
+  
+      const pixel = mapRef.current.getEventPixel(evt.originalEvent);
+      const contentofbox = display_state(pixel);
+  
+      if (contentofbox) {
+        content.innerHTML = contentofbox.toLowerCase();
+        overlay.setPosition(LocationofEvent(pixel));
+        mapRef.current.addOverlay(overlay);
+      } else {
+        mapRef.current.removeOverlay(overlay);
+      }
+    });
+  
+    mapRef.current.updateSize();
+  }, [ref, mapRef]);
+  
+  
+  /*useEffect(() => {
     const container = document.getElementById("popup2");
     const content = document.getElementById("popup-content2");
 
@@ -1182,7 +1292,7 @@ export default function MApp({
 
     // Ensure the map resizes properly
     mapRef.current.updateSize();
-  }, [mode, ref, mapRef]); // Re-run effect when `mode` changes
+  }, [mode, ref, mapRef]);*/ // Re-run effect when `mode` changes
 
   const downloadControlRef = useRef(null);
 

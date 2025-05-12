@@ -101,8 +101,8 @@ export default function AboutUs() {
                 })}
               >
                 Increasing climatic risks make it imperative to identify spatial and temporal risks that are likely to impact agriculture. Adaptation options are thus needed to mitigate the negative
-                impacts. Considering this, with support from the Bill & Melinda Gates Foundation (BMGF), the Borlaug Institute for South Asia (BISA) is working with national agriculture research
-                systems in South Asia to develop the Atlas of Climate Adaptation in South Asian Agriculture (ACASA).
+                impacts. The Borlaug Institute for South Asia (BISA) is working with national agriculture research systems in South Asia to develop the Atlas of Climate Adaptation in South Asian
+                Agriculture (ACASA).
               </Typography>
               <Typography
                 sx={(theme) => ({
@@ -292,7 +292,7 @@ export default function AboutUs() {
             >
               ACASA Development Partners
             </Typography>
-            <Typography
+            {/*<Typography
               variant="h5"
               sx={(theme) => ({
                 color: theme.palette.mode === "dark" ? "#c4c4c4" : "#111111",
@@ -340,7 +340,8 @@ export default function AboutUs() {
                   </Typography>
                 </Box>
               </Paper>
-            </Link>
+            </Link> */}
+
             {/* <Typography
               variant="h5"
               sx={(theme) => ({

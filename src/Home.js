@@ -387,11 +387,11 @@ const Home = (props) => {
               }}
               gap="0.5vw"
             >
-              <SleekTooltip title="Bill & Melinda Gates Foundation" arrow>
+              {/*<SleekTooltip title="Bill & Melinda Gates Foundation" arrow>
                 <Paper sx={paperHoverStyle} elevation={0}>
                   <img src={"bmgf-new.svg"} style={logoStyle7} alt="bmgf" />
                 </Paper>
-              </SleekTooltip>
+              </SleekTooltip>*/}
               <SleekTooltip title="International Maize and Wheat Improvement Center" arrow>
                 <Paper sx={paperHoverStyle} elevation={0}>
                   <img src={"cimmyt-cgiar.png"} style={logoStyle7} alt="cimmyt" />
