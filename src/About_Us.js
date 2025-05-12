@@ -771,7 +771,7 @@ export default function AboutUs() {
                         marginLeft: 3,
                       })}
                     >
-                      University of Columbia, USA
+                      Columbia University, USA
                     </Typography>
                   </Box>
                 </Paper>

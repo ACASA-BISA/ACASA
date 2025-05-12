@@ -35,8 +35,8 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
   const switchBasic = ["Seasonal Rainfall", "Maximum Temperature", "Minimum Temperature"];
   const switchBasicID = ["seasonalrain", "maxtemp", "mintemp"];
 
-  const switchHazard = ["Excess Rainfall days", "Delayed Monsoon", "Crop water deficit index", "Dry Spell", "Flood", "Cyclone", "Heat Stress", "Days of Frost", ];
-  const switchHazardID = ["ER", "DELMON", "SPI", "DSN", "FLOOD", "CYCL", "HEAT STRESS", "FROST",];
+  const switchHazard = ["Excess Rainfall days", "Delayed Monsoon", "Crop water deficit index", "Dry Spell", "Flood", "Cyclone", "Heat Stress", "Days of Frost"];
+  const switchHazardID = ["ER", "DELMON", "SPI", "DSN", "FLOOD", "CYCL", "HEAT STRESS", "FROST"];
 
   const switchExposureReg = ["Agricultural Area", "Number of animals"];
   const switchExposureRegID = ["c-area", "animals"];
@@ -379,7 +379,13 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
   const switchVulner = ["Irrigation", "Income", "Socio-economic Development Indicator", "Volumetric Soil Water", "Rural infrastructure"];
   const switchVulnerID = ["irrigation", "GDP", "HDI", "waterholding", "ROAD"];
 
-  const switchVulnerPopup = ["Percentage of crop area under irrigation, based on FAO’s Global Map of Irrigation Areas (GMIA), version 5.", "Agricultural Gross Domestic Product data from the World Bank’s Global Gridded AgGDP dataset.", "Socio-economic development indicator sourced from Mosaiks' HDI dataset.", "Ratio of the volume of water contained in a soil to the total volume of that soil.", "Represented using nightlight luminosity data, as a proxy, from the referenced MDPI study."];
+  const switchVulnerPopup = [
+    "Percentage of crop area under irrigation, based on FAO’s Global Map of Irrigation Areas (GMIA), version 5.",
+    "Agricultural Gross Domestic Product data from the World Bank’s Global Gridded AgGDP dataset.",
+    "Socio-economic development indicator sourced from Mosaiks' HDI dataset.",
+    "Ratio of the volume of water contained in a soil to the total volume of that soil.",
+    "Represented using nightlight luminosity data, as a proxy, from the referenced MDPI study.",
+  ];
 
   /*   const switchvul_Livestock = ['Vulnerability Index',"Feed/Fodder","Income","Rural infrastructure","Socio-economic Development Indicator"];
   const switchvul_LivestockID = ['vulne',"CROPRES","GDP","ROAD",'HDI']; */
@@ -1292,6 +1298,105 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
                           ))}
                       </FormControl>
                     )} */}
+                    {P3aipcc[switchIPCCID[idx]] && switchIPCCID[idx].includes("exp") && (
+                      <FormControl component="fieldset" variant="standard" sx={{ paddingBottom: 1, paddingLeft: 5 }}>
+                        {checkFish() === false &&
+                          checklivestock() === false &&
+                          switchExposure.map((sn1r, idxr) => (
+                            <FormGroup key={switchExposureID[idxr]}>
+                              <CustomFormControlLabel
+                                control={
+                                  <AntSwitch
+                                    inputProps={{ "aria-label": "ant design" }}
+                                    checked={P3[switchExposureID[idxr]]}
+                                    onChange={handleChangeP3(switchExposureID[idxr])}
+                                    name={switchExposureID[idxr]}
+                                  />
+                                }
+                                disabled={false}
+                                label={
+                                  <Typography
+                                    fontSize="13px"
+                                    align="left"
+                                    sx={{
+                                      paddingLeft: "3px",
+                                      maxWidth: "200px",
+                                      wordBreak: "break-word",
+                                      whiteSpace: "normal",
+                                    }}
+                                    style={{ wordWrap: "break-word" }}
+                                  >
+                                    {sn1r.charAt(0).toUpperCase() + sn1r.toLowerCase().slice(1)}
+                                  </Typography>
+                                }
+                              />
+                            </FormGroup>
+                          ))}
+                        {checkFish() === true &&
+                          switchExposureFish.map((sn1r, idxr) => (
+                            <FormGroup key={switchExposureFishID[idxr]}>
+                              <CustomFormControlLabel
+                                control={
+                                  <AntSwitch
+                                    inputProps={{ "aria-label": "ant design" }}
+                                    checked={P3[switchExposureFishID[idxr]]}
+                                    onChange={handleChangeP3(switchExposureFishID[idxr])}
+                                    name={switchExposureFishID[idxr]}
+                                  />
+                                }
+                                disabled={false}
+                                label={
+                                  <Typography
+                                    fontSize="13px"
+                                    align="left"
+                                    sx={{
+                                      paddingLeft: "3px",
+                                      maxWidth: "200px",
+                                      wordBreak: "break-word",
+                                      whiteSpace: "normal",
+                                    }}
+                                    style={{ wordWrap: "break-word" }}
+                                  >
+                                    {sn1r.charAt(0).toUpperCase() + sn1r.toLowerCase().slice(1)}
+                                  </Typography>
+                                }
+                              />
+                            </FormGroup>
+                          ))}
+                        {checklivestock() === true &&
+                          switchExposureLivestock.map((sn1r, idxr) => (
+                            <FormGroup key={switchExposureLivestockID[idxr]}>
+                              <CustomFormControlLabel
+                                control={
+                                  <AntSwitch
+                                    inputProps={{ "aria-label": "ant design" }}
+                                    checked={P3[switchExposureLivestockID[idxr]]}
+                                    onChange={handleChangeP3(switchExposureLivestockID[idxr])}
+                                    name={switchExposureLivestockID[idxr]}
+                                  />
+                                }
+                                disabled={false}
+                                label={
+                                  <Typography
+                                    fontSize="13px"
+                                    align="left"
+                                    sx={{
+                                      paddingLeft: "3px",
+                                      maxWidth: "200px",
+                                      wordBreak: "break-word",
+                                      whiteSpace: "normal",
+                                    }}
+                                    style={{ wordWrap: "break-word" }}
+                                  >
+                                    {sn1r.charAt(0).toUpperCase() + sn1r.toLowerCase().slice(1)}
+                                  </Typography>
+                                }
+                              />
+                            </FormGroup>
+                          ))}
+                      </FormControl>
+                    )}
+                    {/* Till here is a temporary code block for Exposure switches */}
                   </FormGroup>
                 ))}
               </FormControl>
