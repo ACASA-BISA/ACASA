@@ -82,7 +82,7 @@ export default function News() {
               {/* Logo for the first news item */}
               <a href={"https://mailchi.mp/cgiar.org/acasa-strides_issue02-bisa-4323746?e=ff48e11d75"} target="_blank" rel="noopener noreferrer">
                 <img
-                  src={"issue03.png"}
+                  src={"issue03.PNG"}
                   alt="news"
                   style={{
                     width: "120px", // Adjust size as needed

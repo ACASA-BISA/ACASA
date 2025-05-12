@@ -402,7 +402,7 @@ const Home = (props) => {
                   <img src={"south-asia-11.svg"} style={logoStyle7} alt="florida" />
                 </Paper>
               </SleekTooltip>
-              <SleekTooltip title="University of Columbia" arrow>
+              <SleekTooltip title="Columbia University" arrow>
                 <Paper sx={paperHoverStyle} elevation={0}>
                   <img src={"columbia-university.png"} style={logoStyle6} alt="columbia" />
                 </Paper>

@@ -24,6 +24,7 @@ import { HashRouter as Router, Routes, Route, Link, useLocation } from "react-ro
 import ScrollToTop from "./scrolltop";
 import Feedback1 from "./Feedback";
 import Translate from "./Translate"; // Import Translate component
+import LightTooltip from "./LightTooltip";
 
 const pages = ["Guide", "Explore Data", "Data at a glance", "Data Access", "Use Cases", "Resources", "About Us"];
 const pageid = ["guide", "exploredata", "adaptationataglance", "access", "usecase", "resources", "about"];
@@ -241,36 +242,42 @@ function ResponsiveAppBar({}) {
               <Box display="flex" justifyContent="right" sx={{ flexGrow: 0.97, display: { xs: "none", md: "flex" } }}>
                 <ToggleButtonGroup value={flag} exclusive onChange={handleClick}>
                   {pages.map((page, index) => (
-                    <div>
+                    <div key={pageid[index]}>
                       {page !== "Data at a glance" && page !== "Explore Data" && (
-                        <MyButton
-                          value={pageid[index]}
-                          sx={{
-                            "paddingRight": 2,
-                            "paddingLeft": 2,
-                            "paddingTop": 1,
-                            "paddingBottom": 1,
-                            "&.Mui-disabled": {
-                              backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#3a3f45" : "#e0e0e0"),
-                              color: (theme) => (theme.palette.mode === "dark" ? "#7d848b" : "#9e9e9e"),
-                              cursor: "not-allowed",
-                            },
-                          }}
-                          key={pageid[index]}
-                          href={"/#/".concat(pageid[index])}
-                          disabled={page === "Guide"}
-                        >
-                          <Typography
-                            textAlign="center"
-                            sx={{
-                              fontSize: "14px",
-                              fontWeight: 700,
-                              fontFamily: "Karla",
-                            }}
-                          >
-                            <div>{page}</div>
-                          </Typography>
-                        </MyButton>
+                        <LightTooltip title={page === "Guide" ? "To be updated soon" : ""}>
+                          <span>
+                            {" "}
+                            {/* Wrapping the disabled button in a span for interaction */}
+                            <MyButton
+                              value={pageid[index]}
+                              sx={{
+                                "paddingRight": 2,
+                                "paddingLeft": 2,
+                                "paddingTop": 1,
+                                "paddingBottom": 1,
+                                "&.Mui-disabled": {
+                                  backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#3a3f45" : "#e0e0e0"),
+                                  color: (theme) => (theme.palette.mode === "dark" ? "#7d848b" : "#9e9e9e"),
+                                  cursor: "not-allowed",
+                                },
+                              }}
+                              key={pageid[index]}
+                              href={"/#/".concat(pageid[index])}
+                              disabled={page === "Guide"}
+                            >
+                              <Typography
+                                textAlign="center"
+                                sx={{
+                                  fontSize: "14px",
+                                  fontWeight: 700,
+                                  fontFamily: "Karla",
+                                }}
+                              >
+                                <div>{page}</div>
+                              </Typography>
+                            </MyButton>
+                          </span>
+                        </LightTooltip>
                       )}
 
                       {page === "Explore Data" && (
