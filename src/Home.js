@@ -73,30 +73,67 @@ const SleekTooltip = styled(({ className, ...props }) => <Tooltip {...props} cla
   },
 }));
 
+/* Increase the resilience of small-scale producers to climate variability and change
+Increase the quality, availability, and utility of data and evidence
+Improve climate adaptive capacity of agricultural systems
+*/
+
 var items = [
   {
     name: "Atlas of Climate Adaptation in South Asian Agriculture",
     description: "Interconnections between climate risks, practices, technologies, and policies",
-    type: "Increase the quality, availability, and utility of data and evidence",
-    video: "./vid31.mp4",
-    videothumb: "./thumb31.jpg",
+    type: "Increase the resilience of small-scale producers to climate variability and change",
+    video: "./Home_imgs/Nepal CG.JPG",
+    videothumb: "./Home_imgs/Nepal CG.jpg",
     id: 1,
   },
   {
     name: "Atlas of Climate Adaptation in South Asian Agriculture",
     description: "Interconnections between climate risks, practices, technologies, and policies",
-    type: "Improve climate adaptive capacity of agricultural systems",
-    video: "./vid5.mp4",
-    videothumb: "./thumb5.jpg",
+    type: "Increase the resilience of small-scale producers to climate variability and change",
+    video: "./vid31.mp4",
+    videothumb: "./thumb31.jpg",
     id: 2,
   },
   {
     name: "Atlas of Climate Adaptation in South Asian Agriculture",
     description: "Interconnections between climate risks, practices, technologies, and policies",
-    type: "Increase the resilience of small-scale producers to climate variability and change",
+    type: "Increase the quality, availability, and utility of data and evidence",
+    video: "./Home_imgs/2264406732_3cecc0db1d_o.JPG",
+    videothumb: "./Home_imgs/2264406732_3cecc0db1d_o.jpg",
+    id: 3,
+  },
+  {
+    name: "Atlas of Climate Adaptation in South Asian Agriculture",
+    description: "Interconnections between climate risks, practices, technologies, and policies",
+    type: "Increase the quality, availability, and utility of data and evidence",
+    video: "./vid5.mp4",
+    videothumb: "./thumb5.jpg",
+    id: 4,
+  },
+  {
+    name: "Atlas of Climate Adaptation in South Asian Agriculture",
+    description: "Interconnections between climate risks, practices, technologies, and policies",
+    type: "Improve climate adaptive capacity of agricultural systems",
+    video: "./Home_imgs/CGIAR (2).JPG",
+    videothumb: "./Home_imgs/CGIAR (2).jpg",
+    id: 5,
+  },
+  {
+    name: "Atlas of Climate Adaptation in South Asian Agriculture",
+    description: "Interconnections between climate risks, practices, technologies, and policies",
+    type: "Improve climate adaptive capacity of agricultural systems",
     video: "./vid41.mp4",
     videothumb: "./thumb41.jpg",
-    id: 3,
+    id: 6,
+  },
+  {
+    name: "Atlas of Climate Adaptation in South Asian Agriculture",
+    description: "Interconnections between climate risks, practices, technologies, and policies",
+    type: "Improve climate adaptive capacity of agricultural systems",
+    video: "./Home_imgs/28474558493_9ac0292ca6_o.JPG",
+    videothumb: "./Home_imgs/28474558493_9ac0292ca6_o.jpg",
+    id: 7,
   },
 ];
 
@@ -508,7 +545,7 @@ function Item(props) {
               mr: -3,
             })}
           >
-            <Slide direction="right" in={props.sts === props.item.id} timeout={500} mountOnEnter unmountOnExit>
+            <Slide direction="right" in={true} timeout={500} mountOnEnter unmountOnExit>
               <Typography variant="h6" sx={(theme) => ({ ml: 9, mr: 3, color: theme.palette.mode === "dark" ? "#000000" : "#ffffff" })}>
                 {props.item.type}
               </Typography>
