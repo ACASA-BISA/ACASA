@@ -1843,19 +1843,25 @@ export default function MApp({
         const isDistrict = activeScale === "District Level";
         const midPath = isDistrict ? "/District/" + activeScenario + "/District_" : "/" + activeScenario + "/";
 
+        const scenarioLower = activeScenario.toLowerCase(); // <-- normalize for comparison
+
         const getUrl = (prefix) => {
-          return basePath + midPath + prefix + activeCrop + "_" + optcode[activeOpt] + (activeScenario === "baseline" ? "_baseline.tif" : "_" + activeScenario + ".tif");
+          return basePath + midPath + prefix + activeCrop + "_" + optcode[activeOpt] + (scenarioLower === "baseline" ? "_baseline.tif" : "_" + activeScenario + ".tif");
         };
 
         if (checkcrop2() === false) {
-          if (activeScenario === "baseline") {
+          if (scenarioLower === "baseline") {
             urlstr = isDistrict
               ? basePath + "/District/Baseline/District_Baseline_CHC_" + activeCrop + "_" + optcode[activeOpt] + ".tif"
               : basePath + "/Baseline/Baseline_CHC_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
-          } else {
+          } else if (scenarioLower === "ssp245") {
             urlstr = isDistrict
-              ? basePath + "/District/" + activeScenario + "/District_" + activeScenario + "_CHC_" + activeCrop + "_" + optcode[activeOpt] + ".tif"
-              : basePath + "/" + activeScenario + "/" + activeScenario + "_CHC_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+              ? basePath + "/District/SSP245/District_SSP245_CHC_" + activeCrop + "_" + optcode[activeOpt] + ".tif"
+              : basePath + "/SSP245/SSP245_CHC_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+          } else if (scenarioLower === "ssp585") {
+            urlstr = isDistrict
+              ? basePath + "/District/SSP585/District_SSP585_CHC_" + activeCrop + "_" + optcode[activeOpt] + ".tif"
+              : basePath + "/SSP585/SSP585_CHC_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
           }
         } else {
           if (activeOptLayer["Scalability"]) {
@@ -1877,8 +1883,8 @@ export default function MApp({
             urlstr = getUrl("Economic_");
             opt = 222;
           } else if (activeOptLayer["Adaptation Benefits"]) {
-            if (activeScenario === "baseline") {
-              urlstr = "./Impact/" + activeCrop + "_Productivity_" + activeScenario + ".tif";
+            if (scenarioLower === "baseline") {
+              urlstr = "./Impact/" + activeCrop + "_Productivity_baseline.tif";
               opt = 222;
             } else {
               urlstr = getUrl("Adaptation_");
@@ -1891,7 +1897,10 @@ export default function MApp({
         }
 
         settiffFilePath(urlstr);
-        source1 = new GeoTIFF({ sources: [{ url: urlstr }], sourceOptions: { allowFullFile: true } });
+        source1 = new GeoTIFF({
+          sources: [{ url: urlstr }],
+          sourceOptions: { allowFullFile: true },
+        });
       } else if (CurrRisk !== "") {
         opt = 3;
         let urlstr = "xyz.tif";
