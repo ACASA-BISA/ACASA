@@ -83,6 +83,10 @@ const glossaryData = {
         "Crop insurance service refers to the provision of insurance coverage to farmers against losses incurred due to crop failure, damage, or yield reductions caused by weather-related events such as droughts, floods, storms, and pests",
     },
     {
+      term: "Crop water deficit index",
+      definition: "It is an agricultural drought indicator that quantifies the water deficit experienced by crops by integrating the balance between crop water supply and demand rather than relying solely on precipitation data."
+    },
+    {
       term: "Commodity specific analysis",
       definition: "The analysis is done separately for each commodity",
     },
@@ -149,10 +153,6 @@ const glossaryData = {
     {
       term: "Early sowing/changing planting dates",
       definition: "A tactical farming practice to synchronize crop planting with the optimal climatic conditions essential for key growth stages of crop",
-    },
-    {
-      term: "Economic development indicator",
-      definition: "Socio-economic development indicator represented by the Human Development Index from https://www.mosaiks.org/hdi",
     },
     {
       term: "Economic viability",
@@ -407,6 +407,10 @@ const glossaryData = {
     {
       term: "SSP 5-8.5",
       definition: "A high-emission scenario combining the fossil-fueled development pathway (SSP5) with a radiative forcing level of 8.5 W/m² by 2100. It assumes rapid economic growth driven by heavy reliance on fossil fuels and limited climate policies.",
+    },
+        {
+      term: "Socio-economic development indicator",
+      definition: "Socio-economic development indicator represented by the Human Development Index from https://www.mosaiks.org/hdi",
     },
     {
       term: "Stress-tolerant varieties",

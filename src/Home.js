@@ -83,8 +83,8 @@ var items = [
     name: "Atlas of Climate Adaptation in South Asian Agriculture",
     description: "Interconnections between climate risks, practices, technologies, and policies",
     type: "Increase the resilience of small-scale producers to climate variability and change",
-    video: "./Home_imgs/Nepal CG.JPG",
-    videothumb: "./Home_imgs/Nepal CG.JPG",
+    video: "./Home_imgs/Nepal CG.jpg",
+    videothumb: "./Home_imgs/Nepal CG.jpg",
     id: 1,
   },
   {
@@ -99,8 +99,8 @@ var items = [
     name: "Atlas of Climate Adaptation in South Asian Agriculture",
     description: "Interconnections between climate risks, practices, technologies, and policies",
     type: "Increase the quality, availability, and utility of data and evidence",
-    video: "./Home_imgs/India.JPG",
-    videothumb: "./Home_imgs/India.JPG",
+    video: "./Home_imgs/India.jpg",
+    videothumb: "./Home_imgs/India.jpg",
     id: 3,
   },
   {
@@ -115,8 +115,8 @@ var items = [
     name: "Atlas of Climate Adaptation in South Asian Agriculture",
     description: "Interconnections between climate risks, practices, technologies, and policies",
     type: "Improve climate adaptive capacity of agricultural systems",
-    video: "./Home_imgs/IMG_3188.JPG",
-    videothumb: "./Home_imgs/IMG_3188.JPG",
+    video: "./Home_imgs/IMG_3188.jpg",
+    videothumb: "./Home_imgs/IMG_3188.jpg",
     id: 5,
   },
   {
@@ -131,8 +131,8 @@ var items = [
     name: "Atlas of Climate Adaptation in South Asian Agriculture",
     description: "Interconnections between climate risks, practices, technologies, and policies",
     type: "Improve climate adaptive capacity of agricultural systems",
-    video: "./Home_imgs/CIMMYT (7).JPG",
-    videothumb: "./Home_imgs/CIMMYT (7).JPG",
+    video: "./Home_imgs/CIMMYT (7).jpg",
+    videothumb: "./Home_imgs/CIMMYT (7).jpg",
     id: 7,
   },
 ];

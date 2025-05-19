@@ -392,7 +392,7 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
 
   const switchvul_Livestock = ["Feed/Fodder", "Income", "Socio-economic Development Indicator", "Rural infrastructure"];
   const switchvul_LivestockID = ["CROPRES", "GDP", "HDI", "ROAD"];
-  const switchvul_Livestock_Popup = ["Feed/Fodder", "Income", "Socio-economic Development Indicator", "Rural infrastructure"];
+  const switchvul_Livestock_Popup = ["Amount of cereal crop residue used for animals per grid, based on 2021 global data from Smerald et al., 2023.", "Agricultural Gross Domestic Product data from the World Bank’s Global Gridded AgGDP dataset.", "Socio-economic development indicator sourced from Mosaiks' HDI dataset.", "Represented using nightlight luminosity data, as a proxy, from the referenced MDPI study."];
 
   const switchvul_Fisheries = [];
   const switchvul_FisheriesID = [];

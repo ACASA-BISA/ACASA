@@ -685,7 +685,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
               >
                 <span>
                   Number of {commodity.toLowerCase()}
-                  {commodity === "Sheep" || commodity === "Cattle" ? "" : "s"}, million
+                  {commodity === "Buffalo" ? "es" : commodity === "Sheep" || commodity === "Cattle" ? "" : "s"}, million
                 </span>
               </Typography>
             </Box>

@@ -10,7 +10,7 @@ import JSZip from "jszip";
 //import { create } from "ol/transform";
 //import { disable } from "ol/rotationconstraint";
 
-// Mapping for different layer types
+// Mapping for different layer types, ***THESE ARE NOT SAME AS THE OPTCODE AND HAZARDNAMES IN OTHER SECTIONS***
 const layerMappings = {
   // Mapping of adaptation MenuItems to codes
   optcode: {
@@ -41,47 +41,6 @@ const layerMappings = {
     "Manure Management": "MNMGT",
     "Information Use": "INFO",
     "Heat Stress Management": "HSMGT",
-
-    // Newly added entries
-    /*"Micro climate modification-sheds": "Shelter1",
-    "Modification of shelter": "Shelter2",
-    "Planting of trees": "Shelter3",
-    "Heating management": "Shelter4",
-    "Mechanical cooling": "Shelter5",
-    "Modify sheds, planting trees, bathing, and mechanical cooling, wallowing": "Shelter6",
-    "Modify shelters": "Shelter7",
-    "Shelter for natural hazards": "Shelter8",
-    "Modify sheds, planting trees, ventilation, roof height": "Shelter9",
-    "Modify sheds, planting trees, bathing, and mechanical cooling": "Shelter10",
-
-    "Fat supplementation": "Feed1",
-    "Protein and amino acid supplementation": "Feed2",
-    "Ad lib water": "Feed3",
-    "Feed additives, electrolyte, antioxidants, vitamins and probiotics": "Feed4",
-    "Modification in feeding pattern, schedule and space": "Feed5",
-    "Balanced concentrate with buffer, feed additives, antioxidants, vitamins and probiotics": "Feed6",
-    "Mineral mixture supplementation": "Feed7",
-    "Modification in feeding pattern, schedule": "Feed8",
-    "Mineral mixture supplementation, bypass proteins and fats": "Feed9",
-    "Modification in feeding pattern, schedule, grazing": "Feed10",
-    "Grassland and Silvi-pasture management": "Feed11",
-    "Fodder conservation": "Feed12",
-    "Inclusion of green fodder": "Feed13",
-
-    "Parasite control": "Health1",
-    "Thinning of flock": "Health2",
-    "Vaccination": "Health3",
-    "Deworming": "Health4",
-    "Control of ectoparasites and other vectors": "Health5",
-
-    "Adoption of climate resilient breed/strain": "Resilient1",
-    "Adoption of climate resilient breeds": "Resilient2",
-
-    "Reproductive management: Use of ART tools": "Reproductivemngt1",
-    "Reproductive management: Estrous confirmation and synchronisation": "Reproductivemngt2",
-
-    "Climate information services and safety nets": "Safetynet",
-    "Diversification": "Diversify",*/
 
     "Micro climate": "Micro climate",
     "For natural hazards": "For natural hazards",
@@ -128,23 +87,23 @@ const layerMappings = {
     "Low temperature induced spikelet sterility": "Low temperature induced spikelet sterility",
     "Low temperature induced pollen sterility": "Low temperature induced pollen sterility",
     "High temperature induced pollen sterility": "High temperature induced pollen sterility",
-    "Heat Stress": "Heat stress",
+    "Heat stress": "Heat stress",
     "High temperature induced spikelet sterility": "High temperature induced spikelet sterility",
-    "Cold Stress": "Cold stress",
+    "Cold stress": "Cold stress",
     "Low temperature induced tuberization failure": "Low temperature induced tuberization failure",
-    "Untimely Rainfall": "Untimely rainfall",
-    "Terminal Heat": "Terminal heat",
-    "Days of Frost": "Days of frost",
-    "Excess Rainfall and Waterlogging": "Excess rain and waterlogging",
-    "Delayed Monsoon": "Delayed monsoon",
+    "Untimely rainfall": "Untimely rainfall",
+    "Terminal heat": "Terminal heat",
+    "Days of frost": "Days of frost",
+    "Excess rainfall and waterlogging": "Excess rain and waterlogging",
+    "Delayed monsoon": "Delayed monsoon",
     "Crop water deficit index": "Crop water deficit index",
-    "Dry Spell": "Number of dry spells",
+    "Dry spell": "Number of dry spells",
     "Flood": "Flood",
     "Soil Organic Carbon": "Soil organic carbon",
     "Lodging": "Rain and wind causing lodging",
     "Biotic": "High humidity and temperature for blight",
     "Irrigation": "Irrigation",
-    "Volumetric Soil Water": "Water holding capacity",
+    "Volumetric soil water": "Water holding capacity",
     "Income": "Agricultural GDP",
     "Access to Credit": "Access to Credit",
     "Access to Market": "Access to Market",
@@ -152,9 +111,9 @@ const layerMappings = {
     "Access to Knowledge": "Access to Knowledge",
     "Exposure Index": "Exposure Index",
     "Number of Farmers": "Number of Farmers",
-    "Cropped Area": "Extent",
-    "Excess Rainfall": "Excess rainfall",
-    "Number of Animals per grid": "Number of animals per grid",
+    "Cropped area": "Extent",
+    "Excess rainfall": "Excess rainfall",
+    "Number of animals per grid": "Number of animals per grid",
     "Cold stress in reproductive stage": "Cold stress in reproductive stage",
     "Heat stress in reproductive stage": "Heat stress in reproductive stage",
     "Heat stress during boll formation": "Heat stress during boll formation",
@@ -162,15 +121,20 @@ const layerMappings = {
     "High tempearture during flowering": "High tempearture during flowering",
     "Biotic Stress": "Biotic stress",
     "Vulnerability Index": "Vulnerability Index",
-    "Feed/Fodder": "Residue",
+    "Feed-Fodder": "Residue",
     "Rural infrastructure": "Rural Infra",
     "Cyclone": "Cyclone",
     "Rainfall Deficit": "Rainfall deficit",
+    "Rainfall Deficit index": "Rainfall deficit",
+    "Rainfall Deficit Index": "Rainfall deficit",
     "Extreme Rainfall days": "Extreme Rainfall Days",
     "Cold days": "Cold Stress",
     "Hot days": "Heat stress or hot days",
     "Temperature-Humidity Index": "THI",
-    "Socio-economic Development Indicator": "Human development index",
+    "Socio-economic development indicator": "Human development index",
+    "Seasonal Rainfall": "Seasonal Rainfall",
+    "Maximum Temperature": "Maximum Temperature",
+    "Minimum Temperature": "Minimum Temperature",
   },
 };
 
@@ -204,7 +168,7 @@ const data = [
 
   // BASELINE HAZARD
 
-  createData("Rice", "Baseline", "Hazard", "Heat Stress", "", "", "Download"),
+  createData("Rice", "Baseline", "Hazard", "Heat stress", "", "", "Download"),
   createData("Rice", "Baseline", "Hazard", "High temperature induced pollen sterility", "", "", "Download"),
   createData("Rice", "Baseline", "Hazard", "Low temperature induced pollen sterility", "", "", "Download"),
   createData("Rice", "Baseline", "Hazard", "Delayed monsoon", "Number of events of delayed monsoon where delay is more than 15 days", "https://www.chc.ucsb.edu/data/chirps", "Download"),
@@ -339,7 +303,7 @@ const data = [
 
   // SSP245 HAZARD
 
-  createData("Rice", "SSP245", "Hazard", "Heat Stress", "", "", "Download"),
+  createData("Rice", "SSP245", "Hazard", "Heat stress", "", "", "Download"),
   createData("Rice", "SSP245", "Hazard", "High temperature induced pollen sterility", "", "", "Download"),
   createData("Rice", "SSP245", "Hazard", "Low temperature induced pollen sterility", "", "", "Download"),
   createData("Rice", "SSP245", "Hazard", "Delayed monsoon", "", "", "Download"),
@@ -457,7 +421,7 @@ const data = [
 
   // SSP585 HAZARD
 
-  createData("Rice", "SSP585", "Hazard", "Heat Stress", "", "", "Download"),
+  createData("Rice", "SSP585", "Hazard", "Heat stress", "", "", "Download"),
   createData("Rice", "SSP585", "Hazard", "High temperature induced pollen sterility", "", "", "Download"),
   createData("Rice", "SSP585", "Hazard", "Low temperature induced pollen sterility", "", "", "Download"),
   createData("Rice", "SSP585", "Hazard", "Delayed monsoon", "", "", "Download"),
@@ -1547,7 +1511,9 @@ export default function Description() {
                     title={item.Title}
                     description={item.Description}
                     source={item.Source}
-                    imgSrc={`Data_access_compressed/${item.LayerType}/${item.Commodity}/CHC/${item.Scenario}/${item.Scenario}_CHC_${item.Commodity}_${item.Title.replaceAll(" ", "%20")}.png`}
+                    imgSrc={`Data_access_compressed/${item.LayerType}/${item.Commodity}/CHC/${item.Scenario}/${item.Scenario}_CHC_${item.Commodity}_${encodeURIComponent(
+                      layerMappings.hazardname[item.Title]
+                    )}.png`}
                     buttonText={item.Action}
                     onButtonClick={() => handleIndividualDownload(item)}
                   />

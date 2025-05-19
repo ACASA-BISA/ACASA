@@ -1058,38 +1058,36 @@ export default function MApp({
 
   useEffect(() => {
     if (!ref.current || !mapRef.current) return;
-  
+
     const sourcemap = new TileJSON({
-      url: mode === "dark"
-        ? `https://api.maptiler.com/maps/dataviz-dark/tiles.json?key=${key}`
-        : `https://api.maptiler.com/maps/bright-v2/tiles.json?key=${key}`,
+      url: mode === "dark" ? `https://api.maptiler.com/maps/dataviz-dark/tiles.json?key=${key}` : `https://api.maptiler.com/maps/bright-v2/tiles.json?key=${key}`,
       tileSize: 512,
       crossOrigin: "anonymous",
     });
-  
+
     const BingMapNew = new TileLayer2({
       source: sourcemap,
       opacity: 0.9,
       zIndex: 10,
     });
-  
+
     const layers = mapRef.current.getLayers().getArray();
-  
+
     layers.forEach((layer) => {
       if (layer && typeof layer.getSource === "function" && layer.getSource() instanceof TileJSON) {
         mapRef.current.removeLayer(layer);
       }
     });
-  
+
     mapRef.current.addLayer(BingMapNew);
   }, [mode]);
 
   useEffect(() => {
     const container = document.getElementById("popup2");
     const content = document.getElementById("popup-content2");
-  
+
     if (!container || !content || !ref.current) return;
-  
+
     const overlay = new Overlay({
       element: container,
       autoPan: {
@@ -1098,19 +1096,15 @@ export default function MApp({
         },
       },
     });
-  
+
     if (!mapRef.current) {
       mapRef.current = new Map({
-        controls: [
-          new FullScreen({ className: "ol-fullscreen-comp" }),
-          new Zoom({ className: "ol-zoom-comp" }),
-          new ZoomToExtent({ extent: defext, className: "ol-zoomtoextent-comp" }),
-        ],
+        controls: [new FullScreen({ className: "ol-fullscreen-comp" }), new Zoom({ className: "ol-zoom-comp" }), new ZoomToExtent({ extent: defext, className: "ol-zoomtoextent-comp" })],
         target: ref.current,
         view: ViewV,
       });
     }
-  
+
     const featureOverlay = new VectorLayer({
       source: new VectorSource(),
       map: mapRef.current,
@@ -1121,38 +1115,38 @@ export default function MApp({
         }),
       ],
     });
-  
+
     let highlight;
-  
+
     const display_state = (pixel) => {
       const feature = mapRef.current.forEachFeatureAtPixel(pixel, (feature) => feature);
       let state = feature?.get("D_NAME_1") || feature?.get("STATE") || null;
-  
+
       if (feature !== highlight) {
         if (highlight) featureOverlay.getSource().removeFeature(highlight);
         if (feature && state) featureOverlay.getSource().addFeature(feature);
         highlight = feature;
       }
-  
+
       return state;
     };
-  
+
     function getCentroidOfPolygon(geometry) {
       const extent = geometry.getExtent();
       return [(extent[0] + extent[2]) / 2, (extent[1] + extent[3]) / 2];
     }
-  
+
     const LocationofEvent = (pixel) => {
       const feature = mapRef.current.forEachFeatureAtPixel(pixel, (feature) => feature);
       return feature ? getCentroidOfPolygon(feature.getGeometry()) : null;
     };
-  
+
     mapRef.current.on("pointermove", (evt) => {
       if (evt.dragging) return;
-  
+
       const pixel = mapRef.current.getEventPixel(evt.originalEvent);
       const contentofbox = display_state(pixel);
-  
+
       if (contentofbox) {
         content.innerHTML = contentofbox.toLowerCase();
         overlay.setPosition(LocationofEvent(pixel));
@@ -1161,11 +1155,10 @@ export default function MApp({
         mapRef.current.removeOverlay(overlay);
       }
     });
-  
+
     mapRef.current.updateSize();
   }, [ref, mapRef]);
-  
-  
+
   /*useEffect(() => {
     const container = document.getElementById("popup2");
     const content = document.getElementById("popup-content2");
@@ -1745,7 +1738,7 @@ export default function MApp({
 
     // Fetching files for commodity specific analysis
     if (exploreType === "Commodity") {
-      if (activeOpt !== "") {
+      /*if (activeOpt !== "") {
         opt = 333;
         let urlstr = "xyz.tif";
 
@@ -1840,6 +1833,63 @@ export default function MApp({
         }
         //console.log(urlstr);
         //console.log(activeOptLayer);
+        settiffFilePath(urlstr);
+        source1 = new GeoTIFF({ sources: [{ url: urlstr }], sourceOptions: { allowFullFile: true } });
+      }*/
+      if (activeOpt !== "") {
+        opt = 333;
+        let urlstr = "xyz.tif";
+        const basePath = "./Adap/" + activeCrop + "/" + modelName;
+        const isDistrict = activeScale === "District Level";
+        const midPath = isDistrict ? "/District/" + activeScenario + "/District_" : "/" + activeScenario + "/";
+
+        const getUrl = (prefix) => {
+          return basePath + midPath + prefix + activeCrop + "_" + optcode[activeOpt] + (activeScenario === "baseline" ? "_baseline.tif" : "_" + activeScenario + ".tif");
+        };
+
+        if (checkcrop2() === false) {
+          if (activeScenario === "baseline") {
+            urlstr = isDistrict
+              ? basePath + "/District/Baseline/District_Baseline_CHC_" + activeCrop + "_" + optcode[activeOpt] + ".tif"
+              : basePath + "/Baseline/Baseline_CHC_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+          } else {
+            urlstr = isDistrict
+              ? basePath + "/District/" + activeScenario + "/District_" + activeScenario + "_CHC_" + activeCrop + "_" + optcode[activeOpt] + ".tif"
+              : basePath + "/" + activeScenario + "/" + activeScenario + "_CHC_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
+          }
+        } else {
+          if (activeOptLayer["Scalability"]) {
+            urlstr = getUrl("Scalability_");
+            opt = 222;
+          } else if (activeOptLayer["Gender"]) {
+            urlstr = getUrl("Gender_");
+            opt = 777;
+          } else if (activeOptLayer["Female labourer suitability"]) {
+            urlstr = getUrl("Labour_");
+            opt = 777;
+          } else if (activeOptLayer["Female cultivator suitability"]) {
+            urlstr = getUrl("Cultivator_");
+            opt = 777;
+          } else if (activeOptLayer["Yield"]) {
+            urlstr = getUrl("Yield_");
+            opt = 222;
+          } else if (activeOptLayer["Economic"]) {
+            urlstr = getUrl("Economic_");
+            opt = 222;
+          } else if (activeOptLayer["Adaptation Benefits"]) {
+            if (activeScenario === "baseline") {
+              urlstr = "./Impact/" + activeCrop + "_Productivity_" + activeScenario + ".tif";
+              opt = 222;
+            } else {
+              urlstr = getUrl("Adaptation_");
+              opt = 444;
+            }
+          } else {
+            // Default fallback to Suitability
+            urlstr = getUrl("Suitability_");
+          }
+        }
+
         settiffFilePath(urlstr);
         source1 = new GeoTIFF({ sources: [{ url: urlstr }], sourceOptions: { allowFullFile: true } });
       } else if (CurrRisk !== "") {
@@ -2122,7 +2172,7 @@ export default function MApp({
           sourceOptions: { allowFullFile: true },
         });
       }
-  
+
       source1.on("change", function () {
         const state = source1.getState();
         if (state === "error") {
