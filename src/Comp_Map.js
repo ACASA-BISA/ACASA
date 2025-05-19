@@ -1838,61 +1838,155 @@ export default function MApp({
       }*/
       if (activeOpt !== "") {
         opt = 333;
-        let urlstr = "xyz.tif";
-        const basePath = "./Adap/" + activeCrop + "/" + modelName;
         const isDistrict = activeScale === "District Level";
-        const midPath = isDistrict ? "/District/" + activeScenario + "/District_" : "/" + activeScenario + "/";
+        let urlstr = "xyz.tif";
 
-        const scenarioLower = activeScenario.toLowerCase(); // <-- normalize for comparison
-
-        const getUrl = (prefix) => {
-          return basePath + midPath + prefix + activeCrop + "_" + optcode[activeOpt] + (scenarioLower === "baseline" ? "_baseline.tif" : "_" + activeScenario + ".tif");
-        };
+        if (activeScenario === "baseline") {
+          urlstr = isDistrict
+            ? `./Adap/${activeCrop}/${modelName}/District/Baseline/District_Suitability_${activeCrop}_${optcode[activeOpt]}_baseline.tif`
+            : `./Adap/${activeCrop}/${modelName}/Baseline/Suitability_${activeCrop}_${optcode[activeOpt]}_baseline.tif`;
+        } else if (activeScenario === "ssp245") {
+          urlstr = isDistrict
+            ? `./Adap/${activeCrop}/${modelName}/District/SSP245/District_Suitability_${activeCrop}_${optcode[activeOpt]}_ssp245.tif`
+            : `./Adap/${activeCrop}/${modelName}/SSP245/Suitability_${activeCrop}_${optcode[activeOpt]}_ssp245.tif`;
+        } else {
+          urlstr = isDistrict
+            ? `./Adap/${activeCrop}/${modelName}/District/SSP585/District_Suitability_${activeCrop}_${optcode[activeOpt]}_ssp585.tif`
+            : `./Adap/${activeCrop}/${modelName}/SSP585/Suitability_${activeCrop}_${optcode[activeOpt]}_ssp585.tif`;
+        }
 
         if (checkcrop2() === false) {
-          if (scenarioLower === "baseline") {
+          if (activeScenario === "baseline") {
             urlstr = isDistrict
-              ? basePath + "/District/Baseline/District_Baseline_CHC_" + activeCrop + "_" + optcode[activeOpt] + ".tif"
-              : basePath + "/Baseline/Baseline_CHC_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
-          } else if (scenarioLower === "ssp245") {
+              ? `./Adap/${activeCrop}/${modelName}/District/Baseline/District_Baseline_CHC_${activeCrop}_${optcode[activeOpt]}.tif`
+              : `./Adap/${activeCrop}/${modelName}/Baseline/Baseline_CHC_${activeCrop}_${optcode[activeOpt]}.tif`;
+          } else if (activeScenario === "ssp245") {
             urlstr = isDistrict
-              ? basePath + "/District/SSP245/District_SSP245_CHC_" + activeCrop + "_" + optcode[activeOpt] + ".tif"
-              : basePath + "/SSP245/SSP245_CHC_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
-          } else if (scenarioLower === "ssp585") {
-            urlstr = isDistrict
-              ? basePath + "/District/SSP585/District_SSP585_CHC_" + activeCrop + "_" + optcode[activeOpt] + ".tif"
-              : basePath + "/SSP585/SSP585_CHC_" + activeCrop + "_" + optcode[activeOpt] + ".tif";
-          }
-        } else {
-          if (activeOptLayer["Scalability"]) {
-            urlstr = getUrl("Scalability_");
-            opt = 222;
-          } else if (activeOptLayer["Gender"]) {
-            urlstr = getUrl("Gender_");
-            opt = 777;
-          } else if (activeOptLayer["Female labourer suitability"]) {
-            urlstr = getUrl("Labour_");
-            opt = 777;
-          } else if (activeOptLayer["Female cultivator suitability"]) {
-            urlstr = getUrl("Cultivator_");
-            opt = 777;
-          } else if (activeOptLayer["Yield"]) {
-            urlstr = getUrl("Yield_");
-            opt = 222;
-          } else if (activeOptLayer["Economic"]) {
-            urlstr = getUrl("Economic_");
-            opt = 222;
-          } else if (activeOptLayer["Adaptation Benefits"]) {
-            if (scenarioLower === "baseline") {
-              urlstr = "./Impact/" + activeCrop + "_Productivity_baseline.tif";
-              opt = 222;
-            } else {
-              urlstr = getUrl("Adaptation_");
-              opt = 444;
-            }
+              ? `./Adap/${activeCrop}/${modelName}/District/SSP245/District_SSP245_CHC_${activeCrop}_${optcode[activeOpt]}.tif`
+              : `./Adap/${activeCrop}/${modelName}/SSP245/SSP245_CHC_${activeCrop}_${optcode[activeOpt]}.tif`;
           } else {
-            // Default fallback to Suitability
-            urlstr = getUrl("Suitability_");
+            urlstr = isDistrict
+              ? `./Adap/${activeCrop}/${modelName}/District/SSP585/District_SSP585_CHC_${activeCrop}_${optcode[activeOpt]}.tif`
+              : `./Adap/${activeCrop}/${modelName}/SSP585/SSP585_CHC_${activeCrop}_${optcode[activeOpt]}.tif`;
+          }
+        }
+
+        if (activeOptLayer["Scalability"]) {
+          if (activeScenario === "baseline") {
+            urlstr = isDistrict
+              ? `./Adap/${activeCrop}/${modelName}/District/Baseline/District_Scalability_${activeCrop}_${optcode[activeOpt]}_baseline.tif`
+              : `./Adap/${activeCrop}/${modelName}/Baseline/Scalability_${activeCrop}_${optcode[activeOpt]}_baseline.tif`;
+          } else if (activeScenario === "ssp245") {
+            urlstr = isDistrict
+              ? `./Adap/${activeCrop}/${modelName}/District/SSP245/District_Scalability_${activeCrop}_${optcode[activeOpt]}_ssp245.tif`
+              : `./Adap/${activeCrop}/${modelName}/SSP245/Scalability_${activeCrop}_${optcode[activeOpt]}_ssp245.tif`;
+          } else {
+            urlstr = isDistrict
+              ? `./Adap/${activeCrop}/${modelName}/District/SSP585/District_Scalability_${activeCrop}_${optcode[activeOpt]}_ssp585.tif`
+              : `./Adap/${activeCrop}/${modelName}/SSP585/Scalability_${activeCrop}_${optcode[activeOpt]}_ssp585.tif`;
+          }
+          opt = 222;
+        }
+
+        if (activeOptLayer["Gender"]) {
+          if (activeScenario === "baseline") {
+            urlstr = isDistrict
+              ? `./Adap/${activeCrop}/${modelName}/District/Baseline/District_Gender_${activeCrop}_${optcode[activeOpt]}_baseline.tif`
+              : `./Adap/${activeCrop}/${modelName}/Baseline/Gender_${activeCrop}_${optcode[activeOpt]}_baseline.tif`;
+          } else if (activeScenario === "ssp245") {
+            urlstr = isDistrict
+              ? `./Adap/${activeCrop}/${modelName}/District/SSP245/District_Gender_${activeCrop}_${optcode[activeOpt]}_ssp245.tif`
+              : `./Adap/${activeCrop}/${modelName}/SSP245/Gender_${activeCrop}_${optcode[activeOpt]}_ssp245.tif`;
+          } else {
+            urlstr = isDistrict
+              ? `./Adap/${activeCrop}/${modelName}/District/SSP585/District_Gender_${activeCrop}_${optcode[activeOpt]}_ssp585.tif`
+              : `./Adap/${activeCrop}/${modelName}/SSP585/Gender_${activeCrop}_${optcode[activeOpt]}_ssp585.tif`;
+          }
+          opt = 777;
+        }
+
+        if (activeOptLayer["Female labourer suitability"]) {
+          if (activeScenario === "baseline") {
+            urlstr = isDistrict
+              ? `./Adap/${activeCrop}/${modelName}/District/Baseline/District_Labour_${activeCrop}_${optcode[activeOpt]}_baseline.tif`
+              : `./Adap/${activeCrop}/${modelName}/Baseline/Labour_${activeCrop}_${optcode[activeOpt]}_baseline.tif`;
+          } else if (activeScenario === "ssp245") {
+            urlstr = isDistrict
+              ? `./Adap/${activeCrop}/${modelName}/District/SSP245/District_Labour_${activeCrop}_${optcode[activeOpt]}_ssp245.tif`
+              : `./Adap/${activeCrop}/${modelName}/SSP245/Labour_${activeCrop}_${optcode[activeOpt]}_ssp245.tif`;
+          } else {
+            urlstr = isDistrict
+              ? `./Adap/${activeCrop}/${modelName}/District/SSP585/District_Labour_${activeCrop}_${optcode[activeOpt]}_ssp585.tif`
+              : `./Adap/${activeCrop}/${modelName}/SSP585/Labour_${activeCrop}_${optcode[activeOpt]}_ssp585.tif`;
+          }
+          opt = 777;
+        }
+
+        if (activeOptLayer["Female cultivator suitability"]) {
+          if (activeScenario === "baseline") {
+            urlstr = isDistrict
+              ? `./Adap/${activeCrop}/${modelName}/District/Baseline/District_Cultivator_${activeCrop}_${optcode[activeOpt]}_baseline.tif`
+              : `./Adap/${activeCrop}/${modelName}/Baseline/Cultivator_${activeCrop}_${optcode[activeOpt]}_baseline.tif`;
+          } else if (activeScenario === "ssp245") {
+            urlstr = isDistrict
+              ? `./Adap/${activeCrop}/${modelName}/District/SSP245/District_Cultivator_${activeCrop}_${optcode[activeOpt]}_ssp245.tif`
+              : `./Adap/${activeCrop}/${modelName}/SSP245/Cultivator_${activeCrop}_${optcode[activeOpt]}_ssp245.tif`;
+          } else {
+            urlstr = isDistrict
+              ? `./Adap/${activeCrop}/${modelName}/District/SSP585/District_Cultivator_${activeCrop}_${optcode[activeOpt]}_ssp585.tif`
+              : `./Adap/${activeCrop}/${modelName}/SSP585/Cultivator_${activeCrop}_${optcode[activeOpt]}_ssp585.tif`;
+          }
+          opt = 777;
+        }
+
+        if (activeOptLayer["Yield"]) {
+          if (activeScenario === "baseline") {
+            urlstr = isDistrict
+              ? `./Adap/${activeCrop}/${modelName}/District/Baseline/District_Yield_${activeCrop}_${optcode[activeOpt]}_baseline.tif`
+              : `./Adap/${activeCrop}/${modelName}/Baseline/Yield_${activeCrop}_${optcode[activeOpt]}_baseline.tif`;
+          } else if (activeScenario === "ssp245") {
+            urlstr = isDistrict
+              ? `./Adap/${activeCrop}/${modelName}/District/SSP245/District_Yield_${activeCrop}_${optcode[activeOpt]}_ssp245.tif`
+              : `./Adap/${activeCrop}/${modelName}/SSP245/Yield_${activeCrop}_${optcode[activeOpt]}_ssp245.tif`;
+          } else {
+            urlstr = isDistrict
+              ? `./Adap/${activeCrop}/${modelName}/District/SSP585/District_Yield_${activeCrop}_${optcode[activeOpt]}_ssp585.tif`
+              : `./Adap/${activeCrop}/${modelName}/SSP585/Yield_${activeCrop}_${optcode[activeOpt]}_ssp585.tif`;
+          }
+          opt = 222;
+        }
+
+        if (activeOptLayer["Economic"]) {
+          if (activeScenario === "baseline") {
+            urlstr = isDistrict
+              ? `./Adap/${activeCrop}/${modelName}/District/Baseline/District_Economic_${activeCrop}_${optcode[activeOpt]}_baseline.tif`
+              : `./Adap/${activeCrop}/${modelName}/Baseline/Economic_${activeCrop}_${optcode[activeOpt]}_baseline.tif`;
+          } else if (activeScenario === "ssp245") {
+            urlstr = isDistrict
+              ? `./Adap/${activeCrop}/${modelName}/District/SSP245/District_Economic_${activeCrop}_${optcode[activeOpt]}_ssp245.tif`
+              : `./Adap/${activeCrop}/${modelName}/SSP245/Economic_${activeCrop}_${optcode[activeOpt]}_ssp245.tif`;
+          } else {
+            urlstr = isDistrict
+              ? `./Adap/${activeCrop}/${modelName}/District/SSP585/District_Economic_${activeCrop}_${optcode[activeOpt]}_ssp585.tif`
+              : `./Adap/${activeCrop}/${modelName}/SSP585/Economic_${activeCrop}_${optcode[activeOpt]}_ssp585.tif`;
+          }
+          opt = 222;
+        }
+
+        if (activeOptLayer["Adaptation Benefits"]) {
+          if (activeScenario === "baseline") {
+            urlstr = `./Impact/${activeCrop}_Productivity_${activeScenario}.tif`;
+            opt = 222;
+          } else if (activeScenario === "ssp245") {
+            urlstr = isDistrict
+              ? `./Adap/${activeCrop}/${modelName}/District/SSP245/District_Adaptation_${activeCrop}_${optcode[activeOpt]}_ssp245.tif`
+              : `./Adap/${activeCrop}/${modelName}/SSP245/Adaptation_${activeCrop}_${optcode[activeOpt]}_ssp245.tif`;
+            opt = 444;
+          } else {
+            urlstr = isDistrict
+              ? `./Adap/${activeCrop}/${modelName}/District/SSP585/District_Adaptation_${activeCrop}_${optcode[activeOpt]}_ssp585.tif`
+              : `./Adap/${activeCrop}/${modelName}/SSP585/Adaptation_${activeCrop}_${optcode[activeOpt]}_ssp585.tif`;
+            opt = 444;
           }
         }
 
