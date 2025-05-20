@@ -1,5 +1,6 @@
-export function fetchDataAdap(adaption, location, AdaptLayerName, commodity, scenario, area_data3) {
+export function fetchDataAdap(activeScale, adaption, location, AdaptLayerName, commodity, scenario, area_data3) {
   let data = [];
+  let urlstr = "";
 
   const optcode = {
     "Stress tolerant variety": "ADVAR",
@@ -115,6 +116,10 @@ export function fetchDataAdap(adaption, location, AdaptLayerName, commodity, sce
     Population,
   });
 
+  if (activeScale === "District Level") {
+    urlstr = "DISTRICT_";
+  }
+
   if (adaption !== "") {
     let sec = location.indexOf(",");
     let y = "";
@@ -139,10 +144,10 @@ export function fetchDataAdap(adaption, location, AdaptLayerName, commodity, sce
 
       if (["Bangladesh", "Nepal", "Bhutan", "Maldives", "Afghanistan", "India", "Sri Lanka", "Pakistan"].includes(x)) {
         statecode = x === "Bangladesh" ? y.substring(0, y.length - 9) + "DIV" : y + "DIV";
-        rowstr = `${commodity}_${statecode}_${opt_prefix}${optcode[adaption]}_${scenario}`;
+        rowstr = `${commodity}_${statecode}_${urlstr}${opt_prefix}${optcode[adaption]}_${scenario}`;
       }
     } else {
-      rowstr = `Calculated_${commodity}_${location}_${opt_prefix}${optcode[adaption]}_${scenario}`;
+      rowstr = `Calculated_${commodity}_${location}_${urlstr}${opt_prefix}${optcode[adaption]}_${scenario}`;
     }
 
     function checkcrop2() {

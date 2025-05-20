@@ -90,7 +90,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
   let rowshzd = [];
   rowshzd = fetchthedataHzd(activeScale, RiskName, ImpactName, displayLayer, location, scenario, commodity, area_data4);
   if (adaption !== "") {
-    rowshzd = fetchDataAdap(adaption, location, AdaptLayerName, commodity, scenario, area_data3);
+    rowshzd = fetchDataAdap(activeScale, adaption, location, AdaptLayerName, commodity, scenario, area_data3);
   }
 
   function RiskType() {
