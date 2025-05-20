@@ -444,9 +444,9 @@ const Home = (props) => {
                   <img src={"columbia-university.png"} style={logoStyle6} alt="columbia" />
                 </Paper>
               </SleekTooltip>
-              <SleekTooltip title="University of Washington" arrow>
+              <SleekTooltip title="Evans School Policy Analysis and Research (EPAR), University of Washington" arrow>
                 <Paper sx={paperHoverStyle} elevation={0}>
-                  <img src={"south-asia-12.svg"} style={logoStyle8} alt="washington" />
+                  <img src={"Univ of Washington.png"} alt="washington" style={{ width: "90%", height: "auto", objectFit: "contain", display: "block", margin: "0 auto" }} />
                 </Paper>
               </SleekTooltip>
             </Box>

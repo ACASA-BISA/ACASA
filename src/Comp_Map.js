@@ -1975,7 +1975,7 @@ export default function MApp({
 
         if (activeOptLayer["Adaptation Benefits"]) {
           if (activeScenario === "baseline") {
-            urlstr = `./Impact/${activeCrop}_Productivity_${activeScenario}.tif`;
+            urlstr = isDistrict ? `./Impact/District/District_${activeCrop}_Productivity_${activeScenario}.tif` : `./Impact/${activeCrop}_Productivity_${activeScenario}.tif`;
             opt = 222;
           } else if (activeScenario === "ssp245") {
             urlstr = isDistrict
@@ -2057,15 +2057,16 @@ export default function MApp({
           sourceOptions: { allowFullFile: true },
         });
       } else if (activeImpact["Productivity"] || activeImpact["Value of Production"] || activeImpact["Resilience"]) {
+        const isDistrict = activeScale === "District Level";
         let urlstr = "xyz.tif";
         opt = 555;
         if (activeImpact["Productivity"]) {
-          urlstr = "./Impact/" + activeCrop + "_Productivity_" + activeScenario + ".tif";
+          urlstr = isDistrict ? "./Impact/District/" + "District_" + activeCrop + "_Productivity_" + activeScenario + ".tif" : "./Impact/" + activeCrop + "_Productivity_" + activeScenario + ".tif";
         } else if (activeImpact["Resilience"]) {
-          urlstr = "./Impact/" + activeCrop + "_CV_" + activeScenario + ".tif";
+          urlstr = isDistrict ? "./Impact/District/" + "District_" + activeCrop + "_CV_" + activeScenario + ".tif" : "./Impact/" + activeCrop + "_CV_" + activeScenario + ".tif";
           opt = 666;
         } else {
-          urlstr = "./Impact/" + activeCrop + "_VOP_" + activeScenario + ".tif";
+          urlstr = isDistrict ? "./Impact/District/" + "District_" + activeCrop + "_VOP_" + activeScenario + ".tif" : "./Impact/" + activeCrop + "_VOP_" + activeScenario + ".tif";
         }
         settiffFilePath(urlstr);
         source1 = new GeoTIFF({

@@ -392,7 +392,12 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
 
   const switchvul_Livestock = ["Feed/Fodder", "Income", "Socio-economic Development Indicator", "Rural infrastructure"];
   const switchvul_LivestockID = ["CROPRES", "GDP", "HDI", "ROAD"];
-  const switchvul_Livestock_Popup = ["Amount of cereal crop residue used for animals per grid, based on 2021 global data from Smerald et al., 2023.", "Agricultural Gross Domestic Product data from the World Bank’s Global Gridded AgGDP dataset.", "Socio-economic development indicator sourced from Mosaiks' HDI dataset.", "Represented using nightlight luminosity data, as a proxy, from the referenced MDPI study."];
+  const switchvul_Livestock_Popup = [
+    "Amount of cereal crop residue used for animals per grid, based on 2021 global data from Smerald et al., 2023.",
+    "Agricultural Gross Domestic Product data from the World Bank’s Global Gridded AgGDP dataset.",
+    "Socio-economic development indicator sourced from Mosaiks' HDI dataset.",
+    "Represented using nightlight luminosity data, as a proxy, from the referenced MDPI study.",
+  ];
 
   const switchvul_Fisheries = [];
   const switchvul_FisheriesID = [];
@@ -1068,63 +1073,67 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
                             </FormGroup>
                           ))}
                         {checklivestock() === true &&
-                          switchvul_Livestock.map((sn1r, idxr) => (
-                            <FormGroup>
-                              <CustomFormControlLabel
-                                control={
-                                  <AntSwitch
-                                    inputProps={{
-                                      "aria-label": "ant design",
-                                    }}
-                                    checked={P3[switchvul_LivestockID[idxr]]}
-                                    onChange={handleChangeP3(switchvul_LivestockID[idxr])}
-                                    name={switchvul_LivestockID[idxr]}
-                                  />
-                                }
-                                disabled={activeCrop["pig"] && sn1r === "Feed/Fodder" ? true : false}
-                                key={switchvul_LivestockID[idxr]}
-                                label={
-                                  <Typography
-                                    fontSize="13px"
-                                    align="left"
-                                    sx={{
-                                      paddingLeft: "3px",
-                                      maxWidth: "200px",
-                                      wordBreak: "break-word",
-                                      whiteSpace: "normal",
-                                    }}
-                                    style={{ wordWrap: "break-word" }}
-                                  >
-                                    {sn1r.charAt(0).toUpperCase() + sn1r.toLowerCase().slice(1)}
-                                    <LightTooltip
-                                      title={
-                                        <>
-                                          <span>{switchvul_Livestock_Popup[idxr]}</span>
-                                          <br />
-                                          <Link
-                                            href={`#/resources?tab=2&term=${sn1r.toLowerCase()}`}
-                                            target="_blank"
-                                            sx={(theme) => ({
-                                              color: theme.palette.mode === "dark" ? "black" : "white",
-                                              fontWeight: "bold",
-                                            })}
-                                          >
-                                            Read More
-                                          </Link>
-                                        </>
-                                      }
-                                      placement="right"
-                                      arrow
+                          switchvul_Livestock.map((sn1r, idxr) => {
+                            // Skip "Feed/Fodder" if active crop is chicken
+                            if (sn1r === "Feed/Fodder" && activeCrop["chicken"]) return null;
+
+                            return (
+                              <FormGroup key={switchvul_LivestockID[idxr]}>
+                                <CustomFormControlLabel
+                                  control={
+                                    <AntSwitch
+                                      inputProps={{
+                                        "aria-label": "ant design",
+                                      }}
+                                      checked={P3[switchvul_LivestockID[idxr]]}
+                                      onChange={handleChangeP3(switchvul_LivestockID[idxr])}
+                                      name={switchvul_LivestockID[idxr]}
+                                    />
+                                  }
+                                  disabled={activeCrop["pig"] && sn1r === "Feed/Fodder"}
+                                  label={
+                                    <Typography
+                                      fontSize="13px"
+                                      align="left"
+                                      sx={{
+                                        paddingLeft: "3px",
+                                        maxWidth: "200px",
+                                        wordBreak: "break-word",
+                                        whiteSpace: "normal",
+                                      }}
+                                      style={{ wordWrap: "break-word" }}
                                     >
-                                      <IconButton sx={{ padding: 0, margin: 0, paddingX: "4px" }}>
-                                        <InfoOutlinedIcon sx={{ fontSize: "12px", padding: 0, margin: 0 }} />
-                                      </IconButton>
-                                    </LightTooltip>
-                                  </Typography>
-                                }
-                              />
-                            </FormGroup>
-                          ))}
+                                      {sn1r.charAt(0).toUpperCase() + sn1r.toLowerCase().slice(1)}
+                                      <LightTooltip
+                                        title={
+                                          <>
+                                            <span>{switchvul_Livestock_Popup[idxr]}</span>
+                                            <br />
+                                            <Link
+                                              href={`#/resources?tab=2&term=${sn1r.toLowerCase()}`}
+                                              target="_blank"
+                                              sx={(theme) => ({
+                                                color: theme.palette.mode === "dark" ? "black" : "white",
+                                                fontWeight: "bold",
+                                              })}
+                                            >
+                                              Read More
+                                            </Link>
+                                          </>
+                                        }
+                                        placement="right"
+                                        arrow
+                                      >
+                                        <IconButton sx={{ padding: 0, margin: 0, paddingX: "4px" }}>
+                                          <InfoOutlinedIcon sx={{ fontSize: "12px", padding: 0, margin: 0 }} />
+                                        </IconButton>
+                                      </LightTooltip>
+                                    </Typography>
+                                  }
+                                />
+                              </FormGroup>
+                            );
+                          })}
                       </FormControl>
                     )}
                     {P3aipcc[switchIPCCID[idx]] && switchIPCCID[idx] === "risk" && (

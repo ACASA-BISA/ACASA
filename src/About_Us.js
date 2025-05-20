@@ -838,7 +838,7 @@ export default function AboutUs() {
                       textAlign: { sm: "center", md: "center" },
                     }}
                   >
-                    <img src={"south-asia-12.svg"} style={logoStyle4} alt="risk" />
+                    <img src={"Univ of Washington.png"} style={{ width: "90%", height: 40, margin: "auto", marginTop: 40, marginBottom: 20 }} alt="risk" />
                     <Typography
                       sx={(theme) => ({
                         color: theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",
@@ -849,7 +849,7 @@ export default function AboutUs() {
                         marginLeft: 3,
                       })}
                     >
-                      University of Washington, USA
+                      Evans School Policy Analysis and Research (EPAR), University of Washington, USA
                     </Typography>
                   </Box>
                 </Paper>
