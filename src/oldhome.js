@@ -165,28 +165,28 @@ export default function Home(props)
             <Box sx={{width:'100%'}}>
                 <img src={'afghanistan.svg'}
                 style={logoStyle4}
-                alt="afghanistan"/>
+                alt="afghanistan" loading="lazy"/>
                 <img src={'bangladesh.png'}
                 style={logoStyle4}
-                alt="bangladesh"/>
+                alt="bangladesh" loading="lazy"/>
                 <img src={'bhutan.svg'}
                 style={logoStyle4}
-                alt="bhutan"/>
+                alt="bhutan" loading="lazy"/>
                 <img src={'india.png'}
                 style={logoStyle4}
-                alt="india"/>
+                alt="india" loading="lazy"/>
                 <img src={'maldives.svg'}
                 style={logoStyle4}
-                alt="maldives"/>
+                alt="maldives" loading="lazy"/>
                 <img src={'nepal.svg'}
                 style={logoStyle4}
-                alt="nepal"/>
+                alt="nepal" loading="lazy"/>
                 <img src={'pakistan.svg'}
                 style={logoStyle4}
-                alt="pakistan"/>
+                alt="pakistan" loading="lazy"/>
                 <img src={'srilanka.png'}
                 style={logoStyle4}
-                alt="srilanka"/>
+                alt="srilanka" loading="lazy"/>
                 </Box>
                 <Box sx={{marginRight:2,marginLeft:2}}>
                 <Typography>Region of Interest:</Typography>
@@ -205,7 +205,7 @@ export default function Home(props)
             <Box sx={{mt:'20px'}}>
             <img src={'acasa_approach.svg'}
                 style={logoStyle3}
-                alt="approach"/>
+                alt="approach" loading="lazy"/>
             </Box>
             <Box sx={{mt:'20px',backgroundImage:"linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url('world-map.png')",backgroundSize:'cover',
             backgroundRepeat: "no-repeat",display: 'flex', flexDirection: 'row',padding:7,boxShadow:'0px 0px 2px #aaa'}}>
@@ -233,49 +233,49 @@ export default function Home(props)
             <Paper sx={{ m: 1, width: '220px', height:90, alignContent:'center' }} elevation={0}>
             <img src={'barc.png'}
                 style={logoStyle6}
-                alt="barc"/>
+                alt="barc" loading="lazy"/>
             </Paper>
             <Paper sx={{ m: 1, width: '220px', height:90, alignContent:'center' }} elevation={0}>
             <img src={'icar.png'}
                 style={logoStyle6}
-                alt="icar"/>
+                alt="icar" loading="lazy"/>
             </Paper>
             <Paper sx={{ m: 1, width: '220px', height:90, alignContent:'center' }} elevation={0}>
             <img src={'narc.png'}
                 style={logoStyle6}
-                alt="narc"/>
+                alt="narc" loading="lazy"/>
             </Paper>
             <Paper sx={{ m: 1, width: '220px', height:90, alignContent:'center' }} elevation={0}>
             <img src={'nrmc.png'}
                 style={logoStyle6}
-                alt="nrmc"/>
+                alt="nrmc" loading="lazy"/>
             </Paper>
             </Box>
             <Box sx={{display:'flex',flexDirection:'row',width: { xs: '100%', sm: '100%'}, justifyContent:'center' }} gap='0.5vw'>
             <Paper sx={{ m: 1, width: '220px', height:90, alignContent:'center' }} elevation={0}>
             <img src={'bmgf-new.svg'}
                 style={logoStyle7}
-                alt="bmgf"/>
+                alt="bmgf" loading="lazy"/>
             </Paper>
             <Paper sx={{ m: 1, width: '220px', height:90, alignContent:'center' }} elevation={0}>
             <img src={'cimmyt-cgiar.png'}
                 style={logoStyle7}
-                alt="cimmyt"/>
+                alt="cimmyt" loading="lazy"/>
             </Paper>
             <Paper sx={{ m: 1, width: '220px', height:90, alignContent:'center' }} elevation={0}>
             <img src={'south-asia-11.svg'}
                 style={logoStyle7}
-                alt="florida"/>
+                alt="florida" loading="lazy"/>
             </Paper>
             <Paper sx={{ m: 1, width: '220px', height:90, alignContent:'center' }} elevation={0}>
             <img src={'columbia-university.png'}
                 style={logoStyle6}
-                alt="columbia"/>
+                alt="columbia" loading="lazy"/>
             </Paper>
             <Paper sx={{ m: 1, width: '220px', height:90, alignContent:'center' }} elevation={0}>
             <img src={'south-asia-12.svg'}
                 style={logoStyle8}
-                alt="washington"/>
+                alt="washington" loading="lazy"/>
             </Paper>  
             </Box>
             </Box>

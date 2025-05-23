@@ -60,18 +60,18 @@ export default function News() {
           </Typography>
         </Box>
 
-        <Box sx={{ display: "flex", flexDirection: "row", gap: "1.5rem", }}>
+        <Box sx={{ display: "flex", flexDirection: "row", gap: "1.5rem" }}>
           {/* Container for the first news item */}
           <Box
             sx={(theme) => ({
-              backgroundColor: theme.palette.mode === "dark" ? "#1b1f23" : "#f1f1f1",
-              borderRadius: "8px",
-              display: "flex",
-              flexDirection: "column",
-              flex: 1,
-              padding: "16px",
-              alignItems: "center",
-              transition: "background-color 0.3s ease",
+              "backgroundColor": theme.palette.mode === "dark" ? "#1b1f23" : "#f1f1f1",
+              "borderRadius": "8px",
+              "display": "flex",
+              "flexDirection": "column",
+              "flex": 1,
+              "padding": "16px",
+              "alignItems": "center",
+              "transition": "background-color 0.3s ease",
               "&:hover": {
                 backgroundColor: theme.palette.mode === "dark" ? "#2a2f36" : "#e8f5e9",
                 boxShadow: `0px 0px 10px 2px rgba(129, 199, 132, 0.5)`,
@@ -82,6 +82,7 @@ export default function News() {
               {/* Logo for the first news item */}
               <a href={"https://mailchi.mp/cgiar.org/acasa-strides_issue02-bisa-4323746?e=ff48e11d75"} target="_blank" rel="noopener noreferrer">
                 <img
+                  loading="lazy"
                   src={"issue03.PNG"}
                   alt="news"
                   style={{
@@ -156,14 +157,14 @@ export default function News() {
           {/* Container for the second news item */}
           <Box
             sx={(theme) => ({
-              backgroundColor: theme.palette.mode === "dark" ? "#1b1f23" : "#f1f1f1",
-              borderRadius: "8px",
-              display: "flex",
-              flexDirection: "column",
-              flex: 1,
-              padding: "16px",
-              alignItems: "center",
-              transition: "background-color 0.3s ease",
+              "backgroundColor": theme.palette.mode === "dark" ? "#1b1f23" : "#f1f1f1",
+              "borderRadius": "8px",
+              "display": "flex",
+              "flexDirection": "column",
+              "flex": 1,
+              "padding": "16px",
+              "alignItems": "center",
+              "transition": "background-color 0.3s ease",
               "&:hover": {
                 backgroundColor: theme.palette.mode === "dark" ? "#2a2f36" : "#e8f5e9",
                 boxShadow: `0px 0px 10px 2px rgba(129, 199, 132, 0.5)`,
@@ -174,6 +175,7 @@ export default function News() {
               {/* Logo for the first news item */}
               <a href={"https://mailchi.mp/cgiar.org/acasa-strides_issue02-bisa?e=3233d543a1"} target="_blank" rel="noopener noreferrer">
                 <img
+                  loading="lazy"
                   src={"issue02.png"}
                   alt="news"
                   style={{
@@ -248,14 +250,14 @@ export default function News() {
           {/* Container for the third news item */}
           <Box
             sx={(theme) => ({
-              backgroundColor: theme.palette.mode === "dark" ? "#1b1f23" : "#f1f1f1",
-              borderRadius: "8px",
-              display: "flex",
-              flexDirection: "column",
-              flex: 1,
-              padding: "16px",
-              alignItems: "center",
-              transition: "background-color 0.3s ease",
+              "backgroundColor": theme.palette.mode === "dark" ? "#1b1f23" : "#f1f1f1",
+              "borderRadius": "8px",
+              "display": "flex",
+              "flexDirection": "column",
+              "flex": 1,
+              "padding": "16px",
+              "alignItems": "center",
+              "transition": "background-color 0.3s ease",
               "&:hover": {
                 backgroundColor: theme.palette.mode === "dark" ? "#2a2f36" : "#e8f5e9",
                 boxShadow: `0px 0px 10px 2px rgba(129, 199, 132, 0.5)`,
@@ -266,6 +268,7 @@ export default function News() {
               {/* Logo for the second news item */}
               <a href={"https://mailchi.mp/cgiar/south-asias-first-climate-adaptation-atlas?e=7dab12cfe5"} target="_blank" rel="noopener noreferrer">
                 <img
+                  loading="lazy"
                   src={"news.png"}
                   alt="news"
                   style={{

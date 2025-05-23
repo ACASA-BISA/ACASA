@@ -59,7 +59,7 @@ export default function StickyFooter() {
               margin: 6,
             }}
           >
-            <img src={"acasa-white.svg"} style={logoStyle} alt="logo of acasa" />
+            <img src={"acasa-white.svg"} style={logoStyle} alt="logo of acasa" loading="lazy"/>
             <Divider textAlign="center" orientation="vertical" flexItem="true" sx={{ bgcolor: "#555555", borderRightWidth: 2, margin: 2 }} />
             <Box sx={{ width: "100%" }}>
               <Typography

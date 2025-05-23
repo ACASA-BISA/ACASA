@@ -36,7 +36,7 @@ export default function Info() {
         >
           {/* Image Container */}
           <Box sx={{ marginLeft: "50px", marginY: "20px" }}>
-            <img src={"ACASA4.png"} style={logoStyle} alt="ACASA-REPORT1" />
+            <img src={"ACASA4.png"} style={logoStyle} alt="ACASA-REPORT1" loading="lazy"/>
           </Box>
 
           {/* Text Container */}
@@ -85,7 +85,7 @@ export default function Info() {
         >
           {/* Image Container */}
           <Box sx={{ marginLeft: "50px", marginY: "20px" }}>
-            <img src={"ACASA2.png"} style={logoStyle} alt="ACASA-REPORT2" />
+            <img src={"ACASA2.png"} style={logoStyle} alt="ACASA-REPORT2" loading="lazy"/>
           </Box>
 
           {/* Text Container */}
@@ -135,7 +135,7 @@ export default function Info() {
         >
           {/* Image Container */}
           <Box sx={{ marginLeft: "50px", marginY: "20px" }}>
-            <img src={"ACASA3.png"} style={logoStyle} alt="ACASA-REPORT3" />
+            <img src={"ACASA3.png"} style={logoStyle} alt="ACASA-REPORT3" loading="lazy"/>
           </Box>
 
           {/* Text Container */}

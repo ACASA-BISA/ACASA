@@ -1057,36 +1057,13 @@ export default function MApp({
   }
 
   useEffect(() => {
-    if (!ref.current || !mapRef.current) return;
-
-    const sourcemap = new TileJSON({
-      url: mode === "dark" ? `https://api.maptiler.com/maps/dataviz-dark/tiles.json?key=${key}` : `https://api.maptiler.com/maps/bright-v2/tiles.json?key=${key}`,
-      tileSize: 512,
-      crossOrigin: "anonymous",
-    });
-
-    const BingMapNew = new TileLayer2({
-      source: sourcemap,
-      opacity: 0.9,
-      zIndex: 10,
-    });
-
-    const layers = mapRef.current.getLayers().getArray();
-
-    layers.forEach((layer) => {
-      if (layer && typeof layer.getSource === "function" && layer.getSource() instanceof TileJSON) {
-        mapRef.current.removeLayer(layer);
-      }
-    });
-
-    mapRef.current.addLayer(BingMapNew);
-  }, [mode]);
-
-  useEffect(() => {
     const container = document.getElementById("popup2");
     const content = document.getElementById("popup-content2");
 
-    if (!container || !content || !ref.current) return;
+    if (!container || !content) {
+      console.error("Popup elements not found");
+      return;
+    }
 
     const overlay = new Overlay({
       element: container,
@@ -1097,30 +1074,38 @@ export default function MApp({
       },
     });
 
-    if (!mapRef.current) {
-      mapRef.current = new Map({
-        controls: [new FullScreen({ className: "ol-fullscreen-comp" }), new Zoom({ className: "ol-zoom-comp" }), new ZoomToExtent({ extent: defext, className: "ol-zoomtoextent-comp" })],
-        target: ref.current,
-        view: ViewV,
-      });
-    }
+    if (!ref.current || mapRef.current) return;
+
+    const sourcemap = new TileJSON({
+      url: `https://api.maptiler.com/maps/${mode === "dark" ? "dataviz-dark" : "bright-v2"}/tiles.json?key=${key}`,
+      tileSize: 512,
+      crossOrigin: "anonymous",
+    });
+
+    const BingMapNew = new TileLayer2({
+      source: sourcemap,
+      opacity: 0.9,
+      zIndex: 10,
+    });
+
+    mapRef.current = new Map({
+      controls: [new FullScreen({ className: "ol-fullscreen-comp" }), new Zoom({ className: "ol-zoom-comp" }), new ZoomToExtent({ extent: defext, className: "ol-zoomtoextent-comp" })],
+      target: ref.current,
+      layers: [BingMapNew],
+      view: ViewV,
+    });
 
     const featureOverlay = new VectorLayer({
       source: new VectorSource(),
       map: mapRef.current,
-      style: [
-        new Style({
-          fill: h_fill,
-          stroke: h_stroke,
-        }),
-      ],
+      style: [new Style({ fill: h_fill, stroke: h_stroke })],
     });
 
     let highlight;
 
     const display_state = (pixel) => {
-      const feature = mapRef.current.forEachFeatureAtPixel(pixel, (feature) => feature);
-      let state = feature?.get("D_NAME_1") || feature?.get("STATE") || null;
+      const feature = mapRef.current.forEachFeatureAtPixel(pixel, (f) => f);
+      const state = feature?.get("D_NAME_1") || feature?.get("STATE") || null;
 
       if (feature !== highlight) {
         if (highlight) featureOverlay.getSource().removeFeature(highlight);
@@ -1137,13 +1122,12 @@ export default function MApp({
     }
 
     const LocationofEvent = (pixel) => {
-      const feature = mapRef.current.forEachFeatureAtPixel(pixel, (feature) => feature);
+      const feature = mapRef.current.forEachFeatureAtPixel(pixel, (f) => f);
       return feature ? getCentroidOfPolygon(feature.getGeometry()) : null;
     };
 
     mapRef.current.on("pointermove", (evt) => {
       if (evt.dragging) return;
-
       const pixel = mapRef.current.getEventPixel(evt.originalEvent);
       const contentofbox = display_state(pixel);
 
@@ -1157,7 +1141,32 @@ export default function MApp({
     });
 
     mapRef.current.updateSize();
-  }, [ref, mapRef]);
+  }, [ref, mapRef]); // ← no 'mode' dependency here
+
+  useEffect(() => {
+    if (!mapRef.current) return;
+
+    const sourcemap = new TileJSON({
+      url: mode === "dark" ? `https://api.maptiler.com/maps/dataviz-dark/tiles.json?key=${key}` : `https://api.maptiler.com/maps/bright-v2/tiles.json?key=${key}`,
+      tileSize: 512,
+      crossOrigin: "anonymous",
+    });
+
+    const newBaseLayer = new TileLayer2({
+      source: sourcemap,
+      opacity: 0.9,
+      zIndex: 10,
+    });
+
+    const layers = mapRef.current.getLayers().getArray();
+    layers.forEach((layer) => {
+      if (layer && typeof layer.getSource === "function" && layer.getSource() instanceof TileJSON) {
+        mapRef.current.removeLayer(layer);
+      }
+    });
+
+    mapRef.current.addLayer(newBaseLayer);
+  }, [mode]);
 
   /*useEffect(() => {
     const container = document.getElementById("popup2");

@@ -46,7 +46,7 @@ export default function Timeline2() {
             <Typography>Nepal</Typography>
           </TimelineOppositeContent>
           <TimelineSeparator>
-            <img src={"tvtoday.png"} style={logoStyle} alt="Timeline1" />
+            <img src={"tvtoday.png"} style={logoStyle} alt="Timeline1" loading="lazy"/>
             <TimelineConnector />
           </TimelineSeparator>
           <TimelineContent sx={{ py: "12px", px: 2 }}>
@@ -100,7 +100,7 @@ export default function Timeline2() {
             <Typography>Nepal</Typography>
           </TimelineOppositeContent>
           <TimelineSeparator>
-            <img src={"kantipurtv.png"} style={logoStyle} alt="Timeline2" />
+            <img src={"kantipurtv.png"} style={logoStyle} alt="Timeline2" loading="lazy"/>
             <TimelineConnector />
           </TimelineSeparator>
           <TimelineContent sx={{ py: "12px", px: 2 }} align="left">
@@ -168,7 +168,7 @@ export default function Timeline2() {
             <Typography></Typography>
           </TimelineOppositeContent>
           <TimelineSeparator>
-            <img src={"Ujyaalo.png"} style={logoStyle} alt="Timeline3" />
+            <img src={"Ujyaalo.png"} style={logoStyle} alt="Timeline3" loading="lazy"/>
             <TimelineConnector />
           </TimelineSeparator>
           <TimelineContent sx={{ py: "12px", px: 2 }}>
@@ -222,7 +222,7 @@ export default function Timeline2() {
             <Typography>India</Typography>
           </TimelineOppositeContent>
           <TimelineSeparator>
-            <img src={"timeline-1.jpg"} style={logoStyle} alt="Timeline1" />
+            <img src={"timeline-1.jpg"} style={logoStyle} alt="Timeline1" loading="lazy"/>
             <TimelineConnector />
           </TimelineSeparator>
           <TimelineContent sx={{ py: "12px", px: 2 }}>
@@ -276,7 +276,7 @@ export default function Timeline2() {
             <Typography>India</Typography>
           </TimelineOppositeContent>
           <TimelineSeparator>
-            <img src={"timeline-2.jpg"} style={logoStyle} alt="Timeline2" />
+            <img src={"timeline-2.jpg"} style={logoStyle} alt="Timeline2" loading="lazy"/>
             <TimelineConnector />
           </TimelineSeparator>
           <TimelineContent sx={{ py: "12px", px: 2 }}>
@@ -332,7 +332,7 @@ export default function Timeline2() {
             <Typography></Typography>
           </TimelineOppositeContent>
           <TimelineSeparator>
-            <img src={"timeline-3.png"} style={logoStyle} alt="Timeline3" />
+            <img src={"timeline-3.png"} style={logoStyle} alt="Timeline3" loading="lazy"/>
             <TimelineConnector />
             <TimelineDot sx={{ ml: "calc(9vw + 12px)" }} />
           </TimelineSeparator>

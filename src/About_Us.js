@@ -181,7 +181,7 @@ export default function AboutUs() {
                       alignItems: "center",
                     }}
                   >
-                    <img src={"work-stream1.svg"} style={logoStyle} alt="risk" />
+                    <img src={"work-stream1.svg"} style={logoStyle} alt="risk" loading="lazy"/>
                     <Typography
                       sx={(theme) => ({
                         color: theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",
@@ -205,7 +205,7 @@ export default function AboutUs() {
                       alignItems: "center",
                     }}
                   >
-                    <img src={"work-stream2.svg"} style={logoStyle} alt="risk" />
+                    <img src={"work-stream2.svg"} style={logoStyle} alt="risk" loading="lazy"/>
                     <Typography
                       sx={(theme) => ({
                         color: theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",
@@ -229,7 +229,7 @@ export default function AboutUs() {
                       alignItems: "center",
                     }}
                   >
-                    <img src={"work-stream3.svg"} style={logoStyle} alt="risk" />
+                    <img src={"work-stream3.svg"} style={logoStyle} alt="risk" loading="lazy"/>
                     <Typography
                       sx={(theme) => ({
                         color: theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",
@@ -253,7 +253,7 @@ export default function AboutUs() {
                       alignItems: "center",
                     }}
                   >
-                    <img src={"work-stream4.svg"} style={logoStyle} alt="risk" />
+                    <img src={"work-stream4.svg"} style={logoStyle} alt="risk" loading="lazy" />
                     <Typography
                       sx={(theme) => ({
                         color: theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",
@@ -582,7 +582,7 @@ export default function AboutUs() {
                     elevation={0}
                   >
                     <Box sx={{ display: "flex", flexDirection: "column", textAlign: "center" }}>
-                      <img src="south-asia-1.png" style={logoStyle3} alt="risk" />
+                      <img src="south-asia-1.png" style={logoStyle3} alt="risk" loading="lazy"/>
                       <Typography
                         sx={(theme) => ({
                           color: theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",
@@ -621,7 +621,7 @@ export default function AboutUs() {
                     elevation={0}
                   >
                     <Box sx={{ display: "flex", flexDirection: "column", textAlign: "center" }}>
-                      <img src="south-asia-6.svg" style={logoStyle3} alt="risk" />
+                      <img src="south-asia-6.svg" style={logoStyle3} alt="risk" loading="lazy"/>
                       <Typography
                         sx={(theme) => ({
                           color: theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",
@@ -659,7 +659,7 @@ export default function AboutUs() {
                     elevation={0}
                   >
                     <Box sx={{ display: "flex", flexDirection: "column", textAlign: "center" }}>
-                      <img src="south-asia-7.svg" style={logoStyle3} alt="risk" />
+                      <img src="south-asia-7.svg" style={logoStyle3} alt="risk" loading="lazy"/>
                       <Typography
                         sx={(theme) => ({
                           color: theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",
@@ -697,7 +697,7 @@ export default function AboutUs() {
                     elevation={0}
                   >
                     <Box sx={{ display: "flex", flexDirection: "column", textAlign: "center" }}>
-                      <img src="south-asia-4.svg" style={logoStyle3} alt="risk" />
+                      <img src="south-asia-4.svg" style={logoStyle3} alt="risk" loading="lazy"/>
                       <Typography
                         sx={(theme) => ({
                           color: theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",
@@ -760,7 +760,7 @@ export default function AboutUs() {
                       textAlign: { sm: "center", md: "center" },
                     }}
                   >
-                    <img src={"south-asia-10.svg"} style={logoStyle3} alt="risk" />
+                    <img src={"columbia-university.png"} style={logoStyle3} alt="risk" loading="lazy"/>
                     <Typography
                       sx={(theme) => ({
                         color: theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",
@@ -799,7 +799,7 @@ export default function AboutUs() {
                       textAlign: { sm: "center", md: "center" },
                     }}
                   >
-                    <img src={"south-asia-11.svg"} style={logoStyle4} alt="risk" />
+                    <img src={"south-asia-11.svg"} style={logoStyle4} alt="risk" loading="lazy"/>
                     <Typography
                       sx={(theme) => ({
                         color: theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",
@@ -838,7 +838,7 @@ export default function AboutUs() {
                       textAlign: { sm: "center", md: "center" },
                     }}
                   >
-                    <img src={"Univ of Washington.png"} style={{ width: "90%", height: 40, margin: "auto", marginTop: 40, marginBottom: 20 }} alt="risk" />
+                    <img src={"Univ of Washington.png"} style={{ width: "90%", height: 40, margin: "auto", marginTop: 40, marginBottom: 20 }} alt="risk" loading="lazy"/>
                     <Typography
                       sx={(theme) => ({
                         color: theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",

@@ -47,6 +47,7 @@ export default function AdaptationGlance({
   opt7,
   changeOptLayer2,
   optionlayer2,
+  activeScale
 }) {
   const [NameScenario, setNameScenario] = React.useState("baseline");
 
@@ -225,7 +226,7 @@ export default function AdaptationGlance({
                   },
                 ]}
               >
-                <LegendComp legendData={fetchDataAdap(opt2, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />
+                <LegendComp legendData={fetchDataAdap(activeScale, opt2, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />
               </Popper>
             </Grid>
             <Grid item xs={4} key="2">
@@ -277,7 +278,7 @@ export default function AdaptationGlance({
                   },
                 ]}
               >
-                <LegendComp legendData={fetchDataAdap(opt3, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />
+                <LegendComp legendData={fetchDataAdap(activeScale, opt3, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />
               </Popper>
             </Grid>
             <Grid item xs={4} key="3">
@@ -329,7 +330,7 @@ export default function AdaptationGlance({
                   },
                 ]}
               >
-                <LegendComp legendData={fetchDataAdap(opt4, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />
+                <LegendComp legendData={fetchDataAdap(activeScale, opt4, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />
               </Popper>
             </Grid>
             <Grid item xs={4} key="4">
@@ -381,7 +382,7 @@ export default function AdaptationGlance({
                   },
                 ]}
               >
-                <LegendComp legendData={fetchDataAdap(opt5, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />
+                <LegendComp legendData={fetchDataAdap(activeScale, opt5, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />
               </Popper>
             </Grid>
             <Grid item xs={4} key="5">
@@ -433,7 +434,7 @@ export default function AdaptationGlance({
                   },
                 ]}
               >
-                <LegendComp legendData={fetchDataAdap(opt6, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />
+                <LegendComp legendData={fetchDataAdap(activeScale, opt6, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />
               </Popper>
             </Grid>
             <Grid item xs={4} key="6">
@@ -485,7 +486,7 @@ export default function AdaptationGlance({
                   },
                 ]}
               >
-                <LegendComp legendData={fetchDataAdap(opt7, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />
+                <LegendComp legendData={fetchDataAdap(activeScale, opt7, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />
               </Popper>
             </Grid>
           </Grid>

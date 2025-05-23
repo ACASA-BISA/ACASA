@@ -691,7 +691,7 @@ class Atlas {
       opacity: 0.85,
     });
     this.map.addLayer(this.rasterLayer);
-    this.mapLegend.empty().html(`<img src="${baseWMSLegendUrl}" />`);
+    this.mapLegend.empty().html(`<img src="${baseWMSLegendUrl}" loading="lazy"/>`);
   };
   //   plotRasterLayer Method
   //   Purpose: Displays the selected raster layer on the map.

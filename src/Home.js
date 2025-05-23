@@ -137,6 +137,24 @@ var items = [
   },
 ];
 
+const types = [
+  "Increase the resilience of small-scale producers to climate variability and change",
+  "Increase the quality, availability, and utility of data and evidence",
+  "Improve climate adaptive capacity of agricultural systems",
+];
+
+const ImageOverlay = styled("span")(({ theme }) => ({
+  position: "absolute",
+  left: 0,
+  right: 0,
+  top: 0,
+  bottom: 0,
+  display: "flex",
+  alignItems: "flex-start",
+  justifyContent: "flex-start",
+  color: theme.palette.common.white,
+}));
+
 const Home = (props) => {
   const randomStartIndex = useMemo(() => Math.floor(Math.random() * items.length), []);
   const [curr, setCurr] = useState(randomStartIndex);
@@ -170,6 +188,36 @@ const Home = (props) => {
     navigate("/exploredata", { state: { Region: reg, Commodity: comm } });
   };
 
+  const mediaItems = useMemo(() => {
+    const copy = [...items];
+    const picked = [];
+    for (let i = 0; i < 3; i++) {
+      const idx = Math.floor(Math.random() * copy.length);
+      picked.push(copy.splice(idx, 1)[0]);
+    }
+    return picked;
+  }, []);
+
+  // cycle through those 3
+  const [mediaIdx, setMediaIdx] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => {
+      setMediaIdx((i) => (i + 1) % mediaItems.length);
+    }, 4000); // change every 4s
+    return () => clearInterval(id);
+  }, [mediaItems.length]);
+
+  // slide through the 3 types
+  const [typeIdx, setTypeIdx] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => {
+      setTypeIdx((i) => (i + 1) % types.length);
+    }, 4000); // change every 4s
+    return () => clearInterval(id);
+  }, []);
+
+  const currentMedia = mediaItems[mediaIdx];
+
   const { mode } = useContext(ThemeContext);
 
   if (loading) {
@@ -180,14 +228,14 @@ const Home = (props) => {
       sx={{
         position: "absolute",
         top: 10,
-        right: 10,
+        right: 20,
         backgroundColor: (theme) => (theme.palette.mode === "dark" ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.7)"),
         color: mode === "dark" ? "#e0e0e0" : "#ffffff",
         padding: "10px",
         borderRadius: "5px",
         width: "250px",
         textAlign: "center",
-        zIndex: 2000,
+        zIndex: 1000,
       }}
     >
       <Typography variant="body2" fontStyle={"italic"}>
@@ -201,7 +249,7 @@ const Home = (props) => {
   return (
     <div style={{ backgroundColor: mode === "dark" ? "#25292e" : "#ffffff" }}>
       <Box sx={{ marginTop: "80px", display: { xs: "none", md: "block" } }}>
-        <Carousel
+        {/*<Carousel
           sx={{ margin: 0, padding: 0, zIndex: 100 }}
           indicatorContainerProps={{
             style: {
@@ -222,7 +270,172 @@ const Home = (props) => {
               <PopperMessage />
             </React.Fragment>
           ))}
-        </Carousel>
+        </Carousel>*/}
+
+        <Paper sx={{ position: "relative", width: "100vw", height: "100vh", overflow: "hidden" }}>
+          {/* Optional loading logic with thumbnail, if needed */}
+          {loading && (
+            <Box
+              sx={{
+                width: "100vw",
+                height: "100vh",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: "#ffffff",
+                position: "absolute",
+                top: 0,
+                left: 0,
+                zIndex: 10,
+              }}
+            >
+              <img src={props.item.videothumb} alt="Loading" style={thumbstyle} />
+            </Box>
+          )}
+
+          {/* Background video or image */}
+          {currentMedia.video.match(/\.(mp4|webm)$/) ? (
+            <ReactPlayer
+              url={currentMedia.video}
+              playing
+              loop
+              muted
+              width="100vw"
+              height="100vh"
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                objectFit: "cover",
+                display: loading ? "none" : "block",
+              }}
+              config={{
+                file: {
+                  attributes: {
+                    style: {
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    },
+                  },
+                },
+              }}
+            />
+          ) : (
+            <Box
+              component="img"
+              src={currentMedia.video}
+              alt=""
+              sx={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                position: "absolute",
+                top: 0,
+                left: 0,
+                display: loading ? "none" : "block",
+              }}
+            />
+          )}
+
+          {/* Overlay */}
+          <Box
+            sx={{
+              backgroundColor: "#111111",
+              opacity: 0.3,
+              position: "absolute",
+              top: 0,
+              bottom: 0,
+              left: 0,
+              right: 0,
+              zIndex: 1,
+            }}
+          />
+
+          {/* Foreground content */}
+          <Box
+            sx={{
+              position: "relative",
+              zIndex: 2,
+              display: "flex",
+              m: 1,
+              ml: 7,
+              mt: 5,
+              p: 2,
+              width: "35vw",
+              flexDirection: "column",
+              textAlign: { sm: "left", md: "left" },
+            }}
+          >
+            <Typography
+              variant="h4"
+              sx={(theme) => ({
+                color: theme.palette.mode === "dark" ? "#000000" : "#ffffff",
+                fontWeight: "bold",
+                textShadow: theme.palette.mode === "dark" ? "2px 2px 5px rgba(0, 0, 0, 0.6)" : "2px 2px 5px rgba(0, 0, 0, 0.25), -2px -2px 5px rgba(0, 0, 0, 0.25)",
+              })}
+            >
+              Atlas of Climate Adaptation in South Asian Agriculture
+            </Typography>
+            <Typography
+              variant="subtitle1"
+              sx={(theme) => ({
+                fontWeight: "bold",
+                mt: 2,
+                color: theme.palette.mode === "dark" ? "#000000" : "#ffffff",
+              })}
+            >
+              Interconnections between climate risks, practices, technologies, and policies
+            </Typography>
+
+            <Box
+              sx={(theme) => ({
+                background:
+                  theme.palette.mode === "dark"
+                    ? "linear-gradient(to right, rgba(99, 99, 99, 0.7), rgba(240, 240, 240, 0.7))"
+                    : "linear-gradient(to right, rgba(255, 254, 227,0.4), rgba(0, 0, 0, 0.3))",
+                mt: "90px",
+                ml: -9,
+                mr: -3,
+              })}
+            >
+              <Slide direction="right" in={true} timeout={500} mountOnEnter unmountOnExit>
+                <Typography
+                  variant="h6"
+                  sx={(theme) => ({
+                    ml: 9,
+                    mr: 3,
+                    color: theme.palette.mode === "dark" ? "#000000" : "#ffffff",
+                  })}
+                >
+                  {types[typeIdx]}
+                </Typography>
+              </Slide>
+            </Box>
+
+            <Button
+              variant="contained"
+              href="/#/exploredata"
+              sx={(theme) => ({
+                "width": "160px",
+                "mt": 6,
+                "mb": 2,
+                "fontSize": "18px",
+                "flexShrink": 0,
+                "color": theme.palette.mode === "dark" ? "#ffffff" : "#000000",
+                "fontWeight": "bold",
+                "backgroundColor": theme.palette.mode === "dark" ? "#B88F1A" : "#fece2f",
+                "&:hover": {
+                  backgroundColor: theme.palette.mode === "dark" ? "#B88F1A" : "#fece2f",
+                },
+              })}
+            >
+              Explore
+            </Button>
+          </Box>
+
+          <PopperMessage />
+        </Paper>
 
         <Box
           sx={{
@@ -241,14 +454,14 @@ const Home = (props) => {
           }}
         >
           <Box sx={{ width: "100%" }}>
-            <img src={"afghanistan.svg"} style={logoStyle4} alt="afghanistan" />
-            <img src={"bangladesh.png"} style={logoStyle4} alt="bangladesh" />
-            <img src={"bhutan.svg"} style={logoStyle4} alt="bhutan" />
-            <img src={"india.png"} style={logoStyle4} alt="india" />
-            <img src={"maldives.svg"} style={logoStyle4} alt="maldives" />
-            <img src={"nepal.svg"} style={logoStyle4} alt="nepal" />
-            <img src={"pakistan.svg"} style={logoStyle4} alt="pakistan" />
-            <img src={"srilanka.png"} style={logoStyle4} alt="srilanka" />
+            <img src={"afghanistan.svg"} style={logoStyle4} alt="afghanistan" loading="lazy" />
+            <img src={"bangladesh.png"} style={logoStyle4} alt="bangladesh" loading="lazy" />
+            <img src={"bhutan.svg"} style={logoStyle4} alt="bhutan" loading="lazy" />
+            <img src={"india.png"} style={logoStyle4} alt="india" loading="lazy" />
+            <img src={"maldives.svg"} style={logoStyle4} alt="maldives" loading="lazy" />
+            <img src={"nepal.svg"} style={logoStyle4} alt="nepal" loading="lazy" />
+            <img src={"pakistan.svg"} style={logoStyle4} alt="pakistan" loading="lazy" />
+            <img src={"srilanka.png"} style={logoStyle4} alt="srilanka" loading="lazy" />
           </Box>
 
           <Box
@@ -304,7 +517,7 @@ const Home = (props) => {
         {/* <Summary_Statistics></Summary_Statistics> */}
 
         <Box sx={{ mt: "20px" }}>
-          <img src={mode === "dark" ? "acasa_approach_dark2.svg" : "acasa_approach.svg"} style={logoStyle3} alt="approach" />
+          <img src={mode === "dark" ? "acasa_approach_dark2.svg" : "acasa_approach.svg"} style={logoStyle3} alt="approach" loading="lazy" />
         </Box>
         {/*<Box
           sx={{
@@ -396,22 +609,22 @@ const Home = (props) => {
             >
               <SleekTooltip title="Bangladesh Agriculture Research Council (BARC)" arrow placement="top">
                 <Paper sx={paperHoverStyle} elevation={0}>
-                  <img src={"barc.png"} style={logoStyle6} alt="barc" />
+                  <img src={"barc.png"} style={logoStyle6} alt="barc" loading="lazy" />
                 </Paper>
               </SleekTooltip>
               <SleekTooltip title="Indian Council of Agricultural Research" arrow placement="top">
                 <Paper sx={paperHoverStyle} elevation={0}>
-                  <img src={"icar.png"} style={logoStyle6} alt="icar" />
+                  <img src={"icar.png"} style={logoStyle6} alt="icar" loading="lazy" />
                 </Paper>
               </SleekTooltip>
               <SleekTooltip title="Nepal Agricultural Research Council" arrow placement="top">
                 <Paper sx={paperHoverStyle} elevation={0}>
-                  <img src={"narc.png"} style={logoStyle6} alt="narc" />
+                  <img src={"narc.png"} style={logoStyle6} alt="narc" loading="lazy" />
                 </Paper>
               </SleekTooltip>
               <SleekTooltip title="Natural Resources Management Center (NRMC)" arrow placement="top">
                 <Paper sx={paperHoverStyle} elevation={0}>
-                  <img src={"nrmc.png"} style={logoStyle6} alt="nrmc" />
+                  <img src={"nrmc.png"} style={logoStyle6} alt="nrmc" loading="lazy" />
                 </Paper>
               </SleekTooltip>
             </Box>
@@ -431,22 +644,22 @@ const Home = (props) => {
               </SleekTooltip>*/}
               <SleekTooltip title="International Maize and Wheat Improvement Center" arrow>
                 <Paper sx={paperHoverStyle} elevation={0}>
-                  <img src={"cimmyt-cgiar.png"} style={logoStyle7} alt="cimmyt" />
+                  <img src={"cimmyt-cgiar.png"} style={logoStyle7} alt="cimmyt" loading="lazy" />
                 </Paper>
               </SleekTooltip>
               <SleekTooltip title="University of Florida" arrow>
                 <Paper sx={paperHoverStyle} elevation={0}>
-                  <img src={"south-asia-11.svg"} style={logoStyle7} alt="florida" />
+                  <img src={"south-asia-11.svg"} style={logoStyle7} alt="florida" loading="lazy" />
                 </Paper>
               </SleekTooltip>
               <SleekTooltip title="Columbia University" arrow>
                 <Paper sx={paperHoverStyle} elevation={0}>
-                  <img src={"columbia-university.png"} style={logoStyle6} alt="columbia" />
+                  <img src={"columbia-university.png"} style={logoStyle6} alt="columbia" loading="lazy" />
                 </Paper>
               </SleekTooltip>
               <SleekTooltip title="Evans School Policy Analysis and Research (EPAR), University of Washington" arrow>
                 <Paper sx={paperHoverStyle} elevation={0}>
-                  <img src={"Univ of Washington.png"} alt="washington" style={{ width: "90%", height: "auto", objectFit: "contain", display: "block", margin: "0 auto" }} />
+                  <img src={"Univ of Washington.png"} alt="washington" style={{ width: "90%", height: "auto", objectFit: "contain", display: "block", margin: "0 auto" }} loading="lazy" />
                 </Paper>
               </SleekTooltip>
             </Box>
@@ -486,7 +699,7 @@ function Item(props) {
     setLoading(false);
   };
 
-  return (
+  /*return (
     <Paper>
       {loading && (
         <Box
@@ -571,7 +784,7 @@ function Item(props) {
         </Box>
       </Image>
     </Paper>
-  );
+  );*/
 }
 
 const Image = styled("span")(({ theme }) => ({

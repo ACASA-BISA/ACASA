@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 export const BlogCard = ({ imgSrc, imgAlt, keywords = [], title, author, link, date }) => {
   return (
     <div className="blog-card">
-      <img src={imgSrc} alt={imgAlt} className="blog-card__image" />
+      <img src={imgSrc} alt={imgAlt} className="blog-card__image" loading="lazy"/>
       <div className="blog-card__content">
         <div
           style={{

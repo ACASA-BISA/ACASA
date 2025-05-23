@@ -799,7 +799,7 @@ export default function Glossary() {
                 )}
               </Typography>
 
-              {item.image ? <img src={`/${item.image}`} alt={item.term} style={{ width: "5rem", height: "auto" }} /> : null}
+              {item.image ? <img src={`/${item.image}`} alt={item.term} style={{ width: "5rem", height: "auto" }} loading="lazy"/> : null}
             </Box>
           ))
         ) : (

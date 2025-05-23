@@ -1,5 +1,5 @@
 // Imports
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Data_Catalog.css";
 import Typography from "@mui/material/Typography";
 import { Tooltip, IconButton } from "@mui/material";
@@ -117,15 +117,42 @@ export const DataCatalog = ({
     </div>
   );
 };
-*/
+*/ const bgRef = useRef(null);
+  const [bgLoaded, setBgLoaded] = useState(false);
+  const [imgHasLoaded, setImgHasLoaded] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setBgLoaded(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (bgRef.current) {
+      observer.observe(bgRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div className="card-container">
       <div
+        ref={bgRef}
         className="card-background"
         style={{
-          backgroundImage: `url(${imgSrc})`,
+          backgroundImage: bgLoaded && imgHasLoaded ? `url(${imgSrc})` : "none",
+          opacity: imgHasLoaded ? 1 : 0.5,
+          transition: "opacity 1s ease-in-out",
         }}
       >
+        {/* Preload image for onLoad detection */}
+        {bgLoaded && <img src={imgSrc} alt={imgAlt} style={{ display: "none" }} onLoad={() => setImgHasLoaded(true)} />}
+
         {/* Tags and Title (always visible) */}
         <div className="card-footer">
           {commodity && scenario && layertype && (
