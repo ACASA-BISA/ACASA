@@ -1061,6 +1061,7 @@ export default function CompV({
                           area_dict3={area_dict3}
                           area_dict4={area_dict4}
                           modelName={modelName}
+                          year={2050}
                         ></Map_Option>
                         {(CurrRisk !== "" || activeOpt !== "" || NameImpact !== "") && (
                           <Popper
@@ -1156,6 +1157,7 @@ export default function CompV({
                           area_dict3={area_dict3}
                           area_dict4={area_dict4}
                           modelName={modelName}
+                          year={2080}
                         ></Map_Option>
                         {(CurrRisk !== "" || activeOpt !== "" || NameImpact !== "") && (
                           <Popper

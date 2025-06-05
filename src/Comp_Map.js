@@ -213,6 +213,7 @@ export default function MApp({
   area_dict3,
   area_dict4,
   modelName,
+  year,
 }) {
   const ref = useRef(null);
   const mapRef = useRef(null);
@@ -235,9 +236,13 @@ export default function MApp({
 
     if (activeOpt && activeOpt.trim() !== "") {
       let opt_suffix = "";
-      if (activeOptLayer["Adaptation Benefits"]) opt_suffix = "Adaptation Benefits";
-      if (activeOptLayer["Economic"]) opt_suffix = "Economic Viability";
-      if (activeOptLayer["Scalability"]) opt_suffix = "Scalability";
+      if (activeOptLayer["Yield"]) opt_suffix = "Yield";
+        if (activeOptLayer["Economic"]) opt_suffix = "Economic";
+        if (activeOptLayer["Scalability"]) opt_suffix = "Scalability";
+        if (activeOptLayer["Gender"]) opt_suffix = "Gender";
+        if (activeOptLayer["Female labourer suitability"]) opt_suffix = "Labour";
+        if (activeOptLayer["Female cultivator suitability"]) opt_suffix = "Cultivator";
+        if (activeOptLayer["Adaptation Benefits"]) opt_suffix = "Adaptation";
       newFilename = `${activeCrop}_${activeOpt}_${opt_suffix}_${activeScenario}_${activeScale}.tiff`;
     } else if (CurrRisk && CurrRisk.trim() !== "") {
       newFilename = `${activeCrop}_${CurrRisk}_${activeScenario}_${activeScale}.tiff`;
@@ -839,9 +844,13 @@ export default function MApp({
         filename = `${activeRegion}_${activeCrop}_${activeScenario}_${CurrRisk}_${activeScale}.jpeg`;
       } else if (activeOpt !== "") {
         let opt_suffix = "";
-        if (activeOptLayer["Adaptation Benefits"]) opt_suffix = "Adaptation_Benefits";
-        if (activeOptLayer["Economic"]) opt_suffix = "Economic_Viability";
+        if (activeOptLayer["Yield"]) opt_suffix = "Yield";
+        if (activeOptLayer["Economic"]) opt_suffix = "Economic";
         if (activeOptLayer["Scalability"]) opt_suffix = "Scalability";
+        if (activeOptLayer["Gender"]) opt_suffix = "Gender";
+        if (activeOptLayer["Female labourer suitability"]) opt_suffix = "Labour";
+        if (activeOptLayer["Female cultivator suitability"]) opt_suffix = "Cultivator";
+        if (activeOptLayer["Adaptation Benefits"]) opt_suffix = "Adaptation";
         filename = `${activeRegion}_${activeCrop}_${activeScenario}_${activeOpt}_${opt_suffix}_${activeScale}.jpeg`;
       } else if (activeImpact !== "") {
         filename = `${activeRegion}_${activeCrop}_${activeScenario}_${ImpactName}_${activeScale}.jpeg`;
@@ -991,9 +1000,13 @@ export default function MApp({
         filenametable = activeRegion + "_" + activeCrop + "_" + activeScenario + "_" + CurrRisk + "_" + activeScale + ".csv";
       } else if (activeOpt !== "") {
         let opt_suffix = "";
-        if (activeOptLayer["Adaptation Benefits"]) opt_suffix = "Adaptation Benefits";
-        if (activeOptLayer["Economic"]) opt_suffix = "Economic Viability";
+        if (activeOptLayer["Yield"]) opt_suffix = "Yield";
+        if (activeOptLayer["Economic"]) opt_suffix = "Economic";
         if (activeOptLayer["Scalability"]) opt_suffix = "Scalability";
+        if (activeOptLayer["Gender"]) opt_suffix = "Gender";
+        if (activeOptLayer["Female labourer suitability"]) opt_suffix = "Labour";
+        if (activeOptLayer["Female cultivator suitability"]) opt_suffix = "Cultivator";
+        if (activeOptLayer["Adaptation Benefits"]) opt_suffix = "Adaptation";
         filenametable = activeRegion + "_" + activeCrop + "_" + activeScenario + "_" + activeOpt + "_" + opt_suffix + "_" + activeScale + ".csv";
       }
       this.downloadFile(url, filenametable);
@@ -1358,7 +1371,7 @@ export default function MApp({
           CurrRisk={CurrRisk}
           activeImpact={activeImpact}
           activeOptLayer={activeOptLayer}
-          modelName="CHC"
+          modelName={modelName}
           displayLayer={displayLayer}
           activeScale={activeScale}
           exploreType={exploreType}
@@ -2030,22 +2043,18 @@ export default function MApp({
             opt = 102;
             urlstr = "./Hazards/" + activeCrop + "/Percentage Change/" + activeScenario.toUpperCase() + "/" + district_n + "Cat_ZZ_" + hazardname[CurrRisk] + ".tif";
           } else {
-            //urlstr = "./Hazards/" + activeCrop + "/" + activeScenario.toUpperCase() + "/" + district_n + "ZZ_" + hazardname[CurrRisk] + ".tif";
-            //if (checkcrop2() === false) {
-            urlstr =
-              "./Hazards/" +
-              activeCrop +
-              "/" +
-              modelName +
-              "/" +
-              district_n +
-              activeScenario.toUpperCase() +
-              "/" +
-              `${district_prefix}${activeScenario.toUpperCase()}_${modelName}_${activeCrop}_${hazardname[CurrRisk]}` +
-              ".tif";
-            //}
+            let filename = "";
+
+            /*if ((activeScenario === "ssp245" || activeScenario === "ssp585") && modelName !== "CHC") {
+              filename = `${year}_${activeScenario.toUpperCase()}_${modelName}_${activeCrop}_${hazardname[CurrRisk]}.tif`;
+            } else {
+              filename = `${district_prefix}${activeScenario.toUpperCase()}_${modelName}_${activeCrop}_${hazardname[CurrRisk]}.tif`;
+            }*/
+
+            urlstr = "./Hazards/" + activeCrop + "/" + modelName + "/" + district_n + activeScenario.toUpperCase() + "/" + filename;
           }
         }
+
         /* if(CurrRisk==='Hazard Index'){
           opt=4;
           urlstr = "./Hazard_index/"+activeCrop+".tif";

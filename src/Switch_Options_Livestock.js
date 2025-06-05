@@ -887,7 +887,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                                     <span>{full}</span>
                                     <br />
                                     <Link
-                                      href={`#/resources?tab=2&term=${full.toLowerCase().replace(/\s+/g, "-")}`}
+                                      href={`#/resources?tab=2&term=${short.toLowerCase()}`}
                                       target="_blank"
                                       sx={(theme) => ({
                                         color: theme.palette.mode === "dark" ? "black" : "white",
@@ -979,7 +979,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                                     <span>{full}</span>
                                     <br />
                                     <Link
-                                      href={`#/resources?tab=2&term=${full.toLowerCase().replace(/\s+/g, "-")}`}
+                                      href={`#/resources?tab=2&term=${short.toLowerCase()}`}
                                       target="_blank"
                                       sx={(theme) => ({
                                         color: theme.palette.mode === "dark" ? "black" : "white",
@@ -1034,7 +1034,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                                     <span>{full}</span>
                                     <br />
                                     <Link
-                                      href={`#/resources?tab=2&term=${full.toLowerCase().replace(/\s+/g, "-")}`}
+                                      href={`#/resources?tab=2&term=${short.toLowerCase()}`}
                                       target="_blank"
                                       sx={(theme) => ({
                                         color: theme.palette.mode === "dark" ? "black" : "white",
@@ -1103,7 +1103,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                               <span>{full}</span>
                               <br />
                               <Link
-                                href={`#/resources?tab=2&term=${full.toLowerCase().replace(/\s+/g, "-")}`}
+                                href={`#/resources?tab=2&term=${short.toLowerCase()}`}
                                 target="_blank"
                                 sx={(theme) => ({
                                   color: theme.palette.mode === "dark" ? "black" : "white",
@@ -1188,7 +1188,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                                     <span>{full}</span>
                                     <br />
                                     <Link
-                                      href={`#/resources?tab=2&term=${full.toLowerCase().replace(/\s+/g, "-")}`}
+                                      href={`#/resources?tab=2&term=${short.toLowerCase()}`}
                                       target="_blank"
                                       sx={(theme) => ({
                                         color: theme.palette.mode === "dark" ? "black" : "white",
@@ -1264,7 +1264,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                                     <span>{full}</span>
                                     <br />
                                     <Link
-                                      href={`#/resources?tab=2&term=${full.toLowerCase().replace(/\s+/g, "-")}`}
+                                      href={`#/resources?tab=2&term=${short.toLowerCase()}`}
                                       target="_blank"
                                       sx={(theme) => ({
                                         color: theme.palette.mode === "dark" ? "black" : "white",
@@ -1328,7 +1328,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                                     <span>{full}</span>
                                     <br />
                                     <Link
-                                      href={`#/resources?tab=2&term=${full.toLowerCase().replace(/\s+/g, "-")}`}
+                                      href={`#/resources?tab=2&term=${short.toLowerCase()}`}
                                       target="_blank"
                                       sx={(theme) => ({
                                         color: theme.palette.mode === "dark" ? "black" : "white",
@@ -1393,7 +1393,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                               <span>{full}</span>
                               <br />
                               <Link
-                                href={`#/resources?tab=2&term=${full.toLowerCase().replace(/\s+/g, "-")}`}
+                                href={`#/resources?tab=2&term=${short.toLowerCase()}`}
                                 target="_blank"
                                 sx={(theme) => ({
                                   color: theme.palette.mode === "dark" ? "black" : "white",
@@ -1478,7 +1478,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                                     <span>{full}</span>
                                     <br />
                                     <Link
-                                      href={`#/resources?tab=2&term=${full.toLowerCase().replace(/\s+/g, "-")}`}
+                                      href={`#/resources?tab=2&term=${short.toLowerCase()}`}
                                       target="_blank"
                                       sx={(theme) => ({
                                         color: theme.palette.mode === "dark" ? "black" : "white",
@@ -1554,7 +1554,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                                     <span>{full}</span>
                                     <br />
                                     <Link
-                                      href={`#/resources?tab=2&term=${full.toLowerCase().replace(/\s+/g, "-")}`}
+                                      href={`#/resources?tab=2&term=${short.toLowerCase()}`}
                                       target="_blank"
                                       sx={(theme) => ({
                                         color: theme.palette.mode === "dark" ? "black" : "white",
@@ -1618,7 +1618,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                                     <span>{full}</span>
                                     <br />
                                     <Link
-                                      href={`#/resources?tab=2&term=${full.toLowerCase().replace(/\s+/g, "-")}`}
+                                      href={`#/resources?tab=2&term=${short.toLowerCase()}`}
                                       target="_blank"
                                       sx={(theme) => ({
                                         color: theme.palette.mode === "dark" ? "black" : "white",
@@ -1687,7 +1687,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                               <span>{full}</span>
                               <br />
                               <Link
-                                href={`#/resources?tab=2&term=${full.toLowerCase().replace(/\s+/g, "-")}`}
+                                href={`#/resources?tab=2&term=${short.toLowerCase()}`}
                                 target="_blank"
                                 sx={(theme) => ({
                                   color: theme.palette.mode === "dark" ? "black" : "white",
@@ -1780,7 +1780,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                                     <span>{full}</span>
                                     <br />
                                     <Link
-                                      href={`#/resources?tab=2&term=${full.toLowerCase().replace(/\s+/g, "-")}`}
+                                      href={`#/resources?tab=2&term=${short.toLowerCase()}`}
                                       target="_blank"
                                       sx={(theme) => ({
                                         color: theme.palette.mode === "dark" ? "black" : "white",
@@ -1852,7 +1852,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                                     <span>{full}</span>
                                     <br />
                                     <Link
-                                      href={`#/resources?tab=2&term=${full.toLowerCase().replace(/\s+/g, "-")}`}
+                                      href={`#/resources?tab=2&term=${short.toLowerCase()}`}
                                       target="_blank"
                                       sx={(theme) => ({
                                         color: theme.palette.mode === "dark" ? "black" : "white",
@@ -1916,7 +1916,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                                     <span>{full}</span>
                                     <br />
                                     <Link
-                                      href={`#/resources?tab=2&term=${full.toLowerCase().replace(/\s+/g, "-")}`}
+                                      href={`#/resources?tab=2&term=${short.toLowerCase()}`}
                                       target="_blank"
                                       sx={(theme) => ({
                                         color: theme.palette.mode === "dark" ? "black" : "white",
@@ -1979,7 +1979,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                             <span>{full}</span>
                             <br />
                             <Link
-                              href={`#/resources?tab=2&term=${full.toLowerCase().replace(/\s+/g, "-")}`}
+                              href={`#/resources?tab=2&term=${short.toLowerCase()}`}
                               target="_blank"
                               sx={(theme) => ({
                                 color: theme.palette.mode === "dark" ? "black" : "white",
@@ -2062,7 +2062,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                                     <span>{full}</span>
                                     <br />
                                     <Link
-                                      href={`#/resources?tab=2&term=${full.toLowerCase().replace(/\s+/g, "-")}`}
+                                      href={`#/resources?tab=2&term=${short.toLowerCase()}`}
                                       target="_blank"
                                       sx={(theme) => ({
                                         color: theme.palette.mode === "dark" ? "black" : "white",
@@ -2130,7 +2130,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                                     <span>{full}</span>
                                     <br />
                                     <Link
-                                      href={`#/resources?tab=2&term=${full.toLowerCase().replace(/\s+/g, "-")}`}
+                                      href={`#/resources?tab=2&term=${short.toLowerCase()}`}
                                       target="_blank"
                                       sx={(theme) => ({
                                         color: theme.palette.mode === "dark" ? "black" : "white",
@@ -2194,7 +2194,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                                     <span>{full}</span>
                                     <br />
                                     <Link
-                                      href={`#/resources?tab=2&term=${full.toLowerCase().replace(/\s+/g, "-")}`}
+                                      href={`#/resources?tab=2&term=${short.toLowerCase()}`}
                                       target="_blank"
                                       sx={(theme) => ({
                                         color: theme.palette.mode === "dark" ? "black" : "white",
@@ -2257,7 +2257,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                             <span>{full}</span>
                             <br />
                             <Link
-                              href={`#/resources?tab=2&term=${full.toLowerCase().replace(/\s+/g, "-")}`}
+                              href={`#/resources?tab=2&term=${short.toLowerCase()}`}
                               target="_blank"
                               sx={(theme) => ({
                                 color: theme.palette.mode === "dark" ? "black" : "white",

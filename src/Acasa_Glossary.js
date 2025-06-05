@@ -20,7 +20,7 @@ const glossaryData = {
       definition: "Yield benefits because of the adoption of technology options over conventional/farmers' practice.",
     },
     {
-      term: "Ad libitum water",
+      term: "Ad lib water",
       definition: "Provision of water to cattle without restriction",
     },
     {
@@ -38,9 +38,9 @@ const glossaryData = {
       definition: "The analysis for barley is done for 'Rabi'/winter season",
     },
     {
-      term: "Broad bed and furrow",
+      term: "Broadbed and furrow",
       definition:
-        "Broad bed and furrow (BBF), a water-saving and soil conservation technique used in field crop cultivation. It involves creating broad raised beds separated by furrows, allowing for better water infiltration, reduced waterlogging, and improved root aeration",
+        "Broadbed and furrow (BBF), a water-saving and soil conservation technique used in field crop cultivation. It involves creating broad raised beds separated by furrows, allowing for better water infiltration, reduced waterlogging, and improved root aeration",
     },
     {
       term: "Biophysical suitability",
@@ -92,7 +92,7 @@ const glossaryData = {
     },
     {
       term: "Cold stress",
-      definition: "Cold stress is defined using both the intensity and frequency of extreme cold during the entire crop duration. Intensity refers to the number of days falling below a threshold of minimum temperature (Tmin), while frequency is the number of years (out of 30) in which such cold events occurred at a given location. My consider: Cold stress in crops refers to the negative impact of low temperatures on plant growth and development.",
+      definition: "Cold stress is defined using both the intensity and frequency of extreme cold during the entire crop duration. Intensity refers to the number of days falling below a threshold of minimum temperature (Tmin), while frequency is the number of years (out of 30) in which such cold events occurred at a given location.",
     },
     {
       term: "Cyclone",
@@ -241,7 +241,7 @@ const glossaryData = {
       definition: "An Earth System Model developed by the Institut Pierre-Simon Laplace (IPSL), France. It couples the LMDZ atmospheric model, NEMO ocean model, LIM3 sea-ice model, and ORCHIDEE land surface model. The model includes interactive carbon cycles and simulates key processes in land-atmosphere and ocean biogeochemical dynamics."
     },
     {
-      term: "ICT input linked management",
+      term: "ICT linked input management",
       definition:
         "ICT linked input management technology is a type of modern agricultural management that comprehensively integrates information technology comprised of current data and information requires from crop growth conditions, soil physical and chemical properties, weather factors; weather based forecast products  for agricultural production by quantitative  and timing of application of nutrients, water and other operation management systems in accordance with geographical locations",
     },
@@ -332,7 +332,7 @@ const glossaryData = {
       definition: "",
     },
     {
-      term: "Precision land leveling",
+      term: "Precision land levelling",
       definition:
         "Precision Land Levelling (PLL) is a farming technique that involves the mechanical process of grading and smoothing land to achieve a uniform and precise. It may employ advanced laser-guided equipment to precisely contour the land surface, creating a uniform smooth surface (± 2 cm from its average elevation) and eliminating undulations that ensures every inch of your field gets the water it needs",
     },

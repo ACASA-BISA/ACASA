@@ -23,16 +23,23 @@ export default function SwitchScenario({ activeScenario, changeScenario, activeM
   const parents = ["ISIMIP"];
   const parentinfo = ["A global modeling initiative that assesses climate change impacts across sectors and regions using consistent scenarios and methods."];
 
-  const switchh2 = ["CHC"];
-  const switchid2 = ["CHC"];
-  const switchh2popup = ["A team of scientists using climate models, satellite data, and socioeconomic info to monitor droughts and food insecurity in vulnerable regions."]
+  const switchh2 = ["CHC - Ensemble", "ISIMIP - Ensemble"];
+  const switchid2 = ["CHC", "ISIMIP"];
+  const disvar2 = {
+    CHC: false,
+    ISIMIP: false,
+  };
+  const switchh2popup = [
+    "A team of scientists using climate models, satellite data, and socioeconomic info to monitor droughts and food insecurity in vulnerable regions.",
+    "A global modeling initiative that assesses climate change impacts across sectors and regions using consistent scenarios and methods.",
+  ];
 
-  const switchh3 = ["GFDL-ESM4", "IPSL-CM6A-LR", "MPI-ESM1-2-HR", "MPI-ESM2-0", "UKESM1-0-LL", "Ensemble"];
+  /*const switchh3 = ["GFDL-ESM4", "IPSL-CM6A-LR", "MPI-ESM1-2-HR", "MPI-ESM2-0", "UKESM1-0-LL", "Ensemble"];
   const switchid3 = ["GFDL-ESM4", "IPSL-CM6A-LR", "MPI-ESM1-2-HR", "MPI-ESM2-0", "UKESM1-0-LL", "Ensemble"];
   const disvar2 = {
     "CHC": false,
     "ISIMIP": false,
-    "GFDL-ESM4": false,
+    /*"GFDL-ESM4": false,
     "IPSL-CM6A-LR": false,
     "MPI-ESM1-2-HR": false,
     "MPI-ESM2-0": false,
@@ -46,7 +53,7 @@ export default function SwitchScenario({ activeScenario, changeScenario, activeM
     "A model by the Meteorological Research Institute (Japan) that combines atmospheric, ocean, sea-ice, and land surface models, simulating hydrology, snow processes, and carbon-nitrogen cycles.",
     "A model by the UK Met Office Hadley Centre, integrating atmospheric, ocean, sea-ice, land surface, and biogeochemical models with dynamic ice sheets and coupling managed by the OASIS coupler.",
     "Combining results from GFDL-ESM4, IPSL-CM6A-LR, MPI-ESM1-2-HR, UKESM1-0-LL, and MRI-ESM2-0 to capture diverse climate outcomes and reduce uncertainty in projections.",
-  ];
+  ];*/
   const padd = 8;
 
   function createInitialPRT() {
@@ -124,6 +131,57 @@ export default function SwitchScenario({ activeScenario, changeScenario, activeM
             paddingTop: 2,
           })}
         >
+          Select data source
+        </Typography>
+        <br />
+      </FormLabel>
+      {switchh2.map((sname, index) => (
+        <FormGroup>
+          <CustomFormControlLabel
+            control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={switchid2[index] === activeModel} onChange={changeModel(switchid2[index])} name={switchid2[index]} />}
+            key={switchid2[index]}
+            disabled={disvar2[switchid2[index]]}
+            label={
+              <Typography variant="body2" sx={{ paddingLeft: 1 }}>
+                {sname}
+                <LightTooltip
+                  title={
+                    <>
+                      <span>{switchh2popup[index]}</span>
+                      <br />
+                      <Link
+                        href={`#/resources?tab=2&term=${sname.toLowerCase()}`}
+                        target="_blank"
+                        sx={(theme) => ({
+                          color: theme.palette.mode === "dark" ? "black" : "white",
+                          fontWeight: "bold",
+                        })}
+                      >
+                        Read More
+                      </Link>
+                    </>
+                  }
+                  placement="right"
+                  arrow
+                >
+                  <IconButton sx={{ padding: 0, margin: 0, paddingX: "4px" }}>
+                    <InfoOutlinedIcon sx={{ fontSize: "12px", padding: 0, margin: 0 }} />
+                  </IconButton>
+                </LightTooltip>
+              </Typography>
+            }
+          />
+        </FormGroup>
+      ))}
+      <FormLabel sx={{ display: "flex", paddingBottom: 1 }}>
+        <Typography
+          sx={(theme) => ({
+            color: theme.palette.mode === "dark" ? "white" : "black",
+            fontWeight: "bold",
+            fontSize: 14,
+            paddingTop: 2,
+          })}
+        >
           Select climate change scenario
         </Typography>
         <br />
@@ -168,58 +226,7 @@ export default function SwitchScenario({ activeScenario, changeScenario, activeM
           />
         </FormGroup>
       ))}
-      <FormLabel sx={{ display: "flex", paddingBottom: 1 }}>
-        <Typography
-          sx={(theme) => ({
-            color: theme.palette.mode === "dark" ? "white" : "black",
-            fontWeight: "bold",
-            fontSize: 14,
-            paddingTop: 2,
-          })}
-        >
-          Select data source
-        </Typography>
-        <br />
-      </FormLabel>
-      {switchh2.map((sname, index) => (
-        <FormGroup>
-          <CustomFormControlLabel
-            control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={switchid2[index] === activeModel} onChange={changeModel(switchid2[index])} name={switchid2[index]} />}
-            key={switchid2[index]}
-            disabled={disvar2[switchid2[index]]}
-            label={
-              <Typography variant="body2" sx={{ paddingLeft: 1 }}>
-                {sname}
-                <LightTooltip
-                  title={
-                    <>
-                      <span>{switchh2popup}</span>
-                      <br />
-                      <Link
-                        href={`#/resources?tab=2&term=${sname.toLowerCase()}`}
-                        target="_blank"
-                        sx={(theme) => ({
-                          color: theme.palette.mode === "dark" ? "black" : "white",
-                          fontWeight: "bold",
-                        })}
-                      >
-                        Read More
-                      </Link>
-                    </>
-                  }
-                  placement="right"
-                  arrow
-                >
-                  <IconButton sx={{ padding: 0, margin: 0, paddingX: "4px" }}>
-                    <InfoOutlinedIcon sx={{ fontSize: "12px", padding: 0, margin: 0 }} />
-                  </IconButton>
-                </LightTooltip>
-              </Typography>
-            }
-          />
-        </FormGroup>
-      ))}
-      {parents.map((sname, index) => (
+      {/*{parents.map((sname, index) => (
         <FormGroup>
           <CustomFormControlLabel
             control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={PRT[sname]} onChange={handleChangePRT(sname)} name={parents[index]} />}
@@ -300,7 +307,7 @@ export default function SwitchScenario({ activeScenario, changeScenario, activeM
             </FormControl>
           )}
         </FormGroup>
-      ))}
+      ))}*/}
     </FormControl>
   );
 }

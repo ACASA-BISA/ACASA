@@ -128,6 +128,13 @@ const Guidee = () => {
           </Typography>
 
           <Box mt={4}>
+            <Typography variant="body2" align="left" sx={{ color: "text.primary", fontFamily: "revert" }}>
+              Welcome to the ACASA website! The Atlas of Climate Adaptation in South Asian Agriculture (ACASA) lets you explore granular climate risk profiles and a suite of adaptation options for
+              South Asian agriculture for major commodities at a 5 km2 resolution. You can start by tapping to the ‘Explore Data’ tab.
+            </Typography>
+          </Box>
+
+          <Box mt={4}>
             <Typography id="home" variant="h6" gutterBottom align="left" sx={{ color: "text.primary", fontFamily: "revert" }}>
               1. Home
             </Typography>
@@ -224,10 +231,9 @@ const Guidee = () => {
             </Typography>
             <Divider sx={{ mb: 2 }} />
             <Typography variant="body2" align="left" sx={{ color: "text.primary", fontFamily: "revert" }}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis laoreet facilisis viverra. Nam quis mollis lorem. Vestibulum ex nibh, tincidunt sit amet elementum in, iaculis sed urna.
-              Suspendisse pellentesque volutpat ligula ut varius. Morbi posuere posuere eros vitae commodo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce leo lorem, pulvinar id ex a,
-              fringilla porta elit. Mauris rhoncus ipsum eget varius pellentesque. In sed interdum magna. Mauris luctus velit vel quam ultrices elementum. Quisque convallis sem in leo vulputate
-              iaculis.
+              This tab allows users to explore various climate risks and adaptation options by selecting either ‘Crops’ or ‘Livestock’. If ‘Crops’ is selected, the default view loads with the
+              following settings: South Asia {">"} Pixel Level {">"} Wheat {">"} Scenario: SSP5-8.5 {">"} Model: CHC. The upcoming sections of this guide will walk you through the steps for navigating
+              the data under the Explore Data tab.
             </Typography>
             <br />
             <Box
@@ -245,10 +251,10 @@ const Guidee = () => {
               })}
             />
             <Typography variant="body2" align="left" sx={{ color: "text.primary", fontFamily: "revert" }}>
-              <strong>Figure 3. </strong>Integer egestas, neque eu fermentum pharetra, nisl orci fringilla erat, a facilisis justo diam semper dui. Fusce et tempus eros. Nullam eget facilisis massa.
-              Duis tempus dui nec congue auctor. Aliquam in hendrerit eros. Etiam sagittis ante nec nisl dictum placerat. Nam suscipit lacus quis eros tempor mollis. Nulla vitae turpis eget magna
-              varius porttitor nec et turpis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Class aptent taciti sociosqu ad litora torquent per conubia
-              nostra, per inceptos himenaeos. Aliquam et blandit nunc, sed posuere felis.
+              <strong>Figure 3. </strong>The right-hand panel (b) displays the data visualization based on your selections from the left-hand panel (a). To understand how to interpret the map
+              visualizations in section (b). (1) lets the user zoom in through the map, (2) lets the user zoom out, (3) user can download either tiff file, image, or table for the displayed map, (4)
+              user can expand the map into full screen, and (5) conforms the scope of the map to a particular degree and order. To further learn about map’s visualization, please refer to the Map
+              Viewer section of this guide.
             </Typography>
           </Box>
 
@@ -352,10 +358,23 @@ const Guidee = () => {
             </Modal>
 
             <Typography variant="body2" align="left" sx={{ color: "text.primary", fontFamily: "revert" }}>
-              <strong>Figure 3. </strong>Integer egestas, neque eu fermentum pharetra, nisl orci fringilla erat, a facilisis justo diam semper dui. Fusce et tempus eros. Nullam eget facilisis massa.
-              Duis tempus dui nec congue auctor. Aliquam in hendrerit eros. Etiam sagittis ante nec nisl dictum placerat. Nam suscipit lacus quis eros tempor mollis. Nulla vitae turpis eget magna
-              varius porttitor nec et turpis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Class aptent taciti sociosqu ad litora torquent per conubia
-              nostra, per inceptos himenaeos. Aliquam et blandit nunc, sed posuere felis.
+              <strong>Figure 3. </strong>(a.1) ‘Go to Home’ takes the user back to the website’s landing page. (a.2) Select Region: As an Atlas for South Asia, user can view the data either at the
+              subcontinent level or select the country of their choice from the dropdown tab of “Country/Region”. If viewing at country level, the Atlas also allows the user to select the
+              state/province of their choice. (a.3) Analysis & Scale: The analysis scope by default is set to commodity-specific with the visualization scale at pixel level of 0.05-degree x 0.05
+              degree. (a.4) Select Commodity: Given the diversity of crops in the South Asian subcontinent, the user can select the crop of their choice to explore climatic risks, impact, and
+              adaptation options for the selected commodity. ACASA has four major crop commodities category – cereals, pulses, oilseeds, and others. In each category, there are several crops. For
+              instance, when cereals are expanded, key crops include rice, wheat, maize, barley, sorghum, and millets. Similarly, there are more crops in remaining categories of pulses, oilseeds, and
+              others. (a.5) Scenario: After the selection of desired region and commodity, the user can select the climate change scenario in which they would like to view the subsequent sections of
+              risks, impact, and adaptation. In climate change scenario, the user can choose between Baseline, SSP 2-4.5, and SSP 5-8.5. Baseline shows the 30-year period from 1984 to 2013
+              representing current climate conditions. It serves as the benchmark against which future climate projections. SSP 2-4.5 shows a moderate climate change scenario combining the
+              "middle-of-the-road" socioeconomic pathway (SSP2) with a radiative forcing level of 4.5 W/m² by 2100. It assumes intermediate challenges to mitigation and adaptation, with moderate
+              emissions reductions over time. SSP 5-8.5 shows a high-emission scenario combining the fossil-fueled development pathway (SSP5) with a radiative forcing level of 8.5 W/m² by 2100. It
+              assumes rapid economic growth driven by heavy reliance on fossil fuels and limited climate policies. This selection also allows the user to choose the data source after selecting the
+              climate change scenario. CHC and ISIMIP are two data sources options provided to the user. The CHC data is a suite of climate data products hosted by the Climate Hazards Center,
+              including CHIRPS (precipitation), CHIRTS (temperature), and CHC CMIP6 bias-corrected climate projections. These datasets support climate monitoring and impact assessment, especially in
+              data-scarce regions. On the other hand, Inter-Sectoral Impact Modal Intercomparison Project (ISIMIP) offers a framework for consistently projecting the impacts of climate change across
+              affected sectors and spatial scales. (a.5.1) The user can further explore various ISIMIP models namely GFDL-ESM4, IPSL-CM6A-LR, MPI-ESM1-2-HR, MRI-ESM2-0, UKESM1-0-LL, and Ensemble. The
+              user can learn more about these models from the glossary section of ACASA. 
             </Typography>
           </Box>
 

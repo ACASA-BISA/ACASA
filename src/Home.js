@@ -80,60 +80,79 @@ Improve climate adaptive capacity of agricultural systems
 
 var items = [
   {
-    name: "Atlas of Climate Adaptation in South Asian Agriculture",
-    description: "Interconnections between climate risks, practices, technologies, and policies",
-    type: "Increase the resilience of small-scale producers to climate variability and change",
     video: "./Home_imgs/Nepal CG.jpg",
     videothumb: "./Home_imgs/Nepal CG.jpg",
     id: 1,
   },
   {
-    name: "Atlas of Climate Adaptation in South Asian Agriculture",
-    description: "Interconnections between climate risks, practices, technologies, and policies",
-    type: "Increase the resilience of small-scale producers to climate variability and change",
     video: "./vid31.mp4",
     videothumb: "./thumb31.jpg",
     id: 2,
   },
   {
-    name: "Atlas of Climate Adaptation in South Asian Agriculture",
-    description: "Interconnections between climate risks, practices, technologies, and policies",
-    type: "Increase the quality, availability, and utility of data and evidence",
     video: "./Home_imgs/India.jpg",
     videothumb: "./Home_imgs/India.jpg",
     id: 3,
   },
   {
-    name: "Atlas of Climate Adaptation in South Asian Agriculture",
-    description: "Interconnections between climate risks, practices, technologies, and policies",
-    type: "Increase the quality, availability, and utility of data and evidence",
     video: "./vid5.mp4",
     videothumb: "./thumb5.jpg",
     id: 4,
   },
   {
-    name: "Atlas of Climate Adaptation in South Asian Agriculture",
-    description: "Interconnections between climate risks, practices, technologies, and policies",
-    type: "Improve climate adaptive capacity of agricultural systems",
     video: "./Home_imgs/IMG_3188.jpg",
     videothumb: "./Home_imgs/IMG_3188.jpg",
     id: 5,
   },
   {
-    name: "Atlas of Climate Adaptation in South Asian Agriculture",
-    description: "Interconnections between climate risks, practices, technologies, and policies",
-    type: "Improve climate adaptive capacity of agricultural systems",
     video: "./vid41.mp4",
     videothumb: "./thumb41.jpg",
     id: 6,
   },
   {
-    name: "Atlas of Climate Adaptation in South Asian Agriculture",
-    description: "Interconnections between climate risks, practices, technologies, and policies",
-    type: "Improve climate adaptive capacity of agricultural systems",
     video: "./Home_imgs/CIMMYT (7).jpg",
     videothumb: "./Home_imgs/CIMMYT (7).jpg",
     id: 7,
+  },
+  {
+    video: "./Home_imgs/43425798842_884ba83b08_o.jpg",
+    videothumb: "./Home_imgs/43425798842_884ba83b08_o.jpg",
+    id: 8,
+  },
+  {
+    video: "./Home_imgs/CGIAR (1).jpg",
+    videothumb: "./Home_imgs/CGIAR (1).jpg",
+    id: 9,
+  },
+  {
+    video: "./Home_imgs/CIMMYT (8).jpg",
+    videothumb: "./Home_imgs/CIMMYT (8).jpg",
+    id: 10,
+  },
+  {
+    video: "./Home_imgs/Fertilizer application.jpg",
+    videothumb: "./Home_imgs/Fertilizer application.jpg",
+    id: 11,
+  },
+  {
+    video: "./Home_imgs/CIMMYT (3).jpg",
+    videothumb: "./Home_imgs/CIMMYT (3).jpg",
+    id: 12,
+  },
+  {
+    video: "./Home_imgs/28474558493_9ac0292ca6_o.jpg",
+    videothumb: "./Home_imgs/28474558493_9ac0292ca6_o.jpg",
+    id: 13,
+  },
+  {
+    video: "./Home_imgs/CGIAR (2).jpg",
+    videothumb: "./Home_imgs/CGIAR (2).jpg",
+    id: 14,
+  },
+  {
+    video: "./Home_imgs/CGIAR (3).jpg",
+    videothumb: "./Home_imgs/CGIAR (3).jpg",
+    id: 15,
   },
 ];
 

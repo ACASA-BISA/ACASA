@@ -130,6 +130,12 @@ export function fetchLocationDataAdap(location, commodity, scenario, adaptation,
   if (activeOptLayer["Gender"]) {
     AdaptLayerName = "Gender Suitability";
   }
+  if (activeOptLayer["Female labourer suitability"]) {
+    AdaptLayerName = "Female labourer suitability";
+  }
+  if (activeOptLayer["Female cultivator suitability"]) {
+    AdaptLayerName = "Female cultivator suitability";
+  }
   if (activeOptLayer["Adaptation Benefits"]) {
     AdaptLayerName = "Adaptation Benefits";
   }
@@ -139,6 +145,8 @@ export function fetchLocationDataAdap(location, commodity, scenario, adaptation,
     activeOptLayer["Economic"] === false &&
     activeOptLayer["Scalability"] === false &&
     activeOptLayer["Gender"] === false &&
+    activeOptLayer["Female labourer suitability"] === false &&
+    activeOptLayer["Female cultivator suitability"] === false &&
     activeOptLayer["Yield"] === false
   ) {
     AdaptLayerName = "Biophysical Suitability";
@@ -149,6 +157,8 @@ export function fetchLocationDataAdap(location, commodity, scenario, adaptation,
   if (AdaptLayerName === "Economic Viability") opt_prefix = "Economic";
   if (AdaptLayerName === "Scalability") opt_prefix = "Scalability";
   if (AdaptLayerName === "Gender Suitability") opt_prefix = "Gender";
+  if (AdaptLayerName === "Female labourer suitability") opt_prefix = "Labour";
+  if (AdaptLayerName === "Female cultivator suitability") opt_prefix = "Cultivator";
   if (AdaptLayerName === "Adaptation Benefits") opt_prefix = "Adaptation";
 
   // Location-based filtering
