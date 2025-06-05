@@ -2045,11 +2045,11 @@ export default function MApp({
           } else {
             let filename = "";
 
-            /*if ((activeScenario === "ssp245" || activeScenario === "ssp585") && modelName !== "CHC") {
+            if ((activeScenario === "ssp245" || activeScenario === "ssp585") && modelName !== "CHC") {
               filename = `${year}_${activeScenario.toUpperCase()}_${modelName}_${activeCrop}_${hazardname[CurrRisk]}.tif`;
             } else {
               filename = `${district_prefix}${activeScenario.toUpperCase()}_${modelName}_${activeCrop}_${hazardname[CurrRisk]}.tif`;
-            }*/
+            }
 
             urlstr = "./Hazards/" + activeCrop + "/" + modelName + "/" + district_n + activeScenario.toUpperCase() + "/" + filename;
           }
