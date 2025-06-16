@@ -11,6 +11,8 @@ import { styled } from "@mui/material/styles";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Legend_Small from "./Legend_Small";
 //import PopperGif from "./PopperGif";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 
 // Array of image URLs, one for each year
 const images = [
@@ -430,6 +432,8 @@ export default function CompV({
     return str;
   }
 
+  const [isMapLoading, setIsMapLoading] = useState(false);
+
   return (
     <div className="viewer-container" style={{ overflow: "hidden" }}>
       <Grid container sx={{ marginTop: "0px", paddingX: "1rem" }} columns={12}>
@@ -596,7 +600,19 @@ export default function CompV({
                   area_dict3={area_dict3}
                   area_dict4={area_dict4}
                   modelName={modelName}
+                  setIsMapLoading={setIsMapLoading}
                 ></Map_Option>
+                <Backdrop
+                  sx={{
+                    backgroundColor: (theme) => (theme.palette.mode === "dark" ? "rgba(0, 0, 0, 0.5)" : "rgba(255, 255, 255, 0.6)"),
+                    color: (theme) => (theme.palette.mode === "dark" ? theme.palette.primary.main : "#333"),
+                    zIndex: (theme) => theme.zIndex.drawer + 1000,
+                  }}
+                  open={isMapLoading}
+                >
+                  <CircularProgress color="inherit" />
+                </Backdrop>
+
                 {(CurrRisk !== "" || activeOpt !== "" || NameImpact !== "") && (
                   <Popper
                     open={true} // Always open
@@ -725,7 +741,18 @@ export default function CompV({
                           area_dict3={area_dict3}
                           area_dict4={area_dict4}
                           modelName={modelName}
+                          setIsMapLoading={setIsMapLoading}
                         ></Map_Option>
+                        <Backdrop
+                          sx={{
+                            backgroundColor: (theme) => (theme.palette.mode === "dark" ? "rgba(0, 0, 0, 0.5)" : "rgba(255, 255, 255, 0.6)"),
+                            color: (theme) => (theme.palette.mode === "dark" ? theme.palette.primary.main : "#333"),
+                            zIndex: (theme) => theme.zIndex.drawer + 1000,
+                          }}
+                          open={isMapLoading}
+                        >
+                          <CircularProgress color="inherit" />
+                        </Backdrop>
                         {(CurrRisk !== "" || activeOpt !== "" || NameImpact !== "") && (
                           <Popper
                             open={true} // Always open
@@ -820,7 +847,18 @@ export default function CompV({
                           area_dict3={area_dict3}
                           area_dict4={area_dict4}
                           modelName={modelName}
+                          setIsMapLoading={setIsMapLoading}
                         ></Map_Option>
+                        <Backdrop
+                          sx={{
+                            backgroundColor: (theme) => (theme.palette.mode === "dark" ? "rgba(0, 0, 0, 0.5)" : "rgba(255, 255, 255, 0.6)"),
+                            color: (theme) => (theme.palette.mode === "dark" ? theme.palette.primary.main : "#333"),
+                            zIndex: (theme) => theme.zIndex.drawer + 1000,
+                          }}
+                          open={isMapLoading}
+                        >
+                          <CircularProgress color="inherit" />
+                        </Backdrop>
                         {(CurrRisk !== "" || activeOpt !== "" || NameImpact !== "") /* && RiskType() !== "Vulnerability" && RiskType() !== "Exposure" */ && (
                           <Popper
                             open={true} // Always open
@@ -1007,7 +1045,18 @@ export default function CompV({
                           area_dict3={area_dict3}
                           area_dict4={area_dict4}
                           modelName={modelName}
+                          setIsMapLoading={setIsMapLoading}
                         ></Map_Option>
+                        <Backdrop
+                          sx={{
+                            backgroundColor: (theme) => (theme.palette.mode === "dark" ? "rgba(0, 0, 0, 0.5)" : "rgba(255, 255, 255, 0.6)"),
+                            color: (theme) => (theme.palette.mode === "dark" ? theme.palette.primary.main : "#333"),
+                            zIndex: (theme) => theme.zIndex.drawer + 1000,
+                          }}
+                          open={isMapLoading}
+                        >
+                          <CircularProgress color="inherit" />
+                        </Backdrop>
                         {(CurrRisk !== "" || activeOpt !== "" || NameImpact !== "") && (
                           <Popper
                             open={true} // Always open
@@ -1103,7 +1152,18 @@ export default function CompV({
                           area_dict4={area_dict4}
                           modelName={modelName}
                           year={2050}
+                          setIsMapLoading={setIsMapLoading}
                         ></Map_Option>
+                        <Backdrop
+                          sx={{
+                            backgroundColor: (theme) => (theme.palette.mode === "dark" ? "rgba(0, 0, 0, 0.5)" : "rgba(255, 255, 255, 0.6)"),
+                            color: (theme) => (theme.palette.mode === "dark" ? theme.palette.primary.main : "#333"),
+                            zIndex: (theme) => theme.zIndex.drawer + 1000,
+                          }}
+                          open={isMapLoading}
+                        >
+                          <CircularProgress color="inherit" />
+                        </Backdrop>
                         {(CurrRisk !== "" || activeOpt !== "" || NameImpact !== "") && (
                           <Popper
                             open={true} // Always open
@@ -1199,7 +1259,18 @@ export default function CompV({
                           area_dict4={area_dict4}
                           modelName={modelName}
                           year={2080}
+                          setIsMapLoading={setIsMapLoading}
                         ></Map_Option>
+                        <Backdrop
+                          sx={{
+                            backgroundColor: (theme) => (theme.palette.mode === "dark" ? "rgba(0, 0, 0, 0.5)" : "rgba(255, 255, 255, 0.6)"),
+                            color: (theme) => (theme.palette.mode === "dark" ? theme.palette.primary.main : "#333"),
+                            zIndex: (theme) => theme.zIndex.drawer + 1000,
+                          }}
+                          open={isMapLoading}
+                        >
+                          <CircularProgress color="inherit" />
+                        </Backdrop>
                         {(CurrRisk !== "" || activeOpt !== "" || NameImpact !== "") && (
                           <Popper
                             open={true} // Always open

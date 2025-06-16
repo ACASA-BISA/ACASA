@@ -215,6 +215,7 @@ export default function MApp({
   area_dict4,
   modelName,
   year,
+  setIsMapLoading,
 }) {
   const ref = useRef(null);
   const mapRef = useRef(null);
@@ -472,7 +473,7 @@ export default function MApp({
   };
 
   const color_hazard_rainfall = {
-   color: [
+    color: [
       "palette",
       ["interpolate", ["linear"], ["*", ["band", 2], 385], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 8],
       ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#d0e6f7", "#8cbfe3", "#4fa0d5", "#4fa0d5", "#2b75b3", "#08306b"],
@@ -1331,7 +1332,7 @@ export default function MApp({
     mapRef.current.addControl(downloadControl);
     downloadControlRef.current = downloadControl;
 
-     if (CurrRisk !== "") {
+    if (CurrRisk !== "") {
       if (
         CurrRisk === "Irrigation" ||
         CurrRisk === "Volumetric Soil Water" ||
@@ -1365,14 +1366,15 @@ export default function MApp({
         mapRef.current.removeControl(popperControlRef.current);
         popperControlRef.current = null;
       }
-    } 
+    }
   }, [filename, CurrRisk]);
 
   useEffect(() => {
     if (popperControlRef.current) {
-      popperControlRef.current.setReactComponent(
+      popperControlRef.current
+        .setReactComponent
         /*<AnimatedTiffPlayer tifUrl="Timeline/classified_34_band_output.tif" />*/
-      );
+        ();
     }
   }, [activeCrop, activeScenario, activeRegion, focus, activeOpt, CurrRisk, activeImpact, activeOptLayer, displayLayer, activeScale, exploreType]);
 
@@ -1753,6 +1755,8 @@ export default function MApp({
   useEffect(() => {
     let source1 = null;
     let opt = 1;
+
+    setIsMapLoading?.(true);
 
     // Fetching files for commodity specific analysis
     if (exploreType === "Commodity") {
@@ -2368,6 +2372,21 @@ export default function MApp({
         mapRef.current.addLayer(newOverl);
         setOverl(newOverl);
       }
+    }
+
+    if (source1) {
+      source1.on("change", function () {
+        const state = source1.getState();
+        if (state === "error") {
+          setmsource(true);
+          setIsMapLoading?.(false);
+        } else if (state === "ready") {
+          setmsource(false);
+          setIsMapLoading?.(false);
+        }
+      });
+    } else {
+      setIsMapLoading?.(false);
     }
   }, [CurrRisk, activeCrop, activeOpt, activeImpact, mapRef, activeScenario, displayLayer, activeScale, exploreType, activeOptLayer]);
 
