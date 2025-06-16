@@ -481,6 +481,42 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                               </Typography>
                             </Box>
                           ) : null}
+                          {(RiskName === "Seasonal Rainfall") ? (
+                            <Box
+                              sx={{
+                                width: 63,
+                                height: 18,
+                                borderRadius: 0,
+                                bgcolor: row.color,
+                                alignContent: "center",
+                              }}
+                            >
+                              <Typography
+                                sx={{
+                                  fontSize: 10,
+                                  marginY: "auto",
+                                  marginX: row.Cat.includes("Medium ") ? "0px" : "3px",
+                                }}
+                                color={index <= 2 && index >= 1 ? "#111" : "white"}
+                                align={row.Cat.includes("Medium ") ? "center" : "left"}
+                              >
+                                {row.Cat.split("\n").map((line, i) => (
+                                  <span
+                                    key={i}
+                                    style={{
+                                      display: "block",
+                                      lineHeight: "1.3", // Adjust line height
+                                      fontStyle: i === 1 ? "italic" : "normal",
+                                      fontWeight: i === 1 ? "normal" : "bold",
+                                      fontSize: i === 1 ? 8 : 10,
+                                    }}
+                                  >
+                                    {line}
+                                  </span>
+                                ))}
+                              </Typography>
+                            </Box>
+                          ) : null}
 
                           {/*{(AdaptLayerName === "Biophysical Suitability" || AdaptLayerName === "Yield Benefits") && adaption !== "" && (
                             <Box
@@ -527,7 +563,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                               AdaptLayerName === "Gender Suitability" ||
                               AdaptLayerName === "Female labourer suitability" ||
                               AdaptLayerName === "Female cultivator suitability") &&
-                              adaption !== "") ||
+                              adaption !== "") || (RiskName === "Seasonal Rainfall") ||
                             ImpactName !== ""
                           ) && (
                             <Box

@@ -434,9 +434,9 @@ const MethodologyPage = () => {
         <Typography variant="h5" sx={{ color: textColor, fontWeight: 600, mb: 1 }}>
           Technologies Used
         </Typography>
-        <Typography variant="body2" sx={{ color: subtitleColor, mb: 2, maxWidth: 600, mx: "auto" }}>
+        {/*<Typography variant="body2" sx={{ color: subtitleColor, mb: 2, maxWidth: 600, mx: "auto" }}>
           Our methodology relies on a robust open-source stack to ensure power, transparency, and reproducibility.
-        </Typography>
+        </Typography>*/}
         <Stack direction="row" spacing={1} justifyContent="center" flexWrap="wrap">
           {["Python", "GDAL", "QGIS", "PostGIS", "GeoTIFF", "OpenLayers", "FastAPI", "NumPy"].map((tool) => (
             <Chip

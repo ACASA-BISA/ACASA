@@ -1184,7 +1184,7 @@ export default function DrawerMapShow({ activeBar }) {
             ></DrawerV>
           )}
 
-          {(activeBar === "future" || activeBar === "future2") && NameScenario === "Baseline" && (
+          {(activeBar === "future" || activeBar === "future2") && (
             <div ref={container}>
               <LocationCard
                 location={activeRegion}
@@ -1193,7 +1193,7 @@ export default function DrawerMapShow({ activeBar }) {
                 activeOptLayer={optionlayer}
                 setHeight1={setHeight1}
                 RiskName={RiskName}
-                scenario="Baseline"
+                scenario={NameScenario}
                 ImpactName={ImpactName}
                 area_data3={area_dict3}
                 area_data4={area_dict4}

@@ -141,13 +141,14 @@ export function fetchLocationDataAdap(location, commodity, scenario, adaptation,
   }
   if (
     activeOptLayer["Biophysical Suitability"] === false &&
-    activeOptLayer["Adaptation Benefits"] === false &&
+    activeOptLayer["Yield"] === false &&
     activeOptLayer["Economic"] === false &&
     activeOptLayer["Scalability"] === false &&
     activeOptLayer["Gender"] === false &&
     activeOptLayer["Female labourer suitability"] === false &&
     activeOptLayer["Female cultivator suitability"] === false &&
-    activeOptLayer["Yield"] === false
+    activeOptLayer["Adaptation Benefits"] === false 
+    
   ) {
     AdaptLayerName = "Biophysical Suitability";
   }

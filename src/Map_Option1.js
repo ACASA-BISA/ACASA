@@ -199,7 +199,7 @@ export default function Map_Option({ activeCrop, focus = "Region", activeRegion,
     color: [
       "palette",
       ["interpolate", ["linear"], ["*", ["band", 2], 385], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 8],
-      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#A52A2A", "#FFDE4D", "#B6F792", "#B6F792", "#00D95A", "#267F2E"],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)","#A52A2A", "#d4ee9e", "#a1d99b", "#a1d99b", "#31a354", "#00441b"],
     ],
   };
 

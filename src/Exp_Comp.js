@@ -114,7 +114,6 @@ export default function CompV({
     scn = "ssp585";
   }
 
-  const [futureModel, setFutureModel] = React.useState("Gender");
   let sec = activeRegion.indexOf(",");
 
   const countryMap1 = {};
@@ -313,7 +312,7 @@ export default function CompV({
     },
   }));
 
-  const values = ["Biophysical Suitability", "Scalability", "Gender", "Yield", "Economic", "Adaptation Benefits"];
+  /*const values = ["Biophysical Suitability", "Scalability", "Gender", "Yield", "Economic", "Adaptation Benefits"];
   const values2 = ["Biophysical Suitability", "Scalability", "Gender", "Female cultivator suitability", "Female labourer suitability", "Yield", "Economic", "Adaptation Benefits"];
 
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -350,6 +349,46 @@ export default function CompV({
       updatedState[sname] = sname === newValue;
     });
     changeOptLayer(updatedState);
+  };*/
+
+  const values = ["Biophysical Suitability", "Scalability", "Gender", "Yield", "Economic", "Adaptation Benefits"];
+
+  const genderOptions = ["Female labourer suitability", "Female cultivator suitability"];
+
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [futureModel, setFutureModel] = React.useState("Gender");
+
+  const handleSelect = (index, overrideGenderValue = null) => {
+    setSelectedIndex(index);
+
+    const selected = values[index];
+    const updatedState = {};
+
+    // Clear all gender options first
+    genderOptions.forEach((g) => {
+      updatedState[g] = false;
+    });
+
+    // Set main tab active
+    values.forEach((name, i) => {
+      updatedState[name] = i === index;
+    });
+
+    if (selected === "Gender") {
+      const subLayer = overrideGenderValue || futureModel || "Gender";
+      updatedState[subLayer] = true;
+    }
+
+    changeOptLayer(updatedState);
+  };
+
+  const handleScenariochange = (event) => {
+    const newValue = event.target.value;
+    setFutureModel(newValue);
+
+    // Force the Gender logic to re-run with the new sub-layer
+    const genderIndex = values.indexOf("Gender");
+    handleSelect(genderIndex, newValue);
   };
 
   useEffect(() => {
@@ -365,6 +404,7 @@ export default function CompV({
     ) {
       setSelectedIndex(0);
     }
+    console.log("activeOptLayer:", activeOptLayer);
   }, [activeOptLayer]);
 
   function RiskType() {
@@ -483,6 +523,7 @@ export default function CompV({
                           sx={{ fontSize: "11px", height: "16px", fontFamily: "Karla", fontWeight: "bold", color: "white" }}
                           value={futureModel}
                           onChange={handleScenariochange}
+                          onClick={(e) => e.stopPropagation()}
                         >
                           <MenuItem value="Gender" sx={{ fontSize: "12px", height: "16px", fontFamily: "Karla" }}>
                             Gender Suitability

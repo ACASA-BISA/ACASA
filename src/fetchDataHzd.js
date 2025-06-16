@@ -217,35 +217,35 @@ export function fetchthedataHzd(activeScale, RiskName, ImpactName, displayLayer,
               (row_data["Rural population under Nil category"] * 0.16) / 1000000
             ),
             createData(
-              "#059212",
+              "#d0e6f7",
               "<25 mm",
               row_data["Cropped Area/Number of animals under Very Low category"],
               ((row_data["Cropped Area/Number of animals under Very Low category"] * 100) / total).toFixed(2),
               (row_data["Rural population under Very Low category"] * 0.16) / 1000000
             ),
             createData(
-              "#00FF00",
+              "#8cbfe3",
               "25-50 mm",
               row_data["Cropped Area/Number of animals under Low category"],
               ((row_data["Cropped Area/Number of animals under Low category"] * 100) / total).toFixed(2),
               (row_data["Rural population under Low category"] * 0.16) / 1000000
             ),
             createData(
-              "#FFDE4D",
+              "#4fa0d5",
               "50-75 mm",
               row_data["Cropped Area/Number of animals under Medium category"],
               ((row_data["Cropped Area/Number of animals under Medium category"] * 100) / total).toFixed(2),
               (row_data["Rural population under Medium category"] * 0.16) / 1000000
             ),
             createData(
-              "#FFA500",
+              "#2b75b3",
               "75-100 mm",
               row_data["Cropped Area/Number of animals under High category"],
               ((row_data["Cropped Area/Number of animals under High category"] * 100) / total).toFixed(2),
               (row_data["Rural population under High category"] * 0.16) / 1000000
             ),
             createData(
-              "#E4003A",
+              "#08306b",
               ">100 mm",
               row_data["Cropped Area/Number of animals under Very High category"],
               ((row_data["Cropped Area/Number of animals under Very High category"] * 100) / total).toFixed(2),
@@ -262,35 +262,35 @@ export function fetchthedataHzd(activeScale, RiskName, ImpactName, displayLayer,
               (row_data["Rural population under Nil category"] * 0.16) / 1000000
             ),
             createData(
-              "#059212",
+              "#d0e6f7",
               "<500 mm",
               row_data["Cropped Area/Number of animals under Very Low category"],
               ((row_data["Cropped Area/Number of animals under Very Low category"] * 100) / total).toFixed(2),
               (row_data["Rural population under Very Low category"] * 0.16) / 1000000
             ),
             createData(
-              "#00FF00",
+              "#8cbfe3",
               "500-1000",
               row_data["Cropped Area/Number of animals under Low category"],
               ((row_data["Cropped Area/Number of animals under Low category"] * 100) / total).toFixed(2),
               (row_data["Rural population under Low category"] * 0.16) / 1000000
             ),
             createData(
-              "#FFDE4D",
+              "#4fa0d5",
               "1000-1500",
               row_data["Cropped Area/Number of animals under Medium category"],
               ((row_data["Cropped Area/Number of animals under Medium category"] * 100) / total).toFixed(2),
               (row_data["Rural population under Medium category"] * 0.16) / 1000000
             ),
             createData(
-              "#FFA500",
+              "#2b75b3",
               "1500-2000",
               row_data["Cropped Area/Number of animals under High category"],
               ((row_data["Cropped Area/Number of animals under High category"] * 100) / total).toFixed(2),
               (row_data["Rural population under High category"] * 0.16) / 1000000
             ),
             createData(
-              "#E4003A",
+              "#08306b",
               ">2000 mm",
               row_data["Cropped Area/Number of animals under Very High category"],
               ((row_data["Cropped Area/Number of animals under Very High category"] * 100) / total).toFixed(2),
@@ -307,35 +307,35 @@ export function fetchthedataHzd(activeScale, RiskName, ImpactName, displayLayer,
               (row_data["Rural population under Nil category"] * 0.16) / 1000000
             ),
             createData(
-              "#059212",
+              "#d0e6f7",
               "<250 mm",
               row_data["Cropped Area/Number of animals under Very Low category"],
               ((row_data["Cropped Area/Number of animals under Very Low category"] * 100) / total).toFixed(2),
               (row_data["Rural population under Very Low category"] * 0.16) / 1000000
             ),
             createData(
-              "#00FF00",
+              "#8cbfe3",
               "250-500",
               row_data["Cropped Area/Number of animals under Low category"],
               ((row_data["Cropped Area/Number of animals under Low category"] * 100) / total).toFixed(2),
               (row_data["Rural population under Low category"] * 0.16) / 1000000
             ),
             createData(
-              "#FFDE4D",
+              "#4fa0d5",
               "500-750",
               row_data["Cropped Area/Number of animals under Medium category"],
               ((row_data["Cropped Area/Number of animals under Medium category"] * 100) / total).toFixed(2),
               (row_data["Rural population under Medium category"] * 0.16) / 1000000
             ),
             createData(
-              "#FFA500",
+              "#2b75b3",
               "750-1000",
               row_data["Cropped Area/Number of animals under High category"],
               ((row_data["Cropped Area/Number of animals under High category"] * 100) / total).toFixed(2),
               (row_data["Rural population under High category"] * 0.16) / 1000000
             ),
             createData(
-              "#E4003A",
+              "#08306b",
               ">1000 mm",
               row_data["Cropped Area/Number of animals under Very High category"],
               ((row_data["Cropped Area/Number of animals under Very High category"] * 100) / total).toFixed(2),

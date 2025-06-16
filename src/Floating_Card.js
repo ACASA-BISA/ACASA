@@ -116,17 +116,23 @@ export default function LocationCard({ location, commodity, adaption, activeOptL
   if (activeOptLayer["Biophysical Suitability"]) {
     AdaptLayerName = "Biophysical Suitability";
   }
-  if (activeOptLayer["Yield"]) {
-    AdaptLayerName = "Yield Benefits";
-  }
-  if (activeOptLayer["Economic"]) {
-    AdaptLayerName = "Economic Viability";
-  }
   if (activeOptLayer["Scalability"]) {
     AdaptLayerName = "Scalability";
   }
   if (activeOptLayer["Gender"]) {
     AdaptLayerName = "Gender Suitability";
+  }
+  if (activeOptLayer["Female labourer suitability"]) {
+    AdaptLayerName = "Female labourer suitability";
+  }
+  if (activeOptLayer["Female cultivator suitability"]) {
+    AdaptLayerName = "Female cultivator suitability";
+  }
+  if (activeOptLayer["Yield"]) {
+    AdaptLayerName = "Yield Benefits";
+  }
+  if (activeOptLayer["Economic"]) {
+    AdaptLayerName = "Economic Viability";
   }
   if (activeOptLayer["Adaptation Benefits"]) {
     AdaptLayerName = "Adaptation Benefits";
@@ -137,14 +143,16 @@ export default function LocationCard({ location, commodity, adaption, activeOptL
     activeOptLayer["Economic"] === false &&
     activeOptLayer["Scalability"] === false &&
     activeOptLayer["Gender"] === false &&
-    activeOptLayer["Yield"] === false
+    activeOptLayer["Yield"] === false &&
+    activeOptLayer["Female labourer suitability"] === false &&
+    activeOptLayer["Female cultivator suitability"] === false
   ) {
     AdaptLayerName = "Biophysical Suitability";
   }
 
-  let data2 = [];
+  /*let data2 = [];
   if (adaption !== "") {
-    const adaptation_data = fetchDataAdap(adaption, location, AdaptLayerName, commodity, scenario, area_data3);
+    const adaptation_data = fetchDataAdap(activeScale, adaption, location, AdaptLayerName, commodity, scenario, area_data3);
     const total = adaptation_data[1].Area + adaptation_data[2].Area + adaptation_data[3].Area + adaptation_data[4].Area + adaptation_data[5].Area;
     data2 = [
       { label: adaptation_data[1].Cat, value: ((adaptation_data[1].Area * 100) / total).toFixed(0) },
@@ -166,7 +174,7 @@ export default function LocationCard({ location, commodity, adaption, activeOptL
       { label: hazard_data[4].Cat, value: ((hazard_data[4].Area * 100) / total).toFixed(0) },
       { label: hazard_data[5].Cat, value: ((hazard_data[5].Area * 100) / total).toFixed(0) },
     ];
-  }
+  }*/
 
   function typrstr() {
     if (RiskType() === "Hazard") {
@@ -332,7 +340,7 @@ export default function LocationCard({ location, commodity, adaption, activeOptL
                 />
               </div>
             )}
-            {adaption !== "" && (
+            {/*{adaption !== "" && (
               <div>
                 <Box sx={{ display: "flex" }}>
                   <Typography
@@ -347,11 +355,11 @@ export default function LocationCard({ location, commodity, adaption, activeOptL
                   </Typography>
                 </Box>
               </div>
-            )}
+            )}*/}
             {RiskName !== "" && (
               <div>
                 <Box sx={{ display: "flex", flexDirection: "row" }}>
-                  <Typography
+                  {/*<Typography
                     sx={(theme) => ({
                       fontSize: 13,
                       color: theme.palette.mode === "dark" ? "white" : "black",
@@ -361,7 +369,7 @@ export default function LocationCard({ location, commodity, adaption, activeOptL
                   </Typography>
                   <Typography sx={{ fontSize: 13 }} color="text.secondary" gutterBottom>
                     {RiskMethod()}
-                  </Typography>
+                  </Typography>*/}
                 </Box>
                 <Typography
                   sx={(theme) => ({
@@ -374,9 +382,9 @@ export default function LocationCard({ location, commodity, adaption, activeOptL
                   <Typography component="span" sx={{ fontSize: 13, fontWeight: "bold" }} color="text.secondary">
                     {RiskName.charAt(0).toUpperCase() + RiskName.toLowerCase().slice(1)}
                     &nbsp;
-                    <Typography component="span" sx={{ fontSize: 12 }}>
+                    {/*<Typography component="span" sx={{ fontSize: 12 }}>
                       {UnitFind(RiskName)}
-                    </Typography>
+                    </Typography>*/}
                   </Typography>
                 </Typography>
               </div>
@@ -452,8 +460,62 @@ export default function LocationCard({ location, commodity, adaption, activeOptL
                         </Typography>
                       )} */}
 
-                    <div>
-                      {checkcrop() === false && (
+                    <Box
+                      sx={{
+                        position: "fixed", // <-- key change
+                        bottom: 25,
+                        left: "57.5%",
+                        transform: "translateX(-50%)",
+                        backgroundColor: "background.paper",
+                        borderRadius: 2,
+                        boxShadow: 3,
+                        paddingX: 3,
+                        paddingY: 1.5,
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 3,
+                        zIndex: 1300, // higher than most other UI elements
+                        border: (theme) => (theme.palette.mode === "dark" ? "1px solid rgba(255, 255, 255, 0.1)" : "1px solid rgba(0, 0, 0, 0.1)"),
+                      }}
+                    >
+                      <Typography sx={{ fontSize: 14, fontWeight: 600, whiteSpace: "nowrap" }} color="text.primary">
+                        {checkcrop() ? `Area under ${commodity.toLowerCase()}` : `Region with ${commodity.toLowerCase()} population`}
+                      </Typography>
+
+                      <Box
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            width: 200,
+                            height: 12,
+                            borderRadius: 6,
+                            background: "linear-gradient(to right, #fff9c4, #ffe680, #ffd700, #daa520, #a0522d, #6b3d1b)",
+                            marginBottom: 0.5,
+                          }}
+                        />
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            width: "100%",
+                          }}
+                        >
+                          {["Very Low", "Low", "Medium", "High", "Very High"].map((label) => (
+                            <Typography key={label} sx={{ fontSize: 11, color: "text.secondary" }}>
+                              {label}
+                            </Typography>
+                          ))}
+                        </Box>
+                      </Box>
+                    </Box>
+
+                    {/*<div>
+                      {checkcrop() === false &&  (
                         <Typography
                           sx={{
                             fontSize: 13,
@@ -554,7 +616,7 @@ export default function LocationCard({ location, commodity, adaption, activeOptL
                           </Typography>
                         </Box>
                       </Box>
-                    </div>
+                    </div>*/}
                   </Box>
                 </Box>
               )}
@@ -576,7 +638,7 @@ export default function LocationCard({ location, commodity, adaption, activeOptL
                       flexDirection: "column",
                     }}
                   >
-                    <PieChart
+                    {/*<PieChart
                       margin={{ top: 10, bottom: 10, left: 10, right: 10 }}
                       colors={palette}
                       series={[
@@ -598,7 +660,7 @@ export default function LocationCard({ location, commodity, adaption, activeOptL
                         },
                       }}
                       {...size}
-                    />
+                    />*/}
                     {/* <TableContainer component={Paper} sx={{marginTop:'7px', 'td,th':{border:'1px solid rgba(224, 224, 224, 1)',paddingX:'4px',paddingY:'2px'}}}>
             <Table size="small" aria-label="a dense table">
                 <TableHead sx={{backgroundColor:'#eeeeee'}}>
@@ -872,7 +934,7 @@ export default function LocationCard({ location, commodity, adaption, activeOptL
                     </Typography>
                     </Box>
                     </Box> */}
-                  <Box
+                  {/*<Box
                     sx={{
                       width: "100%",
                       display: "flex",
@@ -919,7 +981,7 @@ export default function LocationCard({ location, commodity, adaption, activeOptL
                         Number of {commodity.toLowerCase()} by category
                       </Typography>
                     )}
-                  </Box>
+                  </Box>*/}
                   {/* <Box sx={{ display: "flex", flexDirection: "row", width: "100%", gap: "1px" }}>
                     <Box sx={{ display: "flex", flexDirection: "row", width: "100%" }}>
                       <Box sx={{ width: 16, height: 16, borderRadius: 1, bgcolor: "#FF0000", marginY: "4px", marginX: "2px" }} />

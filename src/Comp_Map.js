@@ -28,6 +28,7 @@ import { fetchLocationData } from "./fetchLocationData";
 import { fetchLocationDataAdap } from "./fetchLocationDataAdap";
 import ReactDOM from "react-dom";
 import PopperGif from "./PopperGif";
+import AnimatedTiffPlayer from "./AnimatedTiffPlayer";
 import { file } from "jszip";
 import html2canvas from "html2canvas";
 
@@ -237,12 +238,12 @@ export default function MApp({
     if (activeOpt && activeOpt.trim() !== "") {
       let opt_suffix = "";
       if (activeOptLayer["Yield"]) opt_suffix = "Yield";
-        if (activeOptLayer["Economic"]) opt_suffix = "Economic";
-        if (activeOptLayer["Scalability"]) opt_suffix = "Scalability";
-        if (activeOptLayer["Gender"]) opt_suffix = "Gender";
-        if (activeOptLayer["Female labourer suitability"]) opt_suffix = "Labour";
-        if (activeOptLayer["Female cultivator suitability"]) opt_suffix = "Cultivator";
-        if (activeOptLayer["Adaptation Benefits"]) opt_suffix = "Adaptation";
+      if (activeOptLayer["Economic"]) opt_suffix = "Economic";
+      if (activeOptLayer["Scalability"]) opt_suffix = "Scalability";
+      if (activeOptLayer["Gender"]) opt_suffix = "Gender";
+      if (activeOptLayer["Female labourer suitability"]) opt_suffix = "Labour";
+      if (activeOptLayer["Female cultivator suitability"]) opt_suffix = "Cultivator";
+      if (activeOptLayer["Adaptation Benefits"]) opt_suffix = "Adaptation";
       newFilename = `${activeCrop}_${activeOpt}_${opt_suffix}_${activeScenario}_${activeScale}.tiff`;
     } else if (CurrRisk && CurrRisk.trim() !== "") {
       newFilename = `${activeCrop}_${CurrRisk}_${activeScenario}_${activeScale}.tiff`;
@@ -467,6 +468,14 @@ export default function MApp({
       "palette",
       ["interpolate", ["linear"], ["*", ["band", 2], 385], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 8],
       ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "#059212", "#059212", "#00FF00", "#FFDE4D", "#FFDE4D", "#FFA500", "#FF0000"],
+    ],
+  };
+
+  const color_hazard_rainfall = {
+   color: [
+      "palette",
+      ["interpolate", ["linear"], ["*", ["band", 2], 385], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 8],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#d0e6f7", "#8cbfe3", "#4fa0d5", "#4fa0d5", "#2b75b3", "#08306b"],
     ],
   };
 
@@ -1322,7 +1331,7 @@ export default function MApp({
     mapRef.current.addControl(downloadControl);
     downloadControlRef.current = downloadControl;
 
-    /* if (CurrRisk !== "") {
+     if (CurrRisk !== "") {
       if (
         CurrRisk === "Irrigation" ||
         CurrRisk === "Volumetric Soil Water" ||
@@ -1356,26 +1365,13 @@ export default function MApp({
         mapRef.current.removeControl(popperControlRef.current);
         popperControlRef.current = null;
       }
-    } */
+    } 
   }, [filename, CurrRisk]);
 
   useEffect(() => {
     if (popperControlRef.current) {
       popperControlRef.current.setReactComponent(
-        <PopperGif
-          activeCrop={activeCrop}
-          activeScenario={activeScenario}
-          activeRegion={activeRegion}
-          focus={focus}
-          activeOpt={activeOpt}
-          CurrRisk={CurrRisk}
-          activeImpact={activeImpact}
-          activeOptLayer={activeOptLayer}
-          modelName={modelName}
-          displayLayer={displayLayer}
-          activeScale={activeScale}
-          exploreType={exploreType}
-        />
+        /*<AnimatedTiffPlayer tifUrl="Timeline/classified_34_band_output.tif" />*/
       );
     }
   }, [activeCrop, activeScenario, activeRegion, focus, activeOpt, CurrRisk, activeImpact, activeOptLayer, displayLayer, activeScale, exploreType]);
@@ -2046,7 +2042,8 @@ export default function MApp({
             let filename = "";
 
             if ((activeScenario === "ssp245" || activeScenario === "ssp585") && modelName !== "CHC") {
-              filename = `${year}_${activeScenario.toUpperCase()}_${modelName}_${activeCrop}_${hazardname[CurrRisk]}.tif`;
+              filename = null;
+              // `${year}_${activeScenario.toUpperCase()}_${modelName}_${activeCrop}_${hazardname[CurrRisk]}.gif`;
             } else {
               filename = `${district_prefix}${activeScenario.toUpperCase()}_${modelName}_${activeCrop}_${hazardname[CurrRisk]}.tif`;
             }
@@ -2335,6 +2332,9 @@ export default function MApp({
           CurrRisk === "Income"
         ) {
           newOverl.setStyle(color_hazard_reverse);
+        }
+        if (CurrRisk === "Seasonal Rainfall") {
+          newOverl.setStyle(color_hazard_rainfall);
         }
       } else if (opt === 333) {
         newOverl.setStyle(color_adaptation2);
