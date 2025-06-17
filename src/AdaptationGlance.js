@@ -18,6 +18,7 @@ import Map_Risk from "./Map_Risk1";
 import Map_Index2 from "./Map_HazardIndex2.js";
 import Map_Option from "./Map_Option1";
 import LegendComp from "./LegendComp.js";
+import LegendCompOpt from "./LegendComp_Option.js";
 import { fetchthedataHzd } from "./fetchDataHzd.js";
 import { fetchDataAdap } from "./fetchDataAdap.js";
 

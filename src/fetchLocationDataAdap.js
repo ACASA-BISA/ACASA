@@ -161,6 +161,7 @@ export function fetchLocationDataAdap(location, commodity, scenario, adaptation,
   if (AdaptLayerName === "Female cultivator suitability") opt_prefix = "Cultivator";
   if (AdaptLayerName === "Adaptation Benefits") opt_prefix = "Adaptation";
 
+  /*
   // Location-based filtering
   if (!location.includes(",")) {
     // Case 1: South Asia selected
@@ -172,7 +173,8 @@ export function fetchLocationDataAdap(location, commodity, scenario, adaptation,
     }
   } else {
     // Case 3: State selected
-    const [selectedCountry, selectedState] = location.split(",").map((item) => item.trim());
+    const [selectedState, selectedCountry] = location.split(",").map((item) => item.trim());
+
 
     let statecode = "";
 
@@ -190,6 +192,19 @@ export function fetchLocationDataAdap(location, commodity, scenario, adaptation,
       statecode = selectedState;
     }
     filteredData = filteredData.filter((row) => row.Country === selectedCountry && row.State === statecode);
+  }
+    */
+
+  // Location-based filtering
+  if (location === "South Asia") {
+    // Case 1: South Asia selected
+    filteredData = filteredData.filter((row) => row.State === "Total Country");
+  } else {
+    // Case 2 & 3: Country or State selected
+    // Get country from location (even if it's "State, Country")
+    const selectedCountry = location.includes(",") ? location.split(",")[1].trim() : location.trim();
+
+    filteredData = filteredData.filter((row) => row.Country === selectedCountry);
   }
 
   // Apply additional filters (Commodity, Scenario, adaptation)
