@@ -86,6 +86,12 @@ export function fetchLocationData(location, commodity, scenario, hazard, data, a
       statecode = selectedState.substring(0, selectedState.length - 9) + "DIV";
     } else if (selectedCountry === "Nepal") {
       statecode = selectedState + "DIV";
+    } else if (selectedCountry === "India") {
+      // Assuming no DIV suffix for Indian states
+      statecode = selectedState;
+    } else if (selectedCountry === "Sri Lanka") {
+      // Assuming Sri Lankan provinces are written as-is
+      statecode = selectedState;
     } else {
       statecode = selectedState;
     }

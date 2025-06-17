@@ -147,8 +147,7 @@ export function fetchLocationDataAdap(location, commodity, scenario, adaptation,
     activeOptLayer["Gender"] === false &&
     activeOptLayer["Female labourer suitability"] === false &&
     activeOptLayer["Female cultivator suitability"] === false &&
-    activeOptLayer["Adaptation Benefits"] === false 
-    
+    activeOptLayer["Adaptation Benefits"] === false
   ) {
     AdaptLayerName = "Biophysical Suitability";
   }
@@ -181,6 +180,12 @@ export function fetchLocationDataAdap(location, commodity, scenario, adaptation,
       statecode = selectedState.substring(0, selectedState.length - 9) + "DIV";
     } else if (selectedCountry === "Nepal") {
       statecode = selectedState + "DIV";
+    } else if (selectedCountry === "India") {
+      // Assuming no DIV suffix for Indian states
+      statecode = selectedState;
+    } else if (selectedCountry === "Sri Lanka") {
+      // Assuming Sri Lankan provinces are written as-is
+      statecode = selectedState;
     } else {
       statecode = selectedState;
     }
