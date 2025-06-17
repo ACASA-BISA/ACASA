@@ -48,7 +48,7 @@ export default function AdaptationGlance({
   opt7,
   changeOptLayer2,
   optionlayer2,
-  activeScale
+  activeScale,
 }) {
   const [NameScenario, setNameScenario] = React.useState("baseline");
 
@@ -173,7 +173,7 @@ export default function AdaptationGlance({
             ]}
           >
             {checkcrop() && <LegendComp legendData={fetchthedataHzd("Pixel Level", "", "Productivity", "Absolute", activeRegion2, NameScenario, crop2, area_data4)} />}
-            {checkcrop() === false && <LegendComp legendData={fetchthedataHzd("Pixel Level", "Hazard Index", "", "Absolute", activeRegion2, NameScenario, crop2, area_data4)} />}
+            {checkcrop() === false && <LegendCompOpt legendData={fetchthedataHzd("Pixel Level", "Hazard Index", "", "Absolute", activeRegion2, NameScenario, crop2, area_data4)} />}
           </Popper>
         </Grid>
         <Grid item xs={9}>
@@ -227,7 +227,9 @@ export default function AdaptationGlance({
                   },
                 ]}
               >
-                <LegendComp legendData={fetchDataAdap(activeScale, opt2, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />
+                {checkcrop() && <LegendComp legendData={fetchDataAdap(activeScale, opt2, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />}
+                {checkcrop() === false && <LegendCompOpt legendData={fetchDataAdap(activeScale, opt2, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />}
+                {/* <LegendComp legendData={fetchDataAdap(activeScale, opt2, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} /> */}
               </Popper>
             </Grid>
             <Grid item xs={4} key="2">
@@ -279,7 +281,9 @@ export default function AdaptationGlance({
                   },
                 ]}
               >
-                <LegendComp legendData={fetchDataAdap(activeScale, opt3, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />
+                {checkcrop() && <LegendComp legendData={fetchDataAdap(activeScale, opt3, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />}
+                {checkcrop() === false && <LegendCompOpt legendData={fetchDataAdap(activeScale, opt3, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />}
+                {/* <LegendComp legendData={fetchDataAdap(activeScale, opt3, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} /> */}
               </Popper>
             </Grid>
             <Grid item xs={4} key="3">
@@ -331,7 +335,9 @@ export default function AdaptationGlance({
                   },
                 ]}
               >
-                <LegendComp legendData={fetchDataAdap(activeScale, opt4, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />
+                {checkcrop() && <LegendComp legendData={fetchDataAdap(activeScale, opt4, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />}
+                {checkcrop() === false && <LegendCompOpt legendData={fetchDataAdap(activeScale, opt4, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />}
+                {/*<LegendComp legendData={fetchDataAdap(activeScale, opt4, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />*/}
               </Popper>
             </Grid>
             <Grid item xs={4} key="4">
@@ -383,7 +389,9 @@ export default function AdaptationGlance({
                   },
                 ]}
               >
-                <LegendComp legendData={fetchDataAdap(activeScale, opt5, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />
+                {checkcrop() && <LegendComp legendData={fetchDataAdap(activeScale, opt5, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />}
+                {checkcrop() === false && <LegendCompOpt legendData={fetchDataAdap(activeScale, opt5, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />}
+                {/*<LegendComp legendData={fetchDataAdap(activeScale, opt5, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />*/}
               </Popper>
             </Grid>
             <Grid item xs={4} key="5">
@@ -435,7 +443,9 @@ export default function AdaptationGlance({
                   },
                 ]}
               >
-                <LegendComp legendData={fetchDataAdap(activeScale, opt6, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />
+                {checkcrop() && <LegendComp legendData={fetchDataAdap(activeScale, opt6, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />}
+                {checkcrop() === false && <LegendCompOpt legendData={fetchDataAdap(activeScale, opt6, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />}
+                {/*<LegendComp legendData={fetchDataAdap(activeScale, opt6, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />*/}
               </Popper>
             </Grid>
             <Grid item xs={4} key="6">
@@ -487,7 +497,9 @@ export default function AdaptationGlance({
                   },
                 ]}
               >
-                <LegendComp legendData={fetchDataAdap(activeScale, opt7, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />
+                {checkcrop() && <LegendComp legendData={fetchDataAdap(activeScale, opt7, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />}
+                {checkcrop() === false && <LegendCompOpt legendData={fetchDataAdap(activeScale, opt7, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />}
+                {/*<LegendComp legendData={fetchDataAdap(activeScale, opt7, activeRegion2, optionlayer2, crop2, NameScenario, area_data3)} />*/}
               </Popper>
             </Grid>
           </Grid>

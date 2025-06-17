@@ -16,7 +16,7 @@ const LegendCompOpt = ({ legendData }) => {
             };
           }}
         >
-          <span>Number of livestocks, million</span>
+          <span>Number of livestock, million</span>
         </Typography>
       </Box>
       <Box

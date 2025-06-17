@@ -166,7 +166,8 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
           <Box sx={{ display: "flex", marginTop: "-10px", justifyContent: "center" }}>
             <Typography sx={(theme) => ({ fontSize: 11.5, marginBottom: "2px", color: theme.palette.mode === "dark" ? "white" : "black" })}>
               {scenario !== "baseline" && ImpactName === "Productivity" && "Percent change in "}
-              {ImpactName === "Productivity" && <strong>Yield</strong>}
+              {ImpactName === "Productivity" && <strong>Yield </strong>}
+              {scenario === "baseline" && ImpactName === "Productivity" && "(kg/ha)"}
               <strong>{ImpactName !== "Productivity" && ImpactName.charAt(0).toUpperCase() + ImpactName.toLowerCase().slice(1)}</strong>
             </Typography>
           </Box>
@@ -206,7 +207,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                   };
                 }}
               >
-                <span>Number of rural farm households, million</span>
+                <span>Number of rural farm households, million (M)</span>
               </Typography>
             </Box>
           </div>
@@ -699,7 +700,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                   };
                 }}
               >
-                <span>{commodity} area, million hectare</span>
+                <span>{commodity} area, million hectare (Mha)</span>
               </Typography>
             </Box>
           </div>
@@ -721,7 +722,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
               >
                 <span>
                   Number of {commodity.toLowerCase()}
-                  {commodity === "Buffalo" ? "es" : commodity === "Sheep" || commodity === "Cattle" ? "" : "s"}, million
+                  {commodity === "Buffalo" ? "es" : commodity === "Sheep" || commodity === "Cattle" ? "" : "s"}, million (M)
                 </span>
               </Typography>
             </Box>
