@@ -244,7 +244,7 @@ const renderFormattedText = (text) => {
       }
       if (line.trim()) {
         elements.push(
-          <Typography key={index} variant="body2" sx={{ mb: 1.2, color: "#aaa", textAlign: "left" }}>
+          <Typography key={index} variant="body2" sx={{ mb: 1.2, color: "#aaa", textAlign: "left", fontFamily: "revert" }}>
             {linkify(line)}
           </Typography>
         );
@@ -264,16 +264,46 @@ const renderFormattedText = (text) => {
   return elements;
 };
 
-const linkify = (text) =>
-  text.split(/(https?:\/\/[^\s]+)/g).map((part, i) =>
-    part.match(/^https?:\/\//) ? (
-      <a key={i} href={part} target="_blank" rel="noopener noreferrer" style={{ color: "#81c784" }}>
-        {part}
+const linkify = (text) => {
+  // Replace [text](url) links first
+  const mdLinkRegex = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g;
+  const parts = [];
+  let lastIndex = 0;
+
+  // Match markdown-style links
+  text.replace(mdLinkRegex, (match, linkText, url, offset) => {
+    if (lastIndex < offset) {
+      parts.push(text.slice(lastIndex, offset));
+    }
+    parts.push(
+      <a key={parts.length} href={url} target="_blank" rel="noopener noreferrer" style={{ color: "#81c784" }}>
+        {linkText}
       </a>
-    ) : (
-      part
-    )
+    );
+    lastIndex = offset + match.length;
+    return match;
+  });
+
+  // Add remaining text after the last link
+  if (lastIndex < text.length) {
+    parts.push(text.slice(lastIndex));
+  }
+
+  // Further split and linkify any plain URLs in the non-markdown text
+  return parts.flatMap((part, i) =>
+    typeof part === "string"
+      ? part.split(/(https?:\/\/[^\s]+)/g).map((subpart, j) =>
+          subpart.match(/^https?:\/\//) ? (
+            <a key={`${i}-${j}`} href={subpart} target="_blank" rel="noopener noreferrer" style={{ color: "#81c784" }}>
+              {subpart}
+            </a>
+          ) : (
+            subpart
+          )
+        )
+      : part
   );
+};
 
 const steps = [
   {
@@ -342,7 +372,7 @@ const steps = [
     subsections: [
       {
         title: "Biophysical suitability",
-        desc: `Biophysical Suitability 	The development of adaptation options suitability maps in ACASA Version 1.0 followed a systematic, multi-stage methodology designed to ensure that the resulting maps are both scientifically robust and contextually relevant for South Asian agriculture. The process began with identifying and reviewing climatic hazards affecting major agricultural commodities, followed by mapping adaptation strategies to these hazards based on their demonstrated effectiveness and contextual relevance. The identification process was informed by expert insights, historical data, and documented case studies, ensuring that the adaptation options considered were both practical and evidence based.
+        desc: `The development of adaptation options suitability maps in ACASA Version 1.0 followed a systematic, multi-stage methodology designed to ensure that the resulting maps are both scientifically robust and contextually relevant for South Asian agriculture. The process began with identifying and reviewing climatic hazards affecting major agricultural commodities, followed by mapping adaptation strategies to these hazards based on their demonstrated effectiveness and contextual relevance. The identification process was informed by expert insights, historical data, and documented case studies, ensuring that the adaptation options considered were both practical and evidence based.
 
         To build a comprehensive database of adaptation strategies, a heuristic approach was employed, starting with a systematic literature review. This was complemented by a desk review of grey literature, including reports from agricultural research institutions, NGOs, and government agencies, as well as workshop outputs and survey data. In the next phase, data collected from literature and desk reviews were synthesized and analyzed. Adaptation options were categorized based on climatic region, landforms, soil types, and irrigation or water availability contexts, allowing identification of strategies best suited to specific environmental settings. Both qualitative and quantitative assessments were conducted to evaluate feasibility, effectiveness, and socio-economic impact. This categorization laid a strong foundation for mapping adaptation suitability across the region.
 
@@ -354,7 +384,7 @@ const steps = [
         title: "Scalability",
         desc: `Scalability refers to the feasibility of implementing adaptation options across South Asia. A literature review and stakeholder consultations were conducted to identify key enablers and barriers influencing the adoption of each adaptation option. 
         
-        Scalability was quantified using a composite index constructed from six key dimensions: credit availability, input access, social networks, education, labor availability, and access to information. Relevant proxies were selected for each dimension, and equal weights were applied to compute a relative composite indicator. The base data was sourced primarily from village-level infrastructure datasets collected under India’s Mission Antyodaya (https://missionantyodaya.nic.in/ma2019/home), and from corresponding government portals in other South Asian countries. The 2019 village-level data was aggregated to ACASA grids using zonal statistics methods.`,
+        Scalability was quantified using a composite index constructed from six key dimensions: credit availability, input access, social networks, education, labor availability, and access to information. Relevant proxies were selected for each dimension, and equal weights were applied to compute a relative composite indicator. The base data was sourced primarily from village-level infrastructure datasets collected under [India’s Mission Antyodaya](https://missionantyodaya.nic.in/ma2019/home), and from corresponding government portals in other South Asian countries. The 2019 village-level data was aggregated to ACASA grids using zonal statistics methods.`,
       },
       {
         title: "Gender suitability",
@@ -393,11 +423,11 @@ const MethodologyPage = () => {
   const { mode } = useContext(ThemeContext);
   const isDark = mode === "dark";
   const isMobile = useMediaQuery("(max-width: 600px)");
-  const accent = "#81c784";
+  const accent = isDark ? "#61c258" : "#4ba046";
 
-  const backgroundColor = isDark ? "#121416" : "#f9f9f9";
-  const cardColor = isDark ? "#1e2226cc" : "#ffffffcc";
-  const textColor = isDark ? "#e0e0e0" : "#222";
+  const backgroundColor = isDark ? "#1b1f23" : "#f9f9f9";
+  const cardColor = isDark ? "#25292e" : "#ffffffcc";
+  const textColor = isDark ? "#e0e0e0" : "#333333";
   const subtitleColor = isDark ? "#9e9e9e" : "#555";
 
   const [expandedStep, setExpandedStep] = useState(null);
@@ -408,20 +438,24 @@ const MethodologyPage = () => {
   };
 
   const toggleSubsection = (stepIndex, subIndex) => {
-    setExpandedSubsections((prev) => ({
-      ...prev,
-      [stepIndex]: {
-        ...prev[stepIndex],
-        [subIndex]: !prev[stepIndex]?.[subIndex],
-      },
-    }));
+    setExpandedSubsections((prev) => {
+      const currentlyOpen = prev[stepIndex]?.[subIndex];
+
+      // Close all subsections in this step, then open the clicked one (if it wasn't already open)
+      return {
+        ...prev,
+        [stepIndex]: {
+          [subIndex]: !currentlyOpen,
+        },
+      };
+    });
   };
 
   return (
     <Box sx={{ backgroundColor, minHeight: "100vh", px: 2, py: 3 }}>
       <Box sx={{ textAlign: "left", mb: 10 }}>
         <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
-          <Typography variant="h3" sx={{ fontWeight: 700, color: accent, letterSpacing: 1.2, mb: 2 }}>
+          <Typography variant="h3" sx={{ fontWeight: 700, color: accent, letterSpacing: 1.2, mb: 2, fontFamily: "revert" }}>
             Methodology
           </Typography>
           <Typography variant="body1" sx={{ textAlign: "left", mx: "auto", color: subtitleColor }}></Typography>
@@ -524,23 +558,27 @@ const MethodologyPage = () => {
                     }}
                   >
                     <Box
+                      onClick={() => toggleStep(i)}
                       sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
+                        "display": "flex",
+                        "alignItems": "center",
+                        "justifyContent": "space-between",
+                        "cursor": "pointer",
+                        "&:hover": {
+                          borderRadius: 2,
+                          transition: "background 0.2s ease",
+                        },
                       }}
                     >
-                      <Typography variant="h6" sx={{ textAlign: "left", color: textColor, fontWeight: 600 }}>
+                      <Typography variant="h6" sx={{ textAlign: "left", color: textColor, fontWeight: 600, fontFamily: "revert" }}>
                         {step.title}
                       </Typography>
-                      <IconButton onClick={() => toggleStep(i)} size="small" sx={{ color: subtitleColor }}>
-                        {expandedStep === i ? <ExpandLess /> : <ExpandMore />}
-                      </IconButton>
+                      {expandedStep === i ? <ExpandLess sx={{ color: subtitleColor }} /> : <ExpandMore sx={{ color: subtitleColor }} />}
                     </Box>
 
                     <Collapse in={expandedStep === i}>
                       <Box sx={{ mt: 1 }}>
-                        <Typography variant="body2" sx={{ textAlign: "left", color: subtitleColor }}>
+                        <Typography variant="body2" sx={{ textAlign: "left", color: subtitleColor, fontFamily: "revert" }}>
                           {step.desc}
                         </Typography>
 
@@ -549,22 +587,29 @@ const MethodologyPage = () => {
                           return (
                             <Box key={j} sx={{ mt: 2, borderLeft: `3px solid ${accent}55`, pl: 2 }}>
                               <Box
+                                onClick={() => toggleSubsection(i, j)}
                                 sx={{
-                                  display: "flex",
-                                  justifyContent: "space-between",
-                                  alignItems: "center",
+                                  "display": "flex",
+                                  "justifyContent": "space-between",
+                                  "alignItems": "center",
+                                  "cursor": "pointer",
+                                  "&:hover": {
+                                    backgroundColor: isDark ? "#2a2e33" : "#f1f1f1",
+                                    borderRadius: 1,
+                                    transition: "background 0.2s ease",
+                                  },
+                                  "py": 0.5,
                                 }}
                               >
                                 <Box sx={{ display: "flex", alignItems: "center" }}>
                                   <SubdirectoryArrowRight sx={{ color: accent, mr: 1 }} />
-                                  <Typography variant="subtitle2" sx={{ color: textColor, fontWeight: 600 }}>
+                                  <Typography variant="subtitle2" sx={{ color: textColor, fontWeight: 600, fontFamily: "revert" }}>
                                     {sub.title}
                                   </Typography>
                                 </Box>
-                                <IconButton onClick={() => toggleSubsection(i, j)} size="small" sx={{ color: subtitleColor }}>
-                                  {isOpen ? <ExpandLess /> : <ExpandMore />}
-                                </IconButton>
+                                {isOpen ? <ExpandLess sx={{ color: subtitleColor }} /> : <ExpandMore sx={{ color: subtitleColor }} />}
                               </Box>
+
                               <Collapse in={isOpen}>
                                 <Box sx={{ mt: 1 }}>{renderFormattedText(sub.desc)}</Box>
                               </Collapse>
@@ -589,13 +634,10 @@ const MethodologyPage = () => {
           mx: "auto",
         }}
       />
-      <Box sx={{ textAlign: "center" }}>
+      {/*<Box sx={{ textAlign: "center" }}>
         <Typography variant="h5" sx={{ color: textColor, fontWeight: 600, mb: 1 }}>
           Technologies Used
         </Typography>
-        {/*<Typography variant="body2" sx={{ color: subtitleColor, mb: 2, maxWidth: 600, mx: "auto" }}>
-          Our methodology relies on a robust open-source stack to ensure power, transparency, and reproducibility.
-        </Typography>*/}
         <Stack direction="row" spacing={1} justifyContent="center" flexWrap="wrap">
           {["Python", "GDAL", "QGIS", "PostGIS", "GeoTIFF", "OpenLayers", "FastAPI", "NumPy"].map((tool) => (
             <Chip
@@ -613,7 +655,7 @@ const MethodologyPage = () => {
             />
           ))}
         </Stack>
-      </Box>
+      </Box>*/}
     </Box>
   );
 };

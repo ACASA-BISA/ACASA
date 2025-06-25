@@ -57,10 +57,10 @@ export default function ResTabsData() {
   }, [tabFromURL, navigate]);
 
   const handleTabChange = (e, index) => {
-    if (index === 3) {
+    /*if (index === 3) {
       setOpenSnackbar(true);
       return;
-    }
+    }*/
 
     if (index === 4 || index === 5) {
       return; // Prevent navigation to tabs 4 and 5
