@@ -28,9 +28,11 @@ import { fetchLocationData } from "./fetchLocationData";
 import { fetchLocationDataAdap } from "./fetchLocationDataAdap";
 import ReactDOM from "react-dom";
 import PopperGif from "./PopperGif";
-import AnimatedTiffPlayer from "./AnimatedTiffPlayer";
+import MultiBandMapViewer from "./MultiBandMapViewer";
 import { file } from "jszip";
 import html2canvas from "html2canvas";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 
 const optcode = {
   "Stress tolerant variety": "ADVAR",
@@ -427,6 +429,14 @@ export default function MApp({
       "palette",
       ["interpolate", ["linear"], ["*", ["band", 2], 385], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 8, 9, 9],
       ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#059212", "#00FF00", "#FFDE4D", "#FFDE4D", "#FFA500", "#FF0000", "rgba(150,150,150,1)"],
+    ],
+  };
+
+  const color_yield_baseline = {
+    color: [
+      "palette",
+      ["interpolate", ["linear"], ["*", ["band", 2], 385], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 8, 9, 9],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#d73027", "#fc8d59", "#fee08b", "#fee08b", "#91bfdb", "#4575b4", "rgba(150,150,150,1)"],
     ],
   };
 
@@ -1373,10 +1383,18 @@ export default function MApp({
     if (popperControlRef.current) {
       popperControlRef.current
         .setReactComponent
-        /*<AnimatedTiffPlayer tifUrl="Timeline/classified_34_band_output.tif" />*/
+        /*<ThemeContext.Provider value={{ mode }}>
+        <MultiBandMapViewer
+          activeCrop={activeCrop}
+          activeRegion={activeRegion}
+          CurrRisk={CurrRisk}
+          activeScenario={activeScenario}
+          focus="Region"
+        />
+      </ThemeContext.Provider>*/
         ();
     }
-  }, [activeCrop, activeScenario, activeRegion, focus, activeOpt, CurrRisk, activeImpact, activeOptLayer, displayLayer, activeScale, exploreType]);
+  }, [activeCrop, activeScenario, activeRegion, focus, CurrRisk]);
 
   useEffect(() => {
     let sourcet;
@@ -2348,6 +2366,9 @@ export default function MApp({
         //newOverl.setStyle(color_hazard4);
       } else if (opt === 555) {
         newOverl.setStyle(color_IMPACT);
+        if (activeImpact["Productivity"] && activeScenario === "baseline") {
+          newOverl.setStyle(color_yield_baseline);
+        }
       } else if (opt === 444) {
         newOverl.setStyle(color_adaptation_yield);
       } else if (opt === 666) {
@@ -2362,6 +2383,9 @@ export default function MApp({
         newOverl.setStyle(color_hazard_gender);
       } else if (opt === 222) {
         newOverl.setStyle(color_adaptation_yield2);
+        if (activeOptLayer["Adaptation Benefits"] && activeScenario === "baseline") {
+          newOverl.setStyle(color_yield_baseline);
+        }
         if (checkcrop2() === false) {
           newOverl.setStyle(color_adaptation_livestock);
         }
@@ -2572,6 +2596,12 @@ export default function MApp({
     }
   }, [activeOptLayer, activeOpt, mapRef]); */
   //let optionname = activeOpt;
+  const [showTooltip, setShowTooltip] = useState(true);
+
+  useEffect(() => {
+    setShowTooltip(true);
+  }, [CurrRisk, activeScenario, activeOptLayer]);
+
   function for_unavailabe_future_data() {
     if (
       CurrRisk === "Irrigation" ||
@@ -2594,11 +2624,17 @@ export default function MApp({
       }
     }
 
-    if (activeOptLayer["Gender"] && activeOptLayer["Yield"] === false) {
+    if (activeScenario === "baseline" && activeOptLayer["Gender"] && activeOptLayer["Yield"] === false) {
       return 3;
     }
-    if (activeOptLayer["Scalability"] && activeOptLayer["Gender"] === false) {
+    if (activeScenario !== "baseline" && activeOptLayer["Gender"] && activeOptLayer["Yield"] === false) {
+      return 6;
+    }
+    if (activeScenario === "baseline" && activeOptLayer["Scalability"] && activeOptLayer["Gender"] === false) {
       return 5;
+    }
+    if (activeScenario !== "baseline" && activeOptLayer["Scalability"] && activeOptLayer["Gender"] === false) {
+      return 7;
     }
     if (activeOptLayer["Yield"]) {
       //return 4;
@@ -2611,13 +2647,15 @@ export default function MApp({
       <div id="popup2" class="ol-popup">
         <div id="popup-content2" style={{ textTransform: "capitalize", fontSize: "13px" }}></div>
       </div>
-      <Tooltip
+      {/*<Tooltip
         title={
           <Typography sx={{ fontSize: 12 }}>
             {for_unavailabe_future_data() === 1 && "Since no data is available for this scenario, we have replicated the baseline data"}
             {for_unavailabe_future_data() === 3 && "This denotes technology suitability for women. Analysis for outside India in progress."}
+            {for_unavailabe_future_data() === 6 && "Since no data is available for this scenario, we have replicated the baseline data. This denotes technology suitability for women. Analysis for outside India in progress."}
             {for_unavailabe_future_data() === 4 && "These are test results for understanding the website layout, results will be updated in future."}
             {for_unavailabe_future_data() === 5 && "Analysis for outside India in progress."}
+            {for_unavailabe_future_data() === 7 && "Since no data is available for this scenario, we have replicated the baseline data. Analysis for outside India in progress."}
           </Typography>
         }
         open={for_unavailabe_future_data() !== 2}
@@ -2639,6 +2677,63 @@ export default function MApp({
         <div
           ref={ref}
           style={{ height: activeOpt === "" && checkcrop2() ? "calc(100vh - 155px)" : "calc(100vh - 175px)", width: "auto", marginLeft: 0, marginBottom: "0px", padding: 0 }}
+          className="map-container"
+        />
+      </Tooltip>*/}
+
+      <Tooltip
+        title={
+          <div style={{ display: "flex", alignItems: "start", maxWidth: 280 }}>
+            <Typography sx={{ fontSize: 12 }}>
+              {for_unavailabe_future_data() === 1 && "Since no data is available for this scenario, we have replicated the baseline data"}
+              {for_unavailabe_future_data() === 3 && "This denotes technology suitability for women. Analysis for outside India in progress."}
+              {for_unavailabe_future_data() === 6 &&
+                "Since no data is available for this scenario, we have replicated the baseline data. This denotes technology suitability for women. Analysis for outside India in progress."}
+              {for_unavailabe_future_data() === 4 && "These are test results for understanding the website layout, results will be updated in future."}
+              {for_unavailabe_future_data() === 5 && "Analysis for outside India in progress."}
+              {for_unavailabe_future_data() === 7 && "Since no data is available for this scenario, we have replicated the baseline data. Analysis for outside India in progress."}
+            </Typography>
+            <IconButton
+              size="small"
+              onClick={() => setShowTooltip(false)}
+              sx={{
+                ml: 1,
+                mt: "-4px",
+                color: "#fff",
+                backgroundColor: "rgba(0,0,0,0.3)",
+                height: 24,
+                width: 24,
+              }}
+            >
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          </div>
+        }
+        open={showTooltip && for_unavailabe_future_data() !== 2}
+        placement="top"
+        slotProps={{
+          popper: {
+            modifiers: [
+              {
+                name: "offset",
+                options: {
+                  offset: [0, for_unavailabe_future_data() === 5 ? -40 : -60],
+                },
+              },
+            ],
+          },
+        }}
+        PopperProps={{ style: { zIndex: 0 } }}
+      >
+        <div
+          ref={ref}
+          style={{
+            height: activeOpt === "" && checkcrop2() ? "calc(100vh - 155px)" : "calc(100vh - 175px)",
+            width: "auto",
+            marginLeft: 0,
+            marginBottom: "0px",
+            padding: 0,
+          }}
           className="map-container"
         />
       </Tooltip>

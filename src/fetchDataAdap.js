@@ -268,11 +268,11 @@ export function fetchDataAdap(activeScale, adaption, location, AdaptLayerName, c
         scenario === "baseline"
           ? [
               ["#969696", "No significant change"],
-              ["rgb(248, 36, 36)", "Very Low"], //"#E4003A"
-              ["#FF8C00", "Low"], //"#FFA500"
-              ["#FFDE4D", "Medium"],
-              ["rgba(109, 233, 109, 1)", "High"],
-              ["rgba(4, 145, 4, 1)", "Very High"],
+              ["#d73027", "Very Low"], //"#E4003A"
+              ["#fc8d59", "Low"], //"#FFA500"
+              ["#fee08b", "Medium"],
+              ["#91bfdb", "High"],
+              ["#4575b4", "Very High"],
             ]
           : [
               ["#969696", "No significant change"],

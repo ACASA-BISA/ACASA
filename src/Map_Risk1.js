@@ -62,6 +62,14 @@ export default function Map_Risk({ activeCrop, focus = "Region", activeRegion, a
     ],
   };
 
+  const color_yield_baseline = {
+    color: [
+      "palette",
+      ["interpolate", ["linear"], ["*", ["band", 2], 385], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 8, 9, 9],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#d73027", "#fc8d59", "#fee08b", "#fee08b", "#91bfdb", "#4575b4", "rgba(150,150,150,1)"],
+    ],
+  };
+
   const key = "TrN2dn4maoO3C2x0sUpH";
 
   /*const sourcemap = new tilesource({
@@ -369,7 +377,11 @@ export default function Map_Risk({ activeCrop, focus = "Region", activeRegion, a
       newOverl.setOpacity(0.85);
       newOverl.setZIndex(90);
 
-      newOverl.setStyle(color_IMPACT);
+      if (activeScenario !== "baseline") {
+        newOverl.setStyle(color_IMPACT);
+      } else {
+        newOverl.setStyle(color_yield_baseline);
+      }
 
       if (mapRef.current) {
         mapRef.current.addLayer(newOverl);

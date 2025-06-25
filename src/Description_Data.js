@@ -1273,6 +1273,17 @@ export default function Description() {
             The details of the data source and method is described below.
           </Typography>
 
+          <Typography
+            sx={{
+              fontSize: "15px",
+              marginTop: "8px",
+              color: (theme) => (theme.palette.mode === "dark" ? "#e53935" : "#b71c1c"),
+              /*fontFamily: "revert",*/
+            }}
+          >
+            Synchronisation of data across different commodities is a work in progress on this page. 
+          </Typography>
+
           <div className="filter-container">
             <div className="card-filters">
               <FormControl

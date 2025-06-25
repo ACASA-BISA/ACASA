@@ -214,41 +214,178 @@ export default MethodologyPage;
 */
 
 import React, { useContext, useState } from "react";
-import { Box, Typography, Stack, Chip, useMediaQuery, Paper, Divider, Collapse, IconButton } from "@mui/material";
+import { Box, Typography, Stack, Chip, useMediaQuery, Paper, Divider, Collapse, IconButton, List, ListItem } from "@mui/material";
 import { ThemeContext } from "./ThemeContext";
 import { motion } from "framer-motion";
-import { Public, CleaningServices, Insights, Layers, Search, Publish, ExpandMore, ExpandLess } from "@mui/icons-material";
+import { Public, CleaningServices, Insights, Layers, Search, Publish, ExpandMore, ExpandLess, SubdirectoryArrowRight, WarningAmber, AutoAwesome, Tune } from "@mui/icons-material";
+
+const renderFormattedText = (text) => {
+  const lines = text.split("\n");
+
+  const isBullet = (line) => /^\s*[\d]+\.\s+/.test(line) || /^\s*[-•*]\s+/.test(line);
+
+  const listItems = [];
+  const elements = [];
+
+  lines.forEach((line, index) => {
+    if (isBullet(line)) {
+      listItems.push(
+        <ListItem key={index} sx={{ py: 0.5, color: "#aaa", pl: 2, display: "list-item" }}>
+          {linkify(line.replace(/^(\s*[\d]+\.|\s*[-•*])\s+/, ""))}
+        </ListItem>
+      );
+    } else {
+      if (listItems.length > 0) {
+        elements.push(
+          <List key={`list-${index}`} sx={{ pl: 3, pb: 1, listStyleType: "disc", color: "#aaa" }}>
+            {listItems.splice(0)}
+          </List>
+        );
+      }
+      if (line.trim()) {
+        elements.push(
+          <Typography key={index} variant="body2" sx={{ mb: 1.2, color: "#aaa", textAlign: "left" }}>
+            {linkify(line)}
+          </Typography>
+        );
+      }
+    }
+  });
+
+  // Push remaining list items
+  if (listItems.length > 0) {
+    elements.push(
+      <List key={`list-final`} sx={{ pl: 3, pb: 1, listStyleType: "disc", color: "#aaa" }}>
+        {listItems}
+      </List>
+    );
+  }
+
+  return elements;
+};
+
+const linkify = (text) =>
+  text.split(/(https?:\/\/[^\s]+)/g).map((part, i) =>
+    part.match(/^https?:\/\//) ? (
+      <a key={i} href={part} target="_blank" rel="noopener noreferrer" style={{ color: "#81c784" }}>
+        {part}
+      </a>
+    ) : (
+      part
+    )
+  );
 
 const steps = [
   {
-    title: "Data Collection",
-    icon: Public,
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    title: "Risks",
+    icon: WarningAmber,
+    subsections: [
+      {
+        title: "Climatology",
+        desc: `To derive the climatology, we analyzed precipitation, maximum temperature (Tmax), and minimum temperature (Tmin) over the crop growth periods for each commodity, and annually in the case of livestock. For temperature, daily Tmax and Tmin values were averaged over each crop’s growing season across a 30-year baseline period, and similarly for future scenarios. For precipitation, we first calculated the total accumulated rainfall during the crop cycle (or annually, for livestock) for each year, and then computed the 30-year average to represent climatological precipitation.`,
+      },
+      {
+        title: "Hazards",
+        desc: `The first step entails listing various potential hazards—such as heat stress, cold stress, and extreme weather events—that could adversely affect specific commodities and determining the levels and stages at which these hazards become significantly detrimental. This step involves a literature review to identify appropriate thresholds, expert consultations across participating countries, and stakeholder validation. For example, heat stress in rice is defined when maximum temperature exceeds 43°C. For livestock, such as cattle, heat stress was characterized using the Temperature Humidity Index (THI), with values exceeding 81 classified as hazardous. Intensity classes were determined using expert-informed k-means clustering, and frequency was categorized using statistical return period analysis. Finally, a combined hazard score—calculated as the product of intensity and frequency classes—was reclassified into five standard hazard categories for consistent spatial analysis.`,
+      },
+      {
+        title: "Exposure",
+        desc: `For crops, exposure is defined as the cropped area per grid cell (0.05° resolution) for each commodity (e.g., rice, wheat, maize), derived by integrating district-level statistics with the MAPSPAM dataset. For livestock, exposure is quantified as the number of animals per grid cell, based on the FAO-GLW4 dataset refined using national census data.`,
+      },
+      {
+        title: "Vulnerability",
+        desc: `Vulnerability was assessed using a set of biophysical and socio-economic indicators relevant to both crops and livestock, processed at a 5 km spatial resolution. The selected datasets were sourced from globally recognized and widely accepted databases. For livestock, the layers included rural infrastructure, feed and fodder availability, agricultural GDP, and a composite socio-economic development index. For crops, vulnerability indicators included irrigation, soil water-holding capacity, rural infrastructure, income, and the socio-economic development index. All datasets were harmonized to a common 5 km grid using reallocation or interpolation methods to enable spatial analysis.`,
+      },
+      {
+        title: "Risk index",
+        desc: `The risk index by commodity was assessed by evaluating multiple factors contributing to climate hazards, vulnerability, and exposure across various crops and livestock species. This methodology involved computing commodity-specific hazard layers based on current and future climatic conditions, vulnerability layers based on socio-economic variables, and exposure layers based on crop area or animal population. By combining these elements, an integrated risk index score was developed and classified into five classes.`,
+      },
+      {
+        title: "Hazard index",
+        desc: `To develop a hazard index that captures the combined severity of multiple hazards, each gridded hazard layer was first normalized using z-score transformation to ensure comparability across different units and scales. Principal Component Analysis (PCA) was then applied to the normalized layers to derive objective weights for each hazard based on their contribution to the overall variance. These weights were reviewed and validated by domain experts. A composite hazard index was computed using a weighted additive approach, and the continuous index was subsequently reclassified into five discrete classes using z-scores.`,
+      },
+      {
+        title: "Exposure index",
+        desc: `The crop area or livestock density per grid cell was z-score normalized and classified into five exposure index classes.`,
+      },
+      {
+        title: "Vulnerability index",
+        desc: `To assess regional vulnerability, multiple vulnerability layers were first normalized using z-score transformation to standardize their scales. PCA was then used to compute weights reflecting the relative importance of each layer based on their contribution to overall variance. These weights were reviewed and adjusted through expert consultations. A composite vulnerability index was derived via weighted summation, and the final index was reclassified into five discrete classes using z-scores.`,
+      },
+    ],
   },
   {
-    title: "Preprocessing",
-    icon: CleaningServices,
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    title: "Impact",
+    icon: AutoAwesome,
+    subsections: [
+      {
+        title: "Productivity",
+        desc: `To assess the impact of climate change on different crops, a modelling approach was employed using three widely recognized process-based crop simulation models: InfoCrop, DSSAT (Decision Support System for Agrotechnology Transfer), and APSIM (Agricultural Production Systems sIMulator). These models simulate crop growth and yield under varying climatic, soil, and management conditions, making them suitable for evaluating crop responses across spatial and temporal scales. In ACASA, these point-based models were integrated into a MATLAB-coded utility to enable high-resolution spatial crop simulations. The models were spatially calibrated using regional varietal data on phenological durations and district-level yields, allowing adjustment of regional genetic coefficients.
+        
+        The high-resolution input dataset included sowing dates, nitrogen application rates (from fertilizer census data and recommended doses), soil profiles (sourced from ISRIC, ISRO, and field surveys), and an irrigation mask. This dataset was used to conduct spatially gridded crop simulations across the entire South Asian region. Developed specifically for South Asia at a 5x5 km spatial resolution, it integrates both local and global datasets (Shirsath et al., 2025 – unpublished).
+        
+        The calibrated crop models were used to simulate yields under both baseline (1984–2013) and future climate scenarios (2035–2064 and 2065–2094), for emission pathways SSP2-4.5 and SSP5-8.5. Changes in crop yield were assessed by comparing future projections with baseline yields, expressed as percentage changes.`,
+      },
+      {
+        title: "Resilience",
+        desc: "Resilience reflects the stability of yield production over a 30-year time window. To assess yield stability across years, the coefficient of variation (CV) was calculated at the pixel level, serving as a proxy for yield resilience—where a lower CV indicates higher resilience.",
+      },
+      {
+        title: "Value of production",
+        desc: "Value of production refers to the total production value of a crop under baseline and future scenarios, expressed in 2019 USD. It is calculated by multiplying gridded crop prices with corresponding yields. The price data, representing farm harvest prices at the district/province level, was sourced from government databases in each country. For Bangladesh, division-level farm harvest prices were obtained from the Bangladesh Integrated Household Survey (BIHS). All available district/division-level prices were adjusted to 2019–20 values. The gridded price data was generated through kriging and matched to ACASA resolution, enabling the calculation of value of production for each crop.",
+      },
+    ],
   },
   {
-    title: "Spatial Analysis",
-    icon: Insights,
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-  },
-  {
-    title: "Classification",
-    icon: Layers,
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-  },
-  {
-    title: "Validation & QA",
-    icon: Search,
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-  },
-  {
-    title: "Publishing",
-    icon: Publish,
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    title: "Adaptation",
+    icon: Tune,
+    subsections: [
+      {
+        title: "Biophysical suitability",
+        desc: `Biophysical Suitability 	The development of adaptation options suitability maps in ACASA Version 1.0 followed a systematic, multi-stage methodology designed to ensure that the resulting maps are both scientifically robust and contextually relevant for South Asian agriculture. The process began with identifying and reviewing climatic hazards affecting major agricultural commodities, followed by mapping adaptation strategies to these hazards based on their demonstrated effectiveness and contextual relevance. The identification process was informed by expert insights, historical data, and documented case studies, ensuring that the adaptation options considered were both practical and evidence based.
+
+        To build a comprehensive database of adaptation strategies, a heuristic approach was employed, starting with a systematic literature review. This was complemented by a desk review of grey literature, including reports from agricultural research institutions, NGOs, and government agencies, as well as workshop outputs and survey data. In the next phase, data collected from literature and desk reviews were synthesized and analyzed. Adaptation options were categorized based on climatic region, landforms, soil types, and irrigation or water availability contexts, allowing identification of strategies best suited to specific environmental settings. Both qualitative and quantitative assessments were conducted to evaluate feasibility, effectiveness, and socio-economic impact. This categorization laid a strong foundation for mapping adaptation suitability across the region.
+
+        A key component of the methodology was expert and stakeholder engagement through a dedicated consultation workshop, where identified adaptation options were reviewed and validated. Following validation, suitability mapping was carried out by integrating spatial data on climate, soil, and landform with the identified adaptation strategies using a heuristic-based mapping approach. This assessed the match between adaptation options and regional conditions, considering factors such as risk reduction potential, implementation feasibility, and socio-economic benefits. The resulting maps visually indicate where each adaptation option would be most effective across South Asia.
+
+        To ensure technical robustness and stakeholder engagement, adaptation options were further validated using an interactive web-based platform. The platform enabled a feedback loop, allowing stakeholders to provide real-time input and suggestions, which informed iterative refinement of the suitability maps. This approach ensured that the final maps were both scientifically rigorous and practically relevant, tailored to the diverse needs and conditions of South Asian agriculture.`,
+      },
+      {
+        title: "Scalability",
+        desc: `Scalability refers to the feasibility of implementing adaptation options across South Asia. A literature review and stakeholder consultations were conducted to identify key enablers and barriers influencing the adoption of each adaptation option. 
+        
+        Scalability was quantified using a composite index constructed from six key dimensions: credit availability, input access, social networks, education, labor availability, and access to information. Relevant proxies were selected for each dimension, and equal weights were applied to compute a relative composite indicator. The base data was sourced primarily from village-level infrastructure datasets collected under India’s Mission Antyodaya (https://missionantyodaya.nic.in/ma2019/home), and from corresponding government portals in other South Asian countries. The 2019 village-level data was aggregated to ACASA grids using zonal statistics methods.`,
+      },
+      {
+        title: "Gender suitability",
+        desc: `The gender suitability framework in ACASA refers to the degree of suitability of adaptation options in comparison to no-technology or conventional practices. Gender suitability is represented as suitable and unsuitable after switching to adaptation options from conventional practice.
+
+        To estimate gender suitability, ACASA used a combination of qualitative and spatial mapping frameworks. First, through stakeholder workshops, we obtain feedback on the suitability scores of various technologies from workshop participants. The gender suitability is assessed in six dimensions, i) reduction in labor requirement; ii) timesaving; iii) drudgery reduction; iv) market dependency; v) ease of application and vi) influence on decision making.
+
+        To construct a technology-specific composite index for gender suitability and spatial mapping, first, participant results on the six dimensions of gender suitability across adaptation options were summarized. Second, index weights were calculated for cultivators and agricultural laborers from workshop outputs. Third, gender suitability composite scores were computed for each adaptation option, separately for cultivator and agricultural laborer. Fourth, scores were then converted to spatial scores for mapping using the proportion of female cultivators and laborers in the total population across grids of South Asia.  Finally, maps were classified based on suitability and unsuitability into four classes.`,
+      },
+      {
+        title: "Yield benefits",
+        desc: `The crop models were simulated for several technological interventions by modifying either the input parameters or internal model mechanisms. Yield benefits from these interventions were evaluated for both baseline and future SSP scenarios, allowing for the quantification of yield gains or losses attributable to each specific technology.`,
+      },
+      {
+        title: "Economic viability",
+        desc: `Economic viability is assessed in terms of benefit-to-cost (BC) ratios. These ratios serve as a simple yet effective indicator of profitability, helping to identify profit-making versus loss-making areas. The base year for cost of cultivation is 2019–20. Similar to the price data, cost of cultivation figures were sourced from published government data at the district or division level. For India, plot-level cost data was utilized from government databases.
+
+        The BC ratio was calculated by dividing the value of production by the total paid-out cost, which includes expenses for inputs, labor, and rental value of land. Baseline cost of cultivation data was downscaled to the ACASA resolution using a Bayesian kriging approach.
+        
+        Since direct estimates of the cost of implementing adaptation options are not available at large spatial scales, profitability was estimated using cost-change assumptions derived from published and unpublished literature, including meta-analyses. For future scenarios, value of production was projected using modeled yields, while costs were assumed to remain at baseline levels.`,
+      },
+      {
+        title: "Adaptation benefits",
+        desc: `The estimation of yield benefits under both baseline and future scenarios enabled classification of the adaptation benefit of each technology.
+
+        1. If a technology delivers yield benefits under both baseline and future scenarios, it is classified as an “adaptation.”
+        2. If benefits are observed only under the baseline but not in the future, the technology is considered “maladaptive.”
+        3. If benefits are projected only in the future but not currently, the technology is said to have “adaptation potential” but is categorized as “wait & see” due to impracticality for immediate implementation.
+        4. If a technology fails to deliver yield benefits in both time frames, it is classified as “ineffective.”`,
+      },
+    ],
   },
 ];
 
@@ -264,37 +401,37 @@ const MethodologyPage = () => {
   const subtitleColor = isDark ? "#9e9e9e" : "#555";
 
   const [expandedStep, setExpandedStep] = useState(null);
+  const [expandedSubsections, setExpandedSubsections] = useState({});
 
   const toggleStep = (index) => {
     setExpandedStep((prev) => (prev === index ? null : index));
   };
 
+  const toggleSubsection = (stepIndex, subIndex) => {
+    setExpandedSubsections((prev) => ({
+      ...prev,
+      [stepIndex]: {
+        ...prev[stepIndex],
+        [subIndex]: !prev[stepIndex]?.[subIndex],
+      },
+    }));
+  };
+
   return (
     <Box sx={{ backgroundColor, minHeight: "100vh", px: 2, py: 3 }}>
-      {/* Hero Section */}
       <Box sx={{ textAlign: "left", mb: 10 }}>
         <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
           <Typography variant="h3" sx={{ fontWeight: 700, color: accent, letterSpacing: 1.2, mb: 2 }}>
             Methodology
           </Typography>
-          <Typography
-            variant="body1"
-            sx={{
-              textAlign: "left",
-              mx: "auto",
-              color: subtitleColor,
-            }}
-          >
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis laoreet facilisis viverra. Nam quis mollis lorem. Vestibulum ex nibh, tincidunt sit amet elementum in, iaculis sed urna.
-          </Typography>
+          <Typography variant="body1" sx={{ textAlign: "left", mx: "auto", color: subtitleColor }}></Typography>
         </motion.div>
       </Box>
 
-      {/* Timeline Section */}
       <Box
         sx={{
           position: "relative",
-          maxWidth: 1000,
+          maxWidth: 1100,
           mx: "auto",
           px: isMobile ? 1 : 4,
           pb: 10,
@@ -331,15 +468,13 @@ const MethodologyPage = () => {
                     position: "relative",
                   }}
                 >
-                  {!isMobile && <Box sx={{ flex: 1, height: "100%" }} />}
-
+                  {!isMobile && <Box sx={{ flex: 1 }} />}
                   <Box
                     sx={{
                       zIndex: 2,
                       display: "flex",
                       flexDirection: "column",
                       alignItems: "center",
-                      justifyContent: "center",
                       mx: isMobile ? "auto" : 3,
                     }}
                   >
@@ -379,6 +514,8 @@ const MethodologyPage = () => {
                       "borderRadius": 4,
                       "flex": 1,
                       "mt": isMobile ? 2 : 0,
+                      "width": "100%",
+                      "maxWidth": "750px",
                       "transition": "transform 0.3s ease, box-shadow 0.3s ease",
                       "&:hover": {
                         transform: "translateY(-6px)",
@@ -393,24 +530,48 @@ const MethodologyPage = () => {
                         justifyContent: "space-between",
                       }}
                     >
-                      <Typography
-                        variant="h6"
-                        sx={{
-                          textAlign: "left",
-                          color: textColor,
-                          fontWeight: 600,
-                        }}
-                      >
+                      <Typography variant="h6" sx={{ textAlign: "left", color: textColor, fontWeight: 600 }}>
                         {step.title}
                       </Typography>
                       <IconButton onClick={() => toggleStep(i)} size="small" sx={{ color: subtitleColor }}>
                         {expandedStep === i ? <ExpandLess /> : <ExpandMore />}
                       </IconButton>
                     </Box>
+
                     <Collapse in={expandedStep === i}>
-                      <Typography variant="body2" sx={{ mt: 1, textAlign: "left", color: subtitleColor }}>
-                        {step.desc}
-                      </Typography>
+                      <Box sx={{ mt: 1 }}>
+                        <Typography variant="body2" sx={{ textAlign: "left", color: subtitleColor }}>
+                          {step.desc}
+                        </Typography>
+
+                        {step.subsections?.map((sub, j) => {
+                          const isOpen = expandedSubsections[i]?.[j];
+                          return (
+                            <Box key={j} sx={{ mt: 2, borderLeft: `3px solid ${accent}55`, pl: 2 }}>
+                              <Box
+                                sx={{
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <Box sx={{ display: "flex", alignItems: "center" }}>
+                                  <SubdirectoryArrowRight sx={{ color: accent, mr: 1 }} />
+                                  <Typography variant="subtitle2" sx={{ color: textColor, fontWeight: 600 }}>
+                                    {sub.title}
+                                  </Typography>
+                                </Box>
+                                <IconButton onClick={() => toggleSubsection(i, j)} size="small" sx={{ color: subtitleColor }}>
+                                  {isOpen ? <ExpandLess /> : <ExpandMore />}
+                                </IconButton>
+                              </Box>
+                              <Collapse in={isOpen}>
+                                <Box sx={{ mt: 1 }}>{renderFormattedText(sub.desc)}</Box>
+                              </Collapse>
+                            </Box>
+                          );
+                        })}
+                      </Box>
                     </Collapse>
                   </Paper>
                 </Box>
@@ -420,7 +581,6 @@ const MethodologyPage = () => {
         </Stack>
       </Box>
 
-      {/* Divider + Tech Stack */}
       <Divider
         sx={{
           my: 8,
@@ -429,7 +589,6 @@ const MethodologyPage = () => {
           mx: "auto",
         }}
       />
-
       <Box sx={{ textAlign: "center" }}>
         <Typography variant="h5" sx={{ color: textColor, fontWeight: 600, mb: 1 }}>
           Technologies Used

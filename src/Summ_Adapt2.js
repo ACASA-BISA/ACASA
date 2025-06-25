@@ -175,6 +175,25 @@ export default function Summ_Adapt2({ changeOption, activeCrop, activv, CropName
     setVal2(activv);
   }, [activv]);
 
+  React.useEffect(() => {
+      const isLivestock = ["cattle", "buffalo", "goat", "sheep", "pig", "chicken"].some((liv) => activeCrop[liv]);
+  
+      const feedOptions = livestockTechnologies.getFeed(CropName);
+  
+      // Reset and set default if switching to livestock
+      if (isLivestock && CropName && feedOptions?.length > 0) {
+        const defaultFeed = feedOptions[0];
+  
+        // Only update if current value is NOT part of livestock options
+        const allLivestockOptions = [...livestockTechnologies.getShelter(CropName), ...feedOptions,  ...livestockTechnologies.getHealth(CropName), ...livestockTechnologies.getOther(CropName)];
+  
+        if (!allLivestockOptions.includes(val2)) {
+          setVal2(defaultFeed);
+          changeOption(defaultFeed);
+        }
+      }
+    }, [val2, CropName, activeCrop]);
+
   return (
     <FormControl sx={{ width: "160px" }}>
       <Select
