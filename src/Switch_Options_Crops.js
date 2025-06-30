@@ -257,8 +257,19 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
 
   const [state, setState] = React.useState(createInitialTodos);
 
-  const handleChange = (name) => (event) => {
+  /*const handleChange = (name) => (event) => {
     setState({ ...state, [name]: event.target.checked });
+  };*/
+
+  const handleChange = (name) => (event) => {
+    const checked = event.target.checked;
+
+    const newState = {};
+    switchh.forEach((id) => {
+      newState[id] = id === name ? checked : false;
+    });
+
+    setState(newState);
   };
 
   const padd = 8;

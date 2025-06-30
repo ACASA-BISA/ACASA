@@ -101,7 +101,7 @@ export default function AboutUs() {
                 })}
               >
                 Increasing climatic risks make it imperative to identify spatial and temporal risks that are likely to impact agriculture. Adaptation options are thus needed to mitigate the negative
-                impacts. The Borlaug Institute for South Asia (BISA) is working with national agriculture research systems in South Asia to develop the Atlas of Climate Adaptation in South Asian
+                impacts. The Borlaug Institute for South Asia (BISA) with support from Gates Foundation is working with national agriculture research systems in South Asia to develop the Atlas of Climate Adaptation in South Asian
                 Agriculture (ACASA).
               </Typography>
               <Typography
@@ -130,7 +130,7 @@ export default function AboutUs() {
               >
                 Read more about us:
               </Typography>
-              <Typography
+              {/*<Typography
                 sx={(theme) => ({
                   color: theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",
                   fontFamily: "revert",
@@ -140,7 +140,7 @@ export default function AboutUs() {
                 <Link href="https://www.cimmyt.org/projects/atlas-of-climate-adaptation-in-south-asian-agriculture-acasa/" underline="none" color="#4b9e44" target="_blank">
                   Atlas of Climate Adaptation in South Asian Agriculture (ACASA) – CIMMYT
                 </Link>
-              </Typography>
+              </Typography>*/}
               <Typography
                 sx={(theme) => ({
                   color: theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",

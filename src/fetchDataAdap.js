@@ -187,7 +187,7 @@ export function fetchDataAdap(activeScale, adaption, location, AdaptLayerName, c
         checkcrop2() === false
           ? [
               ["#969696", "No significant change"],
-              ["rgba(150,150,150,1)", "No Hazard"], //"#E4003A"
+              ["rgba(150,150,150,1)", "Inapplicable"], //"#E4003A"
               ["#FF4500", "Very Low"], //"#FFA500"
               ["#FFDE4D", "Low"],
               ["#00FF00", "Medium"],

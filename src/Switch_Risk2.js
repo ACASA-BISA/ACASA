@@ -579,7 +579,7 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
 
   const [P3aipcc, setP3aipcc] = React.useState(createInitialP3ipcc);
 
-  const handleChangeP3aipcc = (name) => (event) => {
+  /* const handleChangeP3aipcc = (name) => (event) => {
     setP3aipcc({ ...P3aipcc, [name]: event.target.checked });
     if (name === "exposure") {
       console.log("checkin");
@@ -588,6 +588,26 @@ export default function SwitchRisk2({ changeRisk, activeCrop, activeScenario, Cu
       } else {
         handleChangeP3("c-area");
       }
+    }
+  }; */
+
+  const handleChangeP3aipcc = (name) => (event) => {
+    const checked = event.target.checked;
+
+    const newState = {};
+    switchIPCCID.forEach((id) => {
+      newState[id] = id === name ? checked : false;
+    });
+
+    setP3aipcc(newState);
+
+    // Optional child switch reset if parent is turned off
+    if (!checked) {
+      const resetP3 = {};
+      switchCombId.forEach((id) => {
+        resetP3[id] = false;
+      });
+      setP3(resetP3);
     }
   };
 

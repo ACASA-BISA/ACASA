@@ -73,7 +73,7 @@ export default function StickyFooter() {
                   fontFamily: "revert",
                 }}
               >
-                To address the vulnerability of South Asian countries to climatic risks, the Borlaug Institute for South Asia (BISA) is working with national agriculture research systems of the region
+                To address the vulnerability of South Asian countries to climatic risks, the Borlaug Institute for South Asia (BISA) with support from Gates Foundation is working with national agriculture research systems of the region
                 to develop ACASA.
               </Typography>
               <Button

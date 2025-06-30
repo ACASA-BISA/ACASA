@@ -222,7 +222,7 @@ const Home = (props) => {
   useEffect(() => {
     const id = setInterval(() => {
       setMediaIdx((i) => (i + 1) % mediaItems.length);
-    }, 4000); // change every 4s
+    }, 3000); // change every 3s
     return () => clearInterval(id);
   }, [mediaItems.length]);
 
@@ -231,7 +231,7 @@ const Home = (props) => {
   useEffect(() => {
     const id = setInterval(() => {
       setTypeIdx((i) => (i + 1) % types.length);
-    }, 4000); // change every 4s
+    }, 3000); // change every 3s
     return () => clearInterval(id);
   }, []);
 
@@ -418,7 +418,7 @@ const Home = (props) => {
                 mr: -3,
               })}
             >
-              <Slide direction="right" in={true} timeout={500} mountOnEnter unmountOnExit>
+              <Slide key={typeIdx} direction="right" in={true} timeout={500} mountOnEnter unmountOnExit>
                 <Typography
                   variant="h6"
                   sx={(theme) => ({
@@ -664,6 +664,11 @@ const Home = (props) => {
               <SleekTooltip title="International Maize and Wheat Improvement Center" arrow>
                 <Paper sx={paperHoverStyle} elevation={0}>
                   <img src={"cimmyt-cgiar.png"} style={logoStyle7} alt="cimmyt" loading="lazy" />
+                </Paper>
+              </SleekTooltip>
+              <SleekTooltip title="Gates Foundation" arrow>
+                <Paper sx={paperHoverStyle} elevation={0}>
+                  <img src={mode === "dark" ? "GF PRIMARY LOGO_light.png": "GF PRIMARY LOGO_Dark.png"} style={logoStyle7} alt="gates" loading="lazy" />
                 </Paper>
               </SleekTooltip>
               <SleekTooltip title="University of Florida" arrow>

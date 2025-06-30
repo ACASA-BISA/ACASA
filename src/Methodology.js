@@ -1,223 +1,8 @@
-/*import React, { useContext } from "react";
-import {
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Typography,
-  Box,
-  Chip,
-  Stack,
-  Divider,
-  Paper,
-  Grid,
-} from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import PublicIcon from "@mui/icons-material/Public";
-import CleaningServicesIcon from "@mui/icons-material/CleaningServices";
-import InsightsIcon from "@mui/icons-material/Insights";
-import LayersIcon from "@mui/icons-material/Layers";
-import SearchIcon from "@mui/icons-material/Search";
-import PublishIcon from "@mui/icons-material/Publish";
-import { ThemeContext } from "./ThemeContext";
-import { motion } from "framer-motion";
-
-const steps = [
-  {
-    title: "Data Collection",
-    icon: <PublicIcon />,
-    description:
-      "We gather geospatial and statistical data from trusted sources like FAO, World Bank, and national agencies. Accuracy and recency are key.",
-  },
-  {
-    title: "Preprocessing",
-    icon: <CleaningServicesIcon />,
-    description:
-      "Data is cleaned, reprojected, and converted into standardized formats like GeoTIFF. Noise is removed and extents are clipped.",
-  },
-  {
-    title: "Spatial Analysis",
-    icon: <InsightsIcon />,
-    description:
-      "Raster and vector analysis helps uncover patterns of exposure, vulnerability, and suitability at scale.",
-  },
-  {
-    title: "Classification",
-    icon: <LayersIcon />,
-    description:
-      "Thresholds and logic trees convert raw indicators into intuitive categories. Catastrophic risk is handled with layered logic.",
-  },
-  {
-    title: "Validation & QA",
-    icon: <SearchIcon />,
-    description:
-      "Expert review and ground-truth data ensure the layers are not only accurate but also practical and usable.",
-  },
-  {
-    title: "Publishing",
-    icon: <PublishIcon />,
-    description:
-      "Outputs are visualized interactively, exported for download, and made accessible through a consistent interface.",
-  },
-];
-
-const MethodologyPage = () => {
-  const { mode } = useContext(ThemeContext);
-  const isDark = mode === "dark";
-
-  const backgroundColor = isDark ? "#1b1f23" : "#ffffff";
-  const paperColor = isDark ? "#25292e" : "#f5f5f5";
-  const textColor = isDark ? "#e0e0e0" : "#111111";
-  const subtitleColor = isDark ? "#bdbdbd" : "#555";
-  const accent = "#81c784";
-
-  return (
-    <Box
-      sx={{
-        backgroundColor,
-        minHeight: "100vh",
-        px: { xs: 2, md: 4 },
-        py: { xs: 2, md: 4 },
-      }}
-    >
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        <Typography
-          variant="h3"
-          sx={{
-            color: accent,
-            fontWeight: 700,
-            mb: 2,
-            textAlign: "center",
-            letterSpacing: 1.5,
-          }}
-        >
-          Methodology
-        </Typography>
-
-        <Typography
-          variant="body1"
-          sx={{
-            color: subtitleColor,
-            maxWidth: 800,
-            mx: "auto",
-            mb: 6,
-            textAlign: "center",
-          }}
-        >
-          Discover how raw data becomes insight. Our process blends scientific rigor with intuitive design to create accessible, powerful, and trustworthy geospatial tools.
-        </Typography>
-      </motion.div>
-
-      <Grid container spacing={4}>
-        {steps.map((step, index) => (
-          <Grid item xs={12} md={6} key={index}>
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-            >
-              <Paper
-                elevation={3}
-                sx={{
-                  backgroundColor: paperColor,
-                  p: 3,
-                  borderRadius: 4,
-                  height: "100%",
-                  transition: "transform 0.3s ease, box-shadow 0.3s ease",
-                  "&:hover": {
-                    transform: "translateY(-6px)",
-                    boxShadow: `0 8px 30px -5px ${accent}66`,
-                  },
-                }}
-              >
-                <Stack direction="row" spacing={2} alignItems="center" mb={2}>
-                  {React.cloneElement(step.icon, {
-                    sx: { color: accent, fontSize: 32 },
-                  })}
-                  <Typography
-                    variant="h6"
-                    sx={{ color: textColor, fontWeight: 600 }}
-                  >
-                    {step.title}
-                  </Typography>
-                </Stack>
-                <Typography variant="body2" sx={{ color: subtitleColor }}>
-                  {step.description}
-                </Typography>
-              </Paper>
-            </motion.div>
-          </Grid>
-        ))}
-      </Grid>
-
-      <Divider
-        sx={{
-          my: 8,
-          borderColor: isDark ? "#444" : "#ccc",
-        }}
-      />
-
-      <Box sx={{ textAlign: "center" }}>
-        <Typography
-          variant="h5"
-          sx={{ color: textColor, fontWeight: 600, mb: 1 }}
-        >
-          Tools & Technologies
-        </Typography>
-        <Typography
-          variant="body2"
-          sx={{ color: subtitleColor, mb: 2, maxWidth: 600, mx: "auto" }}
-        >
-          Our pipeline is built with modern open-source tools for power,
-          reproducibility, and flexibility.
-        </Typography>
-        <Stack
-          direction="row"
-          spacing={1}
-          justifyContent="center"
-          flexWrap="wrap"
-        >
-          {[
-            "Python",
-            "GDAL",
-            "QGIS",
-            "OpenLayers",
-            "FastAPI",
-            "PostGIS",
-            "NumPy",
-            "GeoTIFF",
-          ].map((tool) => (
-            <Chip
-              key={tool}
-              label={tool}
-              sx={{
-                m: 0.5,
-                color: accent,
-                borderColor: accent,
-                backgroundColor: "transparent",
-                border: "1px solid",
-                fontWeight: 500,
-              }}
-            />
-          ))}
-        </Stack>
-      </Box>
-    </Box>
-  );
-};
-
-export default MethodologyPage;
-*/
-
 import React, { useContext, useState } from "react";
 import { Box, Typography, Stack, Chip, useMediaQuery, Paper, Divider, Collapse, IconButton, List, ListItem } from "@mui/material";
 import { ThemeContext } from "./ThemeContext";
 import { motion } from "framer-motion";
-import { Public, CleaningServices, Insights, Layers, Search, Publish, ExpandMore, ExpandLess, SubdirectoryArrowRight, WarningAmber, AutoAwesome, Tune } from "@mui/icons-material";
+import { ExpandMore, ExpandLess, SubdirectoryArrowRight, WarningAmber, AutoAwesome, Tune } from "@mui/icons-material";
 
 const renderFormattedText = (text) => {
   const lines = text.split("\n");
@@ -524,7 +309,7 @@ const MethodologyPage = () => {
                         boxShadow: `0 0 0 6px ${accent}33`,
                       }}
                     >
-                      <Icon sx={{ color: "#fff", fontSize: 30 }} />
+                      <Icon sx={{ color: mode === "dark" ? "000" : "#fff", fontSize: 30 }} />
                     </Box>
                     {!isMobile && i < steps.length - 1 && (
                       <Box
@@ -575,6 +360,36 @@ const MethodologyPage = () => {
                       </Typography>
                       {expandedStep === i ? <ExpandLess sx={{ color: subtitleColor }} /> : <ExpandMore sx={{ color: subtitleColor }} />}
                     </Box>
+                    {expandedStep !== i && step.subsections && (
+                      <Box sx={{ mt: 1.5, display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                        {step.subsections.slice(0, 3).map((sub, index) => (
+                          <Chip
+                            key={index}
+                            label={sub.title}
+                            size="small"
+                            sx={{
+                              fontSize: "0.75rem",
+                              backgroundColor: `${accent}22`,
+                              color: accent,
+                              borderRadius: 1,
+                              fontFamily: "revert"
+                            }}
+                          />
+                        ))}
+                        {step.subsections.length > 3 && (
+                          <Chip
+                            label={`+${step.subsections.length - 3} more`}
+                            size="small"
+                            sx={{
+                              fontSize: "0.7rem",
+                              backgroundColor: `${accent}11`,
+                              color: subtitleColor,
+                              borderRadius: 1,
+                            }}
+                          />
+                        )}
+                      </Box>
+                    )}
 
                     <Collapse in={expandedStep === i}>
                       <Box sx={{ mt: 1 }}>

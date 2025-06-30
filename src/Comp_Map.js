@@ -396,7 +396,7 @@ export default function MApp({
     color: [
       "palette",
       ["interpolate", ["linear"], ["*", ["band", 2], 385], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 8, 9, 9],
-      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#d73027", "#fc8d59", "#91cf60", "#91cf60", "#1a9850", "#267F2E", "#A52A2A"],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#d73027", "#fc8d59", "#91cf60", "#91cf60", "#1a9850", /*"#267F2E", */"#A52A2A"],
     ],
   };
 
@@ -439,6 +439,14 @@ export default function MApp({
       ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#d73027", "#fc8d59", "#fee08b", "#fee08b", "#91bfdb", "#4575b4", "rgba(150,150,150,1)"],
     ],
   };
+
+  /*const color_yield_baseline = {
+    color: [
+      "palette",
+      ["interpolate", ["linear"], ["*", ["band", 2], 385], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 8, 9, 9],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#a9746e", "#c49e68", "#e1c16e", "#e1c16e", "#f3da8e", "#fff2b2", "rgba(150,150,150,1)"],
+    ],
+  }; */
 
   //Old orange: "#FF4500"
   // Biophysical suitability coloring
@@ -1883,30 +1891,30 @@ export default function MApp({
 
         if (activeScenario === "baseline") {
           urlstr = isDistrict
-            ? `./Adap/${activeCrop}/${modelName}/District/Baseline/District_Suitability_${activeCrop}_${optcode[activeOpt]}_baseline.tif`
+            ? `./Adap/${activeCrop}/${modelName}/District_AreaMajority/Baseline/District_Suitability_${activeCrop}_${optcode[activeOpt]}_baseline.tif`
             : `./Adap/${activeCrop}/${modelName}/Baseline/Suitability_${activeCrop}_${optcode[activeOpt]}_baseline.tif`;
         } else if (activeScenario === "ssp245") {
           urlstr = isDistrict
-            ? `./Adap/${activeCrop}/${modelName}/District/SSP245/District_Suitability_${activeCrop}_${optcode[activeOpt]}_ssp245.tif`
+            ? `./Adap/${activeCrop}/${modelName}/District_AreaMajority/SSP245/District_Suitability_${activeCrop}_${optcode[activeOpt]}_ssp245.tif`
             : `./Adap/${activeCrop}/${modelName}/SSP245/Suitability_${activeCrop}_${optcode[activeOpt]}_ssp245.tif`;
         } else {
           urlstr = isDistrict
-            ? `./Adap/${activeCrop}/${modelName}/District/SSP585/District_Suitability_${activeCrop}_${optcode[activeOpt]}_ssp585.tif`
+            ? `./Adap/${activeCrop}/${modelName}/District_AreaMajority/SSP585/District_Suitability_${activeCrop}_${optcode[activeOpt]}_ssp585.tif`
             : `./Adap/${activeCrop}/${modelName}/SSP585/Suitability_${activeCrop}_${optcode[activeOpt]}_ssp585.tif`;
         }
 
         if (checkcrop2() === false) {
           if (activeScenario === "baseline") {
             urlstr = isDistrict
-              ? `./Adap/${activeCrop}/${modelName}/District/Baseline/District_Baseline_CHC_${activeCrop}_${optcode[activeOpt]}.tif`
+              ? `./Adap/${activeCrop}/${modelName}/District_AreaMajority/Baseline/District_Baseline_CHC_${activeCrop}_${optcode[activeOpt]}.tif`
               : `./Adap/${activeCrop}/${modelName}/Baseline/Baseline_CHC_${activeCrop}_${optcode[activeOpt]}.tif`;
           } else if (activeScenario === "ssp245") {
             urlstr = isDistrict
-              ? `./Adap/${activeCrop}/${modelName}/District/SSP245/District_SSP245_CHC_${activeCrop}_${optcode[activeOpt]}.tif`
+              ? `./Adap/${activeCrop}/${modelName}/District_AreaMajority/SSP245/District_SSP245_CHC_${activeCrop}_${optcode[activeOpt]}.tif`
               : `./Adap/${activeCrop}/${modelName}/SSP245/SSP245_CHC_${activeCrop}_${optcode[activeOpt]}.tif`;
           } else {
             urlstr = isDistrict
-              ? `./Adap/${activeCrop}/${modelName}/District/SSP585/District_SSP585_CHC_${activeCrop}_${optcode[activeOpt]}.tif`
+              ? `./Adap/${activeCrop}/${modelName}/District_AreaMajority/SSP585/District_SSP585_CHC_${activeCrop}_${optcode[activeOpt]}.tif`
               : `./Adap/${activeCrop}/${modelName}/SSP585/SSP585_CHC_${activeCrop}_${optcode[activeOpt]}.tif`;
           }
         }
@@ -1914,15 +1922,15 @@ export default function MApp({
         if (activeOptLayer["Scalability"]) {
           if (activeScenario === "baseline") {
             urlstr = isDistrict
-              ? `./Adap/${activeCrop}/${modelName}/District/Baseline/District_Scalability_${activeCrop}_${optcode[activeOpt]}_baseline.tif`
+              ? `./Adap/${activeCrop}/${modelName}/District_AreaMajority/Baseline/District_Scalability_${activeCrop}_${optcode[activeOpt]}_baseline.tif`
               : `./Adap/${activeCrop}/${modelName}/Baseline/Scalability_${activeCrop}_${optcode[activeOpt]}_baseline.tif`;
           } else if (activeScenario === "ssp245") {
             urlstr = isDistrict
-              ? `./Adap/${activeCrop}/${modelName}/District/SSP245/District_Scalability_${activeCrop}_${optcode[activeOpt]}_ssp245.tif`
+              ? `./Adap/${activeCrop}/${modelName}/District_AreaMajority/SSP245/District_Scalability_${activeCrop}_${optcode[activeOpt]}_ssp245.tif`
               : `./Adap/${activeCrop}/${modelName}/SSP245/Scalability_${activeCrop}_${optcode[activeOpt]}_ssp245.tif`;
           } else {
             urlstr = isDistrict
-              ? `./Adap/${activeCrop}/${modelName}/District/SSP585/District_Scalability_${activeCrop}_${optcode[activeOpt]}_ssp585.tif`
+              ? `./Adap/${activeCrop}/${modelName}/District_AreaMajority/SSP585/District_Scalability_${activeCrop}_${optcode[activeOpt]}_ssp585.tif`
               : `./Adap/${activeCrop}/${modelName}/SSP585/Scalability_${activeCrop}_${optcode[activeOpt]}_ssp585.tif`;
           }
           opt = 222;
@@ -1931,15 +1939,15 @@ export default function MApp({
         if (activeOptLayer["Gender"]) {
           if (activeScenario === "baseline") {
             urlstr = isDistrict
-              ? `./Adap/${activeCrop}/${modelName}/District/Baseline/District_Gender_${activeCrop}_${optcode[activeOpt]}_baseline.tif`
+              ? `./Adap/${activeCrop}/${modelName}/District_AreaMajority/Baseline/District_Gender_${activeCrop}_${optcode[activeOpt]}_baseline.tif`
               : `./Adap/${activeCrop}/${modelName}/Baseline/Gender_${activeCrop}_${optcode[activeOpt]}_baseline.tif`;
           } else if (activeScenario === "ssp245") {
             urlstr = isDistrict
-              ? `./Adap/${activeCrop}/${modelName}/District/SSP245/District_Gender_${activeCrop}_${optcode[activeOpt]}_ssp245.tif`
+              ? `./Adap/${activeCrop}/${modelName}/District_AreaMajority/SSP245/District_Gender_${activeCrop}_${optcode[activeOpt]}_ssp245.tif`
               : `./Adap/${activeCrop}/${modelName}/SSP245/Gender_${activeCrop}_${optcode[activeOpt]}_ssp245.tif`;
           } else {
             urlstr = isDistrict
-              ? `./Adap/${activeCrop}/${modelName}/District/SSP585/District_Gender_${activeCrop}_${optcode[activeOpt]}_ssp585.tif`
+              ? `./Adap/${activeCrop}/${modelName}/District_AreaMajority/SSP585/District_Gender_${activeCrop}_${optcode[activeOpt]}_ssp585.tif`
               : `./Adap/${activeCrop}/${modelName}/SSP585/Gender_${activeCrop}_${optcode[activeOpt]}_ssp585.tif`;
           }
           opt = 777;
@@ -1948,15 +1956,15 @@ export default function MApp({
         if (activeOptLayer["Female labourer suitability"]) {
           if (activeScenario === "baseline") {
             urlstr = isDistrict
-              ? `./Adap/${activeCrop}/${modelName}/District/Baseline/District_Labour_${activeCrop}_${optcode[activeOpt]}_baseline.tif`
+              ? `./Adap/${activeCrop}/${modelName}/District_AreaMajority/Baseline/District_Labour_${activeCrop}_${optcode[activeOpt]}_baseline.tif`
               : `./Adap/${activeCrop}/${modelName}/Baseline/Labour_${activeCrop}_${optcode[activeOpt]}_baseline.tif`;
           } else if (activeScenario === "ssp245") {
             urlstr = isDistrict
-              ? `./Adap/${activeCrop}/${modelName}/District/SSP245/District_Labour_${activeCrop}_${optcode[activeOpt]}_ssp245.tif`
+              ? `./Adap/${activeCrop}/${modelName}/District_AreaMajority/SSP245/District_Labour_${activeCrop}_${optcode[activeOpt]}_ssp245.tif`
               : `./Adap/${activeCrop}/${modelName}/SSP245/Labour_${activeCrop}_${optcode[activeOpt]}_ssp245.tif`;
           } else {
             urlstr = isDistrict
-              ? `./Adap/${activeCrop}/${modelName}/District/SSP585/District_Labour_${activeCrop}_${optcode[activeOpt]}_ssp585.tif`
+              ? `./Adap/${activeCrop}/${modelName}/District_AreaMajority/SSP585/District_Labour_${activeCrop}_${optcode[activeOpt]}_ssp585.tif`
               : `./Adap/${activeCrop}/${modelName}/SSP585/Labour_${activeCrop}_${optcode[activeOpt]}_ssp585.tif`;
           }
           opt = 777;
@@ -1965,15 +1973,15 @@ export default function MApp({
         if (activeOptLayer["Female cultivator suitability"]) {
           if (activeScenario === "baseline") {
             urlstr = isDistrict
-              ? `./Adap/${activeCrop}/${modelName}/District/Baseline/District_Cultivator_${activeCrop}_${optcode[activeOpt]}_baseline.tif`
+              ? `./Adap/${activeCrop}/${modelName}/District_AreaMajority/Baseline/District_Cultivator_${activeCrop}_${optcode[activeOpt]}_baseline.tif`
               : `./Adap/${activeCrop}/${modelName}/Baseline/Cultivator_${activeCrop}_${optcode[activeOpt]}_baseline.tif`;
           } else if (activeScenario === "ssp245") {
             urlstr = isDistrict
-              ? `./Adap/${activeCrop}/${modelName}/District/SSP245/District_Cultivator_${activeCrop}_${optcode[activeOpt]}_ssp245.tif`
+              ? `./Adap/${activeCrop}/${modelName}/District_AreaMajority/SSP245/District_Cultivator_${activeCrop}_${optcode[activeOpt]}_ssp245.tif`
               : `./Adap/${activeCrop}/${modelName}/SSP245/Cultivator_${activeCrop}_${optcode[activeOpt]}_ssp245.tif`;
           } else {
             urlstr = isDistrict
-              ? `./Adap/${activeCrop}/${modelName}/District/SSP585/District_Cultivator_${activeCrop}_${optcode[activeOpt]}_ssp585.tif`
+              ? `./Adap/${activeCrop}/${modelName}/District_AreaMajority/SSP585/District_Cultivator_${activeCrop}_${optcode[activeOpt]}_ssp585.tif`
               : `./Adap/${activeCrop}/${modelName}/SSP585/Cultivator_${activeCrop}_${optcode[activeOpt]}_ssp585.tif`;
           }
           opt = 777;
@@ -1982,15 +1990,15 @@ export default function MApp({
         if (activeOptLayer["Yield"]) {
           if (activeScenario === "baseline") {
             urlstr = isDistrict
-              ? `./Adap/${activeCrop}/${modelName}/District/Baseline/District_Yield_${activeCrop}_${optcode[activeOpt]}_baseline.tif`
+              ? `./Adap/${activeCrop}/${modelName}/District_AreaMajority/Baseline/District_Yield_${activeCrop}_${optcode[activeOpt]}_baseline.tif`
               : `./Adap/${activeCrop}/${modelName}/Baseline/Yield_${activeCrop}_${optcode[activeOpt]}_baseline.tif`;
           } else if (activeScenario === "ssp245") {
             urlstr = isDistrict
-              ? `./Adap/${activeCrop}/${modelName}/District/SSP245/District_Yield_${activeCrop}_${optcode[activeOpt]}_ssp245.tif`
+              ? `./Adap/${activeCrop}/${modelName}/District_AreaMajority/SSP245/District_Yield_${activeCrop}_${optcode[activeOpt]}_ssp245.tif`
               : `./Adap/${activeCrop}/${modelName}/SSP245/Yield_${activeCrop}_${optcode[activeOpt]}_ssp245.tif`;
           } else {
             urlstr = isDistrict
-              ? `./Adap/${activeCrop}/${modelName}/District/SSP585/District_Yield_${activeCrop}_${optcode[activeOpt]}_ssp585.tif`
+              ? `./Adap/${activeCrop}/${modelName}/District_AreaMajority/SSP585/District_Yield_${activeCrop}_${optcode[activeOpt]}_ssp585.tif`
               : `./Adap/${activeCrop}/${modelName}/SSP585/Yield_${activeCrop}_${optcode[activeOpt]}_ssp585.tif`;
           }
           opt = 222;
@@ -1999,15 +2007,15 @@ export default function MApp({
         if (activeOptLayer["Economic"]) {
           if (activeScenario === "baseline") {
             urlstr = isDistrict
-              ? `./Adap/${activeCrop}/${modelName}/District/Baseline/District_Economic_${activeCrop}_${optcode[activeOpt]}_baseline.tif`
+              ? `./Adap/${activeCrop}/${modelName}/District_AreaMajority/Baseline/District_Economic_${activeCrop}_${optcode[activeOpt]}_baseline.tif`
               : `./Adap/${activeCrop}/${modelName}/Baseline/Economic_${activeCrop}_${optcode[activeOpt]}_baseline.tif`;
           } else if (activeScenario === "ssp245") {
             urlstr = isDistrict
-              ? `./Adap/${activeCrop}/${modelName}/District/SSP245/District_Economic_${activeCrop}_${optcode[activeOpt]}_ssp245.tif`
+              ? `./Adap/${activeCrop}/${modelName}/District_AreaMajority/SSP245/District_Economic_${activeCrop}_${optcode[activeOpt]}_ssp245.tif`
               : `./Adap/${activeCrop}/${modelName}/SSP245/Economic_${activeCrop}_${optcode[activeOpt]}_ssp245.tif`;
           } else {
             urlstr = isDistrict
-              ? `./Adap/${activeCrop}/${modelName}/District/SSP585/District_Economic_${activeCrop}_${optcode[activeOpt]}_ssp585.tif`
+              ? `./Adap/${activeCrop}/${modelName}/District_AreaMajority/SSP585/District_Economic_${activeCrop}_${optcode[activeOpt]}_ssp585.tif`
               : `./Adap/${activeCrop}/${modelName}/SSP585/Economic_${activeCrop}_${optcode[activeOpt]}_ssp585.tif`;
           }
           opt = 222;
@@ -2015,16 +2023,16 @@ export default function MApp({
 
         if (activeOptLayer["Adaptation Benefits"]) {
           if (activeScenario === "baseline") {
-            urlstr = isDistrict ? `./Impact/District/District_${activeCrop}_Productivity_${activeScenario}.tif` : `./Impact/${activeCrop}_Productivity_${activeScenario}.tif`;
+            urlstr = isDistrict ? `./Impact/District_AreaMajority/District_${activeCrop}_Productivity_${activeScenario}.tif` : `./Impact/${activeCrop}_Productivity_${activeScenario}.tif`;
             opt = 222;
           } else if (activeScenario === "ssp245") {
             urlstr = isDistrict
-              ? `./Adap/${activeCrop}/${modelName}/District/SSP245/District_Adaptation_${activeCrop}_${optcode[activeOpt]}_ssp245.tif`
+              ? `./Adap/${activeCrop}/${modelName}/District_AreaMajority/SSP245/District_Adaptation_${activeCrop}_${optcode[activeOpt]}_ssp245.tif`
               : `./Adap/${activeCrop}/${modelName}/SSP245/Adaptation_${activeCrop}_${optcode[activeOpt]}_ssp245.tif`;
             opt = 444;
           } else {
             urlstr = isDistrict
-              ? `./Adap/${activeCrop}/${modelName}/District/SSP585/District_Adaptation_${activeCrop}_${optcode[activeOpt]}_ssp585.tif`
+              ? `./Adap/${activeCrop}/${modelName}/District_AreaMajority/SSP585/District_Adaptation_${activeCrop}_${optcode[activeOpt]}_ssp585.tif`
               : `./Adap/${activeCrop}/${modelName}/SSP585/Adaptation_${activeCrop}_${optcode[activeOpt]}_ssp585.tif`;
             opt = 444;
           }
@@ -2041,7 +2049,7 @@ export default function MApp({
         let district_n = "";
         let district_prefix = "";
         if (activeScale === "District Level") {
-          district_n = "District/";
+          district_n = "District_AreaMajority/";
           district_prefix = "District_";
         }
         if (activeScale === "State Level") {
@@ -2064,8 +2072,7 @@ export default function MApp({
             let filename = "";
 
             if ((activeScenario === "ssp245" || activeScenario === "ssp585") && modelName !== "CHC") {
-              filename = null;
-              // `${year}_${activeScenario.toUpperCase()}_${modelName}_${activeCrop}_${hazardname[CurrRisk]}.gif`;
+              filename = `${year}_${activeScenario.toUpperCase()}_${modelName}_${activeCrop}_${hazardname[CurrRisk]}.tif`;
             } else {
               filename = `${district_prefix}${activeScenario.toUpperCase()}_${modelName}_${activeCrop}_${hazardname[CurrRisk]}.tif`;
             }

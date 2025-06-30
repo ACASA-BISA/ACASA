@@ -219,7 +219,7 @@ function ResponsiveAppBar({}) {
               <Box sx={{ display: "flex", flexGrow: 0, flexDirection: "column" }}>
                 <Button size="small" href="" color="inherit" key="Acasa" onClick={handleHomeClick}>
                   <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
-                    <Avatar variant="square" alt="Remy Sharp" src="./Acasa_Logo_colored 2.svg" sx={{ width: "auto", height: "60px" }} />
+                    <Avatar variant="square" alt="Remy Sharp" src={mode === "dark" ? "Home_imgs/Acasa Logo white1.png" : "Home_imgs/Acasa1.png"} sx={{ width: "auto", height: "60px" }} />
                   </Link>
                 </Button>
               </Box>
@@ -235,7 +235,7 @@ function ResponsiveAppBar({}) {
                 }}
               >
                 <ImgButton size="small" href="https://bisa.org/" color="inherit" key="Bisa">
-                  <Avatar variant="square" alt="Remy Sharp" src="./BISA.png" sx={{ width: "auto", height: "50px" }} />
+                  <Avatar variant="square" alt="Remy Sharp" src={mode === "dark" ? "./BISA Logo in white color.png" : "./BISA Logo in color.png"} sx={{ width: "auto", height: "50px" }} />
                 </ImgButton>
               </Box>
 

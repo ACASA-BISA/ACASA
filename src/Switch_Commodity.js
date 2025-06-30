@@ -43,6 +43,18 @@ export default function SwitchesGroup({ activeCrop, changeCrop, activeDrawer }) 
     setState({ ...state, [name]: event.target.checked });
   };
 
+  /*const handleChange = (name) => (event) => {
+  const checked = event.target.checked;
+
+  const newState = {};
+  switchid.forEach((id) => {
+    newState[id] = id === name ? checked : false;
+  });
+
+  setState(newState);
+};*/
+
+
   const padd = 8;
 
   const AntSwitch = styled(Switch)(({ theme }) => ({

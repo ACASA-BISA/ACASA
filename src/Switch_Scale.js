@@ -153,7 +153,7 @@ export default function SwitchScale({ exploreType, handleExploreTypeChange, acti
           <FormGroup>
             <CustomFormControlLabel
               control={<AntSwitch inputProps={{ "aria-label": "ant design" }} checked={sname === activeScale ? true : false} onChange={changeScale(sname)} name={sname} />}
-              disabled={sname === "District Level"}
+              //disabled={sname === "District Level"}
               key={sname}
               label={
                 <Typography

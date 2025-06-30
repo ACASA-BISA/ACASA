@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { Card, CardContent, Typography, Grid, Box } from "@mui/material";
 import { styled } from "@mui/system";
-import { Gavel, School, Public, Security, Agriculture } from "@mui/icons-material";
+import { Gavel, School, Public, Security, Agriculture, VolunteerActivism, AccountBalance } from "@mui/icons-material";
 
 const Data = [
   {
     key: "keyGov",
     header: "Government",
     description:
-      "ACASA can be useful for climate risk profiling and regional adaptation prioritisation. Insights from ACASA would help government agencies determine future investment requirements and regional scaling opportunities.",
+      "ACASA can be useful for climate risk profiling and regional adaptation prioritisation. Insights from ACASA would help government agencies determine future investment requirements for climate risk mitigation and regional scaling opportunities.",
     points: [
-      "**Evidence-based policymaking:** The Atlas provides data and analysis to support policymaking for climate-resilient agriculture and strategic resource allocation. The Atlas identifies sustainable practices and resilient farming methods to support rural climate-resilient infrastructure and finance requirements.",
+      "**Evidence-based policymaking:** The Atlas provides data and analysis to support policymaking for climate-resilient agriculture and strategic resource allocation. The Atlas identifies sustainable practices and resilient farming methods to support rural climate-resilient infrastructure and finance requirements.",
       "**National Adaptation Plan:** Atlas could provide relevant stakeholder-validated adaptation options to be integrated into the National Adaptation Plans of respective countries.",
       "**Climate-Smart Villages:** Atlas will support scaling climate-resilient agriculture and villages by providing granular information on select implementation sites.",
     ],
@@ -20,16 +20,40 @@ const Data = [
   },
   {
     key: "keyRes",
-    header: "Research, Civil Society and Non-governmental Organisations",
-    description: "ACASA provides open-access and freely downloadable products on climate risk management in agriculture.",
+    header: "Research",
+    description: "Empowering researchers with high-resolution, multi-dimensional data for robust climate agriculture analysis in South Asia.",
     points: [
-      "**Academic research:** Atlas provides a comprehensive platform for climate-related data products for agricultural research. Commodity-specific hazard and adaptation identification methodology and tools can be used for interdisciplinary research on various aspects of climate risk management.",
-      "**Climate-resilient agriculture:** Promote climate-resilient agriculture through technologies such as, stress-tolerant crops, water-saving irrigation, and soil conservation techniques to adapt to climate change. ASASA can help civil societies to prioritize the interventions for climate action.",
-      "**Climate-related proposal:** Stakeholders can use ACASA to write proposal funding for interventions related to agriculture risk management in agriculture.",
+      "**Agricultural research:** Atlas provides a comprehensive platform for climate-related data products for agricultural research. Commodity-specific hazard and adaptation identification methodology and tools can be used for interdisciplinary research on various aspects of climate risk management.",
+      "**Impact evaluation and assessment:** Atlas can enable hotspot identification and gendered vulnerability assessments at granular levels, ideal for targeted fieldwork or impact evaluation. ACASA’s repository of evidence on climate-smart agriculture practices allows researchers to validate hypotheses and derive regionally relevant findings.",
     ],
     image: "research1.jpg",
     alt: "Research",
     icon: <School />,
+  },
+  {
+    key: "keyOrg",
+    header: "Civil Society and Non-governmental Organizations",
+    description: "ACASA provides open-access and freely downloadable products on climate risk management in agriculture.",
+    points: [
+      "**Strengthen climate action:** ACASA can help civil societies prioritize the interventions for climate action and promote climate-resilient agricultural practices and technologies as an adaptation measure to climate change.",
+      "**Climate-related proposal:** ACASA can provide detailed insights and information in developing climate context for new project proposals.",
+    ],
+    image: "farm6.jpg",
+    alt: "Civil Society",
+    icon: <VolunteerActivism />,
+  },
+  {
+    key: "keyCred",
+    header: "Credit and Finance",
+    description: "Enabling credit and financial institutions to leverage climate-agriculture data for risk informed lending and climate-smart investment products.",
+    points: [
+      "**Credit re-assessment:** Atlas to enable policy advocacy for facilitating the use of climate risk database for agricultural credit risk assessment, risk pricing, and asset quality.",
+      "**Development of Agri-financing products:** Banks and MFIs can use ACASA to de-risk loans by aligning credit products with low-risk, high-solvency regions. Data on cost-benefit and scalability supports the design of climate-smart loan products and blended finance schemes.",
+      "**Gender-sensitive credit scheme:** Gendered insights allow financial institutions to design women-focused credit solutions, encouraging inclusive lending.",
+    ],
+    image: "farm5.jpg",
+    alt: "Civil Society",
+    icon: <AccountBalance />,
   },
   {
     key: "keyMul",
@@ -37,10 +61,10 @@ const Data = [
     description:
       "ACASA will provide multi-lateral agencies with strategic data insights and directions for adaptation investments in South Asia and facilitate more effective project design and planning.",
     points: [
-      "**Climate finance:** Agencies can systematically integrate ACASA  adaptation recommendations in their climate finance planning process to align with the Paris Agreement and sustainable development goals. Data will support agencies in focusing on targeted investments such as climate-resilient food systems, landscapes, and livelihoods, especially in regions with high adaptation benefits.",
-      "**Targeted high-impact investments:** Donors can utilise ACASA to prioritise climate-smart agriculture projects benefiting small-scale farmers and promote adaptation strategies. Donors can utilise the Atlas to ensure targeted climate adaptation for high-impact locations and vulnerable populations with targeted projects.",
+      "**Climate finance:** Agencies can systematically integrate ACASA adaptation recommendations in their climate finance planning process to align with the Paris Agreement and sustainable development goals. Data will support agencies in focusing on targeted investments such as climate-resilient food systems, landscapes, and livelihoods, especially in regions with high adaptation benefits.",
+      "**Targeted high-impact investments:** Donors can utilize ACASA to prioritize high-impact locations for climate-smart agriculture projects benefiting small-scale farmers and promote adaptation strategies.",
       "**Gender-intentional adaptations:** The Atlas includes information on gender-intentional adaptations, guiding donors to promote equity in climate adaptation projects.",
-      "**Monitoring and evaluation:** ACASA is an innovative tool for agencies as they constantly seek information and expertise in improving the effectiveness and impact of their initiative. Atlas provides accessible and actionable data through open-access, user-friendly tables, and maps for informed resource allocation and structured interventions.",
+      "**Monitoring and evaluation:** ACASA is an innovative tool for agencies as they constantly seek information and expertise in improving the effectiveness and impact of their initiative. Atlas provides accessible and actionable data through open-access, user-friendly tables and maps for informed resource allocation and structured interventions.",
     ],
     image: "farm3.jpg",
     alt: "Multilateral agencies",
@@ -115,11 +139,20 @@ const IntroBox = styled(Box)(({ theme }) => ({
   marginBottom: theme.spacing(3),
 }));
 
-const lightColors = ["#64b5f6", "#4db6ac", "#ffb74d", "#ff8a65", "#81c784"];
-const darkColors = ["#4a7097", "#357a7e", "#c99043", "#b25f4e", "#4e6b50"];
+const lightColors = ["#64b5f6", "#4db6ac", "#e79aa9", "#a1887f", "#ffb74d", "#ff8a65", "#81c784"];
+const darkColors = ["#4a7097", "#357a7e", "#a15c68", "#6d4c41", "#c99043", "#b25f4e", "#4e6b50"];
 
 export default function Usecase() {
   const [hoveredItem, setHoveredItem] = useState(null);
+  const [selectedItem, setSelectedItem] = useState(null);
+
+  const handleClick = (item) => {
+    if (selectedItem?.key === item.key) {
+      setSelectedItem(null); // Toggle off
+    } else {
+      setSelectedItem(item); // Select new item
+    }
+  };
 
   return (
     <Box sx={{ paddingTop: "100px", textAlign: "center", height: "100vh", overflow: "auto" }}>
@@ -128,22 +161,21 @@ export default function Usecase() {
           Use Cases of ACASA
         </Typography>
         <Typography paragraph sx={(theme) => ({ color: theme.palette.text.primary, textAlign: "left", fontFamily: "revert" })}>
-          ACASA is a unique platform that provides granular climate risk profiles and a suite of adaptation options for South Asian agriculture for major commodities at a 5 km<sup>2</sup> resolution.
-          ACASA uses a distinctive approach combining commodity-specific granular risk profiles and potential adaptation options for future scenarios at a spatial scale. This integrated assessment
-          combines commodity-wise risk profiling, impact estimation, adaptation option identification, and quantification of investment opportunities. In addition, it also identifies regions where
-          adaptation benefits would emerge through gender-friendly technology adoption and would curtail maladaptation.
+          ACASA is a unique platform that provides an integrated assessment of commodity-specific granular climate risk profiles and information on adaptation options for South Asian agriculture. This
+          is done for region’s major agricultural and livestock commodities at a 5 km resolution. In addition, it also identifies regions where adaptation benefits would emerge through gender-friendly
+          technology adoption and would curtail maladaptation.
         </Typography>
 
         <Typography paragraph sx={(theme) => ({ color: theme.palette.text.primary, textAlign: "left", fontFamily: "revert" })}>
           Our adaptation options are rigorously formulated from the relevant literature and validated stakeholder consultations across South Asia. Therefore, ACASA provides a unique opportunity for
           various stakeholders to meet their potential needs in broader areas of climate risk management and adaptation in agriculture. The open-access nature of the Atlas promotes knowledge
-          dissemination and unrestricted use for desired purposes. ACASA data can be freely downloaded in a tabular, user-friendly format with geographic information datasets for specific
+          dissemination and unrestricted use for desired purposes. ACASA data can be freely downloaded in a tabular, user-friendly format with geographic information system (GIS) datasets for specific
           applications.
         </Typography>
 
         <Typography paragraph sx={(theme) => ({ color: theme.palette.text.primary, textAlign: "left", fontFamily: "revert" })}>
-          We conducted a dedicated Use Case workshop on Oct 1-3, 2024, in Colombo, Sri Lanka, for potential stakeholders who will put the Atlas into use. The following stakeholders and potential use
-          cases were mapped:
+          We conducted a dedicated ‘Use Case Workshop’ on Oct 1-3, 2024, in Colombo, Sri Lanka, for potential stakeholders who will put the Atlas into use. Upon the stakeholder consultation, the
+          following use cases were identified.
         </Typography>
       </IntroBox>
 
@@ -151,25 +183,25 @@ export default function Usecase() {
         {/* Grey Box */}
         <HoverBox
           sx={(theme) => ({
-            backgroundColor: hoveredItem
+            backgroundColor: selectedItem
               ? theme.palette.mode === "dark"
-                ? darkColors[Data.findIndex((item) => item.key === hoveredItem.key) % darkColors.length]
-                : lightColors[Data.findIndex((item) => item.key === hoveredItem.key) % lightColors.length]
+                ? darkColors[Data.findIndex((item) => item.key === selectedItem.key) % darkColors.length]
+                : lightColors[Data.findIndex((item) => item.key === selectedItem.key) % lightColors.length]
               : theme.palette.mode === "dark"
               ? "#2c2f34"
               : "#f5f5f5",
           })}
         >
-          {hoveredItem ? (
+          {selectedItem ? (
             <>
               <Typography variant="h6" sx={{ textAlign: "left", fontFamily: "revert" }}>
-                {hoveredItem.header}
+                {selectedItem.header}
               </Typography>
               <Typography variant="body2" sx={{ marginBottom: 1, textAlign: "left", fontFamily: "revert" }}>
-                {hoveredItem.description}
+                {selectedItem.description}
               </Typography>
               <ul style={{ textAlign: "left", paddingLeft: "20px", listStyleType: "disc" }}>
-                {hoveredItem.points.map((point, index) => (
+                {selectedItem.points.map((point, index) => (
                   <li key={index} style={{ marginBottom: "5px" }}>
                     <Typography
                       variant="body2"
@@ -183,7 +215,7 @@ export default function Usecase() {
             </>
           ) : (
             <Typography variant="body2" sx={{ fontFamily: "revert" }}>
-              Hover over a category to see details
+              Click over a category to see details
             </Typography>
           )}
         </HoverBox>
@@ -206,9 +238,16 @@ export default function Usecase() {
                 "backgroundImage": `url(${item.image})`,
                 "backgroundSize": "cover",
                 "backgroundPosition": "center",
+                "border":
+                  selectedItem?.key === item.key
+                    ? `3.5px solid ${
+                        theme.palette.mode === "dark"
+                          ? darkColors[Data.findIndex((i) => i.key === item.key) % darkColors.length]
+                          : lightColors[Data.findIndex((i) => i.key === item.key) % lightColors.length]
+                      }`
+                    : "none",
               })}
-              onMouseEnter={() => setHoveredItem(item)}
-              onMouseLeave={() => setHoveredItem(null)}
+              onClick={() => handleClick(item)}
             >
               <CardContent
                 sx={(theme) => ({

@@ -49,7 +49,7 @@ const LegendCompOpt = ({ legendData }) => {
                 }}
               >
                 <Typography fontSize="0.6rem" align="left" fontWeight="normal" sx={{ paddingLeft: "2px", marginBottom: "-2px" }}>
-                  {(item.Area / 1000000).toFixed(1)} Mha
+                  {(item.Area / 1000000).toFixed(1)} M
                 </Typography>
                 <Box sx={{ width: 55, height: 15, borderRadius: 0, bgcolor: item.color }}>
                   <Typography
