@@ -377,8 +377,8 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                           {AdaptLayerName === "Adaptation Benefits" && scenario !== "baseline" && adaption !== "" ? (
                             <Box
                               sx={{
-                                width: 90, //was 63
-                                height: 18 + 10,
+                                width: 80, //was 63
+                                height: 18+5,
                                 borderRadius: 0,
                                 bgcolor: row.color,
                                 alignContent: "center",
@@ -390,7 +390,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                                   marginY: "auto",
                                   marginX: row.Cat.includes("Medium ") ? "0px" : "1px",
                                 }}
-                                color="white"
+                                color={index === 1 || index === 3 ? "white" : "#111"}
                                 align="center"
                               >
                                 {row.Cat.split("\n").map((line, i) => (

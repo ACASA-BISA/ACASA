@@ -470,7 +470,7 @@ export default function MApp({
     color: [
       "palette",
       ["interpolate", ["linear"], ["*", ["band", 2], 385], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 8],
-      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", /*"#A52A2A",*/ "rgb(248, 36, 36)", /*"#FF8C00", "#FF8C00", "rgba(109, 233, 109, 1)",*/ "rgba(4, 145, 4, 1)"],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", /*"#A52A2A",*/"rgba(4, 145, 4, 1)", "#FFDE4D",  "rgb(248, 36, 36)", "rgb(248, 36, 36)", "rgba(150,150,150,1)", /*"#FF8C00", "#FF8C00", "rgba(109, 233, 109, 1)",*/  ],
     ],
   };
 
@@ -1385,7 +1385,7 @@ export default function MApp({
         popperControlRef.current = null;
       }
     }
-  }, [filename, CurrRisk]);
+  }, [filename, CurrRisk, activeRegion]); // Added the activeRegion dependable to fix the download issues
 
   useEffect(() => {
     if (popperControlRef.current) {

@@ -276,11 +276,12 @@ export function fetchDataAdap(activeScale, adaption, location, AdaptLayerName, c
             ]
           : [
               ["#969696", "No significant change"],
-              ["rgb(248, 36, 36)", "Negative or no benefit"],
-              //["#FF8C00", "Low loss"],
+              ["rgba(4, 145, 4, 1)", "Adaptation"],
+              ["#FFDE4D", "Revisit"],
+              ["rgb(248, 36, 36)", "Maladaptation"],
+              ["rgba(150,150,150,1)", "Ineffective"],
               //["#FFDE4D", "Nil"],
               //["rgba(109, 233, 109, 1)", "Low gain"],
-              ["rgba(4, 145, 4, 1)", "Positive benefit"],
             ],
       "default": [
         /* ["#969696", "No significant change"],
