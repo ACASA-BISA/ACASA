@@ -551,6 +551,47 @@ export default function MApp({
     ],
   };
 
+  /* Map color ideas
+
+   ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#059212", "#00FF00", "#FFDE4D", "#FFDE4D", "#FFA500", "#FF0000"], original
+
+      [
+      "rgba(0,0,0,0)",     // No data
+      "rgba(0,0,0,0)",     // No data
+      "rgba(150,150,150,1)", // Base/Unclassified
+      "#146c43",           // Very low — bold forest green
+      "#28a745",           // Low — vivid fresh green
+      "#c2b800",           // Medium-low — golden lime
+      "#f4a300",           // Medium — warm amber
+      "#ea5a1b",           // High — rich tangerine
+      "#b00020"            // Very high — scarlet red
+    ],
+
+    [
+      "rgba(0,0,0,0)",     // No data
+      "rgba(0,0,0,0)",     // No data
+      "rgba(150,150,150,1)", // Base/Unclassified
+      "#1b5e20",           // Very low — moss green (deep, foresty)
+      "#4caf50",           // Low — vibrant plant green
+      "#a2a72b",           // Medium-low — muted olive-lime
+      "#e0a800",           // Medium — warm mustard
+      "#e25822",           // High — rust orange
+      "#8e0c0c"            // Very high — ember red
+    ],
+
+    [
+      "rgba(0,0,0,0)",      // No data
+      "rgba(0,0,0,0)",      // No data
+      "rgba(150,150,150,1)",// Unclassified
+      "#1f7a3b",            // Very low — refined dark green
+      "#4caf50",            // Low — crisp natural green
+      "#d1c744",            // Medium-low — soft golden lime
+      "#f4c542",            // Medium — warm muted yellow
+      "#e88d24",            // High — subdued orange
+      "#c62828"             // Very high — matured red
+    ],
+    ;*/
+
   const color_hazard_25 = {
     color: [
       "palette",

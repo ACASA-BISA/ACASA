@@ -65,6 +65,7 @@ export default function SwitchImpact({ activeImpact, changeImpact, activeCrop, e
     "chilli",
     "mango",
     "banana",
+    "millets"
   ];
 
   const Common = [
@@ -108,6 +109,7 @@ export default function SwitchImpact({ activeImpact, changeImpact, activeCrop, e
     "Chillies",
     "Mango",
     "Banana",
+    "Millets"
   ];
 
   let cropname = "Rice";

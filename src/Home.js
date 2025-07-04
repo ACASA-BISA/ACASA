@@ -20,7 +20,7 @@ import GppMaybeIcon from "@mui/icons-material/GppMaybe";
 import PersonalVideoIcon from "@mui/icons-material/PersonalVideo";
 import Summary_Statistics from "./Summary_Statistics";
 import { ThemeContext } from "./ThemeContext";
-//import LightTooltip from "./LightTooltip";
+import SleekTooltip from "./SleekTooltip";
 
 const logoStyle3 = {
   width: "77vw",
@@ -54,24 +54,6 @@ const paperHoverStyle = {
     cursor: "pointer",
   },
 };
-
-const SleekTooltip = styled(({ className, ...props }) => <Tooltip {...props} classes={{ popper: className }} arrow enterDelay={100} />)(({ theme }) => ({
-  [`& .${tooltipClasses.tooltip}`]: {
-    backgroundColor: theme.palette.mode === "dark" ? "#2c2c2c" : "#ffffff",
-    color: theme.palette.text.primary,
-    border: `1px solid ${theme.palette.divider}`,
-    fontSize: 12,
-    padding: "6px 10px",
-    borderRadius: 8,
-    boxShadow: theme.shadows[3],
-    maxWidth: 240,
-    lineHeight: 1.4,
-    fontWeight: 400,
-  },
-  [`& .${tooltipClasses.arrow}`]: {
-    color: theme.palette.mode === "dark" ? "#2c2c2c" : "#ffffff",
-  },
-}));
 
 /* Increase the resilience of small-scale producers to climate variability and change
 Increase the quality, availability, and utility of data and evidence
@@ -157,9 +139,9 @@ var items = [
 ];
 
 const types = [
-  "Increase the resilience of small-scale producers to climate variability and change",
-  "Increase the quality, availability, and utility of data and evidence",
-  "Improve climate adaptive capacity of agricultural systems",
+  "Enhance adaptive capacity of agricultural systems through granular climate risk assessment and targeted adaptation options.",
+  "Strengthen the quality, accessibility, and usability of data and evidence to support climate-informed decision-making in agriculture.",
+  "Build resilience of small-scale producers to climate variability and change through data-driven climate adaptation options.",
 ];
 
 const ImageOverlay = styled("span")(({ theme }) => ({
@@ -222,7 +204,7 @@ const Home = (props) => {
   useEffect(() => {
     const id = setInterval(() => {
       setMediaIdx((i) => (i + 1) % mediaItems.length);
-    }, 3000); // change every 3s
+    }, 4000); // change every 3.5s
     return () => clearInterval(id);
   }, [mediaItems.length]);
 
@@ -231,7 +213,7 @@ const Home = (props) => {
   useEffect(() => {
     const id = setInterval(() => {
       setTypeIdx((i) => (i + 1) % types.length);
-    }, 3000); // change every 3s
+    }, 4000); // change every 3.5s
     return () => clearInterval(id);
   }, []);
 
@@ -483,7 +465,7 @@ const Home = (props) => {
             <img src={"srilanka.png"} style={logoStyle4} alt="srilanka" loading="lazy" />
           </Box>
 
-          <Box
+          {/*<Box
             sx={{
               marginRight: 2,
               marginLeft: 2,
@@ -530,14 +512,25 @@ const Home = (props) => {
               {" "}
               <Typography>Explore</Typography>{" "}
             </a>
-          </Button>
+          </Button>*/}
         </Box>
 
         {/* <Summary_Statistics></Summary_Statistics> */}
 
         <Box sx={{ mt: "20px" }}>
-          <img src={mode === "dark" ? "acasa_approach_dark2.svg" : "acasa_approach.svg"} style={logoStyle3} alt="approach" loading="lazy" />
+          <img
+            src="Approach (1)-cropped.svg"
+            style={{
+              ...logoStyle3,
+              filter: mode === "dark" ? "invert(93%) sepia(5%) saturate(166%) hue-rotate(202deg) brightness(100%) contrast(91%)" : "none",
+            }}
+            alt="approach"
+            loading="lazy"
+          />
         </Box>
+        {/*invert(86%) sepia(16%) saturate(174%) hue-rotate(195deg) brightness(83%) contrast(89%)
+         */}
+
         {/*<Box
           sx={{
             mt: "20px",
@@ -668,7 +661,7 @@ const Home = (props) => {
               </SleekTooltip>
               <SleekTooltip title="Gates Foundation" arrow>
                 <Paper sx={paperHoverStyle} elevation={0}>
-                  <img src={mode === "dark" ? "GF PRIMARY LOGO_light.png": "GF PRIMARY LOGO_Dark.png"} style={logoStyle7} alt="gates" loading="lazy" />
+                  <img src={mode === "dark" ? "GF PRIMARY LOGO_light.png" : "GF PRIMARY LOGO_Dark.png"} style={logoStyle7} alt="gates" loading="lazy" />
                 </Paper>
               </SleekTooltip>
               <SleekTooltip title="University of Florida" arrow>

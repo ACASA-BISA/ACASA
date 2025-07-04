@@ -243,7 +243,10 @@ const MethodologyPage = () => {
           <Typography variant="h3" sx={{ fontWeight: 700, color: accent, letterSpacing: 1.2, mb: 2, fontFamily: "revert" }}>
             Methodology
           </Typography>
-          <Typography variant="body1" sx={{ textAlign: "left", mx: "auto", color: subtitleColor }}></Typography>
+          <Typography variant="h6" sx={{ textAlign: "left", mx: "auto", color: subtitleColor, fontFamily: "revert" }}>
+            This section provides a detailed explanation of the concepts of risk, impact, and adaptation as used in ACASA, outlining how each has been tailored and applied across crop and livestock in
+            South Asian agricultural systems.
+          </Typography>
         </motion.div>
       </Box>
 
@@ -372,7 +375,7 @@ const MethodologyPage = () => {
                               backgroundColor: `${accent}22`,
                               color: accent,
                               borderRadius: 1,
-                              fontFamily: "revert"
+                              fontFamily: "revert",
                             }}
                           />
                         ))}

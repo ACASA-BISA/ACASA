@@ -1,9 +1,30 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { Paper, Tooltip } from "@mui/material";
+import { Paper } from "@mui/material";
 import { fetchDataAdap } from "./fetchDataAdap";
 import { fetchthedataHzd } from "./fetchDataHzd";
+import SleekTooltip from "./SleekTooltip";
+import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
+import { styled } from "@mui/material/styles";
+
+// DynamicColorTooltip takes `bgColor` as a prop
+const DynamicColorTooltip = styled(({ bgColor, textColor, className, ...props }) => <Tooltip {...props} classes={{ popper: className }} arrow placement="top-start" />)(({ bgColor, textColor }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: bgColor,
+    color: textColor,
+    fontSize: 12,
+    padding: "6px 10px",
+    borderRadius: 6,
+    boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.2)",
+    maxWidth: 240,
+    lineHeight: 1.4,
+    fontWeight: 400,
+  },
+  [`& .${tooltipClasses.arrow}`]: {
+    color: bgColor,
+  },
+}));
 
 export default function Legend_Small({ location, commodity, adaption, RiskName, scenario, ImpactName, area_data3, area_data4, AdaptLayerName, displayLayer, activeScale }) {
   function checkcrop() {
@@ -135,15 +156,21 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
             <Box sx={{ display: "flex", marginTop: "-10px", justifyContent: "center" }}>
               <Typography sx={(theme) => ({ fontSize: 11.5, marginBottom: "2px", color: theme.palette.mode === "dark" ? "white" : "black" })}>
                 {AdaptLayerName === "Yield Benefits" && "Percent change in "}
+                {AdaptLayerName === "Adaptation Benefits" && scenario !== "baseline" && checkcrop() === true && (
+                  <span>
+                    Effectiveness of&nbsp;
+                    <strong>{adaption.charAt(0).toUpperCase() + adaption.slice(1, 4) + adaption.toLowerCase().slice(4)}</strong>
+                  </span>
+                )}
                 {/* {AdaptLayerName === "Adaptation Benefits" && scenario === "baseline" && "Percent change in "} */}
                 {AdaptLayerName === "Biophysical Suitability" && checkcrop() === false && "Suitability"}
                 {scenario === "baseline" && AdaptLayerName === "Adaptation Benefits" && <strong>Yield</strong>}
                 {AdaptLayerName === "Yield Benefits" && "yield"}
-                {(scenario !== "baseline" || AdaptLayerName !== "Adaptation Benefits") &&
+                {!(AdaptLayerName === "Adaptation Benefits") &&
                   (AdaptLayerName !== "Biophysical Suitability" || checkcrop() !== false) &&
                   AdaptLayerName !== "Yield Benefits" &&
                   AdaptLayerName.charAt(0).toUpperCase() + AdaptLayerName.toLowerCase().slice(1)}{" "}
-                {(scenario !== "baseline" || AdaptLayerName !== "Adaptation Benefits") && checkcrop() === true && (
+                {AdaptLayerName !== "Adaptation Benefits" && checkcrop() === true && (
                   <span>
                     for&nbsp;
                     <strong>{adaption.charAt(0).toUpperCase() + adaption.slice(1, 4) + adaption.toLowerCase().slice(4)}</strong>
@@ -378,7 +405,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                             <Box
                               sx={{
                                 width: 80, //was 63
-                                height: 18+5,
+                                height: 18 + 5,
                                 borderRadius: 0,
                                 bgcolor: row.color,
                                 alignContent: "center",
@@ -482,7 +509,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                               </Typography>
                             </Box>
                           ) : null}
-                          {(RiskName === "Seasonal Rainfall") ? (
+                          {/*{(RiskName === "Seasonal Rainfall") ? (
                             <Box
                               sx={{
                                 width: 63,
@@ -517,6 +544,104 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                                 ))}
                               </Typography>
                             </Box>
+                          ) : null}*/}
+                          {RiskName === "Seasonal Rainfall" ? (
+                            <SleekTooltip
+                              title={<Typography fontSize={12}>This is dummy information about this rainfall category.</Typography>}
+                              arrow
+                              placement="top-start"
+                              PopperProps={{
+                                modifiers: [
+                                  {
+                                    name: "offset",
+                                    options: {
+                                      offset: [20, 5],
+                                    },
+                                  },
+                                ],
+                              }}
+                            >
+                              <Box
+                                sx={{
+                                  width: 63,
+                                  height: 18,
+                                  borderRadius: 0,
+                                  bgcolor: row.color,
+                                  alignContent: "center",
+                                  cursor: "pointer",
+                                }}
+                              >
+                                <Typography
+                                  sx={{
+                                    fontSize: 10,
+                                    marginY: "auto",
+                                    marginX: row.Cat.includes("Medium ") ? "0px" : "3px",
+                                  }}
+                                  color={index <= 2 && index >= 1 ? "#111" : "white"}
+                                  align={row.Cat.includes("Medium ") ? "center" : "left"}
+                                >
+                                  {row.Cat.split("\n").map((line, i) => (
+                                    <span
+                                      key={i}
+                                      style={{
+                                        display: "block",
+                                        lineHeight: "1.3",
+                                        fontStyle: i === 1 ? "italic" : "normal",
+                                        fontWeight: i === 1 ? "normal" : "bold",
+                                        fontSize: i === 1 ? 8 : 10,
+                                      }}
+                                    >
+                                      {line}
+                                    </span>
+                                  ))}
+                                </Typography>
+                              </Box>
+                            </SleekTooltip>
+
+                            /*<DynamicColorTooltip
+                              bgColor={row.color}
+                              title={
+                                <Typography fontSize={12} color={index <= 2 && index >= 1 ? "#111" : "white"}>
+                                  This is dummy information about rainfall category.
+                                </Typography>
+                              }
+                            >
+                              <Box
+                                sx={{
+                                  width: 63,
+                                  height: 18,
+                                  borderRadius: 0,
+                                  bgcolor: row.color,
+                                  alignContent: "center",
+                                  cursor: "pointer",
+                                }}
+                              >
+                                <Typography
+                                  sx={{
+                                    fontSize: 10,
+                                    marginY: "auto",
+                                    marginX: row.Cat.includes("Medium ") ? "0px" : "3px",
+                                  }}
+                                  color={index <= 2 && index >= 1 ? "#111" : "white"}
+                                  align={row.Cat.includes("Medium ") ? "center" : "left"}
+                                >
+                                  {row.Cat.split("\n").map((line, i) => (
+                                    <span
+                                      key={i}
+                                      style={{
+                                        display: "block",
+                                        lineHeight: "1.3",
+                                        fontStyle: i === 1 ? "italic" : "normal",
+                                        fontWeight: i === 1 ? "normal" : "bold",
+                                        fontSize: i === 1 ? 8 : 10,
+                                      }}
+                                    >
+                                      {line}
+                                    </span>
+                                  ))}
+                                </Typography>
+                              </Box>
+                            </DynamicColorTooltip>*/
                           ) : null}
 
                           {/*{(AdaptLayerName === "Biophysical Suitability" || AdaptLayerName === "Yield Benefits") && adaption !== "" && (
@@ -564,7 +689,8 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                               AdaptLayerName === "Gender Suitability" ||
                               AdaptLayerName === "Female labourer suitability" ||
                               AdaptLayerName === "Female cultivator suitability") &&
-                              adaption !== "") || (RiskName === "Seasonal Rainfall") ||
+                              adaption !== "") ||
+                            RiskName === "Seasonal Rainfall" ||
                             ImpactName !== ""
                           ) && (
                             <Box

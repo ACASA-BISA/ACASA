@@ -144,10 +144,10 @@ export function fetchDataAdap(activeScale, adaption, location, AdaptLayerName, c
 
       if (["Bangladesh", "Nepal", "Bhutan", "Maldives", "Afghanistan", "India", "Sri Lanka", "Pakistan"].includes(x)) {
         statecode = x === "Bangladesh" ? y.substring(0, y.length - 9) + "DIV" : y + "DIV";
-        rowstr = `${commodity}_${statecode}_${urlstr}${opt_prefix}${optcode[adaption]}_${scenario}`;
+        rowstr = `${commodity}_${statecode}_${opt_prefix}${optcode[adaption]}_${scenario}`;
       }
     } else {
-      rowstr = `Calculated_${commodity}_${location}_${urlstr}${opt_prefix}${optcode[adaption]}_${scenario}`;
+      rowstr = `Calculated_${commodity}_${location}_${opt_prefix}${optcode[adaption]}_${scenario}`;
     }
 
     function checkcrop2() {
@@ -187,7 +187,7 @@ export function fetchDataAdap(activeScale, adaption, location, AdaptLayerName, c
         checkcrop2() === false
           ? [
               ["#969696", "No significant change"],
-              ["rgba(150,150,150,1)", "Inapplicable"], //"#E4003A"
+              ["rgba(150,150,150,1)", "Inapt"], //"#E4003A"
               ["#FF4500", "Very Low"], //"#FFA500"
               ["#FFDE4D", "Low"],
               ["#00FF00", "Medium"],

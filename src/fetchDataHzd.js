@@ -182,11 +182,11 @@ export function fetchthedataHzd(activeScale, RiskName, ImpactName, displayLayer,
         // Adjust hazardname logic for Impact
         const hazardStr = isImpact ? `${hazardname[RiskName2]}${scenario.toLowerCase()}` : hazardname[RiskName2];
 
-        rowstr = `${commodity}_${statecode}_${urlstr}${hazardStr}_${scenario}`;
+        rowstr = `${commodity}_${statecode}_${hazardStr}_${scenario}`;
       } else {
         const hazardStr = isImpact ? `${hazardname[RiskName2]}${scenario.toLowerCase()}` : hazardname[RiskName2];
 
-        rowstr = `Calculated_${commodity}_${location}_${urlstr}${hazardStr}_${scenario}`;
+        rowstr = `Calculated_${commodity}_${location}_${hazardStr}_${scenario}`;
       }
 
       let row_data = area_data4[rowstr.toLowerCase()] || {

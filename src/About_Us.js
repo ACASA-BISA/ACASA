@@ -101,8 +101,8 @@ export default function AboutUs() {
                 })}
               >
                 Increasing climatic risks make it imperative to identify spatial and temporal risks that are likely to impact agriculture. Adaptation options are thus needed to mitigate the negative
-                impacts. The Borlaug Institute for South Asia (BISA) with support from Gates Foundation is working with national agriculture research systems in South Asia to develop the Atlas of Climate Adaptation in South Asian
-                Agriculture (ACASA).
+                impacts. The Borlaug Institute for South Asia (BISA) with support from Gates Foundation is working with national agriculture research systems in South Asia to develop the Atlas of
+                Climate Adaptation in South Asian Agriculture (ACASA).
               </Typography>
               <Typography
                 sx={(theme) => ({
@@ -116,8 +116,8 @@ export default function AboutUs() {
                 covers climate hazards, the exposure of smallholder populations, farms, and crop and livestock enterprises to hazards. It will also look into the vulnerability of these populations to
                 climatic risks, impacts on critical commodities in the region, and evidence of the effectiveness of different climate adaptation interventions. The ACASA offers a unique set of tools
                 that can facilitate improved investment targeting and priority setting, and support stakeholders' decision-making and investments in agricultural technologies, climate information
-                services, and policies. The intended beneficiaries of this Atlas include governments, insurance and agri-food industries, international and national donors, and adaptation-focused
-                entities.
+                services, and policies. The intended beneficiaries of this Atlas include government agencies, insurance providers, researchers and service providers in aligned disciplines, agri-food
+                industries, international and national donors, and organizations focused on climate adaptation.
               </Typography>
               <Typography
                 sx={(theme) => ({
@@ -181,7 +181,7 @@ export default function AboutUs() {
                       alignItems: "center",
                     }}
                   >
-                    <img src={"work-stream1.svg"} style={logoStyle} alt="risk" loading="lazy"/>
+                    <img src={"work-stream1.svg"} style={logoStyle} alt="risk" loading="lazy" />
                     <Typography
                       sx={(theme) => ({
                         color: theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",
@@ -205,7 +205,7 @@ export default function AboutUs() {
                       alignItems: "center",
                     }}
                   >
-                    <img src={"work-stream2.svg"} style={logoStyle} alt="risk" loading="lazy"/>
+                    <img src={"work-stream2.svg"} style={logoStyle} alt="risk" loading="lazy" />
                     <Typography
                       sx={(theme) => ({
                         color: theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",
@@ -229,7 +229,7 @@ export default function AboutUs() {
                       alignItems: "center",
                     }}
                   >
-                    <img src={"work-stream3.svg"} style={logoStyle} alt="risk" loading="lazy"/>
+                    <img src={"work-stream3.svg"} style={logoStyle} alt="risk" loading="lazy" />
                     <Typography
                       sx={(theme) => ({
                         color: theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",
@@ -582,7 +582,7 @@ export default function AboutUs() {
                     elevation={0}
                   >
                     <Box sx={{ display: "flex", flexDirection: "column", textAlign: "center" }}>
-                      <img src="south-asia-1.png" style={logoStyle3} alt="risk" loading="lazy"/>
+                      <img src="south-asia-1.png" style={logoStyle3} alt="risk" loading="lazy" />
                       <Typography
                         sx={(theme) => ({
                           color: theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",
@@ -621,7 +621,7 @@ export default function AboutUs() {
                     elevation={0}
                   >
                     <Box sx={{ display: "flex", flexDirection: "column", textAlign: "center" }}>
-                      <img src="south-asia-6.svg" style={logoStyle3} alt="risk" loading="lazy"/>
+                      <img src="south-asia-6.svg" style={logoStyle3} alt="risk" loading="lazy" />
                       <Typography
                         sx={(theme) => ({
                           color: theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",
@@ -659,7 +659,7 @@ export default function AboutUs() {
                     elevation={0}
                   >
                     <Box sx={{ display: "flex", flexDirection: "column", textAlign: "center" }}>
-                      <img src="south-asia-7.svg" style={logoStyle3} alt="risk" loading="lazy"/>
+                      <img src="south-asia-7.svg" style={logoStyle3} alt="risk" loading="lazy" />
                       <Typography
                         sx={(theme) => ({
                           color: theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",
@@ -697,7 +697,7 @@ export default function AboutUs() {
                     elevation={0}
                   >
                     <Box sx={{ display: "flex", flexDirection: "column", textAlign: "center" }}>
-                      <img src="south-asia-4.svg" style={logoStyle3} alt="risk" loading="lazy"/>
+                      <img src="south-asia-4.svg" style={logoStyle3} alt="risk" loading="lazy" />
                       <Typography
                         sx={(theme) => ({
                           color: theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",
@@ -760,7 +760,7 @@ export default function AboutUs() {
                       textAlign: { sm: "center", md: "center" },
                     }}
                   >
-                    <img src={"columbia-university.png"} style={logoStyle3} alt="risk" loading="lazy"/>
+                    <img src={"columbia-university.png"} style={logoStyle3} alt="risk" loading="lazy" />
                     <Typography
                       sx={(theme) => ({
                         color: theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",
@@ -799,7 +799,7 @@ export default function AboutUs() {
                       textAlign: { sm: "center", md: "center" },
                     }}
                   >
-                    <img src={"south-asia-11.svg"} style={logoStyle4} alt="risk" loading="lazy"/>
+                    <img src={"south-asia-11.svg"} style={logoStyle4} alt="risk" loading="lazy" />
                     <Typography
                       sx={(theme) => ({
                         color: theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",
@@ -838,7 +838,7 @@ export default function AboutUs() {
                       textAlign: { sm: "center", md: "center" },
                     }}
                   >
-                    <img src={"Univ of Washington.png"} style={{ width: "90%", height: 40, margin: "auto", marginTop: 40, marginBottom: 20 }} alt="risk" loading="lazy"/>
+                    <img src={"Univ of Washington.png"} style={{ width: "90%", height: 40, margin: "auto", marginTop: 40, marginBottom: 20 }} alt="risk" loading="lazy" />
                     <Typography
                       sx={(theme) => ({
                         color: theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",
