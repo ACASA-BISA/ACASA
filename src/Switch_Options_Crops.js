@@ -384,7 +384,7 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
                 paddingTop: 1,
               })}
             >
-              Select adaptation option for {CropName.toLowerCase()}
+              Select intervention for {CropName.toLowerCase()}
             </Typography>
           </FormLabel>
           {(checkcrop() === true || activeCrop["rice"] === true) &&

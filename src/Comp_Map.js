@@ -58,7 +58,7 @@ const optcode = {
   "Animal Productivity": "ANPRO",
   "Mulching": "MULCH",
   "Alternate wetting and drying": "AWD",
-  "Smart fertilizer management": "FRT",
+  "Smart fertilizer management": "FRT", // Smart fertilizer management
   "Manure Management": "MNMGT",
   "Information Use": "INFO",
   "Heat Stress Management": "HSMGT",

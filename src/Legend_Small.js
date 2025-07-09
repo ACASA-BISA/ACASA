@@ -546,7 +546,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                             </Box>
                           ) : null}*/}
                           {RiskName === "Seasonal Rainfall" ? (
-                            <SleekTooltip
+                            /*<SleekTooltip
                               title={<Typography fontSize={12}>This is dummy information about this rainfall category.</Typography>}
                               arrow
                               placement="top-start"
@@ -596,9 +596,9 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                                   ))}
                                 </Typography>
                               </Box>
-                            </SleekTooltip>
+                            </SleekTooltip>*/
 
-                            /*<DynamicColorTooltip
+                            <DynamicColorTooltip
                               bgColor={row.color}
                               title={
                                 <Typography fontSize={12} color={index <= 2 && index >= 1 ? "#111" : "white"}>
@@ -641,7 +641,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                                   ))}
                                 </Typography>
                               </Box>
-                            </DynamicColorTooltip>*/
+                            </DynamicColorTooltip>
                           ) : null}
 
                           {/*{(AdaptLayerName === "Biophysical Suitability" || AdaptLayerName === "Yield Benefits") && adaption !== "" && (

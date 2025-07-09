@@ -455,7 +455,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                 paddingTop: 1,
               })}
             >
-              Select adaptation option for {CropName.toLowerCase()}
+              Select intervention for {CropName.toLowerCase()}
             </Typography>
           </FormLabel>
           {(checkcrop() === true || activeCrop["rice"] === true) &&
