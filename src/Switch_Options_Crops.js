@@ -382,9 +382,12 @@ export default function SwitchOpt_Crops({ activeCrop, activeOpt, changeOpt, acti
                 fontWeight: "bold",
                 fontSize: 14,
                 paddingTop: 1,
+                wordWrap: "break-word",
+                whiteSpace: "normal",
+                textAlign: "left"
               })}
             >
-              Select intervention for {CropName.toLowerCase()}
+              Select an intervention for adaptation potential
             </Typography>
           </FormLabel>
           {(checkcrop() === true || activeCrop["rice"] === true) &&

@@ -156,7 +156,7 @@ const steps = [
     icon: Tune,
     subsections: [
       {
-        title: "Biophysical suitability",
+        title: "Land-climate suitability",
         desc: `The development of adaptation options suitability maps in ACASA Version 1.0 followed a systematic, multi-stage methodology designed to ensure that the resulting maps are both scientifically robust and contextually relevant for South Asian agriculture. The process began with identifying and reviewing climatic hazards affecting major agricultural commodities, followed by mapping adaptation strategies to these hazards based on their demonstrated effectiveness and contextual relevance. The identification process was informed by expert insights, historical data, and documented case studies, ensuring that the adaptation options considered were both practical and evidence based.
 
         To build a comprehensive database of adaptation strategies, a heuristic approach was employed, starting with a systematic literature review. This was complemented by a desk review of grey literature, including reports from agricultural research institutions, NGOs, and government agencies, as well as workshop outputs and survey data. In the next phase, data collected from literature and desk reviews were synthesized and analyzed. Adaptation options were categorized based on climatic region, landforms, soil types, and irrigation or water availability contexts, allowing identification of strategies best suited to specific environmental settings. Both qualitative and quantitative assessments were conducted to evaluate feasibility, effectiveness, and socio-economic impact. This categorization laid a strong foundation for mapping adaptation suitability across the region.

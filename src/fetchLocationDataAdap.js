@@ -115,8 +115,8 @@ export function fetchLocationDataAdap(location, commodity, scenario, adaptation,
   };
 
   let AdaptLayerName = "";
-  if (activeOptLayer["Biophysical Suitability"]) {
-    AdaptLayerName = "Biophysical Suitability";
+  if (activeOptLayer["Land-climate suitability"]) {
+    AdaptLayerName = "Land-climate suitability";
   }
   if (activeOptLayer["Yield"]) {
     AdaptLayerName = "Yield Benefits";
@@ -140,7 +140,7 @@ export function fetchLocationDataAdap(location, commodity, scenario, adaptation,
     AdaptLayerName = "Adaptation Benefits";
   }
   if (
-    activeOptLayer["Biophysical Suitability"] === false &&
+    activeOptLayer["Land-climate suitability"] === false &&
     activeOptLayer["Yield"] === false &&
     activeOptLayer["Economic"] === false &&
     activeOptLayer["Scalability"] === false &&
@@ -149,7 +149,7 @@ export function fetchLocationDataAdap(location, commodity, scenario, adaptation,
     activeOptLayer["Female cultivator suitability"] === false &&
     activeOptLayer["Adaptation Benefits"] === false
   ) {
-    AdaptLayerName = "Biophysical Suitability";
+    AdaptLayerName = "Land-climate suitability";
   }
 
   let opt_prefix = "";

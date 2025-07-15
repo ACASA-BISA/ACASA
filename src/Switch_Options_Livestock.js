@@ -267,8 +267,8 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
           control={
             <Checkbox
               size="small"
-              checked={activeOptLayer["Biophysical Suitability"]}
-              name="Biophysical Suitability"
+              checked={activeOptLayer["Land-climate suitability"]}
+              name="Land-climate suitability"
               onChange={changeOptLayer}
               color="success"
               sx={{ padding: 0, marginLeft: 1, marginRight: "2px" }}
@@ -286,7 +286,7 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
               }}
               style={{ wordWrap: "break-word" }}
             >
-              Biophysical suitability
+              Land-climate suitability
             </Typography>
           }
         />
@@ -453,9 +453,12 @@ export default function SwitchOpt_Livestock({ activeCrop, activeOpt, changeOpt, 
                 fontWeight: "bold",
                 fontSize: 14,
                 paddingTop: 1,
+                wordWrap: "break-word",
+                whiteSpace: "normal",
+                textAlign: "left",
               })}
             >
-              Select intervention for {CropName.toLowerCase()}
+              Select an intervention for adaptation potential
             </Typography>
           </FormLabel>
           {(checkcrop() === true || activeCrop["rice"] === true) &&

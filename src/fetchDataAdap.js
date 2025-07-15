@@ -183,7 +183,7 @@ export function fetchDataAdap(activeScale, adaption, location, AdaptLayerName, c
       : 1;
 
     const layerMappings = {
-      "Biophysical Suitability":
+      "Land-climate suitability":
         checkcrop2() === false
           ? [
               ["#969696", "No significant change"],

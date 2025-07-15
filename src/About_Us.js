@@ -593,7 +593,7 @@ export default function AboutUs() {
                           marginLeft: 3,
                         })}
                       >
-                        Bangladesh Agriculture Research Council (BARC)
+                        Bangladesh Agricultural Research Council (BARC)
                       </Typography>
                     </Box>
                   </Paper>

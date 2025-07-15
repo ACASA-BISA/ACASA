@@ -31,7 +31,8 @@ const glossaryData = {
   B: [
     {
       term: "Baseline",
-      definition: "The 30-year period from 1984 to 2013 representing current climate conditions. It serves as the benchmark against which future climate projections and scenario-driven changes are assessed.",
+      definition:
+        "The 30-year period from 1984 to 2013 representing current climate conditions. It serves as the benchmark against which future climate projections and scenario-driven changes are assessed.",
     },
     {
       term: "Barley",
@@ -41,10 +42,6 @@ const glossaryData = {
       term: "Broadbed and furrow",
       definition:
         "Broadbed and furrow (BBF), a water-saving and soil conservation technique used in field crop cultivation. It involves creating broad raised beds separated by furrows, allowing for better water infiltration, reduced waterlogging, and improved root aeration",
-    },
-    {
-      term: "Biophysical suitability",
-      definition: "Suitability of adaptation options in a particular pixel based on the heuristic model of several indicators. For detailed methodology refer to the document",
     },
     /*{
       term: "Bathing",
@@ -84,7 +81,8 @@ const glossaryData = {
     },
     {
       term: "Crop water deficit index",
-      definition: "It is an agricultural drought indicator that quantifies the water deficit experienced by crops by integrating the balance between crop water supply and demand rather than relying solely on precipitation data."
+      definition:
+        "It is an agricultural drought indicator that quantifies the water deficit experienced by crops by integrating the balance between crop water supply and demand rather than relying solely on precipitation data.",
     },
     {
       term: "Commodity specific analysis",
@@ -92,7 +90,8 @@ const glossaryData = {
     },
     {
       term: "Cold stress",
-      definition: "Cold stress is defined using both the intensity and frequency of extreme cold during the entire crop duration. Intensity refers to the number of days falling below a threshold of minimum temperature (Tmin), while frequency is the number of years (out of 30) in which such cold events occurred at a given location.",
+      definition:
+        "Cold stress is defined using both the intensity and frequency of extreme cold during the entire crop duration. Intensity refers to the number of days falling below a threshold of minimum temperature (Tmin), while frequency is the number of years (out of 30) in which such cold events occurred at a given location.",
     },
     {
       term: "Cyclone",
@@ -104,20 +103,20 @@ const glossaryData = {
     },
     {
       term: "Chickpea",
-      definition: "Here the analysis is done only for winter season"
+      definition: "Here the analysis is done only for winter season",
     },
     {
       term: "Cotton",
-      definition: "Cotton is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif' in India)."
+      definition: "Cotton is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif' in India).",
     },
     {
       term: "Cattle",
-      definition: "The analysis is done for milk production"
+      definition: "The analysis is done for milk production",
     },
     {
       term: "Chicken",
-      definition: "Chicken refers to chicken and analysis is done for meat production"
-    }
+      definition: "Chicken refers to chicken and analysis is done for meat production",
+    },
   ],
   D: [
     {
@@ -126,19 +125,23 @@ const glossaryData = {
     },
     {
       term: "Dry - Direct seeded rice",
-      definition: "A rice establishment method where dry seeds are sown directly following broadcasting, drilling and dibbling on unsaturated dry soil without prior puddling and/or raising seedling in nurseries and transplanting of rice seedling to puddle soils.",
+      definition:
+        "A rice establishment method where dry seeds are sown directly following broadcasting, drilling and dibbling on unsaturated dry soil without prior puddling and/or raising seedling in nurseries and transplanting of rice seedling to puddle soils.",
     },
     {
       term: "Days of frost",
-      definition: "Frost is defined using intensity and frequency. Intensity refers to the number of days with temperatures below the frost threshold, during entire crop duration. Frequency is the number of years (out of 30) in which such frost events occurred at a given location.",
+      definition:
+        "Frost is defined using intensity and frequency. Intensity refers to the number of days with temperatures below the frost threshold, during entire crop duration. Frequency is the number of years (out of 30) in which such frost events occurred at a given location.",
     },
     {
       term: "Delayed monsoon",
-      definition: "Delayed monsoon is defined using intensity and frequency. Intensity is the number of days the monsoon onset is delayed from the mean onset date, and frequency is the number of years (out of 30) in which the delay was 7 days or more.",
+      definition:
+        "Delayed monsoon is defined using intensity and frequency. Intensity is the number of days the monsoon onset is delayed from the mean onset date, and frequency is the number of years (out of 30) in which the delay was 7 days or more.",
     },
     {
       term: "Dry spell",
-      definition: "Dry spell is defined using intensity and frequency. Intensity is measured by a Dry Spell (DS) score derived from Dharma Rao et al., 2019, while frequency is the number of years (out of 30) with at least one 14-day long dry spell, corresponding to a DS score above 2.71.",
+      definition:
+        "Dry spell is defined using intensity and frequency. Intensity is measured by a Dry Spell (DS) score derived from Dharma Rao et al., 2019, while frequency is the number of years (out of 30) with at least one 14-day long dry spell, corresponding to a DS score above 2.71.",
     },
     {
       term: "Deworming",
@@ -148,7 +151,8 @@ const glossaryData = {
   E: [
     {
       term: "Ensemble",
-      definition: "An ensemble of the five models refers to combining the results of GFDL-ESM4, IPSL-CM6A-LR, MPI-ESM1-2-HR, UKESM1-0-LL, and MRI-ESM2-0 to capture a range of possible climate outcomes. This approach accounts for model uncertainty, providing more robust projections by comparing results across different models with varying assumptions and components.",
+      definition:
+        "An ensemble of the five models refers to combining the results of GFDL-ESM4, IPSL-CM6A-LR, MPI-ESM1-2-HR, UKESM1-0-LL, and MRI-ESM2-0 to capture a range of possible climate outcomes. This approach accounts for model uncertainty, providing more robust projections by comparing results across different models with varying assumptions and components.",
     },
     {
       term: "Early sowing/changing planting dates",
@@ -160,11 +164,13 @@ const glossaryData = {
     },
     {
       term: "Excess rainfall",
-      definition: "Excess rainfall for livestock is defined using intensity and frequency. Intensity refers to events with more than 100 mm of rainfall in a particular day, while frequency is the number of years (out of 34) in which such events occurred.",
+      definition:
+        "Excess rainfall for livestock is defined using intensity and frequency. Intensity refers to events with more than 100 mm of rainfall in a particular day, while frequency is the number of years (out of 34) in which such events occurred.",
     },
     {
       term: "Excess rainfall and waterlogging",
-      definition: "Excess rainfall is defined using intensity and frequency. Intensity refers to rainfall events of 100 mm or more over two consecutive days, while frequency is the number of years (out of 34) in which such events occurred during the crop season.",
+      definition:
+        "Excess rainfall is defined using intensity and frequency. Intensity refers to rainfall events of 100 mm or more over two consecutive days, while frequency is the number of years (out of 34) in which such events occurred during the crop season.",
     },
     {
       term: "Exposure index",
@@ -178,7 +184,8 @@ const glossaryData = {
   F: [
     {
       term: "Flood",
-      definition: "Flood refers to the  excessive overflow and/or stagnation of water onto the crop field normally under dry condittion, causing waterlogging over an extended period which can significantly impact crop growth and yield.",
+      definition:
+        "Flood refers to the  excessive overflow and/or stagnation of water onto the crop field normally under dry condittion, causing waterlogging over an extended period which can significantly impact crop growth and yield.",
     },
     {
       term: "Feed/fodder",
@@ -196,7 +203,8 @@ const glossaryData = {
   G: [
     {
       term: "GFDL-ESM4",
-      definition: "An Earth System Model developed by the Geophysical Fluid Dynamics Laboratory (GFDL), USA. It includes the AM4.0 atmospheric model, MOM6 ocean model, SIS2 sea-ice model, and LM4.1 land surface model. The model features dynamic vegetation, fully coupled terrestrial and oceanic carbon-nitrogen cycles, and advanced land–atmosphere feedbacks."
+      definition:
+        "An Earth System Model developed by the Geophysical Fluid Dynamics Laboratory (GFDL), USA. It includes the AM4.0 atmospheric model, MOM6 ocean model, SIS2 sea-ice model, and LM4.1 land surface model. The model features dynamic vegetation, fully coupled terrestrial and oceanic carbon-nitrogen cycles, and advanced land–atmosphere feedbacks.",
     },
     {
       term: "Gender suitability",
@@ -204,12 +212,12 @@ const glossaryData = {
     },
     {
       term: "Groundnut",
-      definition: "Groundnut is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif' in India) and Maha in Sri Lanka."
+      definition: "Groundnut is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif' in India) and Maha in Sri Lanka.",
     },
     {
       term: "Goat",
-      definition: "The analysis is done for meat production"
-    }
+      definition: "The analysis is done for meat production",
+    },
   ],
   H: [
     {
@@ -223,11 +231,13 @@ const glossaryData = {
     },*/
     {
       term: "Heat stress",
-      definition: "Heat stress is defined using both the intensity and frequency of extreme heat during the entire crop duration. Intensity refers to the number of days exceeding a threshold of maximum temperature (Tmax), while frequency is the number of years (out of 30) in which such extreme heat occurred at a given location. Severity refers to the extent of impact or gravity of an event, and used in contexts involving conequences.",
+      definition:
+        "Heat stress is defined using both the intensity and frequency of extreme heat during the entire crop duration. Intensity refers to the number of days exceeding a threshold of maximum temperature (Tmax), while frequency is the number of years (out of 30) in which such extreme heat occurred at a given location. Severity refers to the extent of impact or gravity of an event, and used in contexts involving conequences.",
     },
     {
       term: "High temperature induced pollen sterility",
-      definition: "High temperature induced pollen sterility is defined using both the intensity and frequency of extreme heat during the pollination period. Intensity refers to the number of days exceeding a threshold of maximum temperature (Tmax), while frequency is the number of years (out of 30) in which such extreme heat occurred at a given location. Severity is about how harsh the consequences of high temperature on pollen germination or pollen tube elongation or pistil.",
+      definition:
+        "High temperature induced pollen sterility is defined using both the intensity and frequency of extreme heat during the pollination period. Intensity refers to the number of days exceeding a threshold of maximum temperature (Tmax), while frequency is the number of years (out of 30) in which such extreme heat occurred at a given location. Severity is about how harsh the consequences of high temperature on pollen germination or pollen tube elongation or pistil.",
     },
   ],
   I: [
@@ -238,7 +248,8 @@ const glossaryData = {
     },
     {
       term: "IPSL-CM6A-LR",
-      definition: "An Earth System Model developed by the Institut Pierre-Simon Laplace (IPSL), France. It couples the LMDZ atmospheric model, NEMO ocean model, LIM3 sea-ice model, and ORCHIDEE land surface model. The model includes interactive carbon cycles and simulates key processes in land-atmosphere and ocean biogeochemical dynamics."
+      definition:
+        "An Earth System Model developed by the Institut Pierre-Simon Laplace (IPSL), France. It couples the LMDZ atmospheric model, NEMO ocean model, LIM3 sea-ice model, and ORCHIDEE land surface model. The model includes interactive carbon cycles and simulates key processes in land-atmosphere and ocean biogeochemical dynamics.",
     },
     {
       term: "ICT linked input management",
@@ -261,24 +272,31 @@ const glossaryData = {
   J: [
     {
       term: "Jute",
-      definition: "Jute is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif' in India)."
-    }
+      definition: "Jute is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif' in India).",
+    },
   ],
   K: [],
   L: [
     {
+      term: "Land-climate suitability",
+      definition: "Suitability of adaptation options in a particular pixel based on the heuristic model of several indicators. For detailed methodology refer to the document",
+    },
+    {
       term: "Low temperature induced pollen sterility",
-      definition: "Low temperature induced pollen sterility is defined using both the intensity and frequency of extreme cold during the pollination period. Intensity refers to the number of days falling below a threshold of minimum temperature (Tmin), while frequency is the number of years (out of 30) in which such cold events occurred at a given location.Severity is about how harsh the consequences of low temperature on pollen germination or pollen tube elongation or pistil.",
+      definition:
+        "Low temperature induced pollen sterility is defined using both the intensity and frequency of extreme cold during the pollination period. Intensity refers to the number of days falling below a threshold of minimum temperature (Tmin), while frequency is the number of years (out of 30) in which such cold events occurred at a given location.Severity is about how harsh the consequences of low temperature on pollen germination or pollen tube elongation or pistil.",
     },
   ],
   M: [
     {
       term: "MPI-ESM1-2-HR",
-      definition: "An Earth System Model developed by the Max Planck Institute for Meteorology, Germany. It includes the ECHAM6.3 atmospheric model, MPIOM ocean model, HAMOCC marine biogeochemistry module, and JSBACH land surface model with dynamic vegetation and carbon cycling. It focuses on coupled climate–carbon feedbacks."
+      definition:
+        "An Earth System Model developed by the Max Planck Institute for Meteorology, Germany. It includes the ECHAM6.3 atmospheric model, MPIOM ocean model, HAMOCC marine biogeochemistry module, and JSBACH land surface model with dynamic vegetation and carbon cycling. It focuses on coupled climate–carbon feedbacks.",
     },
     {
       term: "MRI-ESM2-0",
-      definition: "An Earth System Model developed by the Meteorological Research Institute (MRI), Japan. It includes the MRI-AGCM3.5 atmospheric model, MOM4 ocean model, SIS sea-ice model, and MATSIRO land surface model. The model simulates land hydrology, snow processes, and interactive carbon-nitrogen cycles, with marine biogeochemistry represented through the TOP module."
+      definition:
+        "An Earth System Model developed by the Meteorological Research Institute (MRI), Japan. It includes the MRI-AGCM3.5 atmospheric model, MOM4 ocean model, SIS sea-ice model, and MATSIRO land surface model. The model simulates land hydrology, snow processes, and interactive carbon-nitrogen cycles, with marine biogeochemistry represented through the TOP module.",
     },
     {
       term: "Maize",
@@ -325,7 +343,8 @@ const glossaryData = {
   P: [
     {
       term: "Productivity",
-      definition: "Productivity refers to crop yield in T/Ha. It was calculated using remote sensing derived gross primary productivity and crop statistics.",
+      definition:
+        "Productivity refers to crop yield in t/ha. The baseline yield was calculated using remote sensing derived gross primary productivity and district crop statistics.  The climate change impact in 2050s is reflected in percent change in yield in the adjacent figure.",
     },
     {
       term: "Planting technology",
@@ -356,15 +375,16 @@ const glossaryData = {
     },
     {
       term: "Pigeonpea",
-      definition: "The analysis for pigeonpea is conducted exclusively for the monsoon season, as this period plays a vital role in its growth cycle. Pigeonpea, being a rainfed crop, heavily relies on the monsoon rains for optimal development"
+      definition:
+        "The analysis for pigeonpea is conducted exclusively for the monsoon season, as this period plays a vital role in its growth cycle. Pigeonpea, being a rainfed crop, heavily relies on the monsoon rains for optimal development",
     },
     {
       term: "Potato",
-      definition: "Analysis done for Rabi/winter season or Maha season."
+      definition: "Analysis done for Rabi/winter season or Maha season.",
     },
     {
       term: "Pig",
-      definition: "The analysis is done for meat production"
+      definition: "The analysis is done for meat production",
     },
   ],
   Q: [],
@@ -379,7 +399,8 @@ const glossaryData = {
     },
     {
       term: "Rainfall deficit",
-      definition: "Rainfall deficit refers to a condition where the amount of rainfall received over a specific period is significantly less than the normal or long-term average rainfall expected for that region and period.",
+      definition:
+        "Rainfall deficit refers to a condition where the amount of rainfall received over a specific period is significantly less than the normal or long-term average rainfall expected for that region and period.",
     },
     {
       term: "Risk index",
@@ -393,22 +414,24 @@ const glossaryData = {
       term: "Rice",
       definition:
         "Rice is planted in multiple seasons in different countries. Here this analysis is only for monsoon season (also known as 'Kharif' in India, 'Aman' in Bangladesh,and 'Maha' in Sri Lanka)",
-    }, 
+    },
     {
       term: "Rapeseed/Mustard",
-      definition: "Here this analysis is done only for winter season"
-    }
+      definition: "Here this analysis is done only for winter season",
+    },
   ],
   S: [
     {
       term: "SSP 2-4.5",
-      definition: "A moderate climate change scenario combining the middle-of-the-road shared socioeconomic pathway (SSP2) with a radiative forcing level of 4.5 W/m² by 2100. It assumes intermediate challenges to mitigation and adaptation, with moderate emissions reductions over time.",
+      definition:
+        "A moderate climate change scenario combining the middle-of-the-road shared socioeconomic pathway (SSP2) with a radiative forcing level of 4.5 W/m² by 2100. It assumes intermediate challenges to mitigation and adaptation, with moderate emissions reductions over time.",
     },
     {
       term: "SSP 5-8.5",
-      definition: "A high-emission scenario combining the fossil-fueled development pathway (SSP5) with a radiative forcing level of 8.5 W/m² by 2100. It assumes rapid economic growth driven by heavy reliance on fossil fuels and limited climate policies.",
+      definition:
+        "A high-emission scenario combining the fossil-fueled development pathway (SSP5) with a radiative forcing level of 8.5 W/m² by 2100. It assumes rapid economic growth driven by heavy reliance on fossil fuels and limited climate policies.",
     },
-        {
+    {
       term: "Socio-economic development indicator",
       definition: "Socio-economic development indicator represented by the Human Development Index from https://www.mosaiks.org/hdi",
     },
@@ -441,32 +464,36 @@ const glossaryData = {
     },
     {
       term: "Soybean",
-      definition: "Soybean is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif') and Maha in Sri Lanka."
+      definition: "Soybean is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif') and Maha in Sri Lanka.",
     },
     {
       term: "Sheep",
-      definition: "The analysis is done for meat production"
-    }
+      definition: "The analysis is done for meat production",
+    },
   ],
   T: [
     {
       term: "Temperature-humidity index",
-      definition: "Temperature Humidity Index (THI) is a measure that combines air temperature and relative humidity to assess heat stress in animals. Higher THI values indicate greater thermal discomfort and potential stress for livestock. Intensity is defined as the number of days when THI exceeds a critical threshold, while frequency refers to the number of years (out of 30) in which such high-THI events occurred.",
+      definition:
+        "Temperature Humidity Index (THI) is a measure that combines air temperature and relative humidity to assess heat stress in animals. Higher THI values indicate greater thermal discomfort and potential stress for livestock. Intensity is defined as the number of days when THI exceeds a critical threshold, while frequency refers to the number of years (out of 30) in which such high-THI events occurred.",
     },
     {
       term: "Terminal heat",
-      definition: "Terminal heat for wheat refers to high temperatures during the late growth stages, particularly during grain filling.  It was calculated by assessing the number of days exceeding a temperature threshold (intensity) and the number of years such events occurred out of 30 (frequency).",
+      definition:
+        "Terminal heat for wheat refers to high temperatures during the late growth stages, particularly during grain filling.  It was calculated by assessing the number of days exceeding a temperature threshold (intensity) and the number of years such events occurred out of 30 (frequency).",
     },
   ],
   U: [
     {
       term: "Untimely rainfall",
-      definition: "Untimely rainfall is defined using intensity and frequency. Intensity refers to events with 100 mm or more rainfall occurring over two consecutive days, while frequency is the number of years (out of 34) in which such events occurred.",
+      definition:
+        "Untimely rainfall is defined using intensity and frequency. Intensity refers to events with 100 mm or more rainfall occurring over two consecutive days, while frequency is the number of years (out of 34) in which such events occurred.",
     },
     {
       term: "UKESM1-0-LL",
-      definition: "An Earth System Model developed by the UK Met Office Hadley Centre and partner institutions. It is based on the HadGEM3 physical climate system and includes the NEMO ocean model, CICE sea-ice model, JULES land surface model with TRIFFID dynamic vegetation, UKCA for atmospheric chemistry and aerosols, MEDUSA for marine biogeochemistry, and BISICLES for dynamic ice sheets. Coupling across submodels is managed through the OASIS coupler."
-    }
+      definition:
+        "An Earth System Model developed by the UK Met Office Hadley Centre and partner institutions. It is based on the HadGEM3 physical climate system and includes the NEMO ocean model, CICE sea-ice model, JULES land surface model with TRIFFID dynamic vegetation, UKCA for atmospheric chemistry and aerosols, MEDUSA for marine biogeochemistry, and BISICLES for dynamic ice sheets. Coupling across submodels is managed through the OASIS coupler.",
+    },
   ],
   V: [
     {
@@ -799,7 +826,7 @@ export default function Glossary() {
                 )}
               </Typography>
 
-              {item.image ? <img src={`/${item.image}`} alt={item.term} style={{ width: "5rem", height: "auto" }} loading="lazy"/> : null}
+              {item.image ? <img src={`/${item.image}`} alt={item.term} style={{ width: "5rem", height: "auto" }} loading="lazy" /> : null}
             </Box>
           ))
         ) : (

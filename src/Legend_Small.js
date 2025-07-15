@@ -163,11 +163,11 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                   </span>
                 )}
                 {/* {AdaptLayerName === "Adaptation Benefits" && scenario === "baseline" && "Percent change in "} */}
-                {AdaptLayerName === "Biophysical Suitability" && checkcrop() === false && "Suitability"}
+                {AdaptLayerName === "Land-climate suitability" && checkcrop() === false && "Suitability"}
                 {scenario === "baseline" && AdaptLayerName === "Adaptation Benefits" && <strong>Yield</strong>}
                 {AdaptLayerName === "Yield Benefits" && "yield"}
                 {!(AdaptLayerName === "Adaptation Benefits") &&
-                  (AdaptLayerName !== "Biophysical Suitability" || checkcrop() !== false) &&
+                  (AdaptLayerName !== "Land-climate suitability" || checkcrop() !== false) &&
                   AdaptLayerName !== "Yield Benefits" &&
                   AdaptLayerName.charAt(0).toUpperCase() + AdaptLayerName.toLowerCase().slice(1)}{" "}
                 {AdaptLayerName !== "Adaptation Benefits" && checkcrop() === true && (
@@ -473,7 +473,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                               </Typography>
                             </Box>
                           )}
-                          {((AdaptLayerName === "Biophysical Suitability" || AdaptLayerName === "Yield Benefits") && adaption !== "") || ImpactName !== "" ? (
+                          {((AdaptLayerName === "Land-climate suitability" || AdaptLayerName === "Yield Benefits") && adaption !== "") || ImpactName !== "" ? (
                             <Box
                               sx={{
                                 width: 63,
@@ -644,7 +644,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                             </DynamicColorTooltip>
                           ) : null}
 
-                          {/*{(AdaptLayerName === "Biophysical Suitability" || AdaptLayerName === "Yield Benefits") && adaption !== "" && (
+                          {/*{(AdaptLayerName === "Land-climate suitability" || AdaptLayerName === "Yield Benefits") && adaption !== "" && (
                             <Box
                               sx={{
                                 width: 63,
@@ -684,7 +684,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                           )}*/}
                           {!(
                             (AdaptLayerName === "Adaptation Benefits" && scenario !== "baseline" && adaption !== "") ||
-                            ((AdaptLayerName === "Biophysical Suitability" ||
+                            ((AdaptLayerName === "Land-climate suitability" ||
                               AdaptLayerName === "Yield Benefits" ||
                               AdaptLayerName === "Gender Suitability" ||
                               AdaptLayerName === "Female labourer suitability" ||

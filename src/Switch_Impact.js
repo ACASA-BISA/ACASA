@@ -20,7 +20,7 @@ export default function SwitchImpact({ activeImpact, changeImpact, activeCrop, e
     "Value of Production": true,
   };
 
-  const season = ["Crop yield (T/Ha) from remote sensing and crop statistics", "Yield stability over years, measured by variance", "USD/Ha at 2019 prices for a commodity"];
+  const season = ["Baseline crop yield (t/ha) and climate change impact (percent change) derived from remote sensing, district statistics and crop modeling", "Yield stability over years, measured by variance", "USD/Ha at 2019 prices for a commodity"];
 
   const padd = 8;
 

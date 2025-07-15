@@ -4,7 +4,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 
 export default function Summ_Adaptation_Indicator({ handleIndicator, activeCrop, indc }) {
-  //const switchh2 = ["Biophysical Suitability", "Gender", "Adaptation Benefits", "Economic", "Scalability"];
+  //const switchh2 = ["Land-climate suitability", "Gender", "Adaptation Benefits", "Economic", "Scalability"];
 
   const handleChange = (event) => {
     handleIndicator(event.target.value);
@@ -34,8 +34,8 @@ export default function Summ_Adaptation_Indicator({ handleIndicator, activeCrop,
         variant="standard"
         sx={(theme) => ({ backgroundColor: theme.palette.mode === "dark" ? "rgba(60, 75, 60, 1)" : "rgba(235, 247, 233, 1)", fontSize: 13 })}
       >
-        <MenuItem value="Biophysical Suitability" sx={{ fontSize: 13, paddingY: "2px" }}>
-          Biophysical Suitability
+        <MenuItem value="Land-climate suitability" sx={{ fontSize: 13, paddingY: "2px" }}>
+          Land-climate suitability
         </MenuItem>
         {checkcrop() && (
           <MenuItem value="Scalability" sx={{ fontSize: 13, paddingY: "2px" }}>

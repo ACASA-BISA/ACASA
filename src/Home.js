@@ -619,7 +619,7 @@ const Home = (props) => {
               }}
               gap="0.5vw"
             >
-              <SleekTooltip title="Bangladesh Agriculture Research Council (BARC)" arrow placement="top">
+              <SleekTooltip title="Bangladesh Agricultural Research Council (BARC)" arrow placement="top">
                 <Paper sx={paperHoverStyle} elevation={0}>
                   <img src={"barc.png"} style={logoStyle6} alt="barc" loading="lazy" />
                 </Paper>

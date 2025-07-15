@@ -537,7 +537,7 @@ export default function DrawerMapShow({ activeBar }) {
   const [option, setOption] = React.useState(IntialOptions);
 
   const [optionlayer, setOptionLayer] = React.useState({
-    "Biophysical Suitability": false,
+    "Land-climate suitability": false,
     "Gender": false,
     "Yield": false,
     "Adaptation Benefits": false,
@@ -583,7 +583,7 @@ export default function DrawerMapShow({ activeBar }) {
     setCurrOpt("");
     setOptionLayer({
       ...optionlayer,
-      "Biophysical Suitability": false,
+      "Land-climate suitability": false,
       "Adaptation Benefits": false,
       "Economic": false,
       "Scalability": false,
@@ -611,7 +611,7 @@ export default function DrawerMapShow({ activeBar }) {
     setCurrOpt("");
     setOptionLayer({
       ...optionlayer,
-      "Biophysical Suitability": false,
+      "Land-climate suitability": false,
       "Adaptation Benefits": false,
       "Economic": false,
       "Scalability": false,
@@ -641,7 +641,7 @@ export default function DrawerMapShow({ activeBar }) {
     }
     setOptionLayer({
       ...optionlayer,
-      "Biophysical Suitability": false,
+      "Land-climate suitability": false,
       "Adaptation Benefits": false,
       "Economic": false,
       "Scalability": false,
@@ -670,7 +670,7 @@ export default function DrawerMapShow({ activeBar }) {
     setCurrOpt("");
     setOptionLayer({
       ...optionlayer,
-      "Biophysical Suitability": false,
+      "Land-climate suitability": false,
       "Adaptation Benefits": false,
       "Economic": false,
       "Scalability": false,
@@ -696,7 +696,7 @@ export default function DrawerMapShow({ activeBar }) {
     setCurrOpt("");
     setOptionLayer({
       ...optionlayer,
-      "Biophysical Suitability": false,
+      "Land-climate suitability": false,
       "Adaptation Benefits": false,
       "Economic": false,
       "Scalability": false,
@@ -745,7 +745,7 @@ export default function DrawerMapShow({ activeBar }) {
     setCurrOpt("");
     setOptionLayer({
       ...optionlayer,
-      "Biophysical Suitability": false,
+      "Land-climate suitability": false,
       "Adaptation Benefits": false,
       "Economic": false,
       "Scalability": false,
@@ -779,7 +779,7 @@ export default function DrawerMapShow({ activeBar }) {
     }
     setOptionLayer({
       ...optionlayer,
-      "Biophysical Suitability": false,
+      "Land-climate suitability": false,
       "Adaptation Benefits": false,
       "Economic": false,
       "Scalability": false,
@@ -799,7 +799,7 @@ export default function DrawerMapShow({ activeBar }) {
     setOptionLayer(stateinc);
   };
 
-  const [optionlayer2, setOptionLayer2] = React.useState("Biophysical Suitability");
+  const [optionlayer2, setOptionLayer2] = React.useState("Land-climate suitability");
 
   const changeOptLayer2 = (sname) => {
     setOptionLayer2(sname);
@@ -975,7 +975,7 @@ export default function DrawerMapShow({ activeBar }) {
     setCurrOpt("");
     setOptionLayer({
       ...optionlayer,
-      "Biophysical Suitability": false,
+      "Land-climate suitability": false,
       "Adaptation Benefits": false,
       "Economic": false,
       "Scalability": false,

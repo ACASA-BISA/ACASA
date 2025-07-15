@@ -647,8 +647,8 @@ export default function SwitchOpt({ activeCrop, activeOpt, changeOpt, activeOptL
           control={
             <Checkbox
               size="small"
-              checked={activeOptLayer["Biophysical Suitability"]}
-              name="Biophysical Suitability"
+              checked={activeOptLayer["Land-climate suitability"]}
+              name="Land-climate suitability"
               onChange={changeOptLayer}
               color="success"
               sx={{ padding: 0, marginLeft: 1, marginRight: "2px" }}
@@ -666,7 +666,7 @@ export default function SwitchOpt({ activeCrop, activeOpt, changeOpt, activeOptL
               }}
               style={{ wordWrap: "break-word" }}
             >
-              Biophysical suitability
+              Land-climate suitability
             </Typography>
           }
         />

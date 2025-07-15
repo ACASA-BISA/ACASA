@@ -396,7 +396,7 @@ export default function MApp({
     color: [
       "palette",
       ["interpolate", ["linear"], ["*", ["band", 2], 385], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 8, 9, 9],
-      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#d73027", "#fc8d59", "#91cf60", "#91cf60", "#1a9850", /*"#267F2E", */"#A52A2A"],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#d73027", "#fc8d59", "#91cf60", "#91cf60", "#1a9850", /*"#267F2E", */ "#A52A2A"],
     ],
   };
 
@@ -449,7 +449,7 @@ export default function MApp({
   }; */
 
   //Old orange: "#FF4500"
-  // Biophysical suitability coloring
+  // Land-climate suitability coloring
   const color_adaptation2 = {
     color: [
       "palette",
@@ -470,7 +470,16 @@ export default function MApp({
     color: [
       "palette",
       ["interpolate", ["linear"], ["*", ["band", 2], 385], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 8],
-      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", /*"#A52A2A",*/"rgba(4, 145, 4, 1)", "#FFDE4D",  "rgb(248, 36, 36)", "rgb(248, 36, 36)", "rgba(150,150,150,1)", /*"#FF8C00", "#FF8C00", "rgba(109, 233, 109, 1)",*/  ],
+      [
+        "rgba(0,0,0,0)",
+        "rgba(0,0,0,0)",
+        "rgba(150,150,150,1)",
+        /*"#A52A2A",*/ "rgba(4, 145, 4, 1)",
+        "#FFDE4D",
+        "rgb(248, 36, 36)",
+        "rgb(248, 36, 36)",
+        "rgba(150,150,150,1)" /*"#FF8C00", "#FF8C00", "rgba(109, 233, 109, 1)",*/,
+      ],
     ],
   };
 
@@ -2502,7 +2511,7 @@ export default function MApp({
     if (activeOpt !== "") {
       opt = 2;
       let urlstr = "xyz.tif";
-      if (!Biolayer && activeOptLayer["Biophysical Suitability"]) {
+      if (!Biolayer && activeOptLayer["Land-climate suitability"]) {
         found = true;
         if (activeScenario === "baseline") {
           urlstr = "./Adap/" + activeCrop + "/" + modelName + "/Baseline/Suitability_" + activeCrop + "_" + optcode[activeOpt] + "_baseline.tif";
@@ -2567,7 +2576,7 @@ export default function MApp({
       mapRef.current.removeLayer(overl);
     }
 
-    if (activeOptLayer["Biophysical Suitability"] === false && Biolayer) {
+    if (activeOptLayer["Land-climate suitability"] === false && Biolayer) {
       mapRef.current.removeLayer(Biolayer);
       setBioLayer(null);
     }
@@ -2584,7 +2593,7 @@ export default function MApp({
       setScaleLayer(null);
     }
 
-    if (source_bio && activeOptLayer["Biophysical Suitability"]) {
+    if (source_bio && activeOptLayer["Land-climate suitability"]) {
       const newOverl = new TileLayer({
         source: source_bio,
         opacity: 1,

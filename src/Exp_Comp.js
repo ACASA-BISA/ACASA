@@ -45,7 +45,7 @@ function useInterval(callback, delay) {
   }, [delay]);
 }
 
-const tabs = ["Biophysical suitability", "Scalability", "Gender suitability", "Yield Benefits", "Economic viability", "Adaptation benefits"];
+const tabs = ["Land-climate suitability", "Scalability", "Gender suitability", "Yield Benefits", "Economic viability", "Adaptation benefits"];
 
 const ArrowTab = styled(Button)(({ theme, selected, isLast, isFirst }) => ({
   "position": "relative",
@@ -175,8 +175,8 @@ export default function CompV({
   }
 
   let AdaptLayerName = "";
-  if (activeOptLayer["Biophysical Suitability"]) {
-    AdaptLayerName = "Biophysical Suitability";
+  if (activeOptLayer["Land-climate suitability"]) {
+    AdaptLayerName = "Land-climate suitability";
   }
   if (activeOptLayer["Scalability"]) {
     AdaptLayerName = "Scalability";
@@ -200,7 +200,7 @@ export default function CompV({
     AdaptLayerName = "Adaptation Benefits";
   }
   if (
-    activeOptLayer["Biophysical Suitability"] === false &&
+    activeOptLayer["Land-climate suitability"] === false &&
     activeOptLayer["Adaptation Benefits"] === false &&
     activeOptLayer["Economic"] === false &&
     activeOptLayer["Scalability"] === false &&
@@ -209,7 +209,7 @@ export default function CompV({
     activeOptLayer["Female labourer suitability"] === false &&
     activeOptLayer["Female cultivator suitability"] === false
   ) {
-    AdaptLayerName = "Biophysical Suitability";
+    AdaptLayerName = "Land-climate suitability";
   }
 
   const Adapt_Title = ["Yield (Baseline)", "Adaptation Benefits (2050s)", "Adaptation Benefits (2080s)"];
@@ -314,8 +314,8 @@ export default function CompV({
     },
   }));
 
-  /*const values = ["Biophysical Suitability", "Scalability", "Gender", "Yield", "Economic", "Adaptation Benefits"];
-  const values2 = ["Biophysical Suitability", "Scalability", "Gender", "Female cultivator suitability", "Female labourer suitability", "Yield", "Economic", "Adaptation Benefits"];
+  /*const values = ["Land-climate suitability", "Scalability", "Gender", "Yield", "Economic", "Adaptation Benefits"];
+  const values2 = ["Land-climate suitability", "Scalability", "Gender", "Female cultivator suitability", "Female labourer suitability", "Yield", "Economic", "Adaptation Benefits"];
 
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -353,7 +353,7 @@ export default function CompV({
     changeOptLayer(updatedState);
   };*/
 
-  const values = ["Biophysical Suitability", "Scalability", "Gender", "Yield", "Economic", "Adaptation Benefits"];
+  const values = ["Land-climate suitability", "Scalability", "Gender", "Yield", "Economic", "Adaptation Benefits"];
 
   const genderOptions = ["Female labourer suitability", "Female cultivator suitability"];
 
@@ -395,7 +395,7 @@ export default function CompV({
 
   useEffect(() => {
     if (
-      activeOptLayer["Biophysical Suitability"] === false &&
+      activeOptLayer["Land-climate suitability"] === false &&
       activeOptLayer["Adaptation Benefits"] === false &&
       activeOptLayer["Economic"] === false &&
       activeOptLayer["Scalability"] === false &&
@@ -448,12 +448,12 @@ export default function CompV({
           >
             {/* <FormGroup  sx={{display:'flex',flexDirection:'row',flexWrap:'wrap',gap:0.5,marginY:'2px',
           alignItems:'center',alignContent:'center',justifyItems:'center',justifyContent:'center'}}>
-            <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Biophysical Suitability']} name="Biophysical Suitability" 
+            <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Land-climate suitability']} name="Land-climate suitability" 
                 onChange={changeOptLayer}
                 color="success" sx={{padding:0,marginLeft:1,marginRight:'2px','&.Mui-checked': {
                 transform: "scale(1.04)"} }}/>} 
                 label={<Typography variant="body2" align='left'  sx={{paddingLeft:'3px',maxWidth:'250px',wordBreak:'break-word', 
-                whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>Biophysical suitability</Typography>}/>
+                whiteSpace:'normal'}} style={{ wordWrap: "break-word"}}>Land-climate suitability</Typography>}/>
             <CustomFormControlLabel control={<Checkbox size="small" checked={activeOptLayer['Adaptation Benefits']} name="Adaptation Benefits" 
                 onChange={changeOptLayer}
                 color="success" sx={{padding:0,marginLeft:1,marginRight:'2px'}}/>} 

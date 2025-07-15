@@ -113,8 +113,8 @@ export default function LocationCard({ location, commodity, adaption, activeOptL
   }
 
   let AdaptLayerName = "";
-  if (activeOptLayer["Biophysical Suitability"]) {
-    AdaptLayerName = "Biophysical Suitability";
+  if (activeOptLayer["Land-climate suitability"]) {
+    AdaptLayerName = "Land-climate suitability";
   }
   if (activeOptLayer["Scalability"]) {
     AdaptLayerName = "Scalability";
@@ -138,7 +138,7 @@ export default function LocationCard({ location, commodity, adaption, activeOptL
     AdaptLayerName = "Adaptation Benefits";
   }
   if (
-    activeOptLayer["Biophysical Suitability"] === false &&
+    activeOptLayer["Land-climate suitability"] === false &&
     activeOptLayer["Adaptation Benefits"] === false &&
     activeOptLayer["Economic"] === false &&
     activeOptLayer["Scalability"] === false &&
@@ -147,7 +147,7 @@ export default function LocationCard({ location, commodity, adaption, activeOptL
     activeOptLayer["Female labourer suitability"] === false &&
     activeOptLayer["Female cultivator suitability"] === false
   ) {
-    AdaptLayerName = "Biophysical Suitability";
+    AdaptLayerName = "Land-climate suitability";
   }
 
   /*let data2 = [];
