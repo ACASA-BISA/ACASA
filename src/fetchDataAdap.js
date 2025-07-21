@@ -242,27 +242,27 @@ export function fetchDataAdap(activeScale, adaption, location, AdaptLayerName, c
       ],*/
       "Gender Suitability": [
         ["#969696", "No significant change"],
-        ["#d73027", "Highly unsuitable"], //"#E4003A" "#FF8C00", "#FFDE4D", "#B6F792", "#B6F792", "#00D95A", "#267F2E",
-        ["#fc8d59", "Unsuitable"], //"#FFA500"
-        ["#91cf60", "Suitable"],
-        ["#1a9850", "Highly suitable"],
-        //["#267F2E", "Very High"],
+        ["#f82424ff", "Considerable decrease"], //"#E4003A" "#FF8C00", "#FFDE4D", "#B6F792", "#B6F792", "#00D95A", "#267F2E",
+        ["#FF8C00", "Moderate decrease"], //"#FFA500"
+        ["#FFDE4D", "No change"],
+        ["#6de96dff", "Moderate increase"],
+        ["#049104ff", "Considerable increase"],
       ],
       "Female labourer suitability": [
         ["#969696", "No significant change"],
-        ["#d73027", "Highly unsuitable"], //"#E4003A" "#FF8C00", "#FFDE4D", "#B6F792", "#B6F792", "#00D95A", "#267F2E",
-        ["#fc8d59", "Unsuitable"], //"#FFA500"
-        ["#91cf60", "Suitable"],
-        ["#1a9850", "Highly suitable"],
-        //["#267F2E", "Very High"],
+        ["#f82424ff", "Considerable decrease"], //"#E4003A" "#FF8C00", "#FFDE4D", "#B6F792", "#B6F792", "#00D95A", "#267F2E",
+        ["#FF8C00", "Moderate decrease"], //"#FFA500"
+        ["#FFDE4D", "No change"],
+        ["#6de96dff", "Moderate increase"],
+        ["#049104ff", "Considerable increase"],
       ],
       "Female cultivator suitability": [
         ["#969696", "No significant change"],
-        ["#d73027", "Highly unsuitable"], //"#E4003A" "#FF8C00", "#FFDE4D", "#B6F792", "#B6F792", "#00D95A", "#267F2E",
-        ["#fc8d59", "Unsuitable"], //"#FFA500"
-        ["#91cf60", "Suitable"],
-        ["#1a9850", "Highly suitable"],
-        //["#267F2E", "Very High"],
+        ["#f82424ff", "Considerable decrease"], //"#E4003A" "#FF8C00", "#FFDE4D", "#B6F792", "#B6F792", "#00D95A", "#267F2E",
+        ["#FF8C00", "Moderate decrease"], //"#FFA500"
+        ["#FFDE4D", "No change"],
+        ["#6de96dff", "Moderate increase"],
+        ["#049104ff", "Considerable increase"],
       ],
       "Adaptation Benefits":
         scenario === "baseline"

@@ -453,7 +453,7 @@ export default function Legend_Small({ location, commodity, adaption, RiskName, 
                                   marginY: "auto",
                                   marginX: row.Cat.includes("Medium ") ? "0px" : "1px",
                                 }}
-                                color={index <= 3 && index >= 2 ? "#111" : "white"}
+                                color={index <= 4 && index >= 2 ? "#111" : "white"}
                                 align="center"
                               >
                                 {row.Cat.split("\n").map((line, i) => (

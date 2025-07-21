@@ -396,17 +396,17 @@ export default function MApp({
     color: [
       "palette",
       ["interpolate", ["linear"], ["*", ["band", 2], 385], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 8, 9, 9],
-      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#d73027", "#fc8d59", "#91cf60", "#91cf60", "#1a9850", /*"#267F2E", */ "#A52A2A"],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#f82424ff", "#FF8C00", "#FFDE4D", "#FFDE4D", "#6de96dff", "#049104ff", "#A52A2A"],
     ],
   };
 
-  /*const color_hazard_gender = {
+  /*  const color_hazard_gender = {
     color: [
       "palette",
       ["interpolate", ["linear"], ["*", ["band", 2], 385], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 8, 9, 9],
-      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#FF8C00", "#FFDE4D", "#B6F792", "#B6F792", "#00D95A", "#267F2E", "#A52A2A"],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#d73027", "#fc8d59", "#91cf60", "#91cf60", "#1a9850", /*"#267F2E",  "#A52A2A"],
     ],
-  };*/
+  }; */
 
   const color_hazard_reverse = {
     color: [
@@ -462,7 +462,7 @@ export default function MApp({
     color: [
       "palette",
       ["interpolate", ["linear"], ["*", ["band", 2], 385], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 8],
-      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "rgba(150,150,150,1)", "#FF4500", "#FFDE4D", "#FFDE4D", "#00FF00", "#059212"],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", "#969696ff", "#FF4500", "#FFDE4D", "#FFDE4D", "#00FF00", "#059212"],
     ],
   };
 
@@ -470,16 +470,7 @@ export default function MApp({
     color: [
       "palette",
       ["interpolate", ["linear"], ["*", ["band", 2], 385], 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 8],
-      [
-        "rgba(0,0,0,0)",
-        "rgba(0,0,0,0)",
-        "rgba(150,150,150,1)",
-        /*"#A52A2A",*/ "rgba(4, 145, 4, 1)",
-        "#FFDE4D",
-        "rgb(248, 36, 36)",
-        "rgb(248, 36, 36)",
-        "rgba(150,150,150,1)" /*"#FF8C00", "#FF8C00", "rgba(109, 233, 109, 1)",*/,
-      ],
+      ["rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(150,150,150,1)", /*"#A52A2A",*/ "#049104ff", "#FFDE4D", "#f82424ff", "#f82424ff", "#969696ff" /*"#FF8C00", "#FF8C00", "rgba(109, 233, 109, 1)",*/],
     ],
   };
 
