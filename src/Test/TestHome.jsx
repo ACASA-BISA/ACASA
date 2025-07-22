@@ -1,0 +1,505 @@
+import React from "react";
+import Slider from "react-slick";
+import { Box, Typography, Button, Stack, Card, CardContent } from "@mui/material";
+import { Link } from "react-router-dom";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import CardMedia from '@mui/material/CardMedia';
+import { Tabs, Tab } from '@mui/material';
+import { Paper } from '@mui/material';
+
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+
+const slides = [
+    {
+        image: "/images/banner.png",
+        title: "Atlas of Climate Adaptation in South Asian Agriculture",
+        link: "/services",
+        buttonText: "Explore the Atlas",
+        secondaryLink: "/contact",
+    },
+    {
+        image: "/images/banner.png",
+        title: "Atlas of Climate Adaptation in South Asian Agriculture",
+        link: "/monitoring",
+        buttonText: "Explore the Atlas",
+        secondaryLink: "/support",
+    },
+    {
+        image: "/images/banner.png",
+        title: "Atlas of Climate Adaptation in South Asian Agriculture",
+        link: "/ai-solutions",
+        buttonText: "Explore the Atlas",
+        secondaryLink: "/learn",
+    },
+];
+
+const rightCards = [
+    {
+        title: "Real-time Analytics",
+        description: "Strengthen the quality, accessibility, and usability of data and evidence to support climate-informed decision-making in agriculture.",
+        image: "/images/v1.png",
+    },
+    {
+        title: "Smart Irrigation",
+        description: "Enhance adaptive capacity of agricultural systems through granular climate risk assessment and targeted adaptation options.",
+        image: "/images/v2.png",
+    },
+    {
+        title: "Weather Forecast",
+        description: "Build resilience of small-scale producers to climate variability and change through data-driven climate adaptation options.",
+        image: "/images/v3.png",
+    },
+];
+
+function TabPanel({ children, value, index }) {
+    return (
+        value === index && (
+            <Box sx={{ p: 3 }}>
+                <Typography>{children}</Typography>
+            </Box>
+        )
+    );
+}
+
+
+function TestHome() {
+
+    const [value, setValue] = React.useState(0);
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
+
+    const settings = {
+        dots: false,
+        infinite: true,
+        speed: 1400,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 8000,
+        arrows: false,
+    };
+
+    return (
+        <>
+
+            <Box className="carouselImg" sx={{ position: "relative", width: "100vw", height: "100vh", left: '-61px' }}>
+                {/* Banner Slider */}
+                <Slider {...settings}>
+                    {slides.map((slide, index) => (
+                        <Box
+                            key={index}
+                            sx={{
+                                width: "100vw",
+                                height: "100vh",
+                                backgroundImage: `url(${slide.image})`,
+                                backgroundSize: "cover",
+                                backgroundPosition: "center",
+                                position: "relative",
+                            }}
+                        >
+                            {/* Slide Text & Buttons */}
+                            <Box
+                                sx={{
+                                    position: "absolute",
+                                    bottom: { xs: 40, md: 80 },
+                                    left: { xs: 20, md: 80 },
+                                    color: "#fff",
+                                    background: "rgba(0, 0, 0, 0.5)",
+                                    p: 3,
+                                    borderRadius: 2,
+                                    zIndex: 2,
+                                }}
+                            >
+                                <Typography variant="h4" sx={{ mb: 2 }}>
+                                    {slide.title}
+                                </Typography>
+                                <Stack direction="row" spacing={2}>
+                                    <Button variant="contained">
+                                        {slide.buttonText}
+                                    </Button>
+                                    {/* <Button variant="outlined" component={Link} to={slide.secondaryLink}>
+                                        Learn More
+                                    </Button> */}
+                                </Stack>
+                            </Box>
+                        </Box>
+                    ))}
+                </Slider>
+
+                {/* Overlay Right Cards */}
+                <Box
+                    sx={{
+                        position: "absolute",
+                        top: "50%",
+                        right: 20,
+                        transform: "translateY(-50%)",
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 2,
+                        zIndex: 3,
+                        width: { xs: "80%", sm: "300px" },
+                    }}
+                >
+                    {rightCards.map((card, idx) => (
+                        <Card key={idx} sx={{ backgroundColor: "rgba(255, 255, 255, 0.10)", borderRadius: '20px', backdropFilter: 'blur(25px)' }}>
+                            {card.image && (
+                                <CardMedia
+                                    component="img"
+                                    height="50px"
+                                    width="50px"
+                                    image={card.image}
+                                    alt={card.title}
+                                />
+                            )}
+                            <CardContent>
+                                <Typography variant="body2" color="text.secondary">
+                                    {card.description}
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                    ))}
+                </Box>
+            </Box>
+
+
+            <Container maxWidth="sm">
+                <Box className="AboutSection">
+                    <h1>Explore <span>Climate Risk</span> Like Never Before</h1>
+                    <h4>Village-Level Maps to Inform Real-World Action</h4>
+                    <p>Our interactive maps are designed to help policymakers, researchers, NGOs, and farmers visualize climate-related risks and opportunities at an unprecedented resolution — down to the village level. Built using climate, crop, and socioeconomic data, the maps empower users to plan smarter and adapt faster.</p>
+                </Box>
+            </Container>
+
+            <Container maxWidth="md">
+                <Box className="" sx={{ mt: 4, mb: 4 }}>
+                    <Grid container spacing={2}>
+                        {/* Card 1 */}
+                        <Grid item xs={12} sm={6} md={4}>
+                            <Card className="card1">
+                                <CardContent className="cardBody">
+                                    <p>🔍</p>
+                                    <p> Zoom in to view risks at sub-district and village scales</p>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+
+                        {/* Card 2 */}
+                        <Grid item xs={12} sm={6} md={4}>
+                            <Card className="card1">
+                                <CardContent className="cardBody">
+                                    <p>🌾</p>
+                                    <p>Visualize climate hazards including droughts, floods, and heat stress</p>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+
+                        {/* Card 3 */}
+                        <Grid item xs={12} sm={6} md={4}>
+                            <Card className="card1">
+                                <CardContent className="cardBody">
+                                    <p>🧑‍🌾</p>
+                                    <p> Identify vulnerable regions for key crops and livestock</p>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+
+                        <Grid item xs={12} sm={6} md={4}>
+                            <Card className="card1">
+                                <CardContent className="cardBody">
+                                    <p>🛠 </p>
+                                    <p>Discover locally relevant adaptation options</p>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                        <Grid item xs={12} sm={6} md={4}>
+                            <Card className="card1">
+                                <CardContent className="cardBody">
+                                    <p>📊  </p>
+                                    <p>Filter by country, crop, and hazard type</p>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+
+                        <Grid item xs={12} sm={6} md={4}>
+                            <Card className="card1">
+                                <CardContent className="cardBody">
+                                    <p>🧭  </p>
+                                    <p> Support decision-making for insurance, planning, and investments</p>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+
+                    </Grid>
+                </Box>
+            </Container>
+
+            <Container maxWidth="xl" className="" sx={{ bgcolor: '#F2F4F3' }}>
+                <Box className="aboutSectionApproach" sx={{ mt: 4, mb: 4, p: 5 }}>
+                    <h1>ACASA Approach</h1>
+                    <Container maxWidth="lg">
+                        <img src="/images/approach.svg" className="w-100" alt="" />
+
+                        <Button className="btn btnAbout">More About Us</Button>
+                    </Container>
+                </Box>
+            </Container>
+
+            <Container maxWidth="xl" className="">
+                <Box className="aboutSectionApproach" sx={{ mt: 0, mb: 4, }}>
+                    <h1>Use Cases</h1>
+
+                    <Tabs value={value} onChange={handleChange} centered>
+                        <Tab className="tabBtn" label="Government" />
+                        <Tab className="tabBtn" label="Research" />
+                        <Tab className="tabBtn" label="Civil Society" />
+
+                        <Tab className="tabBtn" label="Credit and Finance" />
+                        <Tab className="tabBtn" label="Multi-lateral Agencies" />
+                        <Tab className="tabBtn" label="Insurance Industry" />
+                        <Tab className="tabBtn" label="Agri-food Industry" />
+
+                    </Tabs>
+
+
+                    <TabPanel value={value} index={0}>
+                        <Container maxWidth="xl" className="">
+                            <Card className="roundedCard" sx={{ maxWidth: '100%', m: 2 }}>
+                                <CardContent>
+                                    <Grid container spacing={2} justifyContent="space-between">
+                                        <Grid item sx={{ flexBasis: '40%' }}>
+                                            <Box className="tabBox">
+
+                                            </Box>
+                                        </Grid>
+                                        <Grid item sx={{ flexBasis: '60%' }}>
+                                            <Box className="contentBox">
+                                                <h1>Government </h1>
+                                                <p>ACASA can be useful for climate risk profiling and regional adaptation prioritisation.
+                                                    Insights from ACASA would help government agencies determine future investment requirements for
+                                                    climate risk mitigation and regional scaling opportunities.</p>
+                                                <h5>Evidence-based policymaking: </h5>
+                                                <p>The Atlas provides data and analysis to support policymaking for climate-resilient agriculture and strategic resource allocation. The Atlas identifies sustainable practices and resilient farming methods to
+                                                    support rural climate-resilient infrastructure and finance requirements.</p>
+                                                <h5> National Adaptation Plan: </h5>
+                                                <p>Atlas could provide relevant stakeholder-validated adaptation options to be integrated into the National Adaptation Plans of respective countries.</p>
+                                                <h5> Climate-Smart Villages:  </h5>
+                                                <p> Atlas will support scaling climate-resilient agriculture and villages by providing granular information on select implementation sites.</p>
+
+                                            </Box>
+                                        </Grid>
+                                    </Grid>
+                                </CardContent>
+                            </Card>
+                        </Container>
+                    </TabPanel>
+
+                    <TabPanel value={value} index={1}>
+                       <Container maxWidth="xl" className="">
+                            <Card className="roundedCard" sx={{ maxWidth: '100%', m: 2 }}>
+                                <CardContent>
+                                    <Grid container spacing={2} justifyContent="space-between">
+                                        <Grid item sx={{ flexBasis: '40%' }}>
+                                            <Box className="tabBox">
+
+                                            </Box>
+                                        </Grid>
+                                        <Grid item sx={{ flexBasis: '60%' }}>
+                                            <Box className="contentBox">
+                                                <h1>Research </h1>
+                                                <p>ACASA can be useful for climate risk profiling and regional adaptation prioritisation.
+                                                    Insights from ACASA would help government agencies determine future investment requirements for
+                                                    climate risk mitigation and regional scaling opportunities.</p>
+                                                <h5>Evidence-based policymaking: </h5>
+                                                <p>The Atlas provides data and analysis to support policymaking for climate-resilient agriculture and strategic resource allocation. The Atlas identifies sustainable practices and resilient farming methods to
+                                                    support rural climate-resilient infrastructure and finance requirements.</p>
+                                                <h5> National Adaptation Plan: </h5>
+                                                <p>Atlas could provide relevant stakeholder-validated adaptation options to be integrated into the National Adaptation Plans of respective countries.</p>
+                                                <h5> Climate-Smart Villages:  </h5>
+                                                <p> Atlas will support scaling climate-resilient agriculture and villages by providing granular information on select implementation sites.</p>
+
+                                            </Box>
+                                        </Grid>
+                                    </Grid>
+                                </CardContent>
+                            </Card>
+                        </Container>
+                    </TabPanel>
+
+                    <TabPanel value={value} index={2}>
+                         <Container maxWidth="xl" className="">
+                            <Card className="roundedCard" sx={{ maxWidth: '100%', m: 2 }}>
+                                <CardContent>
+                                    <Grid container spacing={2} justifyContent="space-between">
+                                        <Grid item sx={{ flexBasis: '40%' }}>
+                                            <Box className="tabBox">
+
+                                            </Box>
+                                        </Grid>
+                                        <Grid item sx={{ flexBasis: '60%' }}>
+                                            <Box className="contentBox">
+                                                <h1>Civil Society </h1>
+                                                <p>ACASA can be useful for climate risk profiling and regional adaptation prioritisation.
+                                                    Insights from ACASA would help government agencies determine future investment requirements for
+                                                    climate risk mitigation and regional scaling opportunities.</p>
+                                                <h5>Evidence-based policymaking: </h5>
+                                                <p>The Atlas provides data and analysis to support policymaking for climate-resilient agriculture and strategic resource allocation. The Atlas identifies sustainable practices and resilient farming methods to
+                                                    support rural climate-resilient infrastructure and finance requirements.</p>
+                                                <h5> National Adaptation Plan: </h5>
+                                                <p>Atlas could provide relevant stakeholder-validated adaptation options to be integrated into the National Adaptation Plans of respective countries.</p>
+                                                <h5> Climate-Smart Villages:  </h5>
+                                                <p> Atlas will support scaling climate-resilient agriculture and villages by providing granular information on select implementation sites.</p>
+
+                                            </Box>
+                                        </Grid>
+                                    </Grid>
+                                </CardContent>
+                            </Card>
+                        </Container>
+                    </TabPanel>
+
+                    <TabPanel value={value} index={3}>
+                         <Container maxWidth="xl" className="">
+                            <Card className="roundedCard" sx={{ maxWidth: '100%', m: 2 }}>
+                                <CardContent>
+                                    <Grid container spacing={2} justifyContent="space-between">
+                                        <Grid item sx={{ flexBasis: '40%' }}>
+                                            <Box className="tabBox">
+
+                                            </Box>
+                                        </Grid>
+                                        <Grid item sx={{ flexBasis: '60%' }}>
+                                            <Box className="contentBox">
+                                                <h1>Credit and Finance </h1>
+                                                <p>ACASA can be useful for climate risk profiling and regional adaptation prioritisation.
+                                                    Insights from ACASA would help government agencies determine future investment requirements for
+                                                    climate risk mitigation and regional scaling opportunities.</p>
+                                                <h5>Evidence-based policymaking: </h5>
+                                                <p>The Atlas provides data and analysis to support policymaking for climate-resilient agriculture and strategic resource allocation. The Atlas identifies sustainable practices and resilient farming methods to
+                                                    support rural climate-resilient infrastructure and finance requirements.</p>
+                                                <h5> National Adaptation Plan: </h5>
+                                                <p>Atlas could provide relevant stakeholder-validated adaptation options to be integrated into the National Adaptation Plans of respective countries.</p>
+                                                <h5> Climate-Smart Villages:  </h5>
+                                                <p> Atlas will support scaling climate-resilient agriculture and villages by providing granular information on select implementation sites.</p>
+
+                                            </Box>
+                                        </Grid>
+                                    </Grid>
+                                </CardContent>
+                            </Card>
+                        </Container>
+                    </TabPanel>
+
+
+                    <TabPanel value={value} index={4}>
+                         <Container maxWidth="xl" className="">
+                            <Card className="roundedCard" sx={{ maxWidth: '100%', m: 2 }}>
+                                <CardContent>
+                                    <Grid container spacing={2} justifyContent="space-between">
+                                        <Grid item sx={{ flexBasis: '40%' }}>
+                                            <Box className="tabBox">
+
+                                            </Box>
+                                        </Grid>
+                                        <Grid item sx={{ flexBasis: '60%' }}>
+                                            <Box className="contentBox">
+                                                <h1>Multi-lateral Agencies</h1>
+                                                <p>ACASA can be useful for climate risk profiling and regional adaptation prioritisation.
+                                                    Insights from ACASA would help government agencies determine future investment requirements for
+                                                    climate risk mitigation and regional scaling opportunities.</p>
+                                                <h5>Evidence-based policymaking: </h5>
+                                                <p>The Atlas provides data and analysis to support policymaking for climate-resilient agriculture and strategic resource allocation. The Atlas identifies sustainable practices and resilient farming methods to
+                                                    support rural climate-resilient infrastructure and finance requirements.</p>
+                                                <h5> National Adaptation Plan: </h5>
+                                                <p>Atlas could provide relevant stakeholder-validated adaptation options to be integrated into the National Adaptation Plans of respective countries.</p>
+                                                <h5> Climate-Smart Villages:  </h5>
+                                                <p> Atlas will support scaling climate-resilient agriculture and villages by providing granular information on select implementation sites.</p>
+
+                                            </Box>
+                                        </Grid>
+                                    </Grid>
+                                </CardContent>
+                            </Card>
+                        </Container>
+                    </TabPanel>
+
+
+                    <TabPanel value={value} index={5}>
+                        <Container maxWidth="xl" className="">
+                            <Card className="roundedCard" sx={{ maxWidth: '100%', m: 2 }}>
+                                <CardContent>
+                                    <Grid container spacing={2} justifyContent="space-between">
+                                        <Grid item sx={{ flexBasis: '40%' }}>
+                                            <Box className="tabBox">
+
+                                            </Box>
+                                        </Grid>
+                                        <Grid item sx={{ flexBasis: '60%' }}>
+                                            <Box className="contentBox">
+                                                <h1>Insurance Industry</h1>
+                                                <p>ACASA can be useful for climate risk profiling and regional adaptation prioritisation.
+                                                    Insights from ACASA would help government agencies determine future investment requirements for
+                                                    climate risk mitigation and regional scaling opportunities.</p>
+                                                <h5>Evidence-based policymaking: </h5>
+                                                <p>The Atlas provides data and analysis to support policymaking for climate-resilient agriculture and strategic resource allocation. The Atlas identifies sustainable practices and resilient farming methods to
+                                                    support rural climate-resilient infrastructure and finance requirements.</p>
+                                                <h5> National Adaptation Plan: </h5>
+                                                <p>Atlas could provide relevant stakeholder-validated adaptation options to be integrated into the National Adaptation Plans of respective countries.</p>
+                                                <h5> Climate-Smart Villages:  </h5>
+                                                <p> Atlas will support scaling climate-resilient agriculture and villages by providing granular information on select implementation sites.</p>
+
+                                            </Box>
+                                        </Grid>
+                                    </Grid>
+                                </CardContent>
+                            </Card>
+                        </Container>
+                    </TabPanel>
+
+                    <TabPanel value={value} index={6}>
+                        <Container maxWidth="xl" className="">
+                            <Card className="roundedCard" sx={{ maxWidth: '100%', m: 2 }}>
+                                <CardContent>
+                                    <Grid container spacing={2} justifyContent="space-between">
+                                        <Grid item sx={{ flexBasis: '40%' }}>
+                                            <Box className="tabBox">
+
+                                            </Box>
+                                        </Grid>
+                                        <Grid item sx={{ flexBasis: '60%' }}>
+                                            <Box className="contentBox">
+                                                <h1>Agri-food Industry</h1>
+                                                <p>ACASA can be useful for climate risk profiling and regional adaptation prioritisation.
+                                                    Insights from ACASA would help government agencies determine future investment requirements for
+                                                    climate risk mitigation and regional scaling opportunities.</p>
+                                                <h5>Evidence-based policymaking: </h5>
+                                                <p>The Atlas provides data and analysis to support policymaking for climate-resilient agriculture and strategic resource allocation. The Atlas identifies sustainable practices and resilient farming methods to
+                                                    support rural climate-resilient infrastructure and finance requirements.</p>
+                                                <h5> National Adaptation Plan: </h5>
+                                                <p>Atlas could provide relevant stakeholder-validated adaptation options to be integrated into the National Adaptation Plans of respective countries.</p>
+                                                <h5> Climate-Smart Villages:  </h5>
+                                                <p> Atlas will support scaling climate-resilient agriculture and villages by providing granular information on select implementation sites.</p>
+
+                                            </Box>
+                                        </Grid>
+                                    </Grid>
+                                </CardContent>
+                            </Card>
+                        </Container>
+                    </TabPanel>
+                </Box>
+            </Container>
+
+
+
+
+
+
+        </>
+    );
+}
+
+export default TestHome;

@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+body {
+    font-family: "Poppins", sans-serif;
+}
+
 .css-cveggr-MuiListItemIcon-root {
     min-width: 56px;
     color: rgba(0, 0, 0, 0.54);
@@ -352,4 +358,274 @@ body {
 
 .css-lm2nsg-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
     padding: 10px 14px !important;
+}
+
+.css-1kzxync {
+    position: absolute;
+    bottom: 304px;
+    left: 30px;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.css-1u3fja1-MuiPaper-root-MuiCard-root {
+    padding: 14px !important;
+}
+
+.css-o69gx8-MuiCardMedia-root {
+    width: 50px !important;
+}
+
+.css-46bh2p-MuiCardContent-root {
+    margin-top: 0px !important;
+    color: #fff !important;
+    padding: 10px 4px !important;
+}
+
+.css-r40f8v-MuiTypography-root {
+    margin: 0;
+    font-weight: 400;
+    font-size: 0.875rem;
+    line-height: 1.43;
+    letter-spacing: 0.01071em;
+    color: #fff !important;
+    font-size: 12px !important;
+    font-style: normal;
+    text-align: left !important;
+    font-weight: 400 !important;
+    line-height: normal;
+}
+
+.css-46bh2p-MuiCardContent-root:last-child {
+    padding-bottom: 0px !important;
+}
+
+.css-pxw7rc-MuiTypography-root {
+    margin: 0;
+    letter-spacing: 0.00735em;
+    margin-bottom: 16px;
+    color: #FFF !important;
+    font-size: 48px !important;
+    font-style: normal;
+    font-weight: 600 !important;
+    text-align: left !important;
+    line-height: 54px;
+    max-width: 650px !important;
+}
+
+.css-efxop4 {
+    position: absolute;
+    color: #fff;
+    background: transparent !important;
+    padding: 14px !important;
+    border-radius: 8px;
+    z-index: 2;
+}
+
+/* .css-1apnxn1 {
+    margin-top: 85px!important;
+} */
+
+.css-1gnngy {
+    position: absolute;
+    top: 60% !important;
+}
+
+.css-sghohy-MuiButtonBase-root-MuiButton-root {
+    border-radius: 4px !important;
+    background: #FECE2E !important;
+    color: #000 !important;
+    font-size: 14px !important;
+    font-style: normal;
+    font-weight: 600 !important;
+    line-height: normal !important;
+    text-transform: capitalize !important;
+}
+
+.AboutSection h1 {
+    color: #000;
+    text-align: center;
+    font-size: 60px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 70px;
+    /* 116.667% */
+}
+
+.AboutSection h1 span {
+    color: #4C9E46;
+    font-size: 60px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 70px;
+}
+
+.AboutSection h4 {
+    color: #000;
+    text-align: center;
+    font-family: Poppins;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.AboutSection p {
+    color: #00000080;
+    text-align: center;
+    font-family: Poppins;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.card1 {
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.10);
+    background: rgba(242, 244, 243, 0.50) !important;
+    min-height: 150px;
+}
+
+.card1 .cardBody {
+    padding: 13px 33px !important;
+}
+
+.card1:hover {
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    background: #FFF !important;
+    box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.10);
+    min-height: 150px;
+}
+
+.card1 p {
+    color: #000;
+    font-family: Poppins;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px;
+}
+
+.aboutSectionApproach h1 {
+    color: #000;
+    font-family: Poppins;
+    font-size: 60px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.btn.btnAbout {
+    border-radius: 4px;
+    background: #FECE2E;
+    color: #000;
+    font-family: Poppins;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin-top: 20px;
+    text-transform: capitalize;
+}
+
+.btn.btnAbout:hover {
+    border-radius: 4px;
+    background: #FECE2E;
+    color: #000;
+    font-family: Poppins;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin-top: 20px;
+    text-transform: capitalize;
+}
+
+.css-1h9z7r5-MuiButtonBase-root-MuiTab-root.Mui-selected {
+    border-radius: 100px !important;
+    background: #4C9E46 !important;
+    color: #FFF !important;
+    font-family: Poppins;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-transform: capitalize;
+}
+
+.css-1h9z7r5-MuiButtonBase-root-MuiTab-root {
+    border-radius: 100px !important;
+    background: rgba(76, 158, 70, 0.10) !important;
+    margin: 0px 5px !important;
+    color: #606060 !important;
+    font-family: Poppins !important;
+    font-size: 14px !important;
+    font-style: normal;
+    font-weight: 400 !important;
+    text-transform: capitalize !important;
+}
+
+.css-1aquho2-MuiTabs-indicator {
+    position: absolute;
+    height: 0px !important;
+    bottom: 0;
+    width: 100%;
+    -webkit-transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    color: #fff !important;
+    background-color: transparent !important;
+}
+
+.roundedCard {
+    border-radius: 30px !important;
+    border: 1px solid rgba(0, 0, 0, 0.10) !important;
+    background: #F2F4F3 !important;
+    padding: 40px !important;
+}
+
+.tabBox {
+    border-radius: 20px;
+    background: #FFF;
+    width: 450px;
+    height: 520px;
+    flex-shrink: 0;
+}
+
+.contentBox h1 {
+    color: #000;
+    font-family: Poppins;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-align: left;
+}
+
+.contentBox h5 {
+    color: #000;
+    font-family: Poppins;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-align: left;
+}
+
+.contentBox p {
+    color: #000;
+    font-family: Poppins;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-align: left;
+}
+
+@media (min-width: 600px) {
+    .css-cuefkz-MuiContainer-root {
+        max-width: 680px !important;
+    }
 }

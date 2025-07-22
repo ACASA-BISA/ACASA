@@ -26,6 +26,7 @@ import Feedback1 from "./Feedback";
 import Translate from "./Translate"; // Import Translate component
 import LightTooltip from "./LightTooltip";
 import Test from "./Test/Test";
+import TestHome from "./Test/TestHome";
 
 const pages = ["Guide", "Explore Data", "Data at a glance", "Data Access", "Use Cases", "Resources", "About Us"];
 const pageid = ["guide", "exploredata", "adaptationataglance", "access", "usecase", "resources", "about"];
@@ -532,6 +533,7 @@ function ResponsiveAppBar({}) {
           <Route path="/adaptation2" element={<DrawerMapShow activeBar="adaptation2" />}></Route>
           <Route path="/feedback" element={<Feedback1 />}></Route>
           <Route path="/test" element={<Test />}></Route>
+           <Route path="/test-home" element={<TestHome />}></Route>
         </Routes>
 
         <ScrollToTop />
