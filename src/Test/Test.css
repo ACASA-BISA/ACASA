@@ -1,0 +1,327 @@
+.css-cveggr-MuiListItemIcon-root {
+    min-width: 56px;
+    color: rgba(0, 0, 0, 0.54);
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    display: block !important;
+}
+
+.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input:invalid {
+    box-shadow: none;
+    height: 0px;
+    font-size: 12px;
+}
+
+span.searchIcon {
+    position: absolute;
+    right: 65px !important;
+    z-index: 99;
+    top: 22px !important;
+    color: #e0e0e0;
+}
+
+.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
+    height: 0px !important;
+    font-size: 12px;
+}
+
+.filterText {
+    /* color: #000; */
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.clearText {
+    /* color: #00000080 !important; */
+    font-size: 10px !important;
+    font-style: normal;
+    text-transform: capitalize !important;
+    font-weight: 500 !important;
+    line-height: normal;
+}
+
+.saveFilters {
+    color: #3065FA !important;
+    font-size: 10px !important;
+    text-transform: capitalize !important;
+    font-style: normal;
+    font-weight: 600 !important;
+    line-height: normal;
+}
+
+.css-cveggr-MuiListItemIcon-root {
+    min-width: 35px !important;
+}
+
+/* .css-10hburv-MuiTypography-root {
+    margin: 0;
+    letter-spacing: 0.00938em;
+    display: block;
+    font-size: 12px !important;
+    font-style: normal;
+    font-weight: 600 !important;
+    line-height: normal;
+} */
+.css-10hburv-MuiTypography-root {
+    margin: 0;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.5;
+    letter-spacing: 0.00938em;
+    display: block;
+    color: #000;
+}
+
+.css-i7rae6-MuiList-root {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    padding-top: 0;
+    padding-bottom: 8px;
+    width: 100%;
+    max-width: 360px;
+    border-top: 1px solid rgba(0, 0, 0, 0.10) !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.10) !important;
+    background: #fff !important;
+}
+
+select.form-select {
+    /* color: #000; */
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    height: 34px;
+    border-radius: 4px;
+    border: 1px solid #409BF6;
+    background-color: transparent;
+}
+
+.css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root {
+    line-height: 5px !important;
+}
+
+label {
+    /* color: #000; */
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.css-p51h6s-MuiInputBase-input-MuiOutlinedInput-input:invalid {
+    box-shadow: none;
+    height: 4px;
+}
+
+.css-p51h6s-MuiInputBase-input-MuiOutlinedInput-input:invalid {
+    box-shadow: none;
+    height: 4px;
+    font-size: 12px;
+    color: #fff;
+}
+
+.css-dn7qeu-MuiInputBase-root-MuiOutlinedInput-root label {
+    color: #fff;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.css-qklaqr-MuiListItemIcon-root {
+    min-width: 35px !important;
+    color: #fff;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    display: -webkit-inline-box;
+    display: -webkit-inline-flex;
+    display: -ms-inline-flexbox;
+    display: none;
+}
+.css-qklaqr-MuiListItemIcon-root
+/* body {
+    position: relative;
+    min-height: 87.6%;
+    top: -14px !important;
+} */
+
+body {
+    overflow-x: hidden!important;
+}
+
+.form-check-input:checked {
+    background-color: #34C759;
+    border-color: #34C759;
+}
+
+.css-j204z7-MuiFormControlLabel-root .MuiFormControlLabel-label {
+    text-align: left !important;
+}
+
+
+
+
+/* .css-u4tvz2-MuiFormLabel-root {
+    color: rgba(0, 0, 0, 0.6);
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.4375em;
+    letter-spacing: 0.00938em;
+    padding: 0;
+    position: relative;
+} */
+
+.css-qfz70r-MuiFormGroup-root {
+    display: flex;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    flex-wrap: nowrap !important;
+    padding: 0px;
+    margin-left: 0px;
+}
+
+
+.css-ahj2mt-MuiTypography-root {
+    margin: 0;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 600 !important;
+    font-size: 12px !important;
+    line-height: 1.5;
+    letter-spacing: 0.00938em;
+}
+
+.css-z2eky3-MuiTypography-root {
+    margin: 0;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 400;
+    font-size: 12px !important;
+    line-height: 1.5;
+    letter-spacing: 0.00938em;
+    margin-bottom: 16px;
+    margin-top: -13px !important;
+}
+
+.css-10hburv-MuiTypography-root {
+    margin: 0;
+    letter-spacing: 0.00938em;
+    display: block;
+    font-size: 12px !important;
+    font-style: normal;
+    font-weight: 600 !important;
+    line-height: normal;
+}
+
+.css-1dmy9pd-MuiDrawer-docked .MuiDrawer-paper {
+    width: 60px;
+    box-sizing: border-box;
+    transition: width 0.3s;
+    overflow-x: hidden;
+    margin-top: 82px !important;
+}
+
+.css-1dmy9pd-MuiDrawer-docked .MuiDrawer-paper {
+    width: 60px;
+    box-sizing: border-box;
+    transition: width 0.3s;
+    overflow-x: hidden;
+    margin-top: 82px;
+}
+
+.css-1s5nqqr-MuiDrawer-docked .MuiDrawer-paper {
+    width: 240px;
+    box-sizing: border-box;
+    -webkit-transition: width 0.3s;
+    transition: width 0.3s;
+    overflow-x: hidden;
+    margin-top: 84px !important;
+}
+
+.css-bywy2q-MuiFormLabel-root {
+    color: rgba(255, 255, 255, 0.7);
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.4375em;
+    letter-spacing: 0.00938em;
+    padding: 0;
+    position: relative;
+    font-size: 12px !important;
+    font-style: normal;
+    font-weight: 600 !important;
+}
+
+.css-691x5w-MuiButtonBase-root-MuiRadio-root.Mui-checked {
+    color: #81c784;
+    padding: 0px !important;
+}
+
+.css-691x5w-MuiButtonBase-root-MuiRadio-root {
+    padding: 0px !important
+}
+
+.css-jzcd7z-MuiFormControlLabel-root .MuiFormControlLabel-label {
+    color: #bebfc1 !important;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: left !important;
+}
+
+.css-u4tvz2-MuiFormLabel-root {
+    color: rgba(0, 0, 0, 0.6);
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 600 !important;
+    font-size: 12px !important;
+    line-height: 1.4375em;
+    letter-spacing: 0.00938em;
+    padding: 0;
+    position: relative;
+}
+
+.css-1criyxn-MuiList-root {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    padding-top: 0;
+    padding-bottom: 8px;
+    width: 100%;
+    max-width: 360px;
+    background-color: #25292e;
+    border-bottom: 1px solid #bebfc163;
+}
+
+
+.css-1hstauz-MuiTypography-root {
+    margin: 0;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 500;
+    font-size: 0.875rem;
+    line-height: 1.57;
+    letter-spacing: 0.00714em;
+    margin-top: 16px;
+    margin-bottom: 8px;
+    text-align: left !important;
+}
+
+.css-1rb1148-MuiTypography-root {
+    margin: 0;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 500;
+    font-size: 0.875rem;
+    line-height: 1.57;
+    letter-spacing: 0.00714em;
+    margin-top: 24px;
+    margin-bottom: 8px;
+    text-align: left !important;
+}
+
+.css-i4bv87-MuiSvgIcon-root {
+    color: #aaaaaa !important;
+}
