@@ -14,6 +14,9 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormHelperText from '@mui/material/FormHelperText';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 import {
     AppBar,
@@ -52,6 +55,12 @@ function Test() {
     const toggleDrawer = () => {
         setOpen(!open);
     };
+
+    const [age, setAge] = React.useState('');
+
+  const handleChanges = (event: SelectChangeEvent) => {
+    setAge(event.target.value);
+  };
 
     const [isSidebarOpen, setIsSidebarOpen] = React.useState(true);
     const [isSidebarOpen1, setIsSidebarOpen1] = React.useState(false);
@@ -206,18 +215,41 @@ function Test() {
                                 <List component="div" disablePadding>
                                     <div className="card w-100 bg-transparent border-0 text-start">
                                         <div className="card-body">
-                                            <select name="" id="" className="form-select mb-2">
-                                                <option>South Asia</option>
-                                            </select>
-                                            <select name="" id="" className="form-select">
-                                                <option>State/Province</option>
-                                            </select>
+                                            <FormControl>
+                                                <Select
+                                                    value={age}
+                                                    onChange={handleChanges}
+                                                    displayEmpty
+                                                    inputProps={{ 'aria-label': 'Without label' }}
+                                                >
+                                                    <MenuItem value="">
+                                                        South Asia
+                                                    </MenuItem>
+                                                    <MenuItem value={10}>South Asia</MenuItem>
+                                                    <MenuItem value={20}>South Asia</MenuItem>
+                                                </Select>
+
+                                                <br />
+
+                                                 <Select 
+                                                    value={age}
+                                                    onChange={handleChanges}
+                                                    displayEmpty
+                                                    inputProps={{ 'aria-label': 'Without label' }}
+                                                >
+                                                    <MenuItem value="">
+                                                       State/Province
+                                                    </MenuItem>
+                                                    <MenuItem value={10}>South Asia</MenuItem>
+                                                    <MenuItem value={20}>South Asia</MenuItem>
+                                                </Select>
+                                            </FormControl>
                                         </div>
                                     </div>
                                 </List>
                             </Collapse>
                         </List>
-                        <div className="card" style={{ height: '54vh', overflowY: 'scroll', border:'0px', overflowX:'hidden' }}>
+                        <div className="card" style={{ height: '54vh', overflowY: 'scroll', border: '0px', overflowX: 'hidden' }}>
                             <div className="card-body p-0">
                                 <List
                                     sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
@@ -509,7 +541,7 @@ function Test() {
                                         </ListSubheader>
                                     }
                                 >
-                                   <ListItemButton onClick={handleClick7}>
+                                    <ListItemButton onClick={handleClick7}>
                                         <ListItemIcon>
                                             <img src="/images/options.png" alt="" />
                                         </ListItemIcon>

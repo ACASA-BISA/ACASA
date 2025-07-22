@@ -144,6 +144,7 @@ label {
     display: -ms-inline-flexbox;
     display: none;
 }
+
 .css-qklaqr-MuiListItemIcon-root
 /* body {
     position: relative;
@@ -152,7 +153,7 @@ label {
 } */
 
 body {
-    overflow-x: hidden!important;
+    overflow-x: hidden !important;
 }
 
 .form-check-input:checked {
@@ -324,4 +325,31 @@ body {
 
 .css-i4bv87-MuiSvgIcon-root {
     color: #aaaaaa !important;
+}
+
+.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+    padding-right: 32px;
+    font-size: 12px;
+    border-radius: 4px !important;
+    border: 1px solid #409BF6 !important;
+    width: 184px !important;
+    text-align: left;
+}
+
+.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+    padding: 10px 14px !important;
+}
+
+.css-lm2nsg-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-lm2nsg-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-lm2nsg-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+    padding-right: 32px;
+    font-size: 12px !important;
+    border-radius: 4px !important;
+    border: 1px solid #409BF6 !important;
+    width: 184px !important;
+    color: #000 !important;
+    text-align: left;
+}
+
+.css-lm2nsg-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+    padding: 10px 14px !important;
 }
