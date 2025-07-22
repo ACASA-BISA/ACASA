@@ -15,8 +15,9 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import MenuItem from '@mui/material/MenuItem';
-import FormHelperText from '@mui/material/FormHelperText';
+// import FormHelperText from '@mui/material/FormHelperText';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { Grid } from "@mui/material";
 
 import {
     AppBar,
@@ -58,9 +59,9 @@ function Test() {
 
     const [age, setAge] = React.useState('');
 
-  const handleChanges = (event: SelectChangeEvent) => {
-    setAge(event.target.value);
-  };
+    const handleChanges = (event: SelectChangeEvent) => {
+        setAge(event.target.value);
+    };
 
     const [isSidebarOpen, setIsSidebarOpen] = React.useState(true);
     const [isSidebarOpen1, setIsSidebarOpen1] = React.useState(false);
@@ -231,14 +232,14 @@ function Test() {
 
                                                 <br />
 
-                                                 <Select 
+                                                <Select
                                                     value={age}
                                                     onChange={handleChanges}
                                                     displayEmpty
                                                     inputProps={{ 'aria-label': 'Without label' }}
                                                 >
                                                     <MenuItem value="">
-                                                       State/Province
+                                                        State/Province
                                                     </MenuItem>
                                                     <MenuItem value={10}>South Asia</MenuItem>
                                                     <MenuItem value={20}>South Asia</MenuItem>
@@ -476,15 +477,6 @@ function Test() {
                                         {isSidebarOpen5 ? <ExpandLess /> : <ExpandMore />}
                                     </ListItemButton>
 
-                                    {/* <ListItemButton onClick={handleClick5}>
-                                        <ListItemIcon>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M14.672 9.22377L11.3822 3.52559C11.2345 3.26991 11.0356 3.06962 10.8013 2.93397L10.802 2.93326C10.569 2.79903 10.297 2.72729 10.0001 2.72729C9.71107 2.72729 9.44472 2.79548 9.21603 2.92331L9.19898 2.93397C8.9646 3.06962 8.76504 3.26991 8.61802 3.52558L5.3282 9.22377L5.32749 9.22306L2.0384 14.9198C1.89138 15.174 1.81824 15.4461 1.81824 15.7188C1.81824 15.9844 1.88784 16.2507 2.02775 16.4993C2.0313 16.505 2.03485 16.5107 2.0384 16.5164C2.18613 16.7728 2.38498 16.973 2.61795 17.108C2.85089 17.2422 3.12362 17.3147 3.42051 17.3147H16.5789C16.8757 17.3147 17.1485 17.2429 17.3814 17.108C17.6144 16.9731 17.8133 16.7735 17.961 16.5164L17.9617 16.5171C18.108 16.2635 18.1811 15.9915 18.1811 15.7188C18.1811 15.4468 18.108 15.174 17.961 14.9198L14.6833 9.24216C14.6791 9.23577 14.6755 9.23008 14.6713 9.22298L14.672 9.22377ZM10.579 14.0007C10.7331 14.1548 10.819 14.3622 10.819 14.5795C10.819 14.7968 10.7331 15.0049 10.579 15.1584C10.4248 15.3125 10.2174 15.3984 10.0001 15.3984C9.78279 15.3984 9.5747 15.3125 9.42128 15.1584C9.26716 15.0042 9.18123 14.7968 9.18123 14.5795C9.18123 14.3622 9.26717 14.1541 9.42128 14.0007C9.5754 13.8466 9.78279 13.7606 10.0001 13.7606C10.2174 13.7606 10.4255 13.8466 10.579 14.0007ZM10.802 7.68668C10.7508 9.19164 10.699 10.7023 10.5903 12.2038C10.5747 12.419 10.4611 12.6093 10.2622 12.7009C10.1798 12.7393 10.0889 12.7592 9.99799 12.7592C9.90709 12.7592 9.81617 12.74 9.73308 12.7016C9.53421 12.61 9.42556 12.4176 9.40994 12.2045C9.30553 10.7641 9.2544 9.31739 9.20468 7.87502C9.19616 7.63781 9.18835 7.4013 9.17982 7.16408C9.16704 6.83737 9.32116 6.54404 9.62584 6.41053C9.74232 6.3594 9.87017 6.33383 9.9973 6.33383C10.1244 6.33383 10.2523 6.35869 10.3695 6.40982C10.6756 6.54334 10.8318 6.83597 10.8198 7.16408C10.8134 7.33879 10.8077 7.51351 10.802 7.68822L10.802 7.68668Z" fill="#409BF6" />
-                                            </svg>
-                                        </ListItemIcon>
-                                        <ListItemText primary="Risk" />
-                                        {isSidebarOpen5 ? <ExpandLess /> : <ExpandMore />}
-                                    </ListItemButton> */}
                                     <Collapse in={isSidebarOpen5} timeout="auto" unmountOnExit>
                                         <List component="div" disablePadding>
                                             <div className="card w-100 bg-transparent border-0 text-start">
@@ -577,14 +569,16 @@ function Test() {
                 {/* Main Content */}
                 <Box component="main" className="main">
                     {/* <Toolbar /> */}
-                    <div className="row">
-                        <div className="col-sm-12 col-md-6 col-lg-6">
-                            <img className="w-100" src="/images/map-1.png" alt="" />
-                        </div>
-                        <div className="col-sm-12 col-md-6 col-lg-6">
-                            <img className="w-100" src="/images/map-2.png" alt="" />
-                        </div>
-                    </div>
+                    <Grid container spacing={1}>
+                        <Grid item xs={6}>
+                            <Box>
+                                <img src="/images/map-1.png" alt="" />
+                            </Box>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Box> <img src="/images/map-1.png" alt="" /></Box>
+                        </Grid>
+                    </Grid>
                 </Box>
             </Box>
         </>
