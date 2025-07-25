@@ -28,8 +28,10 @@ import LightTooltip from "./LightTooltip";
 import Test from "./Test/Test";
 import TestHome from "./Test/TestHome";
 
-const pages = ["Guide", "Explore Data", "Data at a glance", "Data Access", "Use Cases", "Resources", "About Us"];
-const pageid = ["guide", "exploredata", "adaptationataglance", "access", "usecase", "resources", "about"];
+// const pages = ["Guide", "Explore Data", "Data at a glance", "Data Access", "Use Cases", "Resources", "About Us"];
+// const pageid = ["guide", "exploredata", "adaptationataglance", "access", "usecase", "resources", "about"];
+const pages = ["Home", "Explore", "Data at a glance", "Data Access", "Use Cases", "Resources", "About Us"];
+const pageid = ["home", "test", "adaptationataglance", "access", "usecase", "resources", "about"];
 const AppBarHeight = "85px";
 
 const ToggleContainer = styled("div")(({ theme, mode }) => ({
@@ -74,7 +76,7 @@ const StyledTooltip = styled(({ className, ...props }) => <Tooltip {...props} cl
   },
 }));
 
-function ResponsiveAppBar({}) {
+function ResponsiveAppBar({ }) {
   const [flag, setflag] = React.useState(null);
   const { mode, toggleTheme } = React.useContext(ThemeContext);
 
@@ -297,8 +299,8 @@ function ResponsiveAppBar({}) {
                                     ? "#3a3d42" // Dark theme open menu color
                                     : "#f5f3ed" // Light theme open menu color
                                   : theme.palette.mode === "dark"
-                                  ? "#3a3d42"
-                                  : "#ffffff", // Darkens when menu is open
+                                    ? "#3a3d42"
+                                    : "#ffffff", // Darkens when menu is open
                             }}
                             key={pageid[index]}
                             onMouseEnter={handleOpenUserMenu2}
@@ -327,7 +329,7 @@ function ResponsiveAppBar({}) {
                               vertical: "top",
                               horizontal: "left",
                             }}
-                            //MenuListProps={{ onMouseLeave: handleCloseUserMenu }}
+                          //MenuListProps={{ onMouseLeave: handleCloseUserMenu }}
                           >
                             <a href="/#/exploredata" style={{ textDecoration: "none" }}>
                               <MenuItem onClick={handleClick}>
@@ -362,8 +364,8 @@ function ResponsiveAppBar({}) {
                                     ? "#3a3d42" // Dark theme open menu color
                                     : "#f5f3ed" // Light theme open menu color
                                   : theme.palette.mode === "dark"
-                                  ? "#3a3d42"
-                                  : "#ffffff", // Darkens when menu is open
+                                    ? "#3a3d42"
+                                    : "#ffffff", // Darkens when menu is open
                             }}
                             key={pageid[index]}
                             onMouseEnter={handleOpenUserMenu}
@@ -400,7 +402,7 @@ function ResponsiveAppBar({}) {
                               vertical: "top",
                               horizontal: "left",
                             }}
-                            //MenuListProps={{ onMouseLeave: handleCloseUserMenu }}
+                          //MenuListProps={{ onMouseLeave: handleCloseUserMenu }}
                           >
                             {/* {opts.map((setting) => (<div></div>))} */}
                             <a href="/#/hazardataglance" style={{ textDecoration: "none" }}>
@@ -533,7 +535,7 @@ function ResponsiveAppBar({}) {
           <Route path="/adaptation2" element={<DrawerMapShow activeBar="adaptation2" />}></Route>
           <Route path="/feedback" element={<Feedback1 />}></Route>
           <Route path="/test" element={<Test />}></Route>
-           <Route path="/home" element={<TestHome />}></Route>
+          <Route path="/home" element={<TestHome />}></Route>
         </Routes>
 
         <ScrollToTop />

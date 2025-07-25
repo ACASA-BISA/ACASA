@@ -1,23 +1,12 @@
 import { useState, useEffect, useCallback } from "react";
 import "./Test.css";
 import { Button, Grid, Toolbar, IconButton, Drawer, Switch, Typography, FormGroup, List, Box, Tooltip, } from "@mui/material";
-import ListSubheader from "@mui/material/ListSubheader";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import Collapse from "@mui/material/Collapse";
-import ExpandLess from "@mui/icons-material/ExpandLess";
-import ExpandMore from "@mui/icons-material/ExpandMore";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
+import { ListSubheader, ListItemButton, ListItemIcon, ListItemText, Collapse, FormControlLabel, FormControl, FormLabel, MenuItem, Select } from "@mui/material";
+import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import Swal from "sweetalert2";
 import MapViewer from "./MapViewer";
 
 const drawerWidth = 254;
-
 
 function LayoutIcon(props) {
     return (
@@ -29,10 +18,10 @@ function LayoutIcon(props) {
 
 function Test() {
 
-     useEffect(() => {
-    document.documentElement.style.overflowX = 'hidden';
-    document.body.style.overflowX = 'hidden';
-  }, []);
+    useEffect(() => {
+        document.documentElement.style.overflowX = 'hidden';
+        document.body.style.overflowX = 'hidden';
+    }, []);
 
     const [open, setOpen] = useState(true);
     const [countries, setCountries] = useState([]);
@@ -288,32 +277,21 @@ function Test() {
     };
 
     const handleClearFilters = () => {
-        Swal.fire({
-            title: "Clear All Filters?",
-            text: "This will reset all filter selections. Continue?",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonText: "Yes, clear",
-            cancelButtonText: "Cancel",
-        }).then((result) => {
-            if (result.isConfirmed) {
-                setSelectedCountryId(0);
-                setSelectedStateId(0);
-                setDisableStateFilter(true);
-                setStates([]);
-                setSelectedCommodityTypeId("");
-                setSelectedCommodityId("");
-                setSelectedScopeId("");
-                setSelectedScaleId("");
-                setSelectedScenarioId("");
-                setSelectedDataSourceId("");
-                setSelectedRiskId("");
-                setSelectedImpactId("");
-                setFilters(null);
-                setAppliedFilters(null);
-                setGeojsonData(null);
-            }
-        });
+        setSelectedCountryId(0);
+        setSelectedStateId(0);
+        setDisableStateFilter(true);
+        setStates([]);
+        setSelectedCommodityTypeId("");
+        setSelectedCommodityId("");
+        setSelectedScopeId("");
+        setSelectedScaleId("");
+        setSelectedScenarioId("");
+        setSelectedDataSourceId("");
+        setSelectedRiskId("");
+        setSelectedImpactId("");
+        setFilters(null);
+        setAppliedFilters(null);
+        setGeojsonData(null);
     };
 
     return (
@@ -611,7 +589,6 @@ function Test() {
                                                             <Switch
                                                                 checked={+selectedRiskId === +risk.risk_id}
                                                                 onChange={() => handleRiskChange({ target: { value: risk.risk_id } })}
-                                                                disabled={!risk.status || isLoading}
                                                                 color="primary"
                                                             />
                                                         }

@@ -1,10 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Grid, Box, Paper, Tooltip, IconButton, CircularProgress, Breadcrumbs, Link, Typography, Menu, MenuItem, } from "@mui/material";
-import DownloadIcon from "@mui/icons-material/Download";
-import FullscreenIcon from "@mui/icons-material/Fullscreen";
-import FullscreenExitIcon from "@mui/icons-material/FullscreenExit";
-import ZoomOutMapIcon from "@mui/icons-material/ZoomOutMap";
-import HomeIcon from "@mui/icons-material/Home";
+import { Grid, Box, Paper, Tooltip, IconButton, CircularProgress, Breadcrumbs, Typography } from "@mui/material";
 import Swal from "sweetalert2";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -14,7 +9,7 @@ import GeoRasterLayer from "georaster-layer-for-leaflet";
 import leafletImage from "leaflet-image";
 import screenfull from "screenfull";
 
-// Custom Leaflet control for Fullscreen, Fit-to-Extent, and Home buttons
+// Custom Leaflet control for Fullscreen, Fit-to-Extent
 L.Control.MapControls = L.Control.extend({
     options: {
         position: "topright",
@@ -24,40 +19,27 @@ L.Control.MapControls = L.Control.extend({
 
         // Fullscreen Button
         const fullscreenButton = L.DomUtil.create("a", "leaflet-control-button", container);
-        fullscreenButton.innerHTML = this.options.isFullscreen
-            ? '<svg class="MuiSvgIcon-root" style="width:16px;height:16px" viewBox="0 0 24 24"><path fill="currentColor" d="M5 16h3v3H5v-3zm3-6H5v3h3v-3zm6 6h3v3h-3v-3zm3-6h-3v3h3v-3z" /></svg>'
-            : '<svg class="MuiSvgIcon-root" style="width:16px;height:16px" viewBox="0 0 24 24"><path fill="currentColor" d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z" /></svg>';
+        fullscreenButton.innerHTML = this.options.isFullscreen ? "⤡" : "⤢";
         fullscreenButton.href = "#";
         fullscreenButton.title = this.options.isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen";
+        fullscreenButton.style.fontSize = "20px"; // Increase icon size
         L.DomEvent.on(fullscreenButton, "click", (e) => {
             L.DomEvent.stopPropagation(e);
             L.DomEvent.preventDefault(e);
             this.options.onFullscreen();
-            fullscreenButton.innerHTML = this.options.isFullscreen
-                ? '<svg class="MuiSvgIcon-root" style="width:16px;height:16px" viewBox="0 0 24 24"><path fill="currentColor" d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z" /></svg>'
-                : '<svg class="MuiSvgIcon-root" style="width:16px;height:16px" viewBox="0 0 24 24"><path fill="currentColor" d="M5 16h3v3H5v-3zm3-6H5v3h3v-3zm6 6h3v3h-3v-3zm3-6h-3v3h3v-3z" /></svg>';
+            fullscreenButton.innerHTML = this.options.isFullscreen ? "⤢" : "⤡";
         });
 
         // Fit-to-Extent Button
         const fitExtentButton = L.DomUtil.create("a", "leaflet-control-button", container);
-        fitExtentButton.innerHTML = '<svg class="MuiSvgIcon-root" style="width:16px;height:16px" viewBox="0 0 24 24"><path fill="currentColor" d="M4 4h4v2H4v4H2V4h2zm16 0h-4v2h4v4h2V4h-2zM4 20h4v-2H4v-4H2v6h2zm16 0h-4v-2h4v-4h2v6h-2z" /></svg>';
+        fitExtentButton.innerHTML = '<strong>E</strong>';
         fitExtentButton.href = "#";
         fitExtentButton.title = "Fit to Extent";
+        fitExtentButton.style.fontSize = "16px"; // Optional: Adjust size if needed
         L.DomEvent.on(fitExtentButton, "click", (e) => {
             L.DomEvent.stopPropagation(e);
             L.DomEvent.preventDefault(e);
             this.options.onFitExtent();
-        });
-
-        // Home Button
-        const homeButton = L.DomUtil.create("a", "leaflet-control-button", container);
-        homeButton.innerHTML = '<svg class="MuiSvgIcon-root" style="width:16px;height:16px" viewBox="0 0 24 24"><path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" /></svg>';
-        homeButton.href = "#";
-        homeButton.title = "Reset to Home View";
-        L.DomEvent.on(homeButton, "click", (e) => {
-            L.DomEvent.stopPropagation(e);
-            L.DomEvent.preventDefault(e);
-            this.options.onHome();
         });
 
         // Styling for buttons
@@ -69,7 +51,7 @@ L.Control.MapControls = L.Control.extend({
             btn.style.display = "block";
             btn.style.padding = "4px";
             btn.style.textAlign = "center";
-            btn.style.lineHeight = "40px";
+            // btn.style.lineHeight = "40px";
             btn.style.backgroundColor = "#fff";
             btn.style.borderBottom = "1px solid rgba(0,0,0,0.2)";
             btn.style.cursor = "pointer";
@@ -142,9 +124,6 @@ function MapViewer({ drawerOpen, filters, geojsonData, apiUrl }) {
                     if (boundsRefs.current[index]) {
                         map.fitBounds(boundsRefs.current[index], { padding: [50, 50] });
                     }
-                },
-                onHome: () => {
-                    map.setView(initialCenter, initialZoom);
                 },
             });
             mapControl.addTo(map);
@@ -222,7 +201,7 @@ function MapViewer({ drawerOpen, filters, geojsonData, apiUrl }) {
                     throw new Error("No raster files available for the selected filters");
                 }
 
-                setBreadcrumbData({ mask, commodity, level, model, scenario });
+                setBreadcrumbData({ mask, commodity, level, model });
 
                 const tiffPromises = fileList.map(async (file) => {
                     if (!file.exists) {
@@ -447,38 +426,26 @@ function MapViewer({ drawerOpen, filters, geojsonData, apiUrl }) {
     const gridLayout = getGridLayout(tiffData.length);
 
     return (
-        <Box sx={{ height: "100%", overflow: "hidden" }}>
+        <Box sx={{ height: "100%", overflow: "hidden", padding: "0 10px" }}>
             <Box sx={{ p: '0 16px' }} className="breadTextFont">
                 {breadcrumbData ? (
-                    <Breadcrumbs aria-label="breadcrumb" separator=">">
-                        {breadcrumbData.mask && (
-                            <Link underline="hover" color="inherit">
-                                {breadcrumbData.mask}
-                            </Link>
-                        )}
-                        {breadcrumbData.commodity && (
-                            <Link underline="hover" color="inherit">
-                                {breadcrumbData.commodity}
-                            </Link>
-                        )}
-                        {breadcrumbData.level && (
-                            <Link underline="hover" color="inherit">
-                                {breadcrumbData.level}
-                            </Link>
-                        )}
-                        {breadcrumbData.model && (
-                            <Link underline="hover" color="inherit">
-                                {breadcrumbData.model}
-                            </Link>
-                        )}
-                        {breadcrumbData.scenario && (
-                            <Typography color="text.primary" aria-current="page">
-                                {breadcrumbData.scenario}
-                            </Typography>
+                    <Breadcrumbs aria-label="breadcrumb" separator=">" sx={{ fontSize: "14px" }}>
+                        {Object.entries(breadcrumbData).map(([key, value]) =>
+                            value ? (
+                                <Typography
+                                    key={key}
+                                    color="text.primary"
+                                    sx={{ fontSize: "14px !important" }}
+                                >
+                                    {value}
+                                </Typography>
+                            ) : null
                         )}
                     </Breadcrumbs>
                 ) : (
-                    <Typography color="text.secondary" className="breadText">Loading breadcrumb...</Typography>
+                    <Typography color="text.secondary" className="breadText">
+                        Loading breadcrumb...
+                    </Typography>
                 )}
             </Box>
             <Grid container direction="column" sx={{ height: "100%" }}>
@@ -499,7 +466,7 @@ function MapViewer({ drawerOpen, filters, geojsonData, apiUrl }) {
                             <Box
                                 sx={{
                                     width: "100%",
-                                    bgcolor: "#EDEDED",
+                                    bgcolor: "#C1E1C1",
                                     height: "30px",
                                     display: "flex",
                                     flexDirection: "row",
@@ -509,7 +476,7 @@ function MapViewer({ drawerOpen, filters, geojsonData, apiUrl }) {
                                     gap: "10px",
                                 }}
                             >
-                                <Typography className="">{tiff.metadata.layer_name || "Baseline"}</Typography>
+                                <Typography>{tiff.metadata.layer_name || "Baseline"}</Typography>
                             </Box>
                             <Box
                                 sx={{
@@ -543,22 +510,22 @@ function MapViewer({ drawerOpen, filters, geojsonData, apiUrl }) {
                                         <CircularProgress size={40} color="primary" />
                                     </Box>
                                 )}
-                                <Box sx={{ position: "absolute", top: "15%", left: "1%", zIndex: 1000 }}>
+                                <Box sx={{ position: "absolute", top: "80px", left: "12px", zIndex: 1001 }}>
                                     <Tooltip title={`Download ${tiff.metadata.layer_name}`}>
                                         <IconButton
-                                            onClick={() =>
-                                                downloadTiff(tiff.arrayBuffer, `${tiff.metadata.layer_name}.tif`)
-                                            }
+                                            onClick={() => downloadTiff(tiff.arrayBuffer, `${tiff.metadata.layer_name}.tif`)}
                                             sx={{
-                                                backgroundColor: "white",
+                                                backgroundColor: "rgba(255, 255, 255, 0.9)", // Semi-transparent white for visibility in all themes
                                                 boxShadow: 1,
                                                 borderRadius: "4px",
                                                 padding: "4px",
                                                 width: "30px",
                                                 height: "30px",
                                                 "&:hover": {
-                                                    backgroundColor: "white", // Prevent hover from making it transparent
+                                                    backgroundColor: "rgba(255, 255, 255, 0.7)", // Slightly darker on hover
                                                 },
+                                                transition: "background-color 0.3s", // Smooth transition for hover effect
+                                                color: "inherit", // Inherit color to adapt to theme
                                             }}
                                             aria-label={`Download ${tiff.metadata.layer_name}`}
                                         >
@@ -567,20 +534,64 @@ function MapViewer({ drawerOpen, filters, geojsonData, apiUrl }) {
                                                 viewBox="0 0 24 24"
                                                 xmlns="http://www.w3.org/2000/svg"
                                             >
-                                                <path
-                                                    fill="currentColor"
-                                                    d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z"
-                                                />
+                                                <path fill="currentColor" d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z" />
                                             </svg>
                                         </IconButton>
                                     </Tooltip>
                                 </Box>
                                 <Paper
                                     elevation={3}
-                                    sx={{ position: "absolute", bottom: 16, right: 16, zIndex: 1000, fontSize: "14px" }}
+                                    sx={{
+                                        position: "absolute",
+                                        bottom: theme => theme.spacing(5),
+                                        left: "50%",
+                                        transform: "translateX(-50%)",
+                                        zIndex: 1000,
+                                        padding: theme => theme.spacing(1.25, 2.5),
+                                        minWidth: { xs: 300, sm: 400 },
+                                        backgroundColor: theme => theme.palette.background.paper,
+                                    }}
                                 >
-                                    <Box sx={{ textAlign: "center", padding: 1 }}>{tiff.metadata.layer_name}</Box>
-                                    <img src={tiff.legendBase64} alt="Legend" style={{ maxWidth: "200px" }} />
+                                    <Box
+                                        sx={{
+                                            display: "flex",
+                                            flexDirection: "row",
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                            gap: 2,
+                                        }}
+                                    >
+                                        <Typography
+                                            variant="body1"
+                                            sx={{
+                                                fontSize: { xs: "11px", sm: "13px" },
+                                                fontWeight: "bold",
+                                                whiteSpace: "nowrap",
+                                                color: (theme) => theme.palette.text.primary,
+                                            }}
+                                        >
+                                            Area under {breadcrumbData?.commodity || "Unknown"}
+                                        </Typography>
+                                        <Box
+                                            sx={{
+                                                display: "flex",
+                                                flexDirection: "column",
+                                                alignItems: "center",
+                                            }}
+                                        >
+                                            {tiff?.legendBase64 && (
+                                                <img
+                                                    src={tiff.legendBase64}
+                                                    alt={`Legend for ${tiff.metadata.layer_name || "layer"}`}
+                                                    style={{
+                                                        maxWidth: "100%",
+                                                        width: { xs: 200, sm: 250 },
+                                                        height: "auto",
+                                                    }}
+                                                />
+                                            )}
+                                        </Box>
+                                    </Box>
                                 </Paper>
                             </Box>
                         </Grid>
