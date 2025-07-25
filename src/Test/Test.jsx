@@ -18,6 +18,7 @@ import MapViewer from "./MapViewer";
 
 const drawerWidth = 254;
 
+
 function LayoutIcon(props) {
     return (
         <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" {...props}>
@@ -27,6 +28,12 @@ function LayoutIcon(props) {
 }
 
 function Test() {
+
+     useEffect(() => {
+    document.documentElement.style.overflowX = 'hidden';
+    document.body.style.overflowX = 'hidden';
+  }, []);
+
     const [open, setOpen] = useState(true);
     const [countries, setCountries] = useState([]);
     const [selectedCountryId, setSelectedCountryId] = useState(0);
@@ -311,7 +318,7 @@ function Test() {
 
     return (
         <div>
-            <Box sx={{ display: "flex", marginTop: "100px" }}>
+            <Box sx={{ display: "flex", marginTop: "86px" }}>
                 <Drawer
                     variant="permanent"
                     open={open}
@@ -354,7 +361,7 @@ function Test() {
                                 </Box>
                             </Box>
                         )}
-                        <div className="card" style={{ height: "90vh", overflowY: "scroll", overflowX: "hidden", border: "0px", scrollbarWidth: "none" }} >
+                        <div className="card" style={{ height: "72.4vh", overflowY: "scroll", overflowX: "hidden", border: "0px", scrollbarWidth: "none" }} >
                             < div className="card-body p-0">
                                 <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }} component="nav" aria-labelledby="nested-list-subheader">
                                     <ListSubheader component="div" id="nested-list-subheader"></ListSubheader>
@@ -651,7 +658,7 @@ function Test() {
                     </List>
                 </Drawer>
 
-                <Box component="main" className="main" sx={{ flexGrow: 1, height: "calc(100vh - 100px)" }}>
+                <Box component="main" className="main" sx={{ flexGrow: 1, height: "calc(100vh - 88px)" }}>
                     <Grid container sx={{ height: "100%" }}>
                         <Grid item xs={12}>
                             <MapViewer drawerOpen={open} filters={appliedFilters} geojsonData={geojsonData} apiUrl={apiUrl} />

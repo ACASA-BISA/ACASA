@@ -86,7 +86,7 @@ function TestHome() {
     return (
         <>
 
-            <Box className="carouselImg" sx={{ position: "relative", width: "100vw", height: "100vh", left: '-61px' }}>
+            <Box className="carouselImg" sx={{ position: "relative", width: "100vw", height: "100vh"}}>
                 {/* Banner Slider */}
                 <Slider {...settings}>
                     {slides.map((slide, index) => (

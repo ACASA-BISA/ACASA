@@ -447,8 +447,8 @@ function MapViewer({ drawerOpen, filters, geojsonData, apiUrl }) {
     const gridLayout = getGridLayout(tiffData.length);
 
     return (
-        <Box sx={{ height: "100%", overflow: "auto" }}>
-            <Box sx={{ p: '0 16px' }}>
+        <Box sx={{ height: "100%", overflow: "hidden" }}>
+            <Box sx={{ p: '0 16px' }} className="breadTextFont">
                 {breadcrumbData ? (
                     <Breadcrumbs aria-label="breadcrumb" separator=">">
                         {breadcrumbData.mask && (
@@ -478,7 +478,7 @@ function MapViewer({ drawerOpen, filters, geojsonData, apiUrl }) {
                         )}
                     </Breadcrumbs>
                 ) : (
-                    <Typography color="text.secondary">Loading breadcrumb...</Typography>
+                    <Typography color="text.secondary" className="breadText">Loading breadcrumb...</Typography>
                 )}
             </Box>
             <Grid container direction="column" sx={{ height: "100%" }}>
@@ -499,7 +499,7 @@ function MapViewer({ drawerOpen, filters, geojsonData, apiUrl }) {
                             <Box
                                 sx={{
                                     width: "100%",
-                                    bgcolor: "#C1E1C1",
+                                    bgcolor: "#EDEDED",
                                     height: "30px",
                                     display: "flex",
                                     flexDirection: "row",
@@ -509,13 +509,13 @@ function MapViewer({ drawerOpen, filters, geojsonData, apiUrl }) {
                                     gap: "10px",
                                 }}
                             >
-                                <Typography>{tiff.metadata.layer_name || "Baseline"}</Typography>
+                                <Typography className="">{tiff.metadata.layer_name || "Baseline"}</Typography>
                             </Box>
                             <Box
                                 sx={{
                                     height: "calc(100% - 30px)",
                                     width: "100%",
-                                    border: "1px solid #999",
+                                    border: "1px solid #ededed",
                                     position: "relative",
                                 }}
                             >
@@ -589,7 +589,7 @@ function MapViewer({ drawerOpen, filters, geojsonData, apiUrl }) {
                     <Grid item xs={12} sx={{ height: "100%", position: "relative" }}>
                         <Box
                             ref={(el) => (mapRefs.current[0] = el)}
-                            sx={{ height: "100%", width: "100%", border: "1px solid #999" }}
+                            sx={{ height: "100%", width: "100%", border: "0px solid #999" }}
                         />
                         {mapLoading && (
                             <Box
