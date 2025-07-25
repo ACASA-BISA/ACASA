@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from 'react';
 import Slider from "react-slick";
 import { Box, Typography, Button, Stack, Card, CardContent } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -10,6 +10,7 @@ import { Paper } from '@mui/material';
 
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
+import StickyFooter from '../StickyFooter';
 
 const slides = [
     {
@@ -66,6 +67,11 @@ function TabPanel({ children, value, index }) {
 
 function TestHome() {
 
+    useEffect(() => {
+        document.documentElement.style.overflowX = 'hidden';
+        document.body.style.overflowX = 'hidden';
+    }, []);
+
     const [value, setValue] = React.useState(0);
 
     const handleChange = (event, newValue) => {
@@ -86,7 +92,7 @@ function TestHome() {
     return (
         <>
 
-            <Box className="carouselImg" sx={{ position: "relative", width: "100vw", height: "100vh"}}>
+            <Box className="carouselImg" sx={{ position: "relative", width: "100vw", height: "100vh" }}>
                 {/* Banner Slider */}
                 <Slider {...settings}>
                     {slides.map((slide, index) => (
@@ -298,7 +304,7 @@ function TestHome() {
                     </TabPanel>
 
                     <TabPanel value={value} index={1}>
-                       <Container maxWidth="xl" className="">
+                        <Container maxWidth="xl" className="">
                             <Card className="roundedCard" sx={{ maxWidth: '100%', m: 2 }}>
                                 <CardContent>
                                     <Grid container spacing={2} justifyContent="space-between">
@@ -330,7 +336,7 @@ function TestHome() {
                     </TabPanel>
 
                     <TabPanel value={value} index={2}>
-                         <Container maxWidth="xl" className="">
+                        <Container maxWidth="xl" className="">
                             <Card className="roundedCard" sx={{ maxWidth: '100%', m: 2 }}>
                                 <CardContent>
                                     <Grid container spacing={2} justifyContent="space-between">
@@ -362,7 +368,7 @@ function TestHome() {
                     </TabPanel>
 
                     <TabPanel value={value} index={3}>
-                         <Container maxWidth="xl" className="">
+                        <Container maxWidth="xl" className="">
                             <Card className="roundedCard" sx={{ maxWidth: '100%', m: 2 }}>
                                 <CardContent>
                                     <Grid container spacing={2} justifyContent="space-between">
@@ -395,7 +401,7 @@ function TestHome() {
 
 
                     <TabPanel value={value} index={4}>
-                         <Container maxWidth="xl" className="">
+                        <Container maxWidth="xl" className="">
                             <Card className="roundedCard" sx={{ maxWidth: '100%', m: 2 }}>
                                 <CardContent>
                                     <Grid container spacing={2} justifyContent="space-between">
@@ -490,10 +496,147 @@ function TestHome() {
                             </Card>
                         </Container>
                     </TabPanel>
+
+                    <Button className="btn btnAbout">Explore the Atlas</Button>
                 </Box>
             </Container>
 
+            <Container maxWidth="xl" className="" sx={{ bgcolor: '#fff' }}>
+                <Box className="aboutSectionApproach" sx={{ p: 5 }}>
+                    <h1>Resources</h1>
+                    <Container maxWidth="xl">
+                        <Grid container spacing={3}>
+                            {/* Card 1 */}
+                            <Grid item xs={12} sm={6} md={4}>
+                                <Card className="resourceCard">
+                                    <CardContent>
+                                        <Box className="whiteBox">
 
+                                        </Box>
+                                        <Box className="ContentBox">
+                                            <h4>Maize, Agribusiness</h4>
+                                            <p>Building Capabilities of Medium and Large-Scale Sri Lankan Maize Growers in Agricultural Risk Management</p>
+                                        </Box>
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+
+                            {/* Card 2 */}
+                            <Grid item xs={12} sm={6} md={4}>
+                                <Card className="resourceCard">
+                                    <CardContent>
+                                        <Box className="whiteBox">
+
+                                        </Box>
+                                        <Box className="ContentBox">
+                                            <h4>Capacity building, women</h4>
+                                            <p>ACASA for empowering women-led social entrepreneurs in Nepal:
+                                                Building climate-resilient forage for a sustainable livestock ecosystem</p>
+                                        </Box>
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+
+                            {/* Card 3 */}
+                            <Grid item xs={12} sm={6} md={4}>
+                                <Card className="resourceCard">
+                                    <CardContent>
+                                        <Box className="whiteBox">
+
+                                        </Box>
+                                        <Box className="ContentBox">
+                                            <h4>Adaptation, local-level planning</h4>
+                                            <p>Strengthening the model of “Adaptation Clinic” through data-driven local level adaptation planning in Bangladesh</p>
+                                        </Box>
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                        </Grid>
+
+                        <Button className="btn btnAbout1">Explore More</Button>
+                    </Container>
+                </Box>
+            </Container>
+
+            <Container maxWidth="xl" className="" sx={{ bgcolor: '#fff' }}>
+                <Box className="aboutSectionApproach" sx={{ p: 5 }}>
+                    <h1>Our Partners</h1>
+                    <p className="paraOne">ACASA is a collaborative initiative powered by global and regional leaders in agricultural innovation and climate science. Our partners provide critical expertise, data, tools, and regional insights to drive climate-resilient agriculture across South Asia.</p>
+                    <Container maxWidth="xl">
+                        <Grid container spacing={3} justifyContent="center">
+                            {/* Card 1 */}
+                            <Grid item xs={12} sm={2} md={2}>
+                                <Card className="resourceCardPartner">
+                                    <CardContent>
+                                        <img src="/images/partner-1.png" alt="" />
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+
+                            {/* Card 2 */}
+                            <Grid item xs={12} sm={2} md={2}>
+                                <Card className="resourceCardPartner">
+                                    <CardContent>
+                                        <img src="/images/partner-2.png" alt="" />
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+
+                            {/* Card 3 */}
+                            <Grid item xs={12} sm={2} md={2}>
+                                <Card className="resourceCardPartner">
+                                    <CardContent>
+                                        <img src="/images/partner-3.png" alt="" />
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                            <Grid item xs={12} sm={2} md={2}>
+                                <Card className="resourceCardPartner">
+                                    <CardContent>
+                                        <img src="/images/partner-4.png" alt="" style={{ paddingTop: '50px' }} />
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                            <Grid item xs={12} sm={2} md={2}>
+                                <Card className="resourceCardPartner">
+                                    <CardContent>
+                                        <img src="/images/partner-5.png" alt="" style={{ paddingTop: '50px' }} />
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                            <Grid item xs={12} sm={2} md={2}>
+                                <Card className="resourceCardPartner">
+                                    <CardContent>
+                                        <img src="/images/partner-6.png" alt="" style={{ paddingTop: '50px' }} />
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                            <Grid item xs={12} sm={2} md={2}>
+                                <Card className="resourceCardPartner">
+                                    <CardContent>
+                                        <img src="/images/partner-7.png" alt="" />
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                            <Grid item xs={12} sm={2} md={2}>
+                                <Card className="resourceCardPartner">
+                                    <CardContent>
+                                        <img src="/images/partner-8.png" alt="" />
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                            <Grid item xs={12} sm={2} md={2}>
+                                <Card className="resourceCardPartner">
+                                    <CardContent>
+                                        <img src="/images/partner-9.png" alt="" style={{ paddingTop: '50px' }} />
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                        </Grid>
+                    </Container>
+                </Box>
+            </Container>
+            <StickyFooter />
 
 
 

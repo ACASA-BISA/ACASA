@@ -27,6 +27,96 @@ body {
     margin-top: 12px;
 }
 
+.resourceCardPartner {
+    border-radius: 50% !important;
+    background: #F2F4F3 !important;
+    padding: 16px !important;
+    box-shadow: none !important;
+    margin: 10px;
+    width: 160px;
+    height: 160px;
+}
+
+.resourceCardPartner:hover {
+    border-radius: 50% !important;
+    background: #fff !important;
+    padding: 16px !important;
+    width: 160px;
+    height: 160px;
+    border-radius: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.10);
+    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.10);
+}
+
+.resourceCardPartner img {
+    padding-top: 24px;
+}
+
+.resourceCard {
+    border-radius: 20px !important;
+    background: #F2F4F3 !important;
+    padding: 16px !important;
+    min-height: 400px;
+    box-shadow: none !important;
+}
+
+.resourceCard:hover {
+    border-radius: 20px !important;
+    background: #fff !important;
+    padding: 16px !important;
+    min-height: 400px;
+    border-radius: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.10);
+    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.10);
+}
+
+.resourceCard:hover .whiteBox {
+    border-radius: 15px;
+    background: #F2F4F3;
+    width: 100%;
+    min-height: 200px;
+}
+
+.resourceCard .whiteBox {
+    border-radius: 15px;
+    background: #FFF;
+    width: 100%;
+    min-height: 200px;
+}
+
+.btn.btnAbout1 {
+    border-radius: 4px;
+    background: #FECE2E;
+    color: #000;
+    font-family: Poppins;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin-top: 40px;
+    text-transform: capitalize;
+}
+
+.resourceCard .ContentBox h4 {
+    color: #4C9E46;
+    font-family: Poppins;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    text-align: left;
+}
+
+.resourceCard .ContentBox p {
+    color: #000;
+    font-family: Poppins;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-align: left;
+}
+
 
 .breadTextFont nav p {
     font-size: 12px;
@@ -541,6 +631,12 @@ body {
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    margin: 0px 0px 30px 0px;
+}
+
+.aboutSectionApproach .paraOne {
+    margin-top: 0px;
+    padding-top: 0px;
 }
 
 .btn.btnAbout {
