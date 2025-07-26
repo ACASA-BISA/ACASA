@@ -6,43 +6,44 @@ import "leaflet/dist/leaflet.css";
 import { fromArrayBuffer } from "geotiff";
 import parseGeoraster from "georaster";
 import GeoRasterLayer from "georaster-layer-for-leaflet";
-import leafletImage from "leaflet-image";
 import screenfull from "screenfull";
 
 // Custom Leaflet control for Fullscreen, Fit-to-Extent
 L.Control.MapControls = L.Control.extend({
     options: {
         position: "topright",
+        isFullscreen: false,
+        onFullscreen: () => { },
+        onFitExtent: () => { },
+        updateFullscreenButton: () => { }, // New callback to update button
     },
     onAdd: function (map) {
         const container = L.DomUtil.create("div", "leaflet-bar leaflet-control leaflet-control-custom");
 
-        // Fullscreen Button
         const fullscreenButton = L.DomUtil.create("a", "leaflet-control-button", container);
         fullscreenButton.innerHTML = this.options.isFullscreen ? "⤡" : "⤢";
         fullscreenButton.href = "#";
         fullscreenButton.title = this.options.isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen";
-        fullscreenButton.style.fontSize = "20px"; // Increase icon size
+        fullscreenButton.style.fontSize = "20px";
         L.DomEvent.on(fullscreenButton, "click", (e) => {
             L.DomEvent.stopPropagation(e);
             L.DomEvent.preventDefault(e);
             this.options.onFullscreen();
-            fullscreenButton.innerHTML = this.options.isFullscreen ? "⤢" : "⤡";
+            // Call update function to sync button appearance
+            this.options.updateFullscreenButton(fullscreenButton);
         });
 
-        // Fit-to-Extent Button
         const fitExtentButton = L.DomUtil.create("a", "leaflet-control-button", container);
         fitExtentButton.innerHTML = '<strong>E</strong>';
         fitExtentButton.href = "#";
         fitExtentButton.title = "Fit to Extent";
-        fitExtentButton.style.fontSize = "16px"; // Optional: Adjust size if needed
+        fitExtentButton.style.fontSize = "16px";
         L.DomEvent.on(fitExtentButton, "click", (e) => {
             L.DomEvent.stopPropagation(e);
             L.DomEvent.preventDefault(e);
             this.options.onFitExtent();
         });
 
-        // Styling for buttons
         container.style.backgroundColor = "#fff";
         container.style.border = "2px solid rgba(0,0,0,0.2)";
         container.style.borderRadius = "4px";
@@ -51,7 +52,6 @@ L.Control.MapControls = L.Control.extend({
             btn.style.display = "block";
             btn.style.padding = "4px";
             btn.style.textAlign = "center";
-            // btn.style.lineHeight = "40px";
             btn.style.backgroundColor = "#fff";
             btn.style.borderBottom = "1px solid rgba(0,0,0,0.2)";
             btn.style.cursor = "pointer";
@@ -67,111 +67,141 @@ L.control.mapControls = function (options) {
     return new L.Control.MapControls(options);
 };
 
-function MapViewer({ drawerOpen, filters, geojsonData, apiUrl }) {
+function MapViewer({ drawerOpen, filters, apiUrl }) {
     const mapRefs = useRef([]);
     const mapInstances = useRef([]);
     const layerRefs = useRef([]);
     const boundsRefs = useRef([]);
+    const fullscreenButtonRefs = useRef([]); // New ref to store fullscreen button DOM elements
     const [mapLoading, setMapLoading] = useState(false);
     const [tiffData, setTiffData] = useState([]);
     const [renderReady, setRenderReady] = useState(false);
     const [breadcrumbData, setBreadcrumbData] = useState(null);
     const [anchorEl, setAnchorEl] = useState({});
     const [isFullscreen, setIsFullscreen] = useState([]);
-    const initialCenter = [20, 77];
-    const initialZoom = 5;
 
-    // Initialize maps and add controls
+    // Cleanup function for maps and layers
+    const cleanupMaps = () => {
+        mapInstances.current.forEach((map, index) => {
+            if (map) {
+                map.remove();
+                mapInstances.current[index] = null;
+            }
+        });
+        mapRefs.current = [];
+        mapInstances.current = [];
+        layerRefs.current = [];
+        boundsRefs.current = [];
+        fullscreenButtonRefs.current = []; // Clear button refs
+        setIsFullscreen([]);
+        setAnchorEl({});
+        setTiffData([]);
+        setRenderReady(false);
+        setBreadcrumbData(null);
+    };
+
+    // Update fullscreen button appearance
+    const updateFullscreenButton = (button, index) => {
+        if (button) {
+            const isFull = isFullscreen[index] || false;
+            button.innerHTML = isFull ? "⤡" : "⤢";
+            button.title = isFull ? "Exit Fullscreen" : "Enter Fullscreen";
+        }
+    };
+
+    // Initialize maps
     useEffect(() => {
         if (!tiffData.length || !mapRefs.current.length) return;
+
+        // Ensure mapRefs and mapInstances are in sync
+        mapRefs.current = mapRefs.current.slice(0, tiffData.length);
+        mapInstances.current = mapInstances.current.slice(0, tiffData.length);
+        fullscreenButtonRefs.current = fullscreenButtonRefs.current.slice(0, tiffData.length);
 
         mapRefs.current.forEach((mapRef, index) => {
             if (!mapRef || mapInstances.current[index]) return;
 
-            const map = L.map(mapRef, {
-                center: initialCenter,
-                zoom: initialZoom,
-                minZoom: 3,
-                maxZoom: 18,
-            });
-            L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-                attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-            }).addTo(map);
-            mapInstances.current[index] = map;
+            // Initialize map only if DOM element exists
+            if (mapRef && mapRef.offsetParent !== null) {
+                const map = L.map(mapRef, {
+                    minZoom: 3,
+                    maxZoom: 18,
+                });
+                L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+                    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+                }).addTo(map);
+                mapInstances.current[index] = map;
 
-            // Add custom controls
-            const mapControl = L.control.mapControls({
-                isFullscreen: isFullscreen[index] || false,
-                onFullscreen: () => {
-                    if (screenfull.isEnabled) {
-                        screenfull.toggle(mapRef).then(() => {
-                            setIsFullscreen((prev) => {
-                                const newState = [...prev];
-                                newState[index] = !newState[index];
-                                return newState;
+                const mapControl = L.control.mapControls({
+                    isFullscreen: isFullscreen[index] || false,
+                    onFullscreen: () => {
+                        if (screenfull.isEnabled) {
+                            screenfull.toggle(mapRef).then(() => {
+                                setIsFullscreen((prev) => {
+                                    const newState = [...prev];
+                                    newState[index] = !newState[index];
+                                    return newState;
+                                });
+                                setTimeout(() => map.invalidateSize(), 300);
                             });
-                            setTimeout(() => map.invalidateSize(), 300);
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: "warning",
-                            title: "Fullscreen Not Supported",
-                            text: "Your browser does not support the fullscreen API.",
-                        });
-                    }
-                },
-                onFitExtent: () => {
-                    if (boundsRefs.current[index]) {
-                        map.fitBounds(boundsRefs.current[index], { padding: [50, 50] });
-                    }
-                },
-            });
-            mapControl.addTo(map);
+                        } else {
+                            Swal.fire({
+                                icon: "warning",
+                                title: "Fullscreen Not Supported",
+                                text: "Your browser does not support the fullscreen API.",
+                            });
+                        }
+                    },
+                    onFitExtent: () => {
+                        if (boundsRefs.current[index]) {
+                            map.fitBounds(boundsRefs.current[index], { padding: [50, 50] });
+                        }
+                    },
+                    updateFullscreenButton: (button) => {
+                        fullscreenButtonRefs.current[index] = button; // Store button ref
+                        updateFullscreenButton(button, index);
+                    },
+                });
+                mapControl.addTo(map);
 
-            // Fix Leaflet icon path issue
-            delete L.Icon.Default.prototype._getIconUrl;
-            L.Icon.Default.mergeOptions({
-                iconRetinaUrl: "/images/leaflet/marker-icon-2x.png",
-                iconUrl: "/images/leaflet/marker-icon.png",
-                shadowUrl: "/images/leaflet/marker-shadow.png",
-            });
+                delete L.Icon.Default.prototype._getIconUrl;
+                L.Icon.Default.mergeOptions({
+                    iconRetinaUrl: "/images/leaflet/marker-icon-2x.png",
+                    iconUrl: "/images/leaflet/marker-icon.png",
+                    shadowUrl: "/images/leaflet/marker-shadow.png",
+                });
+            }
         });
 
-        return () => {
-            mapInstances.current.forEach((map, index) => {
-                if (map) {
-                    map.remove();
-                    mapInstances.current[index] = null;
-                }
-            });
-            mapRefs.current = [];
-            mapInstances.current = [];
-            boundsRefs.current = [];
-            setIsFullscreen([]);
-            setAnchorEl({});
-        };
+        return cleanupMaps;
     }, [tiffData.length]);
+
+    // Update fullscreen buttons when isFullscreen changes
+    useEffect(() => {
+        fullscreenButtonRefs.current.forEach((button, index) => {
+            updateFullscreenButton(button, index);
+        });
+    }, [isFullscreen]);
 
     // Resize maps when drawer toggles or fullscreen changes
     useEffect(() => {
-        mapInstances.current.forEach((map) => {
-            if (map && map.invalidateSize) {
+        mapInstances.current.forEach((map, index) => {
+            if (map && map.invalidateSize && mapRefs.current[index]) {
                 setTimeout(() => map.invalidateSize(), 300);
             }
         });
-    }, [drawerOpen, tiffData.length, isFullscreen]);
+    }, [drawerOpen, isFullscreen]);
 
     // Fetch TIFF data and breadcrumb data
     useEffect(() => {
-        if (!filters || !geojsonData) return;
+        if (!filters || !filters.geojson || !filters.bbox) {
+            cleanupMaps();
+            return;
+        }
 
         const fetchTiffData = async () => {
             setMapLoading(true);
-            setTiffData([]);
-            setRenderReady(false);
-            setBreadcrumbData(null);
-            setIsFullscreen([]);
-            setAnchorEl({});
+            cleanupMaps(); // Clear previous maps and refs before fetching new data
 
             try {
                 const tifPickerRes = await fetch(`${apiUrl}/layers/tif_picker`, {
@@ -220,12 +250,13 @@ function MapViewer({ drawerOpen, filters, geojsonData, apiUrl }) {
                     });
                     if (!geotiffRes.ok) throw new Error(`geotiff error! Status: ${geotiffRes.status}`);
                     const arrayBuffer = await geotiffRes.arrayBuffer();
+                    const clonedBuffer = arrayBuffer.slice(0);
 
                     const legendCanvas = generateLegendCanvas(file.ramp);
                     const legendUrl = legendCanvas.toDataURL();
 
                     return {
-                        arrayBuffer,
+                        arrayBuffer: clonedBuffer,
                         metadata: {
                             source_file: file.source_file,
                             color_ramp: file.ramp,
@@ -254,7 +285,7 @@ function MapViewer({ drawerOpen, filters, geojsonData, apiUrl }) {
         };
 
         fetchTiffData();
-    }, [filters, geojsonData, apiUrl]);
+    }, [filters, apiUrl]);
 
     const generateLegendCanvas = (colorRamp) => {
         const canvas = document.createElement("canvas");
@@ -271,11 +302,27 @@ function MapViewer({ drawerOpen, filters, geojsonData, apiUrl }) {
     };
 
     const renderMapLayers = (geoJson, bbox, tiff, index) => {
-        if (!mapInstances.current[index] || !geoJson || !bbox || !tiff || !renderReady) return;
+        if (
+            !mapInstances.current[index] ||
+            !mapRefs.current[index] ||
+            !geoJson ||
+            !bbox ||
+            !tiff ||
+            !renderReady
+        ) {
+            console.warn(`Skipping renderMapLayers for index ${index} due to missing dependencies`);
+            return;
+        }
+
         const map = mapInstances.current[index];
 
+        // Clear existing layers
         if (layerRefs.current[index]) {
-            layerRefs.current[index].forEach((layer) => map.removeLayer(layer));
+            layerRefs.current[index].forEach((layer) => {
+                if (map.hasLayer(layer)) {
+                    map.removeLayer(layer);
+                }
+            });
             layerRefs.current[index] = [];
         } else {
             layerRefs.current[index] = [];
@@ -314,7 +361,8 @@ function MapViewer({ drawerOpen, filters, geojsonData, apiUrl }) {
         layerRefs.current[index].push(geojsonLayer);
 
         const { arrayBuffer, metadata } = tiff;
-        parseGeoraster(arrayBuffer)
+        const clonedBuffer = arrayBuffer.slice(0);
+        parseGeoraster(clonedBuffer)
             .then((georaster) => {
                 console.log(
                     `Map ${index} - GeoRaster bands: ${georaster.bands}, Mins: ${georaster.mins}, Maxs: ${georaster.maxs}, Height: ${georaster.height}, Width: ${georaster.width}`
@@ -345,30 +393,33 @@ function MapViewer({ drawerOpen, filters, geojsonData, apiUrl }) {
                     pane: "overlayPane",
                 });
 
-                geotiffLayer.addTo(map);
-                layerRefs.current[index].push(geotiffLayer);
+                // Ensure map is still valid before adding layer
+                if (mapInstances.current[index] && mapRefs.current[index]) {
+                    geotiffLayer.addTo(map);
+                    layerRefs.current[index].push(geotiffLayer);
 
-                geotiffLayer.on("click", async (e) => {
-                    const { lat, lng } = e.latlng;
-                    try {
-                        const value = await georaster.getValues([[lng, lat]])[0];
-                        L.popup()
-                            .setLatLng(e.latlng)
-                            .setContent(`Value: ${value !== undefined ? value.toFixed(2) : "N/A"} at (${lat.toFixed(4)}, ${lng.toFixed(4)})`)
-                            .openOn(map);
-                    } catch (err) {
-                        console.error("Error fetching GeoTIFF value:", err);
-                        Swal.fire({
-                            icon: "error",
-                            title: "Error",
-                            text: "Failed to retrieve raster value.",
-                        });
-                    }
-                });
+                    geotiffLayer.on("click", async (e) => {
+                        const { lat, lng } = e.latlng;
+                        try {
+                            const value = await georaster.getValues([[lng, lat]])[0];
+                            L.popup()
+                                .setLatLng(e.latlng)
+                                .setContent(`Value: ${value !== undefined ? value.toFixed(2) : "N/A"} at (${lat.toFixed(4)}, ${lng.toFixed(4)})`)
+                                .openOn(map);
+                        } catch (err) {
+                            console.error("Error fetching GeoTIFF value:", err);
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error",
+                                text: "Failed to retrieve raster value.",
+                            });
+                        }
+                    });
 
-                geotiffLayer.on("load", () => {
-                    console.log(`GeoTIFF layer ${index} loaded successfully`);
-                });
+                    geotiffLayer.on("load", () => {
+                        console.log(`GeoTIFF layer ${index} loaded successfully`);
+                    });
+                }
             })
             .catch((err) => {
                 console.error("GeoRaster rendering error:", err);
@@ -381,15 +432,21 @@ function MapViewer({ drawerOpen, filters, geojsonData, apiUrl }) {
     };
 
     useEffect(() => {
-        if (tiffData.length && geojsonData && renderReady) {
+        if (tiffData.length && filters && filters.geojson && filters.bbox && renderReady) {
+            // Ensure refs are in sync with tiffData
             mapRefs.current = mapRefs.current.slice(0, tiffData.length);
             mapInstances.current = mapInstances.current.slice(0, tiffData.length);
             boundsRefs.current = boundsRefs.current.slice(0, tiffData.length);
+            layerRefs.current = layerRefs.current.slice(0, tiffData.length);
+            fullscreenButtonRefs.current = fullscreenButtonRefs.current.slice(0, tiffData.length);
+
             tiffData.forEach((tiff, index) => {
-                renderMapLayers(geojsonData.geojson, geojsonData.bbox, tiff, index);
+                if (mapRefs.current[index] && mapInstances.current[index]) {
+                    renderMapLayers(filters.geojson, filters.bbox, tiff, index);
+                }
             });
         }
-    }, [tiffData, geojsonData, renderReady]);
+    }, [tiffData, filters, renderReady]);
 
     useEffect(() => {
         const observer = new MutationObserver(() => {
@@ -427,16 +484,12 @@ function MapViewer({ drawerOpen, filters, geojsonData, apiUrl }) {
 
     return (
         <Box sx={{ height: "100%", overflow: "hidden", padding: "0 10px" }}>
-            <Box sx={{ p: '0 16px' }} className="breadTextFont">
+            <Box sx={{ p: "0 16px", marginTop: "0px" }} className="breadTextFont">
                 {breadcrumbData ? (
                     <Breadcrumbs aria-label="breadcrumb" separator=">" sx={{ fontSize: "14px" }}>
                         {Object.entries(breadcrumbData).map(([key, value]) =>
                             value ? (
-                                <Typography
-                                    key={key}
-                                    color="text.primary"
-                                    sx={{ fontSize: "14px !important" }}
-                                >
+                                <Typography key={key} color="text.primary" sx={{ fontSize: "14px !important" }}>
                                     {value}
                                 </Typography>
                             ) : null
@@ -480,7 +533,7 @@ function MapViewer({ drawerOpen, filters, geojsonData, apiUrl }) {
                             </Box>
                             <Box
                                 sx={{
-                                    height: "calc(100% - 30px)",
+                                    height: "calc(100% - 53px)",
                                     width: "100%",
                                     border: "1px solid #ededed",
                                     position: "relative",
@@ -515,17 +568,17 @@ function MapViewer({ drawerOpen, filters, geojsonData, apiUrl }) {
                                         <IconButton
                                             onClick={() => downloadTiff(tiff.arrayBuffer, `${tiff.metadata.layer_name}.tif`)}
                                             sx={{
-                                                backgroundColor: "rgba(255, 255, 255, 0.9)", // Semi-transparent white for visibility in all themes
+                                                backgroundColor: "rgba(255, 255, 255, 0.9)",
                                                 boxShadow: 1,
                                                 borderRadius: "4px",
                                                 padding: "4px",
                                                 width: "30px",
                                                 height: "30px",
                                                 "&:hover": {
-                                                    backgroundColor: "rgba(255, 255, 255, 0.7)", // Slightly darker on hover
+                                                    backgroundColor: "rgba(255, 255, 255, 0.7)",
                                                 },
-                                                transition: "background-color 0.3s", // Smooth transition for hover effect
-                                                color: "inherit", // Inherit color to adapt to theme
+                                                transition: "background-color 0.3s",
+                                                color: "inherit",
                                             }}
                                             aria-label={`Download ${tiff.metadata.layer_name}`}
                                         >
@@ -543,13 +596,13 @@ function MapViewer({ drawerOpen, filters, geojsonData, apiUrl }) {
                                     elevation={3}
                                     sx={{
                                         position: "absolute",
-                                        bottom: theme => theme.spacing(5),
+                                        bottom: (theme) => theme.spacing(5),
                                         left: "50%",
                                         transform: "translateX(-50%)",
                                         zIndex: 1000,
-                                        padding: theme => theme.spacing(1.25, 2.5),
+                                        padding: (theme) => theme.spacing(1.25, 2.5),
                                         minWidth: { xs: 300, sm: 400 },
-                                        backgroundColor: theme => theme.palette.background.paper,
+                                        backgroundColor: (theme) => theme.palette.background.paper,
                                     }}
                                 >
                                     <Box

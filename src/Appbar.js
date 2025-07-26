@@ -534,6 +534,8 @@ function ResponsiveAppBar({ }) {
           <Route path="/adaptation" element={<DrawerMapShow activeBar="adaptation" />}></Route>
           <Route path="/adaptation2" element={<DrawerMapShow activeBar="adaptation2" />}></Route>
           <Route path="/feedback" element={<Feedback1 />}></Route>
+          <Route path="/:country/test" element={<Test />} />
+          <Route path="/test/:country" element={<Test />} />
           <Route path="/test" element={<Test />}></Route>
           <Route path="/home" element={<TestHome />}></Route>
         </Routes>
