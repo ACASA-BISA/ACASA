@@ -287,7 +287,7 @@ select.form-select {
 
 .card .card-body nav {
     border-top: 1px solid rgba(0, 0, 0, 0.10)!important;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.10);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.10)!important;
     /* background: #FFF; */
 }
 
@@ -301,6 +301,7 @@ label {
     font-style: normal;
     font-weight: 500;
     line-height: normal;
+    /* padding-left: 54px; */
 }
 
 .css-p51h6s-MuiInputBase-input-MuiOutlinedInput-input:invalid {
@@ -356,19 +357,6 @@ body {
 }
 
 
-
-
-/* .css-u4tvz2-MuiFormLabel-root {
-    color: rgba(0, 0, 0, 0.6);
-    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-    font-weight: 400;
-    font-size: 1rem;
-    line-height: 1.4375em;
-    letter-spacing: 0.00938em;
-    padding: 0;
-    position: relative;
-} */
-
 .css-qfz70r-MuiFormGroup-root {
     display: flex;
     -ms-flex-direction: row;
@@ -376,6 +364,10 @@ body {
     flex-wrap: nowrap !important;
     padding: 0px;
     margin-left: 0px;
+}
+.label {
+    font-weight: 600 !important;
+    font-size: 12px !important;
 }
 
 
@@ -472,6 +464,7 @@ body {
     letter-spacing: 0.00938em !important;
     padding: 0 !important;
     position: relative !important;
+    text-align: left!important;
 }
 
 .css-1criyxn-MuiList-root {
@@ -488,29 +481,7 @@ body {
 }
 
 
-.css-1hstauz-MuiTypography-root {
-    margin: 0;
-    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-    font-weight: 500;
-    font-size: 0.875rem;
-    line-height: 1.57;
-    letter-spacing: 0.00714em;
-    margin-top: 16px;
-    margin-bottom: 8px;
-    text-align: left !important;
-}
 
-.css-1rb1148-MuiTypography-root {
-    margin: 0;
-    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-    font-weight: 500;
-    font-size: 0.875rem;
-    line-height: 1.57;
-    letter-spacing: 0.00714em;
-    margin-top: 24px;
-    margin-bottom: 8px;
-    text-align: left !important;
-}
 
 .css-i4bv87-MuiSvgIcon-root {
     color: #aaaaaa !important;
@@ -522,7 +493,8 @@ body {
     border-radius: 4px !important;
     /* border: 1px solid #409BF6 !important; */
     width: 220px !important;
-    text-align: left;
+    text-align: left!important;
+    height: 37px!important;
 }
 
 .customMenuItem {

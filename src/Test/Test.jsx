@@ -581,12 +581,7 @@ function Test() {
                                     <ListSubheader component="div" id="nested-list-subheader"></ListSubheader>
                                     <ListItemButton onClick={() => handleSidebarToggle("region")} disabled={isLoading}>
                                         <ListItemIcon>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="#409BF6">
-                                                <path
-                                                    d="M9.99996 18.3333C9.80551 18.3333 9.63885 18.2778 9.49996 18.1667C9.36107 18.0555 9.2569 17.9097 9.18746 17.7292C8.92357 16.9514 8.59024 16.2222 8.18746 15.5417C7.79857 14.8611 7.24996 14.0625 6.54163 13.1458C5.83329 12.2292 5.2569 11.3542 4.81246 10.5208C4.3819 9.68749 4.16663 8.68054 4.16663 7.49999C4.16663 5.87499 4.72913 4.49999 5.85413 3.37499C6.99301 2.2361 8.37496 1.66666 9.99996 1.66666C11.625 1.66666 13 2.2361 14.125 3.37499C15.2638 4.49999 15.8333 5.87499 15.8333 7.49999C15.8333 8.76388 15.5902 9.81943 15.1041 10.6667C14.6319 11.5 14.0833 12.3264 13.4583 13.1458C12.7083 14.1458 12.1388 14.9792 11.75 15.6458C11.375 16.2986 11.0625 16.993 10.8125 17.7292C10.743 17.9236 10.6319 18.0764 10.4791 18.1875C10.3402 18.2847 10.1805 18.3333 9.99996 18.3333ZM9.99996 9.58332C10.5833 9.58332 11.0763 9.38193 11.4791 8.97916C11.8819 8.57638 12.0833 8.08332 12.0833 7.49999C12.0833 6.91666 11.8819 6.4236 11.4791 6.02082C11.0763 5.61805 10.5833 5.41666 9.99996 5.41666C9.41663 5.41666 8.92357 5.61805 8.52079 6.02082C8.11801 6.4236 7.91663 6.91666 7.91663 7.49999C7.91663 8.08332 8.11801 8.57638 8.52079 8.97916C8.92357 9.38193 9.41663 9.58332 9.99996 9.58332Z"
-                                                    fill="#409BF6"
-                                                />
-                                            </svg>
+                                            <img src="/images/location.svg" alt="" />
                                         </ListItemIcon>
                                         <ListItemText primary={<FormLabel className="formLabel">Region</FormLabel>} />
                                         {isSidebarOpen.region ? <ExpandLess /> : <ExpandMore />}
@@ -623,7 +618,7 @@ function Test() {
                                                             </>
                                                         ) : (
                                                             <Typography variant="subtitle2" sx={{ mb: 1 }}>
-                                                                <FormLabel>
+                                                                <FormLabel className="formLabel">
                                                                     Country: {countries.find(c => c.country_id === selectedCountryId)?.country || "South Asia"}
                                                                 </FormLabel>
                                                             </Typography>
@@ -654,35 +649,42 @@ function Test() {
                                     <ListSubheader component="div" id="nested-list-subheader1"></ListSubheader>
                                     <ListItemButton onClick={() => handleSidebarToggle("dataType")} disabled={isLoading}>
                                         <ListItemIcon>
-                                            <img src="/images/datatype.png" alt="Data Type" />
+                                            <img src="/images/datatype.svg" alt="Data Type" />
                                         </ListItemIcon>
                                         <ListItemText primary={<FormLabel className="formLabel">Data Type</FormLabel>} />
                                         {isSidebarOpen.dataType ? <ExpandLess /> : <ExpandMore />}
                                     </ListItemButton>
                                     <Collapse in={isSidebarOpen.dataType} timeout="auto" unmountOnExit>
                                         <List component="div" disablePadding sx={{ px: 2 }}>
-                                            <FormGroup>
+                                            <FormGroup row sx={{ flexWrap: 'nowrap', gap: 2 }}>
                                                 {commodityTypes.map((type) => (
                                                     <FormControlLabel
                                                         key={type.commodity_type_id}
                                                         control={
                                                             <Switch
                                                                 checked={+selectedCommodityTypeId === +type.commodity_type_id}
-                                                                onChange={() => handleCommodityTypeChange({ target: { value: type.commodity_type_id } })}
+                                                                onChange={() =>
+                                                                    handleCommodityTypeChange({ target: { value: type.commodity_type_id } })
+                                                                }
                                                                 disabled={!type.status || isLoading}
                                                                 color="primary"
                                                             />
                                                         }
                                                         label={
                                                             <Box display="flex" alignItems="center" gap={1}>
-                                                                <img src={`/images/filter-${type.commodity_type.toLowerCase()}.png`} alt={type.commodity_type} height={20} />
-                                                                <FormLabel>{type.commodity_type}</FormLabel>
+                                                                {/* <img
+                                                                    src={`/images/filter-${type.commodity_type.toLowerCase()}.png`}
+                                                                    alt={type.commodity_type}
+                                                                    height={20}
+                                                                /> */}
+                                                                <FormLabel className="label">{type.commodity_type}</FormLabel>
                                                             </Box>
                                                         }
                                                     />
                                                 ))}
                                             </FormGroup>
                                         </List>
+
                                     </Collapse>
                                 </List>
 
@@ -690,15 +692,15 @@ function Test() {
                                     <ListSubheader component="div" id="nested-list-subheader2"></ListSubheader>
                                     <ListItemButton onClick={() => handleSidebarToggle("analysis")} disabled={isLoading}>
                                         <ListItemIcon>
-                                            <img src="/images/analysis.png" alt="Analysis & Scale" />
+                                            <img src="/images/analysis.svg" alt="Analysis & Scale" />
                                         </ListItemIcon>
                                         <ListItemText primary={<FormLabel className="formLabel">Analysis & Scale</FormLabel>} />
                                         {isSidebarOpen.analysis ? <ExpandLess /> : <ExpandMore />}
                                     </ListItemButton>
                                     <Collapse in={isSidebarOpen.analysis} timeout="auto" unmountOnExit>
                                         <List component="div" disablePadding sx={{ px: 2 }}>
-                                            <Typography variant="subtitle2" sx={{ mt: 2, mb: 1 }}>
-                                                <FormLabel>Select analysis scope</FormLabel>
+                                            <Typography variant="subtitle2" sx={{ mt: 2, mb: 1, textAlign: 'left' }}>
+                                                <FormLabel className="formLabel">Select analysis scope</FormLabel>
                                             </Typography>
                                             <FormGroup>
                                                 {analysisScopes.map((scope) => (
@@ -716,8 +718,8 @@ function Test() {
                                                     />
                                                 ))}
                                             </FormGroup>
-                                            <Typography variant="subtitle2" sx={{ mt: 3, mb: 1 }}>
-                                                <FormLabel>Select visualization scale</FormLabel>
+                                            <Typography variant="subtitle2" sx={{ mt: 3, mb: 1, textAlign: 'left' }}>
+                                                <FormLabel className="formLabel">Select visualization scale</FormLabel>
                                             </Typography>
                                             <FormGroup>
                                                 {visualizationScales.map((scale) => (
@@ -743,7 +745,7 @@ function Test() {
                                     <ListSubheader component="div" id="nested-list-subheader3"></ListSubheader>
                                     <ListItemButton onClick={() => handleSidebarToggle("commodity")} disabled={isLoading}>
                                         <ListItemIcon>
-                                            <img src="/images/commodity.png" alt="Commodity" />
+                                            <img src="/images/commodity.svg" alt="Commodity" />
                                         </ListItemIcon>
                                         <ListItemText primary={<FormLabel className="formLabel">Commodity</FormLabel>} />
                                         {isSidebarOpen.commodity ? <ExpandLess /> : <ExpandMore />}
@@ -774,15 +776,15 @@ function Test() {
                                     <ListSubheader component="div" id="nested-list-subheader4"></ListSubheader>
                                     <ListItemButton onClick={() => handleSidebarToggle("scenario")} disabled={isLoading}>
                                         <ListItemIcon>
-                                            <img src="/images/scenario.png" alt="Scenario" />
+                                            <img src="/images/scenario.svg" alt="Scenario" />
                                         </ListItemIcon>
-                                        <ListItemText primary={<FormLabel className="formLabel">Scenario & Data Source</FormLabel>} />
+                                        <ListItemText primary={<FormLabel className="formLabel">Scenario </FormLabel>} />
                                         {isSidebarOpen.scenario ? <ExpandLess /> : <ExpandMore />}
                                     </ListItemButton>
                                     <Collapse in={isSidebarOpen.scenario} timeout="auto" unmountOnExit>
                                         <List component="div" disablePadding sx={{ px: 2 }}>
-                                            <Typography variant="subtitle2" sx={{ mt: 2, mb: 1 }}>
-                                                <FormLabel>Select data source</FormLabel>
+                                            <Typography variant="subtitle2" sx={{ mt: 2, mb: 1, textAlign:'left' }}>
+                                                <FormLabel className="formLabel">Select data source</FormLabel>
                                             </Typography>
                                             <FormGroup>
                                                 {dataSources.map((source) => (
@@ -800,8 +802,8 @@ function Test() {
                                                     />
                                                 ))}
                                             </FormGroup>
-                                            <Typography variant="subtitle2" sx={{ mt: 3, mb: 1 }}>
-                                                <FormLabel>Select climate scenario</FormLabel>
+                                            <Typography variant="subtitle2" sx={{ mt: 3, mb: 1, textAlign: 'left' }}>
+                                                <FormLabel className="formLabel">Select climate scenario</FormLabel>
                                             </Typography>
                                             <FormGroup>
                                                 {climateScenarios.map((scenario) => (
@@ -827,7 +829,7 @@ function Test() {
                                     <ListSubheader component="div" id="nested-list-subheader5"></ListSubheader>
                                     <ListItemButton onClick={() => handleSidebarToggle("risk")} disabled={isLoading} sx={getListItemStyle("risk")}>
                                         <ListItemIcon>
-                                            <img src="/images/risk.png" alt="Risk" />
+                                            <img src="/images/risk.svg" alt="Risk" />
                                         </ListItemIcon>
                                         <ListItemText primary={<FormLabel className="formLabel">Risk</FormLabel>} />
                                         {isSidebarOpen.risk ? <ExpandLess /> : <ExpandMore />}
@@ -858,7 +860,7 @@ function Test() {
                                     <ListSubheader component="div" id="nested-list-subheader6"></ListSubheader>
                                     <ListItemButton onClick={() => handleSidebarToggle("impact")} disabled={isLoading} sx={getListItemStyle("impact")}>
                                         <ListItemIcon>
-                                            <img src="/images/impact.png" alt="Impact" />
+                                            <img src="/images/impact.svg" alt="Impact" />
                                         </ListItemIcon>
                                         <ListItemText primary={<FormLabel className="formLabel">Impact</FormLabel>} />
                                         {isSidebarOpen.impact ? <ExpandLess /> : <ExpandMore />}
@@ -890,19 +892,19 @@ function Test() {
                                         <ListSubheader component="div" id="nested-list-subheader8"></ListSubheader>
                                         <ListItemButton onClick={() => handleSidebarToggle("adaptation")} disabled={isLoading} sx={getListItemStyle("adaptation")}>
                                             <ListItemIcon>
-                                                <img src="/images/adaptation.png" alt="Adaptation" />
+                                                <img src="/images/option.svg" alt="Adaptation" />
                                             </ListItemIcon>
-                                            <ListItemText primary={<FormLabel className="formLabel">Adaptation</FormLabel>} />
+                                            <ListItemText primary={<FormLabel className="formLabel">Options</FormLabel>} />
                                             {isSidebarOpen.adaptation ? <ExpandLess /> : <ExpandMore />}
                                         </ListItemButton>
                                         <Collapse in={isSidebarOpen.adaptation} timeout="auto" unmountOnExit>
                                             <List component="div" disablePadding sx={{ px: 2 }}>
-                                                <Typography variant="subtitle2" sx={{ mt: 2, mb: 1 }}>
-                                                    <FormLabel>Select specific adaptation</FormLabel>
+                                                <Typography variant="subtitle2" sx={{ mt: 2, mb: 1, textAlign: 'left' }}>
+                                                    <FormLabel className="formLabel">Select specific adaptation</FormLabel>
                                                 </Typography>
                                                 {Object.entries(groupedAdaptations).map(([group, adaptations]) => (
                                                     <Box key={group} sx={{ pl: 2 }}>
-                                                        <Typography variant="subtitle2" sx={{ fontWeight: "bold" }}>
+                                                        <Typography className="formLabel" variant="subtitle2" sx={{ fontWeight: "bold" }}>
                                                             {group}
                                                         </Typography>
                                                         <FormGroup>
