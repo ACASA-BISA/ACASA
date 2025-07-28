@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import React, { useState, useEffect, useCallback } from "react";
+import { useParams } from "react-router-dom";
 import "./Test.css";
 import { Button, Grid, Toolbar, IconButton, Drawer, Switch, Typography, FormGroup, List, Box, Tooltip } from "@mui/material";
 import { ListSubheader, ListItemButton, ListItemIcon, ListItemText, Collapse, FormControlLabel, FormControl, FormLabel, MenuItem, Select } from "@mui/material";
@@ -19,19 +19,19 @@ function LayoutIcon(props) {
 
 function Test() {
     useEffect(() => {
-        document.documentElement.style.overflowX = 'hidden';
-        document.body.style.overflowX = 'hidden';
+        document.documentElement.style.overflowX = "hidden";
+        document.body.style.overflowX = "hidden";
     }, []);
 
     const { country } = useParams();
     const [open, setOpen] = useState(true);
     const [countries, setCountries] = useState([]);
-    const [selectedCountryId, setSelectedCountryId] = useState(0); // Default to South Asia
+    const [selectedCountryId, setSelectedCountryId] = useState(0);
     const [states, setStates] = useState([]);
     const [selectedStateId, setSelectedStateId] = useState(0);
     const [disabledStateFilter, setDisableStateFilter] = useState(true);
     const [commodityTypes, setCommodityTypes] = useState([]);
-    const [selectedCommodityTypeId, setSelectedCommodityTypeId] = useState("");
+    const [selectedCommodityTypeId, setSelectedCommodityTypeId] = useState(1); // Default to Crops
     const [commodities, setCommodities] = useState([]);
     const [filteredCommodities, setFilteredCommodities] = useState([]);
     const [selectedCommodityId, setSelectedCommodityId] = useState("");
@@ -47,6 +47,8 @@ function Test() {
     const [selectedRiskId, setSelectedRiskId] = useState("");
     const [impacts, setImpacts] = useState([]);
     const [selectedImpactId, setSelectedImpactId] = useState("");
+    const [adaptations, setAdaptations] = useState([]);
+    const [selectedAdaptationId, setSelectedAdaptationId] = useState("");
     const [filters, setFilters] = useState(null);
     const [appliedFilters, setAppliedFilters] = useState(null);
     const [geojsonData, setGeojsonData] = useState(null);
@@ -58,6 +60,7 @@ function Test() {
         scenario: false,
         risk: false,
         impact: false,
+        adaptation: false,
     });
     const [isLoading, setIsLoading] = useState(false);
 
@@ -77,6 +80,7 @@ function Test() {
                 scenario: false,
                 risk: false,
                 impact: false,
+                adaptation: false,
             };
             newState[sidebar] = !prev[sidebar];
             return newState;
@@ -94,7 +98,7 @@ function Test() {
                 if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
                 const { success, data } = await response.json();
                 if (!success) throw new Error(`API error: ${endpoint}`);
-                setter(data);
+                setter(data || []);
             } catch (err) {
                 console.error(err);
                 Swal.fire({
@@ -102,6 +106,7 @@ function Test() {
                     title: "Error",
                     text: err.message || `Error loading ${endpoint}`,
                 });
+                setter([]);
             } finally {
                 setIsLoading(false);
             }
@@ -134,6 +139,7 @@ function Test() {
                     title: "Error",
                     text: err.message || "Failed to load GeoJSON data.",
                 });
+                setGeojsonData(null);
             } finally {
                 setIsLoading(false);
             }
@@ -141,7 +147,6 @@ function Test() {
         [apiUrl]
     );
 
-    // Fetch initial data
     useEffect(() => {
         fetchData("lkp/locations/countries", setCountries);
         fetchData("lkp/common/commodity_types", setCommodityTypes);
@@ -153,15 +158,30 @@ function Test() {
         fetchData("lkp/specific/impacts", setImpacts);
     }, [fetchData]);
 
-    // Set country based on URL and fetch GeoJSON
+    useEffect(() => {
+        if (selectedCommodityId && selectedCommodityTypeId === 1) {
+            fetchData(`lkp/specific/adaptations?commodity_id=${selectedCommodityId}&commodity_type_id=1`, setAdaptations);
+            fetchData(`lkp/specific/risks?commodity_id=${selectedCommodityId}`, setRisks);
+        } else if (selectedCommodityId) {
+            fetchData(`lkp/specific/risks?commodity_id=${selectedCommodityId}`, setRisks);
+            setAdaptations([]);
+            setSelectedAdaptationId("");
+        } else {
+            setAdaptations([]);
+            setSelectedAdaptationId("");
+            setRisks([]);
+            setSelectedRiskId("");
+        }
+    }, [selectedCommodityId, selectedCommodityTypeId, fetchData]);
+
     useEffect(() => {
         if (countries.length > 0) {
-            let countryId = 0; // Default to South Asia
+            let countryId = 0;
             let admin_level = "total";
             let admin_level_id = null;
 
             if (country) {
-                const countryName = country.toLowerCase().replace(/[-_]/g, " "); // Normalize URL param
+                const countryName = country.toLowerCase().replace(/[-_]/g, " ");
                 const matchedCountry = countries.find(
                     (c) => c.country.toLowerCase().replace(/\s+/g, "") === countryName.replace(/\s+/g, "") && c.status
                 );
@@ -184,27 +204,25 @@ function Test() {
                 }
             }
 
-            // Fetch GeoJSON based on country selection
             fetchGeojson(admin_level, admin_level_id);
         }
     }, [countries, country, fetchGeojson]);
 
-    // Set default selections after data is fetched
     useEffect(() => {
         if (commodityTypes.length > 0 && !selectedCommodityTypeId) {
-            setSelectedCommodityTypeId(commodityTypes[0].commodity_type_id); // Select first commodity type (Crops)
+            setSelectedCommodityTypeId(commodityTypes[0].commodity_type_id);
         }
     }, [commodityTypes, selectedCommodityTypeId]);
 
     useEffect(() => {
         if (analysisScopes.length > 0 && !selectedScopeId) {
-            setSelectedScopeId(analysisScopes[0].scope_id); // Select first analysis scope
+            setSelectedScopeId(analysisScopes[0].scope_id);
         }
     }, [analysisScopes, selectedScopeId]);
 
     useEffect(() => {
         if (visualizationScales.length > 0 && !selectedScaleId) {
-            setSelectedScaleId(visualizationScales[0].scale_id); // Select first visualization scale
+            setSelectedScaleId(visualizationScales[0].scale_id);
         }
     }, [visualizationScales, selectedScaleId]);
 
@@ -212,34 +230,23 @@ function Test() {
         if (commodities.length > 0 && !selectedCommodityId) {
             const activeCommodities = commodities.filter((c) => c.status);
             if (activeCommodities.length > 1) {
-                setSelectedCommodityId(activeCommodities[1].commodity_id); // Select second commodity
+                setSelectedCommodityId(activeCommodities[1].commodity_id);
             }
         }
     }, [commodities, selectedCommodityId]);
 
     useEffect(() => {
         if (dataSources.length > 0 && !selectedDataSourceId) {
-            setSelectedDataSourceId(dataSources[0].data_source_id); // Select first data source
+            setSelectedDataSourceId(dataSources[0].data_source_id);
         }
     }, [dataSources, selectedDataSourceId]);
 
     useEffect(() => {
         if (climateScenarios.length > 0 && !selectedScenarioId) {
-            setSelectedScenarioId(climateScenarios[climateScenarios.length - 1].scenario_id); // Select last climate scenario
+            setSelectedScenarioId(climateScenarios[climateScenarios.length - 1].scenario_id);
         }
     }, [climateScenarios, selectedScenarioId]);
 
-    // Fetch risks when commodity is selected
-    useEffect(() => {
-        if (selectedCommodityId) {
-            fetchData(`lkp/specific/risks?commodity_id=${selectedCommodityId}`, setRisks);
-        } else {
-            setRisks([]);
-            setSelectedRiskId("");
-        }
-    }, [selectedCommodityId, fetchData]);
-
-    // Filter commodities based on commodity type
     useEffect(() => {
         if (selectedCommodityTypeId) {
             const filtered = commodities.filter(
@@ -251,7 +258,6 @@ function Test() {
         }
     }, [selectedCommodityTypeId, commodities]);
 
-    // Trigger handleSaveFilters when all required data is loaded
     useEffect(() => {
         if (
             selectedCommodityTypeId &&
@@ -261,7 +267,15 @@ function Test() {
             selectedDataSourceId &&
             selectedScenarioId &&
             geojsonData &&
-            !isLoading
+            !isLoading &&
+            countries.length > 0 &&
+            commodityTypes.length > 0 &&
+            commodities.length > 0 &&
+            analysisScopes.length > 0 &&
+            visualizationScales.length > 0 &&
+            climateScenarios.length > 0 &&
+            dataSources.length > 0 &&
+            impacts.length > 0
         ) {
             handleSaveFilters();
         }
@@ -274,6 +288,14 @@ function Test() {
         selectedScenarioId,
         geojsonData,
         isLoading,
+        countries,
+        commodityTypes,
+        commodities,
+        analysisScopes,
+        visualizationScales,
+        climateScenarios,
+        dataSources,
+        impacts,
     ]);
 
     const getStates = async (countryId) => {
@@ -286,7 +308,7 @@ function Test() {
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
             const { success, data } = await response.json();
             if (!success) throw new Error("Error loading states");
-            setStates(data);
+            setStates(data || []);
         } catch (err) {
             console.error(err);
             Swal.fire({
@@ -294,6 +316,7 @@ function Test() {
                 title: "Error",
                 text: err.message || "Error loading states",
             });
+            setStates([]);
         } finally {
             setIsLoading(false);
         }
@@ -306,11 +329,11 @@ function Test() {
         if (countryId !== 0) {
             getStates(countryId);
             setDisableStateFilter(false);
-            fetchGeojson("country", countryId); // Fetch country-specific GeoJSON on manual selection
+            fetchGeojson("country", countryId);
         } else {
             setStates([]);
             setDisableStateFilter(true);
-            fetchGeojson("total", null); // Fetch total GeoJSON for South Asia
+            fetchGeojson("total", null);
         }
     };
 
@@ -318,19 +341,25 @@ function Test() {
         const stateId = event.target.value;
         setSelectedStateId(stateId);
         if (stateId !== 0) {
-            fetchGeojson("state", stateId); // Fetch state-specific GeoJSON
+            fetchGeojson("state", stateId);
         } else {
-            fetchGeojson("country", selectedCountryId); // Revert to country GeoJSON
+            fetchGeojson("country", selectedCountryId);
         }
     };
 
     const handleCommodityTypeChange = (event) => {
         setSelectedCommodityTypeId(event.target.value);
         setSelectedCommodityId("");
+        setSelectedAdaptationId("");
+        setSelectedRiskId("");
+        setSelectedImpactId("");
     };
 
     const handleCommodityChange = (event) => {
         setSelectedCommodityId(event.target.value);
+        setSelectedAdaptationId("");
+        setSelectedRiskId("");
+        setSelectedImpactId("");
     };
 
     const handleScopeChange = (event) => {
@@ -353,6 +382,7 @@ function Test() {
         setSelectedRiskId(event.target.value);
         if (event.target.value) {
             setSelectedImpactId("");
+            setSelectedAdaptationId("");
         }
     };
 
@@ -360,26 +390,50 @@ function Test() {
         setSelectedImpactId(event.target.value);
         if (event.target.value) {
             setSelectedRiskId("");
+            setSelectedAdaptationId("");
+        }
+    };
+
+    const handleAdaptationChange = (event) => {
+        setSelectedAdaptationId(event.target.value);
+        if (event.target.value) {
+            setSelectedRiskId("");
+            setSelectedImpactId("");
         }
     };
 
     const handleSaveFilters = async () => {
-        const layer_type = selectedImpactId ? "impact" : selectedRiskId ? "risk" : "commodity";
+        if (
+            !countries.length ||
+            !commodityTypes.length ||
+            !commodities.length ||
+            !analysisScopes.length ||
+            !visualizationScales.length ||
+            !climateScenarios.length ||
+            !dataSources.length ||
+            !impacts.length
+        ) {
+            console.warn("Required data not fully loaded, skipping filter save.");
+            return;
+        }
+
+        let layer_type = "commodity";
+        if (selectedRiskId) layer_type = "risk";
+        else if (selectedImpactId) layer_type = "impact";
+        else if (selectedAdaptationId) layer_type = "adaptation";
 
         const mandatoryFields = {
             analysis_scope_id: selectedScopeId,
             visualization_scale_id: selectedScaleId,
-            commodity_id: selectedCommodityId,
             data_source_id: selectedDataSourceId,
             climate_scenario_id: selectedScenarioId,
-            layer_type: layer_type,
         };
 
         const missingFields = Object.entries(mandatoryFields)
-            .filter(([key, value]) => !value && key !== "commodity_id")
+            .filter(([key, value]) => !value)
             .map(([key]) => key.replace(/_id$/, "").replace(/_/g, " "));
 
-        if (missingFields.length > 0 && !(selectedRiskId || selectedImpactId)) {
+        if (missingFields.length > 0) {
             Swal.fire({
                 icon: "error",
                 title: "Missing Mandatory Fields",
@@ -388,11 +442,11 @@ function Test() {
             return;
         }
 
-        if ((selectedRiskId || selectedImpactId) && !selectedCommodityId) {
+        if ((selectedRiskId || selectedImpactId || selectedAdaptationId) && !selectedCommodityId) {
             Swal.fire({
                 icon: "error",
                 title: "Missing Commodity",
-                text: "Please select a commodity when selecting a risk or impact.",
+                text: "Please select a commodity when selecting a risk, impact, or adaptation.",
             });
             return;
         }
@@ -401,20 +455,32 @@ function Test() {
         const admin_level_id = selectedStateId !== 0 ? selectedStateId : selectedCountryId !== 0 ? selectedCountryId : null;
 
         const newFilters = {
-            analysis_scope_id: selectedScopeId || null,
-            visualization_scale_id: selectedScaleId || null,
-            commodity_id: selectedCommodityId || null,
-            data_source_id: selectedDataSourceId || null,
-            climate_scenario_id: selectedScenarioId || null,
+            analysis_scope_id: +selectedScopeId || null,
+            visualization_scale_id: +selectedScaleId || null,
+            commodity_id: +selectedCommodityId || null,
+            commodity_type_id: +selectedCommodityTypeId || null,
+            data_source_id: +selectedDataSourceId || null,
+            climate_scenario_id: +selectedScenarioId || null,
             layer_type,
-            risk_id: +selectedRiskId || null,
-            impact_id: +selectedImpactId || null,
-            adaptation_id: null,
+            risk_id: layer_type === "risk" ? +selectedRiskId : null,
+            impact_id: layer_type === "impact" ? +selectedImpactId : null,
+            adaptation_id: layer_type === "adaptation" ? +selectedAdaptationId || null : null,
             admin_level,
             admin_level_id,
             geojson: geojsonData?.geojson,
             bbox: geojsonData?.bbox,
             region: geojsonData?.region,
+            countries: countries || [],
+            commodityTypes: commodityTypes || [],
+            commodities: commodities || [],
+            analysisScopes: analysisScopes || [],
+            visualizationScales: visualizationScales || [],
+            climateScenarios: climateScenarios || [],
+            dataSources: dataSources || [],
+            impacts: impacts || [],
+            adaptations: adaptations || [],
+            states: states || [],
+            risks: risks || [],
         };
 
         setFilters(newFilters);
@@ -426,7 +492,7 @@ function Test() {
         setSelectedStateId(0);
         setDisableStateFilter(true);
         setStates([]);
-        setSelectedCommodityTypeId("");
+        setSelectedCommodityTypeId(1);
         setSelectedCommodityId("");
         setSelectedScopeId("");
         setSelectedScaleId("");
@@ -434,11 +500,28 @@ function Test() {
         setSelectedDataSourceId("");
         setSelectedRiskId("");
         setSelectedImpactId("");
+        setSelectedAdaptationId("");
         setFilters(null);
         setAppliedFilters(null);
         setGeojsonData(null);
-        fetchGeojson("total", null); // Fetch total GeoJSON on clear
+        fetchGeojson("total", null);
     };
+
+    const groupedAdaptations = adaptations.reduce((acc, adaptation) => {
+        const groupKey = adaptation.group_id ? adaptation.group : "Other";
+        if (!acc[groupKey]) acc[groupKey] = [];
+        acc[groupKey].push(adaptation);
+        return acc;
+    }, {});
+
+    const getListItemStyle = (category) => ({
+        backgroundColor:
+            (category === "risk" && selectedRiskId) ||
+                (category === "impact" && selectedImpactId) ||
+                (category === "adaptation" && selectedAdaptationId)
+                ? "#e3f2fd"
+                : "inherit",
+    });
 
     return (
         <div>
@@ -718,7 +801,7 @@ function Test() {
 
                                 <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }} component="nav" aria-labelledby="nested-list-subheader5">
                                     <ListSubheader component="div" id="nested-list-subheader5"></ListSubheader>
-                                    <ListItemButton onClick={() => handleSidebarToggle("risk")} disabled={isLoading}>
+                                    <ListItemButton onClick={() => handleSidebarToggle("risk")} disabled={isLoading} sx={getListItemStyle("risk")}>
                                         <ListItemIcon>
                                             <img src="/images/risk.png" alt="Risk" />
                                         </ListItemIcon>
@@ -749,7 +832,7 @@ function Test() {
 
                                 <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }} component="nav" aria-labelledby="nested-list-subheader6">
                                     <ListSubheader component="div" id="nested-list-subheader6"></ListSubheader>
-                                    <ListItemButton onClick={() => handleSidebarToggle("impact")} disabled={isLoading}>
+                                    <ListItemButton onClick={() => handleSidebarToggle("impact")} disabled={isLoading} sx={getListItemStyle("impact")}>
                                         <ListItemIcon>
                                             <img src="/images/impact.png" alt="Impact" />
                                         </ListItemIcon>
@@ -777,6 +860,53 @@ function Test() {
                                         </List>
                                     </Collapse>
                                 </List>
+
+                                {selectedCommodityTypeId === 1 && (
+                                    <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }} component="nav" aria-labelledby="nested-list-subheader8">
+                                        <ListSubheader component="div" id="nested-list-subheader8"></ListSubheader>
+                                        <ListItemButton onClick={() => handleSidebarToggle("adaptation")} disabled={isLoading} sx={getListItemStyle("adaptation")}>
+                                            <ListItemIcon>
+                                                <img src="/images/adaptation.png" alt="Adaptation" />
+                                            </ListItemIcon>
+                                            <ListItemText primary={<FormLabel>Adaptation</FormLabel>} />
+                                            {isSidebarOpen.adaptation ? <ExpandLess /> : <ExpandMore />}
+                                        </ListItemButton>
+                                        <Collapse in={isSidebarOpen.adaptation} timeout="auto" unmountOnExit>
+                                            <List component="div" disablePadding sx={{ px: 2 }}>
+                                                <Typography variant="subtitle2" sx={{ mt: 2, mb: 1 }}>
+                                                    <FormLabel>Select specific adaptation</FormLabel>
+                                                </Typography>
+                                                {Object.entries(groupedAdaptations).map(([group, adaptations]) => (
+                                                    <Box key={group} sx={{ pl: 2 }}>
+                                                        <Typography variant="subtitle2" sx={{ fontWeight: "bold" }}>
+                                                            {group}
+                                                        </Typography>
+                                                        <FormGroup>
+                                                            {adaptations.map((adaptation) => (
+                                                                <FormControlLabel
+                                                                    key={adaptation.adaptation_id}
+                                                                    control={
+                                                                        <Switch
+                                                                            checked={+selectedAdaptationId === +adaptation.adaptation_id}
+                                                                            onChange={() => handleAdaptationChange({ target: { value: adaptation.adaptation_id } })}
+                                                                            disabled={!adaptation.status || isLoading}
+                                                                            color="primary"
+                                                                        />
+                                                                    }
+                                                                    label={
+                                                                        <Tooltip title={adaptation.description}>
+                                                                            <span>{adaptation.adaptation}</span>
+                                                                        </Tooltip>
+                                                                    }
+                                                                />
+                                                            ))}
+                                                        </FormGroup>
+                                                    </Box>
+                                                ))}
+                                            </List>
+                                        </Collapse>
+                                    </List>
+                                )}
                             </div>
                         </div>
                     </List>
@@ -785,7 +915,18 @@ function Test() {
                 <Box component="main" className="main" sx={{ flexGrow: 1, height: "calc(100vh - 88px)" }}>
                     <Grid container sx={{ height: "100%" }}>
                         <Grid item xs={12}>
-                            <MapViewer drawerOpen={open} filters={appliedFilters} apiUrl={apiUrl} />
+                            <MapViewer
+                                drawerOpen={open}
+                                filters={appliedFilters}
+                                apiUrl={apiUrl}
+                                adaptations={adaptations}
+                                selectedAdaptationId={selectedAdaptationId}
+                                setSelectedAdaptationId={setSelectedAdaptationId}
+                                selectedRiskId={selectedRiskId}
+                                setSelectedRiskId={setSelectedRiskId}
+                                selectedImpactId={selectedImpactId}
+                                setSelectedImpactId={setSelectedImpactId}
+                            />
                         </Grid>
                     </Grid>
                 </Box>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Grid, Box, Paper, Tooltip, IconButton, CircularProgress, Breadcrumbs, Typography } from "@mui/material";
+import { Grid, Box, Paper, Tooltip, IconButton, CircularProgress, Breadcrumbs, Typography, Button, useTheme } from "@mui/material";
 import Swal from "sweetalert2";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -15,7 +15,7 @@ L.Control.MapControls = L.Control.extend({
         isFullscreen: false,
         onFullscreen: () => { },
         onFitExtent: () => { },
-        updateFullscreenButton: () => { }, // New callback to update button
+        updateFullscreenButton: () => { },
     },
     onAdd: function (map) {
         const container = L.DomUtil.create("div", "leaflet-bar leaflet-control leaflet-control-custom");
@@ -29,7 +29,6 @@ L.Control.MapControls = L.Control.extend({
             L.DomEvent.stopPropagation(e);
             L.DomEvent.preventDefault(e);
             this.options.onFullscreen();
-            // Call update function to sync button appearance
             this.options.updateFullscreenButton(fullscreenButton);
         });
 
@@ -63,24 +62,64 @@ L.Control.MapControls = L.Control.extend({
     onRemove: function () { },
 });
 
-L.control.mapControls = function (options) {
-    return new L.Control.MapControls(options);
+L.control.mapControls = function (mapControls) {
+    return new L.Control.MapControls(mapControls);
 };
 
-function MapViewer({ drawerOpen, filters, apiUrl }) {
+function MapViewer({ drawerOpen, filters, apiUrl, adaptations, selectedAdaptationId, setSelectedAdaptationId, selectedRiskId, setSelectedRiskId, selectedImpactId, setSelectedImpactId }) {
+    const theme = useTheme();
     const mapRefs = useRef([]);
     const mapInstances = useRef([]);
     const layerRefs = useRef([]);
     const boundsRefs = useRef([]);
-    const fullscreenButtonRefs = useRef([]); // New ref to store fullscreen button DOM elements
+    const fullscreenButtonRefs = useRef([]);
+    const tileLayerRefs = useRef([]);
     const [mapLoading, setMapLoading] = useState(false);
     const [tiffData, setTiffData] = useState([]);
     const [renderReady, setRenderReady] = useState(false);
     const [breadcrumbData, setBreadcrumbData] = useState(null);
-    const [anchorEl, setAnchorEl] = useState({});
     const [isFullscreen, setIsFullscreen] = useState([]);
+    const [adaptationTabs, setAdaptationTabs] = useState([]);
+    const [selectedAdaptationTabId, setSelectedAdaptationTabId] = useState("");
 
-    // Cleanup function for maps and layers
+    const getTileLayerUrl = () => {
+        return theme.palette.mode === 'dark'
+            ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+            : 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+    };
+
+    useEffect(() => {
+        if (filters?.commodity_type_id === 1 && (filters?.layer_type === "adaptation" || filters?.layer_type === "adaptation_croptab")) {
+            const fetchAdaptationTabs = async () => {
+                try {
+                    const response = await fetch(`${apiUrl}/lkp/specific/adaptation_croptabs`, {
+                        method: "GET",
+                        headers: { "Content-Type": "application/json" },
+                    });
+                    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+                    const { success, data } = await response.json();
+                    if (!success) throw new Error("Error loading adaptation tabs");
+                    setAdaptationTabs(data || []);
+                    if (data?.length > 0 && !selectedAdaptationTabId) {
+                        setSelectedAdaptationTabId(6);
+                    }
+                } catch (err) {
+                    console.error(err);
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: err.message || "Error loading adaptation tabs",
+                    });
+                    setAdaptationTabs([]);
+                }
+            };
+            fetchAdaptationTabs();
+        } else {
+            setAdaptationTabs([]);
+            setSelectedAdaptationTabId("");
+        }
+    }, [filters?.commodity_type_id, filters?.layer_type, apiUrl, selectedAdaptationTabId]);
+
     const cleanupMaps = () => {
         mapInstances.current.forEach((map, index) => {
             if (map) {
@@ -92,15 +131,14 @@ function MapViewer({ drawerOpen, filters, apiUrl }) {
         mapInstances.current = [];
         layerRefs.current = [];
         boundsRefs.current = [];
-        fullscreenButtonRefs.current = []; // Clear button refs
+        fullscreenButtonRefs.current = [];
+        tileLayerRefs.current = [];
         setIsFullscreen([]);
-        setAnchorEl({});
         setTiffData([]);
         setRenderReady(false);
         setBreadcrumbData(null);
     };
 
-    // Update fullscreen button appearance
     const updateFullscreenButton = (button, index) => {
         if (button) {
             const isFull = isFullscreen[index] || false;
@@ -109,28 +147,32 @@ function MapViewer({ drawerOpen, filters, apiUrl }) {
         }
     };
 
-    // Initialize maps
     useEffect(() => {
         if (!tiffData.length || !mapRefs.current.length) return;
 
-        // Ensure mapRefs and mapInstances are in sync
         mapRefs.current = mapRefs.current.slice(0, tiffData.length);
         mapInstances.current = mapInstances.current.slice(0, tiffData.length);
         fullscreenButtonRefs.current = fullscreenButtonRefs.current.slice(0, tiffData.length);
+        tileLayerRefs.current = tileLayerRefs.current.slice(0, tiffData.length);
 
         mapRefs.current.forEach((mapRef, index) => {
             if (!mapRef || mapInstances.current[index]) return;
 
-            // Initialize map only if DOM element exists
             if (mapRef && mapRef.offsetParent !== null) {
                 const map = L.map(mapRef, {
                     minZoom: 3,
                     maxZoom: 18,
                 });
-                L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-                    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-                }).addTo(map);
+                const tileLayer = L.tileLayer(getTileLayerUrl(), {
+                    attribution: theme.palette.mode === 'dark'
+                        ? '&copy; <a href="https://carto.com/attributions">CARTO</a>'
+                        : '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+                    opacity: 1,
+                    errorTileUrl: '/images/fallback-tile.png',
+                });
+                tileLayer.addTo(map);
                 mapInstances.current[index] = map;
+                tileLayerRefs.current[index] = tileLayer;
 
                 const mapControl = L.control.mapControls({
                     isFullscreen: isFullscreen[index] || false,
@@ -158,7 +200,7 @@ function MapViewer({ drawerOpen, filters, apiUrl }) {
                         }
                     },
                     updateFullscreenButton: (button) => {
-                        fullscreenButtonRefs.current[index] = button; // Store button ref
+                        fullscreenButtonRefs.current[index] = button;
                         updateFullscreenButton(button, index);
                     },
                 });
@@ -170,20 +212,43 @@ function MapViewer({ drawerOpen, filters, apiUrl }) {
                     iconUrl: "/images/leaflet/marker-icon.png",
                     shadowUrl: "/images/leaflet/marker-shadow.png",
                 });
+
+                setTimeout(() => map.invalidateSize(), 100);
             }
         });
 
         return cleanupMaps;
     }, [tiffData.length]);
 
-    // Update fullscreen buttons when isFullscreen changes
+    useEffect(() => {
+        mapInstances.current.forEach((map, index) => {
+            if (map && tileLayerRefs.current[index] && mapRefs.current[index]) {
+                tileLayerRefs.current[index].setOpacity(0);
+                setTimeout(() => {
+                    map.removeLayer(tileLayerRefs.current[index]);
+                    const newTileLayer = L.tileLayer(getTileLayerUrl(), {
+                        attribution: theme.palette.mode === 'dark'
+                            ? '&copy; <a href="https://carto.com/attributions">CARTO</a>'
+                            : '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+                        opacity: 0,
+                        errorTileUrl: '/images/fallback-tile.png',
+                    });
+                    newTileLayer.addTo(map);
+                    tileLayerRefs.current[index] = newTileLayer;
+                    newTileLayer.setOpacity(1);
+                    map.invalidateSize();
+                    console.log(`Theme changed to ${theme.palette.mode} for map ${index}`);
+                }, 200);
+            }
+        });
+    }, [theme.palette.mode]);
+
     useEffect(() => {
         fullscreenButtonRefs.current.forEach((button, index) => {
             updateFullscreenButton(button, index);
         });
     }, [isFullscreen]);
 
-    // Resize maps when drawer toggles or fullscreen changes
     useEffect(() => {
         mapInstances.current.forEach((map, index) => {
             if (map && map.invalidateSize && mapRefs.current[index]) {
@@ -192,7 +257,22 @@ function MapViewer({ drawerOpen, filters, apiUrl }) {
         });
     }, [drawerOpen, isFullscreen]);
 
-    // Fetch TIFF data and breadcrumb data
+    useEffect(() => {
+        const resizeObserver = new ResizeObserver(() => {
+            mapInstances.current.forEach((map, index) => {
+                if (map && mapRefs.current[index]) {
+                    setTimeout(() => map.invalidateSize(), 100);
+                }
+            });
+        });
+
+        mapRefs.current.forEach((mapRef) => {
+            if (mapRef) resizeObserver.observe(mapRef);
+        });
+
+        return () => resizeObserver.disconnect();
+    }, [tiffData.length]);
+
     useEffect(() => {
         if (!filters || !filters.geojson || !filters.bbox) {
             cleanupMaps();
@@ -201,23 +281,45 @@ function MapViewer({ drawerOpen, filters, apiUrl }) {
 
         const fetchTiffData = async () => {
             setMapLoading(true);
-            cleanupMaps(); // Clear previous maps and refs before fetching new data
+            cleanupMaps();
 
             try {
+                const payload = {
+                    analysis_scope_id: +filters.analysis_scope_id,
+                    visualization_scale_id: +filters.visualization_scale_id,
+                    commodity_id: +filters.commodity_id || null,
+                    data_source_id: +filters.data_source_id,
+                    climate_scenario_id: +filters.climate_scenario_id,
+                    layer_type: filters.layer_type,
+                    risk_id: filters.risk_id || null,
+                    impact_id: filters.impact_id || null,
+                    adaptation_id: filters.adaptation_id || null,
+                    adaptation_croptab_id: selectedAdaptationTabId || 6,
+                };
+
+                const mandatoryFields = [
+                    "analysis_scope_id",
+                    "visualization_scale_id",
+                    "data_source_id",
+                    "climate_scenario_id",
+                    "layer_type",
+                ];
+                if (filters.commodity_type_id === 1 && (filters.layer_type === "adaptation" || filters.layer_type === "adaptation_croptab")) {
+                    mandatoryFields.push("adaptation_croptab_id");
+                }
+                const missingFields = mandatoryFields.filter((field) => !payload[field]);
+                if (missingFields.length > 0) {
+                    throw new Error(`Missing mandatory fields: ${missingFields.join(", ")}`);
+                }
+
+                if (["risk", "impact", "adaptation", "adaptation_croptab"].includes(payload.layer_type) && !payload.commodity_id) {
+                    throw new Error(`Commodity ID is required for ${payload.layer_type} layer type`);
+                }
+
                 const tifPickerRes = await fetch(`${apiUrl}/layers/tif_picker`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        analysis_scope_id: +filters.analysis_scope_id,
-                        visualization_scale_id: +filters.visualization_scale_id,
-                        commodity_id: +filters.commodity_id,
-                        data_source_id: +filters.data_source_id,
-                        climate_scenario_id: +filters.climate_scenario_id,
-                        layer_type: filters.layer_type,
-                        risk_id: filters.risk_id,
-                        impact_id: filters.impact_id,
-                        adaptation_id: filters.adaptation_id,
-                    }),
+                    body: JSON.stringify(payload),
                 });
                 if (!tifPickerRes.ok) throw new Error(`tif_picker error! Status: ${tifPickerRes.status}`);
                 const tifPickerData = await tifPickerRes.json();
@@ -225,13 +327,13 @@ function MapViewer({ drawerOpen, filters, apiUrl }) {
                     throw new Error("No valid data returned from tif_picker");
                 }
 
-                const { data: { raster_files, commodity, scenario, files, mask, level, model } } = tifPickerData;
+                const { data: { raster_files, commodity, scenario, files, mask, level, model } } = tifPickerData; // Use parsed data
                 const fileList = raster_files || files || [];
                 if (!fileList.length) {
                     throw new Error("No raster files available for the selected filters");
                 }
 
-                setBreadcrumbData({ mask, commodity, level, model });
+                setBreadcrumbData({ mask, commodity, level, model, scenario });
 
                 const tiffPromises = fileList.map(async (file) => {
                     if (!file.exists) {
@@ -252,24 +354,25 @@ function MapViewer({ drawerOpen, filters, apiUrl }) {
                     const arrayBuffer = await geotiffRes.arrayBuffer();
                     const clonedBuffer = arrayBuffer.slice(0);
 
-                    const legendCanvas = generateLegendCanvas(file.ramp);
-                    const legendUrl = legendCanvas.toDataURL();
+                    const legendData = await generateLegendCanvas(file.ramp);
+                    const legendUrl = legendData.canvas.toDataURL();
+                    const legendLabels = legendData.labels;
 
                     return {
                         arrayBuffer: clonedBuffer,
                         metadata: {
                             source_file: file.source_file,
                             color_ramp: file.ramp,
-                            layer_name: file.climate_scenario,
+                            layer_name: file.climate_scenario || "Baseline",
                         },
                         legendBase64: legendUrl,
+                        legendLabels,
                     };
                 });
 
                 const tiffResults = await Promise.all(tiffPromises);
                 setTiffData(tiffResults);
                 setIsFullscreen(new Array(tiffResults.length).fill(false));
-                setAnchorEl(Object.fromEntries(tiffResults.map((_, i) => [i, null])));
                 await new Promise((resolve) => setTimeout(resolve, 1000));
                 setRenderReady(true);
             } catch (err) {
@@ -285,12 +388,12 @@ function MapViewer({ drawerOpen, filters, apiUrl }) {
         };
 
         fetchTiffData();
-    }, [filters, apiUrl]);
+    }, [filters, apiUrl, selectedAdaptationTabId]);
 
-    const generateLegendCanvas = (colorRamp) => {
+    const generateLegendCanvas = async (colorRamp) => {
         const canvas = document.createElement("canvas");
         canvas.width = 200;
-        canvas.height = 20;
+        canvas.height = 40;
         const ctx = canvas.getContext("2d");
         const gradient = ctx.createLinearGradient(0, 0, 200, 0);
         colorRamp.forEach((color, index) => {
@@ -298,7 +401,18 @@ function MapViewer({ drawerOpen, filters, apiUrl }) {
         });
         ctx.fillStyle = gradient;
         ctx.fillRect(0, 0, 200, 20);
-        return canvas;
+
+        ctx.fillStyle = "#000";
+        ctx.font = "12px Arial";
+        ctx.textAlign = "left";
+        ctx.fillText("Low", 0, 35);
+        ctx.textAlign = "right";
+        ctx.fillText("High", 200, 35);
+
+        return {
+            canvas,
+            labels: { min: "Low", max: "High" },
+        };
     };
 
     const renderMapLayers = (geoJson, bbox, tiff, index) => {
@@ -316,7 +430,6 @@ function MapViewer({ drawerOpen, filters, apiUrl }) {
 
         const map = mapInstances.current[index];
 
-        // Clear existing layers
         if (layerRefs.current[index]) {
             layerRefs.current[index].forEach((layer) => {
                 if (map.hasLayer(layer)) {
@@ -393,7 +506,6 @@ function MapViewer({ drawerOpen, filters, apiUrl }) {
                     pane: "overlayPane",
                 });
 
-                // Ensure map is still valid before adding layer
                 if (mapInstances.current[index] && mapRefs.current[index]) {
                     geotiffLayer.addTo(map);
                     layerRefs.current[index].push(geotiffLayer);
@@ -433,12 +545,12 @@ function MapViewer({ drawerOpen, filters, apiUrl }) {
 
     useEffect(() => {
         if (tiffData.length && filters && filters.geojson && filters.bbox && renderReady) {
-            // Ensure refs are in sync with tiffData
             mapRefs.current = mapRefs.current.slice(0, tiffData.length);
             mapInstances.current = mapInstances.current.slice(0, tiffData.length);
             boundsRefs.current = boundsRefs.current.slice(0, tiffData.length);
             layerRefs.current = layerRefs.current.slice(0, tiffData.length);
             fullscreenButtonRefs.current = fullscreenButtonRefs.current.slice(0, tiffData.length);
+            tileLayerRefs.current = tileLayerRefs.current.slice(0, tiffData.length);
 
             tiffData.forEach((tiff, index) => {
                 if (mapRefs.current[index] && mapInstances.current[index]) {
@@ -482,17 +594,55 @@ function MapViewer({ drawerOpen, filters, apiUrl }) {
 
     const gridLayout = getGridLayout(tiffData.length);
 
+    const handleAdaptationTabChange = (tabId) => {
+        setSelectedAdaptationTabId(tabId);
+        setSelectedRiskId("");
+        setSelectedImpactId("");
+        setSelectedAdaptationId("");
+    };
+
+    const getLayerName = () => {
+        if (filters?.layer_type === "risk" && filters.risk_id) {
+            return `${filters.risk_id}`;
+        } else if (filters?.layer_type === "impact" && filters.impact_id) {
+            return `${filters.impact_id}`;
+        } else if (filters?.layer_type === "adaptation" && filters.adaptation_id) {
+            const adaptation = adaptations.find(a => +a.adaptation_id === +filters.adaptation_id);
+            return ` ${adaptation ? adaptation.adaptation : filters.adaptation_id}`;
+        } else if (filters?.layer_type === "adaptation_croptab" && selectedAdaptationTabId) {
+            const tab = adaptationTabs.find(t => +t.tab_id === +selectedAdaptationTabId);
+            return `${tab ? tab.tab_name : selectedAdaptationTabId}`;
+        }
+        return `${breadcrumbData?.commodity || "Unknown"}`;
+    };
+
     return (
-        <Box sx={{ height: "100%", overflow: "hidden", padding: "0 10px" }}>
+        <Box sx={{ height: "100%", overflow: "hidden", padding: "0 10px", backgroundColor: (theme) => theme.palette.background.paper }}>
             <Box sx={{ p: "0 16px", marginTop: "0px" }} className="breadTextFont">
                 {breadcrumbData ? (
                     <Breadcrumbs aria-label="breadcrumb" separator=">" sx={{ fontSize: "14px" }}>
-                        {Object.entries(breadcrumbData).map(([key, value]) =>
-                            value ? (
-                                <Typography key={key} color="text.primary" sx={{ fontSize: "14px !important" }}>
-                                    {value}
-                                </Typography>
-                            ) : null
+                        {filters?.region && (
+                            <Typography key="region" color="text.primary" sx={{ fontSize: "14px !important", fontWeight: 'bold !important' }}>
+                                {filters.region.join(', ')}
+                            </Typography>
+                        )}
+                        {breadcrumbData.level && (
+                            <Typography key="level" color="text.primary" sx={{ fontSize: "14px !important" }}>
+                                {breadcrumbData.level}
+                            </Typography>
+                        )}
+                        <Typography key="layer" color="text.primary" sx={{ fontSize: "14px !important" }}>
+                            {getLayerName()}
+                        </Typography>
+                        {breadcrumbData.scenario && (
+                            <Typography key="scenario" color="text.primary" sx={{ fontSize: "14px !important" }}>
+                                Scenario: {breadcrumbData.scenario}
+                            </Typography>
+                        )}
+                        {breadcrumbData.model && (
+                            <Typography key="model" color="text.primary" sx={{ fontSize: "14px !important" }}>
+                                Model: {breadcrumbData.model}
+                            </Typography>
                         )}
                     </Breadcrumbs>
                 ) : (
@@ -501,6 +651,26 @@ function MapViewer({ drawerOpen, filters, apiUrl }) {
                     </Typography>
                 )}
             </Box>
+            {filters?.commodity_type_id === 1 && (filters?.layer_type === "adaptation" || filters?.layer_type === "adaptation_croptab") && (
+                <Box sx={{ p: "8px 16px", display: "flex", gap: 1, flexWrap: "wrap" }}>
+                    {adaptationTabs.map((tab) => (
+                        <Button
+                            key={tab.tab_id}
+                            variant={+selectedAdaptationTabId === +tab.tab_id ? "contained" : "outlined"}
+                            onClick={() => handleAdaptationTabChange(tab.tab_id)}
+                            disabled={!tab.status || mapLoading}
+                            sx={{
+                                textTransform: "none",
+                                fontSize: "14px",
+                                padding: "4px 12px",
+                                borderRadius: "16px",
+                            }}
+                        >
+                            {tab.tab_name}
+                        </Button>
+                    ))}
+                </Box>
+            )}
             <Grid container direction="column" sx={{ height: "100%" }}>
                 {tiffData.length > 0 ? (
                     tiffData.map((tiff, index) => (
@@ -537,6 +707,7 @@ function MapViewer({ drawerOpen, filters, apiUrl }) {
                                     width: "100%",
                                     border: "1px solid #ededed",
                                     position: "relative",
+                                    overflow: "hidden",
                                 }}
                             >
                                 <Box
@@ -545,6 +716,7 @@ function MapViewer({ drawerOpen, filters, apiUrl }) {
                                         height: "100%",
                                         width: "100%",
                                     }}
+                                    className="leaflet-map-container"
                                 />
                                 {mapLoading && (
                                     <Box
@@ -558,15 +730,16 @@ function MapViewer({ drawerOpen, filters, apiUrl }) {
                                             display: "flex",
                                             alignItems: "center",
                                             justifyContent: "center",
+                                            backgroundColor: "rgba(255, 255, 255, 0.7)",
                                         }}
                                     >
                                         <CircularProgress size={40} color="primary" />
                                     </Box>
                                 )}
                                 <Box sx={{ position: "absolute", top: "80px", left: "12px", zIndex: 1001 }}>
-                                    <Tooltip title={`Download ${tiff.metadata.layer_name}`}>
+                                    <Tooltip title={`Download ${tiff.metadata.layer_name || "Baseline"}`}>
                                         <IconButton
-                                            onClick={() => downloadTiff(tiff.arrayBuffer, `${tiff.metadata.layer_name}.tif`)}
+                                            onClick={() => downloadTiff(tiff.arrayBuffer, `${tiff.metadata.layer_name || "Baseline"}.tif`)}
                                             sx={{
                                                 backgroundColor: "rgba(255, 255, 255, 0.9)",
                                                 boxShadow: 1,
@@ -580,7 +753,7 @@ function MapViewer({ drawerOpen, filters, apiUrl }) {
                                                 transition: "background-color 0.3s",
                                                 color: "inherit",
                                             }}
-                                            aria-label={`Download ${tiff.metadata.layer_name}`}
+                                            aria-label={`Download ${tiff.metadata.layer_name || "Baseline"}`}
                                         >
                                             <svg
                                                 style={{ width: "16px", height: "16px" }}
@@ -619,11 +792,13 @@ function MapViewer({ drawerOpen, filters, apiUrl }) {
                                             sx={{
                                                 fontSize: { xs: "11px", sm: "13px" },
                                                 fontWeight: "bold",
-                                                whiteSpace: "nowrap",
+                                                whiteSpace: "wrap",
                                                 color: (theme) => theme.palette.text.primary,
                                             }}
                                         >
-                                            Area under {breadcrumbData?.commodity || "Unknown"}
+                                            {filters.layer_type === "adaptation" || filters.layer_type === "adaptation_croptab"
+                                                ? `Adaptation: ${breadcrumbData?.commodity || "Unknown"}`
+                                                : `Area under ${getLayerName()}`}
                                         </Typography>
                                         <Box
                                             sx={{
@@ -633,15 +808,17 @@ function MapViewer({ drawerOpen, filters, apiUrl }) {
                                             }}
                                         >
                                             {tiff?.legendBase64 && (
-                                                <img
-                                                    src={tiff.legendBase64}
-                                                    alt={`Legend for ${tiff.metadata.layer_name || "layer"}`}
-                                                    style={{
-                                                        maxWidth: "100%",
-                                                        width: { xs: 200, sm: 250 },
-                                                        height: "auto",
-                                                    }}
-                                                />
+                                                <>
+                                                    <img
+                                                        src={tiff.legendBase64}
+                                                        alt={`Legend for ${tiff.metadata.layer_name || "layer"}`}
+                                                        style={{
+                                                            maxWidth: "100%",
+                                                            width: { xs: 200, sm: 250 },
+                                                            height: "auto",
+                                                        }}
+                                                    />
+                                                </>
                                             )}
                                         </Box>
                                     </Box>
@@ -650,28 +827,10 @@ function MapViewer({ drawerOpen, filters, apiUrl }) {
                         </Grid>
                     ))
                 ) : (
-                    <Grid item xs={12} sx={{ height: "100%", position: "relative" }}>
-                        <Box
-                            ref={(el) => (mapRefs.current[0] = el)}
-                            sx={{ height: "100%", width: "100%", border: "0px solid #999" }}
-                        />
-                        {mapLoading && (
-                            <Box
-                                sx={{
-                                    position: "absolute",
-                                    top: 0,
-                                    left: 0,
-                                    width: "100%",
-                                    height: "100%",
-                                    zIndex: 1000,
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                }}
-                            >
-                                <CircularProgress size={40} color="primary" />
-                            </Box>
-                        )}
+                    <Grid item xs={12} sx={{ height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <Typography variant="h6" color="text.secondary">
+                            {mapLoading ? "Loading map data..." : "No map data available. Please apply filters."}
+                        </Typography>
                     </Grid>
                 )}
             </Grid>
