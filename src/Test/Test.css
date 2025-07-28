@@ -140,6 +140,21 @@ body {
     font-size: 14px;
     font-style: normal;
     font-weight: 600;
+    padding: 10px;
+    line-height: normal;
+    margin-top: 40px;
+    text-transform: capitalize;
+}
+
+.btn.btnAbout1:hover {
+    border-radius: 4px;
+    background: #FECE2E;
+    color: #000;
+    font-family: Poppins;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    padding: 10px;
     line-height: normal;
     margin-top: 40px;
     text-transform: capitalize;
@@ -596,13 +611,14 @@ body {
     top: 60% !important;
 }
 
-.css-sghohy-MuiButtonBase-root-MuiButton-root {
+button.btnExplore {
     border-radius: 4px !important;
     background: #FECE2E !important;
     color: #000 !important;
     font-size: 14px !important;
     font-style: normal;
     font-weight: 600 !important;
+    padding: 12px;
     line-height: normal !important;
     text-transform: capitalize !important;
 }
@@ -697,6 +713,7 @@ body {
     font-weight: 600;
     line-height: normal;
     margin-top: 20px;
+    padding: 10px;
     text-transform: capitalize;
 }
 
@@ -708,6 +725,7 @@ body {
     font-size: 14px;
     font-style: normal;
     font-weight: 600;
+    padding: 10px;
     line-height: normal;
     margin-top: 20px;
     text-transform: capitalize;
@@ -848,17 +866,23 @@ body {
 }
 
 .cardImg p {
-    margin-bottom: 10px;
-    font-weight: 400;
-    font-size: 0.875rem;
-    line-height: 1.43;
-    letter-spacing: 0.01071em;
     color: #fff !important;
     font-size: 12px !important;
     font-style: normal;
-    text-align: left !important;
     font-weight: 400 !important;
+    letter-spacing: .01071em;
     line-height: normal;
+    margin-bottom: 13px;
+    margin-left: 0px;
+    margin-top: 10px;
+    text-align: left !important;
+}
+
+.css-1qw96cp:last-child {
+    padding-bottom: 0px !important;
+}
+.css-1qw96cp {
+    padding: 0px !important;
 }
 
 @media (min-width: 600px) {

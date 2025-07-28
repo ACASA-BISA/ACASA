@@ -124,7 +124,7 @@ function TestHome() {
                                     {slide.title}
                                 </h4>
                                 <Stack direction="row" spacing={2}>
-                                    <Button variant="contained">
+                                    <Button className="btnExplore">
                                         {slide.buttonText}
                                     </Button>
                                     {/* <Button variant="outlined" component={Link} to={slide.secondaryLink}>
