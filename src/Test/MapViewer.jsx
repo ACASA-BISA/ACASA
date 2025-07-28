@@ -239,6 +239,20 @@ function MapViewer({ drawerOpen, filters, apiUrl, adaptations, selectedAdaptatio
                     map.invalidateSize();
                     console.log(`Theme changed to ${theme.palette.mode} for map ${index}`);
                 }, 200);
+
+                // Update GeoJSON layer style
+                if (layerRefs.current[index]) {
+                    layerRefs.current[index].forEach((layer) => {
+                        if (layer instanceof L.GeoJSON) {
+                            layer.setStyle({
+                                color: theme.palette.mode === 'dark' ? 'white' : 'black',
+                                weight: 1,
+                                fill: false,
+                                transition: 'color 0.2s ease',
+                            });
+                        }
+                    });
+                }
             }
         });
     }, [theme.palette.mode]);
@@ -327,7 +341,7 @@ function MapViewer({ drawerOpen, filters, apiUrl, adaptations, selectedAdaptatio
                     throw new Error("No valid data returned from tif_picker");
                 }
 
-                const { data: { raster_files, commodity, scenario, files, mask, level, model } } = tifPickerData; // Use parsed data
+                const { data: { raster_files, commodity, scenario, files, mask, level, model } } = tifPickerData;
                 const fileList = raster_files || files || [];
                 if (!fileList.length) {
                     throw new Error("No raster files available for the selected filters");
@@ -450,9 +464,10 @@ function MapViewer({ drawerOpen, filters, apiUrl, adaptations, selectedAdaptatio
 
         const geojsonLayer = L.geoJSON(geoJson, {
             style: {
-                color: "black",
+                color: theme.palette.mode === 'dark' ? 'white' : 'black',
                 weight: 1,
                 fill: false,
+                transition: 'color 0.2s ease',
             },
             onEachFeature: (feature, layer) => {
                 const tooltipNameIndex = {
