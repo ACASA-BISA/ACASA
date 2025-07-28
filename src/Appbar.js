@@ -30,7 +30,7 @@ import TestHome from "./Test/TestHome";
 
 // const pages = ["Guide", "Explore Data", "Data at a glance", "Data Access", "Use Cases", "Resources", "About Us"];
 // const pageid = ["guide", "exploredata", "adaptationataglance", "access", "usecase", "resources", "about"];
-const pages = ["Home", "Explore", "Data at a glance", "Data Access", "Use Cases", "Resources", "About Us"];
+const pages = ["Home", "Explore Data", "Data at a glance", "Data Access", "Use Cases", "Resources", "About Us"];
 const pageid = ["home", "test", "adaptationataglance", "access", "usecase", "resources", "about"];
 const AppBarHeight = "85px";
 
@@ -247,7 +247,7 @@ function ResponsiveAppBar({ }) {
                 <ToggleButtonGroup value={flag} exclusive onChange={handleClick}>
                   {pages.map((page, index) => (
                     <div key={pageid[index]}>
-                      {page !== "Data at a glance" && page !== "Explore Data" && (
+                      {page !== "Data at a glance" && page !== "Explore Data 1" && (
                         <LightTooltip title={page === "Guide" ? "To be updated soon" : ""}>
                           <span>
                             {" "}
@@ -284,7 +284,7 @@ function ResponsiveAppBar({ }) {
                         </LightTooltip>
                       )}
 
-                      {page === "Explore Data" && (
+                      {page === "Explore Data 1" && (
                         <div ref={ExploreButtonRef}>
                           <MyButton
                             value={pageid[index]}

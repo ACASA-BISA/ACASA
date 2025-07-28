@@ -27,6 +27,7 @@ function Test() {
     const [open, setOpen] = useState(true);
     const [countries, setCountries] = useState([]);
     const [selectedCountryId, setSelectedCountryId] = useState(0);
+    const [showCountrySelect, setShowCountrySelect] = useState(true);
     const [states, setStates] = useState([]);
     const [selectedStateId, setSelectedStateId] = useState(0);
     const [disabledStateFilter, setDisableStateFilter] = useState(true);
@@ -179,6 +180,7 @@ function Test() {
             let countryId = 0;
             let admin_level = "total";
             let admin_level_id = null;
+            let showSelect = true;
 
             if (country) {
                 const countryName = country.toLowerCase().replace(/[-_]/g, " ");
@@ -192,6 +194,7 @@ function Test() {
                     setSelectedCountryId(countryId);
                     getStates(countryId);
                     setDisableStateFilter(false);
+                    showSelect = false;
                 } else {
                     Swal.fire({
                         icon: "warning",
@@ -201,9 +204,12 @@ function Test() {
                     setSelectedCountryId(0);
                     setDisableStateFilter(true);
                     setStates([]);
+                    showSelect = true;
                 }
+            } else {
+                showSelect = true; // No country in URL, show select
             }
-
+            setShowCountrySelect(showSelect);
             fetchGeojson(admin_level, admin_level_id);
         }
     }, [countries, country, fetchGeojson]);
@@ -504,6 +510,7 @@ function Test() {
         setFilters(null);
         setAppliedFilters(null);
         setGeojsonData(null);
+        setShowCountrySelect(true);
         fetchGeojson("total", null);
     };
 
@@ -589,30 +596,47 @@ function Test() {
                                             <div className="card w-100 bg-transparent border-0 text-start">
                                                 <div className="card-body">
                                                     <FormControl>
-                                                        <br />
-                                                        <Select className="customSelect"
-                                                            value={selectedCountryId}
-                                                            onChange={handleCountryChange}
-                                                            displayEmpty
-                                                            inputProps={{ "aria-label": "Country" }}
-                                                            disabled={isLoading}
-                                                        >
-                                                            <MenuItem className="customMenuItem" value={0}>South Asia</MenuItem>
-                                                            {countries.map((a) => (
-                                                                <MenuItem className="customMenuItem" key={a.country_id} value={a.country_id} disabled={!a.status}>
-                                                                    {a.country}
-                                                                </MenuItem>
-                                                            ))}
-                                                        </Select>
-                                                        <br />
-                                                        <Select className="customSelect"
+                                                        {showCountrySelect ? (
+                                                            <>
+                                                                <br />
+                                                                <Select
+                                                                    className="customSelect"
+                                                                    value={selectedCountryId}
+                                                                    onChange={handleCountryChange}
+                                                                    displayEmpty
+                                                                    inputProps={{ "aria-label": "Country" }}
+                                                                    disabled={isLoading}
+                                                                    style={{ margin: "0 0 15px 0" }}
+                                                                >
+                                                                    <MenuItem className="customMenuItem" value={0}>South Asia</MenuItem>
+                                                                    {countries.map((a) => (
+                                                                        <MenuItem
+                                                                            className="customMenuItem"
+                                                                            key={a.country_id}
+                                                                            value={a.country_id}
+                                                                            disabled={!a.status}
+                                                                        >
+                                                                            {a.country}
+                                                                        </MenuItem>
+                                                                    ))}
+                                                                </Select>
+                                                            </>
+                                                        ) : (
+                                                            <Typography variant="subtitle2" sx={{ mb: 1 }}>
+                                                                <FormLabel>
+                                                                    Country: {countries.find(c => c.country_id === selectedCountryId)?.country || "South Asia"}
+                                                                </FormLabel>
+                                                            </Typography>
+                                                        )}
+                                                        <Select
+                                                            className="customSelect"
                                                             value={selectedStateId}
                                                             onChange={handleStateChange}
                                                             displayEmpty
                                                             inputProps={{ "aria-label": "State" }}
                                                             disabled={disabledStateFilter || isLoading}
                                                         >
-                                                            <MenuItem className="customMenuItem"  value={0}>State/Province</MenuItem>
+                                                            <MenuItem className="customMenuItem" value={0}>State/Province</MenuItem>
                                                             {states.map((a) => (
                                                                 <MenuItem className="customMenuItem" key={a.state_id} value={a.state_id}>
                                                                     {a.state}
@@ -746,7 +770,7 @@ function Test() {
                                     </Collapse>
                                 </List>
 
-                                <List classNmae="listMenu"  sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }} component="nav" aria-labelledby="nested-list-subheader4">
+                                <List classNmae="listMenu" sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }} component="nav" aria-labelledby="nested-list-subheader4">
                                     <ListSubheader component="div" id="nested-list-subheader4"></ListSubheader>
                                     <ListItemButton onClick={() => handleSidebarToggle("scenario")} disabled={isLoading}>
                                         <ListItemIcon>
