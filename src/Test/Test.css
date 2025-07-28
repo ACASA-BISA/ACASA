@@ -286,8 +286,8 @@ select.form-select {
 }
 
 .card .card-body nav {
-    border-top: 1px solid rgba(0, 0, 0, 0.10)!important;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.10)!important;
+    border-top: 1px solid rgba(0, 0, 0, 0.10) !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.10) !important;
     /* background: #FFF; */
 }
 
@@ -365,95 +365,18 @@ body {
     padding: 0px;
     margin-left: 0px;
 }
+
 .label {
     font-weight: 600 !important;
     font-size: 12px !important;
 }
 
-
-.css-ahj2mt-MuiTypography-root {
-    margin: 0;
-    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-    font-weight: 600 !important;
-    font-size: 12px !important;
-    line-height: 1.5;
-    letter-spacing: 0.00938em;
-}
-
-.css-z2eky3-MuiTypography-root {
-    margin: 0;
-    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-    font-weight: 400;
-    font-size: 12px !important;
-    line-height: 1.5;
-    letter-spacing: 0.00938em;
-    margin-bottom: 16px;
-    margin-top: -13px !important;
-}
-
-.css-10hburv-MuiTypography-root {
-    margin: 0;
-    letter-spacing: 0.00938em;
-    display: block;
-    font-size: 12px !important;
+.label-list {
+    font-family: Poppins !important;
+    font-size: 10px !important;
     font-style: normal;
-    font-weight: 600 !important;
+    font-weight: 500 !important;
     line-height: normal;
-}
-
-.css-1dmy9pd-MuiDrawer-docked .MuiDrawer-paper {
-    width: 60px;
-    box-sizing: border-box;
-    transition: width 0.3s;
-    overflow-x: hidden;
-    margin-top: 82px !important;
-}
-
-.css-1dmy9pd-MuiDrawer-docked .MuiDrawer-paper {
-    width: 60px;
-    box-sizing: border-box;
-    transition: width 0.3s;
-    overflow-x: hidden;
-    margin-top: 82px;
-}
-
-.css-1s5nqqr-MuiDrawer-docked .MuiDrawer-paper {
-    width: 240px;
-    box-sizing: border-box;
-    -webkit-transition: width 0.3s;
-    transition: width 0.3s;
-    overflow-x: hidden;
-    margin-top: 84px !important;
-}
-
-.css-bywy2q-MuiFormLabel-root {
-    color: rgba(255, 255, 255, 0.7);
-    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-    font-weight: 400;
-    font-size: 1rem;
-    line-height: 1.4375em;
-    letter-spacing: 0.00938em;
-    padding: 0;
-    position: relative;
-    font-size: 12px !important;
-    font-style: normal;
-    font-weight: 600 !important;
-}
-
-.css-691x5w-MuiButtonBase-root-MuiRadio-root.Mui-checked {
-    color: #81c784;
-    padding: 0px !important;
-}
-
-.css-691x5w-MuiButtonBase-root-MuiRadio-root {
-    padding: 0px !important
-}
-
-.css-jzcd7z-MuiFormControlLabel-root .MuiFormControlLabel-label {
-    color: #bebfc1 !important;
-    font-size: 12px;
-    font-weight: 600;
-    text-align: left !important;
 }
 
 .formLabel {
@@ -464,7 +387,7 @@ body {
     letter-spacing: 0.00938em !important;
     padding: 0 !important;
     position: relative !important;
-    text-align: left!important;
+    text-align: left !important;
 }
 
 .css-1criyxn-MuiList-root {
@@ -489,20 +412,20 @@ body {
 
 .customSelect {
     padding-right: 32px;
-    font-size: 12px!important;
+    font-size: 12px !important;
     border-radius: 4px !important;
     /* border: 1px solid #409BF6 !important; */
     width: 220px !important;
-    text-align: left!important;
-    height: 37px!important;
+    text-align: left !important;
+    height: 37px !important;
 }
 
 .customMenuItem {
-     font-size: 12px!important;
+    font-size: 12px !important;
 }
 
 .MuiMenu-list {
-    font-size: 12px!important;
+    font-size: 12px !important;
 }
 
 .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {

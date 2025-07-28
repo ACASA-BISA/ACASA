@@ -537,10 +537,10 @@ function Test() {
                     variant="permanent"
                     open={open}
                     sx={{
-                        width: open ? drawerWidth : 60,
+                        width: open ? drawerWidth : 45,
                         flexShrink: 0,
                         "& .MuiDrawer-paper": {
-                            width: open ? drawerWidth : 60,
+                            width: open ? drawerWidth : 45,
                             transition: "width 0.3s",
                             overflowX: "hidden",
                             overflowY: "hidden",
@@ -682,12 +682,9 @@ function Test() {
                                                         }
                                                         label={
                                                             <Box display="flex" alignItems="center" gap={1}>
-                                                                {/* <img
-                                                                    src={`/images/filter-${type.commodity_type.toLowerCase()}.png`}
-                                                                    alt={type.commodity_type}
-                                                                    height={20}
-                                                                /> */}
-                                                                <FormLabel className="label">{type.commodity_type}</FormLabel>
+                                                                {/* Optional image if needed */}
+                                                                {/* <img src={`/images/filter-${type.commodity_type.toLowerCase()}.png`} alt={type.commodity_type} height={20} /> */}
+                                                                <FormLabel className="label-list">{type.commodity_type}</FormLabel>
                                                             </Box>
                                                         }
                                                     />
@@ -729,10 +726,21 @@ function Test() {
                                                                 color="primary"
                                                             />
                                                         }
-                                                        label={scope.scope}
+                                                        label={
+                                                            <span style={{
+                                                                fontFamily: 'Poppins',
+                                                                fontSize: '10px',
+                                                                fontStyle: 'normal',
+                                                                fontWeight: 500,
+                                                                lineHeight: 'normal'
+                                                            }}>
+                                                                {scope.scope}
+                                                            </span>
+                                                        }
                                                     />
                                                 ))}
                                             </FormGroup>
+
                                             <Typography variant="subtitle2" sx={{ mt: 3, mb: 1, textAlign: 'left' }}>
                                                 <FormLabel className="formLabel">Select visualization scale</FormLabel>
                                             </Typography>
@@ -748,7 +756,18 @@ function Test() {
                                                                 color="primary"
                                                             />
                                                         }
-                                                        label={scale.scale}
+
+                                                        label={
+                                                            <span style={{
+                                                                fontFamily: 'Poppins',
+                                                                fontSize: '10px',
+                                                                fontStyle: 'normal',
+                                                                fontWeight: 500,
+                                                                lineHeight: 'normal'
+                                                            }}>
+                                                                {scale.scale}
+                                                            </span>
+                                                        }
                                                     />
                                                 ))}
                                             </FormGroup>
@@ -784,7 +803,18 @@ function Test() {
                                                                 color="primary"
                                                             />
                                                         }
-                                                        label={commodity.commodity}
+
+                                                        label={
+                                                            <span style={{
+                                                                fontFamily: 'Poppins',
+                                                                fontSize: '10px',
+                                                                fontStyle: 'normal',
+                                                                fontWeight: 500,
+                                                                lineHeight: 'normal'
+                                                            }}>
+                                                                {commodity.commodity}
+                                                            </span>
+                                                        }
                                                     />
                                                 ))}
                                             </FormGroup>
@@ -823,7 +853,17 @@ function Test() {
                                                                 color="primary"
                                                             />
                                                         }
-                                                        label={source.source}
+                                                        label={
+                                                            <span style={{
+                                                                fontFamily: 'Poppins',
+                                                                fontSize: '10px',
+                                                                fontStyle: 'normal',
+                                                                fontWeight: 500,
+                                                                lineHeight: 'normal'
+                                                            }}>
+                                                                {source.source}
+                                                            </span>
+                                                        }
                                                     />
                                                 ))}
                                             </FormGroup>
@@ -842,7 +882,17 @@ function Test() {
                                                                 color="primary"
                                                             />
                                                         }
-                                                        label={scenario.scenario}
+                                                        label={
+                                                            <span style={{
+                                                                fontFamily: 'Poppins',
+                                                                fontSize: '10px',
+                                                                fontStyle: 'normal',
+                                                                fontWeight: 500,
+                                                                lineHeight: 'normal'
+                                                            }}>
+                                                                {scenario.scenario}
+                                                            </span>
+                                                        }
                                                     />
                                                 ))}
                                             </FormGroup>
@@ -878,7 +928,17 @@ function Test() {
                                                                 color="primary"
                                                             />
                                                         }
-                                                        label={risk.risk}
+                                                        label={
+                                                            <span style={{
+                                                                fontFamily: 'Poppins',
+                                                                fontSize: '10px',
+                                                                fontStyle: 'normal',
+                                                                fontWeight: 500,
+                                                                lineHeight: 'normal'
+                                                            }}>
+                                                                {risk.risk}
+                                                            </span>
+                                                        }
                                                     />
                                                 ))}
                                             </FormGroup>
@@ -914,7 +974,17 @@ function Test() {
                                                                 color="primary"
                                                             />
                                                         }
-                                                        label={impact.impact}
+                                                        label={
+                                                            <span style={{
+                                                                fontFamily: 'Poppins',
+                                                                fontSize: '10px',
+                                                                fontStyle: 'normal',
+                                                                fontWeight: 500,
+                                                                lineHeight: 'normal'
+                                                            }}>
+                                                                {impact.impact}
+                                                            </span>
+                                                        }
                                                     />
                                                 ))}
                                             </FormGroup>
@@ -927,11 +997,11 @@ function Test() {
                                         <ListSubheader component="div" id="nested-list-subheader8"></ListSubheader>
                                         <ListItemButton onClick={() => handleSidebarToggle("adaptation")} disabled={isLoading} sx={getListItemStyle("adaptation")}>
                                             <ListItemIcon sx={{
-                                            minWidth: 35,
-                                            color: 'rgba(0, 0, 0, 0.54)',
-                                            flexShrink: 0,
-                                            display: 'inline-flex',
-                                        }}>
+                                                minWidth: 35,
+                                                color: 'rgba(0, 0, 0, 0.54)',
+                                                flexShrink: 0,
+                                                display: 'inline-flex',
+                                            }}>
                                                 <img src="/images/option.svg" alt="Adaptation" />
                                             </ListItemIcon>
                                             <ListItemText primary={<FormLabel className="formLabel">Options</FormLabel>} />
@@ -961,12 +1031,21 @@ function Test() {
                                                                     }
                                                                     label={
                                                                         <Tooltip title={adaptation.description}>
-                                                                            <span>{adaptation.adaptation}</span>
+                                                                            <span style={{
+                                                                                fontFamily: 'Poppins',
+                                                                                fontSize: '10px',
+                                                                                fontStyle: 'normal',
+                                                                                fontWeight: 500,
+                                                                                lineHeight: 'normal'
+                                                                            }}>
+                                                                                {adaptation.adaptation}
+                                                                            </span>
                                                                         </Tooltip>
                                                                     }
                                                                 />
                                                             ))}
                                                         </FormGroup>
+
                                                     </Box>
                                                 ))}
                                             </List>
