@@ -533,7 +533,7 @@ function Test() {
                         width: open ? drawerWidth : 60,
                         flexShrink: 0,
                         "& .MuiDrawer-paper": {
-                            width: open ? drawerWidth : 50,
+                            width: open ? drawerWidth : 60,
                             transition: "width 0.3s",
                             overflowX: "hidden",
                             overflowY: "hidden",
@@ -570,7 +570,7 @@ function Test() {
                         )}
                         <div className="card" style={{ height: "72.4vh", overflowY: "scroll", overflowX: "hidden", border: "0px", scrollbarWidth: "none" }}>
                             <div className="card-body p-0">
-                                <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }} component="nav" aria-labelledby="nested-list-subheader">
+                                <List classNmae="listMenu" sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }} component="nav" aria-labelledby="nested-list-subheader">
                                     <ListSubheader component="div" id="nested-list-subheader"></ListSubheader>
                                     <ListItemButton onClick={() => handleSidebarToggle("region")} disabled={isLoading}>
                                         <ListItemIcon>
@@ -581,7 +581,7 @@ function Test() {
                                                 />
                                             </svg>
                                         </ListItemIcon>
-                                        <ListItemText primary={<FormLabel>Region</FormLabel>} />
+                                        <ListItemText primary={<FormLabel className="formLabel">Region</FormLabel>} />
                                         {isSidebarOpen.region ? <ExpandLess /> : <ExpandMore />}
                                     </ListItemButton>
                                     <Collapse in={isSidebarOpen.region} timeout="auto" unmountOnExit>
@@ -590,31 +590,31 @@ function Test() {
                                                 <div className="card-body">
                                                     <FormControl>
                                                         <br />
-                                                        <Select
+                                                        <Select className="customSelect"
                                                             value={selectedCountryId}
                                                             onChange={handleCountryChange}
                                                             displayEmpty
                                                             inputProps={{ "aria-label": "Country" }}
                                                             disabled={isLoading}
                                                         >
-                                                            <MenuItem value={0}>South Asia</MenuItem>
+                                                            <MenuItem className="customMenuItem" value={0}>South Asia</MenuItem>
                                                             {countries.map((a) => (
-                                                                <MenuItem key={a.country_id} value={a.country_id} disabled={!a.status}>
+                                                                <MenuItem className="customMenuItem" key={a.country_id} value={a.country_id} disabled={!a.status}>
                                                                     {a.country}
                                                                 </MenuItem>
                                                             ))}
                                                         </Select>
                                                         <br />
-                                                        <Select
+                                                        <Select className="customSelect"
                                                             value={selectedStateId}
                                                             onChange={handleStateChange}
                                                             displayEmpty
                                                             inputProps={{ "aria-label": "State" }}
                                                             disabled={disabledStateFilter || isLoading}
                                                         >
-                                                            <MenuItem value={0}>State/Province</MenuItem>
+                                                            <MenuItem className="customMenuItem"  value={0}>State/Province</MenuItem>
                                                             {states.map((a) => (
-                                                                <MenuItem key={a.state_id} value={a.state_id}>
+                                                                <MenuItem className="customMenuItem" key={a.state_id} value={a.state_id}>
                                                                     {a.state}
                                                                 </MenuItem>
                                                             ))}
@@ -626,13 +626,13 @@ function Test() {
                                     </Collapse>
                                 </List>
 
-                                <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }} component="nav" aria-labelledby="nested-list-subheader1">
+                                <List classNmae="listMenu" sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }} component="nav" aria-labelledby="nested-list-subheader1">
                                     <ListSubheader component="div" id="nested-list-subheader1"></ListSubheader>
                                     <ListItemButton onClick={() => handleSidebarToggle("dataType")} disabled={isLoading}>
                                         <ListItemIcon>
                                             <img src="/images/datatype.png" alt="Data Type" />
                                         </ListItemIcon>
-                                        <ListItemText primary={<FormLabel>Data Type</FormLabel>} />
+                                        <ListItemText primary={<FormLabel className="formLabel">Data Type</FormLabel>} />
                                         {isSidebarOpen.dataType ? <ExpandLess /> : <ExpandMore />}
                                     </ListItemButton>
                                     <Collapse in={isSidebarOpen.dataType} timeout="auto" unmountOnExit>
@@ -662,13 +662,13 @@ function Test() {
                                     </Collapse>
                                 </List>
 
-                                <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }} component="nav" aria-labelledby="nested-list-subheader2">
+                                <List classNmae="listMenu" sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }} component="nav" aria-labelledby="nested-list-subheader2">
                                     <ListSubheader component="div" id="nested-list-subheader2"></ListSubheader>
                                     <ListItemButton onClick={() => handleSidebarToggle("analysis")} disabled={isLoading}>
                                         <ListItemIcon>
                                             <img src="/images/analysis.png" alt="Analysis & Scale" />
                                         </ListItemIcon>
-                                        <ListItemText primary={<FormLabel>Analysis & Scale</FormLabel>} />
+                                        <ListItemText primary={<FormLabel className="formLabel">Analysis & Scale</FormLabel>} />
                                         {isSidebarOpen.analysis ? <ExpandLess /> : <ExpandMore />}
                                     </ListItemButton>
                                     <Collapse in={isSidebarOpen.analysis} timeout="auto" unmountOnExit>
@@ -715,13 +715,13 @@ function Test() {
                                     </Collapse>
                                 </List>
 
-                                <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }} component="nav" aria-labelledby="nested-list-subheader3">
+                                <List classNmae="listMenu" sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }} component="nav" aria-labelledby="nested-list-subheader3">
                                     <ListSubheader component="div" id="nested-list-subheader3"></ListSubheader>
                                     <ListItemButton onClick={() => handleSidebarToggle("commodity")} disabled={isLoading}>
                                         <ListItemIcon>
                                             <img src="/images/commodity.png" alt="Commodity" />
                                         </ListItemIcon>
-                                        <ListItemText primary={<FormLabel>Commodity</FormLabel>} />
+                                        <ListItemText primary={<FormLabel className="formLabel">Commodity</FormLabel>} />
                                         {isSidebarOpen.commodity ? <ExpandLess /> : <ExpandMore />}
                                     </ListItemButton>
                                     <Collapse in={isSidebarOpen.commodity} timeout="auto" unmountOnExit>
@@ -746,13 +746,13 @@ function Test() {
                                     </Collapse>
                                 </List>
 
-                                <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }} component="nav" aria-labelledby="nested-list-subheader4">
+                                <List classNmae="listMenu"  sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }} component="nav" aria-labelledby="nested-list-subheader4">
                                     <ListSubheader component="div" id="nested-list-subheader4"></ListSubheader>
                                     <ListItemButton onClick={() => handleSidebarToggle("scenario")} disabled={isLoading}>
                                         <ListItemIcon>
                                             <img src="/images/scenario.png" alt="Scenario" />
                                         </ListItemIcon>
-                                        <ListItemText primary={<FormLabel>Scenario & Data Source</FormLabel>} />
+                                        <ListItemText primary={<FormLabel className="formLabel">Scenario & Data Source</FormLabel>} />
                                         {isSidebarOpen.scenario ? <ExpandLess /> : <ExpandMore />}
                                     </ListItemButton>
                                     <Collapse in={isSidebarOpen.scenario} timeout="auto" unmountOnExit>
@@ -799,13 +799,13 @@ function Test() {
                                     </Collapse>
                                 </List>
 
-                                <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }} component="nav" aria-labelledby="nested-list-subheader5">
+                                <List classNmae="listMenu" sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }} component="nav" aria-labelledby="nested-list-subheader5">
                                     <ListSubheader component="div" id="nested-list-subheader5"></ListSubheader>
                                     <ListItemButton onClick={() => handleSidebarToggle("risk")} disabled={isLoading} sx={getListItemStyle("risk")}>
                                         <ListItemIcon>
                                             <img src="/images/risk.png" alt="Risk" />
                                         </ListItemIcon>
-                                        <ListItemText primary={<FormLabel>Risk</FormLabel>} />
+                                        <ListItemText primary={<FormLabel className="formLabel">Risk</FormLabel>} />
                                         {isSidebarOpen.risk ? <ExpandLess /> : <ExpandMore />}
                                     </ListItemButton>
                                     <Collapse in={isSidebarOpen.risk} timeout="auto" unmountOnExit>
@@ -830,13 +830,13 @@ function Test() {
                                     </Collapse>
                                 </List>
 
-                                <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }} component="nav" aria-labelledby="nested-list-subheader6">
+                                <List classNmae="listMenu" sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }} component="nav" aria-labelledby="nested-list-subheader6">
                                     <ListSubheader component="div" id="nested-list-subheader6"></ListSubheader>
                                     <ListItemButton onClick={() => handleSidebarToggle("impact")} disabled={isLoading} sx={getListItemStyle("impact")}>
                                         <ListItemIcon>
                                             <img src="/images/impact.png" alt="Impact" />
                                         </ListItemIcon>
-                                        <ListItemText primary={<FormLabel>Impact</FormLabel>} />
+                                        <ListItemText primary={<FormLabel className="formLabel">Impact</FormLabel>} />
                                         {isSidebarOpen.impact ? <ExpandLess /> : <ExpandMore />}
                                     </ListItemButton>
                                     <Collapse in={isSidebarOpen.impact} timeout="auto" unmountOnExit>
@@ -862,13 +862,13 @@ function Test() {
                                 </List>
 
                                 {selectedCommodityTypeId === 1 && (
-                                    <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }} component="nav" aria-labelledby="nested-list-subheader8">
+                                    <List classNmae="listMenu" sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }} component="nav" aria-labelledby="nested-list-subheader8">
                                         <ListSubheader component="div" id="nested-list-subheader8"></ListSubheader>
                                         <ListItemButton onClick={() => handleSidebarToggle("adaptation")} disabled={isLoading} sx={getListItemStyle("adaptation")}>
                                             <ListItemIcon>
                                                 <img src="/images/adaptation.png" alt="Adaptation" />
                                             </ListItemIcon>
-                                            <ListItemText primary={<FormLabel>Adaptation</FormLabel>} />
+                                            <ListItemText primary={<FormLabel className="formLabel">Adaptation</FormLabel>} />
                                             {isSidebarOpen.adaptation ? <ExpandLess /> : <ExpandMore />}
                                         </ListItemButton>
                                         <Collapse in={isSidebarOpen.adaptation} timeout="auto" unmountOnExit>

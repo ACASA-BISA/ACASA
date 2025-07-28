@@ -285,9 +285,15 @@ select.form-select {
     background-color: transparent;
 }
 
-.css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root {
-    line-height: 5px !important;
+.card .card-body nav {
+    border-top: 1px solid rgba(0, 0, 0, 0.10)!important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.10);
+    /* background: #FFF; */
 }
+
+/* .css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root {
+    line-height: 5px !important;
+} */
 
 label {
     /* color: #000; */
@@ -317,7 +323,7 @@ label {
     line-height: normal;
 }
 
-.css-qklaqr-MuiListItemIcon-root {
+/* .css-qklaqr-MuiListItemIcon-root {
     min-width: 35px !important;
     color: #fff;
     -webkit-flex-shrink: 0;
@@ -327,7 +333,7 @@ label {
     display: -webkit-inline-flex;
     display: -ms-inline-flexbox;
     display: none;
-}
+} */
 
 .css-qklaqr-MuiListItemIcon-root
 /* body {
@@ -458,15 +464,14 @@ body {
     text-align: left !important;
 }
 
-.css-u4tvz2-MuiFormLabel-root {
-    color: rgba(0, 0, 0, 0.6);
-    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+.formLabel {
+    /* color: rgba(0, 0, 0, 0.6) !important; */
     font-weight: 600 !important;
     font-size: 12px !important;
-    line-height: 1.4375em;
-    letter-spacing: 0.00938em;
-    padding: 0;
-    position: relative;
+    line-height: 1.4375em !important;
+    letter-spacing: 0.00938em !important;
+    padding: 0 !important;
+    position: relative !important;
 }
 
 .css-1criyxn-MuiList-root {
@@ -511,26 +516,33 @@ body {
     color: #aaaaaa !important;
 }
 
-.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+.customSelect {
     padding-right: 32px;
-    font-size: 12px;
+    font-size: 12px!important;
     border-radius: 4px !important;
-    border: 1px solid #409BF6 !important;
-    width: 184px !important;
+    /* border: 1px solid #409BF6 !important; */
+    width: 220px !important;
     text-align: left;
+}
+
+.customMenuItem {
+     font-size: 12px!important;
+}
+
+.MuiMenu-list {
+    font-size: 12px!important;
 }
 
 .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
     padding: 10px 14px !important;
 }
 
-.css-lm2nsg-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-lm2nsg-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-lm2nsg-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+.customSelect {
     padding-right: 32px;
     font-size: 12px !important;
     border-radius: 4px !important;
     border: 1px solid #409BF6 !important;
-    width: 184px !important;
-    color: #000 !important;
+    width: 220px !important;
     text-align: left;
 }
 
@@ -881,6 +893,7 @@ button.btnExplore {
 .css-1qw96cp:last-child {
     padding-bottom: 0px !important;
 }
+
 .css-1qw96cp {
     padding: 0px !important;
 }

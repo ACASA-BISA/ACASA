@@ -632,7 +632,7 @@ function MapViewer({ drawerOpen, filters, apiUrl, adaptations, selectedAdaptatio
     };
 
     return (
-        <Box sx={{ height: "100%", overflow: "hidden", padding: "0 10px", backgroundColor: (theme) => theme.palette.background.paper }}>
+        <Box sx={{ height: "100%", overflow: "hidden", padding: "0 0px", backgroundColor: (theme) => theme.palette.background.paper }}>
             <Box sx={{ p: "0 16px", marginTop: "0px" }} className="breadTextFont">
                 {breadcrumbData ? (
                     <Breadcrumbs aria-label="breadcrumb" separator=">" sx={{ fontSize: "14px" }}>
