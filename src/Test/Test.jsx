@@ -580,7 +580,12 @@ function Test() {
                                 <List classNmae="listMenu" sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }} component="nav" aria-labelledby="nested-list-subheader">
                                     <ListSubheader component="div" id="nested-list-subheader"></ListSubheader>
                                     <ListItemButton onClick={() => handleSidebarToggle("region")} disabled={isLoading}>
-                                        <ListItemIcon>
+                                        <ListItemIcon sx={{
+                                            minWidth: 35,
+                                            color: 'rgba(0, 0, 0, 0.54)',
+                                            flexShrink: 0,
+                                            display: 'inline-flex',
+                                        }}>
                                             <img src="/images/location.svg" alt="" />
                                         </ListItemIcon>
                                         <ListItemText primary={<FormLabel className="formLabel">Region</FormLabel>} />
@@ -648,7 +653,12 @@ function Test() {
                                 <List classNmae="listMenu" sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }} component="nav" aria-labelledby="nested-list-subheader1">
                                     <ListSubheader component="div" id="nested-list-subheader1"></ListSubheader>
                                     <ListItemButton onClick={() => handleSidebarToggle("dataType")} disabled={isLoading}>
-                                        <ListItemIcon>
+                                        <ListItemIcon sx={{
+                                            minWidth: 35,
+                                            color: 'rgba(0, 0, 0, 0.54)',
+                                            flexShrink: 0,
+                                            display: 'inline-flex',
+                                        }}>
                                             <img src="/images/datatype.svg" alt="Data Type" />
                                         </ListItemIcon>
                                         <ListItemText primary={<FormLabel className="formLabel">Data Type</FormLabel>} />
@@ -691,7 +701,12 @@ function Test() {
                                 <List classNmae="listMenu" sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }} component="nav" aria-labelledby="nested-list-subheader2">
                                     <ListSubheader component="div" id="nested-list-subheader2"></ListSubheader>
                                     <ListItemButton onClick={() => handleSidebarToggle("analysis")} disabled={isLoading}>
-                                        <ListItemIcon>
+                                        <ListItemIcon sx={{
+                                            minWidth: 35,
+                                            color: 'rgba(0, 0, 0, 0.54)',
+                                            flexShrink: 0,
+                                            display: 'inline-flex',
+                                        }}>
                                             <img src="/images/analysis.svg" alt="Analysis & Scale" />
                                         </ListItemIcon>
                                         <ListItemText primary={<FormLabel className="formLabel">Analysis & Scale</FormLabel>} />
@@ -744,7 +759,12 @@ function Test() {
                                 <List classNmae="listMenu" sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }} component="nav" aria-labelledby="nested-list-subheader3">
                                     <ListSubheader component="div" id="nested-list-subheader3"></ListSubheader>
                                     <ListItemButton onClick={() => handleSidebarToggle("commodity")} disabled={isLoading}>
-                                        <ListItemIcon>
+                                        <ListItemIcon sx={{
+                                            minWidth: 35,
+                                            color: 'rgba(0, 0, 0, 0.54)',
+                                            flexShrink: 0,
+                                            display: 'inline-flex',
+                                        }}>
                                             <img src="/images/commodity.svg" alt="Commodity" />
                                         </ListItemIcon>
                                         <ListItemText primary={<FormLabel className="formLabel">Commodity</FormLabel>} />
@@ -775,7 +795,12 @@ function Test() {
                                 <List classNmae="listMenu" sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }} component="nav" aria-labelledby="nested-list-subheader4">
                                     <ListSubheader component="div" id="nested-list-subheader4"></ListSubheader>
                                     <ListItemButton onClick={() => handleSidebarToggle("scenario")} disabled={isLoading}>
-                                        <ListItemIcon>
+                                        <ListItemIcon sx={{
+                                            minWidth: 35,
+                                            color: 'rgba(0, 0, 0, 0.54)',
+                                            flexShrink: 0,
+                                            display: 'inline-flex',
+                                        }}>
                                             <img src="/images/scenario.svg" alt="Scenario" />
                                         </ListItemIcon>
                                         <ListItemText primary={<FormLabel className="formLabel">Scenario </FormLabel>} />
@@ -783,7 +808,7 @@ function Test() {
                                     </ListItemButton>
                                     <Collapse in={isSidebarOpen.scenario} timeout="auto" unmountOnExit>
                                         <List component="div" disablePadding sx={{ px: 2 }}>
-                                            <Typography variant="subtitle2" sx={{ mt: 2, mb: 1, textAlign:'left' }}>
+                                            <Typography variant="subtitle2" sx={{ mt: 2, mb: 1, textAlign: 'left' }}>
                                                 <FormLabel className="formLabel">Select data source</FormLabel>
                                             </Typography>
                                             <FormGroup>
@@ -828,7 +853,12 @@ function Test() {
                                 <List classNmae="listMenu" sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }} component="nav" aria-labelledby="nested-list-subheader5">
                                     <ListSubheader component="div" id="nested-list-subheader5"></ListSubheader>
                                     <ListItemButton onClick={() => handleSidebarToggle("risk")} disabled={isLoading} sx={getListItemStyle("risk")}>
-                                        <ListItemIcon>
+                                        <ListItemIcon sx={{
+                                            minWidth: 35,
+                                            color: 'rgba(0, 0, 0, 0.54)',
+                                            flexShrink: 0,
+                                            display: 'inline-flex',
+                                        }}>
                                             <img src="/images/risk.svg" alt="Risk" />
                                         </ListItemIcon>
                                         <ListItemText primary={<FormLabel className="formLabel">Risk</FormLabel>} />
@@ -859,7 +889,12 @@ function Test() {
                                 <List classNmae="listMenu" sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }} component="nav" aria-labelledby="nested-list-subheader6">
                                     <ListSubheader component="div" id="nested-list-subheader6"></ListSubheader>
                                     <ListItemButton onClick={() => handleSidebarToggle("impact")} disabled={isLoading} sx={getListItemStyle("impact")}>
-                                        <ListItemIcon>
+                                        <ListItemIcon sx={{
+                                            minWidth: 35,
+                                            color: 'rgba(0, 0, 0, 0.54)',
+                                            flexShrink: 0,
+                                            display: 'inline-flex',
+                                        }}>
                                             <img src="/images/impact.svg" alt="Impact" />
                                         </ListItemIcon>
                                         <ListItemText primary={<FormLabel className="formLabel">Impact</FormLabel>} />
@@ -891,7 +926,12 @@ function Test() {
                                     <List classNmae="listMenu" sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }} component="nav" aria-labelledby="nested-list-subheader8">
                                         <ListSubheader component="div" id="nested-list-subheader8"></ListSubheader>
                                         <ListItemButton onClick={() => handleSidebarToggle("adaptation")} disabled={isLoading} sx={getListItemStyle("adaptation")}>
-                                            <ListItemIcon>
+                                            <ListItemIcon sx={{
+                                            minWidth: 35,
+                                            color: 'rgba(0, 0, 0, 0.54)',
+                                            flexShrink: 0,
+                                            display: 'inline-flex',
+                                        }}>
                                                 <img src="/images/option.svg" alt="Adaptation" />
                                             </ListItemIcon>
                                             <ListItemText primary={<FormLabel className="formLabel">Options</FormLabel>} />
