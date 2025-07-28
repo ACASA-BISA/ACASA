@@ -148,7 +148,7 @@ function ResponsiveAppBar() {
     },
     "&.Mui-selected, &.Mui-selected:hover": {
       boxShadow: "none",
-      backgroundColor: theme.palette.mode === "dark" ? "#B88F1A" : "#fece2f",
+      backgroundColor: theme.palette.mode === "dark" ? "#4C9E46" : "#4C9E46",
     },
     "&.Mui-disabled": {
       border: "0px solid",

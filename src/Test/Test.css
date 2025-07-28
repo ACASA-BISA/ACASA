@@ -8,6 +8,11 @@ body {
     font-family: "Poppins", sans-serif;
 }
 
+.countryLogos img {
+    height: 57px;
+    background-color: transparent;
+}
+
 .css-cveggr-MuiListItemIcon-root {
     min-width: 56px;
     color: rgba(0, 0, 0, 0.54);
@@ -227,7 +232,7 @@ span.searchIcon {
 }
 
 .saveFilters {
-    color: #3065FA !important;
+    /* color: #3065FA !important; */
     font-size: 10px !important;
     text-transform: capitalize !important;
     font-style: normal;

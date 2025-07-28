@@ -62,6 +62,8 @@ function TabPanel({ children, value, index }) {
 function TestHome() {
     const { country } = useParams(); // Extract country from URL params
 
+    const { countries } = useParams();
+
     useEffect(() => {
         document.documentElement.style.overflowX = "hidden";
         document.body.style.overflowX = "hidden";
@@ -86,6 +88,8 @@ function TestHome() {
 
     // Define partner logos, filtering for Nepal if country is "nepal"
     const partnerLogos = country === "nepal" ? [2] : [2, 4, 5, 6, 8, 9]; // Only NARC (partner-2.png) for Nepal
+
+    const contryLogos = countries === "" ? [1] : [1, 2, 3, 4, 5, 6, 7, 8];
 
     return (
         <>
@@ -554,6 +558,47 @@ function TestHome() {
                     </Container>
                 </Box>
             </Container>
+
+            <Container maxWidth="xl" sx={{ bgcolor: "#F2F4F3", py: 4 }}>
+                <Box className="aboutSectionApproach" sx={{ overflowX: "auto" }}>
+                    <Box
+                        sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            gap: 3,
+                            flexWrap: { xs: "nowrap", sm: "wrap" }, // No wrap on mobile
+                            px: 0,
+                        }}
+                    >
+                        {contryLogos.map((num) => (
+                            <Card sx={{ bgcolor: "transparent", border:'none', boxShadow:'none'}}
+                                key={num}
+                                className="countryLogos"
+                                // sx={{
+                                //     flex: "0 0 auto", // Prevent shrinking in scroll
+                                //     width: 120,
+                                //     height: 120,
+                                //     display: "flex",
+                                //     alignItems: "center",
+                                //     justifyContent: "center",
+                                //     borderRadius: 2,
+                                //     boxShadow: "none",
+                                //     bgcolor: "#fff",
+                                // }}
+                            >
+                                <img
+                                    src={`/images/country-${num}.png`}
+                                    alt={`country-${num}`}
+                                    style={{ maxWidth: "80%", maxHeight: "80%" }}
+                                />
+                            </Card>
+                        ))}
+                    </Box>
+                </Box>
+            </Container>
+
+
+
             <StickyFooter />
         </>
     );

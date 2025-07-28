@@ -46,7 +46,7 @@ export default function StickyFooter() {
           position: "sticky",
           py: 3,
           px: 2,
-          mt: 3,
+          mt: 0,
           backgroundColor: "#111111",
         }}
       >
