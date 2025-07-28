@@ -120,9 +120,9 @@ function TestHome() {
                                     zIndex: 2,
                                 }}
                             >
-                                <Typography variant="h4" sx={{ mb: 2 }}>
+                                <h4  className="sliderTitle" sx={{ mb: 2 }}>
                                     {slide.title}
-                                </Typography>
+                                </h4>
                                 <Stack direction="row" spacing={2}>
                                     <Button variant="contained">
                                         {slide.buttonText}
@@ -151,7 +151,7 @@ function TestHome() {
                     }}
                 >
                     {rightCards.map((card, idx) => (
-                        <Card key={idx} sx={{ backgroundColor: "rgba(255, 255, 255, 0.10)", borderRadius: '20px', backdropFilter: 'blur(25px)' }}>
+                        <Card key={idx} className="cardImg" sx={{ backgroundColor: "rgba(255, 255, 255, 0.10)", borderRadius: '20px', backdropFilter: 'blur(25px)' }}>
                             {card.image && (
                                 <CardMedia
                                     component="img"
@@ -258,7 +258,7 @@ function TestHome() {
                 <Box className="aboutSectionApproach" sx={{ mt: 0, mb: 4, }}>
                     <h1>Use Cases</h1>
 
-                    <Tabs value={value} onChange={handleChange} centered>
+                    <Tabs className="btnTabs" value={value} onChange={handleChange} centered>
                         <Tab className="tabBtn" label="Government" />
                         <Tab className="tabBtn" label="Research" />
                         <Tab className="tabBtn" label="Civil Society" />
@@ -562,9 +562,8 @@ function TestHome() {
                 <Box className="aboutSectionApproach" sx={{ p: 5 }}>
                     <h1>Our Partners</h1>
                     <p className="paraOne">ACASA is a collaborative initiative powered by global and regional leaders in agricultural innovation and climate science. Our partners provide critical expertise, data, tools, and regional insights to drive climate-resilient agriculture across South Asia.</p>
-                    <Container maxWidth="xl">
+                    {/* <Container maxWidth="xl">
                         <Grid container spacing={3} justifyContent="center">
-                            {/* Card 1 */}
                             <Grid item xs={12} sm={2} md={2}>
                                 <Card className="resourceCardPartner">
                                     <CardContent>
@@ -572,8 +571,6 @@ function TestHome() {
                                     </CardContent>
                                 </Card>
                             </Grid>
-
-                            {/* Card 2 */}
                             <Grid item xs={12} sm={2} md={2}>
                                 <Card className="resourceCardPartner">
                                     <CardContent>
@@ -581,8 +578,6 @@ function TestHome() {
                                     </CardContent>
                                 </Card>
                             </Grid>
-
-                            {/* Card 3 */}
                             <Grid item xs={12} sm={2} md={2}>
                                 <Card className="resourceCardPartner">
                                     <CardContent>
@@ -632,6 +627,29 @@ function TestHome() {
                                     </CardContent>
                                 </Card>
                             </Grid>
+                        </Grid>
+                    </Container> */}
+
+                    <Container maxWidth="xl">
+                        <Grid
+                            container
+                            spacing={3}
+                            justifyContent="center"
+                            alignItems="center"
+                        >
+                            {[2, 4, 5, 6, 8, 9].map((num) => (
+                                <Grid item xs={6} sm={4} md={2} key={num} display="flex" justifyContent="center">
+                                    <Card className="resourceCardPartner">
+                                        <CardContent sx={{ p: 0, height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                            <img
+                                                src={`/images/partner-${num}.png`}
+                                                alt={`partner-${num}`}
+                                                className="partner-img"
+                                            />
+                                        </CardContent>
+                                    </Card>
+                                </Grid>
+                            ))}
                         </Grid>
                     </Container>
                 </Box>

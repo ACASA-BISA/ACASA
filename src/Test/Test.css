@@ -27,7 +27,7 @@ body {
     margin-top: 12px;
 }
 
-.resourceCardPartner {
+/* .resourceCardPartner {
     border-radius: 50% !important;
     background: #F2F4F3 !important;
     padding: 16px !important;
@@ -50,6 +50,54 @@ body {
 
 .resourceCardPartner img {
     padding-top: 24px;
+} */
+
+
+.resourceCardPartner {
+    border-radius: 50% !important;
+    background: #F2F4F3 !important;
+    box-shadow: none !important;
+    width: 120px;
+    height: 120px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px !important;
+    overflow: hidden;
+}
+
+.resourceCardPartner:hover {
+    border-radius: 50% !important;
+    background: #fff !important;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.10);
+    width: 120px;
+    height: 120px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px !important;
+    overflow: hidden;
+}
+
+/* .resourceCardPartner:hover {
+  border-radius: 20px !important;
+  background: #fff !important;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+} */
+
+.partner-img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    padding-top: 0px !important;
+}
+
+.resourceCardPartner img {
+    margin-top: 20px;
 }
 
 .resourceCard {
@@ -485,9 +533,9 @@ body {
     padding: 16px;
 }
 
-.css-1u3fja1-MuiPaper-root-MuiCard-root {
+/* .css-1u3fja1-MuiPaper-root-MuiCard-root {
     padding: 14px !important;
-}
+} */
 
 .css-o69gx8-MuiCardMedia-root {
     width: 50px !important;
@@ -499,7 +547,7 @@ body {
     padding: 10px 4px !important;
 }
 
-.css-r40f8v-MuiTypography-root {
+/* .css-r40f8v-MuiTypography-root {
     margin: 0;
     font-weight: 400;
     font-size: 0.875rem;
@@ -511,13 +559,13 @@ body {
     text-align: left !important;
     font-weight: 400 !important;
     line-height: normal;
-}
+} */
 
 .css-46bh2p-MuiCardContent-root:last-child {
     padding-bottom: 0px !important;
 }
 
-.css-pxw7rc-MuiTypography-root {
+.sliderTitle {
     margin: 0;
     letter-spacing: 0.00735em;
     margin-bottom: 16px;
@@ -527,7 +575,7 @@ body {
     font-weight: 600 !important;
     text-align: left !important;
     line-height: 54px;
-    max-width: 650px !important;
+    max-width: 700px !important;
 }
 
 .css-efxop4 {
@@ -665,19 +713,13 @@ body {
     text-transform: capitalize;
 }
 
-.css-1h9z7r5-MuiButtonBase-root-MuiTab-root.Mui-selected {
-    border-radius: 100px !important;
-    background: #4C9E46 !important;
-    color: #FFF !important;
-    font-family: Poppins;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    text-transform: capitalize;
-}
-
-.css-1h9z7r5-MuiButtonBase-root-MuiTab-root {
+/* Apply default tab styling */
+.tabBtn {
+    font-weight: 500;
+    color: #555;
+    text-transform: none;
+    font-size: 16px;
+    padding: 6px 16px;
     border-radius: 100px !important;
     background: rgba(76, 158, 70, 0.10) !important;
     margin: 0px 5px !important;
@@ -688,6 +730,56 @@ body {
     font-weight: 400 !important;
     text-transform: capitalize !important;
 }
+
+/* Active (selected) tab */
+.MuiTab-root.Mui-selected {
+    color: #fff !important;
+    /* Your active color */
+    font-weight: 600;
+    background: #4C9E46 !important;
+    font-family: Poppins;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-transform: capitalize;
+}
+
+/* .btnTabs button{
+    border-radius: 100px !important;
+    background: #4C9E46 !important;
+    color: #FFF !important;
+    font-family: Poppins;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-transform: capitalize;
+} */
+
+/* .css-1h9z7r5-MuiButtonBase-root-MuiTab-root.Mui-selected {
+    border-radius: 100px !important;
+    background: #4C9E46 !important;
+    color: #FFF !important;
+    font-family: Poppins;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-transform: capitalize;
+} */
+
+/* .css-1h9z7r5-MuiButtonBase-root-MuiTab-root {
+    border-radius: 100px !important;
+    background: rgba(76, 158, 70, 0.10) !important;
+    margin: 0px 5px !important;
+    color: #606060 !important;
+    font-family: Poppins !important;
+    font-size: 14px !important;
+    font-style: normal;
+    font-weight: 400 !important;
+    text-transform: capitalize !important;
+} */
 
 .css-1aquho2-MuiTabs-indicator {
     position: absolute;
@@ -745,6 +837,28 @@ body {
     font-weight: 400;
     line-height: normal;
     text-align: left;
+}
+
+.cardImg img {
+    width: 50px;
+}
+
+.cardImg {
+    padding: 15px 0px 0px 15px;
+}
+
+.cardImg p {
+    margin-bottom: 10px;
+    font-weight: 400;
+    font-size: 0.875rem;
+    line-height: 1.43;
+    letter-spacing: 0.01071em;
+    color: #fff !important;
+    font-size: 12px !important;
+    font-style: normal;
+    text-align: left !important;
+    font-weight: 400 !important;
+    line-height: normal;
 }
 
 @media (min-width: 600px) {
