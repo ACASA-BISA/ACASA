@@ -820,7 +820,7 @@ button.btnExplore {
 .tabBox {
     border-radius: 20px;
     background: #FFF;
-    width: 450px;
+    max-width: 450px;
     height: 520px;
     flex-shrink: 0;
 }
