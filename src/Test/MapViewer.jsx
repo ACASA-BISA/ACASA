@@ -616,21 +616,6 @@ function MapViewer({ drawerOpen, filters, apiUrl, adaptations, selectedAdaptatio
         setSelectedAdaptationId("");
     };
 
-    const getLayerName = () => {
-        if (filters?.layer_type === "risk" && filters.risk_id) {
-            return `${filters.risk_id}`;
-        } else if (filters?.layer_type === "impact" && filters.impact_id) {
-            return `${filters.impact_id}`;
-        } else if (filters?.layer_type === "adaptation" && filters.adaptation_id) {
-            const adaptation = adaptations.find(a => +a.adaptation_id === +filters.adaptation_id);
-            return ` ${adaptation ? adaptation.adaptation : filters.adaptation_id}`;
-        } else if (filters?.layer_type === "adaptation_croptab" && selectedAdaptationTabId) {
-            const tab = adaptationTabs.find(t => +t.tab_id === +selectedAdaptationTabId);
-            return `${tab ? tab.tab_name : selectedAdaptationTabId}`;
-        }
-        return `${breadcrumbData?.commodity || "Unknown"}`;
-    };
-
     return (
         <Box sx={{ height: "100%", overflow: "hidden", padding: "0 0px", backgroundColor: (theme) => theme.palette.background.paper }}>
             <Box sx={{ p: "0 16px", marginTop: "0px" }} className="breadTextFont">
@@ -647,7 +632,7 @@ function MapViewer({ drawerOpen, filters, apiUrl, adaptations, selectedAdaptatio
                             </Typography>
                         )}
                         <Typography key="layer" color="text.primary" sx={{ fontSize: "14px !important" }}>
-                            {getLayerName()}
+                            {breadcrumbData.commodity}
                         </Typography>
                         {breadcrumbData.scenario && (
                             <Typography key="scenario" color="text.primary" sx={{ fontSize: "14px !important" }}>
@@ -811,9 +796,7 @@ function MapViewer({ drawerOpen, filters, apiUrl, adaptations, selectedAdaptatio
                                                 color: (theme) => theme.palette.text.primary,
                                             }}
                                         >
-                                            {filters.layer_type === "adaptation" || filters.layer_type === "adaptation_croptab"
-                                                ? `Adaptation: ${breadcrumbData?.commodity || "Unknown"}`
-                                                : `Area under ${getLayerName()}`}
+                                            {`Area under: ${breadcrumbData?.commodity || "Unknown"}`}
                                         </Typography>
                                         <Box
                                             sx={{
