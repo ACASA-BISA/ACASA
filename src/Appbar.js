@@ -1,4 +1,5 @@
-import * as React from "react";
+// import * as React from "react";
+import React, { useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -15,6 +16,7 @@ import { Tooltip, tooltipClasses } from "@mui/material";
 import NightlightOutlinedIcon from "@mui/icons-material/NightlightOutlined";
 import WbSunnyOutlinedIcon from "@mui/icons-material/WbSunnyOutlined";
 import DrawerMapShow from "./DrawerMapShow";
+import { Select, FormControl, InputLabel } from "@mui/material";
 import Home from "./Home";
 import "./font.css";
 import { HashRouter as Router, Routes, Route, Link, useLocation, useNavigate, useParams } from "react-router-dom";
@@ -28,6 +30,13 @@ import TestHome from "./Test/TestHome";
 const pages = ["Home", "Explore Data", "Data at a glance", "Data Access", "Use Cases", "Resources", "About Us"];
 const pageid = ["home", "test", "adaptationataglance", "access", "usecase", "resources", "about"];
 const AppBarHeight = "85px";
+
+const languages = [
+  { code: "en", label: "English", flag: "🇬🇧" },
+  { code: "fr", label: "French", flag: "🇫🇷" },
+  { code: "es", label: "Spanish", flag: "🇪🇸" },
+  { code: "hi", label: "Hindi", flag: "🇮🇳" },
+];
 
 const ToggleContainer = styled("div")(({ theme, mode }) => ({
   width: 60,
@@ -78,6 +87,13 @@ function ResponsiveAppBar() {
   const location = useLocation();
   const navigate = useNavigate();
   const { country } = useParams();
+
+  const [language, setLanguage] = useState("en");
+
+  const handleChange = (event) => {
+    setLanguage(event.target.value);
+    // Add your i18n language change logic here
+  };
 
   React.useEffect(() => {
     // Extract the path after the hash
@@ -204,75 +220,61 @@ function ResponsiveAppBar() {
             <Translate />
           </Box>
 
-          <Toolbar disableGutters>
-            <Box sx={{ display: "flex", flexGrow: 0, flexDirection: "column" }}>
-              <Button size="small" color="inherit" key="Acasa" onClick={handleHomeClick}>
-                <Link to={persistentCountry ? `/home/${persistentCountry}` : "/home"} style={{ textDecoration: "none", color: "inherit" }}>
-                  <Avatar variant="square" alt="Remy Sharp" src={mode === "dark" ? "Home_imgs/Acasa Logo white1.png" : "Home_imgs/Acasa1.png"} sx={{ width: "auto", height: "60px" }} />
+          <Toolbar disableGutters sx={{ width: "100%" }}>
+            {/* Left: Logo */}
+            <Box sx={{ flexGrow: 0, display: "flex", alignItems: "center" }}>
+              <Button size="small" color="inherit" onClick={handleHomeClick}>
+                <Link
+                  to={persistentCountry ? `/home/${persistentCountry}` : "/home"}
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
+                  <Avatar
+                    variant="square"
+                    alt="Home"
+                    src={mode === "dark" ? "Home_imgs/Acasa Logo white1.png" : "Home_imgs/Acasa1.png"}
+                    sx={{ width: "auto", height: "60px" }}
+                  />
                 </Link>
               </Button>
             </Box>
 
-            <Box
-              sx={{
-                display: "flex",
-                flexGrow: 0,
-                display: { xs: "none", md: "flex" },
-                flexDirection: "column",
-              }}
-            >
-              <ImgButton size="small" href="https://bisa.org/" color="inherit" key="Bisa">
-                <Avatar variant="square" alt="Remy Sharp" src={mode === "dark" ? "./BISA Logo in white color.png" : "./BISA Logo in color.png"} sx={{ width: "auto", height: "50px" }} />
-              </ImgButton>
-            </Box>
-
-            <Box display="flex" justifyContent="right" sx={{ flexGrow: 0.97, display: { xs: "none", md: "flex" } }}>
+            {/* Center: Menu Items */}
+            <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center", alignItems: "center" }}>
               <ToggleButtonGroup value={flag} exclusive onChange={(e, newValue) => handleNavigation(newValue)}>
                 {pages.map((page, index) => (
-                  <div key={pageid[index]}>
-                    {page !== "Data at a glance" && (
+                  <Box key={pageid[index]}>
+                    {page !== "Data at a glance" ? (
                       <LightTooltip title={page === "Guide" ? "To be updated soon" : ""}>
                         <span>
                           <MyButton
                             value={pageid[index]}
                             sx={{
-                              paddingRight: 2,
-                              paddingLeft: 2,
-                              paddingTop: 1,
-                              paddingBottom: 1,
+                              px: 2,
+                              py: 1,
                               "&.Mui-disabled": {
                                 backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#3a3f45" : "#e0e0e0"),
                                 color: (theme) => (theme.palette.mode === "dark" ? "#7d848b" : "#9e9e9e"),
                                 cursor: "not-allowed",
                               },
                             }}
-                            key={pageid[index]}
                             disabled={page === "Guide"}
                           >
-                            <Typography
-                              textAlign="center"
-                              sx={{
-                                fontSize: "14px",
-                                fontWeight: 700,
-                                fontFamily: "Karla",
-                              }}
-                            >
+                            <Typography sx={{ fontSize: "14px", fontWeight: 700, fontFamily: "Karla" }}>
                               {page}
                             </Typography>
                           </MyButton>
                         </span>
                       </LightTooltip>
-                    )}
-
-                    {page === "Data at a glance" && (
-                      <div ref={GlanceButtonRef}>
+                    ) : (
+                      <Box ref={GlanceButtonRef}>
                         <MyButton
                           value={pageid[index]}
+                          onMouseEnter={handleOpenUserMenu}
+                          onMouseLeave={handleCloseUserMenu}
+                          aria-haspopup="true"
                           sx={{
-                            paddingRight: 2,
-                            paddingLeft: 2,
-                            paddingTop: 1,
-                            paddingBottom: 1,
+                            px: 2,
+                            py: 1,
                             backgroundColor: (theme) =>
                               Boolean(anchorElUser)
                                 ? theme.palette.mode === "dark"
@@ -282,14 +284,8 @@ function ResponsiveAppBar() {
                                   ? "#3a3d42"
                                   : "#ffffff",
                           }}
-                          key={pageid[index]}
-                          onMouseEnter={handleOpenUserMenu}
-                          onMouseLeave={handleCloseUserMenu}
-                          aria-owns={Boolean(anchorElUser) ? "menu-appbar" : undefined}
-                          aria-haspopup="true"
                         >
                           <Typography
-                            textAlign="center"
                             sx={{
                               fontSize: "14px",
                               fontWeight: 700,
@@ -301,7 +297,6 @@ function ResponsiveAppBar() {
                           </Typography>
                         </MyButton>
                         <Menu
-                          id="menu-appbar"
                           anchorEl={anchorElUser}
                           open={Boolean(anchorElUser)}
                           onClose={handleCloseUserMenu}
@@ -309,56 +304,88 @@ function ResponsiveAppBar() {
                           transformOrigin={{ vertical: "top", horizontal: "left" }}
                         >
                           <MenuItem onClick={() => handleNavigation("hazardataglance")}>
-                            <Typography textAlign="center" fontSize={13} sx={{ fontFamily: "Karla", fontWeight: 350, color: (theme) => (theme.palette.mode === "dark" ? "#dddddd" : "#222222") }}>
+                            <Typography fontSize={13} fontFamily="Karla" fontWeight={350}>
                               Hazards at a glance
                             </Typography>
                           </MenuItem>
                           <MenuItem onClick={() => handleNavigation("adaptationataglance")}>
-                            <Typography textAlign="center" fontSize={13} sx={{ fontFamily: "Karla", fontWeight: 350, color: (theme) => (theme.palette.mode === "dark" ? "#dddddd" : "#222222") }}>
+                            <Typography fontSize={13} fontFamily="Karla" fontWeight={350}>
                               Adaptation at a glance
                             </Typography>
                           </MenuItem>
                         </Menu>
-                      </div>
+                      </Box>
                     )}
-                  </div>
+                  </Box>
                 ))}
               </ToggleButtonGroup>
+            </Box>
 
+            {/* Right: Feedback & Dark Mode */}
+            <Box sx={{ flexGrow: 0, display: "flex", alignItems: "center" }}>
               <Button
-                sx={{
-                  paddingRight: 2,
-                  paddingLeft: 2,
-                  margin: 0,
-                  border: "1px solid #aaa",
-                  marginLeft: 2,
-                }}
                 onClick={() => handleNavigation("feedback")}
+                sx={{
+                  px: 2,
+                  ml: 2,
+                  border: "1px solid #aaa",
+                  textTransform: "none",
+                }}
               >
-                <Typography
-                  textAlign="center"
-                  sx={{
-                    fontSize: "14px",
-                    fontFamily: "Karla",
-                    textTransform: "none",
-                  }}
-                >
-                  Feedback
-                </Typography>
+                <Typography sx={{ fontSize: "14px", fontFamily: "Karla" }}>Feedback</Typography>
               </Button>
 
               <StyledTooltip title={mode === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"} arrow enterDelay={100}>
                 <ToggleContainer mode={mode} onClick={toggleTheme}>
                   <ToggleThumb mode={mode}>
-                    {mode === "dark" ? <WbSunnyOutlinedIcon fontSize="small" style={{ color: "#000" }} /> : <NightlightOutlinedIcon fontSize="small" style={{ color: "#fff" }} />}
+                    {mode === "dark" ? (
+                      <WbSunnyOutlinedIcon fontSize="small" sx={{ color: "#000" }} />
+                    ) : (
+                      <NightlightOutlinedIcon fontSize="small" sx={{ color: "#fff" }} />
+                    )}
                   </ToggleThumb>
                 </ToggleContainer>
               </StyledTooltip>
-            </Box>
+              <Box sx={{mx:2}}>
+                <FormControl fullWidth size="small">
+                  <Select
+                    value={language}
+                    onChange={handleChange}
+                    sx={{
+                      borderRadius: "12px",         // Rounded corners
+                      fontSize: "10px",             // Font size inside the select
+                      "& .MuiSelect-select": {
+                        fontSize: "10px",           // Ensure inner text is also 10px
+                        padding: "6px 10px",        // Optional: tighter padding
+                      },
+                      "& fieldset": {
+                        borderRadius: "20px",       // Rounded border for outlined variant
+                      },
+                    }}
+                  >
+                    {languages.map((lang) => (
+                      <MenuItem
+                        key={lang.code}
+                        value={lang.code}
+                        sx={{ fontSize: "10px" }}   // Font size for dropdown items
+                      >
+                        <Typography sx={{ display: "flex", alignItems: "center", gap: 1, fontSize: "12px" }}>
+                          <span>{lang.flag}</span>
+                          {lang.label}
+                        </Typography>
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Box>
 
-            <Box sx={{ display: "flex", flexGrow: 0, display: { xs: "flex", md: "none" } }}></Box>
+
+            </Box>
           </Toolbar>
         </Box>
+
+
+
       </AppBar>
       <Routes>
         <Route path="/" element={<Home />} />
