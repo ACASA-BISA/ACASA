@@ -216,7 +216,7 @@ function ResponsiveAppBar() {
                   <Avatar
                     variant="square"
                     alt="Home"
-                    src={mode === "dark" ? "Home_imgs/Acasa Logo white1.png" : "Home_imgs/Acasa1.png"}
+                    src={mode === "dark" ? "/images/logo.png" : "/images/logo.png"}
                     sx={{ width: "auto", height: "60px" }}
                   />
                 </Link>
