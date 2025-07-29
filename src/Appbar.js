@@ -204,21 +204,6 @@ function ResponsiveAppBar() {
         }}
       >
         <Box sx={{ display: "flex", flexDirection: "column" }}>
-          <Box
-            sx={{
-              display: "flex",
-              flexGrow: -1,
-              alignItems: "right",
-              justifyItems: "right",
-              justifyContent: "right",
-              width: "100%",
-              height: "18px",
-              boxShadow: (theme) => (theme.palette.mode === "dark" ? "-2px #222" : "-2px #ccc"),
-              backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#61c258" : "#4b9e44"),
-            }}
-          >
-            <Translate />
-          </Box>
 
           <Toolbar disableGutters sx={{ width: "100%" }}>
             {/* Left: Logo */}
@@ -322,14 +307,23 @@ function ResponsiveAppBar() {
             </Box>
 
             {/* Right: Feedback & Dark Mode */}
-            <Box sx={{ flexGrow: 0, display: "flex", alignItems: "center" }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center", // Changed from flex-end to center for vertical alignment
+                justifyContent: "flex-end",
+                maxWidth: 300, // Constrain total width of right section
+                gap: 1, // Add spacing between elements
+              }}
+            >
               <Button
                 onClick={() => handleNavigation("feedback")}
                 sx={{
-                  px: 2,
-                  ml: 2,
+                  px: 1.5,
+                  ml: 1,
                   border: "1px solid #aaa",
                   textTransform: "none",
+                  minWidth: 80, // Compact button
                 }}
               >
                 <Typography sx={{ fontSize: "14px", fontFamily: "Karla" }}>Feedback</Typography>
@@ -346,41 +340,10 @@ function ResponsiveAppBar() {
                   </ToggleThumb>
                 </ToggleContainer>
               </StyledTooltip>
-              <Box sx={{mx:2}}>
-                <FormControl fullWidth size="small">
-                  <Select
-                    value={language}
-                    onChange={handleChange}
-                    sx={{
-                      borderRadius: "12px",         // Rounded corners
-                      fontSize: "10px",             // Font size inside the select
-                      "& .MuiSelect-select": {
-                        fontSize: "10px",           // Ensure inner text is also 10px
-                        padding: "6px 10px",        // Optional: tighter padding
-                      },
-                      "& fieldset": {
-                        borderRadius: "20px",       // Rounded border for outlined variant
-                      },
-                    }}
-                  >
-                    {languages.map((lang) => (
-                      <MenuItem
-                        key={lang.code}
-                        value={lang.code}
-                        sx={{ fontSize: "10px" }}   // Font size for dropdown items
-                      >
-                        <Typography sx={{ display: "flex", alignItems: "center", gap: 1, fontSize: "12px" }}>
-                          <span>{lang.flag}</span>
-                          {lang.label}
-                        </Typography>
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Box>
 
-
+              <Translate />
             </Box>
+
           </Toolbar>
         </Box>
 
@@ -433,7 +396,7 @@ function ResponsiveAppBar() {
 
 export default function App() {
   return (
-    <Router>
+    <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <ResponsiveAppBar />
     </Router>
   );
