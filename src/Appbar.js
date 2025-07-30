@@ -215,7 +215,7 @@ function ResponsiveAppBar() {
           boxShadow: (theme) => (theme.palette.mode === "dark" ? "0px 0px 4px #222" : "0px 0px 4px #aaa"),
         }}
       >
-        <Box sx={{ display: "flex", flexDirection: "column", paddingTop: isSkipTranslateHidden ? "0px" : "7px" }}>
+        <Box sx={{ display: "flex", flexDirection: "column", paddingTop: isSkipTranslateHidden ? "0px" : "14px" }}>
           <Toolbar disableGutters sx={{ width: "100%" }}>
             {/* Left: Logo */}
             <Box sx={{ flexGrow: 0, display: "flex", alignItems: "center" }}>
