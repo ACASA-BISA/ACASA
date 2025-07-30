@@ -1,5 +1,4 @@
-// import * as React from "react";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -87,6 +86,7 @@ function ResponsiveAppBar() {
   const location = useLocation();
   const navigate = useNavigate();
   const { country } = useParams();
+  const [isSkipTranslateHidden, setIsSkipTranslateHidden] = useState(false);
 
   const [language, setLanguage] = useState("en");
 
@@ -95,12 +95,30 @@ function ResponsiveAppBar() {
     // Add your i18n language change logic here
   };
 
-  React.useEffect(() => {
+  // Check if skiptranslate div is hidden
+  useEffect(() => {
+    const checkSkipTranslate = () => {
+      const skipTranslateDiv = document.querySelector("div.skiptranslate");
+      if (skipTranslateDiv) {
+        const style = window.getComputedStyle(skipTranslateDiv);
+        setIsSkipTranslateHidden(style.display === "none");
+      } else {
+        setIsSkipTranslateHidden(true); // Assume hidden if div not found
+      }
+    };
+
+    checkSkipTranslate();
+    const observer = new MutationObserver(checkSkipTranslate);
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
     // Extract the path after the hash
-    const hashIndex = window.location.href.indexOf("#");
-    const path = hashIndex !== -1 ? window.location.href.substring(hashIndex + 2) : location.pathname;
+    const path = location.hash ? location.hash.replace(/^#\/?/, "") : location.pathname.replace(/^\//, "");
     const pathSegments = path.split("/");
-    let activePage = pathSegments[0] || "";
+    let activePage = pathSegments[0] || "home"; // Default to "home" if no path
     const urlCountry = pathSegments[1] || country;
 
     // Set persistent country if one is detected and not already set
@@ -108,6 +126,7 @@ function ResponsiveAppBar() {
       setPersistentCountry(urlCountry);
     }
 
+    // Normalize certain routes
     if (activePage === "hazardataglance") {
       activePage = "adaptationataglance";
     }
@@ -116,9 +135,9 @@ function ResponsiveAppBar() {
     }
 
     if (flag !== activePage) {
-      setFlag(activePage || null);
+      setFlag(activePage);
     }
-  }, [location.pathname, country]);
+  }, [location.hash, location.pathname, country, persistentCountry]);
 
   const GlanceButtonRef = React.useRef(null);
 
@@ -126,14 +145,7 @@ function ResponsiveAppBar() {
     if (newValue && newValue !== flag) {
       setFlag(newValue);
       const targetPath = persistentCountry ? `/${newValue}/${persistentCountry}` : `/${newValue}`;
-      navigate(targetPath, { replace: true });
-    }
-  };
-
-  const handleHomeClick = () => {
-    if (flag !== "home") {
-      setFlag("home");
-      navigate(persistentCountry ? `/home/${persistentCountry}` : "/home", { replace: true });
+      navigate(targetPath.replace("//", "/"), { replace: true });
     }
   };
 
@@ -203,12 +215,11 @@ function ResponsiveAppBar() {
           boxShadow: (theme) => (theme.palette.mode === "dark" ? "0px 0px 4px #222" : "0px 0px 4px #aaa"),
         }}
       >
-        <Box sx={{ display: "flex", flexDirection: "column", paddingTop:'7px' }}>
-
+        <Box sx={{ display: "flex", flexDirection: "column", paddingTop: isSkipTranslateHidden ? "0px" : "7px" }}>
           <Toolbar disableGutters sx={{ width: "100%" }}>
             {/* Left: Logo */}
             <Box sx={{ flexGrow: 0, display: "flex", alignItems: "center" }}>
-              <Button size="small" color="inherit" onClick={handleHomeClick}>
+              <ImgButton size="small" color="inherit" onClick={() => handleNavigation("home")}>
                 <Link
                   to={persistentCountry ? `/home/${persistentCountry}` : "/home"}
                   style={{ textDecoration: "none", color: "inherit" }}
@@ -220,7 +231,7 @@ function ResponsiveAppBar() {
                     sx={{ width: "auto", height: "60px" }}
                   />
                 </Link>
-              </Button>
+              </ImgButton>
             </Box>
 
             {/* Center: Menu Items */}
@@ -310,10 +321,10 @@ function ResponsiveAppBar() {
             <Box
               sx={{
                 display: "flex",
-                alignItems: "center", // Changed from flex-end to center for vertical alignment
+                alignItems: "center",
                 justifyContent: "flex-end",
-                maxWidth: 300, // Constrain total width of right section
-                gap: 1, // Add spacing between elements
+                maxWidth: 400,
+                gap: 1,
               }}
             >
               <Button
@@ -323,7 +334,7 @@ function ResponsiveAppBar() {
                   ml: 1,
                   border: "1px solid #aaa",
                   textTransform: "none",
-                  minWidth: 80, // Compact button
+                  minWidth: 80,
                 }}
               >
                 <Typography sx={{ fontSize: "14px", fontFamily: "Karla" }}>Feedback</Typography>
@@ -343,12 +354,8 @@ function ResponsiveAppBar() {
 
               <Translate />
             </Box>
-
           </Toolbar>
         </Box>
-
-
-
       </AppBar>
       <Routes>
         <Route path="/" element={<Home />} />

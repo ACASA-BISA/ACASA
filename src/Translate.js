@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
-import { Box, FormControl, Select, MenuItem, Typography } from "@mui/material";
+import { useEffect, useState, useCallback, useRef } from "react";
+import { Box, Typography } from "@mui/material";
 import { useLocation } from "react-router-dom";
 
-// Define supported languages (sync with App.js)
 const languages = [
   { code: "en", label: "English", flag: "🇬🇧" },
   { code: "fr", label: "French", flag: "🇫🇷" },
@@ -19,348 +18,465 @@ const languages = [
 ];
 
 const Translate = () => {
-  const [language, setLanguage] = useState("en");
+  const [language, setLanguage] = useState(() => "en");
   const [isTranslateLoaded, setIsTranslateLoaded] = useState(false);
-  const [useDefaultWidget, setUseDefaultWidget] = useState(false);
   const [scriptError, setScriptError] = useState(false);
   const location = useLocation();
+  const isMounted = useRef(false);
+  const queuedLanguage = useRef(null);
+  const isApplyingLanguage = useRef(false);
 
-  // Initialize Google Translate
-  const googleTranslateElementInit = () => {
+  const googleTranslateElementInit = useCallback(() => {
+    if (window.googleTranslateInitialized) {
+      console.log("Google Translate already initialized, skipping");
+      setIsTranslateLoaded(true);
+      if (queuedLanguage.current) {
+        applyLanguage(queuedLanguage.current);
+        queuedLanguage.current = null;
+      }
+      return;
+    }
+
     try {
       if (window.google && window.google.translate && window.google.translate.TranslateElement) {
         new window.google.translate.TranslateElement(
           {
             pageLanguage: "en",
+            includedLanguages: "en,fr,es,hi,bn,ta,ne,si,ur,dz,ps,zh-CN",
+            layout: window.google.translate.TranslateElement.InlineLayout.HORIZONTAL,
             autoDisplay: false,
-            includedLanguages: "en,fr,hi,bn,ta,ne,si,ur,dz,ps,es,zh-CN",
           },
           "google_translate_element"
         );
-        console.log("Google Translate initialized successfully");
+        console.log("Google Translate initialized with HORIZONTAL layout");
+        window.googleTranslateInitialized = true;
         setIsTranslateLoaded(true);
         setScriptError(false);
-        setUseDefaultWidget(false);
+
+        const translateElement = document.getElementById("google_translate_element");
+        if (translateElement) {
+          translateElement.style.display = "block";
+          translateElement.style.position = "static";
+          translateElement.style.zIndex = "1000";
+        }
       } else {
         console.error("Google Translate API not fully loaded");
         setScriptError(true);
-        setUseDefaultWidget(true);
       }
     } catch (error) {
-      console.error("Error initializing Google Translate: ", error);
+      console.error("Error initializing Google Translate:", error);
       setScriptError(true);
-      setUseDefaultWidget(true);
     }
-  };
+  }, []);
 
-  // Load script and apply CSS
+  const findGoogleTranslateSelector = useCallback(() => {
+    console.log("Searching for .goog-te-combo...");
+    let select = document.querySelector(".goog-te-combo");
+    if (select) {
+      console.log("Found .goog-te-combo in main DOM");
+      return { type: "select", element: select };
+    }
+
+    const iframes = document.querySelectorAll("iframe");
+    console.log(`Found ${iframes.length} iframes`);
+    for (const iframe of iframes) {
+      try {
+        select = iframe.contentDocument?.querySelector(".goog-te-combo");
+        if (select) {
+          console.log("Found .goog-te-combo in iframe:", iframe.src);
+          return { type: "select", element: select };
+        }
+      } catch (e) {
+        console.warn("Cannot access iframe content:", e.message);
+      }
+    }
+
+    console.log("No .goog-te-combo found in main DOM or iframes");
+    return null;
+  }, []);
+
+  const applyLanguage = useCallback(
+    (langCode, attempts = 60, delay = 2000) => {
+      if (isApplyingLanguage.current) {
+        console.log("Language change already in progress, queuing:", langCode);
+        queuedLanguage.current = langCode;
+        return;
+      }
+
+      if (!isTranslateLoaded) {
+        console.warn(`Google Translate not loaded, queuing language change: ${langCode}`);
+        queuedLanguage.current = langCode;
+        return;
+      }
+
+      isApplyingLanguage.current = true;
+      const selector = findGoogleTranslateSelector();
+      if (selector && selector.type === "select") {
+        console.log(`Applying language: ${langCode}, current value: ${selector.element.value}`);
+        selector.element.value = langCode;
+        const changeEvent = new Event("change", { bubbles: true });
+        selector.element.dispatchEvent(changeEvent);
+
+        setTimeout(() => {
+          const translated = document.querySelector(`html[lang="${langCode}"]`);
+          if (translated) {
+            console.log("Translation applied successfully for:", langCode);
+            setLanguage(langCode);
+            setScriptError(false);
+            isApplyingLanguage.current = false;
+            if (queuedLanguage.current) {
+              const nextLang = queuedLanguage.current;
+              queuedLanguage.current = null;
+              applyLanguage(nextLang);
+            }
+          } else if (attempts > 0) {
+            console.warn(`Translation not applied for ${langCode}, retrying... (${attempts} left)`);
+            setTimeout(() => applyLanguage(langCode, attempts - 1, delay), delay);
+          } else {
+            console.error("Failed to apply translation after retries for:", langCode);
+            setScriptError(true);
+            isApplyingLanguage.current = false;
+            setLanguage(langCode);
+          }
+        }, 5000);
+      } else if (attempts > 0) {
+        console.warn(`Google Translate selector not found, retrying... (${attempts} left)`);
+        setTimeout(() => applyLanguage(langCode, attempts - 1, delay), delay);
+      } else {
+        console.error("Google Translate selector not found after retries");
+        setScriptError(true);
+        isApplyingLanguage.current = false;
+        setLanguage(langCode);
+      }
+
+      setTimeout(() => {
+        if (isApplyingLanguage.current) {
+          console.warn("applyLanguage timed out for:", langCode);
+          isApplyingLanguage.current = false;
+          setLanguage(langCode);
+          if (queuedLanguage.current) {
+            const nextLang = queuedLanguage.current;
+            queuedLanguage.current = null;
+            applyLanguage(nextLang);
+          }
+        }
+      }, 80000);
+    },
+    [isTranslateLoaded, findGoogleTranslateSelector]
+  );
+
+  const modifyTranslateWidget = useCallback((attempts = 30, delay = 3000) => {
+    const tryModify = (retryCount) => {
+      let modified = false;
+
+      // Check main DOM
+      const gadget = document.querySelector(".skiptranslate.goog-te-gadget");
+      if (gadget) {
+        console.log("Found .skiptranslate.goog-te-gadget in main DOM:", gadget.outerHTML);
+        const targetLanguageDiv = gadget.querySelector("#\\:0\\.targetLanguage");
+        if (targetLanguageDiv) {
+          // Remove "Powered by" text nodes and specific span
+          Array.from(gadget.childNodes).forEach((node) => {
+            if (node.nodeType === Node.TEXT_NODE && /Powered by\s*/i.test(node.nodeValue)) {
+              node.nodeValue = node.nodeValue.replace(/Powered by\s*/gi, "");
+              console.log("Removed 'Powered by' text node in main DOM");
+              modified = true;
+            } else if (node.nodeType === Node.ELEMENT_NODE && node.tagName === "SPAN" && node.querySelector(".VIpgJd-ZVi9od-l4eHX-hSRGPd")) {
+              node.remove();
+              console.log("Removed Google Translate link span in main DOM");
+              modified = true;
+            }
+          });
+        } else {
+          console.warn("Target language div (#:0.targetLanguage) not found in .skiptranslate.goog-te-gadget");
+        }
+      }
+
+      // Check iframes
+      const iframes = document.querySelectorAll("iframe");
+      for (const iframe of iframes) {
+        try {
+          const gadgetInIframe = iframe.contentDocument?.querySelector(".skiptranslate.goog-te-gadget");
+          if (gadgetInIframe) {
+            console.log("Found .skiptranslate.goog-te-gadget in iframe:", iframe.src, gadgetInIframe.outerHTML);
+            const targetLanguageDiv = gadgetInIframe.querySelector("#\\:0\\.targetLanguage");
+            if (targetLanguageDiv) {
+              Array.from(gadgetInIframe.childNodes).forEach((node) => {
+                if (node.nodeType === Node.TEXT_NODE && /Powered by\s*/i.test(node.nodeValue)) {
+                  node.nodeValue = node.nodeValue.replace(/Powered by\s*/gi, "");
+                  console.log("Removed 'Powered by' text node in iframe");
+                  modified = true;
+                } else if (node.nodeType === Node.ELEMENT_NODE && node.tagName === "SPAN" && node.querySelector(".VIpgJd-ZVi9od-l4eHX-hSRGPd")) {
+                  node.remove();
+                  console.log("Removed Google Translate link span in iframe");
+                  modified = true;
+                }
+              });
+            } else {
+              console.warn("Target language div (#:0.targetLanguage) not found in iframe .skiptranslate.goog-te-gadget");
+            }
+            break;
+          }
+        } catch (e) {
+          console.warn("Cannot access iframe content:", e.message);
+        }
+      }
+
+      if (!modified && retryCount > 0) {
+        if (process.env.NODE_ENV !== "production") {
+          console.warn(`.skiptranslate.goog-te-gadget not found or not modified, retrying... (${retryCount} left)`);
+        }
+        setTimeout(() => tryModify(retryCount - 1), delay);
+      } else if (!modified && process.env.NODE_ENV !== "production") {
+        console.warn(".skiptranslate.goog-te-gadget not found or not modified after retries");
+      } else if (modified) {
+        console.log("Successfully modified .skiptranslate.goog-te-gadget");
+      }
+    };
+    tryModify(attempts);
+  }, []);
+
   useEffect(() => {
-    // Apply CSS immediately
-    let style = document.querySelector("#translate-styles");
-    if (!style) {
-      style = document.createElement("style");
-      style.id = "translate-styles";
-      style.innerHTML = `
-        .goog-te-banner-frame.skiptranslate,
-        .skiptranslate iframe,
-        iframe[id*=":container"],
-        iframe[class*="skiptranslate"],
-        iframe[title*="Google Translate"] {
-          display: none !important;
-          width: 0 !important;
-          height: 0 !important;
-          border: none !important;
-          visibility: hidden !important;
-          position: absolute !important;
-          left: -9999px !important;
+    if (isMounted.current) {
+      console.log("Translate component already mounted, skipping initialization");
+      return;
+    }
+    isMounted.current = true;
+
+    if (!document.getElementById("google_translate_element")) {
+      console.error("google_translate_element missing, recreating");
+      const translateElement = document.createElement("div");
+      translateElement.id = "google_translate_element";
+      translateElement.style.display = "block";
+      translateElement.style.position = "static";
+      translateElement.style.zIndex = "1000";
+      document.body.appendChild(translateElement);
+    }
+
+    const translateElement = document.getElementById("google_translate_element");
+    if (translateElement && translateElement.hasAttribute("aria-hidden")) {
+      console.warn("aria-hidden detected on #google_translate_element, removing");
+      translateElement.removeAttribute("aria-hidden");
+    }
+    const root = document.getElementById("root");
+    if (root && root.hasAttribute("aria-hidden")) {
+      console.warn("aria-hidden detected on #root, removing");
+      root.removeAttribute("aria-hidden");
+    }
+
+    const observer = new MutationObserver((mutations) => {
+      let shouldModify = false;
+      mutations.forEach((mutation) => {
+        if (mutation.addedNodes.length > 0) {
+          mutation.addedNodes.forEach((node) => {
+            if (node.querySelector?.(".skiptranslate.goog-te-gadget") || node.classList?.contains("skiptranslate")) {
+              shouldModify = true;
+            }
+          });
         }
-        body {
-          top: 0 !important;
+        if (process.env.NODE_ENV !== "production") {
+          console.log("Mutation observed in google_translate_element:", {
+            type: mutation.type,
+            addedNodes: Array.from(mutation.addedNodes).map((node) => node.outerHTML || node.nodeName),
+            removedNodes: Array.from(mutation.removedNodes).map((node) => node.outerHTML || node.nodeName),
+            target: mutation.target.outerHTML?.substring(0, 200) || mutation.target.nodeName,
+          });
         }
-        .goog-logo-link,
-        .goog-te-gadget-icon {
-          display: none !important;
+      });
+      if (shouldModify) {
+        modifyTranslateWidget();
+      }
+    });
+    if (translateElement) {
+      observer.observe(translateElement, { childList: true, subtree: true, characterData: true });
+    }
+
+    const applyCustomUI = () => {
+      const style = document.createElement("style");
+      style.textContent = `
+        .goog-te-gadget {
+          display: block !important;
+          margin-top: 8px;
+          z-index: 1000;
         }
-        .goog-te-gadget > div > span {
-          display: none !important;
+        .goog-te-gadget .goog-te-combo {
+            margin: 0 0 10px 0;
+        }
+        #google_translate_element {
+          display: block !important;
         }
         .goog-te-combo {
-          display: block;
-          visibility: hidden;
-        }
-        #google_translate_element:not(.default-widget) {
-          display: block !important;
-          visibility: hidden !important;
-          width: 0 !important;
-          height: 0 !important;
-          overflow: hidden !important;
-        }
-        .default-widget {
           max-width: 140px;
-          overflow: hidden;
+          min-width: 120px;
+          border-radius: 8px;
+          background-color: #fff;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+          padding: 6px 10px;
+          font-size: 14px;
+          font-weight: 500;
+          color: #333;
+          border: 1px solid #ccc;
+          appearance: none;
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23333'><path d='M7 10l5 5 5-5z'/></svg>");
+          background-repeat: no-repeat;
+          background-position: right 10px center;
+          background-size: 16px;
+        }
+        .goog-te-combo:hover {
+          border-color: #6200ea;
+        }
+        .goog-te-combo:focus {
+          border-color: #6200ea;
+          border-width: 1px;
+          outline: none;
+        }
+        .goog-te-combo option {
+          font-size: 14px;
+          padding: 6px 10px;
+          background-color: #fff;
+        }
+        .goog-te-combo option:hover {
+          background-color: #f3e5f5;
+        }
+        .goog-te-combo option:checked {
+          background-color: #ede7f6;
+        }
+        .skiptranslate.goog-te-gadget > :not(#\\:0\\.targetLanguage) {
+          display: none !important;
+        }
+        .goog-te-gadget-icon, .goog-te-banner-frame, .VIpgJd-ZVi9od-l4eHX-hSRGPd {
+          display: none !important;
         }
       `;
       document.head.appendChild(style);
-    }
+      console.log("Applied custom UI to .goog-te-combo");
 
-    // MutationObserver to hide iframes dynamically
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        mutation.addedNodes.forEach((node) => {
-          if (node.tagName === "IFRAME" && (node.className.includes("skiptranslate") || node.id.includes(":container"))) {
-            node.style.display = "none";
-            node.style.width = "0";
-            node.style.height = "0";
-            node.style.border = "none";
-            node.style.position = "absolute";
-            node.style.left = "-9999px";
-          }
-        });
-      });
-    });
-    observer.observe(document.body, { childList: true, subtree: true });
+      const updateOptions = () => {
+        const select = document.querySelector(".goog-te-combo");
+        if (select) {
+          Array.from(select.options).forEach((option) => {
+            const lang = languages.find((l) => l.code === option.value);
+            if (lang) {
+              option.textContent = `${lang.flag} ${lang.label}`;
+            }
+          });
+        }
+      };
 
-    // Load script
-    const loadScript = () => {
-      if (!document.querySelector("#google-translate-script")) {
+      const interval = setInterval(() => {
+        if (document.querySelector(".goog-te-combo")) {
+          updateOptions();
+          clearInterval(interval);
+        }
+      }, 500);
+    };
+
+    const loadScript = (retryCount = 5, retryDelay = 5000) => {
+      if (!document.querySelector("#google-translate-script") && !window.googleTranslateInitialized) {
         const addScript = document.createElement("script");
         addScript.id = "google-translate-script";
         addScript.src = "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
         addScript.async = true;
         addScript.onload = () => {
           console.log("Google Translate script loaded");
-          const pollInterval = setInterval(() => {
-            if (window.google && window.google.translate && window.google.translate.TranslateElement) {
-              clearInterval(pollInterval);
-              googleTranslateElementInit();
-            }
-          }, 100);
-          setTimeout(() => {
-            clearInterval(pollInterval);
-            if (!isTranslateLoaded) {
-              console.warn("Google Translate API not loaded after timeout");
-              setScriptError(true);
-              setUseDefaultWidget(true);
-            }
-          }, 30000); // 30 seconds
         };
         addScript.onerror = () => {
           console.error("Failed to load Google Translate script");
-          setScriptError(true);
-          setUseDefaultWidget(true);
+          if (retryCount > 0) {
+            console.warn(`Retrying script load... (${retryCount} left)`);
+            setTimeout(() => loadScript(retryCount - 1, retryDelay), retryDelay);
+          } else {
+            setScriptError(true);
+          }
         };
         document.body.appendChild(addScript);
+      } else if (window.googleTranslateInitialized) {
+        setIsTranslateLoaded(true);
+        // applyLanguage("en");
       }
     };
 
-    loadScript();
-    window.googleTranslateElementInit = googleTranslateElementInit;
+    if (window.google && window.google.translate && window.google.translate.TranslateElement) {
+      console.log("Google Translate API already loaded");
+      googleTranslateElementInit();
+      applyCustomUI();
+      modifyTranslateWidget();
+    } else {
+      window.googleTranslateElementInit = googleTranslateElementInit;
+      loadScript();
+      applyCustomUI();
+    }
+
+    const checkDropdown = setTimeout(() => {
+      const selector = findGoogleTranslateSelector();
+      if (selector) {
+        console.log("Google Translate selector detected:", selector.type);
+        setIsTranslateLoaded(true);
+        // applyLanguage("en");
+        modifyTranslateWidget();
+      } else {
+        console.warn("Google Translate selector not found after delayed check");
+        setScriptError(true);
+        // setLanguage("en");
+      }
+      console.log("google_translate_element content:", document.getElementById("google_translate_element")?.outerHTML || "Element not found");
+    }, 30000);
+
+    const interval = setInterval(() => {
+      const modals = document.querySelectorAll(".MuiModal-root[aria-hidden='true'], .MuiPopover-root[aria-hidden='true']");
+      modals.forEach((modal) => {
+        console.log("Removing aria-hidden from MuiModal/MuiPopover");
+        modal.removeAttribute("aria-hidden");
+      });
+    }, 1000);
 
     return () => {
+      clearTimeout(checkDropdown);
+      clearInterval(interval);
       observer.disconnect();
-      if (document.querySelector("#google-translate-script")) {
-        document.querySelector("#google-translate-script").remove();
-      }
-      delete window.googleTranslateElementInit;
+      isMounted.current = false;
     };
-  }, [location.pathname]); // Reinitialize on route change
+  }, [googleTranslateElementInit, applyLanguage, findGoogleTranslateSelector, modifyTranslateWidget]);
 
-  // Sync Material-UI Select with Google Translate
   useEffect(() => {
-    if (isTranslateLoaded && !useDefaultWidget) {
+    if (isTranslateLoaded && !isApplyingLanguage.current) {
+      // applyLanguage("en");
+    }
+  }, [location, isTranslateLoaded, applyLanguage]);
+
+  useEffect(() => {
+    if (isTranslateLoaded) {
       const checkLanguage = () => {
-        const select = document.querySelector(".goog-te-combo");
-        if (select && select.value && select.value !== language) {
-          console.log(`Syncing language to: ${select.value}`);
-          setLanguage(select.value);
+        const selector = findGoogleTranslateSelector();
+        if (selector?.type === "select" && selector.element.value && selector.element.value !== language) {
+          console.log(`Syncing UI language to: ${selector.element.value}`);
+          setLanguage(selector.element.value);
+          modifyTranslateWidget();
         }
       };
-      const interval = setInterval(checkLanguage, 500);
+      const interval = setInterval(checkLanguage, 2000);
       return () => clearInterval(interval);
     }
-  }, [isTranslateLoaded, language, useDefaultWidget]);
-
-  // Handle language change
-  const handleChange = (event) => {
-    const newLang = event.target.value;
-    setLanguage(newLang);
-
-    if (!isTranslateLoaded) {
-      console.warn("Google Translate not loaded, queuing: ", newLang);
-      return;
-    }
-
-    if (useDefaultWidget) {
-      console.log("Using default widget, custom change ignored");
-      return;
-    }
-
-    const attemptLanguageChange = (attempts = 40, delay = 1000) => {
-      const select = document.querySelector(".goog-te-combo");
-      if (select) {
-        console.log(`Changing language to: ${newLang}`);
-        select.value = newLang;
-        const changeEvent = new Event("change", { bubbles: true });
-        select.dispatchEvent(changeEvent);
-        setTimeout(() => {
-          const translated = document.querySelector("[lang='" + newLang + "']") || document.body.innerText.includes("Translated by Google");
-          if (translated) {
-            console.log("Translation applied successfully");
-          } else if (attempts > 0) {
-            console.warn(`Translation not applied, retrying... (${attempts} left)`);
-            setTimeout(() => attemptLanguageChange(attempts - 1, delay), delay);
-          } else {
-            console.warn("Translation not applied after retries, keeping custom UI");
-          }
-        }, 2000);
-      } else if (attempts > 0) {
-        console.warn(`Google Translate dropdown not found, retrying... (${attempts} left)`);
-        setTimeout(() => attemptLanguageChange(attempts - 1, delay), delay);
-      } else {
-        console.warn("Google Translate dropdown not found after retries, keeping custom UI");
-      }
-    };
-
-    attemptLanguageChange();
-  };
+  }, [isTranslateLoaded, language, findGoogleTranslateSelector, modifyTranslateWidget]);
 
   return (
-    <Box sx={{ display: "flex", alignItems: "center", maxWidth: 140, mx: 1 }}>
-      {!useDefaultWidget ? (
-        <FormControl size="small" disabled={!isTranslateLoaded || scriptError}>
-          <Select
-            value={language}
-            onChange={handleChange}
-            displayEmpty
-            renderValue={(value) => {
-              const selectedLang = languages.find((lang) => lang.code === value);
-              return (
-                <Typography
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 1,
-                    fontSize: "14px",
-                    fontWeight: 500,
-                    color: "#333",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                  }}
-                >
-                  {selectedLang ? (
-                    <>
-                      <span style={{ fontSize: "18px" }}>{selectedLang.flag}</span>
-                      {selectedLang.label}
-                    </>
-                  ) : (
-                    "Language"
-                  )}
-                </Typography>
-              );
-            }}
-            sx={{
-              maxWidth: 140,
-              minWidth: 120,
-              borderRadius: "8px",
-              backgroundColor: "#fff",
-              boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-              "& .MuiSelect-select": {
-                padding: "6px 10px",
-                display: "flex",
-                alignItems: "center",
-              },
-              "& fieldset": {
-                borderColor: "#ccc",
-              },
-              "&:hover fieldset": {
-                borderColor: "#6200ea",
-              },
-              "&.Mui-focused fieldset": {
-                borderColor: "#6200ea",
-                borderWidth: "1px",
-              },
-              ".MuiMenu-paper": {
-                borderRadius: "8px",
-                boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-                maxHeight: "250px",
-                maxWidth: 140,
-              },
-            }}
-            MenuProps={{
-              PaperProps: {
-                sx: {
-                  borderRadius: "8px",
-                  backgroundColor: "#fff",
-                },
-              },
-            }}
-          >
-            {languages.map((lang) => (
-              <MenuItem
-                key={lang.code}
-                value={lang.code}
-                sx={{
-                  fontSize: "14px",
-                  padding: "6px 10px",
-                  maxWidth: 140,
-                  "&:hover": {
-                    backgroundColor: "#f3e5f5",
-                  },
-                  "&.Mui-selected": {
-                    backgroundColor: "#ede7f6",
-                    "&:hover": {
-                      backgroundColor: "#f3e5f5",
-                    },
-                  },
-                }}
-              >
-                <Typography
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 1,
-                    fontWeight: 400,
-                    color: "#333",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                  }}
-                >
-                  <span style={{ fontSize: "18px" }}>{lang.flag}</span>
-                  {lang.label}
-                </Typography>
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      ) : (
-        <div
-          id="google_translate_element"
-          className="default-widget"
-          style={{
-            margin: "0 8px 0 0",
-            display: "inline-block",
-            whiteSpace: "nowrap",
-            maxWidth: 140,
-            overflow: "hidden",
-          }}
-        />
-      )}
-      <div id="google_translate_element" style={{ display: "block", visibility: "hidden", width: 0, height: 0, overflow: "hidden" }} />
+    <Box sx={{ mx: 1 }}>
       {scriptError && (
         <Typography
           color="error"
           sx={{
-            ml: 1,
             fontSize: "12px",
-            maxWidth: 100,
+            maxWidth: 140,
             overflow: "hidden",
             textOverflow: "ellipsis",
-            display: useDefaultWidget ? "block" : "none",
           }}
         >
           Translation unavailable
         </Typography>
       )}
+      <Box id="google_translate_element" sx={{ mt: 1, zIndex: 1000 }} />
     </Box>
   );
 };
