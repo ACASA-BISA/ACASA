@@ -1,21 +1,14 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import "./Test.css";
-import { Button, Grid, Toolbar, IconButton, Drawer, Switch, Typography, FormGroup, List, Box, Tooltip } from "@mui/material";
-import { ListSubheader, ListItemButton, ListItemIcon, ListItemText, Collapse, FormControlLabel, FormControl, FormLabel, MenuItem, Select } from "@mui/material";
+import { Button, Grid, Toolbar, IconButton, Drawer, Switch, Typography, FormGroup, List, Box, Tooltip, ListSubheader, ListItemButton, ListItemIcon, ListItemText, Collapse, FormControlLabel, FormControl, FormLabel, MenuItem, Select, } from "@mui/material";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Swal from "sweetalert2";
 import MapViewer from "./MapViewer";
 
 const drawerWidth = 254;
-
-function LayoutIcon(props) {
-    return (
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" {...props}>
-            <path d="M6.83496 3.99992C6.38353 4.00411 6.01421 4.0122 5.69824 4.03801C5.31232 4.06954 5.03904 4.12266 4.82227 4.20012L4.62207 4.28606C4.18264 4.50996 3.81498 4.85035 3.55859 5.26848L3.45605 5.45207C3.33013 5.69922 3.25006 6.01354 3.20801 6.52824C3.16533 7.05065 3.16504 7.71885 3.16504 8.66301V11.3271C3.16504 12.2712 3.16533 12.9394 3.20801 13.4618C3.25006 13.9766 3.33013 14.2909 3.45605 14.538L3.55859 14.7216C3.81498 15.1397 4.18266 15.4801 4.62207 15.704L4.82227 15.79C5.03904 15.8674 5.31234 15.9205 5.69824 15.9521C6.01398 15.9779 6.383 15.986 6.83398 15.9902L6.83496 3.99992ZM18.165 11.3271C18.165 12.2493 18.1653 12.9811 18.1172 13.5702C18.0745 14.0924 17.9916 14.5472 17.8125 14.9648L17.7295 15.1415C17.394 15.8 16.8834 16.3511 16.2568 16.7353L15.9814 16.8896C15.5157 17.1268 15.0069 17.2285 14.4102 17.2773C13.821 17.3254 13.0893 17.3251 12.167 17.3251H7.83301C6.91071 17.3251 6.17898 17.3254 5.58984 17.2773C5.06757 17.2346 4.61294 17.1508 4.19531 16.9716L4.01855 16.8896C3.36014 16.5541 2.80898 16.0434 2.4248 15.4169L2.27051 15.1415C2.03328 14.6758 1.93158 14.167 1.88281 13.5702C1.83468 12.9811 1.83496 12.2493 1.83496 11.3271V8.66301C1.83496 7.74072 1.83468 7.00898 1.88281 6.41985C1.93157 5.82309 2.03329 5.31432 2.27051 4.84856L2.4248 4.57317C2.80898 3.94666 3.36012 3.436 4.01855 3.10051L4.19531 3.0175C4.61285 2.83843 5.06771 2.75548 5.58984 2.71281C6.17898 2.66468 6.91071 2.66496 7.83301 2.66496H12.167C13.0893 2.66496 13.821 2.66468 14.4102 2.71281C15.0069 2.76157 15.5157 2.86329 15.9814 3.10051L16.2568 3.25481C16.8833 3.63898 17.394 4.19012 17.7295 4.84856L17.8125 5.02531C17.9916 5.44285 18.0745 5.89771 18.1172 6.41985C18.1653 7.00898 18.165 7.74072 18.165 8.66301V11.3271ZM8.16406 15.995H12.167C13.1112 15.995 13.7794 15.9947 14.3018 15.9521C14.8164 15.91 15.1308 15.8299 15.3779 15.704L15.5615 15.6015C15.9797 15.3451 16.32 14.9774 16.5439 14.538L16.6299 14.3378C16.7074 14.121 16.7605 13.8478 16.792 13.4618C16.8347 12.9394 16.835 12.2711 16.835 11.3271V8.66301C16.835 7.71885 16.8347 7.05065 16.792 6.52824C16.7605 6.14232 16.7073 5.86904 16.6299 5.65227L16.6299 5.45207C16.32 5.01264 15.9796 4.64498 15.5615 4.3886L15.3779 4.28606C15.1308 4.16013 14.8165 4.08006 14.3018 4.03801C13.7794 3.99533 13.1112 3.99504 12.167 3.99504H8.16406C8.16407 3.99667 8.16504 3.99829 8.16504 3.99992L8.16406 15.995Z" />
-        </svg>
-    );
-}
 
 function Test() {
     useEffect(() => {
@@ -50,7 +43,6 @@ function Test() {
     const [selectedImpactId, setSelectedImpactId] = useState("");
     const [adaptations, setAdaptations] = useState([]);
     const [selectedAdaptationId, setSelectedAdaptationId] = useState("");
-    const [filters, setFilters] = useState(null);
     const [appliedFilters, setAppliedFilters] = useState(null);
     const [geojsonData, setGeojsonData] = useState(null);
     const [isSidebarOpen, setIsSidebarOpen] = useState({
@@ -68,10 +60,26 @@ function Test() {
     const apiUrl = process.env.REACT_APP_API_URL;
 
     const toggleDrawer = () => {
-        setOpen(!open);
+        setOpen((prevOpen) => {
+            const newOpen = !prevOpen;
+            if (!newOpen) {
+                setIsSidebarOpen({
+                    region: false,
+                    dataType: false,
+                    analysis: false,
+                    commodity: false,
+                    scenario: false,
+                    risk: false,
+                    impact: false,
+                    adaptation: false,
+                });
+            }
+            return newOpen;
+        });
     };
 
     const handleSidebarToggle = (sidebar) => {
+        setOpen(true);
         setIsSidebarOpen((prev) => {
             const newState = {
                 region: false,
@@ -161,7 +169,10 @@ function Test() {
 
     useEffect(() => {
         if (selectedCommodityId && selectedCommodityTypeId === 1) {
-            fetchData(`lkp/specific/adaptations?commodity_id=${selectedCommodityId}&commodity_type_id=1`, setAdaptations);
+            fetchData(
+                `lkp/specific/adaptations?commodity_id=${selectedCommodityId}&commodity_type_id=1`,
+                setAdaptations
+            );
             fetchData(`lkp/specific/risks?commodity_id=${selectedCommodityId}`, setRisks);
         } else if (selectedCommodityId) {
             fetchData(`lkp/specific/risks?commodity_id=${selectedCommodityId}`, setRisks);
@@ -185,7 +196,9 @@ function Test() {
             if (country) {
                 const countryName = country.toLowerCase().replace(/[-_]/g, " ");
                 const matchedCountry = countries.find(
-                    (c) => c.country.toLowerCase().replace(/\s+/g, "") === countryName.replace(/\s+/g, "") && c.status
+                    (c) =>
+                        c.country.toLowerCase().replace(/\s+/g, "") ===
+                        countryName.replace(/\s+/g, "") && c.status
                 );
                 if (matchedCountry) {
                     countryId = matchedCountry.country_id;
@@ -206,8 +219,6 @@ function Test() {
                     setStates([]);
                     showSelect = true;
                 }
-            } else {
-                showSelect = true; // No country in URL, show select
             }
             setShowCountrySelect(showSelect);
             fetchGeojson(admin_level, admin_level_id);
@@ -233,15 +244,6 @@ function Test() {
     }, [visualizationScales, selectedScaleId]);
 
     useEffect(() => {
-        if (commodities.length > 0 && !selectedCommodityId) {
-            const activeCommodities = commodities.filter((c) => c.status);
-            if (activeCommodities.length > 1) {
-                setSelectedCommodityId(activeCommodities[1].commodity_id);
-            }
-        }
-    }, [commodities, selectedCommodityId]);
-
-    useEffect(() => {
         if (dataSources.length > 0 && !selectedDataSourceId) {
             setSelectedDataSourceId(dataSources[0].data_source_id);
         }
@@ -254,24 +256,31 @@ function Test() {
     }, [climateScenarios, selectedScenarioId]);
 
     useEffect(() => {
-        if (selectedCommodityTypeId) {
+        if (selectedCommodityTypeId && commodities.length > 0) {
             const filtered = commodities.filter(
-                (commodity) => +commodity.commodity_type_id === +selectedCommodityTypeId && commodity.status
+                (commodity) =>
+                    +commodity.commodity_type_id === +selectedCommodityTypeId && commodity.status
             );
             setFilteredCommodities(filtered);
+            if (filtered.length > 0 && (!selectedCommodityId || !filtered.some(c => +c.commodity_id === +selectedCommodityId))) {
+                setSelectedCommodityId(filtered[0].commodity_id);
+            }
         } else {
-            setFilteredCommodities(commodities.filter((commodity) => commodity.status));
+            const activeCommodities = commodities.filter((c) => c.status);
+            setFilteredCommodities(activeCommodities);
+            if (activeCommodities.length > 0 && (!selectedCommodityId || !activeCommodities.some(c => +c.commodity_id === +selectedCommodityId))) {
+                setSelectedCommodityId(activeCommodities[0].commodity_id);
+            }
         }
-    }, [selectedCommodityTypeId, commodities]);
+    }, [selectedCommodityTypeId, commodities, selectedCommodityId]);
 
-    useEffect(() => {
-        if (
-            selectedCommodityTypeId &&
+    const areMandatoryFiltersSelected = () => {
+        return (
             selectedScopeId &&
             selectedScaleId &&
-            selectedCommodityId &&
             selectedDataSourceId &&
             selectedScenarioId &&
+            selectedCommodityId &&
             geojsonData &&
             !isLoading &&
             countries.length > 0 &&
@@ -282,16 +291,80 @@ function Test() {
             climateScenarios.length > 0 &&
             dataSources.length > 0 &&
             impacts.length > 0
-        ) {
-            handleSaveFilters();
+        );
+    };
+
+    const updateFilters = useCallback(() => {
+        if (!areMandatoryFiltersSelected()) {
+            console.warn("Required data not fully loaded, skipping filter update.");
+            return;
         }
+
+        if (
+            (selectedRiskId || selectedImpactId || selectedAdaptationId) &&
+            !selectedCommodityId
+        ) {
+            Swal.fire({
+                icon: "error",
+                title: "Missing Commodity",
+                text: "Please select a commodity when selecting a risk, impact, or adaptation.",
+            });
+            return;
+        }
+
+        let layer_type = "commodity";
+        if (selectedRiskId) layer_type = "risk";
+        else if (selectedImpactId) layer_type = "impact";
+        else if (selectedAdaptationId && selectedCommodityTypeId === 1) layer_type = "adaptation";
+        else if (selectedAdaptationId) layer_type = "adaptation";
+
+        const admin_level =
+            selectedStateId !== 0 ? "state" : selectedCountryId !== 0 ? "country" : "total";
+        const admin_level_id =
+            selectedStateId !== 0 ? selectedStateId : selectedCountryId !== 0 ? selectedCountryId : null;
+
+        const newFilters = {
+            analysis_scope_id: +selectedScopeId || null,
+            visualization_scale_id: +selectedScaleId || null,
+            commodity_id: +selectedCommodityId || null,
+            commodity_type_id: +selectedCommodityTypeId || null,
+            data_source_id: +selectedDataSourceId || null,
+            climate_scenario_id: +selectedScenarioId || null,
+            layer_type,
+            risk_id: layer_type === "risk" ? +selectedRiskId : null,
+            impact_id: layer_type === "impact" ? +selectedImpactId : null,
+            adaptation_id: layer_type === "adaptation" ? +selectedAdaptationId || null : null,
+            admin_level,
+            admin_level_id,
+            geojson: geojsonData?.geojson,
+            bbox: geojsonData?.bbox,
+            region: geojsonData?.region,
+            countries: countries || [],
+            commodityTypes: commodityTypes || [],
+            commodities: commodities || [],
+            analysisScopes: analysisScopes || [],
+            visualizationScales: visualizationScales || [],
+            climateScenarios: climateScenarios || [],
+            dataSources: dataSources || [],
+            impacts: impacts || [],
+            adaptations: adaptations || [],
+            states: states || [],
+            risks: risks || [],
+        };
+
+        setAppliedFilters(newFilters);
     }, [
-        selectedCommodityTypeId,
         selectedScopeId,
         selectedScaleId,
-        selectedCommodityId,
         selectedDataSourceId,
         selectedScenarioId,
+        selectedCountryId,
+        selectedStateId,
+        selectedCommodityTypeId,
+        selectedCommodityId,
+        selectedRiskId,
+        selectedImpactId,
+        selectedAdaptationId,
         geojsonData,
         isLoading,
         countries,
@@ -302,15 +375,43 @@ function Test() {
         climateScenarios,
         dataSources,
         impacts,
+        adaptations,
+        states,
+        risks,
+    ]);
+
+    // Consolidated useEffect for updating filters
+    useEffect(() => {
+        if (areMandatoryFiltersSelected() && !isLoading) {
+            updateFilters();
+        }
+    }, [
+        selectedScopeId,
+        selectedScaleId,
+        selectedDataSourceId,
+        selectedScenarioId,
+        selectedCountryId,
+        selectedStateId,
+        selectedCommodityTypeId,
+        selectedCommodityId,
+        selectedRiskId,
+        selectedImpactId,
+        selectedAdaptationId,
+        geojsonData,
+        isLoading,
+        updateFilters,
     ]);
 
     const getStates = async (countryId) => {
         setIsLoading(true);
         try {
-            const response = await fetch(`${apiUrl}/lkp/locations/states?country_id=${countryId}`, {
-                method: "GET",
-                headers: { "Content-Type": "application/json" },
-            });
+            const response = await fetch(
+                `${apiUrl}/lkp/locations/states?country_id=${countryId}`,
+                {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json" },
+                }
+            );
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
             const { success, data } = await response.json();
             if (!success) throw new Error("Error loading states");
@@ -354,7 +455,8 @@ function Test() {
     };
 
     const handleCommodityTypeChange = (event) => {
-        setSelectedCommodityTypeId(event.target.value);
+        const newCommodityTypeId = event.target.value;
+        setSelectedCommodityTypeId(newCommodityTypeId);
         setSelectedCommodityId("");
         setSelectedAdaptationId("");
         setSelectedRiskId("");
@@ -362,7 +464,8 @@ function Test() {
     };
 
     const handleCommodityChange = (event) => {
-        setSelectedCommodityId(event.target.value);
+        const newCommodityId = event.target.value;
+        setSelectedCommodityId(newCommodityId);
         setSelectedAdaptationId("");
         setSelectedRiskId("");
         setSelectedImpactId("");
@@ -408,112 +511,6 @@ function Test() {
         }
     };
 
-    const handleSaveFilters = async () => {
-        if (
-            !countries.length ||
-            !commodityTypes.length ||
-            !commodities.length ||
-            !analysisScopes.length ||
-            !visualizationScales.length ||
-            !climateScenarios.length ||
-            !dataSources.length ||
-            !impacts.length
-        ) {
-            console.warn("Required data not fully loaded, skipping filter save.");
-            return;
-        }
-
-        let layer_type = "commodity";
-        if (selectedRiskId) layer_type = "risk";
-        else if (selectedImpactId) layer_type = "impact";
-        else if (selectedAdaptationId) layer_type = "adaptation";
-
-        const mandatoryFields = {
-            analysis_scope_id: selectedScopeId,
-            visualization_scale_id: selectedScaleId,
-            data_source_id: selectedDataSourceId,
-            climate_scenario_id: selectedScenarioId,
-        };
-
-        const missingFields = Object.entries(mandatoryFields)
-            .filter(([key, value]) => !value)
-            .map(([key]) => key.replace(/_id$/, "").replace(/_/g, " "));
-
-        if (missingFields.length > 0) {
-            Swal.fire({
-                icon: "error",
-                title: "Missing Mandatory Fields",
-                text: `Please select the following mandatory fields: ${missingFields.join(", ")}`,
-            });
-            return;
-        }
-
-        if ((selectedRiskId || selectedImpactId || selectedAdaptationId) && !selectedCommodityId) {
-            Swal.fire({
-                icon: "error",
-                title: "Missing Commodity",
-                text: "Please select a commodity when selecting a risk, impact, or adaptation.",
-            });
-            return;
-        }
-
-        const admin_level = selectedStateId !== 0 ? "state" : selectedCountryId !== 0 ? "country" : "total";
-        const admin_level_id = selectedStateId !== 0 ? selectedStateId : selectedCountryId !== 0 ? selectedCountryId : null;
-
-        const newFilters = {
-            analysis_scope_id: +selectedScopeId || null,
-            visualization_scale_id: +selectedScaleId || null,
-            commodity_id: +selectedCommodityId || null,
-            commodity_type_id: +selectedCommodityTypeId || null,
-            data_source_id: +selectedDataSourceId || null,
-            climate_scenario_id: +selectedScenarioId || null,
-            layer_type,
-            risk_id: layer_type === "risk" ? +selectedRiskId : null,
-            impact_id: layer_type === "impact" ? +selectedImpactId : null,
-            adaptation_id: layer_type === "adaptation" ? +selectedAdaptationId || null : null,
-            admin_level,
-            admin_level_id,
-            geojson: geojsonData?.geojson,
-            bbox: geojsonData?.bbox,
-            region: geojsonData?.region,
-            countries: countries || [],
-            commodityTypes: commodityTypes || [],
-            commodities: commodities || [],
-            analysisScopes: analysisScopes || [],
-            visualizationScales: visualizationScales || [],
-            climateScenarios: climateScenarios || [],
-            dataSources: dataSources || [],
-            impacts: impacts || [],
-            adaptations: adaptations || [],
-            states: states || [],
-            risks: risks || [],
-        };
-
-        setFilters(newFilters);
-        setAppliedFilters(newFilters);
-    };
-
-    const handleClearFilters = () => {
-        setSelectedCountryId(0);
-        setSelectedStateId(0);
-        setDisableStateFilter(true);
-        setStates([]);
-        setSelectedCommodityTypeId(1);
-        setSelectedCommodityId("");
-        setSelectedScopeId("");
-        setSelectedScaleId("");
-        setSelectedScenarioId("");
-        setSelectedDataSourceId("");
-        setSelectedRiskId("");
-        setSelectedImpactId("");
-        setSelectedAdaptationId("");
-        setFilters(null);
-        setAppliedFilters(null);
-        setGeojsonData(null);
-        setShowCountrySelect(true);
-        fetchGeojson("total", null);
-    };
-
     const groupedAdaptations = adaptations.reduce((acc, adaptation) => {
         const groupKey = adaptation.group_id ? adaptation.group : "Other";
         if (!acc[groupKey]) acc[groupKey] = [];
@@ -537,10 +534,10 @@ function Test() {
                     variant="permanent"
                     open={open}
                     sx={{
-                        width: open ? drawerWidth : 45,
+                        width: open ? drawerWidth : 50,
                         flexShrink: 0,
                         "& .MuiDrawer-paper": {
-                            width: open ? drawerWidth : 45,
+                            width: open ? drawerWidth : 50,
                             transition: "width 0.3s",
                             overflowX: "hidden",
                             overflowY: "hidden",
@@ -549,49 +546,66 @@ function Test() {
                 >
                     <Toolbar />
                     <List style={{ marginTop: "14px" }}>
-                        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                        <Box
+                            sx={{
+                                display: "flex",
+                                justifyContent: "flex-end",
+                                alignItems: "center",
+                            }}
+                        >
                             <Box>
-                                <IconButton color="inherit" edge="start" onClick={toggleDrawer} sx={{ ml: 2 }}>
-                                    <LayoutIcon />
+                                <IconButton
+                                    color="inherit"
+                                    edge="start"
+                                    onClick={toggleDrawer}
+                                    sx={{ ml: 2 }}
+                                >
+                                    {open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
                                 </IconButton>
                             </Box>
                         </Box>
-                        {open && (
-                            <Box>
-                                <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginLeft: "16px", marginRight: "16px" }}>
-                                    <Box>
-                                        <h3 className="filterText"> {!isLoading ? "Filters" : "Loading..."}</h3>
-                                    </Box>
-                                    <Box>
-                                        <Button className="clearText" onClick={handleClearFilters} disabled={isLoading}>
-                                            Clear All
-                                        </Button>
-                                        <Tooltip title="Apply your filter selections to the map">
-                                            <Button className="saveFilters" onClick={handleSaveFilters} disabled={isLoading}>
-                                                Apply Filters
-                                            </Button>
-                                        </Tooltip>
-                                    </Box>
-                                </Box>
-                            </Box>
-                        )}
-                        <div className="card" style={{ height: "72.4vh", overflowY: "scroll", overflowX: "hidden", border: "0px", scrollbarWidth: "none" }}>
+                        <div
+                            className="card"
+                            style={{
+                                height: "72.4vh",
+                                overflowY: "scroll",
+                                overflowX: "hidden",
+                                border: "0px",
+                                scrollbarWidth: "none",
+                            }}
+                        >
                             <div className="card-body p-0">
-                                <List classNmae="listMenu" sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }} component="nav" aria-labelledby="nested-list-subheader">
+                                <List
+                                    className="listMenu"
+                                    sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+                                    component="nav"
+                                    aria-labelledby="nested-list-subheader"
+                                >
                                     <ListSubheader component="div" id="nested-list-subheader"></ListSubheader>
-                                    <ListItemButton onClick={() => handleSidebarToggle("region")} disabled={isLoading}>
-                                        <ListItemIcon sx={{
-                                            minWidth: 35,
-                                            color: 'rgba(0, 0, 0, 0.54)',
-                                            flexShrink: 0,
-                                            display: 'inline-flex',
-                                        }}>
+                                    <ListItemButton
+                                        onClick={() => handleSidebarToggle("region")}
+                                        disabled={isLoading}
+                                    >
+                                        <ListItemIcon
+                                            sx={{
+                                                minWidth: 35,
+                                                color: "rgba(0, 0, 0, 0.54)",
+                                                flexShrink: 0,
+                                                display: "inline-flex",
+                                            }}
+                                        >
                                             <img src="/images/location.svg" alt="" />
                                         </ListItemIcon>
-                                        <ListItemText primary={<FormLabel className="formLabel">Region</FormLabel>} />
+                                        <ListItemText
+                                            primary={<FormLabel className="formLabel">Region</FormLabel>}
+                                        />
                                         {isSidebarOpen.region ? <ExpandLess /> : <ExpandMore />}
                                     </ListItemButton>
-                                    <Collapse in={isSidebarOpen.region} timeout="auto" unmountOnExit>
+                                    <Collapse
+                                        in={isSidebarOpen.region}
+                                        timeout="auto"
+                                        unmountOnExit
+                                    >
                                         <List component="div" disablePadding>
                                             <div className="card w-100 bg-transparent border-0 text-start">
                                                 <div className="card-body">
@@ -608,7 +622,9 @@ function Test() {
                                                                     disabled={isLoading}
                                                                     style={{ margin: "0 0 15px 0" }}
                                                                 >
-                                                                    <MenuItem className="customMenuItem" value={0}>South Asia</MenuItem>
+                                                                    <MenuItem className="customMenuItem" value={0}>
+                                                                        South Asia
+                                                                    </MenuItem>
                                                                     {countries.map((a) => (
                                                                         <MenuItem
                                                                             className="customMenuItem"
@@ -624,7 +640,10 @@ function Test() {
                                                         ) : (
                                                             <Typography variant="subtitle2" sx={{ mb: 1 }}>
                                                                 <FormLabel className="formLabel">
-                                                                    Country: {countries.find(c => c.country_id === selectedCountryId)?.country || "South Asia"}
+                                                                    Country:{" "}
+                                                                    {countries.find(
+                                                                        (c) => c.country_id === selectedCountryId
+                                                                    )?.country || "South Asia"}
                                                                 </FormLabel>
                                                             </Typography>
                                                         )}
@@ -636,9 +655,15 @@ function Test() {
                                                             inputProps={{ "aria-label": "State" }}
                                                             disabled={disabledStateFilter || isLoading}
                                                         >
-                                                            <MenuItem className="customMenuItem" value={0}>State/Province</MenuItem>
+                                                            <MenuItem className="customMenuItem" value={0}>
+                                                                State/Province
+                                                            </MenuItem>
                                                             {states.map((a) => (
-                                                                <MenuItem className="customMenuItem" key={a.state_id} value={a.state_id}>
+                                                                <MenuItem
+                                                                    className="customMenuItem"
+                                                                    key={a.state_id}
+                                                                    value={a.state_id}
+                                                                >
                                                                     {a.state}
                                                                 </MenuItem>
                                                             ))}
@@ -650,31 +675,55 @@ function Test() {
                                     </Collapse>
                                 </List>
 
-                                <List classNmae="listMenu" sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }} component="nav" aria-labelledby="nested-list-subheader1">
-                                    <ListSubheader component="div" id="nested-list-subheader1"></ListSubheader>
-                                    <ListItemButton onClick={() => handleSidebarToggle("dataType")} disabled={isLoading}>
-                                        <ListItemIcon sx={{
-                                            minWidth: 35,
-                                            color: 'rgba(0, 0, 0, 0.54)',
-                                            flexShrink: 0,
-                                            display: 'inline-flex',
-                                        }}>
+                                <List
+                                    className="listMenu"
+                                    sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+                                    component="nav"
+                                    aria-labelledby="nested-list-subheader1"
+                                >
+                                    <ListSubheader
+                                        component="div"
+                                        id="nested-list-subheader1"
+                                    ></ListSubheader>
+                                    <ListItemButton
+                                        onClick={() => handleSidebarToggle("dataType")}
+                                        disabled={isLoading}
+                                    >
+                                        <ListItemIcon
+                                            sx={{
+                                                minWidth: 35,
+                                                color: "rgba(0, 0, 0, 0.54)",
+                                                flexShrink: 0,
+                                                display: "inline-flex",
+                                            }}
+                                        >
                                             <img src="/images/datatype.svg" alt="Data Type" />
                                         </ListItemIcon>
-                                        <ListItemText primary={<FormLabel className="formLabel">Data Type</FormLabel>} />
+                                        <ListItemText
+                                            primary={<FormLabel className="formLabel">Data Type</FormLabel>}
+                                        />
                                         {isSidebarOpen.dataType ? <ExpandLess /> : <ExpandMore />}
                                     </ListItemButton>
-                                    <Collapse in={isSidebarOpen.dataType} timeout="auto" unmountOnExit>
+                                    <Collapse
+                                        in={isSidebarOpen.dataType}
+                                        timeout="auto"
+                                        unmountOnExit
+                                    >
                                         <List component="div" disablePadding sx={{ px: 2 }}>
-                                            <FormGroup row sx={{ flexWrap: 'nowrap', gap: 2 }}>
+                                            <FormGroup row sx={{ flexWrap: "nowrap", gap: 2 }}>
                                                 {commodityTypes.map((type) => (
                                                     <FormControlLabel
                                                         key={type.commodity_type_id}
                                                         control={
                                                             <Switch
-                                                                checked={+selectedCommodityTypeId === +type.commodity_type_id}
+                                                                checked={
+                                                                    +selectedCommodityTypeId ===
+                                                                    +type.commodity_type_id
+                                                                }
                                                                 onChange={() =>
-                                                                    handleCommodityTypeChange({ target: { value: type.commodity_type_id } })
+                                                                    handleCommodityTypeChange({
+                                                                        target: { value: type.commodity_type_id },
+                                                                    })
                                                                 }
                                                                 disabled={!type.status || isLoading}
                                                                 color="primary"
@@ -682,37 +731,62 @@ function Test() {
                                                         }
                                                         label={
                                                             <Box display="flex" alignItems="center" gap={1}>
-                                                                {/* Optional image if needed */}
-                                                                {/* <img src={`/images/filter-${type.commodity_type.toLowerCase()}.png`} alt={type.commodity_type} height={20} /> */}
-                                                                <FormLabel className="label-list">{type.commodity_type}</FormLabel>
+                                                                <FormLabel className="label-list">
+                                                                    {type.commodity_type}
+                                                                </FormLabel>
                                                             </Box>
                                                         }
                                                     />
                                                 ))}
                                             </FormGroup>
                                         </List>
-
                                     </Collapse>
                                 </List>
 
-                                <List classNmae="listMenu" sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }} component="nav" aria-labelledby="nested-list-subheader2">
-                                    <ListSubheader component="div" id="nested-list-subheader2"></ListSubheader>
-                                    <ListItemButton onClick={() => handleSidebarToggle("analysis")} disabled={isLoading}>
-                                        <ListItemIcon sx={{
-                                            minWidth: 35,
-                                            color: 'rgba(0, 0, 0, 0.54)',
-                                            flexShrink: 0,
-                                            display: 'inline-flex',
-                                        }}>
+                                <List
+                                    className="listMenu"
+                                    sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+                                    component="nav"
+                                    aria-labelledby="nested-list-subheader2"
+                                >
+                                    <ListSubheader
+                                        component="div"
+                                        id="nested-list-subheader2"
+                                    ></ListSubheader>
+                                    <ListItemButton
+                                        onClick={() => handleSidebarToggle("analysis")}
+                                        disabled={isLoading}
+                                    >
+                                        <ListItemIcon
+                                            sx={{
+                                                minWidth: 35,
+                                                color: "rgba(0, 0, 0, 0.54)",
+                                                flexShrink: 0,
+                                                display: "inline-flex",
+                                            }}
+                                        >
                                             <img src="/images/analysis.svg" alt="Analysis & Scale" />
                                         </ListItemIcon>
-                                        <ListItemText primary={<FormLabel className="formLabel">Analysis & Scale</FormLabel>} />
+                                        <ListItemText
+                                            primary={
+                                                <FormLabel className="formLabel">Analysis & Scale</FormLabel>
+                                            }
+                                        />
                                         {isSidebarOpen.analysis ? <ExpandLess /> : <ExpandMore />}
                                     </ListItemButton>
-                                    <Collapse in={isSidebarOpen.analysis} timeout="auto" unmountOnExit>
+                                    <Collapse
+                                        in={isSidebarOpen.analysis}
+                                        timeout="auto"
+                                        unmountOnExit
+                                    >
                                         <List component="div" disablePadding sx={{ px: 2 }}>
-                                            <Typography variant="subtitle2" sx={{ mt: 2, mb: 1, textAlign: 'left' }}>
-                                                <FormLabel className="formLabel">Select analysis scope</FormLabel>
+                                            <Typography
+                                                variant="subtitle2"
+                                                sx={{ mt: 2, mb: 1, textAlign: "left" }}
+                                            >
+                                                <FormLabel className="formLabel">
+                                                    Select analysis scope
+                                                </FormLabel>
                                             </Typography>
                                             <FormGroup>
                                                 {analysisScopes.map((scope) => (
@@ -721,19 +795,25 @@ function Test() {
                                                         control={
                                                             <Switch
                                                                 checked={+selectedScopeId === +scope.scope_id}
-                                                                onChange={() => handleScopeChange({ target: { value: scope.scope_id } })}
+                                                                onChange={() =>
+                                                                    handleScopeChange({
+                                                                        target: { value: scope.scope_id },
+                                                                    })
+                                                                }
                                                                 disabled={!scope.status || isLoading}
                                                                 color="primary"
                                                             />
                                                         }
                                                         label={
-                                                            <span style={{
-                                                                fontFamily: 'Poppins',
-                                                                fontSize: '10px',
-                                                                fontStyle: 'normal',
-                                                                fontWeight: 500,
-                                                                lineHeight: 'normal'
-                                                            }}>
+                                                            <span
+                                                                style={{
+                                                                    fontFamily: "Poppins",
+                                                                    fontSize: "10px",
+                                                                    fontStyle: "normal",
+                                                                    fontWeight: 500,
+                                                                    lineHeight: "normal",
+                                                                }}
+                                                            >
                                                                 {scope.scope}
                                                             </span>
                                                         }
@@ -741,8 +821,13 @@ function Test() {
                                                 ))}
                                             </FormGroup>
 
-                                            <Typography variant="subtitle2" sx={{ mt: 3, mb: 1, textAlign: 'left' }}>
-                                                <FormLabel className="formLabel">Select visualization scale</FormLabel>
+                                            <Typography
+                                                variant="subtitle2"
+                                                sx={{ mt: 3, mb: 1, textAlign: "left" }}
+                                            >
+                                                <FormLabel className="formLabel">
+                                                    Select visualization scale
+                                                </FormLabel>
                                             </Typography>
                                             <FormGroup>
                                                 {visualizationScales.map((scale) => (
@@ -751,20 +836,25 @@ function Test() {
                                                         control={
                                                             <Switch
                                                                 checked={+selectedScaleId === +scale.scale_id}
-                                                                onChange={() => handleScaleChange({ target: { value: scale.scale_id } })}
+                                                                onChange={() =>
+                                                                    handleScaleChange({
+                                                                        target: { value: scale.scale_id },
+                                                                    })
+                                                                }
                                                                 disabled={!scale.status || isLoading}
                                                                 color="primary"
                                                             />
                                                         }
-
                                                         label={
-                                                            <span style={{
-                                                                fontFamily: 'Poppins',
-                                                                fontSize: '10px',
-                                                                fontStyle: 'normal',
-                                                                fontWeight: 500,
-                                                                lineHeight: 'normal'
-                                                            }}>
+                                                            <span
+                                                                style={{
+                                                                    fontFamily: "Poppins",
+                                                                    fontSize: "10px",
+                                                                    fontStyle: "normal",
+                                                                    fontWeight: 500,
+                                                                    lineHeight: "normal",
+                                                                }}
+                                                            >
                                                                 {scale.scale}
                                                             </span>
                                                         }
@@ -775,21 +865,40 @@ function Test() {
                                     </Collapse>
                                 </List>
 
-                                <List classNmae="listMenu" sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }} component="nav" aria-labelledby="nested-list-subheader3">
-                                    <ListSubheader component="div" id="nested-list-subheader3"></ListSubheader>
-                                    <ListItemButton onClick={() => handleSidebarToggle("commodity")} disabled={isLoading}>
-                                        <ListItemIcon sx={{
-                                            minWidth: 35,
-                                            color: 'rgba(0, 0, 0, 0.54)',
-                                            flexShrink: 0,
-                                            display: 'inline-flex',
-                                        }}>
+                                <List
+                                    className="listMenu"
+                                    sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+                                    component="nav"
+                                    aria-labelledby="nested-list-subheader3"
+                                >
+                                    <ListSubheader
+                                        component="div"
+                                        id="nested-list-subheader3"
+                                    ></ListSubheader>
+                                    <ListItemButton
+                                        onClick={() => handleSidebarToggle("commodity")}
+                                        disabled={isLoading}
+                                    >
+                                        <ListItemIcon
+                                            sx={{
+                                                minWidth: 35,
+                                                color: "rgba(0, 0, 0, 0.54)",
+                                                flexShrink: 0,
+                                                display: "inline-flex",
+                                            }}
+                                        >
                                             <img src="/images/commodity.svg" alt="Commodity" />
                                         </ListItemIcon>
-                                        <ListItemText primary={<FormLabel className="formLabel">Commodity</FormLabel>} />
+                                        <ListItemText
+                                            primary={<FormLabel className="formLabel">Commodity</FormLabel>}
+                                        />
                                         {isSidebarOpen.commodity ? <ExpandLess /> : <ExpandMore />}
                                     </ListItemButton>
-                                    <Collapse in={isSidebarOpen.commodity} timeout="auto" unmountOnExit>
+                                    <Collapse
+                                        in={isSidebarOpen.commodity}
+                                        timeout="auto"
+                                        unmountOnExit
+                                    >
                                         <List component="div" disablePadding sx={{ px: 2 }}>
                                             <FormGroup>
                                                 {filteredCommodities.map((commodity) => (
@@ -798,20 +907,25 @@ function Test() {
                                                         control={
                                                             <Switch
                                                                 checked={+selectedCommodityId === +commodity.commodity_id}
-                                                                onChange={() => handleCommodityChange({ target: { value: commodity.commodity_id } })}
+                                                                onChange={() =>
+                                                                    handleCommodityChange({
+                                                                        target: { value: commodity.commodity_id },
+                                                                    })
+                                                                }
                                                                 disabled={!commodity.status || isLoading}
                                                                 color="primary"
                                                             />
                                                         }
-
                                                         label={
-                                                            <span style={{
-                                                                fontFamily: 'Poppins',
-                                                                fontSize: '10px',
-                                                                fontStyle: 'normal',
-                                                                fontWeight: 500,
-                                                                lineHeight: 'normal'
-                                                            }}>
+                                                            <span
+                                                                style={{
+                                                                    fontFamily: "Poppins",
+                                                                    fontSize: "10px",
+                                                                    fontStyle: "normal",
+                                                                    fontWeight: 500,
+                                                                    lineHeight: "normal",
+                                                                }}
+                                                            >
                                                                 {commodity.commodity}
                                                             </span>
                                                         }
@@ -822,23 +936,45 @@ function Test() {
                                     </Collapse>
                                 </List>
 
-                                <List classNmae="listMenu" sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }} component="nav" aria-labelledby="nested-list-subheader4">
-                                    <ListSubheader component="div" id="nested-list-subheader4"></ListSubheader>
-                                    <ListItemButton onClick={() => handleSidebarToggle("scenario")} disabled={isLoading}>
-                                        <ListItemIcon sx={{
-                                            minWidth: 35,
-                                            color: 'rgba(0, 0, 0, 0.54)',
-                                            flexShrink: 0,
-                                            display: 'inline-flex',
-                                        }}>
+                                <List
+                                    className="listMenu"
+                                    sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+                                    component="nav"
+                                    aria-labelledby="nested-list-subheader4"
+                                >
+                                    <ListSubheader
+                                        component="div"
+                                        id="nested-list-subheader4"
+                                    ></ListSubheader>
+                                    <ListItemButton
+                                        onClick={() => handleSidebarToggle("scenario")}
+                                        disabled={isLoading}
+                                    >
+                                        <ListItemIcon
+                                            sx={{
+                                                minWidth: 35,
+                                                color: "rgba(0, 0, 0, 0.54)",
+                                                flexShrink: 0,
+                                                display: "inline-flex",
+                                            }}
+                                        >
                                             <img src="/images/scenario.svg" alt="Scenario" />
                                         </ListItemIcon>
-                                        <ListItemText primary={<FormLabel className="formLabel">Scenario </FormLabel>} />
+                                        <ListItemText
+                                            primary={<FormLabel className="formLabel">Scenario </FormLabel>}
+                                        />
                                         {isSidebarOpen.scenario ? <ExpandLess /> : <ExpandMore />}
                                     </ListItemButton>
-                                    <Collapse in={isSidebarOpen.scenario} timeout="auto" unmountOnExit>
+                                    <Collapse
+                                        in={isSidebarOpen.scenario}
+                                        timeout="auto"
+                                        unmountOnExit
+                                    >
                                         <List component="div" disablePadding sx={{ px: 2 }}>
-                                            <Typography variant="subtitle2" sx={{ mt: 2, mb: 1, textAlign: 'left' }}>
+                                            <Typography
+                                                variant="subtitle2"
+                                                sx={{ mt: 2, mb: 1, textAlign: "left" }}
+                                            >
                                                 <FormLabel className="formLabel">Select data source</FormLabel>
                                             </Typography>
                                             <FormGroup>
@@ -847,28 +983,41 @@ function Test() {
                                                         key={source.data_source_id}
                                                         control={
                                                             <Switch
-                                                                checked={+selectedDataSourceId === +source.data_source_id}
-                                                                onChange={() => handleDataSourceChange({ target: { value: source.data_source_id } })}
+                                                                checked={
+                                                                    +selectedDataSourceId === +source.data_source_id
+                                                                }
+                                                                onChange={() =>
+                                                                    handleDataSourceChange({
+                                                                        target: { value: source.data_source_id },
+                                                                    })
+                                                                }
                                                                 disabled={!source.status || isLoading}
                                                                 color="primary"
                                                             />
                                                         }
                                                         label={
-                                                            <span style={{
-                                                                fontFamily: 'Poppins',
-                                                                fontSize: '10px',
-                                                                fontStyle: 'normal',
-                                                                fontWeight: 500,
-                                                                lineHeight: 'normal'
-                                                            }}>
+                                                            <span
+                                                                style={{
+                                                                    fontFamily: "Poppins",
+                                                                    fontSize: "10px",
+                                                                    fontStyle: "normal",
+                                                                    fontWeight: 500,
+                                                                    lineHeight: "normal",
+                                                                }}
+                                                            >
                                                                 {source.source}
                                                             </span>
                                                         }
                                                     />
                                                 ))}
                                             </FormGroup>
-                                            <Typography variant="subtitle2" sx={{ mt: 3, mb: 1, textAlign: 'left' }}>
-                                                <FormLabel className="formLabel">Select climate scenario</FormLabel>
+                                            <Typography
+                                                variant="subtitle2"
+                                                sx={{ mt: 3, mb: 1, textAlign: "left" }}
+                                            >
+                                                <FormLabel className="formLabel">
+                                                    Select climate scenario
+                                                </FormLabel>
                                             </Typography>
                                             <FormGroup>
                                                 {climateScenarios.map((scenario) => (
@@ -876,20 +1025,28 @@ function Test() {
                                                         key={scenario.scenario_id}
                                                         control={
                                                             <Switch
-                                                                checked={+selectedScenarioId === +scenario.scenario_id}
-                                                                onChange={() => handleScenarioChange({ target: { value: scenario.scenario_id } })}
+                                                                checked={
+                                                                    +selectedScenarioId === +scenario.scenario_id
+                                                                }
+                                                                onChange={() =>
+                                                                    handleScenarioChange({
+                                                                        target: { value: scenario.scenario_id },
+                                                                    })
+                                                                }
                                                                 disabled={!scenario.status || isLoading}
                                                                 color="primary"
                                                             />
                                                         }
                                                         label={
-                                                            <span style={{
-                                                                fontFamily: 'Poppins',
-                                                                fontSize: '10px',
-                                                                fontStyle: 'normal',
-                                                                fontWeight: 500,
-                                                                lineHeight: 'normal'
-                                                            }}>
+                                                            <span
+                                                                style={{
+                                                                    fontFamily: "Poppins",
+                                                                    fontSize: "10px",
+                                                                    fontStyle: "normal",
+                                                                    fontWeight: 500,
+                                                                    lineHeight: "normal",
+                                                                }}
+                                                            >
                                                                 {scenario.scenario}
                                                             </span>
                                                         }
@@ -900,21 +1057,41 @@ function Test() {
                                     </Collapse>
                                 </List>
 
-                                <List classNmae="listMenu" sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }} component="nav" aria-labelledby="nested-list-subheader5">
-                                    <ListSubheader component="div" id="nested-list-subheader5"></ListSubheader>
-                                    <ListItemButton onClick={() => handleSidebarToggle("risk")} disabled={isLoading} sx={getListItemStyle("risk")}>
-                                        <ListItemIcon sx={{
-                                            minWidth: 35,
-                                            color: 'rgba(0, 0, 0, 0.54)',
-                                            flexShrink: 0,
-                                            display: 'inline-flex',
-                                        }}>
+                                <List
+                                    className="listMenu"
+                                    sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+                                    component="nav"
+                                    aria-labelledby="nested-list-subheader5"
+                                >
+                                    <ListSubheader
+                                        component="div"
+                                        id="nested-list-subheader5"
+                                    ></ListSubheader>
+                                    <ListItemButton
+                                        onClick={() => handleSidebarToggle("risk")}
+                                        disabled={isLoading || !selectedCommodityId}
+                                        sx={getListItemStyle("risk")}
+                                    >
+                                        <ListItemIcon
+                                            sx={{
+                                                minWidth: 35,
+                                                color: "rgba(0, 0, 0, 0.54)",
+                                                flexShrink: 0,
+                                                display: "inline-flex",
+                                            }}
+                                        >
                                             <img src="/images/risk.svg" alt="Risk" />
                                         </ListItemIcon>
-                                        <ListItemText primary={<FormLabel className="formLabel">Risk</FormLabel>} />
+                                        <ListItemText
+                                            primary={<FormLabel className="formLabel">Risk</FormLabel>}
+                                        />
                                         {isSidebarOpen.risk ? <ExpandLess /> : <ExpandMore />}
                                     </ListItemButton>
-                                    <Collapse in={isSidebarOpen.risk} timeout="auto" unmountOnExit>
+                                    <Collapse
+                                        in={isSidebarOpen.risk}
+                                        timeout="auto"
+                                        unmountOnExit
+                                    >
                                         <List component="div" disablePadding sx={{ px: 2 }}>
                                             <FormGroup>
                                                 {risks.map((risk) => (
@@ -923,19 +1100,25 @@ function Test() {
                                                         control={
                                                             <Switch
                                                                 checked={+selectedRiskId === +risk.risk_id}
-                                                                onChange={() => handleRiskChange({ target: { value: risk.risk_id } })}
+                                                                onChange={() =>
+                                                                    handleRiskChange({
+                                                                        target: { value: risk.risk_id },
+                                                                    })
+                                                                }
                                                                 disabled={!risk.status || isLoading}
                                                                 color="primary"
                                                             />
                                                         }
                                                         label={
-                                                            <span style={{
-                                                                fontFamily: 'Poppins',
-                                                                fontSize: '10px',
-                                                                fontStyle: 'normal',
-                                                                fontWeight: 500,
-                                                                lineHeight: 'normal'
-                                                            }}>
+                                                            <span
+                                                                style={{
+                                                                    fontFamily: "Poppins",
+                                                                    fontSize: "10px",
+                                                                    fontStyle: "normal",
+                                                                    fontWeight: 500,
+                                                                    lineHeight: "normal",
+                                                                }}
+                                                            >
                                                                 {risk.risk}
                                                             </span>
                                                         }
@@ -946,21 +1129,41 @@ function Test() {
                                     </Collapse>
                                 </List>
 
-                                <List classNmae="listMenu" sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }} component="nav" aria-labelledby="nested-list-subheader6">
-                                    <ListSubheader component="div" id="nested-list-subheader6"></ListSubheader>
-                                    <ListItemButton onClick={() => handleSidebarToggle("impact")} disabled={isLoading} sx={getListItemStyle("impact")}>
-                                        <ListItemIcon sx={{
-                                            minWidth: 35,
-                                            color: 'rgba(0, 0, 0, 0.54)',
-                                            flexShrink: 0,
-                                            display: 'inline-flex',
-                                        }}>
+                                <List
+                                    className="listMenu"
+                                    sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+                                    component="nav"
+                                    aria-labelledby="nested-list-subheader6"
+                                >
+                                    <ListSubheader
+                                        component="div"
+                                        id="nested-list-subheader6"
+                                    ></ListSubheader>
+                                    <ListItemButton
+                                        onClick={() => handleSidebarToggle("impact")}
+                                        disabled={isLoading || !selectedCommodityId}
+                                        sx={getListItemStyle("impact")}
+                                    >
+                                        <ListItemIcon
+                                            sx={{
+                                                minWidth: 35,
+                                                color: "rgba(0, 0, 0, 0.54)",
+                                                flexShrink: 0,
+                                                display: "inline-flex",
+                                            }}
+                                        >
                                             <img src="/images/impact.svg" alt="Impact" />
                                         </ListItemIcon>
-                                        <ListItemText primary={<FormLabel className="formLabel">Impact</FormLabel>} />
+                                        <ListItemText
+                                            primary={<FormLabel className="formLabel">Impact</FormLabel>}
+                                        />
                                         {isSidebarOpen.impact ? <ExpandLess /> : <ExpandMore />}
                                     </ListItemButton>
-                                    <Collapse in={isSidebarOpen.impact} timeout="auto" unmountOnExit>
+                                    <Collapse
+                                        in={isSidebarOpen.impact}
+                                        timeout="auto"
+                                        unmountOnExit
+                                    >
                                         <List component="div" disablePadding sx={{ px: 2 }}>
                                             <FormGroup>
                                                 {impacts.map((impact) => (
@@ -969,19 +1172,25 @@ function Test() {
                                                         control={
                                                             <Switch
                                                                 checked={+selectedImpactId === +impact.impact_id}
-                                                                onChange={() => handleImpactChange({ target: { value: impact.impact_id } })}
+                                                                onChange={() =>
+                                                                    handleImpactChange({
+                                                                        target: { value: impact.impact_id },
+                                                                    })
+                                                                }
                                                                 disabled={!impact.status || isLoading}
                                                                 color="primary"
                                                             />
                                                         }
                                                         label={
-                                                            <span style={{
-                                                                fontFamily: 'Poppins',
-                                                                fontSize: '10px',
-                                                                fontStyle: 'normal',
-                                                                fontWeight: 500,
-                                                                lineHeight: 'normal'
-                                                            }}>
+                                                            <span
+                                                                style={{
+                                                                    fontFamily: "Poppins",
+                                                                    fontSize: "10px",
+                                                                    fontStyle: "normal",
+                                                                    fontWeight: 500,
+                                                                    lineHeight: "normal",
+                                                                }}
+                                                            >
                                                                 {impact.impact}
                                                             </span>
                                                         }
@@ -993,60 +1202,88 @@ function Test() {
                                 </List>
 
                                 {selectedCommodityTypeId === 1 && (
-                                    <List classNmae="listMenu" sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }} component="nav" aria-labelledby="nested-list-subheader8">
-                                        <ListSubheader component="div" id="nested-list-subheader8"></ListSubheader>
-                                        <ListItemButton onClick={() => handleSidebarToggle("adaptation")} disabled={isLoading} sx={getListItemStyle("adaptation")}>
-                                            <ListItemIcon sx={{
-                                                minWidth: 35,
-                                                color: 'rgba(0, 0, 0, 0.54)',
-                                                flexShrink: 0,
-                                                display: 'inline-flex',
-                                            }}>
+                                    <List
+                                        className="listMenu"
+                                        sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+                                        component="nav"
+                                        aria-labelledby="nested-list-subheader7"
+                                    >
+                                        <ListSubheader
+                                            component="div"
+                                            id="nested-list-subheader7"
+                                        ></ListSubheader>
+                                        <ListItemButton
+                                            onClick={() => handleSidebarToggle("adaptation")}
+                                            disabled={isLoading || !selectedCommodityId}
+                                            sx={getListItemStyle("adaptation")}
+                                        >
+                                            <ListItemIcon
+                                                sx={{
+                                                    minWidth: 35,
+                                                    color: "rgba(0, 0, 0, 0.54)",
+                                                    flexShrink: 0,
+                                                    display: "inline-flex",
+                                                }}
+                                            >
                                                 <img src="/images/option.svg" alt="Adaptation" />
                                             </ListItemIcon>
-                                            <ListItemText primary={<FormLabel className="formLabel">Options</FormLabel>} />
+                                            <ListItemText
+                                                primary={<FormLabel className="formLabel">Adaptation</FormLabel>}
+                                            />
                                             {isSidebarOpen.adaptation ? <ExpandLess /> : <ExpandMore />}
                                         </ListItemButton>
-                                        <Collapse in={isSidebarOpen.adaptation} timeout="auto" unmountOnExit>
+                                        <Collapse
+                                            in={isSidebarOpen.adaptation}
+                                            timeout="auto"
+                                            unmountOnExit
+                                        >
                                             <List component="div" disablePadding sx={{ px: 2 }}>
-                                                <Typography variant="subtitle2" sx={{ mt: 2, mb: 1, textAlign: 'left' }}>
-                                                    <FormLabel className="formLabel">Select specific adaptation</FormLabel>
-                                                </Typography>
-                                                {Object.entries(groupedAdaptations).map(([group, adaptations]) => (
-                                                    <Box key={group} sx={{ pl: 2 }}>
-                                                        <Typography className="formLabel" variant="subtitle2" sx={{ fontWeight: "bold" }}>
-                                                            {group}
+                                                {Object.entries(groupedAdaptations).map(([group, items]) => (
+                                                    <div key={group}>
+                                                        <Typography
+                                                            variant="subtitle2"
+                                                            sx={{ mt: 2, mb: 1, textAlign: "left" }}
+                                                        >
+                                                            <FormLabel className="formLabel">{group}</FormLabel>
                                                         </Typography>
                                                         <FormGroup>
-                                                            {adaptations.map((adaptation) => (
+                                                            {items.map((adaptation) => (
                                                                 <FormControlLabel
                                                                     key={adaptation.adaptation_id}
                                                                     control={
                                                                         <Switch
-                                                                            checked={+selectedAdaptationId === +adaptation.adaptation_id}
-                                                                            onChange={() => handleAdaptationChange({ target: { value: adaptation.adaptation_id } })}
+                                                                            checked={
+                                                                                +selectedAdaptationId ===
+                                                                                +adaptation.adaptation_id
+                                                                            }
+                                                                            onChange={() =>
+                                                                                handleAdaptationChange({
+                                                                                    target: {
+                                                                                        value: adaptation.adaptation_id,
+                                                                                    },
+                                                                                })
+                                                                            }
                                                                             disabled={!adaptation.status || isLoading}
                                                                             color="primary"
                                                                         />
                                                                     }
                                                                     label={
-                                                                        <Tooltip title={adaptation.description}>
-                                                                            <span style={{
-                                                                                fontFamily: 'Poppins',
-                                                                                fontSize: '10px',
-                                                                                fontStyle: 'normal',
+                                                                        <span
+                                                                            style={{
+                                                                                fontFamily: "Poppins",
+                                                                                fontSize: "10px",
+                                                                                fontStyle: "normal",
                                                                                 fontWeight: 500,
-                                                                                lineHeight: 'normal'
-                                                                            }}>
-                                                                                {adaptation.adaptation}
-                                                                            </span>
-                                                                        </Tooltip>
+                                                                                lineHeight: "normal",
+                                                                            }}
+                                                                        >
+                                                                            {adaptation.adaptation}
+                                                                        </span>
                                                                     }
                                                                 />
                                                             ))}
                                                         </FormGroup>
-
-                                                    </Box>
+                                                    </div>
                                                 ))}
                                             </List>
                                         </Collapse>
@@ -1056,8 +1293,11 @@ function Test() {
                         </div>
                     </List>
                 </Drawer>
-
-                <Box component="main" className="main" sx={{ flexGrow: 1, height: "calc(100vh - 88px)" }}>
+                <Box
+                    component="main"
+                    className="main"
+                    sx={{ flexGrow: 1, height: "calc(100vh - 88px)" }}
+                >
                     <Grid container sx={{ height: "100%" }}>
                         <Grid item xs={12}>
                             <MapViewer

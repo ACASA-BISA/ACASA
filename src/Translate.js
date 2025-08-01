@@ -28,7 +28,7 @@ const Translate = () => {
 
   const googleTranslateElementInit = useCallback(() => {
     if (window.googleTranslateInitialized) {
-      console.log("Google Translate already initialized, skipping");
+      // // console.log("Google Translate already initialized, skipping");
       setIsTranslateLoaded(true);
       if (queuedLanguage.current) {
         applyLanguage(queuedLanguage.current);
@@ -48,7 +48,7 @@ const Translate = () => {
           },
           "google_translate_element"
         );
-        console.log("Google Translate initialized with HORIZONTAL layout");
+        // // console.log("Google Translate initialized with HORIZONTAL layout");
         window.googleTranslateInitialized = true;
         setIsTranslateLoaded(true);
         setScriptError(false);
@@ -60,30 +60,30 @@ const Translate = () => {
           translateElement.style.zIndex = "1000";
         }
       } else {
-        console.error("Google Translate API not fully loaded");
+        // console.error("Google Translate API not fully loaded");
         setScriptError(true);
       }
     } catch (error) {
-      console.error("Error initializing Google Translate:", error);
+      // console.error("Error initializing Google Translate:", error);
       setScriptError(true);
     }
   }, []);
 
   const findGoogleTranslateSelector = useCallback(() => {
-    console.log("Searching for .goog-te-combo...");
+    // // console.log("Searching for .goog-te-combo...");
     let select = document.querySelector(".goog-te-combo");
     if (select) {
-      console.log("Found .goog-te-combo in main DOM");
+      // // console.log("Found .goog-te-combo in main DOM");
       return { type: "select", element: select };
     }
 
     const iframes = document.querySelectorAll("iframe");
-    console.log(`Found ${iframes.length} iframes`);
+    // console.log(`Found ${iframes.length} iframes`);
     for (const iframe of iframes) {
       try {
         select = iframe.contentDocument?.querySelector(".goog-te-combo");
         if (select) {
-          console.log("Found .goog-te-combo in iframe:", iframe.src);
+          // console.log("Found .goog-te-combo in iframe:", iframe.src);
           return { type: "select", element: select };
         }
       } catch (e) {
@@ -91,20 +91,20 @@ const Translate = () => {
       }
     }
 
-    console.log("No .goog-te-combo found in main DOM or iframes");
+    // console.log("No .goog-te-combo found in main DOM or iframes");
     return null;
   }, []);
 
   const applyLanguage = useCallback(
     (langCode, attempts = 60, delay = 2000) => {
       if (isApplyingLanguage.current) {
-        console.log("Language change already in progress, queuing:", langCode);
+        // console.log("Language change already in progress, queuing:", langCode);
         queuedLanguage.current = langCode;
         return;
       }
 
       if (!isTranslateLoaded) {
-        console.warn(`Google Translate not loaded, queuing language change: ${langCode}`);
+        // console.warn(`Google Translate not loaded, queuing language change: ${langCode}`);
         queuedLanguage.current = langCode;
         return;
       }
@@ -112,7 +112,7 @@ const Translate = () => {
       isApplyingLanguage.current = true;
       const selector = findGoogleTranslateSelector();
       if (selector && selector.type === "select") {
-        console.log(`Applying language: ${langCode}, current value: ${selector.element.value}`);
+        // console.log(`Applying language: ${langCode}, current value: ${selector.element.value}`);
         selector.element.value = langCode;
         const changeEvent = new Event("change", { bubbles: true });
         selector.element.dispatchEvent(changeEvent);
@@ -120,7 +120,7 @@ const Translate = () => {
         setTimeout(() => {
           const translated = document.querySelector(`html[lang="${langCode}"]`);
           if (translated) {
-            console.log("Translation applied successfully for:", langCode);
+            // console.log("Translation applied successfully for:", langCode);
             setLanguage(langCode);
             setScriptError(false);
             isApplyingLanguage.current = false;
@@ -130,20 +130,20 @@ const Translate = () => {
               applyLanguage(nextLang);
             }
           } else if (attempts > 0) {
-            console.warn(`Translation not applied for ${langCode}, retrying... (${attempts} left)`);
+            // console.warn(`Translation not applied for ${langCode}, retrying... (${attempts} left)`);
             setTimeout(() => applyLanguage(langCode, attempts - 1, delay), delay);
           } else {
-            console.error("Failed to apply translation after retries for:", langCode);
+            // console.error("Failed to apply translation after retries for:", langCode);
             setScriptError(true);
             isApplyingLanguage.current = false;
             setLanguage(langCode);
           }
         }, 5000);
       } else if (attempts > 0) {
-        console.warn(`Google Translate selector not found, retrying... (${attempts} left)`);
+        // console.warn(`Google Translate selector not found, retrying... (${attempts} left)`);
         setTimeout(() => applyLanguage(langCode, attempts - 1, delay), delay);
       } else {
-        console.error("Google Translate selector not found after retries");
+        // console.error("Google Translate selector not found after retries");
         setScriptError(true);
         isApplyingLanguage.current = false;
         setLanguage(langCode);
@@ -151,7 +151,7 @@ const Translate = () => {
 
       setTimeout(() => {
         if (isApplyingLanguage.current) {
-          console.warn("applyLanguage timed out for:", langCode);
+          // console.warn("applyLanguage timed out for:", langCode);
           isApplyingLanguage.current = false;
           setLanguage(langCode);
           if (queuedLanguage.current) {
@@ -172,23 +172,23 @@ const Translate = () => {
       // Check main DOM
       const gadget = document.querySelector(".skiptranslate.goog-te-gadget");
       if (gadget) {
-        console.log("Found .skiptranslate.goog-te-gadget in main DOM:", gadget.outerHTML);
+        // console.log("Found .skiptranslate.goog-te-gadget in main DOM:", gadget.outerHTML);
         const targetLanguageDiv = gadget.querySelector("#\\:0\\.targetLanguage");
         if (targetLanguageDiv) {
           // Remove "Powered by" text nodes and specific span
           Array.from(gadget.childNodes).forEach((node) => {
             if (node.nodeType === Node.TEXT_NODE && /Powered by\s*/i.test(node.nodeValue)) {
               node.nodeValue = node.nodeValue.replace(/Powered by\s*/gi, "");
-              console.log("Removed 'Powered by' text node in main DOM");
+              // console.log("Removed 'Powered by' text node in main DOM");
               modified = true;
             } else if (node.nodeType === Node.ELEMENT_NODE && node.tagName === "SPAN" && node.querySelector(".VIpgJd-ZVi9od-l4eHX-hSRGPd")) {
               node.remove();
-              console.log("Removed Google Translate link span in main DOM");
+              // console.log("Removed Google Translate link span in main DOM");
               modified = true;
             }
           });
         } else {
-          console.warn("Target language div (#:0.targetLanguage) not found in .skiptranslate.goog-te-gadget");
+          // console.warn("Target language div (#:0.targetLanguage) not found in .skiptranslate.goog-te-gadget");
         }
       }
 
@@ -198,39 +198,39 @@ const Translate = () => {
         try {
           const gadgetInIframe = iframe.contentDocument?.querySelector(".skiptranslate.goog-te-gadget");
           if (gadgetInIframe) {
-            console.log("Found .skiptranslate.goog-te-gadget in iframe:", iframe.src, gadgetInIframe.outerHTML);
+            // console.log("Found .skiptranslate.goog-te-gadget in iframe:", iframe.src, gadgetInIframe.outerHTML);
             const targetLanguageDiv = gadgetInIframe.querySelector("#\\:0\\.targetLanguage");
             if (targetLanguageDiv) {
               Array.from(gadgetInIframe.childNodes).forEach((node) => {
                 if (node.nodeType === Node.TEXT_NODE && /Powered by\s*/i.test(node.nodeValue)) {
                   node.nodeValue = node.nodeValue.replace(/Powered by\s*/gi, "");
-                  console.log("Removed 'Powered by' text node in iframe");
+                  // console.log("Removed 'Powered by' text node in iframe");
                   modified = true;
                 } else if (node.nodeType === Node.ELEMENT_NODE && node.tagName === "SPAN" && node.querySelector(".VIpgJd-ZVi9od-l4eHX-hSRGPd")) {
                   node.remove();
-                  console.log("Removed Google Translate link span in iframe");
+                  // console.log("Removed Google Translate link span in iframe");
                   modified = true;
                 }
               });
             } else {
-              console.warn("Target language div (#:0.targetLanguage) not found in iframe .skiptranslate.goog-te-gadget");
+              // console.warn("Target language div (#:0.targetLanguage) not found in iframe .skiptranslate.goog-te-gadget");
             }
             break;
           }
         } catch (e) {
-          console.warn("Cannot access iframe content:", e.message);
+          // console.warn("Cannot access iframe content:", e.message);
         }
       }
 
       if (!modified && retryCount > 0) {
         if (process.env.NODE_ENV !== "production") {
-          console.warn(`.skiptranslate.goog-te-gadget not found or not modified, retrying... (${retryCount} left)`);
+          // console.warn(`.skiptranslate.goog-te-gadget not found or not modified, retrying... (${retryCount} left)`);
         }
         setTimeout(() => tryModify(retryCount - 1), delay);
       } else if (!modified && process.env.NODE_ENV !== "production") {
-        console.warn(".skiptranslate.goog-te-gadget not found or not modified after retries");
+        // console.warn(".skiptranslate.goog-te-gadget not found or not modified after retries");
       } else if (modified) {
-        console.log("Successfully modified .skiptranslate.goog-te-gadget");
+        // console.log("Successfully modified .skiptranslate.goog-te-gadget");
       }
     };
     tryModify(attempts);
@@ -238,13 +238,13 @@ const Translate = () => {
 
   useEffect(() => {
     if (isMounted.current) {
-      console.log("Translate component already mounted, skipping initialization");
+      // console.log("Translate component already mounted, skipping initialization");
       return;
     }
     isMounted.current = true;
 
     if (!document.getElementById("google_translate_element")) {
-      console.error("google_translate_element missing, recreating");
+      // console.error("google_translate_element missing, recreating");
       const translateElement = document.createElement("div");
       translateElement.id = "google_translate_element";
       translateElement.style.display = "block";
@@ -255,12 +255,12 @@ const Translate = () => {
 
     const translateElement = document.getElementById("google_translate_element");
     if (translateElement && translateElement.hasAttribute("aria-hidden")) {
-      console.warn("aria-hidden detected on #google_translate_element, removing");
+      // console.warn("aria-hidden detected on #google_translate_element, removing");
       translateElement.removeAttribute("aria-hidden");
     }
     const root = document.getElementById("root");
     if (root && root.hasAttribute("aria-hidden")) {
-      console.warn("aria-hidden detected on #root, removing");
+      // console.warn("aria-hidden detected on #root, removing");
       root.removeAttribute("aria-hidden");
     }
 
@@ -275,12 +275,12 @@ const Translate = () => {
           });
         }
         if (process.env.NODE_ENV !== "production") {
-          console.log("Mutation observed in google_translate_element:", {
-            type: mutation.type,
-            addedNodes: Array.from(mutation.addedNodes).map((node) => node.outerHTML || node.nodeName),
-            removedNodes: Array.from(mutation.removedNodes).map((node) => node.outerHTML || node.nodeName),
-            target: mutation.target.outerHTML?.substring(0, 200) || mutation.target.nodeName,
-          });
+          // console.log("Mutation observed in google_translate_element:", {
+          //   type: mutation.type,
+          //   addedNodes: Array.from(mutation.addedNodes).map((node) => node.outerHTML || node.nodeName),
+          //   removedNodes: Array.from(mutation.removedNodes).map((node) => node.outerHTML || node.nodeName),
+          //   target: mutation.target.outerHTML?.substring(0, 200) || mutation.target.nodeName,
+          // });
         }
       });
       if (shouldModify) {
@@ -351,7 +351,7 @@ const Translate = () => {
         }
       `;
       document.head.appendChild(style);
-      console.log("Applied custom UI to .goog-te-combo");
+      // console.log("Applied custom UI to .goog-te-combo");
 
       const updateOptions = () => {
         const select = document.querySelector(".goog-te-combo");
@@ -380,12 +380,12 @@ const Translate = () => {
         addScript.src = "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
         addScript.async = true;
         addScript.onload = () => {
-          console.log("Google Translate script loaded");
+          // console.log("Google Translate script loaded");
         };
         addScript.onerror = () => {
-          console.error("Failed to load Google Translate script");
+          // console.error("Failed to load Google Translate script");
           if (retryCount > 0) {
-            console.warn(`Retrying script load... (${retryCount} left)`);
+            // console.warn(`Retrying script load... (${retryCount} left)`);
             setTimeout(() => loadScript(retryCount - 1, retryDelay), retryDelay);
           } else {
             setScriptError(true);
@@ -399,7 +399,7 @@ const Translate = () => {
     };
 
     if (window.google && window.google.translate && window.google.translate.TranslateElement) {
-      console.log("Google Translate API already loaded");
+      // console.log("Google Translate API already loaded");
       googleTranslateElementInit();
       applyCustomUI();
       modifyTranslateWidget();
@@ -412,22 +412,22 @@ const Translate = () => {
     const checkDropdown = setTimeout(() => {
       const selector = findGoogleTranslateSelector();
       if (selector) {
-        console.log("Google Translate selector detected:", selector.type);
+        // console.log("Google Translate selector detected:", selector.type);
         setIsTranslateLoaded(true);
         // applyLanguage("en");
         modifyTranslateWidget();
       } else {
-        console.warn("Google Translate selector not found after delayed check");
+        // console.warn("Google Translate selector not found after delayed check");
         setScriptError(true);
         // setLanguage("en");
       }
-      console.log("google_translate_element content:", document.getElementById("google_translate_element")?.outerHTML || "Element not found");
+      // console.log("google_translate_element content:", document.getElementById("google_translate_element")?.outerHTML || "Element not found");
     }, 30000);
 
     const interval = setInterval(() => {
       const modals = document.querySelectorAll(".MuiModal-root[aria-hidden='true'], .MuiPopover-root[aria-hidden='true']");
       modals.forEach((modal) => {
-        console.log("Removing aria-hidden from MuiModal/MuiPopover");
+        // console.log("Removing aria-hidden from MuiModal/MuiPopover");
         modal.removeAttribute("aria-hidden");
       });
     }, 1000);
@@ -451,7 +451,7 @@ const Translate = () => {
       const checkLanguage = () => {
         const selector = findGoogleTranslateSelector();
         if (selector?.type === "select" && selector.element.value && selector.element.value !== language) {
-          console.log(`Syncing UI language to: ${selector.element.value}`);
+          // console.log(`Syncing UI language to: ${selector.element.value}`);
           setLanguage(selector.element.value);
           modifyTranslateWidget();
         }
