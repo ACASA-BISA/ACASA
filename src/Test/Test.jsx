@@ -1303,7 +1303,6 @@ function Test() {
                             <MapViewer
                                 drawerOpen={open}
                                 filters={appliedFilters}
-                                apiUrl={apiUrl}
                                 adaptations={adaptations}
                                 selectedAdaptationId={selectedAdaptationId}
                                 setSelectedAdaptationId={setSelectedAdaptationId}

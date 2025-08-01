@@ -67,7 +67,8 @@ L.control.mapControls = function (mapControls) {
     return new L.Control.MapControls(mapControls);
 };
 
-function MapViewer({ drawerOpen, filters, apiUrl, adaptations, selectedAdaptationId, setSelectedAdaptationId, selectedRiskId, setSelectedRiskId, selectedImpactId, setSelectedImpactId }) {
+function MapViewer({ drawerOpen, filters, adaptations, selectedAdaptationId, setSelectedAdaptationId, selectedRiskId, setSelectedRiskId, selectedImpactId, setSelectedImpactId }) {
+    const apiUrl = process.env.REACT_APP_API_URL;
     const theme = useTheme();
     const mapRefs = useRef([]);
     const mapInstances = useRef([]);
@@ -92,7 +93,7 @@ function MapViewer({ drawerOpen, filters, apiUrl, adaptations, selectedAdaptatio
 
     // Fetch adaptation tabs
     useEffect(() => {
-        if (filters?.commodity_type_id === 1 && (filters?.layer_type === "adaptation" || filters?.layer_type === "adaptation_croptab")) {
+        if (+filters?.commodity_type_id === 1 && (filters?.layer_type === "adaptation" || filters?.layer_type === "adaptation_croptab")) {
             const fetchAdaptationTabs = async () => {
                 try {
                     const response = await fetch(`${apiUrl}/lkp/specific/adaptation_croptabs`, {
@@ -127,16 +128,30 @@ function MapViewer({ drawerOpen, filters, apiUrl, adaptations, selectedAdaptatio
     const cleanupMaps = useCallback(() => {
         mapInstances.current.forEach((map, index) => {
             if (map) {
-                layerRefs.current[index]?.forEach((layer) => {
-                    if (map.hasLayer(layer)) {
-                        try {
-                            map.removeLayer(layer);
-                        } catch (e) {
-                            console.warn(`Failed to remove layer at index ${index}:`, e);
+                // Remove all layers safely
+                if (layerRefs.current[index]) {
+                    layerRefs.current[index].forEach((layer) => {
+                        if (layer && map.hasLayer(layer)) {
+                            try {
+                                map.removeLayer(layer);
+                            } catch (e) {
+                                console.warn(`Failed to remove layer at index ${index}:`, e);
+                            }
                         }
+                    });
+                    layerRefs.current[index] = [];
+                }
+                // Remove tile layer
+                if (tileLayerRefs.current[index] && map.hasLayer(tileLayerRefs.current[index])) {
+                    try {
+                        map.removeLayer(tileLayerRefs.current[index]);
+                    } catch (e) {
+                        console.warn(`Failed to remove tile layer at index ${index}:`, e);
                     }
-                });
+                }
+                // Remove map
                 try {
+                    map.off(); // Remove all event listeners
                     map.remove();
                 } catch (e) {
                     console.warn(`Failed to remove map at index ${index}:`, e);
@@ -225,7 +240,12 @@ function MapViewer({ drawerOpen, filters, apiUrl, adaptations, selectedAdaptatio
                                     newState[index] = !newState[index];
                                     return newState;
                                 });
-                                setTimeout(() => map.invalidateSize(), 300);
+                                // Debounce invalidateSize to avoid rapid calls
+                                setTimeout(() => {
+                                    if (mapInstances.current[index]) {
+                                        mapInstances.current[index].invalidateSize();
+                                    }
+                                }, 300);
                             });
                         } else {
                             Swal.fire({
@@ -236,9 +256,9 @@ function MapViewer({ drawerOpen, filters, apiUrl, adaptations, selectedAdaptatio
                         }
                     },
                     onFitExtent: () => {
-                        if (boundsRefs.current[index]) {
-                            map.fitBounds(boundsRefs.current[index], { padding: [50, 50] });
-                            syncMaps(map, index);
+                        if (boundsRefs.current[index] && mapInstances.current[index]) {
+                            mapInstances.current[index].fitBounds(boundsRefs.current[index], { padding: [50, 50] });
+                            syncMaps(mapInstances.current[index], index);
                         }
                     },
                     updateFullscreenButton: (button) => {
@@ -249,7 +269,9 @@ function MapViewer({ drawerOpen, filters, apiUrl, adaptations, selectedAdaptatio
                 mapControl.addTo(map);
 
                 map.on("moveend zoomend", () => {
-                    syncMaps(map, index);
+                    if (mapInstances.current[index]) {
+                        syncMaps(mapInstances.current[index], index);
+                    }
                 });
 
                 delete L.Icon.Default.prototype._getIconUrl;
@@ -259,7 +281,12 @@ function MapViewer({ drawerOpen, filters, apiUrl, adaptations, selectedAdaptatio
                     shadowUrl: "/images/leaflet/marker-shadow.png",
                 });
 
-                setTimeout(() => map.invalidateSize(), 100);
+                // Debounce initial invalidateSize
+                setTimeout(() => {
+                    if (mapInstances.current[index]) {
+                        mapInstances.current[index].invalidateSize();
+                    }
+                }, 100);
             }
         });
     }, [tiffData.length, allDataReady, theme.palette.mode, isFullscreen]);
@@ -270,22 +297,28 @@ function MapViewer({ drawerOpen, filters, apiUrl, adaptations, selectedAdaptatio
             if (map && tileLayerRefs.current[index] && mapRefs.current[index]) {
                 tileLayerRefs.current[index].setOpacity(0);
                 setTimeout(() => {
-                    map.removeLayer(tileLayerRefs.current[index]);
-                    const newTileLayer = L.tileLayer(getTileLayerUrl(), {
-                        attribution: theme.palette.mode === "dark"
-                            ? '&copy; <a href="https://carto.com/attributions">CARTO</a>'
-                            : '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-                        opacity: 0.1,
-                        errorTileUrl: "/images/fallback-tile.png",
-                        preload: 1,
-                    });
-                    newTileLayer.addTo(map);
-                    tileLayerRefs.current[index] = newTileLayer;
-                    newTileLayer.on("load", () => {
-                        newTileLayer.setOpacity(1);
-                    });
-                    setTimeout(() => map.invalidateSize(), 200);
-                    console.log(`Theme changed to ${theme.palette.mode} for map ${index}`);
+                    if (mapInstances.current[index] && tileLayerRefs.current[index]) {
+                        map.removeLayer(tileLayerRefs.current[index]);
+                        const newTileLayer = L.tileLayer(getTileLayerUrl(), {
+                            attribution: theme.palette.mode === "dark"
+                                ? '&copy; <a href="https://carto.com/attributions">CARTO</a>'
+                                : '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+                            opacity: 0.1,
+                            errorTileUrl: "/images/fallback-tile.png",
+                            preload: 1,
+                        });
+                        newTileLayer.addTo(map);
+                        tileLayerRefs.current[index] = newTileLayer;
+                        newTileLayer.on("load", () => {
+                            newTileLayer.setOpacity(1);
+                        });
+                        setTimeout(() => {
+                            if (mapInstances.current[index]) {
+                                mapInstances.current[index].invalidateSize();
+                            }
+                        }, 200);
+                        console.log(`Theme changed to ${theme.palette.mode} for map ${index}`);
+                    }
                 }, 200);
 
                 if (layerRefs.current[index]) {
@@ -315,7 +348,11 @@ function MapViewer({ drawerOpen, filters, apiUrl, adaptations, selectedAdaptatio
     useEffect(() => {
         mapInstances.current.forEach((map, index) => {
             if (map && map.invalidateSize && mapRefs.current[index]) {
-                setTimeout(() => map.invalidateSize(), 300);
+                setTimeout(() => {
+                    if (mapInstances.current[index]) {
+                        mapInstances.current[index].invalidateSize();
+                    }
+                }, 300);
             }
         });
     }, [drawerOpen, isSyncing]);
@@ -325,7 +362,11 @@ function MapViewer({ drawerOpen, filters, apiUrl, adaptations, selectedAdaptatio
         const resizeObserver = new ResizeObserver(() => {
             mapInstances.current.forEach((map, index) => {
                 if (map && mapRefs.current[index]) {
-                    setTimeout(() => map.invalidateSize(), 100);
+                    setTimeout(() => {
+                        if (mapInstances.current[index]) {
+                            mapInstances.current[index].invalidateSize();
+                        }
+                    }, 100);
                 }
             });
         });
@@ -369,7 +410,7 @@ function MapViewer({ drawerOpen, filters, apiUrl, adaptations, selectedAdaptatio
                     "climate_scenario_id",
                     "layer_type",
                 ];
-                if (filters.commodity_type_id === 1 && (filters.layer_type === "adaptation" || filters.layer_type === "adaptation_croptab")) {
+                if (+filters.commodity_type_id === 1 && (filters.layer_type === "adaptation" || filters.layer_type === "adaptation_croptab")) {
                     mandatoryFields.push("adaptation_croptab_id");
                 }
                 const missingFields = mandatoryFields.filter((field) => !payload[field]);
@@ -498,7 +539,7 @@ function MapViewer({ drawerOpen, filters, apiUrl, adaptations, selectedAdaptatio
             // Clear existing layers
             if (layerRefs.current[index]) {
                 layerRefs.current[index].forEach((layer) => {
-                    if (map.hasLayer(layer)) {
+                    if (layer && map.hasLayer(layer)) {
                         try {
                             map.removeLayer(layer);
                         } catch (e) {
@@ -668,6 +709,15 @@ function MapViewer({ drawerOpen, filters, apiUrl, adaptations, selectedAdaptatio
         return () => observer.disconnect();
     }, [tiffData.length]);
 
+    // Handle HMR cleanup
+    useEffect(() => {
+        if (import.meta.hot) {
+            import.meta.hot.on('vite:beforeUpdate', () => {
+                cleanupMaps();
+            });
+        }
+    }, [cleanupMaps]);
+
     const downloadTiff = (arrayBuffer, filename) => {
         const blob = new Blob([arrayBuffer], { type: "image/tiff" });
         const url = URL.createObjectURL(blob);
@@ -688,9 +738,6 @@ function MapViewer({ drawerOpen, filters, apiUrl, adaptations, selectedAdaptatio
 
     const handleAdaptationTabChange = (tabId) => {
         setSelectedAdaptationTabId(tabId);
-        setSelectedRiskId("");
-        setSelectedImpactId("");
-        setSelectedAdaptationId("");
     };
 
     return (
@@ -728,7 +775,7 @@ function MapViewer({ drawerOpen, filters, apiUrl, adaptations, selectedAdaptatio
                     </Typography>
                 )}
             </Box>
-            {filters?.commodity_type_id === 1 && (filters?.layer_type === "adaptation" || filters?.layer_type === "adaptation_croptab") && (
+            {+filters?.commodity_type_id === 1 && (filters?.layer_type === "adaptation" || filters?.layer_type === "adaptation_croptab") && (
                 <Box sx={{ p: "8px 16px", display: "flex", gap: 1, flexWrap: "wrap" }}>
                     {adaptationTabs.map((tab) => (
                         <Button
@@ -780,7 +827,7 @@ function MapViewer({ drawerOpen, filters, apiUrl, adaptations, selectedAdaptatio
                             </Box>
                             <Box
                                 sx={{
-                                    height: "calc(100% - 53px)",
+                                    height: +filters?.commodity_type_id === 1 && (filters?.layer_type === "adaptation" || filters?.layer_type === "adaptation_croptab") ? "calc(100% - 80px)" : "calc(100% - 53px)",
                                     width: "100%",
                                     border: "1px solid #ededed",
                                     position: "relative",
