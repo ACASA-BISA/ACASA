@@ -28,7 +28,7 @@ import TestHome from "./Test/TestHome";
 import UseCases from "./Test/UseCases";
 
 const pages = ["Home", "Explore Data", "Data at a glance", "Data Access", "Use Cases", "Resources", "About Us"];
-const pageid = ["home", "test", "adaptationataglance", "access", "usecase", "resources", "about"];
+const pageid = ["home", "test", "adaptationataglance", "access", "usecases", "resources", "about"];
 const AppBarHeight = "85px";
 
 const languages = [
@@ -393,7 +393,7 @@ function ResponsiveAppBar() {
         <Route path="/feedback" element={<Feedback1 />} />
         <Route path="/feedback/:country" element={<Feedback1 />} />
         <Route path="/test" element={<Test />} />
-         <Route path="/usecases" element={<UseCases />} />
+        <Route path="/usecases" element={<UseCases />} />
         <Route path="/test/:country" element={<Test />} />
         <Route path="/:country/test" element={<Test />} />
       </Routes>
