@@ -10,35 +10,30 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-
 function UseCases() {
-
     const [expanded, setExpanded] = useState("panel1");
-
     const handleChange = (panel) => (_, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
     };
 
     return (
         <>
-            <Container maxWidth="md" style={{ marginTop: '100px' }}>
-                <Box className="AboutSectionCase">
-                    <h1>
-                        Use Cases of <span>ACASA </span>
-                    </h1>
-                    <p>
-                        ACASA is a unique platform that provides an integrated assessment of commodity-specific granular climate risk profiles and information on adaptation
-                        options for South Asian agriculture. This is done for region’s major agricultural and livestock commodities at a 5 km resolution. In addition,
-                        it also identifies regions where adaptation benefits would emerge through gender-friendly technology adoption and would curtail maladaptation.
-                    </p>
-                    <p>Our adaptation options are rigorously formulated from the relevant literature and validated stakeholder consultations across South Asia.
-                        Therefore, ACASA provides a unique opportunity for various stakeholders to meet their potential needs in broader areas of climate risk management
-                        and adaptation in agriculture. The open-access nature of the Atlas promotes knowledge dissemination and unrestricted use for desired purposes.
-                        ACASA data can be freely downloaded in a tabular, user-friendly format with geographic information system (GIS) datasets for specific applications.</p>
-                    <p>We conducted a dedicated ‘Use Case Workshop’ on Oct 1-3, 2024, in Colombo, Sri Lanka, for potential stakeholders who will put the Atlas into use.
-                        Upon the stakeholder consultation, the following use cases were identified.</p>
-                </Box>
-            </Container>
+            <Box className="AboutSectionCase" style={{ marginTop: '50px' }} sx={{ p: 2 }}>
+                <h1>
+                    Use Cases of <span>ACASA </span>
+                </h1>
+                <p>
+                    ACASA is a unique platform that provides an integrated assessment of commodity-specific granular climate risk profiles and information on adaptation
+                    options for South Asian agriculture. This is done for region’s major agricultural and livestock commodities at a 5 km resolution. In addition,
+                    it also identifies regions where adaptation benefits would emerge through gender-friendly technology adoption and would curtail maladaptation.
+                </p>
+                <p>Our adaptation options are rigorously formulated from the relevant literature and validated stakeholder consultations across South Asia.
+                    Therefore, ACASA provides a unique opportunity for various stakeholders to meet their potential needs in broader areas of climate risk management
+                    and adaptation in agriculture. The open-access nature of the Atlas promotes knowledge dissemination and unrestricted use for desired purposes.
+                    ACASA data can be freely downloaded in a tabular, user-friendly format with geographic information system (GIS) datasets for specific applications.</p>
+                <p>We conducted a dedicated ‘Use Case Workshop’ on Oct 1-3, 2024, in Colombo, Sri Lanka, for potential stakeholders who will put the Atlas into use.
+                    Upon the stakeholder consultation, the following use cases were identified.</p>
+            </Box>
 
             <Container maxWidth="xl">
                 <Box sx={{ bgcolor: "#fff", p: 2 }}>
@@ -65,16 +60,16 @@ function UseCases() {
                                 bgcolor: expanded === "panel1" ? "#4C9E46" : "#f0f0f0",
                                 color: expanded === "panel1" ? "#fff" : "#00000080",
                                 borderRadius: "12px",
-                               
+
                                 "&.Mui-expanded": {
                                     borderRadius: "12px",
                                     border: "1px solid rgba(0, 0, 0, 0.10)",
                                     boxShadow: "none",
-                                   
+
                                 },
                             }}
                         >
-                            <Typography style={{fontSize:'18px', fontFamily:'Poppins', fontWeight:'400'}}>Government</Typography>
+                            <Typography style={{ fontSize: '18px', fontFamily: 'Poppins', fontWeight: '400' }}>Government</Typography>
                         </AccordionSummary>
 
                         <AccordionDetails>
@@ -140,7 +135,6 @@ function UseCases() {
                         </AccordionDetails>
                     </Accordion>
 
-
                     {/* Accordion 2 */}
                     <Accordion
                         expanded={expanded === "panel2"}
@@ -164,17 +158,17 @@ function UseCases() {
                                 bgcolor: expanded === "panel2" ? "#4C9E46" : "#f0f0f0",
                                 color: expanded === "panel2" ? "#fff" : "#00000080",
                                 borderRadius: "12px",
-                               
+
                                 border: '0px light',
                                 "&.Mui-expanded": {
                                     borderRadius: "12px",
                                     border: "1px solid rgba(0, 0, 0, 0.10)",
                                     boxShadow: "none",
-                                   
+
                                 },
                             }}
                         >
-                            <Typography style={{fontSize:'18px', fontFamily:'Poppins', fontWeight:'400'}}>Research</Typography>
+                            <Typography style={{ fontSize: '18px', fontFamily: 'Poppins', fontWeight: '400' }}>Research</Typography>
                         </AccordionSummary>
 
                         <AccordionDetails>
@@ -218,7 +212,6 @@ function UseCases() {
                         </AccordionDetails>
                     </Accordion>
 
-
                     {/* Accordion 3 */}
                     <Accordion
                         expanded={expanded === "panel3"}
@@ -242,16 +235,16 @@ function UseCases() {
                                 bgcolor: expanded === "panel3" ? "#4C9E46" : "#f0f0f0",
                                 color: expanded === "panel3" ? "#fff" : "#00000080",
                                 borderRadius: "12px",
-                               
+
                                 "&.Mui-expanded": {
                                     borderRadius: "12px",
                                     border: "1px solid rgba(0, 0, 0, 0.10)",
                                     boxShadow: "none",
-                                   
+
                                 },
                             }}
                         >
-                            <Typography style={{fontSize:'18px', fontFamily:'Poppins', fontWeight:'400'}}>Civil Society </Typography>
+                            <Typography style={{ fontSize: '18px', fontFamily: 'Poppins', fontWeight: '400' }}>Civil Society </Typography>
                         </AccordionSummary>
 
                         <AccordionDetails>
@@ -314,13 +307,13 @@ function UseCases() {
                                 bgcolor: expanded === "panel4" ? "#4C9E46" : "#f0f0f0",
                                 color: expanded === "panel4" ? "#fff" : "#00000080",
                                 borderRadius: "12px",
-                               
+
                                 "&.Mui-expanded": {
                                     borderRadius: "12px",
                                 },
                             }}
                         >
-                            <Typography style={{fontSize:'18px', fontFamily:'Poppins', fontWeight:'400'}}>Credit and Finance</Typography>
+                            <Typography style={{ fontSize: '18px', fontFamily: 'Poppins', fontWeight: '400' }}>Credit and Finance</Typography>
                         </AccordionSummary>
 
                         <AccordionDetails>
@@ -386,13 +379,13 @@ function UseCases() {
                                 bgcolor: expanded === "panel5" ? "#4C9E46" : "#f0f0f0",
                                 color: expanded === "panel5" ? "#fff" : "#00000080",
                                 borderRadius: "12px",
-                               
+
                                 "&.Mui-expanded": {
                                     borderRadius: "12px",
                                 },
                             }}
                         >
-                            <Typography style={{fontSize:'18px', fontFamily:'Poppins', fontWeight:'400'}}>Multi-lateral Agencies</Typography>
+                            <Typography style={{ fontSize: '18px', fontFamily: 'Poppins', fontWeight: '400' }}>Multi-lateral Agencies</Typography>
                         </AccordionSummary>
 
                         <AccordionDetails>
@@ -463,13 +456,13 @@ function UseCases() {
                                 bgcolor: expanded === "panel6" ? "#4C9E46" : "#f0f0f0",
                                 color: expanded === "panel6" ? "#fff" : "#00000080",
                                 borderRadius: "12px",
-                               
+
                                 "&.Mui-expanded": {
                                     borderRadius: "12px",
                                 },
                             }}
                         >
-                            <Typography style={{fontSize:'18px', fontFamily:'Poppins', fontWeight:'400'}}>Insurance Industry</Typography>
+                            <Typography style={{ fontSize: '18px', fontFamily: 'Poppins', fontWeight: '400' }}>Insurance Industry</Typography>
                         </AccordionSummary>
 
                         <AccordionDetails>
@@ -511,7 +504,7 @@ function UseCases() {
                     </Accordion>
 
                     {/* Accordion 7 */}
-                    <Accordion 
+                    <Accordion
                         expanded={expanded === "panel7"}
                         onChange={handleChange("panel7")}
                         sx={{
@@ -533,13 +526,13 @@ function UseCases() {
                                 bgcolor: expanded === "panel7" ? "#4C9E46" : "#f0f0f0",
                                 color: expanded === "panel7" ? "#fff" : "#00000080",
                                 borderRadius: "12px",
-                               
+
                                 "&.Mui-expanded": {
                                     borderRadius: "12px",
                                 },
                             }}
                         >
-                            <Typography style={{fontSize:'18px', fontFamily:'Poppins', fontWeight:'400'}}>Agri-food Industry</Typography>
+                            <Typography style={{ fontSize: '18px', fontFamily: 'Poppins', fontWeight: '400' }}>Agri-food Industry</Typography>
                         </AccordionSummary>
 
                         <AccordionDetails>

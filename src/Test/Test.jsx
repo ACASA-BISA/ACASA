@@ -56,6 +56,7 @@ function Test() {
         adaptation: false,
     });
     const [isLoading, setIsLoading] = useState(false);
+    const [mapLoading, setMapLoading] = useState(false); // Add mapLoading state
 
     const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -219,6 +220,9 @@ function Test() {
                     setStates([]);
                     showSelect = true;
                 }
+            } else {
+                setSelectedCountryId(0);
+                setDisableStateFilter(false);
             }
             setShowCountrySelect(showSelect);
             fetchGeojson(admin_level, admin_level_id);
@@ -584,7 +588,7 @@ function Test() {
                                     <ListSubheader component="div" id="nested-list-subheader"></ListSubheader>
                                     <ListItemButton
                                         onClick={() => handleSidebarToggle("region")}
-                                        disabled={isLoading}
+                                        disabled={isLoading || mapLoading}
                                     >
                                         <ListItemIcon
                                             sx={{
@@ -619,7 +623,7 @@ function Test() {
                                                                     onChange={handleCountryChange}
                                                                     displayEmpty
                                                                     inputProps={{ "aria-label": "Country" }}
-                                                                    disabled={isLoading}
+                                                                    disabled={isLoading || mapLoading}
                                                                     style={{ margin: "0 0 15px 0" }}
                                                                 >
                                                                     <MenuItem className="customMenuItem" value={0}>
@@ -653,7 +657,7 @@ function Test() {
                                                             onChange={handleStateChange}
                                                             displayEmpty
                                                             inputProps={{ "aria-label": "State" }}
-                                                            disabled={disabledStateFilter || isLoading}
+                                                            disabled={disabledStateFilter || isLoading || mapLoading}
                                                         >
                                                             <MenuItem className="customMenuItem" value={0}>
                                                                 State/Province
@@ -687,7 +691,7 @@ function Test() {
                                     ></ListSubheader>
                                     <ListItemButton
                                         onClick={() => handleSidebarToggle("dataType")}
-                                        disabled={isLoading}
+                                        disabled={isLoading || mapLoading}
                                     >
                                         <ListItemIcon
                                             sx={{
@@ -725,7 +729,7 @@ function Test() {
                                                                         target: { value: type.commodity_type_id },
                                                                     })
                                                                 }
-                                                                disabled={!type.status || isLoading}
+                                                                disabled={!type.status || isLoading || mapLoading}
                                                                 color="primary"
                                                             />
                                                         }
@@ -755,7 +759,7 @@ function Test() {
                                     ></ListSubheader>
                                     <ListItemButton
                                         onClick={() => handleSidebarToggle("analysis")}
-                                        disabled={isLoading}
+                                        disabled={isLoading || mapLoading}
                                     >
                                         <ListItemIcon
                                             sx={{
@@ -800,7 +804,7 @@ function Test() {
                                                                         target: { value: scope.scope_id },
                                                                     })
                                                                 }
-                                                                disabled={!scope.status || isLoading}
+                                                                disabled={!scope.status || isLoading || mapLoading}
                                                                 color="primary"
                                                             />
                                                         }
@@ -841,7 +845,7 @@ function Test() {
                                                                         target: { value: scale.scale_id },
                                                                     })
                                                                 }
-                                                                disabled={!scale.status || isLoading}
+                                                                disabled={!scale.status || isLoading || mapLoading}
                                                                 color="primary"
                                                             />
                                                         }
@@ -877,7 +881,7 @@ function Test() {
                                     ></ListSubheader>
                                     <ListItemButton
                                         onClick={() => handleSidebarToggle("commodity")}
-                                        disabled={isLoading}
+                                        disabled={isLoading || mapLoading}
                                     >
                                         <ListItemIcon
                                             sx={{
@@ -912,7 +916,7 @@ function Test() {
                                                                         target: { value: commodity.commodity_id },
                                                                     })
                                                                 }
-                                                                disabled={!commodity.status || isLoading}
+                                                                disabled={!commodity.status || isLoading || mapLoading}
                                                                 color="primary"
                                                             />
                                                         }
@@ -948,7 +952,7 @@ function Test() {
                                     ></ListSubheader>
                                     <ListItemButton
                                         onClick={() => handleSidebarToggle("scenario")}
-                                        disabled={isLoading}
+                                        disabled={isLoading || mapLoading}
                                     >
                                         <ListItemIcon
                                             sx={{
@@ -991,7 +995,7 @@ function Test() {
                                                                         target: { value: source.data_source_id },
                                                                     })
                                                                 }
-                                                                disabled={!source.status || isLoading}
+                                                                disabled={!source.status || isLoading || mapLoading}
                                                                 color="primary"
                                                             />
                                                         }
@@ -1033,7 +1037,7 @@ function Test() {
                                                                         target: { value: scenario.scenario_id },
                                                                     })
                                                                 }
-                                                                disabled={!scenario.status || isLoading}
+                                                                disabled={!scenario.status || isLoading || mapLoading}
                                                                 color="primary"
                                                             />
                                                         }
@@ -1069,7 +1073,7 @@ function Test() {
                                     ></ListSubheader>
                                     <ListItemButton
                                         onClick={() => handleSidebarToggle("risk")}
-                                        disabled={isLoading || !selectedCommodityId}
+                                        disabled={isLoading || mapLoading || !selectedCommodityId}
                                         sx={getListItemStyle("risk")}
                                     >
                                         <ListItemIcon
@@ -1105,7 +1109,7 @@ function Test() {
                                                                         target: { value: risk.risk_id },
                                                                     })
                                                                 }
-                                                                disabled={!risk.status || isLoading}
+                                                                disabled={!risk.status || isLoading || mapLoading}
                                                                 color="primary"
                                                             />
                                                         }
@@ -1141,7 +1145,7 @@ function Test() {
                                     ></ListSubheader>
                                     <ListItemButton
                                         onClick={() => handleSidebarToggle("impact")}
-                                        disabled={isLoading || !selectedCommodityId}
+                                        disabled={isLoading || mapLoading || !selectedCommodityId}
                                         sx={getListItemStyle("impact")}
                                     >
                                         <ListItemIcon
@@ -1177,7 +1181,7 @@ function Test() {
                                                                         target: { value: impact.impact_id },
                                                                     })
                                                                 }
-                                                                disabled={!impact.status || isLoading}
+                                                                disabled={!impact.status || isLoading || mapLoading}
                                                                 color="primary"
                                                             />
                                                         }
@@ -1214,7 +1218,7 @@ function Test() {
                                         ></ListSubheader>
                                         <ListItemButton
                                             onClick={() => handleSidebarToggle("adaptation")}
-                                            disabled={isLoading || !selectedCommodityId}
+                                            disabled={isLoading || mapLoading || !selectedCommodityId}
                                             sx={getListItemStyle("adaptation")}
                                         >
                                             <ListItemIcon
@@ -1263,7 +1267,7 @@ function Test() {
                                                                                     },
                                                                                 })
                                                                             }
-                                                                            disabled={!adaptation.status || isLoading}
+                                                                            disabled={!adaptation.status || isLoading || mapLoading}
                                                                             color="primary"
                                                                         />
                                                                     }
@@ -1310,6 +1314,8 @@ function Test() {
                                 setSelectedRiskId={setSelectedRiskId}
                                 selectedImpactId={selectedImpactId}
                                 setSelectedImpactId={setSelectedImpactId}
+                                mapLoading={mapLoading}
+                                setMapLoading={setMapLoading}
                             />
                         </Grid>
                     </Grid>
