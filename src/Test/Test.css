@@ -545,6 +545,36 @@ button.btnExplore {
     /* 116.667% */
 }
 
+
+.AboutSectionCase h1 {
+    color: #000;
+    text-align: center;
+    font-size: 60px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 70px;
+    /* 116.667% */
+}
+
+.AboutSectionCase h1 span {
+    color: #4C9E46;
+    font-size: 60px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 70px;
+    margin-bottom: 25px!important;
+}
+
+.AboutSectionCase p {
+    color: #000;
+    text-align: center;
+    font-family: Poppins;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
 .AboutSection h1 span {
     color: #4C9E46;
     font-size: 60px;
