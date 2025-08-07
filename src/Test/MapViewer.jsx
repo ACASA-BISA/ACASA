@@ -1,13 +1,12 @@
+// src/components/MapViewer.js
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   Grid,
   Box,
-  Tooltip,
-  IconButton,
-  CircularProgress,
   Breadcrumbs,
   Typography,
   Button,
+  CircularProgress,
   useTheme,
 } from "@mui/material";
 import Swal from "sweetalert2";
@@ -17,9 +16,12 @@ import parseGeoraster from "georaster";
 import GeoRasterLayer from "georaster-layer-for-leaflet";
 import screenfull from "screenfull";
 import _ from "lodash";
+import domtoimage from "dom-to-image";
+import html2canvas from "html2canvas";
 import MapLegend from "./MapLegend";
+import DownloadDropdown from "./DownloadDropdown";
 
-// Leaflet control setup remains unchanged
+// Leaflet control setup (unchanged)
 L.Control.MapControls = L.Control.extend({
   options: {
     position: "topright",
@@ -100,7 +102,7 @@ function MapViewer({
   selectedImpactId,
   setSelectedImpactId,
   mapLoading,
-  setMapLoading, // Receive setMapLoading as a prop
+  setMapLoading,
 }) {
   const apiUrl = process.env.REACT_APP_API_URL;
   const theme = useTheme();
@@ -110,7 +112,7 @@ function MapViewer({
   const boundsRefs = useRef([]);
   const fullscreenButtonRefs = useRef([]);
   const tileLayerRefs = useRef([]);
-  const [internalMapLoading, setInternalMapLoading] = useState(false); // Renamed to avoid conflict
+  const [internalMapLoading, setInternalMapLoading] = useState(false);
   const [tiffData, setTiffData] = useState([]);
   const [allDataReady, setAllDataReady] = useState(false);
   const [breadcrumbData, setBreadcrumbData] = useState(null);
@@ -119,9 +121,8 @@ function MapViewer({
   const [selectedAdaptationTabId, setSelectedAdaptationTabId] = useState("");
   const [isSyncing, setIsSyncing] = useState(false);
 
-  // Update the parent component's mapLoading state
   useEffect(() => {
-    setMapLoading(internalMapLoading); // Update parent's mapLoading using the prop
+    setMapLoading(internalMapLoading);
   }, [internalMapLoading, setMapLoading]);
 
   const getTileLayerUrl = () => {
@@ -254,6 +255,7 @@ function MapViewer({
       if (!mapRef || mapInstances.current[index]) return;
 
       if (mapRef && mapRef.offsetParent !== null) {
+        console.log(`Initializing map ${index} for layer: ${tiffData[index]?.metadata?.layer_name || "Unknown"}`);
         const map = L.map(mapRef, {
           minZoom: 3,
           maxZoom: 18,
@@ -273,6 +275,7 @@ function MapViewer({
         tileLayer.addTo(map);
         tileLayer.on("load", () => {
           tileLayer.setOpacity(1);
+          console.log(`Tile layer loaded for map ${index}`);
         });
         mapInstances.current[index] = map;
         tileLayerRefs.current[index] = tileLayer;
@@ -332,6 +335,7 @@ function MapViewer({
         setTimeout(() => {
           if (mapInstances.current[index]) {
             mapInstances.current[index].invalidateSize();
+            console.log(`Map ${index} invalidated size after initialization`);
           }
         }, 100);
       }
@@ -358,6 +362,7 @@ function MapViewer({
             tileLayerRefs.current[index] = newTileLayer;
             newTileLayer.on("load", () => {
               newTileLayer.setOpacity(1);
+              console.log(`New tile layer loaded for map ${index}`);
             });
             setTimeout(() => {
               if (mapInstances.current[index]) {
@@ -396,6 +401,7 @@ function MapViewer({
         setTimeout(() => {
           if (mapInstances.current[index]) {
             mapInstances.current[index].invalidateSize();
+            console.log(`Map ${index} invalidated size due to drawer or sync change`);
           }
         }, 300);
       }
@@ -409,6 +415,7 @@ function MapViewer({
           setTimeout(() => {
             if (mapInstances.current[index]) {
               mapInstances.current[index].invalidateSize();
+              console.log(`Map ${index} invalidated size due to resize`);
             }
           }, 100);
         }
@@ -430,9 +437,10 @@ function MapViewer({
     }
 
     const fetchTiffData = async () => {
-      setInternalMapLoading(true); // Update internal loading state
+      setInternalMapLoading(true);
       cleanupMaps();
       try {
+        console.log("Filters:", filters); // Debug log for filters
         const payload = {
           analysis_scope_id: +filters.analysis_scope_id,
           visualization_scale_id: +filters.visualization_scale_id,
@@ -481,27 +489,31 @@ function MapViewer({
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
         });
-        if (!tifPickerRes.ok)
+        if (!tifPickerRes.ok) {
           throw new Error(`tif_picker error! Status: ${tifPickerRes.status}`);
+        }
         const tifPickerData = await tifPickerRes.json();
+        console.log("tif_picker API response:", tifPickerData); // Debug log
+
         if (!tifPickerData.success || !tifPickerData.data) {
-          throw new Error("No valid data returned from tif_picker");
+          throw new Error(
+            `Invalid response from tif_picker: success=${tifPickerData.success}, data=${tifPickerData.data ? "present" : "missing"
+            }`
+          );
         }
 
-        const {
-          data: { raster_files, commodity, scenario, files, mask, level, model },
-        } = tifPickerData;
-        const fileList = raster_files || files || [];
+        const { data } = tifPickerData;
+        const fileList = data.raster_files || data.files || [];
         if (!fileList.length) {
           throw new Error("No raster files available for the selected filters");
         }
 
         setBreadcrumbData({
-          mask,
-          commodity,
-          level,
-          model,
-          scenario,
+          mask: data.mask || null,
+          commodity: data.commodity || null,
+          level: data.level || null,
+          model: data.model || null,
+          scenario: data.scenario || null,
           country_id: filters.admin_level === "country" ? filters.admin_level_id : null,
           state_id: filters.admin_level === "state" ? filters.admin_level_id : null,
           commodity_id: filters.commodity_id,
@@ -565,9 +577,10 @@ function MapViewer({
           title: "Error",
           text: err.message || "Failed to load map data.",
         });
+        setTiffData([]);
         setAllDataReady(false);
       } finally {
-        setInternalMapLoading(false); // Update internal loading state
+        setInternalMapLoading(false);
       }
     };
 
@@ -745,6 +758,7 @@ function MapViewer({
 
   useEffect(() => {
     if (tiffData.length && filters && filters.geojson && filters.bbox && allDataReady) {
+      console.log(`Rendering ${tiffData.length} maps with tiffData`);
       initializeMaps();
 
       mapRefs.current = mapRefs.current.slice(0, tiffData.length);
@@ -760,6 +774,8 @@ function MapViewer({
       tiffData.forEach((tiff, index) => {
         if (mapRefs.current[index] && mapInstances.current[index]) {
           renderMapLayers(filters.geojson, filters.bbox, tiff, index);
+        } else {
+          console.warn(`Map ref or instance missing for index ${index}`);
         }
       });
     }
@@ -789,16 +805,146 @@ function MapViewer({
     }
   }, [cleanupMaps]);
 
-  const downloadTiff = (arrayBuffer, filename) => {
-    const blob = new Blob([arrayBuffer], { type: "image/tiff" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+  const handleDownloadGeoTIFF = (arrayBuffer, filename) => {
+    try {
+      const blob = new Blob([arrayBuffer], { type: "image/tiff" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      console.log(`GeoTIFF downloaded: ${filename}`);
+    } catch (err) {
+      console.error("GeoTIFF download error:", err);
+      Swal.fire({
+        icon: "error",
+        title: "Download Failed",
+        text: "Failed to download GeoTIFF file.",
+      });
+    }
+  };
+
+  const handleDownloadTable = async (layerName, tiffMetadata) => {
+    try {
+      console.log(`Fetching table data for ${layerName}`); // Debug log
+      const payload = {
+        layer_type: "risk",
+        country_id: breadcrumbData?.country_id || null,
+        state_id: breadcrumbData?.state_id || null,
+        commodity_id: breadcrumbData?.commodity_id || null,
+        climate_scenario_id: tiffMetadata.year ? breadcrumbData?.climate_scenario_id : 1,
+        year: tiffMetadata.year || null,
+        data_source_id: breadcrumbData?.data_source_id || null,
+        visualization_scale_id: breadcrumbData?.visualization_scale_id || null,
+        layer_id: tiffMetadata.layer_id,
+      };
+      console.log("Table download payload:", payload); // Debug log
+
+      const response = await fetch(`${apiUrl}/layers/table`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Table download failed! Status: ${response.status}`);
+      }
+
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${layerName || "Table"}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      console.log(`Table downloaded: ${layerName}.csv`);
+    } catch (err) {
+      console.error("Table download error:", err);
+      Swal.fire({
+        icon: "error",
+        title: "Download Failed",
+        text: `Failed to download table for ${layerName}: ${err.message}`,
+      });
+    }
+  };
+
+  const handleDownloadImage = async (layerName, mapIndex) => {
+    try {
+      console.log(`Capturing image for ${layerName} at map index ${mapIndex}`);
+      const mapContainer = mapRefs.current[mapIndex];
+      if (!mapContainer) {
+        throw new Error("Map container not found");
+      }
+
+      // Invalidate the map to ensure tiles are fully rendered
+      if (mapInstances.current[mapIndex]) {
+        mapInstances.current[mapIndex].invalidateSize();
+        console.log(`Map ${mapIndex} invalidated for image capture`);
+        await new Promise((resolve) => setTimeout(resolve, 300)); // Wait for rendering
+      }
+
+      // Find the parent container that includes the map and legend
+      const mapAndLegendContainer = mapContainer.closest(".map-and-legend-container");
+      if (!mapAndLegendContainer) {
+        throw new Error("Parent container for map and legend not found");
+      }
+
+      // Log container details for debugging
+      console.log(
+        `Map and legend container dimensions: width=${mapAndLegendContainer.offsetWidth}, height=${mapAndLegendContainer.offsetHeight}`
+      );
+
+      // Verify legend is present
+      const legendElement = mapAndLegendContainer.querySelector(".css-1annchz");
+      console.log(`Legend element ${legendElement ? "found" : "not found"} in container`);
+
+      // Capture the map and legend as JPEG using domtoimage
+      let imgData;
+      try {
+        imgData = await domtoimage.toJpeg(mapAndLegendContainer, {
+          bgcolor: "#fff",
+          quality: 0.8,
+          width: mapAndLegendContainer.offsetWidth,
+          height: mapAndLegendContainer.offsetHeight,
+        });
+        console.log(`Image captured for ${layerName} using domtoimage`);
+      } catch (error) {
+        console.warn(`domtoimage failed for ${layerName}:`, error);
+        // Fallback to html2canvas
+        const canvas = await html2canvas(mapAndLegendContainer, {
+          scale: 1,
+          useCORS: true,
+          backgroundColor: "#fff",
+        });
+        imgData = canvas.toDataURL("image/jpeg", 0.8);
+        console.log(`Image captured for ${layerName} using html2canvas`);
+      }
+
+      if (!imgData) {
+        throw new Error("Failed to capture image data");
+      }
+
+      // Download the image
+      const a = document.createElement("a");
+      a.href = imgData;
+      a.download = `${layerName || "Map"}.jpg`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      console.log(`Image downloaded: ${layerName}.jpg`);
+    } catch (err) {
+      console.error(`Image download error for ${layerName}:`, err);
+      Swal.fire({
+        icon: "error",
+        title: "Download Failed",
+        text: `Failed to download image for ${layerName}: ${err.message}`,
+      });
+    }
   };
 
   const getGridLayout = (tiffCount) => {
@@ -932,6 +1078,7 @@ function MapViewer({
                 <Typography>{tiff.metadata.layer_name || "Baseline"}</Typography>
               </Box>
               <Box
+                className="map-and-legend-container"
                 sx={{
                   height:
                     +filters?.commodity_type_id === 1 &&
@@ -946,10 +1093,17 @@ function MapViewer({
                 }}
               >
                 <Box
-                  ref={(el) => (mapRefs.current[index] = el)}
+                  ref={(el) => {
+                    mapRefs.current[index] = el;
+                    if (el) {
+                      console.log(`Map ref set for index ${index}`);
+                    }
+                  }}
                   sx={{
                     height: "100%",
                     width: "100%",
+                    position: "relative",
+                    zIndex: 1000,
                   }}
                 />
                 {internalMapLoading && (
@@ -964,36 +1118,28 @@ function MapViewer({
                       alignItems: "center",
                       justifyContent: "center",
                       backgroundColor: "rgba(255, 255, 255, 0.7)",
+                      zIndex: 1200,
                     }}
                   >
                     <CircularProgress />
                   </Box>
                 )}
-                <Box sx={{ position: "absolute", top: "80px", left: "12px", zIndex: 1001 }}>
-                  <Tooltip title={`Download ${tiff.metadata.layer_name || "Baseline"}`}>
-                    <IconButton
-                      onClick={() => downloadTiff(tiff.arrayBuffer, `${tiff.metadata.layer_name || "Baseline"}.tif`)}
-                      sx={{
-                        backgroundColor: "rgba(255, 255, 255, 0.9)",
-                        boxShadow: 1,
-                        borderRadius: "4px",
-                        padding: "4px",
-                        width: "30px",
-                        height: "30px",
-                        "&:hover": {
-                          backgroundColor: "rgba(255, 255, 255, 0.7)",
-                        },
-                        transition: "background-color 0.3s",
-                        color: "inherit",
-                      }}
-                      aria-label={`Download ${tiff.metadata.layer_name || "Baseline"}`}
-                    >
-                      <svg style={{ width: "16px", height: "16px" }} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path fill="currentColor" d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z" />
-                      </svg>
-                    </IconButton>
-                  </Tooltip>
-                </Box>
+                <DownloadDropdown
+                  layerName={tiff.metadata.layer_name || "Baseline"}
+                  mapIndex={index}
+                  onDownloadGeoTIFF={() =>
+                    handleDownloadGeoTIFF(
+                      tiff.arrayBuffer,
+                      `${tiff.metadata.layer_name || "Baseline"}.tif`
+                    )
+                  }
+                  onDownloadTable={() =>
+                    handleDownloadTable(tiff.metadata.layer_name || "Baseline", tiff.metadata)
+                  }
+                  onDownloadImage={() =>
+                    handleDownloadImage(tiff.metadata.layer_name || "Baseline", index)
+                  }
+                />
                 <MapLegend
                   tiff={tiff}
                   breadcrumbData={breadcrumbData}
