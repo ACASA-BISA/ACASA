@@ -25,6 +25,7 @@ import LightTooltip from "./LightTooltip";
 import Test from "./Test/Test";
 import TestHome from "./Test/TestHome";
 import UseCases from "./Test/UseCases";
+import AnalyticsPage from "./Test/AnalyticsPage";
 
 const pages = ["Home", "Explore Data", "Data at a glance", "Data Access", "Use Cases", "Resources", "About Us"];
 const pageid = ["home", "dashboard", "adaptationataglance", "access", "usecases", "resources", "about"];
@@ -399,6 +400,7 @@ function ResponsiveAppBar() {
         <Route path="/:country/adaptation2" element={<DrawerMapShow activeBar="adaptation2" />} />
         <Route path="/feedback" element={<Feedback1 />} />
         <Route path="/:country/feedback" element={<Feedback1 />} />
+        <Route path="/:country/analytics" element={<AnalyticsPage />} />
         <Route path="*" element={<Home />} />
       </Routes>
 
