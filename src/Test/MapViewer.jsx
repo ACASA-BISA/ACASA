@@ -831,7 +831,7 @@ function MapViewer({
     try {
       console.log(`Fetching table data for ${layerName}`); // Debug log
       const payload = {
-        layer_type: "risk",
+        layer_type: filters?.layer_type,
         country_id: breadcrumbData?.country_id || null,
         state_id: breadcrumbData?.state_id || null,
         commodity_id: breadcrumbData?.commodity_id || null,
@@ -1126,6 +1126,7 @@ function MapViewer({
                 )}
                 <DownloadDropdown
                   layerName={tiff.metadata.layer_name || "Baseline"}
+                  layerType={filters?.layer_type}
                   mapIndex={index}
                   onDownloadGeoTIFF={() =>
                     handleDownloadGeoTIFF(

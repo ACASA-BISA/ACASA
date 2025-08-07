@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Box, Tooltip, IconButton } from "@mui/material";
 
-const DownloadDropdown = ({ layerName, mapIndex, onDownloadGeoTIFF, onDownloadTable, onDownloadImage }) => {
+const DownloadDropdown = ({ layerName, layerType, mapIndex, onDownloadGeoTIFF, onDownloadTable, onDownloadImage }) => {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
 
@@ -99,31 +99,36 @@ const DownloadDropdown = ({ layerName, mapIndex, onDownloadGeoTIFF, onDownloadTa
                         marginTop: "4px",
                     }}
                 />
-                <Box
-                    sx={{ cursor: "pointer" }}
-                    onClick={() => {
-                        onDownloadTable();
-                        setIsOpen(false);
-                    }}
-                    role="menuitem"
-                    tabIndex={0}
-                    onKeyDown={(e) => {
-                        if (e.key === "Enter" || e.key === " ") {
-                            onDownloadTable();
-                            setIsOpen(false);
-                        }
-                    }}
-                >
-                    Download Table
-                </Box>
-                <Box
-                    sx={{
-                        width: "150px",
-                        height: "1px",
-                        backgroundColor: "rgb(204, 204, 204)",
-                        marginTop: "4px",
-                    }}
-                />
+                {layerType === 'risk' &&
+                    (
+                        <><Box
+                            sx={{ cursor: "pointer" }}
+                            onClick={() => {
+                                onDownloadTable();
+                                setIsOpen(false);
+                            }}
+                            role="menuitem"
+                            tabIndex={0}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter" || e.key === " ") {
+                                    onDownloadTable();
+                                    setIsOpen(false);
+                                }
+                            }}
+                        >
+                            Download Table
+                        </Box>
+                            <Box
+                                sx={{
+                                    width: "150px",
+                                    height: "1px",
+                                    backgroundColor: "rgb(204, 204, 204)",
+                                    marginTop: "4px",
+                                }}
+                            />
+                        </>
+                    )
+                }
                 <Box
                     sx={{ cursor: "pointer" }}
                     onClick={() => {

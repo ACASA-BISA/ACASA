@@ -15,7 +15,6 @@ import { Tooltip, tooltipClasses } from "@mui/material";
 import NightlightOutlinedIcon from "@mui/icons-material/NightlightOutlined";
 import WbSunnyOutlinedIcon from "@mui/icons-material/WbSunnyOutlined";
 import DrawerMapShow from "./DrawerMapShow";
-import { Select, FormControl, InputLabel } from "@mui/material";
 import Home from "./Home";
 import "./font.css";
 import { HashRouter as Router, Routes, Route, Link, useLocation, useNavigate, useParams } from "react-router-dom";
@@ -28,7 +27,7 @@ import TestHome from "./Test/TestHome";
 import UseCases from "./Test/UseCases";
 
 const pages = ["Home", "Explore Data", "Data at a glance", "Data Access", "Use Cases", "Resources", "About Us"];
-const pageid = ["home", "test", "adaptationataglance", "access", "usecases", "resources", "about"];
+const pageid = ["home", "dashboard", "adaptationataglance", "access", "usecases", "resources", "about"];
 const AppBarHeight = "85px";
 
 const languages = [
@@ -116,15 +115,19 @@ function ResponsiveAppBar() {
   }, []);
 
   useEffect(() => {
-    // Extract the path after the hash
+    // Extract the path after the hash or pathname
     const path = location.hash ? location.hash.replace(/^#\/?/, "") : location.pathname.replace(/^\//, "");
     const pathSegments = path.split("/");
-    let activePage = pathSegments[0] || "home"; // Default to "home" if no path
-    const urlCountry = pathSegments[1] || country;
+    // New URL structure: /:country/route, so country is first segment, route is second
+    const urlCountry = pathSegments[0] && !pageid.includes(pathSegments[0]) ? pathSegments[0] : null;
+    let activePage = pathSegments[1] || (pageid.includes(pathSegments[0]) ? pathSegments[0] : "home");
 
-    // Set persistent country if one is detected and not already set
-    if (urlCountry && !persistentCountry) {
+    // Update persistentCountry if the URL contains a new country
+    if (urlCountry && urlCountry !== persistentCountry) {
       setPersistentCountry(urlCountry);
+    } else if (!urlCountry && persistentCountry) {
+      // Clear persistentCountry if no country is in the URL
+      setPersistentCountry(null);
     }
 
     // Normalize certain routes
@@ -132,20 +135,22 @@ function ResponsiveAppBar() {
       activePage = "adaptationataglance";
     }
     if (activePage === "future") {
-      activePage = "exploredata";
+      activePage = "dashboard"; // Updated to match new pageid
     }
 
     if (flag !== activePage) {
       setFlag(activePage);
     }
-  }, [location.hash, location.pathname, country, persistentCountry]);
+  }, [location.hash, location.pathname, country]);
 
   const GlanceButtonRef = React.useRef(null);
 
   const handleNavigation = (newValue) => {
     if (newValue && newValue !== flag) {
       setFlag(newValue);
-      const targetPath = persistentCountry ? `/${newValue}/${persistentCountry}` : `/${newValue}`;
+      // Use the country from the URL if available, otherwise use persistentCountry
+      const currentCountry = country || persistentCountry;
+      const targetPath = currentCountry ? `/${currentCountry}/${newValue}` : `/${newValue}`;
       navigate(targetPath.replace("//", "/"), { replace: true });
     }
   };
@@ -202,7 +207,9 @@ function ResponsiveAppBar() {
   }));
 
   const getHref = (path) => {
-    return persistentCountry ? `/#/${path}/${persistentCountry}` : `/#/${path}`;
+    // Updated to use new URL structure: /:country/route
+    const currentCountry = country || persistentCountry;
+    return currentCountry ? `/${currentCountry}/${path}` : `/${path}`;
   };
 
   return (
@@ -222,7 +229,7 @@ function ResponsiveAppBar() {
             <Box sx={{ flexGrow: 0, display: "flex", alignItems: "center" }}>
               <ImgButton size="small" color="inherit" onClick={() => handleNavigation("home")}>
                 <Link
-                  to={persistentCountry ? `/home/${persistentCountry}` : "/home"}
+                  to={getHref("home")}
                   style={{ textDecoration: "none", color: "inherit" }}
                 >
                   <Avatar
@@ -361,41 +368,38 @@ function ResponsiveAppBar() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<TestHome />} />
-        <Route path="/home/:country" element={<TestHome />} />
+        <Route path="/:country/home" element={<TestHome />} />
         <Route path="/about" element={<DrawerMapShow activeBar="about" />} />
-        <Route path="/about/:country" element={<DrawerMapShow activeBar="about" />} />
-        <Route path="/exploredata" element={<DrawerMapShow activeBar="future" />} />
-        <Route path="/exploredata/:country" element={<DrawerMapShow activeBar="future" />} />
+        <Route path="/:country/about" element={<DrawerMapShow activeBar="about" />} />
+        <Route path="/dashboard" element={<Test />} />
+        <Route path="/:country/dashboard" element={<Test />} />
         <Route path="/adaptationataglance" element={<DrawerMapShow activeBar="analytics" />} />
-        <Route path="/adaptationataglance/:country" element={<DrawerMapShow activeBar="analytics" />} />
+        <Route path="/:country/adaptationataglance" element={<DrawerMapShow activeBar="analytics" />} />
         <Route path="/access" element={<DrawerMapShow activeBar="access" />} />
-        <Route path="/access/:country" element={<DrawerMapShow activeBar="access" />} />
+        <Route path="/:country/access" element={<DrawerMapShow activeBar="access" />} />
         <Route path="/resources" element={<DrawerMapShow activeBar="resources" />} />
-        <Route path="/resources/:country" element={<DrawerMapShow activeBar="resources" />} />
-        <Route path="/usecase" element={<DrawerMapShow activeBar="usecase" />} />
-        <Route path="/usecase/:country" element={<DrawerMapShow activeBar="usecase" />} />
-        <Route path="/guide" element={<DrawerMapShow activeBar="guide" />} />
-        <Route path="/guide/:country" element={<DrawerMapShow activeBar="guide" />} />
-        <Route path="/hazardataglance" element={<DrawerMapShow activeBar="hazards" />} />
-        <Route path="/hazardataglance/:country" element={<DrawerMapShow activeBar="hazards" />} />
-        <Route path="/future" element={<DrawerMapShow activeBar="future2" />} />
-        <Route path="/future/:country" element={<DrawerMapShow activeBar="future2" />} />
-        <Route path="/comparison" element={<DrawerMapShow activeBar="comparison" />} />
-        <Route path="/comparison/:country" element={<DrawerMapShow activeBar="comparison" />} />
-        <Route path="/summary" element={<DrawerMapShow activeBar="summary" />} />
-        <Route path="/summary/:country" element={<DrawerMapShow activeBar="summary" />} />
-        <Route path="/timeline" element={<DrawerMapShow activeBar="timeline" />} />
-        <Route path="/timeline/:country" element={<DrawerMapShow activeBar="timeline" />} />
-        <Route path="/adaptation" element={<DrawerMapShow activeBar="adaptation" />} />
-        <Route path="/adaptation/:country" element={<DrawerMapShow activeBar="adaptation" />} />
-        <Route path="/adaptation2" element={<DrawerMapShow activeBar="adaptation2" />} />
-        <Route path="/adaptation2/:country" element={<DrawerMapShow activeBar="adaptation2" />} />
-        <Route path="/feedback" element={<Feedback1 />} />
-        <Route path="/feedback/:country" element={<Feedback1 />} />
-        <Route path="/test" element={<Test />} />
+        <Route path="/:country/resources" element={<DrawerMapShow activeBar="resources" />} />
         <Route path="/usecases" element={<UseCases />} />
-        <Route path="/test/:country" element={<Test />} />
-        <Route path="/:country/test" element={<Test />} />
+        <Route path="/:country/usecases" element={<UseCases />} />
+        <Route path="/guide" element={<DrawerMapShow activeBar="guide" />} />
+        <Route path="/:country/guide" element={<DrawerMapShow activeBar="guide" />} />
+        <Route path="/hazardataglance" element={<DrawerMapShow activeBar="hazards" />} />
+        <Route path="/:country/hazardataglance" element={<DrawerMapShow activeBar="hazards" />} />
+        <Route path="/future" element={<DrawerMapShow activeBar="future2" />} />
+        <Route path="/:country/future" element={<DrawerMapShow activeBar="future2" />} />
+        <Route path="/comparison" element={<DrawerMapShow activeBar="comparison" />} />
+        <Route path="/:country/comparison" element={<DrawerMapShow activeBar="comparison" />} />
+        <Route path="/summary" element={<DrawerMapShow activeBar="summary" />} />
+        <Route path="/:country/summary" element={<DrawerMapShow activeBar="summary" />} />
+        <Route path="/timeline" element={<DrawerMapShow activeBar="timeline" />} />
+        <Route path="/:country/timeline" element={<DrawerMapShow activeBar="timeline" />} />
+        <Route path="/adaptation" element={<DrawerMapShow activeBar="adaptation" />} />
+        <Route path="/:country/adaptation" element={<DrawerMapShow activeBar="adaptation" />} />
+        <Route path="/adaptation2" element={<DrawerMapShow activeBar="adaptation2" />} />
+        <Route path="/:country/adaptation2" element={<DrawerMapShow activeBar="adaptation2" />} />
+        <Route path="/feedback" element={<Feedback1 />} />
+        <Route path="/:country/feedback" element={<Feedback1 />} />
+        <Route path="*" element={<Home />} />
       </Routes>
 
       <ScrollToTop />
