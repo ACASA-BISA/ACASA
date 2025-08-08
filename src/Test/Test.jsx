@@ -1316,6 +1316,7 @@ function Test() {
                                 setSelectedImpactId={setSelectedImpactId}
                                 mapLoading={mapLoading}
                                 setMapLoading={setMapLoading}
+                                climateScenarios={climateScenarios}
                             />
                         </Grid>
                     </Grid>

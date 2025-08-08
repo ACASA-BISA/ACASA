@@ -123,7 +123,10 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl }) => {
         if (!response.ok) throw new Error(`Legend API error! Status: ${response.status}`);
         const { success, data } = await response.json();
         if (!success || !data) throw new Error("No valid legend data returned");
-        setLegendData(data);
+        setLegendData({
+          ...data,
+          legend: data.legend?.filter(item => item.base_category?.toLowerCase() !== "nil") || [],
+        });
       } catch (err) {
         console.error("Error fetching legend data:", err);
         setLegendData(null);
@@ -138,7 +141,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl }) => {
     if (!legendData || !legendData.legend) return null;
 
     return (
-      <div style={{ maxWidth: "500px", minWidth: "280px" }}>
+      <div style={{ maxWidth: "450px", minWidth: "280px" }}>
         <div className="css-e7t8xt">
           <Typography
             variant="body1"
@@ -171,7 +174,6 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl }) => {
         )}
         <Typography variant="body1" className="css-av9bhl">
           <div className="css-y8ws96">
-            <div />
             <Box sx={{ display: "flex", flexDirection: "row", gap: "4px", flexWrap: "wrap", justifyContent: "center" }}>
               {legendData.legend.map((item, index) => (
                 <div key={index}>
@@ -185,7 +187,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl }) => {
                     }}
                     className="css-my5uh"
                   >
-                    <Box sx={{ width: 63, height: 18, borderRadius: 0, marginBottom: "-4px" }} className="css-131n9v3">
+                    <Box sx={{ maxWidth: 90, height: 18, borderRadius: 0, marginBottom: "-4px" }} className="css-131n9v3">
                       <Typography
                         sx={{
                           fontSize: 10,
@@ -199,7 +201,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl }) => {
                     </Box>
                     <Box
                       sx={{
-                        width: 63,
+                        maxWidth: 90,
                         height: 18,
                         borderRadius: 0,
                         bgcolor: item.color,
@@ -242,8 +244,11 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl }) => {
                           >
                             <span
                               style={{
-                                display: "block",
-                                lineHeight: "1.3",
+                                display: "inline-block",
+                                whiteSpace: "nowrap",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                                lineHeight: "2",
                                 fontWeight: "bold",
                                 fontSize: "10px",
                               }}
@@ -269,8 +274,11 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl }) => {
                         >
                           <span
                             style={{
-                              display: "block",
-                              lineHeight: "1.3",
+                              display: "inline-block",
+                              whiteSpace: "nowrap",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              lineHeight: "2",
                               fontWeight: "bold",
                               fontSize: "10px",
                             }}
@@ -280,7 +288,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl }) => {
                         </Typography>
                       )}
                     </Box>
-                    <Box sx={{ width: 63, height: 18, borderRadius: 0 }} className="css-vn4hh5">
+                    <Box sx={{ maxWidth: 90, height: 18, borderRadius: 0 }} className="css-vn4hh5">
                       <Typography
                         sx={{
                           fontSize: 10,
@@ -388,8 +396,8 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl }) => {
         paddingBottom: "1px",
         borderRadius: "5px",
         boxShadow: "0px 0px 0px #aaa",
-        minWidth: { xs: 280, sm: 400 },
-        maxWidth: 500,
+        minWidth: { xs: 250, sm: 350 },
+        maxWidth: 450,
         backgroundColor: theme.palette.background.paper,
       }}
       role="tooltip"
