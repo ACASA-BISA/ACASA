@@ -14,18 +14,9 @@ import { ThemeContext } from "./ThemeContext";
 import { Tooltip, tooltipClasses } from "@mui/material";
 import NightlightOutlinedIcon from "@mui/icons-material/NightlightOutlined";
 import WbSunnyOutlinedIcon from "@mui/icons-material/WbSunnyOutlined";
-import DrawerMapShow from "./DrawerMapShow";
-import Home from "./Home";
-import "./font.css";
-import { HashRouter as Router, Routes, Route, Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import ScrollToTop from "./scrolltop";
-import Feedback1 from "./Feedback";
 import Translate from "./Translate";
 import LightTooltip from "./LightTooltip";
-import Test from "./Test/Test";
-import TestHome from "./Test/TestHome";
-import UseCases from "./Test/UseCases";
-import AnalyticsPage from "./Test/AnalyticsPage";
+import { useLocation, useNavigate, useParams, Link } from "react-router-dom";
 
 const pages = ["Home", "Explore Data", "Data at a glance", "Data Access", "Use Cases", "Resources", "About Us"];
 const pageid = ["home", "dashboard", "adaptationataglance", "access", "usecases", "resources", "about"];
@@ -80,9 +71,50 @@ const StyledTooltip = styled(({ className, ...props }) => <Tooltip {...props} cl
   },
 }));
 
+const MyButton = styled(ToggleButton)(({ theme }) => ({
+  boxShadow: "none",
+  textTransform: "none",
+  fontSize: 15,
+  fontWeight: "normal",
+  color: theme.palette.text.primary,
+  paddingRight: 2,
+  paddingLeft: 2,
+  borderRadius: 0,
+  border: "0px solid",
+  backgroundColor: theme.palette.mode === "dark" ? "#3a3d42" : "#ffffff",
+  "&:hover": {
+    backgroundColor: theme.palette.mode === "dark" ? "#25292e" : "#f5f3ed",
+    color: theme.palette.mode === "dark" ? "#fff" : "#000",
+  },
+  "&.Mui-selected, &.Mui-selected:hover": {
+    boxShadow: "none",
+    backgroundColor: theme.palette.mode === "dark" ? "#4C9E46" : "#4C9E46",
+  },
+  "&.Mui-disabled": {
+    border: "0px solid",
+    color: theme.palette.mode === "dark" ? "#eee" : "#888",
+    backgroundColor: theme.palette.mode === "dark" ? "#3a3d42" : "#EFEFEF",
+  },
+}));
+
+const ImgButton = styled(Button)(({ theme }) => ({
+  boxShadow: "none",
+  borderRadius: 0,
+  border: "0px solid",
+  backgroundColor: theme.palette.mode === "dark" ? "#3a3d42" : "#ffffff",
+  "&:hover": {
+    backgroundColor: theme.palette.mode === "dark" ? "#3a3d42" : "#ffffff",
+    boxShadow: "none",
+  },
+  "&.Mui-selected, &.Mui-selected:hover": {
+    boxShadow: "none",
+    backgroundColor: theme.palette.mode === "dark" ? "#3a3d42" : "#ffffff",
+  },
+}));
+
 function ResponsiveAppBar() {
-  const [flag, setFlag] = React.useState(null);
-  const [persistentCountry, setPersistentCountry] = React.useState(null);
+  const [flag, setFlag] = useState(null);
+  const [persistentCountry, setPersistentCountry] = useState(null);
   const { mode, toggleTheme } = React.useContext(ThemeContext);
   const location = useLocation();
   const navigate = useNavigate();
@@ -96,7 +128,6 @@ function ResponsiveAppBar() {
     // Add your i18n language change logic here
   };
 
-  // Check if skiptranslate div is hidden
   useEffect(() => {
     const checkSkipTranslate = () => {
       const skipTranslateDiv = document.querySelector("div.skiptranslate");
@@ -104,7 +135,7 @@ function ResponsiveAppBar() {
         const style = window.getComputedStyle(skipTranslateDiv);
         setIsSkipTranslateHidden(style.display === "none");
       } else {
-        setIsSkipTranslateHidden(true); // Assume hidden if div not found
+        setIsSkipTranslateHidden(true);
       }
     };
 
@@ -116,27 +147,22 @@ function ResponsiveAppBar() {
   }, []);
 
   useEffect(() => {
-    // Extract the path after the hash or pathname
     const path = location.hash ? location.hash.replace(/^#\/?/, "") : location.pathname.replace(/^\//, "");
     const pathSegments = path.split("/");
-    // New URL structure: /:country/route, so country is first segment, route is second
     const urlCountry = pathSegments[0] && !pageid.includes(pathSegments[0]) ? pathSegments[0] : null;
     let activePage = pathSegments[1] || (pageid.includes(pathSegments[0]) ? pathSegments[0] : "home");
 
-    // Update persistentCountry if the URL contains a new country
     if (urlCountry && urlCountry !== persistentCountry) {
       setPersistentCountry(urlCountry);
     } else if (!urlCountry && persistentCountry) {
-      // Clear persistentCountry if no country is in the URL
       setPersistentCountry(null);
     }
 
-    // Normalize certain routes
     if (activePage === "hazardataglance") {
       activePage = "adaptationataglance";
     }
     if (activePage === "future") {
-      activePage = "dashboard"; // Updated to match new pageid
+      activePage = "dashboard";
     }
 
     if (flag !== activePage) {
@@ -149,14 +175,13 @@ function ResponsiveAppBar() {
   const handleNavigation = (newValue) => {
     if (newValue && newValue !== flag) {
       setFlag(newValue);
-      // Use the country from the URL if available, otherwise use persistentCountry
       const currentCountry = country || persistentCountry;
       const targetPath = currentCountry ? `/${currentCountry}/${newValue}` : `/${newValue}`;
       navigate(targetPath.replace("//", "/"), { replace: true });
     }
   };
 
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(GlanceButtonRef.current);
@@ -166,49 +191,7 @@ function ResponsiveAppBar() {
     setAnchorElUser(null);
   };
 
-  const MyButton = styled(ToggleButton)(({ theme }) => ({
-    boxShadow: "none",
-    textTransform: "none",
-    fontSize: 15,
-    fontWeight: "normal",
-    color: theme.palette.text.primary,
-    paddingRight: 2,
-    paddingLeft: 2,
-    borderRadius: 0,
-    border: "0px solid",
-    backgroundColor: theme.palette.mode === "dark" ? "#3a3d42" : "#ffffff",
-    "&:hover": {
-      backgroundColor: theme.palette.mode === "dark" ? "#25292e" : "#f5f3ed",
-      color: theme.palette.mode === "dark" ? "#fff" : "#000",
-    },
-    "&.Mui-selected, &.Mui-selected:hover": {
-      boxShadow: "none",
-      backgroundColor: theme.palette.mode === "dark" ? "#4C9E46" : "#4C9E46",
-    },
-    "&.Mui-disabled": {
-      border: "0px solid",
-      color: theme.palette.mode === "dark" ? "#eee" : "#888",
-      backgroundColor: theme.palette.mode === "dark" ? "#3a3d42" : "#EFEFEF",
-    },
-  }));
-
-  const ImgButton = styled(Button)(({ theme }) => ({
-    boxShadow: "none",
-    borderRadius: 0,
-    border: "0px solid",
-    backgroundColor: theme.palette.mode === "dark" ? "#3a3d42" : "#ffffff",
-    "&:hover": {
-      backgroundColor: theme.palette.mode === "dark" ? "#3a3d42" : "#ffffff",
-      boxShadow: "none",
-    },
-    "&.Mui-selected, &.Mui-selected:hover": {
-      boxShadow: "none",
-      backgroundColor: theme.palette.mode === "dark" ? "#3a3d42" : "#ffffff",
-    },
-  }));
-
   const getHref = (path) => {
-    // Updated to use new URL structure: /:country/route
     const currentCountry = country || persistentCountry;
     return currentCountry ? `/${currentCountry}/${path}` : `/${path}`;
   };
@@ -226,7 +209,6 @@ function ResponsiveAppBar() {
       >
         <Box sx={{ display: "flex", flexDirection: "column", paddingTop: isSkipTranslateHidden ? "0px" : "14px" }}>
           <Toolbar disableGutters sx={{ width: "100%" }}>
-            {/* Left: Logo */}
             <Box sx={{ flexGrow: 0, display: "flex", alignItems: "center" }}>
               <ImgButton size="small" color="inherit" onClick={() => handleNavigation("home")}>
                 <Link
@@ -243,7 +225,6 @@ function ResponsiveAppBar() {
               </ImgButton>
             </Box>
 
-            {/* Center: Menu Items */}
             <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center", alignItems: "center" }}>
               <ToggleButtonGroup value={flag} exclusive onChange={(e, newValue) => handleNavigation(newValue)}>
                 {pages.map((page, index) => (
@@ -326,7 +307,6 @@ function ResponsiveAppBar() {
               </ToggleButtonGroup>
             </Box>
 
-            {/* Right: Feedback & Dark Mode */}
             <Box
               sx={{
                 display: "flex",
@@ -366,53 +346,8 @@ function ResponsiveAppBar() {
           </Toolbar>
         </Box>
       </AppBar>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/home" element={<TestHome />} />
-        <Route path="/:country/home" element={<TestHome />} />
-        <Route path="/about" element={<DrawerMapShow activeBar="about" />} />
-        <Route path="/:country/about" element={<DrawerMapShow activeBar="about" />} />
-        <Route path="/dashboard" element={<Test />} />
-        <Route path="/:country/dashboard" element={<Test />} />
-        <Route path="/adaptationataglance" element={<DrawerMapShow activeBar="analytics" />} />
-        <Route path="/:country/adaptationataglance" element={<DrawerMapShow activeBar="analytics" />} />
-        <Route path="/access" element={<DrawerMapShow activeBar="access" />} />
-        <Route path="/:country/access" element={<DrawerMapShow activeBar="access" />} />
-        <Route path="/resources" element={<DrawerMapShow activeBar="resources" />} />
-        <Route path="/:country/resources" element={<DrawerMapShow activeBar="resources" />} />
-        <Route path="/usecases" element={<UseCases />} />
-        <Route path="/:country/usecases" element={<UseCases />} />
-        <Route path="/guide" element={<DrawerMapShow activeBar="guide" />} />
-        <Route path="/:country/guide" element={<DrawerMapShow activeBar="guide" />} />
-        <Route path="/hazardataglance" element={<DrawerMapShow activeBar="hazards" />} />
-        <Route path="/:country/hazardataglance" element={<DrawerMapShow activeBar="hazards" />} />
-        <Route path="/future" element={<DrawerMapShow activeBar="future2" />} />
-        <Route path="/:country/future" element={<DrawerMapShow activeBar="future2" />} />
-        <Route path="/comparison" element={<DrawerMapShow activeBar="comparison" />} />
-        <Route path="/:country/comparison" element={<DrawerMapShow activeBar="comparison" />} />
-        <Route path="/summary" element={<DrawerMapShow activeBar="summary" />} />
-        <Route path="/:country/summary" element={<DrawerMapShow activeBar="summary" />} />
-        <Route path="/timeline" element={<DrawerMapShow activeBar="timeline" />} />
-        <Route path="/:country/timeline" element={<DrawerMapShow activeBar="timeline" />} />
-        <Route path="/adaptation" element={<DrawerMapShow activeBar="adaptation" />} />
-        <Route path="/:country/adaptation" element={<DrawerMapShow activeBar="adaptation" />} />
-        <Route path="/adaptation2" element={<DrawerMapShow activeBar="adaptation2" />} />
-        <Route path="/:country/adaptation2" element={<DrawerMapShow activeBar="adaptation2" />} />
-        <Route path="/feedback" element={<Feedback1 />} />
-        <Route path="/:country/feedback" element={<Feedback1 />} />
-        <Route path="/:country/analytics" element={<AnalyticsPage />} />
-        <Route path="*" element={<Home />} />
-      </Routes>
-
-      <ScrollToTop />
     </div>
   );
 }
 
-export default function App() {
-  return (
-    <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-      <ResponsiveAppBar />
-    </Router>
-  );
-}
+export default ResponsiveAppBar;
