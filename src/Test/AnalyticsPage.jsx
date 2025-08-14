@@ -278,7 +278,7 @@ const AnalyticsPage = () => {
     }, [chartData, years, yMin, yMax]); // Add dependencies
 
     return (
-        <div className="p-3 mt-2">
+        <div className="p-3 mt-2" style={{ marginTop: "120px" }}>
             <div className="row">
                 <div className="col-12">
                     <p>

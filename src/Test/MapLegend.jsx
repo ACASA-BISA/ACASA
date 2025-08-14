@@ -1,3 +1,4 @@
+// MapLegend.jsx
 import { Box, Paper, Typography, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
@@ -23,11 +24,18 @@ const DynamicColorTooltip = styled(({ bgColor, textColor, className, ...props })
   },
 }));
 
-const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl }) => {
+const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, mapWidth }) => {
   const theme = useTheme();
   const [legendData, setLegendData] = useState(null);
 
-  // Helper functions from Legend_Small.jsx
+  // Calculate responsive width and font sizes
+  const maxLegendWidth = mapWidth ? Math.min(mapWidth, 450) : 450; // 80% of map width, capped at 450px
+  console.log({ maxLegendWidth })
+  const baseFontSize = mapWidth ? Math.max(10, Math.min(mapWidth * 0.03, 13)) : 11; // Scale font size
+  const smallFontSize = baseFontSize * 0.9;
+  const tinyFontSize = baseFontSize * 0.8;
+
+  // Helper functions
   const checkcrop = () => {
     const diffcrop = ["cattle", "buffalo", "goat", "sheep", "pig", "chicken"];
     return !diffcrop.includes(breadcrumbData?.commodity?.toLowerCase());
@@ -35,7 +43,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl }) => {
 
   const calcpop = (popu) => {
     if (popu === 0) return "0";
-    const popInMillions = popu / 1_000_000; // Assume API returns raw units
+    const popInMillions = popu / 1_000_000;
     if (popInMillions < 0.1) {
       return layerType === "Absolute" ? "<0.1 M" : popInMillions.toFixed(1) + " M";
     }
@@ -45,32 +53,32 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl }) => {
   const calcarea = (popu) => {
     if (popu === 0) return "0";
     const unit = checkcrop() ? " Mha" : " M";
-    const areaInMillions = popu / 1_000_000; // Assume API returns raw units
+    const areaInMillions = popu / 1_000_000;
     if (areaInMillions < 0.1) {
       return layerType === "Absolute" ? `<0.1${unit}` : areaInMillions.toFixed(1) + unit;
     }
     return areaInMillions.toFixed(1) + unit;
   };
 
-  // Function to generate canvas for non-risk layers
+  // Generate canvas for non-risk layers
   const generateLegendCanvas = async (colorRamp) => {
     const canvas = document.createElement("canvas");
-    canvas.width = 200;
+    canvas.width = maxLegendWidth * 0.6; // 60% of legend width for gradient
     canvas.height = 40;
     const ctx = canvas.getContext("2d");
-    const gradient = ctx.createLinearGradient(0, 0, 200, 0);
+    const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
     colorRamp.forEach((color, index) => {
       gradient.addColorStop(index / (colorRamp.length - 1), color);
     });
     ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, 200, 20);
+    ctx.fillRect(0, 0, canvas.width, 20);
 
     ctx.fillStyle = "#000";
-    ctx.font = "12px Arial";
+    ctx.font = `${tinyFontSize}px Arial`;
     ctx.textAlign = "left";
     ctx.fillText("Low", 0, 35);
     ctx.textAlign = "right";
-    ctx.fillText("High", 200, 35);
+    ctx.fillText("High", canvas.width, 35);
 
     return {
       canvas,
@@ -78,7 +86,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl }) => {
     };
   };
 
-  // Fetch legend data for risk layer or generate canvas for non-risk layers
+  // Fetch legend data
   useEffect(() => {
     const fetchLegendData = async () => {
       if (layerType?.toLowerCase() !== "risk") {
@@ -125,7 +133,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl }) => {
         if (!success || !data) throw new Error("No valid legend data returned");
         setLegendData({
           ...data,
-          legend: data.legend?.filter(item => item.base_category?.toLowerCase() !== "nil") || [],
+          legend: data.legend?.filter((item) => item.base_category?.toLowerCase() !== "nil") || [],
         });
       } catch (err) {
         console.error("Error fetching legend data:", err);
@@ -136,44 +144,44 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl }) => {
     fetchLegendData();
   }, [tiff, layerType, apiUrl, breadcrumbData]);
 
-  // Render legend for risk layer
+  // Render risk legend
   const renderRiskLegend = () => {
     if (!legendData || !legendData.legend) return null;
 
     return (
-      <div style={{ maxWidth: "450px", minWidth: "280px" }}>
-        <div className="css-e7t8xt">
+      <div style={{ maxWidth: maxLegendWidth, minWidth: maxLegendWidth * 0.7 }}>
+        <div>
           <Typography
             variant="body1"
             sx={{
-              fontSize: 11.5,
+              fontSize: baseFontSize,
               fontWeight: "bold",
               color: theme.palette.mode === "dark" ? "white" : "black",
               marginBottom: "2px",
             }}
-            className="css-3n90ha"
           >
-            {legendData.header_text?.toLowerCase() === "seasonal rainfall" ? "Seasonal rainfall" : legendData.header_text || "Legend"}
+            {legendData.header_text?.toLowerCase() === "seasonal rainfall"
+              ? "Seasonal rainfall"
+              : legendData.header_text || "Legend"}
           </Typography>
         </div>
         {legendData.population_text && (
-          <div className="css-1kgqcmh">
+          <div>
             <Typography
               variant="body1"
               sx={{
-                fontSize: 11,
+                fontSize: smallFontSize,
                 color: theme.palette.mode === "dark" ? "white" : "black",
                 marginBottom: "2px",
                 "& span": { color: theme.palette.mode === "dark" ? theme.palette.text.secondary : "#111", fontStyle: "italic" },
               }}
-              className="css-7tocr4"
             >
               <span>Number of rural farm households, million (M)</span>
             </Typography>
           </div>
         )}
-        <Typography variant="body1" className="css-av9bhl">
-          <div className="css-y8ws96">
+        <Typography variant="body1">
+          <div>
             <Box sx={{ display: "flex", flexDirection: "row", gap: "4px", flexWrap: "wrap", justifyContent: "center" }}>
               {legendData.legend.map((item, index) => (
                 <div key={index}>
@@ -185,62 +193,42 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl }) => {
                       width: "100%",
                       gap: "2px",
                     }}
-                    className="css-my5uh"
                   >
-                    <Box sx={{ maxWidth: 90, height: 18, borderRadius: 0, marginBottom: "-4px" }} className="css-131n9v3">
+                    <Box sx={{ maxWidth: maxLegendWidth / 5, height: 18, borderRadius: 0, marginBottom: "-4px" }}>
                       <Typography
                         sx={{
-                          fontSize: 10,
+                          fontSize: tinyFontSize,
                           margin: "2px",
                           color: theme.palette.mode === "dark" ? theme.palette.text.secondary : "#111",
                         }}
-                        className="css-ve9das"
                       >
                         {calcpop(item.population_value)}
                       </Typography>
                     </Box>
                     <Box
                       sx={{
-                        maxWidth: 90,
+                        maxWidth: maxLegendWidth / 5,
                         height: 18,
                         borderRadius: 0,
                         bgcolor: item.color,
                         alignContent: "center",
                         cursor: legendData.header_text?.toLowerCase() === "seasonal rainfall" ? "pointer" : "default",
                       }}
-                      className={
-                        legendData.header_text?.toLowerCase() === "seasonal rainfall" && index === 0
-                          ? "css-qpzgzu"
-                          : index === 1
-                            ? "css-9y66qa"
-                            : index === 2
-                              ? "css-67plav"
-                              : index === 3
-                                ? "css-tt78gf"
-                                : index === 4
-                                  ? "css-f9otmc"
-                                  : "css-1v34u7p"
-                      }
                     >
                       {legendData.header_text?.toLowerCase() === "seasonal rainfall" ? (
                         <DynamicColorTooltip
                           bgColor={item.color}
                           textColor={["<25 mm", "25-50 mm"].map(c => c.toLowerCase()).includes(item.named_category?.toLowerCase()) ? "#111" : "white"}
-                          title={<Typography fontSize={12}>This is dummy information about rainfall category.</Typography>}
+                          title={<Typography fontSize={smallFontSize}>This is dummy information about rainfall category.</Typography>}
                         >
                           <Typography
                             sx={{
-                              fontSize: 10,
+                              fontSize: tinyFontSize,
                               marginY: "auto",
                               marginX: item.named_category?.toLowerCase().includes("50-75 mm") ? "0px" : "3px",
                               color: ["<25 mm", "25-50 mm"].map(c => c.toLowerCase()).includes(item.named_category?.toLowerCase()) ? "#111" : "white",
                             }}
                             align={item.named_category?.toLowerCase().includes("50-75 mm") ? "center" : "left"}
-                            className={
-                              ["50-75 mm", "75-100 mm", ">100 mm"].map(c => c.toLowerCase()).includes(item.named_category?.toLowerCase())
-                                ? "css-1a1q9qf"
-                                : "css-9j9cnv"
-                            }
                           >
                             <span
                               style={{
@@ -250,7 +238,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl }) => {
                                 textOverflow: "ellipsis",
                                 lineHeight: "2",
                                 fontWeight: "bold",
-                                fontSize: "10px",
+                                fontSize: tinyFontSize,
                               }}
                             >
                               {item.named_category}
@@ -260,17 +248,12 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl }) => {
                       ) : (
                         <Typography
                           sx={{
-                            fontSize: 10,
+                            fontSize: tinyFontSize,
                             marginY: "auto",
                             marginX: item.named_category?.toLowerCase().includes("medium ") ? "0px" : "3px",
                             color: index <= 4 && index >= 2 ? "#111" : "white",
                           }}
                           align={item.named_category?.toLowerCase().includes("medium ") ? "center" : "left"}
-                          className={
-                            ["very low", "very high"].map(c => c.toLowerCase()).includes(item.named_category?.toLowerCase())
-                              ? "css-1a1q9qf"
-                              : "css-9j9cnv"
-                          }
                         >
                           <span
                             style={{
@@ -280,7 +263,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl }) => {
                               textOverflow: "ellipsis",
                               lineHeight: "2",
                               fontWeight: "bold",
-                              fontSize: "10px",
+                              fontSize: tinyFontSize,
                             }}
                           >
                             {item.named_category}
@@ -288,15 +271,14 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl }) => {
                         </Typography>
                       )}
                     </Box>
-                    <Box sx={{ maxWidth: 90, height: 18, borderRadius: 0 }} className="css-vn4hh5">
+                    <Box sx={{ maxWidth: maxLegendWidth / 5, height: 18, borderRadius: 0 }}>
                       <Typography
                         sx={{
-                          fontSize: 10,
+                          fontSize: tinyFontSize,
                           margin: "2px",
                           marginTop: "0px",
                           color: theme.palette.mode === "dark" ? theme.palette.text.secondary : "#111",
                         }}
-                        className="css-8ewdh6"
                       >
                         {calcarea(item.commodity_value)}
                       </Typography>
@@ -308,16 +290,15 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl }) => {
           </div>
         </Typography>
         {legendData.commodity_text && (
-          <div className="css-1kgqcmh">
+          <div>
             <Typography
               variant="body1"
               sx={{
-                fontSize: 11,
+                fontSize: smallFontSize,
                 color: theme.palette.mode === "dark" ? "white" : "black",
                 marginBottom: "2px",
                 "& span": { color: theme.palette.mode === "dark" ? theme.palette.text.secondary : "#111", fontStyle: "italic" },
               }}
-              className="css-7tocr4"
             >
               <span>
                 {checkcrop()
@@ -337,7 +318,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl }) => {
             <Typography
               variant="body1"
               sx={{
-                fontSize: 10,
+                fontSize: tinyFontSize,
                 color: theme.palette.mode === "dark" ? theme.palette.text.secondary : "#111",
                 fontStyle: "italic",
                 margin: "2px",
@@ -351,7 +332,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl }) => {
     );
   };
 
-  // Render legend for non-risk layers
+  // Render non-risk legend
   const renderDefaultLegend = () => {
     if (!legendData?.base64 || !breadcrumbData?.commodity) return null;
 
@@ -360,7 +341,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl }) => {
         <Typography
           variant="body1"
           sx={{
-            fontSize: { xs: 11, sm: 13 },
+            fontSize: baseFontSize,
             fontWeight: "bold",
             whiteSpace: "wrap",
             color: theme.palette.mode === "dark" ? "white" : "black",
@@ -372,7 +353,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl }) => {
           <img
             src={legendData.base64}
             alt={`Legend for ${tiff.metadata.layer_name || "layer"}`}
-            style={{ maxWidth: "100%", width: { xs: 200, sm: 250 }, height: "auto", loading: "lazy" }}
+            style={{ maxWidth: "100%", width: maxLegendWidth * 0.6, height: "auto", loading: "lazy" }}
           />
         </Box>
       </Box>
@@ -396,13 +377,13 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl }) => {
         paddingBottom: "1px",
         borderRadius: "5px",
         boxShadow: "0px 0px 0px #aaa",
-        minWidth: { xs: 250, sm: 350 },
-        maxWidth: 450,
+        minWidth: maxLegendWidth * 0.7,
+        maxWidth: mapWidth,
         backgroundColor: theme.palette.background.paper,
+        bottom: "5px",
       }}
       role="tooltip"
       data-popper-placement="bottom"
-      className="css-1annchz"
     >
       {legendContent}
     </Paper>

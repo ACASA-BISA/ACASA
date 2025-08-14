@@ -844,3 +844,42 @@ button.btnExplore {
 /* .card::-webkit-scrollbar {
   display: none;
 } */
+
+/* Map-related styles for DataGlance component */
+.map-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.leaflet-container {
+    width: 100%;
+    height: 100%;
+}
+
+/* Optional: Leaflet control styles (uncomment if adding custom controls) */
+/*
+.leaflet-bar {
+    background-color: #fff;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+.leaflet-control-button {
+    display: block;
+    padding: 4px;
+    text-align: center;
+    background-color: #fff;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.leaflet-control-button:last-child {
+    border-bottom: none;
+}
+*/
+
+.leaflet-control-attribution {
+  display: none;
+}

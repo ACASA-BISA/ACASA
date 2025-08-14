@@ -19,7 +19,7 @@ import LightTooltip from "./LightTooltip";
 import { useLocation, useNavigate, useParams, Link } from "react-router-dom";
 
 const pages = ["Home", "Explore Data", "Data at a glance", "Data Access", "Use Cases", "Resources", "About Us"];
-const pageid = ["home", "dashboard", "adaptationataglance", "access", "usecases", "resources", "about"];
+const pageid = ["home", "dashboard", "dataglance", "access", "usecases", "resources", "about"];
 const AppBarHeight = "85px";
 
 const languages = [
@@ -229,79 +229,27 @@ function ResponsiveAppBar() {
               <ToggleButtonGroup value={flag} exclusive onChange={(e, newValue) => handleNavigation(newValue)}>
                 {pages.map((page, index) => (
                   <Box key={pageid[index]}>
-                    {page !== "Data at a glance" ? (
-                      <LightTooltip title={page === "Guide" ? "To be updated soon" : ""}>
-                        <span>
-                          <MyButton
-                            value={pageid[index]}
-                            sx={{
-                              px: 2,
-                              py: 1,
-                              "&.Mui-disabled": {
-                                backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#3a3f45" : "#e0e0e0"),
-                                color: (theme) => (theme.palette.mode === "dark" ? "#7d848b" : "#9e9e9e"),
-                                cursor: "not-allowed",
-                              },
-                            }}
-                            disabled={page === "Guide"}
-                          >
-                            <Typography sx={{ fontSize: "14px", fontWeight: 700, fontFamily: "Karla" }}>
-                              {page}
-                            </Typography>
-                          </MyButton>
-                        </span>
-                      </LightTooltip>
-                    ) : (
-                      <Box ref={GlanceButtonRef}>
+                    <LightTooltip title={page === "Guide" ? "To be updated soon" : ""}>
+                      <span>
                         <MyButton
                           value={pageid[index]}
-                          onMouseEnter={handleOpenUserMenu}
-                          onMouseLeave={handleCloseUserMenu}
-                          aria-haspopup="true"
                           sx={{
                             px: 2,
                             py: 1,
-                            backgroundColor: (theme) =>
-                              Boolean(anchorElUser)
-                                ? theme.palette.mode === "dark"
-                                  ? "#3a3d42"
-                                  : "#f5f3ed"
-                                : theme.palette.mode === "dark"
-                                  ? "#3a3d42"
-                                  : "#ffffff",
+                            "&.Mui-disabled": {
+                              backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#3a3f45" : "#e0e0e0"),
+                              color: (theme) => (theme.palette.mode === "dark" ? "#7d848b" : "#9e9e9e"),
+                              cursor: "not-allowed",
+                            },
                           }}
+                          disabled={page === "Guide"}
                         >
-                          <Typography
-                            sx={{
-                              fontSize: "14px",
-                              fontWeight: 700,
-                              color: (theme) => (theme.palette.mode === "dark" ? "#fff" : "#000"),
-                              fontFamily: "Karla",
-                            }}
-                          >
+                          <Typography sx={{ fontSize: "14px", fontWeight: 700, fontFamily: "Karla" }}>
                             {page}
                           </Typography>
                         </MyButton>
-                        <Menu
-                          anchorEl={anchorElUser}
-                          open={Boolean(anchorElUser)}
-                          onClose={handleCloseUserMenu}
-                          anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-                          transformOrigin={{ vertical: "top", horizontal: "left" }}
-                        >
-                          <MenuItem onClick={() => handleNavigation("hazardataglance")}>
-                            <Typography fontSize={13} fontFamily="Karla" fontWeight={350}>
-                              Hazards at a glance
-                            </Typography>
-                          </MenuItem>
-                          <MenuItem onClick={() => handleNavigation("adaptationataglance")}>
-                            <Typography fontSize={13} fontFamily="Karla" fontWeight={350}>
-                              Adaptation at a glance
-                            </Typography>
-                          </MenuItem>
-                        </Menu>
-                      </Box>
-                    )}
+                      </span>
+                    </LightTooltip>
                   </Box>
                 ))}
               </ToggleButtonGroup>
