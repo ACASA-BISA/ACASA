@@ -120,8 +120,8 @@ function ResponsiveAppBar() {
   const navigate = useNavigate();
   const { country } = useParams();
   const [isSkipTranslateHidden, setIsSkipTranslateHidden] = useState(false);
-
   const [language, setLanguage] = useState("en");
+  const [anchorElGlance, setAnchorElGlance] = useState(null);
 
   const handleChange = (event) => {
     setLanguage(event.target.value);
@@ -158,8 +158,8 @@ function ResponsiveAppBar() {
       setPersistentCountry(null);
     }
 
-    if (activePage === "hazardataglance") {
-      activePage = "adaptationataglance";
+    if (activePage === "hazardglance" || activePage === "adaptationglance") {
+      activePage = "dataglance";
     }
     if (activePage === "future") {
       activePage = "dashboard";
@@ -173,7 +173,7 @@ function ResponsiveAppBar() {
   const GlanceButtonRef = React.useRef(null);
 
   const handleNavigation = (newValue) => {
-    if (newValue && newValue !== flag) {
+    if (newValue && newValue !== flag && newValue !== "dataglance") {
       setFlag(newValue);
       const currentCountry = country || persistentCountry;
       const targetPath = currentCountry ? `/${currentCountry}/${newValue}` : `/${newValue}`;
@@ -181,14 +181,20 @@ function ResponsiveAppBar() {
     }
   };
 
-  const [anchorElUser, setAnchorElUser] = useState(null);
-
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(GlanceButtonRef.current);
+  const handleOpenGlanceMenu = (event) => {
+    setAnchorElGlance(event.currentTarget);
   };
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
+  const handleCloseGlanceMenu = () => {
+    setAnchorElGlance(null);
+  };
+
+  const handleGlanceMenuItemClick = (path) => {
+    setFlag("dataglance");
+    const currentCountry = country || persistentCountry;
+    const targetPath = currentCountry ? `/${currentCountry}/${path}` : `/${path}`;
+    navigate(targetPath.replace("//", "/"), { replace: true });
+    handleCloseGlanceMenu();
   };
 
   const getHref = (path) => {
@@ -231,23 +237,105 @@ function ResponsiveAppBar() {
                   <Box key={pageid[index]}>
                     <LightTooltip title={page === "Guide" ? "To be updated soon" : ""}>
                       <span>
-                        <MyButton
-                          value={pageid[index]}
-                          sx={{
-                            px: 2,
-                            py: 1,
-                            "&.Mui-disabled": {
-                              backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#3a3f45" : "#e0e0e0"),
-                              color: (theme) => (theme.palette.mode === "dark" ? "#7d848b" : "#9e9e9e"),
-                              cursor: "not-allowed",
-                            },
-                          }}
-                          disabled={page === "Guide"}
-                        >
-                          <Typography sx={{ fontSize: "14px", fontWeight: 700, fontFamily: "Karla" }}>
-                            {page}
-                          </Typography>
-                        </MyButton>
+                        {page === "Data at a glance" ? (
+                          <div ref={GlanceButtonRef}>
+                            <MyButton
+                              value={pageid[index]}
+                              sx={{
+                                paddingRight: 2,
+                                paddingLeft: 2,
+                                paddingTop: 1,
+                                paddingBottom: 1,
+                                backgroundColor: (theme) =>
+                                  Boolean(anchorElGlance)
+                                    ? theme.palette.mode === "dark"
+                                      ? "#3a3d42" // Dark theme open menu color
+                                      : "#f5f3ed" // Light theme open menu color
+                                    : theme.palette.mode === "dark"
+                                      ? "#3a3d42"
+                                      : "#ffffff", // Default background
+                                "&.Mui-selected": {
+                                  backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#4C9E46" : "#4C9E46"),
+                                },
+                              }}
+                              onClick={handleOpenGlanceMenu}
+                              aria-owns={Boolean(anchorElGlance) ? "menu-glance" : undefined}
+                              aria-haspopup="true"
+                            >
+                              <Typography
+                                textAlign="center"
+                                sx={{
+                                  fontSize: "14px",
+                                  fontWeight: 700,
+                                  color: (theme) => (theme.palette.mode === "dark" ? "#fff" : "#000"),
+                                  fontFamily: "Karla",
+                                }}
+                              >
+                                {page}
+                              </Typography>
+                            </MyButton>
+                            <Menu
+                              id="menu-glance"
+                              anchorEl={anchorElGlance}
+                              open={Boolean(anchorElGlance)}
+                              onClose={handleCloseGlanceMenu}
+                              onClick={handleCloseGlanceMenu}
+                              anchorOrigin={{
+                                vertical: "bottom",
+                                horizontal: "left",
+                              }}
+                              transformOrigin={{
+                                vertical: "top",
+                                horizontal: "left",
+                              }}
+                            >
+                              <MenuItem onClick={() => handleGlanceMenuItemClick("hazardglance")}>
+                                <Typography
+                                  textAlign="center"
+                                  fontSize={13}
+                                  sx={{
+                                    fontFamily: "Karla",
+                                    fontWeight: 350,
+                                    color: (theme) => (theme.palette.mode === "dark" ? "#dddddd" : "#222222"),
+                                  }}
+                                >
+                                  Hazards at a glance
+                                </Typography>
+                              </MenuItem>
+                              <MenuItem onClick={() => handleGlanceMenuItemClick("adaptationglance")}>
+                                <Typography
+                                  textAlign="center"
+                                  fontSize={13}
+                                  sx={{
+                                    fontFamily: "Karla",
+                                    fontWeight: 350,
+                                    color: (theme) => (theme.palette.mode === "dark" ? "#dddddd" : "#222222"),
+                                  }}
+                                >
+                                  Adaptation at a glance
+                                </Typography>
+                              </MenuItem>
+                            </Menu>
+                          </div>
+                        ) : (
+                          <MyButton
+                            value={pageid[index]}
+                            sx={{
+                              px: 2,
+                              py: 1,
+                              "&.Mui-disabled": {
+                                backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#3a3f45" : "#e0e0e0"),
+                                color: (theme) => (theme.palette.mode === "dark" ? "#7d848b" : "#9e9e9e"),
+                                cursor: "not-allowed",
+                              },
+                            }}
+                            disabled={page === "Guide"}
+                          >
+                            <Typography sx={{ fontSize: "14px", fontWeight: 700, fontFamily: "Karla" }}>
+                              {page}
+                            </Typography>
+                          </MyButton>
+                        )}
                       </span>
                     </LightTooltip>
                   </Box>

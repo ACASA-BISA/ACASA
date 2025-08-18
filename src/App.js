@@ -16,6 +16,7 @@ import DrawerMapShow from "./DrawerMapShow";
 import Feedback1 from "./Feedback";
 import ScrollToTop from "./scrolltop";
 import DataGlance from "./Test/DataGlance";
+import AdaptationDataGlance from "./Test/AdaptationDataGlance";
 
 // Initialize Google Analytics
 ReactGA.initialize("G-KE0VBWC68L");
@@ -69,8 +70,10 @@ function App() {
           <Route path="/:country/feedback" element={<Feedback1 />} />
           <Route path="/analytics" element={<AnalyticsPage />} />
           <Route path="/:country/analytics" element={<AnalyticsPage />} />
-          <Route path="/dataglance" element={<DataGlance />} />
-          <Route path="/:country/dataglance" element={<DataGlance />} />
+          <Route path="/hazardglance" element={<DataGlance />} />
+          <Route path="/:country/hazardglance" element={<DataGlance />} />
+          <Route path="/adaptationglance" element={<AdaptationDataGlance />} />
+          <Route path="/:country/adaptationglance" element={<AdaptationDataGlance />} />
           <Route path="*" element={<Home />} />
         </Routes>
         <ScrollToTop />

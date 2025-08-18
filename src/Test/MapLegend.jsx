@@ -111,7 +111,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, mapWidth }) => {
 
       try {
         const payload = {
-          layer_type: "risk",
+          layer_type: layerType,
           country_id: breadcrumbData?.country_id || null,
           state_id: breadcrumbData?.state_id || null,
           commodity_id: breadcrumbData?.commodity_id || null,

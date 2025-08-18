@@ -75,7 +75,6 @@ L.Control.MapControls = L.Control.extend({
         container.style.flexDirection = "column";
         container.style.gap = "4px";
 
-        // Zoom controls
         const zoomContainer = L.DomUtil.create(
             "div",
             "ol-zoom-comp ol-unselectable ol-control"
@@ -121,7 +120,6 @@ L.Control.MapControls = L.Control.extend({
             map.zoomOut();
         });
 
-        // Fullscreen control
         const fullscreenContainer = L.DomUtil.create(
             "div",
             "ol-fullscreeny ol-unselectable ol-control"
@@ -153,7 +151,6 @@ L.Control.MapControls = L.Control.extend({
             this.options.onFullscreen(fullscreenButton);
         });
 
-        // Fit to Extent control
         const fitExtentContainer = L.DomUtil.create(
             "div",
             "ol-zoomtoextenty ol-unselectable ol-control"
@@ -199,6 +196,8 @@ const DataGlance = () => {
     const [commodities, setCommodities] = useState([]);
     const [climateScenarios, setClimateScenarios] = useState([]);
     const [visualizationScales, setVisualizationScales] = useState([]);
+    const [adaptationCropTabs, setAdaptationCropTabs] = useState([]);
+    const [adaptations, setAdaptations] = useState([]);
     const [geojsonData, setGeojsonData] = useState(null);
     const [selectedCountryId, setSelectedCountryId] = useState(0);
     const [selectedCommodityId, setSelectedCommodityId] = useState("");
@@ -206,6 +205,8 @@ const DataGlance = () => {
     const [selectedVisualizationScaleId, setSelectedVisualizationScaleId] = useState("");
     const [selectedIntensityMetricId, setSelectedIntensityMetricId] = useState(2);
     const [selectedChangeMetricId, setSelectedChangeMetricId] = useState(1);
+    const [selectedAdaptationCropTabId, setSelectedAdaptationCropTabId] = useState("");
+    const [selectedAdaptations, setSelectedAdaptations] = useState(new Array(8).fill(""));
     const [isOptionLoading, setIsOptionLoading] = useState(false);
     const [showCountrySelect, setShowCountrySelect] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
@@ -228,7 +229,7 @@ const DataGlance = () => {
     const hasInitializedRef = useRef(false);
     const lastFetchKeyRef = useRef(null);
     const geotiffPromiseCache = useRef(new Map());
-    const controlsInitialized = useRef(new Array(8).fill(false)); // Track control initialization
+    const controlsInitialized = useRef(new Array(8).fill(false));
 
     const apiRand = Math.random().toString(36).substring(2, 15);
     const apiUrl = process.env.REACT_APP_API_URL || `http://52.52.161.42/acasa_api?rand=${apiRand}`;
@@ -244,18 +245,19 @@ const DataGlance = () => {
             visualization_scale_id: selectedVisualizationScaleId || null,
             intensity_metric_id: selectedIntensityMetricId || null,
             change_metric_id: selectedChangeMetricId || null,
+            adaptation_croptab_id: selectedAdaptationCropTabId || null,
             geojson: geojsonData?.geojson || null,
             bbox: geojsonData?.bbox || null,
             region: geojsonData?.region || null,
         }),
-        [commodities, selectedCommodityId, selectedCountryId, selectedScenarioId, selectedVisualizationScaleId, selectedIntensityMetricId, selectedChangeMetricId, geojsonData]
+        [commodities, selectedCommodityId, selectedCountryId, selectedScenarioId, selectedVisualizationScaleId, selectedIntensityMetricId, selectedChangeMetricId, selectedAdaptationCropTabId, geojsonData]
     );
 
     const memoizedHazardData = useMemo(() => hazardData, [hazardData]);
     const memoizedGeojsonData = useMemo(() => geojsonData, [geojsonData]);
 
     const fetchTiffs = useCallback(
-        debounce(async (hazardData, geojsonData, countryId, commodityId, selectRasterFile, fetchGeoTiff) => {
+        debounce(async (hazardData, geojsonData, countryId, commodityId, adaptationCropTabId, selectRasterFile, fetchGeoTiff) => {
             if (isFetchingRef.current) {
                 console.log("Skipping fetchTiffs: fetch already in progress");
                 return;
@@ -270,7 +272,7 @@ const DataGlance = () => {
                 return;
             }
 
-            const fetchKey = `${countryId}-${commodityId}-${selectedScenarioId}-${selectedVisualizationScaleId}-${selectedIntensityMetricId}-${selectedChangeMetricId}-${JSON.stringify(
+            const fetchKey = `${countryId}-${commodityId}-${selectedScenarioId}-${selectedVisualizationScaleId}-${selectedIntensityMetricId}-${selectedChangeMetricId}-${adaptationCropTabId}-${JSON.stringify(
                 hazardData.raster_grids.map((g) => g.grid_sequence)
             )}`;
 
@@ -289,9 +291,10 @@ const DataGlance = () => {
 
                 const fetchedSourceFiles = new Set();
                 const tiffPromises = sortedGrids.slice(0, 7).map(async (grid) => {
-                    const file = selectRasterFile(grid.raster_files);
+                    const adaptationId = grid.grid_sequence === 0 ? "" : selectedAdaptations[grid.grid_sequence] || "";
+                    const file = selectRasterFile(grid.raster_files, adaptationId);
                     if (!file || !file.exists) {
-                        console.warn(`No matching raster file for hazard ${grid.hazard_title || grid.grid_sequence}`);
+                        console.warn(`No matching raster file for grid ${grid.grid_sequence_title || grid.grid_sequence}, adaptation ${adaptationId}`);
                         return null;
                     }
                     if (fetchedSourceFiles.has(file.source_file)) {
@@ -300,9 +303,9 @@ const DataGlance = () => {
                     }
                     fetchedSourceFiles.add(file.source_file);
                     return await fetchGeoTiff(
-                        { ...file, hazard_title: grid.hazard_title },
+                        { ...file, grid_sequence_title: grid.grid_sequence_title, adaptation_id: adaptationId },
                         grid.grid_sequence,
-                        grid.layer_id
+                        grid.layer_id || grid.impact_id || grid.adaptation_id
                     );
                 });
 
@@ -341,7 +344,7 @@ const DataGlance = () => {
                 geotiffPromiseCache.current.clear();
             }
         }, 500),
-        [tiffData, selectedScenarioId, selectedVisualizationScaleId, selectedIntensityMetricId, selectedChangeMetricId]
+        [tiffData, selectedScenarioId, selectedVisualizationScaleId, selectedIntensityMetricId, selectedChangeMetricId, selectedAdaptationCropTabId]
     );
 
     useEffect(() => {
@@ -450,9 +453,9 @@ const DataGlance = () => {
     );
 
     const fetchHazardData = useCallback(
-        async (commodityId) => {
-            if (!commodityId) {
-                console.log("Skipping fetchHazardData: missing commodity", { commodityId });
+        async (commodityId, adaptationCropTabId) => {
+            if (!commodityId || !adaptationCropTabId) {
+                console.log("Skipping fetchHazardData: missing parameters", { commodityId, adaptationCropTabId });
                 return;
             }
             console.log("Starting fetchHazardData");
@@ -461,26 +464,27 @@ const DataGlance = () => {
             try {
                 const admin_level = selectedCountryId !== 0 ? "country" : "total";
                 const admin_level_id = selectedCountryId || null;
-                console.log("Fetching hazard data with:", { commodity_id: commodityId, admin_level, admin_level_id });
-                const response = await fetchWithRetry(`${apiUrl}/layers/hazards_glance`, {
+                console.log("Fetching adaptations data with:", { commodity_id: commodityId, adaptation_croptab_id: adaptationCropTabId, admin_level, admin_level_id });
+                const response = await fetchWithRetry(`${apiUrl}/layers/adaptations_glance`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
                         commodity_id: commodityId,
+                        adaptation_croptab_id: adaptationCropTabId,
                         admin_level,
                         admin_level_id,
                     }),
                 });
                 const { success, data } = await response.json();
-                if (!success) throw new Error("API error: /layers/hazards_glance");
-                console.log("Hazard data fetched:", data);
+                if (!success) throw new Error("API error: /layers/adaptations_glance");
+                console.log("Adaptations data fetched:", data);
                 setHazardData(data);
             } catch (err) {
-                console.error("Error fetching hazard data:", err);
+                console.error("Error fetching adaptations data:", err);
                 Swal.fire({
                     icon: "error",
                     title: "Error",
-                    text: err.message || "Error loading hazard data",
+                    text: err.message || "Error loading adaptations data",
                 });
                 setHazardData(null);
             } finally {
@@ -491,13 +495,40 @@ const DataGlance = () => {
         [apiUrl, selectedCountryId]
     );
 
+    const fetchAdaptations = useCallback(
+        async (commodityId) => {
+            if (!commodityId) {
+                console.log("Skipping fetchAdaptations: missing commodityId");
+                return;
+            }
+            setIsOptionLoading(true);
+            try {
+                const data = await fetchData(`lkp/specific/adaptations?commodity_id=${commodityId}`);
+                console.log("Fetched adaptations:", data);
+                setAdaptations(data);
+                if (data.length > 0) {
+                    const firstAdaptationId = data.find((a) => a.status)?.adaptation_id || "";
+                    setSelectedAdaptations(new Array(8).fill(firstAdaptationId));
+                } else {
+                    setSelectedAdaptations(new Array(8).fill(""));
+                }
+            } catch (err) {
+                console.error("Error fetching adaptations:", err);
+                setAdaptations([]);
+                setSelectedAdaptations(new Array(8).fill(""));
+            }
+        },
+        [fetchData]
+    );
+
     const selectRasterFile = useCallback(
-        (rasterFiles) => {
+        (rasterFiles, adaptationId) => {
             console.log("Selecting raster file with filters:", {
                 selectedScenarioId,
                 selectedIntensityMetricId,
                 selectedChangeMetricId,
                 selectedVisualizationScaleId,
+                adaptationId,
                 availableFiles: rasterFiles,
             });
             const scenario = climateScenarios.find((s) => s.scenario_id === parseInt(selectedScenarioId));
@@ -512,12 +543,13 @@ const DataGlance = () => {
                 const matchesIntensity = !selectedIntensityMetricId || file.intensity_metric_id === parseInt(selectedIntensityMetricId || 2);
                 const matchesChange = !selectedChangeMetricId || file.change_metric_id === parseInt(selectedChangeMetricId || 1);
                 const matchesScale = !selectedVisualizationScaleId || file.visualization_scale_id === parseInt(selectedVisualizationScaleId || 1);
-                return matchesScenario && matchesIntensity && matchesChange && matchesScale;
+                const matchesAdaptation = !adaptationId || file.adaptation_id === parseInt(adaptationId);
+                return matchesScenario && matchesIntensity && matchesChange && matchesScale && matchesAdaptation;
             });
 
             if (!matchedFile && rasterFiles.length > 0) {
                 console.warn("No matching raster file found, falling back to first available file");
-                return rasterFiles[0];
+                return rasterFiles.find((file) => file.exists) || rasterFiles[0];
             }
             console.log("Selected raster file:", matchedFile);
             return matchedFile;
@@ -527,13 +559,13 @@ const DataGlance = () => {
 
     const fetchGeoTiff = useCallback(
         async (file, gridSequence, layerId) => {
-            const cacheKey = `${file.source_file}-${selectedCountryId || "total"}-${gridSequence}`;
+            const cacheKey = `${file.source_file}-${selectedCountryId || "total"}-${gridSequence}-${file.adaptation_id || "no-adaptation"}`;
             if (geotiffPromiseCache.current.has(cacheKey)) {
                 console.log(`Returning cached GeoTIFF promise for ${cacheKey}`);
                 return geotiffPromiseCache.current.get(cacheKey);
             }
 
-            console.log(`Fetching GeoTIFF for ${file.hazard_title || "hazard"} with grid_sequence: ${gridSequence}`);
+            console.log(`Fetching GeoTIFF for ${file.grid_sequence_title || "grid"} with grid_sequence: ${gridSequence}, adaptation: ${file.adaptation_id || "none"}`);
             const admin_level = selectedCountryId !== 0 ? "country" : "total";
             const admin_level_id = selectedCountryId || null;
             const promise = fetchWithRetry(`${apiUrl}/layers/geotiff`, {
@@ -554,7 +586,7 @@ const DataGlance = () => {
                     if (!arrayBuffer || arrayBuffer.byteLength === 0) {
                         throw new Error(`Empty or invalid arrayBuffer for ${file.source_file}`);
                     }
-                    console.log(`GeoTIFF fetched successfully for ${file.hazard_title || "hazard"}, grid_sequence: ${gridSequence}, size: ${arrayBuffer.byteLength} bytes`);
+                    console.log(`GeoTIFF fetched successfully for ${file.grid_sequence_title || "grid"}, grid_sequence: ${gridSequence}, size: ${arrayBuffer.byteLength} bytes`);
                     const modifiedColorRamp = file.ramp.map((color) =>
                         color.toLowerCase() === "#00ff00" ? "#7FFF00" : color
                     );
@@ -563,20 +595,21 @@ const DataGlance = () => {
                         metadata: {
                             source_file: file.source_file,
                             color_ramp: modifiedColorRamp,
-                            layer_name: file.hazard_title || `Hazard ${gridSequence}`,
+                            layer_name: file.grid_sequence_title || `Grid ${gridSequence}`,
                             grid_sequence: gridSequence,
                             layer_id: layerId,
                             year: file.year || null,
                             climate_scenario_id: file.climate_scenario_id || null,
+                            adaptation_id: file.adaptation_id || null,
                         },
                     };
                 })
                 .catch((err) => {
-                    console.error(`Error fetching GeoTIFF for ${file.hazard_title || "hazard"}:`, err);
+                    console.error(`Error fetching GeoTIFF for ${file.grid_sequence_title || "grid"}:`, err);
                     Swal.fire({
                         icon: "error",
                         title: "Error",
-                        text: `Failed to load GeoTIFF for ${file.hazard_title || "hazard"}`,
+                        text: `Failed to load GeoTIFF for ${file.grid_sequence_title || "grid"}`,
                     });
                     geotiffPromiseCache.current.delete(cacheKey);
                     return null;
@@ -625,32 +658,25 @@ const DataGlance = () => {
         console.log("Cleaning up maps");
         mapInstances.current.forEach((map, index) => {
             if (map) {
-                // Remove all layers
                 layerRefs.current[index].forEach((layer) => {
                     if (layer && map.hasLayer(layer)) {
                         map.removeLayer(layer);
                     }
                 });
-                // Remove tile layer
                 if (tileLayerRefs.current[index] && map.hasLayer(tileLayerRefs.current[index])) {
                     map.removeLayer(tileLayerRefs.current[index]);
                 }
-                // Remove GeoJSON layer
                 if (geojsonLayerRefs.current[index] && map.hasLayer(geojsonLayerRefs.current[index])) {
                     map.removeLayer(geojsonLayerRefs.current[index]);
                 }
-                // Remove map controls
                 if (mapControlRefs.current[index]) {
                     map.removeControl(mapControlRefs.current[index]);
                 }
-                // Remove download control
                 if (downloadControlRefs.current[index]) {
                     map.removeControl(downloadControlRefs.current[index]);
                 }
-                // Remove map event listeners and map itself
                 map.off();
                 map.remove();
-                // Reset references
                 mapInstances.current[index] = null;
                 layerRefs.current[index] = [];
                 tileLayerRefs.current[index] = null;
@@ -675,6 +701,69 @@ const DataGlance = () => {
             button.className = `ol-fullscreeny-${isFull}`;
         }
     }, []);
+
+    const handleAdaptationChange = useCallback(
+        (gridSequence, adaptationId) => {
+            console.log(`Adaptation changed for grid_sequence ${gridSequence} to ID: ${adaptationId}`);
+            setSelectedAdaptations((prev) => {
+                const newAdaptations = [...prev];
+                newAdaptations[gridSequence] = adaptationId;
+                return newAdaptations;
+            });
+
+            if (memoizedHazardData && memoizedGeojsonData) {
+                const grid = memoizedHazardData.raster_grids.find((g) => g.grid_sequence === gridSequence);
+                if (grid) {
+                    const file = selectRasterFile(grid.raster_files, adaptationId);
+                    if (file && file.exists) {
+                        setIsLoading(true);
+                        fetchGeoTiff(
+                            { ...file, grid_sequence_title: grid.grid_sequence_title, adaptation_id: adaptationId },
+                            grid.grid_sequence,
+                            grid.layer_id || grid.impact_id || grid.adaptation_id
+                        ).then((tiffResult) => {
+                            if (tiffResult) {
+                                setTiffData((prev) => {
+                                    const newTiffData = prev.filter((t) => t.metadata.grid_sequence !== gridSequence);
+                                    newTiffData.push(tiffResult);
+                                    return newTiffData.sort((a, b) => a.metadata.grid_sequence - b.metadata.grid_sequence);
+                                });
+                                setRenderedMaps((prev) => {
+                                    const newRenderedMaps = [...prev];
+                                    newRenderedMaps[gridSequence] = false;
+                                    return newRenderedMaps;
+                                });
+                            }
+                            setIsLoading(false);
+                        }).catch((err) => {
+                            console.error(`Failed to update GeoTIFF for grid_sequence ${gridSequence}:`, err);
+                            setIsLoading(false);
+                        });
+                    } else {
+                        console.warn(`No valid raster file for grid_sequence ${gridSequence}, adaptation ${adaptationId}`);
+                        Swal.fire({
+                            icon: "warning",
+                            title: "No Data",
+                            text: `No raster file available for the selected adaptation.`,
+                        });
+                        setIsLoading(false);
+                    }
+                } else {
+                    console.warn(`Grid not found for grid_sequence ${gridSequence}`);
+                    Swal.fire({
+                        icon: "warning",
+                        title: "Error",
+                        text: `Grid data not found for sequence ${gridSequence}.`,
+                    });
+                    setIsLoading(false);
+                }
+            } else {
+                console.warn("Cannot update adaptation: missing hazard or geojson data");
+                setIsLoading(false);
+            }
+        },
+        [memoizedHazardData, memoizedGeojsonData, selectRasterFile, fetchGeoTiff]
+    );
 
     useEffect(() => {
         if (!countries.length) {
@@ -734,18 +823,20 @@ const DataGlance = () => {
         const initializeData = async () => {
             setIsLoading(true);
             try {
-                const [fetchedCountries, fetchedCommodities, fetchedScenarios, fetchedScales] = await Promise.all([
+                const [fetchedCountries, fetchedCommodities, fetchedScenarios, fetchedScales, fetchedAdaptationCropTabs] = await Promise.all([
                     fetchData("lkp/locations/countries"),
                     fetchData("lkp/common/commodities"),
                     fetchData("lkp/common/climate_scenarios"),
                     fetchData("lkp/common/visualization_scales"),
+                    fetchData("lkp/specific/adaptation_croptabs"),
                 ]);
-                console.log("Dropdown data fetched", { fetchedCountries, fetchedCommodities });
+                console.log("Dropdown data fetched", { fetchedCountries, fetchedCommodities, fetchedAdaptationCropTabs });
 
                 setCountries(fetchedCountries);
                 setCommodities(fetchedCommodities);
                 setClimateScenarios(fetchedScenarios);
                 setVisualizationScales(fetchedScales);
+                setAdaptationCropTabs(fetchedAdaptationCropTabs);
 
                 let commodityId = "";
                 if (fetchedCommodities.length > 0) {
@@ -754,6 +845,7 @@ const DataGlance = () => {
                         commodityId = activeCommodities[0]?.commodity_id;
                         console.log(`Setting default commodity to ID: ${commodityId}`, { activeCommodities });
                         setSelectedCommodityId(commodityId);
+                        await fetchAdaptations(commodityId);
                     } else {
                         console.error("No active commodities available");
                         Swal.fire({
@@ -783,6 +875,12 @@ const DataGlance = () => {
                     setSelectedVisualizationScaleId(scaleId);
                 }
 
+                if (fetchedAdaptationCropTabs.length > 0 && !selectedAdaptationCropTabId) {
+                    const tabId = fetchedAdaptationCropTabs[0]?.tab_id || "";
+                    console.log(`Setting default adaptation crop tab to ID: ${tabId}`);
+                    setSelectedAdaptationCropTabId(tabId);
+                }
+
                 if (!country) {
                     console.log("Triggering default GeoJSON fetch for South Asia");
                     fetchGeojson("total", null);
@@ -800,20 +898,21 @@ const DataGlance = () => {
         };
 
         initializeData();
-    }, [fetchData, fetchGeojson, country]);
+    }, [fetchData, fetchGeojson, fetchAdaptations, country]);
 
     useEffect(() => {
-        if (!hasInitializedRef.current || !selectedCommodityId) {
+        if (!hasInitializedRef.current || !selectedCommodityId || !selectedAdaptationCropTabId) {
             console.log("Not triggering fetchHazardData on filter change:", {
                 hasInitialized: hasInitializedRef.current,
                 selectedCommodityId,
+                selectedAdaptationCropTabId,
                 isFetching: isFetchingRef.current,
             });
             return;
         }
-        console.log(`Triggering fetchHazardData for commodity ${selectedCommodityId}, country ${selectedCountryId}`);
-        fetchHazardData(selectedCommodityId);
-    }, [selectedCommodityId, selectedCountryId, fetchHazardData]);
+        console.log(`Triggering fetchHazardData for commodity ${selectedCommodityId}, adaptation crop tab ${selectedAdaptationCropTabId}`);
+        fetchHazardData(selectedCommodityId, selectedAdaptationCropTabId);
+    }, [selectedCommodityId, selectedAdaptationCropTabId, fetchHazardData]);
 
     useEffect(() => {
         if (!memoizedHazardData || !memoizedHazardData.raster_grids || !memoizedGeojsonData) {
@@ -826,12 +925,12 @@ const DataGlance = () => {
         }
 
         console.log("Triggering fetchTiffs");
-        fetchTiffs(memoizedHazardData, memoizedGeojsonData, selectedCountryId, selectedCommodityId, selectRasterFile, fetchGeoTiff);
+        fetchTiffs(memoizedHazardData, memoizedGeojsonData, selectedCountryId, selectedCommodityId, selectedAdaptationCropTabId, selectRasterFile, fetchGeoTiff);
 
         return () => {
             fetchTiffs.cancel();
         };
-    }, [memoizedHazardData, memoizedGeojsonData, selectedCountryId, selectedCommodityId, selectRasterFile, fetchGeoTiff, fetchTiffs]);
+    }, [memoizedHazardData, memoizedGeojsonData, selectedCountryId, selectedCommodityId, selectedAdaptationCropTabId, selectRasterFile, fetchGeoTiff, fetchTiffs]);
 
     const updateGeoTiffLayer = useCallback(
         async (tiff, index) => {
@@ -847,7 +946,6 @@ const DataGlance = () => {
             const map = mapInstances.current[index];
             console.log(`Updating GeoTIFF layer for map ${index}, grid_sequence: ${tiff.metadata.grid_sequence}`);
 
-            // Remove existing layers
             layerRefs.current[index].forEach((layer) => {
                 if (layer && map.hasLayer(layer)) {
                     map.removeLayer(layer);
@@ -860,7 +958,6 @@ const DataGlance = () => {
                 geojsonLayerRefs.current[index] = null;
             }
 
-            // Remove existing controls if they exist
             if (mapControlRefs.current[index]) {
                 map.removeControl(mapControlRefs.current[index]);
                 mapControlRefs.current[index] = null;
@@ -872,7 +969,7 @@ const DataGlance = () => {
             controlsInitialized.current[index] = false;
 
             const { arrayBuffer, metadata } = tiff;
-            const cacheKey = `${metadata.source_file}-${index}`;
+            const cacheKey = `${metadata.source_file}-${index}-${metadata.adaptation_id || "no-adaptation"}`;
             let georaster = georasterCache.current.get(cacheKey);
 
             if (!georaster) {
@@ -984,9 +1081,7 @@ const DataGlance = () => {
                     });
                 });
 
-                // Only add controls if not already initialized
                 if (!controlsInitialized.current[index]) {
-                    // Add download control (top-left)
                     const downloadControl = L.control.downloadControl({
                         position: "topleft",
                         onDownload: () => {
@@ -1005,7 +1100,6 @@ const DataGlance = () => {
                     downloadControl.addTo(map);
                     downloadControlRefs.current[index] = downloadControl;
 
-                    // Add map controls (top-right)
                     const mapControl = L.control.mapControls({
                         position: "topright",
                         isFullscreen: isFullscreen[index] || false,
@@ -1016,7 +1110,6 @@ const DataGlance = () => {
                                 updateFullscreenButton(button, newFullscreen[index]);
                                 return newFullscreen;
                             });
-                            // Trigger fullscreen toggle logic (assuming map container is toggled)
                             const mapContainer = mapRefs.current[index];
                             if (mapContainer) {
                                 if (!isFullscreen[index]) {
@@ -1135,6 +1228,12 @@ const DataGlance = () => {
         }
     }, [allDataReady, tiffData, renderMaps]);
 
+    useEffect(() => {
+        if (selectedCommodityId) {
+            fetchAdaptations(selectedCommodityId);
+        }
+    }, [selectedCommodityId, fetchAdaptations]);
+
     const handleCountryChange = useCallback(
         (event) => {
             const countryId = event.target.value;
@@ -1163,8 +1262,11 @@ const DataGlance = () => {
             console.log(`Commodity changed to ID: ${commodityId}`);
             setSelectedCommodityId(commodityId);
             cleanupMaps();
+            if (selectedAdaptationCropTabId) {
+                fetchHazardData(commodityId, selectedAdaptationCropTabId);
+            }
         },
-        [selectedCommodityId, cleanupMaps]
+        [selectedCommodityId, selectedAdaptationCropTabId, cleanupMaps, fetchHazardData]
     );
 
     const handleScenarioChange = useCallback(
@@ -1223,6 +1325,23 @@ const DataGlance = () => {
         [selectedChangeMetricId, cleanupMaps]
     );
 
+    const handleAdaptationCropTabChange = useCallback(
+        (event) => {
+            const tabId = event.target.value;
+            if (tabId === selectedAdaptationCropTabId) {
+                console.log("Adaptation crop tab unchanged, skipping update");
+                return;
+            }
+            console.log(`Adaptation crop tab changed to ID: ${tabId}`);
+            setSelectedAdaptationCropTabId(tabId);
+            cleanupMaps();
+            if (selectedCommodityId) {
+                fetchHazardData(selectedCommodityId, tabId);
+            }
+        },
+        [selectedAdaptationCropTabId, selectedCommodityId, cleanupMaps, fetchHazardData]
+    );
+
     return (
         <div>
             <Grid container spacing={1} sx={{ marginTop: "86px", p: 1 }}>
@@ -1239,7 +1358,7 @@ const DataGlance = () => {
                             })}
                         >
                             <Typography sx={{ fontSize: 14, fontWeight: "900", fontFamily: "Jura" }}>
-                                Hazard at a Glance
+                                Adaptations at a Glance
                             </Typography>
                         </Box>
                         <Box sx={{ m: 0.5 }}>
@@ -1472,13 +1591,57 @@ const DataGlance = () => {
                                         </FormControl>
                                     </Box>
                                 </Grid>
+                                <Grid item style={{ margin: "auto" }}>
+                                    <Box sx={{ display: "flex", alignItems: "center", mt: 1, gap: 0.625 }}>
+                                        <Typography sx={{ fontSize: 13, fontWeight: "bold" }}>Adaptation Indicator: </Typography>
+                                        <FormControl sx={{ minWidth: "150px" }}>
+                                            <Select
+                                                disableUnderline
+                                                variant="standard"
+                                                value={selectedAdaptationCropTabId}
+                                                onChange={handleAdaptationCropTabChange}
+                                                displayEmpty
+                                                inputProps={{ "aria-label": "Adaptation Crop Tabs" }}
+                                                IconComponent={ArrowDropDownIcon}
+                                                MenuProps={{
+                                                    disableScrollLock: true,
+                                                    PaperProps: { sx: { maxHeight: 300 } },
+                                                    PopperProps: { modifiers: [{ name: "flip", enabled: false }] },
+                                                }}
+                                                sx={(theme) => ({
+                                                    fontSize: "12px",
+                                                    height: "24px",
+                                                    backgroundColor: theme.palette.mode === "dark" ? "rgba(60, 75, 60, 1)" : "rgba(235, 247, 233, 1)",
+                                                })}
+                                                disabled={isLoading || isOptionLoading || adaptationCropTabs.length === 0}
+                                            >
+                                                {adaptationCropTabs.length === 0 ? (
+                                                    <MenuItem value="" sx={{ fontSize: "12px", paddingY: "2px" }}>
+                                                        No tabs available
+                                                    </MenuItem>
+                                                ) : (
+                                                    adaptationCropTabs.map((tab) => (
+                                                        <MenuItem
+                                                            key={tab.tab_id}
+                                                            value={tab.tab_id}
+                                                            disabled={!tab.status}
+                                                            sx={{ fontSize: "12px", paddingY: "2px" }}
+                                                        >
+                                                            {tab.tab_name}
+                                                        </MenuItem>
+                                                    ))
+                                                )}
+                                            </Select>
+                                        </FormControl>
+                                    </Box>
+                                </Grid>
                             </Grid>
                         </Box>
                         <Box sx={{ position: "relative" }}>
                             <div
                                 ref={(el) => (mapRefs.current[0] = el)}
                                 className="map-container"
-                                style={{ height: "calc(-233px + 100vh)", width: "100%" }}
+                                style={{ height: "calc(-270px + 100vh)", width: "100%" }}
                             />
                             {isLoading && (
                                 <Box
@@ -1502,9 +1665,10 @@ const DataGlance = () => {
                                 <MapLegend
                                     tiff={tiffData.find((tiff) => tiff.metadata.grid_sequence === 0)}
                                     breadcrumbData={breadcrumbData}
-                                    layerType="risk"
+                                    layerType="impact"
                                     apiUrl={apiUrl}
                                     mapWidth={mapWidths.current[0]}
+                                    sourceFile={tiffData.find((tiff) => tiff.metadata.grid_sequence === 0)?.metadata.source_file}
                                 />
                             )}
                         </Box>
@@ -1519,20 +1683,61 @@ const DataGlance = () => {
                             return (
                                 <Grid item xs={4} key={`map-${gridSequence}`}>
                                     <Paper elevation={1} sx={{ borderRadius: 1 }}>
-                                        <Typography
-                                            sx={{
-                                                fontSize: 13,
-                                                fontWeight: "800",
-                                                fontFamily: "Jura",
-                                            }}
-                                        >
-                                            {grid?.hazard_title || "Unnamed Hazard"}
-                                        </Typography>
+                                        <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "3px 8px" }}>
+                                            <Typography
+                                                sx={{
+                                                    fontSize: 13,
+                                                    fontWeight: "800",
+                                                    fontFamily: "Jura",
+                                                }}
+                                            >
+                                                {grid?.grid_sequence_title || "Adaptation"}:&nbsp;
+                                            </Typography>
+                                            <FormControl sx={{ minWidth: "150px" }}>
+                                                <Select
+                                                    disableUnderline
+                                                    variant="standard"
+                                                    value={selectedAdaptations[gridSequence] || ""}
+                                                    onChange={(e) => handleAdaptationChange(gridSequence, e.target.value)}
+                                                    displayEmpty
+                                                    inputProps={{ "aria-label": "Adaptation" }}
+                                                    IconComponent={ArrowDropDownIcon}
+                                                    MenuProps={{
+                                                        disableScrollLock: true,
+                                                        PaperProps: { sx: { maxHeight: 300 } },
+                                                        PopperProps: { modifiers: [{ name: "flip", enabled: false }] },
+                                                    }}
+                                                    sx={(theme) => ({
+                                                        fontSize: "12px",
+                                                        height: "24px",
+                                                        backgroundColor: theme.palette.mode === "dark" ? "rgba(60, 75, 60, 1)" : "rgba(235, 247, 233, 1)",
+                                                    })}
+                                                    disabled={isLoading || isOptionLoading || adaptations.length === 0}
+                                                >
+                                                    {adaptations.length === 0 ? (
+                                                        <MenuItem value="" sx={{ fontSize: "12px", paddingY: "2px" }}>
+                                                            No adaptations available
+                                                        </MenuItem>
+                                                    ) : (
+                                                        adaptations.map((adaptation) => (
+                                                            <MenuItem
+                                                                key={adaptation.adaptation_id}
+                                                                value={adaptation.adaptation_id}
+                                                                disabled={!adaptation.status}
+                                                                sx={{ fontSize: "12px", paddingY: "2px" }}
+                                                            >
+                                                                {adaptation.adaptation}
+                                                            </MenuItem>
+                                                        ))
+                                                    )}
+                                                </Select>
+                                            </FormControl>
+                                        </Box>
                                         <Box sx={{ position: "relative" }}>
                                             <div
                                                 ref={(el) => (mapRefs.current[gridSequence] = el)}
                                                 className="map-container"
-                                                style={{ height: "calc(-80px + 50vh)", width: "100%" }}
+                                                style={{ height: "calc(-93px + 50vh)", width: "100%" }}
                                             />
                                             {isLoading && (
                                                 <Box
@@ -1556,9 +1761,10 @@ const DataGlance = () => {
                                                 <MapLegend
                                                     tiff={tiff}
                                                     breadcrumbData={breadcrumbData}
-                                                    layerType="risk"
+                                                    layerType={grid?.layer_type || "adaptation"}
                                                     apiUrl={apiUrl}
                                                     mapWidth={mapWidths.current[gridSequence]}
+                                                    sourceFile={tiff.metadata.source_file}
                                                 />
                                             )}
                                         </Box>
