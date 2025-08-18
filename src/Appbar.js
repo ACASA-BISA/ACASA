@@ -89,6 +89,7 @@ const MyButton = styled(ToggleButton)(({ theme }) => ({
   "&.Mui-selected, &.Mui-selected:hover": {
     boxShadow: "none",
     backgroundColor: theme.palette.mode === "dark" ? "#4C9E46" : "#4C9E46",
+    color: "#fff",
   },
   "&.Mui-disabled": {
     border: "0px solid",
@@ -112,8 +113,8 @@ const ImgButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-function ResponsiveAppBar() {
-  const [flag, setFlag] = useState(null);
+function ResponsiveAppBar({ validCountries }) {
+  const [flag, setFlag] = useState("home");
   const [persistentCountry, setPersistentCountry] = useState(null);
   const { mode, toggleTheme } = React.useContext(ThemeContext);
   const location = useLocation();
@@ -149,40 +150,53 @@ function ResponsiveAppBar() {
   useEffect(() => {
     const path = location.hash ? location.hash.replace(/^#\/?/, "") : location.pathname.replace(/^\//, "");
     const pathSegments = path.split("/");
-    const urlCountry = pathSegments[0] && !pageid.includes(pathSegments[0]) ? pathSegments[0] : null;
-    let activePage = pathSegments[1] || (pageid.includes(pathSegments[0]) ? pathSegments[0] : "home");
+    const urlCountry = pathSegments[0] && !pageid.includes(pathSegments[0]) && !["hazardglance", "adaptationglance", "future", "comparison", "summary", "timeline", "adaptation", "adaptation2", "analytics", "adaptationataglance", "hazardataglance", "feedback"].includes(pathSegments[0]) ? pathSegments[0] : null;
+    const activePageSegment = pathSegments[1] || pathSegments[0] || "home";
 
-    if (urlCountry && urlCountry !== persistentCountry) {
+    let activePage = activePageSegment;
+    if (["hazardglance", "adaptationglance", "analytics", "adaptationataglance", "hazardataglance"].includes(activePage)) {
+      activePage = "dataglance";
+    } else if (["future", "comparison", "summary", "timeline", "adaptation", "adaptation2"].includes(activePage)) {
+      activePage = "dashboard";
+    } else if (!pageid.includes(activePage) && activePage !== "feedback") {
+      activePage = "home";
+    }
+
+    if (urlCountry && validCountries.includes(urlCountry.toLowerCase())) {
       setPersistentCountry(urlCountry);
+    } else if (urlCountry && !validCountries.includes(urlCountry.toLowerCase())) {
+      setPersistentCountry(null);
+      const newPath = pathSegments.slice(1).join("/") || "home";
+      navigate(`/${newPath}`, { replace: true });
     } else if (!urlCountry && persistentCountry) {
       setPersistentCountry(null);
-    }
-
-    if (activePage === "hazardglance" || activePage === "adaptationglance") {
-      activePage = "dataglance";
-    }
-    if (activePage === "future") {
-      activePage = "dashboard";
     }
 
     if (flag !== activePage) {
       setFlag(activePage);
     }
-  }, [location.hash, location.pathname, country]);
+  }, [location.hash, location.pathname, country, validCountries, navigate]);
 
   const GlanceButtonRef = React.useRef(null);
 
   const handleNavigation = (newValue) => {
-    if (newValue && newValue !== flag && newValue !== "dataglance") {
+    if (newValue && newValue !== "dataglance") {
       setFlag(newValue);
       const currentCountry = country || persistentCountry;
-      const targetPath = currentCountry ? `/${currentCountry}/${newValue}` : `/${newValue}`;
+      const targetPath = currentCountry && validCountries.includes(currentCountry.toLowerCase()) ? `/${currentCountry}/${newValue}` : `/${newValue}`;
       navigate(targetPath.replace("//", "/"), { replace: true });
     }
   };
 
+  const handleFeedbackNavigation = () => {
+    const currentCountry = country || persistentCountry;
+    const targetPath = currentCountry && validCountries.includes(currentCountry.toLowerCase()) ? `/${currentCountry}/feedback` : `/feedback`;
+    navigate(targetPath.replace("//", "/"), { replace: true });
+  };
+
   const handleOpenGlanceMenu = (event) => {
     setAnchorElGlance(event.currentTarget);
+    setFlag("dataglance"); // Ensure "Data at a glance" is highlighted when menu is opened
   };
 
   const handleCloseGlanceMenu = () => {
@@ -190,16 +204,16 @@ function ResponsiveAppBar() {
   };
 
   const handleGlanceMenuItemClick = (path) => {
-    setFlag("dataglance");
+    setFlag("dataglance"); // Explicitly set to dataglance for sub-routes
     const currentCountry = country || persistentCountry;
-    const targetPath = currentCountry ? `/${currentCountry}/${path}` : `/${path}`;
+    const targetPath = currentCountry && validCountries.includes(currentCountry.toLowerCase()) ? `/${currentCountry}/${path}` : `/${path}`;
     navigate(targetPath.replace("//", "/"), { replace: true });
     handleCloseGlanceMenu();
   };
 
   const getHref = (path) => {
     const currentCountry = country || persistentCountry;
-    return currentCountry ? `/${currentCountry}/${path}` : `/${path}`;
+    return currentCountry && validCountries.includes(currentCountry.toLowerCase()) ? `/${currentCountry}/${path}` : `/${path}`;
   };
 
   return (
@@ -249,13 +263,14 @@ function ResponsiveAppBar() {
                                 backgroundColor: (theme) =>
                                   Boolean(anchorElGlance)
                                     ? theme.palette.mode === "dark"
-                                      ? "#3a3d42" // Dark theme open menu color
-                                      : "#f5f3ed" // Light theme open menu color
+                                      ? "#3a3d42"
+                                      : "#f5f3ed"
                                     : theme.palette.mode === "dark"
                                       ? "#3a3d42"
-                                      : "#ffffff", // Default background
+                                      : "#ffffff",
                                 "&.Mui-selected": {
                                   backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#4C9E46" : "#4C9E46"),
+                                  color: "#fff",
                                 },
                               }}
                               onClick={handleOpenGlanceMenu}
@@ -323,6 +338,10 @@ function ResponsiveAppBar() {
                             sx={{
                               px: 2,
                               py: 1,
+                              "&.Mui-selected": {
+                                backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#4C9E46" : "#4C9E46"),
+                                color: "#fff",
+                              },
                               "&.Mui-disabled": {
                                 backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#3a3f45" : "#e0e0e0"),
                                 color: (theme) => (theme.palette.mode === "dark" ? "#7d848b" : "#9e9e9e"),
@@ -353,7 +372,7 @@ function ResponsiveAppBar() {
               }}
             >
               <Button
-                onClick={() => handleNavigation("feedback")}
+                onClick={handleFeedbackNavigation}
                 sx={{
                   px: 1.5,
                   ml: 1,
