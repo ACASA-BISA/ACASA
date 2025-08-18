@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -21,13 +21,6 @@ import { useLocation, useNavigate, useParams, Link } from "react-router-dom";
 const pages = ["Home", "Explore Data", "Data at a glance", "Data Access", "Use Cases", "Resources", "About Us"];
 const pageid = ["home", "dashboard", "dataglance", "access", "usecases", "resources", "about"];
 const AppBarHeight = "85px";
-
-const languages = [
-  { code: "en", label: "English", flag: "🇬🇧" },
-  { code: "fr", label: "French", flag: "🇫🇷" },
-  { code: "es", label: "Spanish", flag: "🇪🇸" },
-  { code: "hi", label: "Hindi", flag: "🇮🇳" },
-];
 
 const ToggleContainer = styled("div")(({ theme, mode }) => ({
   width: 60,
@@ -123,6 +116,7 @@ function ResponsiveAppBar({ validCountries }) {
   const [isSkipTranslateHidden, setIsSkipTranslateHidden] = useState(false);
   const [language, setLanguage] = useState("en");
   const [anchorElGlance, setAnchorElGlance] = useState(null);
+  const GlanceButtonRef = useRef(null); // Define GlanceButtonRef using useRef
 
   const handleChange = (event) => {
     setLanguage(event.target.value);
@@ -162,9 +156,10 @@ function ResponsiveAppBar({ validCountries }) {
       activePage = "home";
     }
 
-    if (urlCountry && validCountries.includes(urlCountry.toLowerCase())) {
+    // Only update persistentCountry if the country is valid or if we're on dashboard (to allow Test.jsx to handle it)
+    if (urlCountry && (validCountries.includes(urlCountry.toLowerCase().replace(/\s+/g, "")) || activePageSegment === "dashboard")) {
       setPersistentCountry(urlCountry);
-    } else if (urlCountry && !validCountries.includes(urlCountry.toLowerCase())) {
+    } else if (urlCountry && !validCountries.includes(urlCountry.toLowerCase().replace(/\s+/g, "")) && activePageSegment !== "dashboard") {
       setPersistentCountry(null);
       const newPath = pathSegments.slice(1).join("/") || "home";
       navigate(`/${newPath}`, { replace: true });
@@ -177,26 +172,24 @@ function ResponsiveAppBar({ validCountries }) {
     }
   }, [location.hash, location.pathname, country, validCountries, navigate]);
 
-  const GlanceButtonRef = React.useRef(null);
-
   const handleNavigation = (newValue) => {
     if (newValue && newValue !== "dataglance") {
       setFlag(newValue);
       const currentCountry = country || persistentCountry;
-      const targetPath = currentCountry && validCountries.includes(currentCountry.toLowerCase()) ? `/${currentCountry}/${newValue}` : `/${newValue}`;
+      const targetPath = currentCountry ? `/${currentCountry}/${newValue}` : `/${newValue}`;
       navigate(targetPath.replace("//", "/"), { replace: true });
     }
   };
 
   const handleFeedbackNavigation = () => {
     const currentCountry = country || persistentCountry;
-    const targetPath = currentCountry && validCountries.includes(currentCountry.toLowerCase()) ? `/${currentCountry}/feedback` : `/feedback`;
+    const targetPath = currentCountry ? `/${currentCountry}/feedback` : `/feedback`;
     navigate(targetPath.replace("//", "/"), { replace: true });
   };
 
   const handleOpenGlanceMenu = (event) => {
-    setAnchorElGlance(event.currentTarget);
-    setFlag("dataglance"); // Ensure "Data at a glance" is highlighted when menu is opened
+    setAnchorElGlance(GlanceButtonRef.current);
+    setFlag("dataglance");
   };
 
   const handleCloseGlanceMenu = () => {
@@ -204,16 +197,16 @@ function ResponsiveAppBar({ validCountries }) {
   };
 
   const handleGlanceMenuItemClick = (path) => {
-    setFlag("dataglance"); // Explicitly set to dataglance for sub-routes
+    setFlag("dataglance");
     const currentCountry = country || persistentCountry;
-    const targetPath = currentCountry && validCountries.includes(currentCountry.toLowerCase()) ? `/${currentCountry}/${path}` : `/${path}`;
+    const targetPath = currentCountry ? `/${currentCountry}/${path}` : `/${path}`;
     navigate(targetPath.replace("//", "/"), { replace: true });
     handleCloseGlanceMenu();
   };
 
   const getHref = (path) => {
     const currentCountry = country || persistentCountry;
-    return currentCountry && validCountries.includes(currentCountry.toLowerCase()) ? `/${currentCountry}/${path}` : `/${path}`;
+    return currentCountry ? `/${currentCountry}/${path}` : `/${path}`;
   };
 
   return (
