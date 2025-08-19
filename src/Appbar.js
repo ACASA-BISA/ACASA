@@ -222,22 +222,25 @@ function ResponsiveAppBar({ validCountries }) {
       >
         <Box sx={{ display: "flex", flexDirection: "column", paddingTop: isSkipTranslateHidden ? "0px" : "14px" }}>
           <Toolbar disableGutters sx={{ width: "100%" }}>
-            <Box sx={{ flexGrow: 0, display: "flex", alignItems: "center" }}>
-              <ImgButton size="small" color="inherit" onClick={() => handleNavigation("home")}>
-                <Link
-                  to={getHref("home")}
-                  style={{ textDecoration: "none", color: "inherit" }}
-                >
-                  <Avatar
-                    variant="square"
-                    alt="Home"
-                    src={mode === "dark" ? "/images/logo.png" : "/images/logo.png"}
-                    sx={{ width: "auto", height: "60px" }}
-                  />
+            <Box sx={{ display: "flex", flexGrow: 0, flexDirection: "column" }}>
+              <Button size="small" href="" color="inherit" key="Acasa" onClick={() => handleNavigation("home")}>
+                <Link to={getHref("home")} style={{ textDecoration: "none", color: "inherit" }}>
+                  <Avatar variant="square" alt="Remy Sharp" src={mode === "dark" ? "Home_imgs/Acasa Logo white1.png" : "Home_imgs/Acasa1.png"} sx={{ width: "auto", height: "60px" }} />
                 </Link>
+              </Button>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                flexGrow: 0,
+                display: { xs: "none", md: "flex" },
+                flexDirection: "column",
+              }}
+            >
+              <ImgButton size="small" href="https://bisa.org/" target="_blank" color="inherit" key="Bisa">
+                <Avatar variant="square" alt="Remy Sharp" src={mode === "dark" ? "./BISA Logo in white color.png" : "./BISA Logo in color.png"} sx={{ width: "auto", height: "50px" }} />
               </ImgButton>
             </Box>
-
             <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center", alignItems: "center" }}>
               <ToggleButtonGroup value={flag} exclusive onChange={(e, newValue) => handleNavigation(newValue)}>
                 {pages.map((page, index) => (
