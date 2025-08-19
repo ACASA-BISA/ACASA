@@ -267,13 +267,13 @@ function Test() {
             );
             setFilteredCommodities(filtered);
             if (filtered.length > 0 && (!selectedCommodityId || !filtered.some(c => +c.commodity_id === +selectedCommodityId))) {
-                setSelectedCommodityId(filtered[0].commodity_id);
+                setSelectedCommodityId(filtered[1].commodity_id);
             }
         } else {
             const activeCommodities = commodities.filter((c) => c.status);
             setFilteredCommodities(activeCommodities);
             if (activeCommodities.length > 0 && (!selectedCommodityId || !activeCommodities.some(c => +c.commodity_id === +selectedCommodityId))) {
-                setSelectedCommodityId(activeCommodities[0].commodity_id);
+                setSelectedCommodityId(activeCommodities[1].commodity_id);
             }
         }
     }, [selectedCommodityTypeId, commodities, selectedCommodityId]);
@@ -931,127 +931,6 @@ function Test() {
                                                                 }}
                                                             >
                                                                 {commodity.commodity}
-                                                            </span>
-                                                        }
-                                                    />
-                                                ))}
-                                            </FormGroup>
-                                        </List>
-                                    </Collapse>
-                                </List>
-
-                                <List
-                                    className="listMenu"
-                                    sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
-                                    component="nav"
-                                    aria-labelledby="nested-list-subheader4"
-                                >
-                                    <ListSubheader
-                                        component="div"
-                                        id="nested-list-subheader4"
-                                    ></ListSubheader>
-                                    <ListItemButton
-                                        onClick={() => handleSidebarToggle("scenario")}
-                                        disabled={isLoading || mapLoading}
-                                    >
-                                        <ListItemIcon
-                                            sx={{
-                                                minWidth: 35,
-                                                color: "rgba(0, 0, 0, 0.54)",
-                                                flexShrink: 0,
-                                                display: "inline-flex",
-                                            }}
-                                        >
-                                            <img src="/images/scenario.svg" alt="Scenario" />
-                                        </ListItemIcon>
-                                        <ListItemText
-                                            primary={<FormLabel className="formLabel">Scenario </FormLabel>}
-                                        />
-                                        {isSidebarOpen.scenario ? <ExpandLess /> : <ExpandMore />}
-                                    </ListItemButton>
-                                    <Collapse
-                                        in={isSidebarOpen.scenario}
-                                        timeout="auto"
-                                        unmountOnExit
-                                    >
-                                        <List component="div" disablePadding sx={{ px: 2 }}>
-                                            <Typography
-                                                variant="subtitle2"
-                                                sx={{ mt: 2, mb: 1, textAlign: "left" }}
-                                            >
-                                                <FormLabel className="formLabel">Select data source</FormLabel>
-                                            </Typography>
-                                            <FormGroup>
-                                                {dataSources.map((source) => (
-                                                    <FormControlLabel
-                                                        key={source.data_source_id}
-                                                        control={
-                                                            <Switch
-                                                                checked={
-                                                                    +selectedDataSourceId === +source.data_source_id
-                                                                }
-                                                                onChange={() =>
-                                                                    handleDataSourceChange({
-                                                                        target: { value: source.data_source_id },
-                                                                    })
-                                                                }
-                                                                disabled={!source.status || isLoading || mapLoading}
-                                                                color="primary"
-                                                            />
-                                                        }
-                                                        label={
-                                                            <span
-                                                                style={{
-                                                                    fontFamily: "Poppins",
-                                                                    fontSize: "10px",
-                                                                    fontStyle: "normal",
-                                                                    fontWeight: 500,
-                                                                    lineHeight: "normal",
-                                                                }}
-                                                            >
-                                                                {source.source}
-                                                            </span>
-                                                        }
-                                                    />
-                                                ))}
-                                            </FormGroup>
-                                            <Typography
-                                                variant="subtitle2"
-                                                sx={{ mt: 3, mb: 1, textAlign: "left" }}
-                                            >
-                                                <FormLabel className="formLabel">
-                                                    Select climate scenario
-                                                </FormLabel>
-                                            </Typography>
-                                            <FormGroup>
-                                                {climateScenarios.map((scenario) => (
-                                                    <FormControlLabel
-                                                        key={scenario.scenario_id}
-                                                        control={
-                                                            <Switch
-                                                                checked={
-                                                                    +selectedScenarioId === +scenario.scenario_id
-                                                                }
-                                                                onChange={() =>
-                                                                    handleScenarioChange({
-                                                                        target: { value: scenario.scenario_id },
-                                                                    })
-                                                                }
-                                                                disabled={!scenario.status || isLoading || mapLoading}
-                                                                color="primary"
-                                                            />
-                                                        }
-                                                        label={
-                                                            <span
-                                                                style={{
-                                                                    fontFamily: "Poppins",
-                                                                    fontSize: "10px",
-                                                                    fontStyle: "normal",
-                                                                    fontWeight: 500,
-                                                                    lineHeight: "normal",
-                                                                }}
-                                                            >
-                                                                {scenario.scenario}
                                                             </span>
                                                         }
                                                     />

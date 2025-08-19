@@ -9,7 +9,9 @@ import {
   useTheme,
   Select,
   MenuItem,
+  IconButton,
 } from "@mui/material";
+import BarChartIcon from "@mui/icons-material/BarChart"; // Icon for analytics toggle
 import Swal from "sweetalert2";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -21,6 +23,7 @@ import domtoimage from "dom-to-image";
 import html2canvas from "html2canvas";
 import MapLegend from "./MapLegend";
 import DownloadDropdown from "./DownloadDropdown";
+import AnalyticsPage from "./AnalyticsPage"; // Import AnalyticsPage
 
 // Leaflet control setup
 L.Control.MapControls = L.Control.extend({
@@ -127,6 +130,7 @@ function MapViewer({
   const [selectedScenario, setSelectedScenario] = useState(2);
   const [selectedChangeMetric, setSelectedChangeMetric] = useState("Absolute");
   const [isOptionLoading, setIsOptionLoading] = useState(false);
+  const [showAnalytics, setShowAnalytics] = useState(false); // State for toggling AnalyticsPage
   const isFetchingRef = useRef(false);
   const lastTiffDataRef = useRef([]);
   const mapsInitializedRef = useRef(false);
@@ -492,23 +496,26 @@ function MapViewer({
         adaptation_croptab_id: selectedAdaptationTabId || 6,
       };
 
-      const mandatoryFields = [
-        "analysis_scope_id",
-        "visualization_scale_id",
-        "data_source_id",
-        "climate_scenario_id",
-        "layer_type",
-      ];
-      if (
-        +memoizedFilters.commodity_type_id === 1 &&
-        (memoizedFilters.layer_type === "adaptation" ||
-          memoizedFilters.layer_type === "adaptation_croptab")
-      ) {
-        mandatoryFields.push("adaptation_croptab_id");
-      }
-      const missingFields = mandatoryFields.filter((field) => !payload[field]);
-      if (missingFields.length > 0) {
-        throw new Error(`Missing mandatory fields: ${missingFields.join(", ")}`);
+      // Skip mandatory fields check for commodity layer
+      if (payload.layer_type !== "commodity") {
+        const mandatoryFields = [
+          "analysis_scope_id",
+          "visualization_scale_id",
+          "data_source_id",
+          "climate_scenario_id",
+          "layer_type",
+        ];
+        if (
+          +memoizedFilters.commodity_type_id === 1 &&
+          (memoizedFilters.layer_type === "adaptation" ||
+            memoizedFilters.layer_type === "adaptation_croptab")
+        ) {
+          mandatoryFields.push("adaptation_croptab_id");
+        }
+        const missingFields = mandatoryFields.filter((field) => !payload[field]);
+        if (missingFields.length > 0) {
+          throw new Error(`Missing mandatory fields: ${missingFields.join(", ")}`);
+        }
       }
 
       if (
@@ -535,8 +542,7 @@ function MapViewer({
 
       if (!tifPickerData.success || !tifPickerData.data) {
         throw new Error(
-          `Invalid response from tif_picker: success=${tifPickerData.success}, data=${tifPickerData.data ? "present" : "missing"
-          }`
+          `Invalid response from tif_picker: success=${tifPickerData.success}, data=${tifPickerData.data ? "present" : "missing"}`
         );
       }
 
@@ -567,105 +573,149 @@ function MapViewer({
         visualization_scale_id: memoizedFilters.visualization_scale_id,
       });
 
-      const defaultFilters = [
-        {
-          climate_scenario_id: 1,
-          year: null,
-          intensity_metric_id: selectedIntensityMetric === "Intensity Frequency" ? 2 : 1,
-          change_metric_id: 1,
-          metric: selectedIntensityMetric,
-          changeMetric: "Absolute",
-          label: "Baseline",
-        },
-        {
-          climate_scenario_id: selectedScenario,
-          year: 2050,
-          intensity_metric_id: selectedIntensityMetric === "Intensity Frequency" ? 2 : 1,
-          change_metric_id: selectedChangeMetric === "Absolute" ? 1 : 2,
-          metric: selectedIntensityMetric,
-          changeMetric: selectedChangeMetric,
-          label: "2050s",
-        },
-        {
-          climate_scenario_id: selectedScenario,
-          year: 2080,
-          intensity_metric_id: selectedIntensityMetric === "Intensity Frequency" ? 2 : 1,
-          change_metric_id: selectedChangeMetric === "Absolute" ? 1 : 2,
-          metric: selectedIntensityMetric,
-          changeMetric: selectedChangeMetric,
-          label: "2080s",
-        },
-      ];
-
-      const existingFiles = fileList.filter((file) =>
-        defaultFilters.some(
-          (filter) =>
-            file.exists === true &&
-            file.climate_scenario_id === filter.climate_scenario_id &&
-            (filter.year ? file.year === filter.year : !file.year) &&
-            file.intensity_metric_id === filter.intensity_metric_id &&
-            file.change_metric_id === filter.change_metric_id &&
-            file.ramp
-        )
-      );
-
-      if (existingFiles.length < defaultFilters.length) {
-        console.warn(
-          `Not all default GeoTIFFs found. Found ${existingFiles.length} out of ${defaultFilters.length}`
-        );
-      }
-
-      const tiffPromises = defaultFilters.map(async (filter, index) => {
-        const file = existingFiles.find(
-          (f) =>
-            f.climate_scenario_id === filter.climate_scenario_id &&
-            (filter.year ? f.year === filter.year : !f.year) &&
-            f.intensity_metric_id === filter.intensity_metric_id &&
-            f.change_metric_id === filter.change_metric_id &&
-            f.ramp
-        );
-        if (!file) {
-          console.warn(
-            `No existing file found for climate_scenario_id ${filter.climate_scenario_id}, intensity_metric_id ${filter.intensity_metric_id}, change_metric_id ${filter.change_metric_id}, year ${filter.year || "Baseline"
-            }`
+      let tiffPromises;
+      if (payload.layer_type === "commodity") {
+        // For commodity layer, use raster_files directly (up to 3)
+        tiffPromises = fileList.slice(0, 3).map(async (file, index) => {
+          if (!file.exists || !file.ramp) {
+            console.warn(`File at index ${index} does not exist or has no ramp`);
+            return null;
+          }
+          const geotiffRes = await fetchWithRetry(
+            `${apiUrl}/layers/geotiff`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                admin_level: memoizedFilters.admin_level,
+                admin_level_id: memoizedFilters.admin_level_id,
+                source_file: file.source_file,
+                color_ramp: file.ramp,
+              }),
+            }
           );
-          return null;
-        }
+          const arrayBuffer = await geotiffRes.arrayBuffer();
+          if (!arrayBuffer || arrayBuffer.byteLength === 0) {
+            throw new Error(`Empty or invalid arrayBuffer for ${file.source_file}`);
+          }
+          console.log(`GeoTIFF fetched for index ${index}, size: ${arrayBuffer.byteLength} bytes`);
+          const clonedBuffer = arrayBuffer.slice(0);
 
-        const geotiffRes = await fetchWithRetry(
-          `${apiUrl}/layers/geotiff`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              admin_level: memoizedFilters.admin_level,
-              admin_level_id: memoizedFilters.admin_level_id,
+          return {
+            arrayBuffer: clonedBuffer,
+            metadata: {
               source_file: file.source_file,
               color_ramp: file.ramp,
-            }),
-          }
-        );
-        const arrayBuffer = await geotiffRes.arrayBuffer();
-        if (!arrayBuffer || arrayBuffer.byteLength === 0) {
-          throw new Error(`Empty or invalid arrayBuffer for ${file.source_file}`);
-        }
-        console.log(`GeoTIFF fetched for index ${index}, size: ${arrayBuffer.byteLength} bytes`);
-        const clonedBuffer = arrayBuffer.slice(0);
-
-        return {
-          arrayBuffer: clonedBuffer,
-          metadata: {
-            source_file: file.source_file,
-            color_ramp: file.ramp,
-            layer_name: filter.label,
-            layer_id: payload.layer_type === "risk" ? selectedRiskId : null,
-            year: filter.year,
-            intensity_metric: filter.metric,
-            climate_scenario_id: filter.climate_scenario_id,
-            change_metric: filter.changeMetric,
+              layer_name: file.climate_scenario || `Map ${index + 1}`,
+              layer_id: null,
+              year: file.year || null,
+              intensity_metric: null,
+              climate_scenario_id: file.climate_scenario_id,
+              change_metric: null,
+            },
+          };
+        });
+      } else {
+        // Original logic for non-commodity layers
+        const defaultFilters = [
+          {
+            climate_scenario_id: 1,
+            year: null,
+            intensity_metric_id: selectedIntensityMetric === "Intensity Frequency" ? 2 : 1,
+            change_metric_id: 1,
+            metric: selectedIntensityMetric,
+            changeMetric: "Absolute",
+            label: "Baseline",
           },
-        };
-      });
+          {
+            climate_scenario_id: selectedScenario,
+            year: 2050,
+            intensity_metric_id: selectedIntensityMetric === "Intensity Frequency" ? 2 : 1,
+            change_metric_id: selectedChangeMetric === "Absolute" ? 1 : 2,
+            metric: selectedIntensityMetric,
+            changeMetric: selectedChangeMetric,
+            label: "2050s",
+          },
+          {
+            climate_scenario_id: selectedScenario,
+            year: 2080,
+            intensity_metric_id: selectedIntensityMetric === "Intensity Frequency" ? 2 : 1,
+            change_metric_id: selectedChangeMetric === "Absolute" ? 1 : 2,
+            metric: selectedIntensityMetric,
+            changeMetric: selectedChangeMetric,
+            label: "2080s",
+          },
+        ];
+
+        const existingFiles = fileList.filter((file) =>
+          defaultFilters.some(
+            (filter) =>
+              file.exists === true &&
+              file.climate_scenario_id === filter.climate_scenario_id &&
+              (filter.year ? file.year === filter.year : !file.year) &&
+              file.intensity_metric_id === filter.intensity_metric_id &&
+              file.change_metric_id === filter.change_metric_id &&
+              file.ramp
+          )
+        );
+
+        if (existingFiles.length < defaultFilters.length) {
+          console.warn(
+            `Not all default GeoTIFFs found. Found ${existingFiles.length} out of ${defaultFilters.length}`
+          );
+        }
+
+        tiffPromises = defaultFilters.map(async (filter, index) => {
+          const file = existingFiles.find(
+            (f) =>
+              f.climate_scenario_id === filter.climate_scenario_id &&
+              (filter.year ? f.year === filter.year : !f.year) &&
+              f.intensity_metric_id === filter.intensity_metric_id &&
+              f.change_metric_id === filter.change_metric_id &&
+              f.ramp
+          );
+          if (!file) {
+            console.warn(
+              `No existing file found for climate_scenario_id ${filter.climate_scenario_id}, intensity_metric_id ${filter.intensity_metric_id}, change_metric_id ${filter.change_metric_id}, year ${filter.year || "Baseline"}`
+            );
+            return null;
+          }
+
+          const geotiffRes = await fetchWithRetry(
+            `${apiUrl}/layers/geotiff`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                admin_level: memoizedFilters.admin_level,
+                admin_level_id: memoizedFilters.admin_level_id,
+                source_file: file.source_file,
+                color_ramp: file.ramp,
+              }),
+            }
+          );
+          const arrayBuffer = await geotiffRes.arrayBuffer();
+          if (!arrayBuffer || arrayBuffer.byteLength === 0) {
+            throw new Error(`Empty or invalid arrayBuffer for ${file.source_file}`);
+          }
+          console.log(`GeoTIFF fetched for index ${index}, size: ${arrayBuffer.byteLength} bytes`);
+          const clonedBuffer = arrayBuffer.slice(0);
+
+          return {
+            arrayBuffer: clonedBuffer,
+            metadata: {
+              source_file: file.source_file,
+              color_ramp: file.ramp,
+              layer_name: filter.label,
+              layer_id: payload.layer_type === "risk" ? selectedRiskId : null,
+              year: filter.year,
+              intensity_metric: filter.metric,
+              climate_scenario_id: filter.climate_scenario_id,
+              change_metric: filter.changeMetric,
+            },
+          };
+        });
+      }
 
       const tiffResults = await Promise.all(tiffPromises);
       const validTiffResults = tiffResults.filter((result) => result !== null);
@@ -701,6 +751,22 @@ function MapViewer({
       selectedImpactId,
       selectedAdaptationId,
     });
+
+    // Skip if filters are null or missing critical fields
+    if (
+      !memoizedFilters ||
+      (!memoizedFilters.layer_type && memoizedFilters.layer_type !== "commodity") ||
+      !memoizedFilters.analysis_scope_id ||
+      !memoizedFilters.visualization_scale_id ||
+      !memoizedFilters.data_source_id ||
+      (memoizedFilters.layer_type !== "commodity" && !memoizedFilters.climate_scenario_id)
+    ) {
+      console.log("Skipping fetchTiffData: filters are not fully populated", memoizedFilters);
+      setInternalMapLoading(false);
+      setIsOptionLoading(false);
+      return;
+    }
+
     const debouncedFetch = _.debounce(fetchTiffData, 500);
     debouncedFetch();
     return () => {
@@ -1391,6 +1457,11 @@ function MapViewer({
     setSelectedAdaptationTabId(tabId);
   };
 
+  // Toggle AnalyticsPage visibility
+  const toggleAnalytics = () => {
+    setShowAnalytics((prev) => !prev);
+  };
+
   return (
     <Box
       sx={{
@@ -1401,62 +1472,80 @@ function MapViewer({
         position: "relative",
       }}
     >
-      <Box sx={{ p: "0 16px", marginTop: "0px" }} className="breadTextFont">
-        {breadcrumbData ? (
-          <Breadcrumbs
-            aria-label="breadcrumb"
-            separator=">"
-            sx={{ fontSize: "14px" }}
-          >
-            {memoizedFilters?.region && (
-              <Typography
-                key="region"
-                color="text.primary"
-                sx={{ fontSize: "14px !important", fontWeight: "bold !important" }}
-              >
-                {memoizedFilters.region.join(", ")}
-              </Typography>
-            )}
-            {breadcrumbData.level && (
-              <Typography
-                key="level"
-                color="text.primary"
-                sx={{ fontSize: "14px !important" }}
-              >
-                {breadcrumbData.level}
-              </Typography>
-            )}
-            <Typography
-              key="layer"
-              color="text.primary"
-              sx={{ fontSize: "14px !important" }}
+      <Box
+        sx={{
+          p: "0 16px",
+          marginTop: "0px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between", // Align breadcrumb and button
+        }}
+        className="breadTextFont"
+      >
+        <Box sx={{ flexGrow: 1 }}>
+          {breadcrumbData ? (
+            <Breadcrumbs
+              aria-label="breadcrumb"
+              separator=">"
+              sx={{ fontSize: "14px" }}
             >
-              {breadcrumbData.commodity}
+              {memoizedFilters?.region && (
+                <Typography
+                  key="region"
+                  color="text.primary"
+                  sx={{ fontSize: "14px !important", fontWeight: "bold !important" }}
+                >
+                  {memoizedFilters.region.join(", ")}
+                </Typography>
+              )}
+              {breadcrumbData.level && (
+                <Typography
+                  key="level"
+                  color="text.primary"
+                  sx={{ fontSize: "14px !important" }}
+                >
+                  {breadcrumbData.level}
+                </Typography>
+              )}
+              <Typography
+                key="layer"
+                color="text.primary"
+                sx={{ fontSize: "14px !important" }}
+              >
+                {breadcrumbData.commodity}
+              </Typography>
+              {breadcrumbData.scenario && (
+                <Typography
+                  key="scenario"
+                  color="text.primary"
+                  sx={{ fontSize: "14px !important" }}
+                >
+                  Scenario: {breadcrumbData.scenario}
+                </Typography>
+              )}
+              {breadcrumbData.model && (
+                <Typography
+                  key="model"
+                  color="text.primary"
+                  sx={{ fontSize: "14px !important" }}
+                >
+                  Model: {breadcrumbData.model}
+                </Typography>
+              )}
+            </Breadcrumbs>
+          ) : (
+            <Typography color="text.secondary" className="breadText">
+              Loading breadcrumb...
             </Typography>
-            {breadcrumbData.scenario && (
-              <Typography
-                key="scenario"
-                color="text.primary"
-                sx={{ fontSize: "14px !important" }}
-              >
-                Scenario: {breadcrumbData.scenario}
-              </Typography>
-            )}
-            {breadcrumbData.model && (
-              <Typography
-                key="model"
-                color="text.primary"
-                sx={{ fontSize: "14px !important" }}
-              >
-                Model: {breadcrumbData.model}
-              </Typography>
-            )}
-          </Breadcrumbs>
-        ) : (
-          <Typography color="text.secondary" className="breadText">
-            Loading breadcrumb...
-          </Typography>
-        )}
+          )}
+        </Box>
+        <IconButton
+          onClick={toggleAnalytics}
+          title={showAnalytics ? "Hide Analytics" : "Show Analytics"}
+          sx={{ ml: 2 }}
+        >
+          <BarChartIcon />
+        </IconButton>
       </Box>
       {+memoizedFilters?.commodity_type_id === 1 &&
         (memoizedFilters?.layer_type === "adaptation" ||
@@ -1482,10 +1571,9 @@ function MapViewer({
             ))}
           </Box>
         )}
-      <Grid
-        container
-        direction="row"
+      <Box
         sx={{
+          position: "relative", // Positioning context for AnalyticsPage
           height:
             +memoizedFilters?.commodity_type_id === 1 &&
               (memoizedFilters?.layer_type === "adaptation" ||
@@ -1493,180 +1581,206 @@ function MapViewer({
               ? "calc(100% - 80px)"
               : "calc(100% - 30px)",
           width: "100%",
-          padding: "0 10px 0 0",
         }}
       >
-        {tiffData.length > 0 ? (
-          tiffData.map((tiff, index) => (
-            <Grid
-              item
-              xs={gridLayout.xs}
-              key={`map-${index}`}
-              sx={{
-                height: gridLayout.height,
-                position: "relative",
-                padding: "10px 0 0 16px",
-                display: "flex",
-                flexDirection: "column",
-              }}
-            >
-              <Box
+        <Grid
+          container
+          direction="row"
+          sx={{
+            height: "100%",
+            width: "100%",
+            padding: "0 10px 0 0",
+          }}
+        >
+          {tiffData.length > 0 ? (
+            tiffData.map((tiff, index) => (
+              <Grid
+                item
+                xs={gridLayout.xs}
+                key={`map-${index}`}
                 sx={{
-                  width: "100%",
-                  bgcolor: "#C1E1C1",
-                  height: "30px",
-                  display: "flex",
-                  flexDirection: "row",
-                  alignContent: "center",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  gap: "10px",
-                }}
-              >
-                <Typography>{tiff.metadata.layer_name}</Typography>
-                {index === 0 && (
-                  <Select
-                    value={selectedIntensityMetric}
-                    onChange={(e) => handleIntensityMetricChange(e.target.value)}
-                    sx={{ minWidth: "120px", height: "24px" }}
-                    disabled={isOptionLoading}
-                  >
-                    <MenuItem value="Intensity">Intensity</MenuItem>
-                    <MenuItem value="Intensity Frequency">Intensity Frequency</MenuItem>
-                  </Select>
-                )}
-                {index !== 0 && (
-                  <>
-                    <Select
-                      value={selectedScenario}
-                      onChange={(e) => handleScenarioChange(e.target.value)}
-                      sx={{ minWidth: "120px", height: "24px" }}
-                      disabled={isOptionLoading}
-                    >
-                      {climateScenarios
-                        .filter((scenario) => scenario.scenario_id !== 1)
-                        .map((scenario) => (
-                          <MenuItem key={scenario.scenario_id} value={scenario.scenario_id}>
-                            {scenario.scenario}
-                          </MenuItem>
-                        ))}
-                    </Select>
-                    <Select
-                      value={selectedChangeMetric}
-                      onChange={(e) => handleChangeMetricChange(e.target.value)}
-                      sx={{ minWidth: "120px", height: "24px" }}
-                      disabled={isOptionLoading}
-                    >
-                      <MenuItem value="Absolute">Absolute</MenuItem>
-                      <MenuItem value="Delta">Delta</MenuItem>
-                    </Select>
-                  </>
-                )}
-              </Box>
-              <Box
-                className="map-and-legend-container"
-                sx={{
-                  height:
-                    +memoizedFilters?.commodity_type_id === 1 &&
-                      (memoizedFilters?.layer_type === "adaptation" ||
-                        memoizedFilters?.layer_type === "adaptation_croptab")
-                      ? "calc(100% - 80px)"
-                      : "calc(100% - 30px)",
-                  width: "100%",
-                  border: "1px solid #ededed",
+                  height: gridLayout.height,
                   position: "relative",
-                  overflow: "hidden",
-                  visibility: "visible",
-                  opacity: 1,
+                  padding: "10px 0 0 16px",
+                  display: "flex",
+                  flexDirection: "column",
                 }}
               >
                 <Box
-                  ref={(el) => {
-                    if (el && !mapRefs.current[index]) {
-                      mapRefs.current[index] = el;
-                      console.log(`Map ref set for index ${index}`);
-                    }
-                  }}
                   sx={{
-                    height: "100%",
                     width: "100%",
+                    bgcolor: "#C1E1C1",
+                    height: "30px",
+                    display: "flex",
+                    flexDirection: "row",
+                    alignContent: "center",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    gap: "10px",
+                  }}
+                >
+                  <Typography>{tiff.metadata.layer_name}</Typography>
+                  {memoizedFilters.layer_type !== "commodity" && index === 0 && (
+                    <Select
+                      value={selectedIntensityMetric}
+                      onChange={(e) => handleIntensityMetricChange(e.target.value)}
+                      sx={{ minWidth: "120px", height: "24px" }}
+                      disabled={isOptionLoading}
+                    >
+                      <MenuItem value="Intensity">Intensity</MenuItem>
+                      <MenuItem value="Intensity Frequency">Intensity Frequency</MenuItem>
+                    </Select>
+                  )}
+                  {memoizedFilters.layer_type !== "commodity" && index !== 0 && (
+                    <>
+                      <Select
+                        value={selectedScenario}
+                        onChange={(e) => handleScenarioChange(e.target.value)}
+                        sx={{ minWidth: "120px", height: "24px" }}
+                        disabled={isOptionLoading}
+                      >
+                        {climateScenarios
+                          .filter((scenario) => scenario.scenario_id !== 1)
+                          .map((scenario) => (
+                            <MenuItem key={scenario.scenario_id} value={scenario.scenario_id}>
+                              {scenario.scenario}
+                            </MenuItem>
+                          ))}
+                      </Select>
+                      <Select
+                        value={selectedChangeMetric}
+                        onChange={(e) => handleChangeMetricChange(e.target.value)}
+                        sx={{ minWidth: "120px", height: "24px" }}
+                        disabled={isOptionLoading}
+                      >
+                        <MenuItem value="Absolute">Absolute</MenuItem>
+                        <MenuItem value="Delta">Delta</MenuItem>
+                      </Select>
+                    </>
+                  )}
+                </Box>
+                <Box
+                  className="map-and-legend-container"
+                  sx={{
+                    height:
+                      +memoizedFilters?.commodity_type_id === 1 &&
+                        (memoizedFilters?.layer_type === "adaptation" ||
+                          memoizedFilters?.layer_type === "adaptation_croptab")
+                        ? "calc(100% - 80px)"
+                        : "calc(100% - 30px)",
+                    width: "100%",
+                    border: "1px solid #ededed",
                     position: "relative",
-                    zIndex: 1000,
-                    display: "block",
+                    overflow: "hidden",
                     visibility: "visible",
                     opacity: 1,
                   }}
-                />
-                {internalMapLoading && (
+                >
                   <Box
-                    sx={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      backgroundColor: "rgba(255, 255, 255, 0.7)",
-                      zIndex: 1200,
+                    ref={(el) => {
+                      if (el && !mapRefs.current[index]) {
+                        mapRefs.current[index] = el;
+                        console.log(`Map ref set for index ${index}`);
+                      }
                     }}
-                  >
-                    <CircularProgress />
-                  </Box>
-                )}
-                <DownloadDropdown
-                  layerName={tiff.metadata.layer_name}
-                  layerType={memoizedFilters?.layer_type || "risk"}
-                  mapIndex={index}
-                  onDownloadGeoTIFF={() =>
-                    handleDownloadGeoTIFF(
-                      tiff.arrayBuffer,
-                      `${tiff.metadata.layer_name}.tif`
-                    )
-                  }
-                  onDownloadTable={() =>
-                    handleDownloadTable(tiff.metadata.layer_name, tiff.metadata)
-                  }
-                  onDownloadImage={() =>
-                    handleDownloadImage(tiff.metadata.layer_name, index)
-                  }
-                />
-                <MapLegend
-                  tiff={tiff}
-                  breadcrumbData={breadcrumbData}
-                  layerType={memoizedFilters?.layer_type || "risk"}
-                  apiUrl={apiUrl}
-                />
-              </Box>
-            </Grid>
-          ))
-        ) : (
-          <Box
-            sx={{
-              position: "absolute",
-              top:
-                +memoizedFilters?.commodity_type_id === 1 &&
-                  (memoizedFilters?.layer_type === "adaptation" ||
-                    memoizedFilters?.layer_type === "adaptation_croptab")
-                  ? 80
-                  : 30,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            {internalMapLoading ? (
-              <CircularProgress />
-            ) : (
-              <Typography>No data available for the selected filters.</Typography>
-            )}
-          </Box>
-        )}
-      </Grid>
+                    sx={{
+                      height: "100%",
+                      width: "100%",
+                      position: "relative",
+                      zIndex: 1000,
+                      display: "block",
+                      visibility: "visible",
+                      opacity: 1,
+                    }}
+                  />
+                  {internalMapLoading && (
+                    <Box
+                      sx={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        backgroundColor: "rgba(255, 255, 255, 0.7)",
+                        zIndex: 1200,
+                      }}
+                    >
+                      <CircularProgress />
+                    </Box>
+                  )}
+                  <DownloadDropdown
+                    layerName={tiff.metadata.layer_name}
+                    layerType={memoizedFilters?.layer_type || "risk"}
+                    mapIndex={index}
+                    onDownloadGeoTIFF={() =>
+                      handleDownloadGeoTIFF(
+                        tiff.arrayBuffer,
+                        `${tiff.metadata.layer_name}.tif`
+                      )
+                    }
+                    onDownloadTable={() =>
+                      handleDownloadTable(tiff.metadata.layer_name, tiff.metadata)
+                    }
+                    onDownloadImage={() =>
+                      handleDownloadImage(tiff.metadata.layer_name, index)
+                    }
+                  />
+                  <MapLegend
+                    tiff={tiff}
+                    breadcrumbData={breadcrumbData}
+                    layerType={memoizedFilters?.layer_type || "risk"}
+                    apiUrl={apiUrl}
+                  />
+                </Box>
+              </Grid>
+            ))
+          ) : (
+            <Box
+              sx={{
+                position: "absolute",
+                top:
+                  +memoizedFilters?.commodity_type_id === 1 &&
+                    (memoizedFilters?.layer_type === "adaptation" ||
+                      memoizedFilters?.layer_type === "adaptation_croptab")
+                    ? 80
+                    : 30,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              {internalMapLoading ? (
+                <CircularProgress />
+              ) : (
+                <Typography>No data available for the selected filters.</Typography>
+              )}
+            </Box>
+          )}
+        </Grid>
+        {/* AnalyticsPage: Always mounted, toggled with CSS */}
+        <Box
+          sx={{
+            position: "absolute",
+            top: "10px",
+            right: 0,
+            bottom: 0,
+            backgroundColor: "rgba(255, 255, 255, 0.95)", // Semi-transparent white
+            zIndex: 1500, // Above map (zIndex: 1000) and loading overlay (zIndex: 1200)
+            padding: "16px 16px 0 16px",
+            height: "450px",
+            width: "600px",
+            display: showAnalytics && !internalMapLoading && breadcrumbData ? "block" : "none", // Toggle visibility
+          }}
+        >
+          <AnalyticsPage filters={memoizedFilters} />
+        </Box>
+      </Box>
     </Box>
   );
 }
