@@ -24,7 +24,7 @@ const DynamicColorTooltip = styled(({ bgColor, textColor, className, ...props })
   },
 }));
 
-const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, mapWidth }) => {
+const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, mapWidth, showHeader = true }) => {
   const theme = useTheme();
   const [legendData, setLegendData] = useState(null);
 
@@ -150,21 +150,23 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, mapWidth }) => {
 
     return (
       <div style={{ maxWidth: maxLegendWidth, minWidth: maxLegendWidth * 0.7 }}>
-        <div>
-          <Typography
-            variant="body1"
-            sx={{
-              fontSize: baseFontSize,
-              fontWeight: "bold",
-              color: theme.palette.mode === "dark" ? "white" : "black",
-              marginBottom: "2px",
-            }}
-          >
-            {legendData.header_text?.toLowerCase() === "seasonal rainfall"
-              ? "Seasonal rainfall"
-              : legendData.header_text || "Legend"}
-          </Typography>
-        </div>
+        {showHeader &&
+          <div>
+            <Typography
+              variant="body1"
+              sx={{
+                fontSize: baseFontSize,
+                fontWeight: "bold",
+                color: theme.palette.mode === "dark" ? "white" : "black",
+                marginBottom: "2px",
+              }}
+            >
+              {legendData.header_text?.toLowerCase() === "seasonal rainfall"
+                ? "Seasonal rainfall"
+                : legendData.header_text || "Legend"}
+            </Typography>
+          </div>}
+
         {legendData.population_text && (
           <div>
             <Typography

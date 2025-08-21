@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { useParams } from "react-router-dom";
-import { Grid, Paper, Typography, Box, FormControl, Select, MenuItem, CircularProgress } from "@mui/material";
+import { Grid, Paper, Typography, Box, FormControl, Select, MenuItem, CircularProgress, useTheme } from "@mui/material";
 import { ArrowDropDown as ArrowDropDownIcon } from "@mui/icons-material";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -195,6 +195,7 @@ L.control.mapControls = function (opts) {
 };
 
 const DataGlance = () => {
+    const theme = useTheme(); // Add useTheme hook to access theme mode
     const [countries, setCountries] = useState([]);
     const [commodities, setCommodities] = useState([]);
     const [climateScenarios, setClimateScenarios] = useState([]);
@@ -253,6 +254,13 @@ const DataGlance = () => {
 
     const memoizedHazardData = useMemo(() => hazardData, [hazardData]);
     const memoizedGeojsonData = useMemo(() => geojsonData, [geojsonData]);
+
+    // Function to get tile layer URL based on theme
+    const getTileLayerUrl = () => {
+        return theme.palette.mode === "dark"
+            ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+            : "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+    };
 
     const fetchTiffs = useCallback(
         debounce(async (hazardData, geojsonData, countryId, commodityId, selectRasterFile, fetchGeoTiff) => {
@@ -676,6 +684,53 @@ const DataGlance = () => {
         }
     }, []);
 
+    // Effect to handle theme changes for tile layers and GeoJSON styles
+    useEffect(() => {
+        mapInstances.current.forEach((map, index) => {
+            if (map && tileLayerRefs.current[index] && mapRefs.current[index]) {
+                // Fade out current tile layer
+                tileLayerRefs.current[index].setOpacity(0);
+                setTimeout(() => {
+                    if (mapInstances.current[index] && tileLayerRefs.current[index]) {
+                        map.removeLayer(tileLayerRefs.current[index]);
+                        const newTileLayer = L.tileLayer(getTileLayerUrl(), {
+                            attribution:
+                                theme.palette.mode === "dark"
+                                    ? '&copy; <a href="https://carto.com/attributions">CARTO</a>'
+                                    : '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+                            opacity: 0.1,
+                            errorTileUrl: "/images/fallback-tile.png",
+                            preload: 1,
+                        });
+                        newTileLayer.addTo(map);
+                        tileLayerRefs.current[index] = newTileLayer;
+                        newTileLayer.on("load", () => {
+                            newTileLayer.setOpacity(1);
+                            console.log(`New tile layer loaded for map ${index}`);
+                        });
+                        setTimeout(() => {
+                            if (mapInstances.current[index]) {
+                                mapInstances.current[index].invalidateSize();
+                            }
+                        }, 200);
+                        console.log(`Theme changed to ${theme.palette.mode} for map ${index}`);
+                    }
+                }, 200);
+
+                // Update GeoJSON layer style
+                if (geojsonLayerRefs.current[index]) {
+                    geojsonLayerRefs.current[index].setStyle({
+                        color: theme.palette.mode === "dark" ? "white" : "black",
+                        weight: 2,
+                        opacity: 0.8,
+                        fillOpacity: 0,
+                        transition: "color 0.2s ease",
+                    });
+                }
+            }
+        });
+    }, [theme.palette.mode]);
+
     useEffect(() => {
         if (!countries.length) {
             console.log("Countries not loaded yet, skipping country param update");
@@ -930,10 +985,11 @@ const DataGlance = () => {
                 if (memoizedGeojsonData?.geojson) {
                     const geojsonLayer = L.geoJSON(memoizedGeojsonData.geojson, {
                         style: {
-                            color: "#000000",
+                            color: theme.palette.mode === "dark" ? "white" : "black",
                             weight: 2,
                             opacity: 0.8,
                             fillOpacity: 0,
+                            transition: "color 0.2s ease",
                         },
                         onEachFeature: (feature, layer) => {
                             layer.bindPopup(
@@ -1059,7 +1115,7 @@ const DataGlance = () => {
                 });
             }
         },
-        [memoizedGeojsonData, isFullscreen, updateFullscreenButton, handleDownloadGeoTIFF]
+        [memoizedGeojsonData, isFullscreen, updateFullscreenButton, handleDownloadGeoTIFF, theme.palette.mode]
     );
 
     const renderMaps = useCallback(() => {
@@ -1090,8 +1146,11 @@ const DataGlance = () => {
                 fadeAnimation: false,
                 zoomAnimation: false,
             });
-            const tileLayer = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+            const tileLayer = L.tileLayer(getTileLayerUrl(), {
+                attribution:
+                    theme.palette.mode === "dark"
+                        ? '&copy; <a href="https://carto.com/attributions">CARTO</a>'
+                        : '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
                 opacity: 0.1,
                 errorTileUrl: "/images/fallback-tile.png",
                 preload: 1,
@@ -1124,7 +1183,7 @@ const DataGlance = () => {
                 console.warn(`Map ref or instance missing for grid_sequence: ${gridSequence}, map index: ${mapIndex}`);
             }
         });
-    }, [allDataReady, tiffData, updateGeoTiffLayer]);
+    }, [allDataReady, tiffData, updateGeoTiffLayer, theme.palette.mode]);
 
     useEffect(() => {
         if (allDataReady && tiffData.length > 0) {
@@ -1224,7 +1283,7 @@ const DataGlance = () => {
     );
 
     return (
-        <div>
+        <div style={{ backgroundColor: theme.palette.mode === "dark" ? "black" : "white" }}>
             <Grid container spacing={1} sx={{ marginTop: "86px", p: 1 }}>
                 <Grid item xs={3}>
                     <Paper elevation={1} sx={{ borderRadius: 1 }}>
@@ -1559,6 +1618,7 @@ const DataGlance = () => {
                                                     layerType="risk"
                                                     apiUrl={apiUrl}
                                                     mapWidth={mapWidths.current[gridSequence]}
+                                                    showHeader={false}
                                                 />
                                             )}
                                         </Box>
