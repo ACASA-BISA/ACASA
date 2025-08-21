@@ -24,7 +24,7 @@ const DynamicColorTooltip = styled(({ bgColor, textColor, className, ...props })
   },
 }));
 
-const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, mapWidth, showHeader = true }) => {
+const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, mapWidth, showHeader = true, padding = "10px" }) => {
   const theme = useTheme();
   const [legendData, setLegendData] = useState(null);
 
@@ -375,14 +375,13 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, mapWidth, showHead
         left: "50%",
         transform: "translateX(-50%)",
         zIndex: 1000,
-        padding: "10px",
-        paddingBottom: "1px",
+        padding: padding,
         borderRadius: "5px",
         boxShadow: "0px 0px 0px #aaa",
         minWidth: maxLegendWidth * 0.7,
         maxWidth: mapWidth,
         backgroundColor: theme.palette.background.paper,
-        bottom: "5px",
+        bottom: "0px",
       }}
       role="tooltip"
       data-popper-placement="bottom"

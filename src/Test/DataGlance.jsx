@@ -1619,6 +1619,7 @@ const DataGlance = () => {
                                                     apiUrl={apiUrl}
                                                     mapWidth={mapWidths.current[gridSequence]}
                                                     showHeader={false}
+                                                    padding="2px"
                                                 />
                                             )}
                                         </Box>
