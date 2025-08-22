@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import "./Test.css";
-import { Button, Grid, Toolbar, IconButton, Drawer, Switch, Typography, FormGroup, List, Box, Tooltip, ListSubheader, ListItemButton, ListItemIcon, ListItemText, Collapse, FormControlLabel, FormControl, FormLabel, MenuItem, Select, } from "@mui/material";
-import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import { Button, Grid, Toolbar, IconButton, Drawer, Switch, Typography, FormGroup, List, Box, Tooltip, ListSubheader, ListItemButton, ListItemIcon, ListItemText, Collapse, FormControlLabel, FormControl, FormLabel, MenuItem, Select } from "@mui/material";
+import { ExpandLess, ExpandMore, InfoOutlined as InfoIcon } from "@mui/icons-material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Swal from "sweetalert2";
@@ -56,7 +56,7 @@ function Test() {
         adaptation: false,
     });
     const [isLoading, setIsLoading] = useState(false);
-    const [mapLoading, setMapLoading] = useState(false); // Add mapLoading state
+    const [mapLoading, setMapLoading] = useState(false);
 
     const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -260,20 +260,37 @@ function Test() {
     }, [climateScenarios, selectedScenarioId]);
 
     useEffect(() => {
-        if (selectedCommodityTypeId && commodities.length > 0) {
-            const filtered = commodities.filter(
-                (commodity) =>
-                    +commodity.commodity_type_id === +selectedCommodityTypeId && commodity.status
-            );
+        if (commodities.length > 0) {
+            // Maintain order of commodity groups as they appear in the API response
+            const groupOrder = [];
+            const groupedCommodities = commodities.reduce((acc, commodity) => {
+                if (!acc[commodity.commodity_group]) {
+                    acc[commodity.commodity_group] = { name: commodity.commodity_group, items: [] };
+                    groupOrder.push(commodity.commodity_group);
+                }
+                acc[commodity.commodity_group].items.push(commodity);
+                return acc;
+            }, {});
+
+            // Sort commodities within each group by commodity_id
+            Object.values(groupedCommodities).forEach((group) => {
+                group.items.sort((a, b) => a.commodity_id - b.commodity_id);
+            });
+
+            // Filter commodities based on selectedCommodityTypeId and status
+            const filtered = groupOrder
+                .map((groupName) => groupedCommodities[groupName])
+                .flatMap((group) =>
+                    group.items.filter((commodity) =>
+                        commodity.status &&
+                        (selectedCommodityTypeId ? +commodity.commodity_type_id === +selectedCommodityTypeId : true)
+                    )
+                );
+
             setFilteredCommodities(filtered);
+
             if (filtered.length > 0 && (!selectedCommodityId || !filtered.some(c => +c.commodity_id === +selectedCommodityId))) {
-                setSelectedCommodityId(filtered[1].commodity_id);
-            }
-        } else {
-            const activeCommodities = commodities.filter((c) => c.status);
-            setFilteredCommodities(activeCommodities);
-            if (activeCommodities.length > 0 && (!selectedCommodityId || !activeCommodities.some(c => +c.commodity_id === +selectedCommodityId))) {
-                setSelectedCommodityId(activeCommodities[1].commodity_id);
+                setSelectedCommodityId(filtered[0].commodity_id);
             }
         }
     }, [selectedCommodityTypeId, commodities, selectedCommodityId]);
@@ -384,7 +401,6 @@ function Test() {
         risks,
     ]);
 
-    // Consolidated useEffect for updating filters
     useEffect(() => {
         if (areMandatoryFiltersSelected() && !isLoading) {
             updateFilters();
@@ -515,12 +531,51 @@ function Test() {
         }
     };
 
-    const groupedAdaptations = adaptations.reduce((acc, adaptation) => {
-        const groupKey = adaptation.group_id ? adaptation.group : "Other";
-        if (!acc[groupKey]) acc[groupKey] = [];
-        acc[groupKey].push(adaptation);
+    const groupedRisks = risks.reduce((acc, risk) => {
+        if (risk.ipcc_id && risk.ipcc) {
+            if (!acc[risk.ipcc_id]) acc[risk.ipcc_id] = { name: risk.ipcc, items: [] };
+            acc[risk.ipcc_id].items.push(risk);
+        } else {
+            acc[risk.risk_id] = { name: risk.risk, items: [risk] };
+        }
         return acc;
     }, {});
+
+    // Sort risks within each group by risk_id
+    Object.values(groupedRisks).forEach((group) => {
+        group.items.sort((a, b) => a.risk_id - b.risk_id);
+    });
+
+    // Sort groups by ipcc_id (or risk_id for ungrouped items)
+    const sortedGroupedRisks = Object.keys(groupedRisks)
+        .sort((a, b) => parseInt(a) - parseInt(b))
+        .reduce((acc, key) => {
+            acc[key] = groupedRisks[key];
+            return acc;
+        }, {});
+
+    const groupedAdaptations = adaptations.reduce((acc, adaptation) => {
+        if (adaptation.group_id && adaptation.group) {
+            if (!acc[adaptation.group_id]) acc[adaptation.group_id] = { name: adaptation.group, items: [] };
+            acc[adaptation.group_id].items.push(adaptation);
+        } else {
+            acc[adaptation.adaptation_id] = { name: adaptation.adaptation, items: [adaptation] };
+        }
+        return acc;
+    }, {});
+
+    // Sort adaptations within each group by adaptation_id
+    Object.values(groupedAdaptations).forEach((group) => {
+        group.items.sort((a, b) => a.adaptation_id - b.adaptation_id);
+    });
+
+    // Sort groups by group_id (or adaptation_id for ungrouped items)
+    const sortedGroupedAdaptations = Object.keys(groupedAdaptations)
+        .sort((a, b) => parseInt(a) - parseInt(b))
+        .reduce((acc, key) => {
+            acc[key] = groupedAdaptations[key];
+            return acc;
+        }, {});
 
     const getListItemStyle = (category) => ({
         backgroundColor:
@@ -605,11 +660,7 @@ function Test() {
                                         />
                                         {isSidebarOpen.region ? <ExpandLess /> : <ExpandMore />}
                                     </ListItemButton>
-                                    <Collapse
-                                        in={isSidebarOpen.region}
-                                        timeout="auto"
-                                        unmountOnExit
-                                    >
+                                    <Collapse in={isSidebarOpen.region} timeout="auto" unmountOnExit>
                                         <List component="div" disablePadding>
                                             <div className="card w-100 bg-transparent border-0 text-start">
                                                 <div className="card-body">
@@ -645,9 +696,8 @@ function Test() {
                                                             <Typography variant="subtitle2" sx={{ mb: 1 }}>
                                                                 <FormLabel className="formLabel">
                                                                     Country:{" "}
-                                                                    {countries.find(
-                                                                        (c) => c.country_id === selectedCountryId
-                                                                    )?.country || "South Asia"}
+                                                                    {countries.find((c) => c.country_id === selectedCountryId)?.country ||
+                                                                        "South Asia"}
                                                                 </FormLabel>
                                                             </Typography>
                                                         )}
@@ -685,10 +735,7 @@ function Test() {
                                     component="nav"
                                     aria-labelledby="nested-list-subheader1"
                                 >
-                                    <ListSubheader
-                                        component="div"
-                                        id="nested-list-subheader1"
-                                    ></ListSubheader>
+                                    <ListSubheader component="div" id="nested-list-subheader1"></ListSubheader>
                                     <ListItemButton
                                         onClick={() => handleSidebarToggle("dataType")}
                                         disabled={isLoading || mapLoading}
@@ -708,11 +755,7 @@ function Test() {
                                         />
                                         {isSidebarOpen.dataType ? <ExpandLess /> : <ExpandMore />}
                                     </ListItemButton>
-                                    <Collapse
-                                        in={isSidebarOpen.dataType}
-                                        timeout="auto"
-                                        unmountOnExit
-                                    >
+                                    <Collapse in={isSidebarOpen.dataType} timeout="auto" unmountOnExit>
                                         <List component="div" disablePadding sx={{ px: 2 }}>
                                             <FormGroup row sx={{ flexWrap: "nowrap", gap: 2 }}>
                                                 {commodityTypes.map((type) => (
@@ -720,10 +763,7 @@ function Test() {
                                                         key={type.commodity_type_id}
                                                         control={
                                                             <Switch
-                                                                checked={
-                                                                    +selectedCommodityTypeId ===
-                                                                    +type.commodity_type_id
-                                                                }
+                                                                checked={+selectedCommodityTypeId === +type.commodity_type_id}
                                                                 onChange={() =>
                                                                     handleCommodityTypeChange({
                                                                         target: { value: type.commodity_type_id },
@@ -735,9 +775,7 @@ function Test() {
                                                         }
                                                         label={
                                                             <Box display="flex" alignItems="center" gap={1}>
-                                                                <FormLabel className="label-list">
-                                                                    {type.commodity_type}
-                                                                </FormLabel>
+                                                                <FormLabel className="label-list">{type.commodity_type}</FormLabel>
                                                             </Box>
                                                         }
                                                     />
@@ -753,10 +791,7 @@ function Test() {
                                     component="nav"
                                     aria-labelledby="nested-list-subheader2"
                                 >
-                                    <ListSubheader
-                                        component="div"
-                                        id="nested-list-subheader2"
-                                    ></ListSubheader>
+                                    <ListSubheader component="div" id="nested-list-subheader2"></ListSubheader>
                                     <ListItemButton
                                         onClick={() => handleSidebarToggle("analysis")}
                                         disabled={isLoading || mapLoading}
@@ -778,19 +813,10 @@ function Test() {
                                         />
                                         {isSidebarOpen.analysis ? <ExpandLess /> : <ExpandMore />}
                                     </ListItemButton>
-                                    <Collapse
-                                        in={isSidebarOpen.analysis}
-                                        timeout="auto"
-                                        unmountOnExit
-                                    >
+                                    <Collapse in={isSidebarOpen.analysis} timeout="auto" unmountOnExit>
                                         <List component="div" disablePadding sx={{ px: 2 }}>
-                                            <Typography
-                                                variant="subtitle2"
-                                                sx={{ mt: 2, mb: 1, textAlign: "left" }}
-                                            >
-                                                <FormLabel className="formLabel">
-                                                    Select analysis scope
-                                                </FormLabel>
+                                            <Typography variant="subtitle2" sx={{ mt: 2, mb: 1, textAlign: "left" }}>
+                                                <FormLabel className="formLabel">Select analysis scope</FormLabel>
                                             </Typography>
                                             <FormGroup>
                                                 {analysisScopes.map((scope) => (
@@ -825,13 +851,8 @@ function Test() {
                                                 ))}
                                             </FormGroup>
 
-                                            <Typography
-                                                variant="subtitle2"
-                                                sx={{ mt: 3, mb: 1, textAlign: "left" }}
-                                            >
-                                                <FormLabel className="formLabel">
-                                                    Select visualization scale
-                                                </FormLabel>
+                                            <Typography variant="subtitle2" sx={{ mt: 3, mb: 1, textAlign: "left" }}>
+                                                <FormLabel className="formLabel">Select visualization scale</FormLabel>
                                             </Typography>
                                             <FormGroup>
                                                 {visualizationScales.map((scale) => (
@@ -875,10 +896,7 @@ function Test() {
                                     component="nav"
                                     aria-labelledby="nested-list-subheader3"
                                 >
-                                    <ListSubheader
-                                        component="div"
-                                        id="nested-list-subheader3"
-                                    ></ListSubheader>
+                                    <ListSubheader component="div" id="nested-list-subheader3"></ListSubheader>
                                     <ListItemButton
                                         onClick={() => handleSidebarToggle("commodity")}
                                         disabled={isLoading || mapLoading}
@@ -898,44 +916,72 @@ function Test() {
                                         />
                                         {isSidebarOpen.commodity ? <ExpandLess /> : <ExpandMore />}
                                     </ListItemButton>
-                                    <Collapse
-                                        in={isSidebarOpen.commodity}
-                                        timeout="auto"
-                                        unmountOnExit
-                                    >
+                                    <Collapse in={isSidebarOpen.commodity} timeout="auto" unmountOnExit>
                                         <List component="div" disablePadding sx={{ px: 2 }}>
-                                            <FormGroup>
-                                                {filteredCommodities.map((commodity) => (
-                                                    <FormControlLabel
-                                                        key={commodity.commodity_id}
-                                                        control={
-                                                            <Switch
-                                                                checked={+selectedCommodityId === +commodity.commodity_id}
-                                                                onChange={() =>
-                                                                    handleCommodityChange({
-                                                                        target: { value: commodity.commodity_id },
-                                                                    })
-                                                                }
-                                                                disabled={!commodity.status || isLoading || mapLoading}
-                                                                color="primary"
-                                                            />
-                                                        }
-                                                        label={
-                                                            <span
-                                                                style={{
-                                                                    fontFamily: "Poppins",
-                                                                    fontSize: "10px",
-                                                                    fontStyle: "normal",
-                                                                    fontWeight: 500,
-                                                                    lineHeight: "normal",
-                                                                }}
-                                                            >
-                                                                {commodity.commodity}
-                                                            </span>
-                                                        }
-                                                    />
-                                                ))}
-                                            </FormGroup>
+                                            {(() => {
+                                                const groupOrder = [];
+                                                const groupedCommodities = commodities.reduce((acc, commodity) => {
+                                                    if (!acc[commodity.commodity_group]) {
+                                                        acc[commodity.commodity_group] = { name: commodity.commodity_group, items: [] };
+                                                        groupOrder.push(commodity.commodity_group);
+                                                    }
+                                                    acc[commodity.commodity_group].items.push(commodity);
+                                                    return acc;
+                                                }, {});
+
+                                                // Sort commodities within each group by commodity_id
+                                                Object.values(groupedCommodities).forEach((group) => {
+                                                    group.items.sort((a, b) => a.commodity_id - b.commodity_id);
+                                                });
+
+                                                return groupOrder.map((groupName) => {
+                                                    const group = groupedCommodities[groupName];
+                                                    const filteredItems = group.items
+                                                        .filter((commodity) =>
+                                                            commodity.status &&
+                                                            (selectedCommodityTypeId ? +commodity.commodity_type_id === +selectedCommodityTypeId : true)
+                                                        );
+                                                    return filteredItems.length > 0 ? (
+                                                        <div key={group.name}>
+                                                            <Typography variant="subtitle2" sx={{ mt: 2, mb: 1, textAlign: "left" }}>
+                                                                <FormLabel className="formLabel">{group.name}</FormLabel>
+                                                            </Typography>
+                                                            <FormGroup>
+                                                                {filteredItems.map((commodity) => (
+                                                                    <FormControlLabel
+                                                                        key={commodity.commodity_id}
+                                                                        control={
+                                                                            <Switch
+                                                                                checked={+selectedCommodityId === +commodity.commodity_id}
+                                                                                onChange={() =>
+                                                                                    handleCommodityChange({
+                                                                                        target: { value: commodity.commodity_id },
+                                                                                    })
+                                                                                }
+                                                                                disabled={!commodity.status || isLoading || mapLoading}
+                                                                                color="primary"
+                                                                            />
+                                                                        }
+                                                                        label={
+                                                                            <span
+                                                                                style={{
+                                                                                    fontFamily: "Poppins",
+                                                                                    fontSize: "10px",
+                                                                                    fontStyle: "normal",
+                                                                                    fontWeight: 500,
+                                                                                    lineHeight: "normal",
+                                                                                }}
+                                                                            >
+                                                                                {commodity.commodity}
+                                                                            </span>
+                                                                        }
+                                                                    />
+                                                                ))}
+                                                            </FormGroup>
+                                                        </div>
+                                                    ) : null;
+                                                });
+                                            })()}
                                         </List>
                                     </Collapse>
                                 </List>
@@ -946,10 +992,7 @@ function Test() {
                                     component="nav"
                                     aria-labelledby="nested-list-subheader5"
                                 >
-                                    <ListSubheader
-                                        component="div"
-                                        id="nested-list-subheader5"
-                                    ></ListSubheader>
+                                    <ListSubheader component="div" id="nested-list-subheader5"></ListSubheader>
                                     <ListItemButton
                                         onClick={() => handleSidebarToggle("risk")}
                                         disabled={isLoading || mapLoading || !selectedCommodityId}
@@ -970,44 +1013,47 @@ function Test() {
                                         />
                                         {isSidebarOpen.risk ? <ExpandLess /> : <ExpandMore />}
                                     </ListItemButton>
-                                    <Collapse
-                                        in={isSidebarOpen.risk}
-                                        timeout="auto"
-                                        unmountOnExit
-                                    >
+                                    <Collapse in={isSidebarOpen.risk} timeout="auto" unmountOnExit>
                                         <List component="div" disablePadding sx={{ px: 2 }}>
-                                            <FormGroup>
-                                                {risks.map((risk) => (
-                                                    <FormControlLabel
-                                                        key={risk.risk_id}
-                                                        control={
-                                                            <Switch
-                                                                checked={+selectedRiskId === +risk.risk_id}
-                                                                onChange={() =>
-                                                                    handleRiskChange({
-                                                                        target: { value: risk.risk_id },
-                                                                    })
+                                            {Object.entries(sortedGroupedRisks).map(([groupId, group]) => (
+                                                <div key={groupId}>
+                                                    <Typography variant="subtitle2" sx={{ mt: 2, mb: 1, textAlign: "left" }}>
+                                                        <FormLabel className="formLabel">{group.name}</FormLabel>
+                                                    </Typography>
+                                                    <FormGroup>
+                                                        {group.items.map((risk) => (
+                                                            <FormControlLabel
+                                                                key={risk.risk_id}
+                                                                control={
+                                                                    <Switch
+                                                                        checked={+selectedRiskId === +risk.risk_id}
+                                                                        onChange={() =>
+                                                                            handleRiskChange({
+                                                                                target: { value: risk.risk_id },
+                                                                            })
+                                                                        }
+                                                                        disabled={!risk.status || isLoading || mapLoading}
+                                                                        color="primary"
+                                                                    />
                                                                 }
-                                                                disabled={!risk.status || isLoading || mapLoading}
-                                                                color="primary"
+                                                                label={
+                                                                    <span
+                                                                        style={{
+                                                                            fontFamily: "Poppins",
+                                                                            fontSize: "10px",
+                                                                            fontStyle: "normal",
+                                                                            fontWeight: 500,
+                                                                            lineHeight: "normal",
+                                                                        }}
+                                                                    >
+                                                                        {risk.risk}
+                                                                    </span>
+                                                                }
                                                             />
-                                                        }
-                                                        label={
-                                                            <span
-                                                                style={{
-                                                                    fontFamily: "Poppins",
-                                                                    fontSize: "10px",
-                                                                    fontStyle: "normal",
-                                                                    fontWeight: 500,
-                                                                    lineHeight: "normal",
-                                                                }}
-                                                            >
-                                                                {risk.risk}
-                                                            </span>
-                                                        }
-                                                    />
-                                                ))}
-                                            </FormGroup>
+                                                        ))}
+                                                    </FormGroup>
+                                                </div>
+                                            ))}
                                         </List>
                                     </Collapse>
                                 </List>
@@ -1018,10 +1064,7 @@ function Test() {
                                     component="nav"
                                     aria-labelledby="nested-list-subheader6"
                                 >
-                                    <ListSubheader
-                                        component="div"
-                                        id="nested-list-subheader6"
-                                    ></ListSubheader>
+                                    <ListSubheader component="div" id="nested-list-subheader6"></ListSubheader>
                                     <ListItemButton
                                         onClick={() => handleSidebarToggle("impact")}
                                         disabled={isLoading || mapLoading || !selectedCommodityId}
@@ -1042,11 +1085,7 @@ function Test() {
                                         />
                                         {isSidebarOpen.impact ? <ExpandLess /> : <ExpandMore />}
                                     </ListItemButton>
-                                    <Collapse
-                                        in={isSidebarOpen.impact}
-                                        timeout="auto"
-                                        unmountOnExit
-                                    >
+                                    <Collapse in={isSidebarOpen.impact} timeout="auto" unmountOnExit>
                                         <List component="div" disablePadding sx={{ px: 2 }}>
                                             <FormGroup>
                                                 {impacts.map((impact) => (
@@ -1091,10 +1130,7 @@ function Test() {
                                         component="nav"
                                         aria-labelledby="nested-list-subheader7"
                                     >
-                                        <ListSubheader
-                                            component="div"
-                                            id="nested-list-subheader7"
-                                        ></ListSubheader>
+                                        <ListSubheader component="div" id="nested-list-subheader7"></ListSubheader>
                                         <ListItemButton
                                             onClick={() => handleSidebarToggle("adaptation")}
                                             disabled={isLoading || mapLoading || !selectedCommodityId}
@@ -1115,35 +1151,23 @@ function Test() {
                                             />
                                             {isSidebarOpen.adaptation ? <ExpandLess /> : <ExpandMore />}
                                         </ListItemButton>
-                                        <Collapse
-                                            in={isSidebarOpen.adaptation}
-                                            timeout="auto"
-                                            unmountOnExit
-                                        >
+                                        <Collapse in={isSidebarOpen.adaptation} timeout="auto" unmountOnExit>
                                             <List component="div" disablePadding sx={{ px: 2 }}>
-                                                {Object.entries(groupedAdaptations).map(([group, items]) => (
-                                                    <div key={group}>
-                                                        <Typography
-                                                            variant="subtitle2"
-                                                            sx={{ mt: 2, mb: 1, textAlign: "left" }}
-                                                        >
-                                                            <FormLabel className="formLabel">{group}</FormLabel>
+                                                {Object.entries(sortedGroupedAdaptations).map(([groupId, group]) => (
+                                                    <div key={groupId}>
+                                                        <Typography variant="subtitle2" sx={{ mt: 2, mb: 1, textAlign: "left" }}>
+                                                            <FormLabel className="formLabel">{group.name}</FormLabel>
                                                         </Typography>
                                                         <FormGroup>
-                                                            {items.map((adaptation) => (
+                                                            {group.items.map((adaptation) => (
                                                                 <FormControlLabel
                                                                     key={adaptation.adaptation_id}
                                                                     control={
                                                                         <Switch
-                                                                            checked={
-                                                                                +selectedAdaptationId ===
-                                                                                +adaptation.adaptation_id
-                                                                            }
+                                                                            checked={+selectedAdaptationId === +adaptation.adaptation_id}
                                                                             onChange={() =>
                                                                                 handleAdaptationChange({
-                                                                                    target: {
-                                                                                        value: adaptation.adaptation_id,
-                                                                                    },
+                                                                                    target: { value: adaptation.adaptation_id },
                                                                                 })
                                                                             }
                                                                             disabled={!adaptation.status || isLoading || mapLoading}

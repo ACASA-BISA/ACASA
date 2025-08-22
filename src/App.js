@@ -68,7 +68,7 @@ function App() {
       <ThemeProviderWrapper>
         <ResponsiveAppBar validCountries={validCountries} />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<TestHome />} />
           <Route path="/home" element={<TestHome />} />
           <Route path="/:country/home" element={<TestHome />} />
           <Route path="/about" element={<DrawerMapShow activeBar="about" />} />
@@ -107,7 +107,7 @@ function App() {
           <Route path="/:country/hazardglance" element={<DataGlance />} />
           <Route path="/adaptationglance" element={<AdaptationDataGlance />} />
           <Route path="/:country/adaptationglance" element={<AdaptationDataGlance />} />
-          <Route path="*" element={<Home />} />
+          <Route path="*" element={<TestHome />} />
         </Routes>
         <ScrollToTop />
       </ThemeProviderWrapper>
