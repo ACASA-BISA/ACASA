@@ -1825,6 +1825,7 @@ const DataGlance = () => {
                                                     mapWidth={mapWidths.current[gridSequence]}
                                                     sourceFile={tiff.metadata.source_file}
                                                     showHeader={false}
+                                                    glance={true}
                                                 />
                                             )}
                                         </Box>

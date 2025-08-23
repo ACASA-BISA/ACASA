@@ -1620,6 +1620,7 @@ const DataGlance = () => {
                                                     mapWidth={mapWidths.current[gridSequence]}
                                                     showHeader={false}
                                                     padding="2px"
+                                                    glance={true}
                                                 />
                                             )}
                                         </Box>

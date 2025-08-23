@@ -24,12 +24,13 @@ const DynamicColorTooltip = styled(({ bgColor, textColor, className, ...props })
   },
 }));
 
-const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, mapWidth, showHeader = true, padding = "10px" }) => {
+const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, mapWidth, showHeader = true, padding = "10px", glance = false }) => {
   const theme = useTheme();
   const [legendData, setLegendData] = useState(null);
 
   // Calculate responsive width and font sizes
-  const maxLegendWidth = mapWidth ? Math.min(mapWidth, 450) : 450; // 80% of map width, capped at 450px
+  let maxLegendWidth = mapWidth ? Math.min(mapWidth, 450) : 450; // 80% of map width, capped at 450px
+  maxLegendWidth = glance ? maxLegendWidth - 30 : maxLegendWidth
   console.log({ maxLegendWidth })
   const baseFontSize = mapWidth ? Math.max(10, Math.min(mapWidth * 0.03, 13)) : 11; // Scale font size
   const smallFontSize = baseFontSize * 0.9;
@@ -174,7 +175,8 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, mapWidth, showHead
               sx={{
                 fontSize: smallFontSize,
                 color: theme.palette.mode === "dark" ? "white" : "black",
-                marginBottom: "2px",
+                marginBottom: glance ? "0" : "2px",
+                lineHeight: glance ? "10px" : "",
                 "& span": { color: theme.palette.mode === "dark" ? theme.palette.text.secondary : "#111", fontStyle: "italic" },
               }}
             >
@@ -196,11 +198,11 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, mapWidth, showHead
                       gap: "2px",
                     }}
                   >
-                    <Box sx={{ maxWidth: maxLegendWidth / 5, height: 18, borderRadius: 0, marginBottom: "-4px" }}>
+                    <Box sx={{ maxWidth: maxLegendWidth / 5, height: glance ? 15 : 18, borderRadius: 0, marginBottom: "-4px" }}>
                       <Typography
                         sx={{
                           fontSize: tinyFontSize,
-                          margin: "2px",
+                          margin: glance ? "0" : "2px",
                           color: theme.palette.mode === "dark" ? theme.palette.text.secondary : "#111",
                         }}
                       >
@@ -273,11 +275,11 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, mapWidth, showHead
                         </Typography>
                       )}
                     </Box>
-                    <Box sx={{ maxWidth: maxLegendWidth / 5, height: 18, borderRadius: 0 }}>
+                    <Box sx={{ maxWidth: maxLegendWidth / 5, height: glance ? 15 : 18, borderRadius: 0 }}>
                       <Typography
                         sx={{
                           fontSize: tinyFontSize,
-                          margin: "2px",
+                          margin: glance ? "0" : "2px",
                           marginTop: "0px",
                           color: theme.palette.mode === "dark" ? theme.palette.text.secondary : "#111",
                         }}
@@ -298,7 +300,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, mapWidth, showHead
               sx={{
                 fontSize: smallFontSize,
                 color: theme.palette.mode === "dark" ? "white" : "black",
-                marginBottom: "2px",
+                margin: glance ? "-2px 0" : "2px",
                 "& span": { color: theme.palette.mode === "dark" ? theme.palette.text.secondary : "#111", fontStyle: "italic" },
               }}
             >
@@ -323,7 +325,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, mapWidth, showHead
                 fontSize: tinyFontSize,
                 color: theme.palette.mode === "dark" ? theme.palette.text.secondary : "#111",
                 fontStyle: "italic",
-                margin: "2px",
+                margin: glance ? "-2px 0" : "2px",
               }}
             >
               {legendData.footer_text}
