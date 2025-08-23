@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import "./Test.css";
-import { Button, Grid, Toolbar, IconButton, Drawer, Switch, Typography, FormGroup, List, Box, Tooltip, ListSubheader, ListItemButton, ListItemIcon, ListItemText, Collapse, FormControlLabel, FormControl, FormLabel, MenuItem, Select } from "@mui/material";
+import { Button, Grid, Toolbar, IconButton, Drawer, Switch, Typography, FormGroup, List, Box, Tooltip, ListItemButton, ListItemIcon, ListItemText, Collapse, FormControlLabel, FormControl, FormLabel, MenuItem, Select, ListSubheader } from "@mui/material";
 import { ExpandLess, ExpandMore, InfoOutlined as InfoIcon } from "@mui/icons-material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
@@ -674,9 +674,13 @@ function Test() {
                                                                     displayEmpty
                                                                     inputProps={{ "aria-label": "Country" }}
                                                                     disabled={isLoading || mapLoading}
-                                                                    style={{ margin: "0 0 15px 0" }}
+                                                                    style={{ margin: "0 0 15px 0", textAlign: "left" }}
                                                                 >
-                                                                    <MenuItem className="customMenuItem" value={0}>
+                                                                    <MenuItem
+                                                                        className="customMenuItem"
+                                                                        value={0}
+                                                                        style={{ textAlign: "left" }}
+                                                                    >
                                                                         South Asia
                                                                     </MenuItem>
                                                                     {countries.map((a) => (
@@ -685,6 +689,7 @@ function Test() {
                                                                             key={a.country_id}
                                                                             value={a.country_id}
                                                                             disabled={!a.status}
+                                                                            style={{ textAlign: "left" }}
                                                                         >
                                                                             {a.country}
                                                                         </MenuItem>
@@ -707,8 +712,13 @@ function Test() {
                                                             displayEmpty
                                                             inputProps={{ "aria-label": "State" }}
                                                             disabled={disabledStateFilter || isLoading || mapLoading}
+                                                            style={{ textAlign: "left" }}
                                                         >
-                                                            <MenuItem className="customMenuItem" value={0}>
+                                                            <MenuItem
+                                                                className="customMenuItem"
+                                                                value={0}
+                                                                style={{ textAlign: "left" }}
+                                                            >
                                                                 State/Province
                                                             </MenuItem>
                                                             {states.map((a) => (
@@ -716,6 +726,7 @@ function Test() {
                                                                     className="customMenuItem"
                                                                     key={a.state_id}
                                                                     value={a.state_id}
+                                                                    style={{ textAlign: "left" }}
                                                                 >
                                                                     {a.state}
                                                                 </MenuItem>
@@ -774,7 +785,9 @@ function Test() {
                                                         }
                                                         label={
                                                             <Box display="flex" alignItems="center" gap={1}>
-                                                                <FormLabel className="label-list">{type.commodity_type}</FormLabel>
+                                                                <FormLabel className="label-list" style={{ textAlign: "left" }}>
+                                                                    {type.commodity_type}
+                                                                </FormLabel>
                                                             </Box>
                                                         }
                                                     />
@@ -841,6 +854,7 @@ function Test() {
                                                                     fontStyle: "normal",
                                                                     fontWeight: 500,
                                                                     lineHeight: "normal",
+                                                                    textAlign: "left",
                                                                 }}
                                                             >
                                                                 {scope.scope}
@@ -877,6 +891,7 @@ function Test() {
                                                                     fontStyle: "normal",
                                                                     fontWeight: 500,
                                                                     lineHeight: "normal",
+                                                                    textAlign: "left",
                                                                 }}
                                                             >
                                                                 {scale.scale}
@@ -968,6 +983,7 @@ function Test() {
                                                                                     fontStyle: "normal",
                                                                                     fontWeight: 500,
                                                                                     lineHeight: "normal",
+                                                                                    textAlign: "left",
                                                                                 }}
                                                                             >
                                                                                 {commodity.commodity}
@@ -1042,6 +1058,7 @@ function Test() {
                                                                             fontStyle: "normal",
                                                                             fontWeight: 500,
                                                                             lineHeight: "normal",
+                                                                            textAlign: "left",
                                                                         }}
                                                                     >
                                                                         {risk.risk}
@@ -1109,6 +1126,7 @@ function Test() {
                                                                     fontStyle: "normal",
                                                                     fontWeight: 500,
                                                                     lineHeight: "normal",
+                                                                    textAlign: "left",
                                                                 }}
                                                             >
                                                                 {impact.impact}
@@ -1180,6 +1198,7 @@ function Test() {
                                                                                 fontStyle: "normal",
                                                                                 fontWeight: 500,
                                                                                 lineHeight: "normal",
+                                                                                textAlign: "left",
                                                                             }}
                                                                         >
                                                                             {adaptation.adaptation}
