@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useMemo, useContext } from "react";
 import Slider from "react-slick";
+import { Link } from "react-router-dom";
 import {
     Box,
     Typography,
@@ -65,6 +66,28 @@ const paperHoverStyle = {
 Increase the quality, availability, and utility of data and evidence
 Improve climate adaptive capacity of agricultural systems
 */
+
+// 🔹 Your resources with dynamic images
+const resources = [
+    {
+        title: "Maize, Agribusiness",
+        description:
+            "Building Capabilities of Medium and Large-Scale Sri Lankan Maize Growers in Agricultural Risk Management",
+        image: "./Blog-10.jpg", // place inside public/images/
+    },
+    {
+        title: "Capacity building, women",
+        description:
+            "ACASA for empowering women-led social entrepreneurs in Nepal: Building climate-resilient forage for a sustainable livestock ecosystem",
+        image: "./Blog-11.jpg",
+    },
+    {
+        title: "Adaptation, local-level planning",
+        description:
+            "Strengthening the model of “Adaptation Clinic” through data-driven local level adaptation planning in Bangladesh",
+        image: "./Blog-13.jpg",
+    },
+];
 
 var items = [
     {
@@ -503,7 +526,7 @@ function TestHome(props) {
         arrows: false,
     };
 
-    const partnerLogos = country === "nepal" ? [2] : [2, 4, 5, 6, 8, 9];
+    const partnerLogos = country === "nepal" ? [2] : [1, 2, 3, 4, 5, 6, 7, 8, 9];
     const contryLogos = [1, 2, 3, 4, 5, 6, 7, 8];
 
     const { mode } = useContext(ThemeContext);
@@ -708,7 +731,7 @@ function TestHome(props) {
                         <PopperMessage />
                     </Paper>
 
-                    <Box
+                    {/* <Box
                         sx={{
                             position: "relative",
                             display: "flex",
@@ -734,9 +757,9 @@ function TestHome(props) {
                             <img src={"pakistan.svg"} style={logoStyle4} alt="pakistan" loading="lazy" />
                             <img src={"srilanka.png"} style={logoStyle4} alt="srilanka" loading="lazy" />
                         </Box>
-                    </Box>
+                    </Box> */}
 
-                    <Box sx={{ mt: "20px" }}>
+                    {/* <Box sx={{ mt: "20px" }}>
                         <Typography
                             variant="h2"
                             sx={{
@@ -756,8 +779,8 @@ function TestHome(props) {
                             alt="approach"
                             loading="lazy"
                         />
-                    </Box>
-                    <Box
+                    </Box> */}
+                    {/* <Box
                         sx={{
                             display: "flex",
                             flexDirection: "column",
@@ -779,7 +802,6 @@ function TestHome(props) {
                             >
                                 Our Partners
                             </Typography>
-                            {/*  */}
                             <Box
                                 sx={{
                                     display: "flex",
@@ -846,7 +868,7 @@ function TestHome(props) {
                                 </SleekTooltip>
                             </Box>
                         </Box>
-                    </Box>
+                    </Box> */}
                 </Box>
 
                 <Box
@@ -879,24 +901,25 @@ function TestHome(props) {
                         p: 2,
                         bgcolor: theme.palette.mode === "dark" ? "#2c2f34" : "#f5f5f5",
                         borderRadius: "12px",
-                        boxShadow:
-                            theme.palette.mode === "dark"
-                                ? "0px 4px 10px rgba(0,0,0,0.4)"
-                                : "0px 4px 10px rgba(0,0,0,0.1)",
+                        // boxShadow:
+                        //     theme.palette.mode === "dark"
+                        //         ? "0px 4px 10px rgba(0,0,0,0.4)"
+                        //         : "0px 4px 10px rgba(0,0,0,0.1)",
                     }}
                 >
                     <Typography
                         variant="h1"
                         sx={{
-                            color: theme.palette.mode === "dark" ? "#f5f5f5" : "#4ba046",
-                            fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-                            fontWeight: "bold",
-                            "& span": {
-                                color: theme.palette.mode === "dark" ? "#b0e3ae" : "#c4ecc2",
-                            },
+                            color: theme.palette.mode === "dark" ? "#f5f5f5" : "#000",
+                            fontFamily: 'Poppins',
+                            fontWeight: "500",
+                            fontSize: '60px',
+                            textAlign: 'center',
+                            lineHeight: '70'
+
                         }}
                     >
-                        Explore <span>Climate Risk</span> Like Never Before
+                        Explore <span sx={{ color: theme.palette.mode === "dark" ? "#fff" : "#c4ecc2" }}>Climate Risk</span> Like Never Before
                     </Typography>
                     <Typography
                         variant="h4"
@@ -970,10 +993,10 @@ function TestHome(props) {
                                             textAlign: "center",
                                         }}
                                     >
-                                        <Typography sx={{ fontSize: "1.5rem" }}>
+                                        <Typography sx={{ fontSize: "1.5rem", mt: 2 }}>
                                             {item.emoji}
                                         </Typography>
-                                        <Typography sx={{ fontSize: "1rem", lineHeight: 1.6 }}>
+                                        <Typography sx={{ fontSize: "1rem", lineHeight: 1.6, mt: 3 }}>
                                             {item.text}
                                         </Typography>
                                     </CardContent>
@@ -987,16 +1010,16 @@ function TestHome(props) {
             <Container
                 maxWidth="xl"
                 sx={{
-                    bgcolor: theme.palette.mode === "dark" ? "#1a1d21" : "#F2F4F3",
+                    bgcolor: theme.palette.mode === "dark" ? "#1a1d21" : "#fff",
                 }}
             >
-                <Box className="aboutSectionApproach" sx={{ mt: 4, mb: 4, p: 5 }}>
+                <Box className="aboutSectionApproach" sx={{ mt: 4, pb: 4, p: 5 }}>
                     <Typography
                         variant="h1"
                         sx={{
                             color: theme.palette.mode === "dark" ? "#F2F4F3" : "#1a1d21",
                             fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-                            textAlign: "center",
+                            textAlign: "center!important",
                         }}
                     >
                         ACASA Approach
@@ -1013,6 +1036,8 @@ function TestHome(props) {
                         />
                         {/* <img src="/images/approach.svg" alt="" /> */}
                         <Button
+                            component={Link}
+                            to="/about"
                             className="btn btnAbout"
                             sx={{
                                 bgcolor: theme.palette.mode === "dark" ? "#61c258" : "#4C9E46",
@@ -1035,13 +1060,16 @@ function TestHome(props) {
                     bgcolor: theme.palette.mode === "dark" ? "#25292e" : "#ffffff",
                 }}
             >
-                <Box className="aboutSectionApproach" sx={{ mt: 0, mb: 4 }}>
+                <Box className="aboutSectionApproach" sx={{ mt: 0, pb: 0, pt: 4 }}>
+
                     <Typography
                         variant="h1"
                         sx={{
-                            color: theme.palette.mode === "dark" ? "#61c258" : "#4ba046",
+                            color: theme.palette.mode === "dark" ? "#fff" : "#000",
                             fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-                            textAlign: "center",
+                            textAlign: "center!important",
+                            mt: 5,
+                            mb: 2
                         }}
                     >
                         Use Cases
@@ -1076,10 +1104,11 @@ function TestHome(props) {
                                 sx={{
                                     borderRadius: "12px",
                                     mx: 1,
+                                    color: theme.palette.mode === "dark" ? "#fff" : "#000",
                                     "&.Mui-selected": {
                                         bgcolor:
-                                            theme.palette.mode === "dark" ? "#61c258" : "#4C9E46",
-                                        color: "#ffffff",
+                                            theme.palette.mode === "dark" ? "#fff" : "#4C9E46",
+                                        color: theme.palette.mode === "dark" ? "#fff" : "#000",
                                     },
                                 }}
                             />
@@ -1090,10 +1119,11 @@ function TestHome(props) {
                         <TabPanel key={index} value={value} index={index}>
                             <Container maxWidth="xl">
                                 <Card
-                                    className="roundedCard"
+                                    className=""
                                     sx={{
                                         maxWidth: "100%",
                                         m: 2,
+                                        p: 4,
                                         bgcolor:
                                             theme.palette.mode === "dark" ? "#2c2f34" : "#f2f4f3",
                                         borderRadius: "12px",
@@ -1132,24 +1162,25 @@ function TestHome(props) {
                                                                 '"Roboto", "Helvetica", "Arial", sans-serif',
                                                             color:
                                                                 theme.palette.mode === "dark"
-                                                                    ? "#61c258"
-                                                                    : "#4ba046",
-                                                            fontSize: "1.5rem",
-                                                            fontWeight: "bold",
+                                                                    ? "#fff"
+                                                                    : "#000",
+                                                            fontSize: "32px",
+                                                            fontWeight: "400",
                                                         },
                                                         "& p": {
                                                             fontFamily:
                                                                 '"Roboto", "Helvetica", "Arial", sans-serif',
-                                                            fontSize: "1rem",
+                                                            fontSize: "12px",
                                                             lineHeight: 1.6,
                                                         },
                                                         "& h5": {
                                                             fontFamily:
                                                                 '"Roboto", "Helvetica", "Arial", sans-serif',
+                                                            fontSize: "18px",
                                                             color:
                                                                 theme.palette.mode === "dark"
-                                                                    ? "#b0e3ae"
-                                                                    : "#4ba046",
+                                                                    ? "#fff"
+                                                                    : "#000",
                                                             margin: theme.spacing(2, 0, 1),
                                                         },
                                                     }}
@@ -1166,6 +1197,8 @@ function TestHome(props) {
                     ))}
 
                     <Button
+                    component={Link}
+                    to="/usecases"
                         className="btn btnAbout"
                         sx={{
                             bgcolor: theme.palette.mode === "dark" ? "#61c258" : "#4C9E46",
@@ -1181,7 +1214,7 @@ function TestHome(props) {
                 </Box>
             </Container>
 
-            <Container
+            {/* <Container
                 maxWidth="xl"
                 sx={{
                     bgcolor: theme.palette.mode === "dark" ? "#25292e" : "#fff",
@@ -1191,9 +1224,9 @@ function TestHome(props) {
                     <Typography
                         variant="h1"
                         sx={{
-                            color: theme.palette.mode === "dark" ? "#61c258" : "#4ba046",
+                            color: theme.palette.mode === "dark" ? "#fff" : "#000",
                             fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-                            textAlign: "center",
+                            textAlign: "center!important",
                         }}
                     >
                         Resources
@@ -1222,7 +1255,7 @@ function TestHome(props) {
                                         className="resourceCard"
                                         sx={{
                                             bgcolor:
-                                                theme.palette.mode === "dark" ? "#2c2f34" : "#ffffff",
+                                                theme.palette.mode === "dark" ? "#2c2f34" : "#f0f0f0",
                                             borderRadius: "12px",
                                             boxShadow:
                                                 theme.palette.mode === "dark"
@@ -1235,11 +1268,13 @@ function TestHome(props) {
                                                 className="whiteBox"
                                                 sx={{
                                                     bgcolor:
-                                                        theme.palette.mode === "dark" ? "#33373e" : "#f0f0f0",
+                                                        theme.palette.mode === "dark" ? "#4c9e461a" : "#fff",
                                                     height: "150px",
                                                     borderRadius: "8px",
                                                 }}
-                                            ></Box>
+                                            >
+
+                                            </Box>
                                             <Box className="ContentBox">
                                                 <Typography
                                                     variant="h4"
@@ -1257,11 +1292,14 @@ function TestHome(props) {
                                                 </Typography>
                                                 <Typography
                                                     sx={{
-                                                        color: theme.palette.text.primary,
-                                                        fontFamily:
-                                                            '"Roboto", "Helvetica", "Arial", sans-serif',
-                                                        fontSize: "1rem",
+                                                        color:
+                                                            theme.palette.mode === "dark"
+                                                                ? "#fff"
+                                                                : "#4ba046",
+                                                        fontSize: "12px",
                                                         lineHeight: 1.6,
+                                                        mt: 2,
+
                                                     }}
                                                 >
                                                     {resource.description}
@@ -1287,6 +1325,102 @@ function TestHome(props) {
                         </Button>
                     </Container>
                 </Box>
+            </Container> */}
+
+            <Container maxWidth="xl" sx={{
+                bgcolor: theme.palette.mode === "dark" ? "#1a1d21" : "#fff",
+            }} >
+
+                <Box className="aboutSectionApproach" sx={{ p: 2 }}>
+                    <Typography
+                        variant="h1"
+                        sx={{
+                            color: theme.palette.mode === "dark" ? "#fff" : "#000",
+                            fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+                            textAlign: "center!important",
+                        }}
+                    >
+                        Resources
+                    </Typography>
+                </Box>
+                <Grid container spacing={3} sx={{ px: 5 }}>
+                    {resources.map((resource, idx) => (
+                        <Grid item xs={12} sm={6} md={4} key={idx}>
+                            <Card
+                                className="resourceCard"
+                                sx={{
+                                    bgcolor:
+                                        theme.palette.mode === "dark" ? "#2c2f34" : "#f0f0f0",
+                                    borderRadius: "12px",
+                                    boxShadow:
+                                        theme.palette.mode === "dark"
+                                            ? "0px 4px 10px rgba(0,0,0,0.4)"
+                                            : "0px 4px 10px rgba(0,0,0,0.1)",
+                                }}
+                            >
+                                <CardContent>
+                                    {/* 🔹 Image instead of whiteBox */}
+                                    <CardMedia
+                                        component="img"
+                                        image={resource.image}
+                                        alt={resource.title}
+                                        sx={{
+                                            borderRadius: "8px",
+                                            width: "100%",   // ✅ makes it full width of Card
+                                            height: "250px", // ✅ fixed height
+                                            objectFit: "cover", // ✅ keeps aspect ratio & crops nicely
+                                        }}
+                                    />
+
+                                    <Box className="ContentBox">
+                                        <Typography
+                                            variant="h4"
+                                            sx={{
+                                                color:
+                                                    theme.palette.mode === "dark"
+                                                        ? "#b0e3ae"
+                                                        : "#4ba046",
+                                                mt: 2,
+                                            }}
+                                        >
+                                            {resource.title}
+                                        </Typography>
+                                        <Typography
+                                            sx={{
+                                                color:
+                                                    theme.palette.mode === "dark"
+                                                        ? "#fff"
+                                                        : "#4ba046",
+                                                fontSize: "12px",
+                                                lineHeight: 1.6,
+                                                mt: 2,
+                                            }}
+                                        >
+                                            {resource.description}
+                                        </Typography>
+                                    </Box>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                    ))}
+                </Grid>
+
+                <Button
+                    component={Link}
+                    to="/resources"   // 👈 your route path
+                    className="btn btnAbout1"
+                    sx={{
+                        bgcolor: theme.palette.mode === "dark" ? "#61c258" : "#4C9E46",
+                        color: "#ffffff",
+                        mt: 2,
+                        mb: 5,
+                        "&:hover": {
+                            bgcolor: theme.palette.mode === "dark" ? "#4ba046" : "#3d8b3a",
+                        },
+                    }}
+                >
+                    Explore More
+                </Button>
             </Container>
 
             <Container
@@ -1299,28 +1433,32 @@ function TestHome(props) {
                     <Typography
                         variant="h1"
                         sx={{
-                            color: theme.palette.mode === "dark" ? "#61c258" : "#4ba046",
-                            fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-                            textAlign: "center",
+                            color: theme.palette.mode === "dark" ? "#fff" : "#000",
+                            textAlign: "center!important",
                         }}
                     >
                         Our Partners
                     </Typography>
-                    <Typography
-                        className="paraOne"
-                        sx={{
-                            color: theme.palette.text.primary,
-                            fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-                            mt: 2,
-                            fontSize: "1rem",
-                            lineHeight: 1.6,
-                        }}
-                    >
-                        ACASA is a collaborative initiative powered by global and regional
-                        leaders in agricultural innovation and climate science. Our partners
-                        provide critical expertise, data, tools, and regional insights to drive
-                        climate-resilient agriculture across South Asia.
-                    </Typography>
+                    <Container maxWidth="md">
+                        <Typography
+                            className="paraOne"
+                            sx={{
+                                color: theme.palette.text.primary,
+                                fontSize: "12px",
+                                lineHeight: 1.6,
+                                marginBottom: '30px',
+                                px: 5,
+                                mb: 5
+                            }}
+                        >
+                            ACASA is a collaborative initiative powered by global and regional
+                            leaders in agricultural innovation and climate science. Our partners
+                            provide critical expertise, data, tools, and regional insights to drive
+                            climate-resilient agriculture across South Asia.
+                        </Typography>
+                    </Container>
+
+
                     <Container maxWidth="xl">
                         <Grid container spacing={3} justifyContent="center" alignItems="center">
                             {partnerLogos.map((num) => (
@@ -1337,7 +1475,7 @@ function TestHome(props) {
                                         className="resourceCardPartner"
                                         sx={{
                                             bgcolor:
-                                                theme.palette.mode === "dark" ? "#2c2f34" : "#ffffff",
+                                                theme.palette.mode === "dark" ? "#2c2f34" : "#F2F4F3",
                                             borderRadius: "12px",
                                             boxShadow:
                                                 theme.palette.mode === "dark"
@@ -1358,7 +1496,6 @@ function TestHome(props) {
                                                 src={`/images/partner-${num}.png`}
                                                 alt={`partner-${num}`}
                                                 className="partner-img"
-                                                style={{ maxWidth: "80%", maxHeight: "80%" }}
                                             />
                                         </CardContent>
                                     </Card>
@@ -1391,16 +1528,17 @@ function TestHome(props) {
                                 key={num}
                                 className="countryLogos"
                                 sx={{
-                                    bgcolor: "transparent",
+                                    bgcolor: theme.palette.mode === "dark" ? "#1a1d21" : "#fff",
                                     border: "none",
                                     boxShadow: "none",
                                     flex: "0 0 auto",
-                                    width: 120,
-                                    height: 120,
+                                    width: 100,
+                                    height: 100,
                                     display: "flex",
                                     alignItems: "center",
                                     justifyContent: "center",
                                     borderRadius: 2,
+                                    px: 2
                                 }}
                             >
                                 <img
