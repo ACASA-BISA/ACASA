@@ -1532,8 +1532,8 @@ function TestHome(props) {
                                     border: "none",
                                     boxShadow: "none",
                                     flex: "0 0 auto",
-                                    width: 100,
-                                    height: 100,
+                                    width: 80,
+                                    height: 80,
                                     display: "flex",
                                     alignItems: "center",
                                     justifyContent: "center",
@@ -1544,7 +1544,6 @@ function TestHome(props) {
                                 <img
                                     src={`/images/country-${num}.png`}
                                     alt={`country-${num}`}
-                                    style={{ maxWidth: "80%", maxHeight: "80%" }}
                                 />
                             </Card>
                         ))}
