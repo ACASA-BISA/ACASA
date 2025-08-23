@@ -290,7 +290,7 @@ function Test() {
             setFilteredCommodities(filtered);
 
             if (filtered.length > 0 && (!selectedCommodityId || !filtered.some(c => +c.commodity_id === +selectedCommodityId))) {
-                setSelectedCommodityId(filtered[0].commodity_id);
+                setSelectedCommodityId(filtered[1].commodity_id);
             }
         }
     }, [selectedCommodityTypeId, commodities, selectedCommodityId]);

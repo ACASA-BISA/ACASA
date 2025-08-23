@@ -38,7 +38,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, mapWidth, showHead
   // Helper functions
   const checkcrop = () => {
     const diffcrop = ["cattle", "buffalo", "goat", "sheep", "pig", "chicken"];
-    return !diffcrop.includes(breadcrumbData?.commodity?.toLowerCase());
+    return !diffcrop.includes(breadcrumbData?.commodityLabel?.toLowerCase());
   };
 
   const calcpop = (popu) => {
@@ -304,10 +304,10 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, mapWidth, showHead
             >
               <span>
                 {checkcrop()
-                  ? `${breadcrumbData?.commodity} area, million hectare (Mha)`
-                  : `Number of ${breadcrumbData?.commodity?.toLowerCase()}${breadcrumbData?.commodity?.toLowerCase() === "buffalo"
+                  ? `${breadcrumbData?.commodityLabel} area, million hectare (Mha)`
+                  : `Number of ${breadcrumbData?.commodityLabel?.toLowerCase()}${breadcrumbData?.commodityLabel?.toLowerCase() === "buffalo"
                     ? "es"
-                    : breadcrumbData?.commodity?.toLowerCase() === "sheep" || breadcrumbData?.commodity?.toLowerCase() === "cattle"
+                    : breadcrumbData?.commodityLabel?.toLowerCase() === "sheep" || breadcrumbData?.commodityLabel?.toLowerCase() === "cattle"
                       ? ""
                       : "s"
                   }, million (M)`}
@@ -336,7 +336,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, mapWidth, showHead
 
   // Render non-risk legend
   const renderDefaultLegend = () => {
-    if (!legendData?.base64 || !breadcrumbData?.commodity) return null;
+    if (!legendData?.base64 || !breadcrumbData?.commodityLabel) return null;
 
     return (
       <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", gap: 2 }}>
@@ -349,7 +349,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, mapWidth, showHead
             color: theme.palette.mode === "dark" ? "white" : "black",
           }}
         >
-          {`Area under: ${breadcrumbData.commodity || "Unknown"}`}
+          {`Area under: ${breadcrumbData.commodityLabel || "Unknown"}`}
         </Typography>
         <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
           <img

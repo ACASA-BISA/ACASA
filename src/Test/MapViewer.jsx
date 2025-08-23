@@ -1,16 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
-import {
-  Grid,
-  Box,
-  Breadcrumbs,
-  Typography,
-  Button,
-  CircularProgress,
-  useTheme,
-  Select,
-  MenuItem,
-  IconButton,
-} from "@mui/material";
+import { Grid, Box, Breadcrumbs, Typography, Button, CircularProgress, useTheme, Select, MenuItem, IconButton, } from "@mui/material";
 import BarChartIcon from "@mui/icons-material/BarChart"; // Icon for analytics toggle
 import Swal from "sweetalert2";
 import L from "leaflet";
@@ -553,8 +542,13 @@ function MapViewer({
       }
 
       setFileList(fileList);
+      const selectedCommodity = memoizedFilters.commodities?.find(
+        (item) => item.commodity_id === memoizedFilters?.commodity_id
+      );
+      const commodityLabel = selectedCommodity ? selectedCommodity.commodity : null;
       setBreadcrumbData({
         mask: data.mask || null,
+        commodityLabel: commodityLabel,
         commodity: data.commodity || null,
         level: data.level || null,
         model: data.model || null,
@@ -1523,15 +1517,6 @@ function MapViewer({
                   Scenario: {breadcrumbData.scenario}
                 </Typography>
               )}
-              {breadcrumbData.model && (
-                <Typography
-                  key="model"
-                  color="text.primary"
-                  sx={{ fontSize: "14px !important" }}
-                >
-                  Model: {breadcrumbData.model}
-                </Typography>
-              )}
             </Breadcrumbs>
           ) : (
             <Typography color="text.secondary" className="breadText">
@@ -1541,7 +1526,7 @@ function MapViewer({
         </Box>
         <IconButton
           onClick={toggleAnalytics}
-          title={showAnalytics ? "Hide Analytics" : "Show Analytics"}
+          title={showAnalytics ? "Hide climate projections" : "Show climate projections"}
           sx={{ ml: 2 }}
         >
           <BarChartIcon />
@@ -1579,7 +1564,7 @@ function MapViewer({
               (memoizedFilters?.layer_type === "adaptation" ||
                 memoizedFilters?.layer_type === "adaptation_croptab")
               ? "calc(100% - 80px)"
-              : "calc(100% - 30px)",
+              : "calc(100% - 36px)",
           width: "100%",
         }}
       >
@@ -1667,7 +1652,7 @@ function MapViewer({
                         (memoizedFilters?.layer_type === "adaptation" ||
                           memoizedFilters?.layer_type === "adaptation_croptab")
                         ? "calc(100% - 80px)"
-                        : "calc(100% - 30px)",
+                        : "calc(100% - 36px)",
                     width: "100%",
                     border: "1px solid #ededed",
                     position: "relative",
