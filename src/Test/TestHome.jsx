@@ -1,11 +1,166 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useMemo, useContext } from "react";
 import Slider from "react-slick";
-import { Box, Typography, Button, Stack, Card, CardContent, Container, Grid, Tabs, Tab } from "@mui/material";
+import {
+    Box,
+    Typography,
+    Button,
+    Stack,
+    Card,
+    CardContent,
+    Container,
+    Grid,
+    Tabs,
+    Tab,
+    useTheme,
+} from "@mui/material";
+import { Paper } from "@mui/material";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import CardMedia from "@mui/material/CardMedia";
 import StickyFooter from "../StickyFooter";
 import { useParams } from "react-router-dom";
+import { styled } from "@mui/material/styles";
+import ReactPlayer from "react-player";
+import Slide from "@mui/material/Slide";
+import PersonalVideoIcon from "@mui/icons-material/PersonalVideo";
+import SleekTooltip from "../SleekTooltip";
+import { ThemeContext } from "../ThemeContext";
+import LoadingPage from "../LoadingPage"; // Import the LoadingPage component
+import GppMaybeIcon from "@mui/icons-material/GppMaybe";
+
+const logoStyle3 = {
+    width: "77vw",
+    minHeight: "90vh",
+    margin: "auto",
+    marginTop: 20,
+};
+const logoStyle4 = {
+    height: "40px",
+    marginLeft: 6,
+    marginRight: 6,
+    marginTop: 10,
+    marginBottom: 10,
+};
+const thumbstyle = {
+    width: "100vw",
+};
+const logoStyle6 = { height: "88%", margin: "auto" };
+const logoStyle8 = { height: "55%", margin: "auto" };
+const logoStyle7 = { width: "90%", margin: "auto" };
+
+const paperHoverStyle = {
+    "m": 1,
+    "width": "220px",
+    "height": 90,
+    "alignContent": "center",
+    "transition": "transform 0.2s ease, box-shadow 0.2s ease",
+    ":hover": {
+        boxShadow: 3,
+        transform: "scale(1.03)",
+        cursor: "pointer",
+    },
+};
+
+/* Increase the resilience of small-scale producers to climate variability and change
+Increase the quality, availability, and utility of data and evidence
+Improve climate adaptive capacity of agricultural systems
+*/
+
+var items = [
+    {
+        video: "./Home_imgs/Nepal CG.jpg",
+        videothumb: "./Home_imgs/Nepal CG.jpg",
+        id: 1,
+    },
+    {
+        video: "./vid31.mp4",
+        videothumb: "./thumb31.jpg",
+        id: 2,
+    },
+    {
+        video: "./Home_imgs/India.jpg",
+        videothumb: "./Home_imgs/India.jpg",
+        id: 3,
+    },
+    {
+        video: "./vid5.mp4",
+        videothumb: "./thumb5.jpg",
+        id: 4,
+    },
+    {
+        video: "./Home_imgs/IMG_3188.jpg",
+        videothumb: "./Home_imgs/IMG_3188.jpg",
+        id: 5,
+    },
+    {
+        video: "./vid41.mp4",
+        videothumb: "./thumb41.jpg",
+        id: 6,
+    },
+    {
+        video: "./Home_imgs/CIMMYT (7).jpg",
+        videothumb: "./Home_imgs/CIMMYT (7).jpg",
+        id: 7,
+    },
+    {
+        video: "./Home_imgs/43425798842_884ba83b08_o.jpg",
+        videothumb: "./Home_imgs/43425798842_884ba83b08_o.jpg",
+        id: 8,
+    },
+    {
+        video: "./Home_imgs/CGIAR (1).jpg",
+        videothumb: "./Home_imgs/CGIAR (1).jpg",
+        id: 9,
+    },
+    {
+        video: "./Home_imgs/CIMMYT (8).jpg",
+        videothumb: "./Home_imgs/CIMMYT (8).jpg",
+        id: 10,
+    },
+    {
+        video: "./Home_imgs/Fertilizer application.jpg",
+        videothumb: "./Home_imgs/Fertilizer application.jpg",
+        id: 11,
+    },
+    {
+        video: "./Home_imgs/CIMMYT (3).jpg",
+        videothumb: "./Home_imgs/CIMMYT (3).jpg",
+        id: 12,
+    },
+    {
+        video: "./Home_imgs/28474558493_9ac0292ca6_o.jpg",
+        videothumb: "./Home_imgs/28474558493_9ac0292ca6_o.jpg",
+        id: 13,
+    },
+    {
+        video: "./Home_imgs/CGIAR (2).jpg",
+        videothumb: "./Home_imgs/CGIAR (2).jpg",
+        id: 14,
+    },
+    {
+        video: "./Home_imgs/CGIAR (3).jpg",
+        videothumb: "./Home_imgs/CGIAR (3).jpg",
+        id: 15,
+    },
+];
+
+const types = [
+    "Enhance adaptive capacity of agricultural systems through granular climate risk assessment and targeted adaptation options.",
+    "Strengthen the quality, accessibility, and usability of data and evidence to support climate-informed decision-making in agriculture.",
+    "Build resilience of small-scale producers to climate variability and change through data-driven climate adaptation options.",
+];
+
+const ImageOverlay = styled("span")(({ theme }) => ({
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    display: "flex",
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+    color: theme.palette.common.white,
+}));
 
 const slides = [
     {
@@ -34,18 +189,262 @@ const slides = [
 const rightCards = [
     {
         title: "Real-time Analytics",
-        description: "Strengthen the quality, accessibility, and usability of data and evidence to support climate-informed decision-making in agriculture.",
+        description:
+            "Strengthen the quality, accessibility, and usability of data and evidence to support climate-informed decision-making in agriculture.",
         image: "/images/v1.png",
     },
     {
         title: "Smart Irrigation",
-        description: "Enhance adaptive capacity of agricultural systems through granular climate risk assessment and targeted adaptation options.",
+        description:
+            "Enhance adaptive capacity of agricultural systems through granular climate risk assessment and targeted adaptation options.",
         image: "/images/v2.png",
     },
     {
         title: "Weather Forecast",
-        description: "Build resilience of small-scale producers to climate variability and change through data-driven climate adaptation options.",
+        description:
+            "Build resilience of small-scale producers to climate variability and change through data-driven climate adaptation options.",
         image: "/images/v3.png",
+    },
+];
+
+const useCases = [
+    {
+        title: "Government",
+        image: "/images/govt.png",
+        content: (
+            <>
+                <Typography component="p">
+                    ACASA can be useful for climate risk profiling and regional adaptation
+                    prioritisation. Insights from ACASA would help government agencies
+                    determine future investment requirements for climate risk mitigation and
+                    regional scaling opportunities.
+                </Typography>
+                <Typography variant="h5" component="h5">
+                    Evidence-based policymaking:
+                </Typography>
+                <Typography component="p">
+                    The Atlas provides data and analysis to support policymaking for
+                    climate-resilient agriculture and strategic resource allocation. The
+                    Atlas identifies sustainable practices and resilient farming methods to
+                    support rural climate-resilient infrastructure and finance requirements.
+                </Typography>
+                <Typography variant="h5" component="h5">
+                    National Adaptation Plan:
+                </Typography>
+                <Typography component="p">
+                    Atlas could provide relevant stakeholder-validated adaptation options to
+                    be integrated into the National Adaptation Plans of respective countries.
+                </Typography>
+                <Typography variant="h5" component="h5">
+                    Climate-Smart Villages:
+                </Typography>
+                <Typography component="p">
+                    Atlas will support scaling climate-resilient agriculture and villages by
+                    providing granular information on select implementation sites.
+                </Typography>
+            </>
+        ),
+    },
+    {
+        title: "Research",
+        image: "/images/research1.jpg",
+        content: (
+            <>
+                <Typography component="p">
+                    Empowering researchers with high-resolution, multi-dimensional data for
+                    robust climate agriculture analysis in South Asia.
+                </Typography>
+                <Typography variant="h5" component="h5">
+                    Agricultural research
+                </Typography>
+                <Typography component="p">
+                    Atlas provides a comprehensive platform for climate-related data products
+                    for agricultural research. Commodity-specific hazard and adaptation
+                    identification methodology and tools can be used for interdisciplinary
+                    research on various aspects of climate risk management.
+                </Typography>
+                <Typography variant="h5" component="h5">
+                    Impact evaluation and assessment
+                </Typography>
+                <Typography component="p">
+                    Atlas can enable hotspot identification and gendered vulnerability
+                    assessments at granular levels, ideal for targeted fieldwork or impact
+                    evaluation. ACASA’s repository of evidence on climate-smart agriculture
+                    practices allows researchers to validate hypotheses and derive regionally
+                    relevant findings.
+                </Typography>
+            </>
+        ),
+    },
+    {
+        title: "Civil Society",
+        image: "/images/civil.jpg",
+        content: (
+            <>
+                <Typography component="p">
+                    ACASA provides open-access and freely downloadable products on climate
+                    risk management in agriculture.
+                </Typography>
+                <Typography variant="h5" component="h5">
+                    Strengthen climate action
+                </Typography>
+                <Typography component="p">
+                    ACASA can help civil societies prioritize the interventions for climate
+                    action and promote climate-resilient agricultural practices and
+                    technologies as an adaptation measure to climate change.
+                </Typography>
+                <Typography variant="h5" component="h5">
+                    Climate-related proposal
+                </Typography>
+                <Typography component="p">
+                    ACASA can provide detailed insights and information in developing climate
+                    context for new project proposals.
+                </Typography>
+            </>
+        ),
+    },
+    {
+        title: "Credit and Finance",
+        image: "/images/credit.jpg",
+        content: (
+            <>
+                <Typography component="p">
+                    Enabling credit and financial institutions to leverage
+                    climate-agriculture data for risk-informed lending and climate-smart
+                    investment products.
+                </Typography>
+                <Typography variant="h5" component="h5">
+                    Credit re-assessment
+                </Typography>
+                <Typography component="p">
+                    Atlas to enable policy advocacy for facilitating the use of climate risk
+                    database for agricultural credit risk assessment, risk pricing, and asset
+                    quality.
+                </Typography>
+                <Typography variant="h5" component="h5">
+                    Development of Agri-financing products
+                </Typography>
+                <Typography component="p">
+                    Banks and MFIs can use ACASA to de-risk loans by aligning credit products
+                    with low-risk, high-solvency regions. Data on cost-benefit and
+                    scalability supports the design of climate-smart loan products and
+                    blended finance schemes.
+                </Typography>
+                <Typography variant="h5" component="h5">
+                    Gender-sensitive credit scheme
+                </Typography>
+                <Typography component="p">
+                    Gendered insights allow financial institutions to design women-focused
+                    credit solutions, encouraging inclusive lending.
+                </Typography>
+            </>
+        ),
+    },
+    {
+        title: "Multi-lateral Agencies",
+        image: "/images/multi.jpg",
+        content: (
+            <>
+                <Typography component="p">
+                    ACASA will provide multi-lateral agencies with strategic data insights
+                    and directions for adaptation investments in South Asia and facilitate
+                    more effective project design and planning.
+                </Typography>
+                <Typography variant="h5" component="h5">
+                    Climate finance
+                </Typography>
+                <Typography component="p">
+                    Agencies can systematically integrate ACASA adaptation recommendations in
+                    their climate finance planning process to align with the Paris Agreement
+                    and sustainable development goals. Data will support agencies in
+                    focusing on targeted investments such as climate-resilient food systems,
+                    landscapes, and livelihoods, especially in regions with high adaptation
+                    benefits.
+                </Typography>
+                <Typography variant="h5" component="h5">
+                    Targeted high-impact investments
+                </Typography>
+                <Typography component="p">
+                    Donors can utilize ACASA to prioritize high-impact locations for
+                    climate-smart agriculture projects benefiting small-scale farmers and
+                    promote adaptation strategies.
+                </Typography>
+                <Typography variant="h5" component="h5">
+                    Gender-intentional adaptations
+                </Typography>
+                <Typography component="p">
+                    The Atlas includes information on gender-intentional adaptations,
+                    guiding donors to promote equity in climate adaptation projects.
+                </Typography>
+                <Typography variant="h5" component="h5">
+                    Monitoring and evaluation
+                </Typography>
+                <Typography component="p">
+                    ACASA is an innovative tool for agencies as they constantly seek
+                    information and expertise in improving the effectiveness and impact of
+                    their initiative. Atlas provides accessible and actionable data through
+                    open-access, user-friendly tables and maps for informed resource
+                    allocation and structured interventions.
+                </Typography>
+            </>
+        ),
+    },
+    {
+        title: "Insurance Industry",
+        image: "/images/insurance.png",
+        content: (
+            <>
+                <Typography component="p">
+                    Atlas can support Agri-insurance agencies in developing satisfactory crop
+                    insurance products for dynamic small-scale producers, providing
+                    sufficient resolution at the village level.
+                </Typography>
+                <Typography variant="h5" component="h5">
+                    Methodology Improvement
+                </Typography>
+                <Typography component="p">
+                    A granular risk assessment of Atlas can aid in improving the existing
+                    methodology for insurance product design and payout mechanism.
+                    Implementing a parametric mechanism for insurance claims could improve
+                    efficiency, triggered only by specific conditions rather than random
+                    samples.
+                </Typography>
+                <Typography variant="h5" component="h5">
+                    Premium set-up
+                </Typography>
+                <Typography component="p">
+                    Enhancing risk quantification and identification to boost insurance
+                    penetration from current levels and premium set-up.
+                </Typography>
+            </>
+        ),
+    },
+    {
+        title: "Agri-food Industry",
+        image: "/images/agri.jpg",
+        content: (
+            <>
+                <Typography component="p">
+                    ACASA is committed to ensuring a sustainable agri-food industry and
+                    inclusive supply chains.
+                </Typography>
+                <Typography variant="h5" component="h5">
+                    Climate-friendly supply chains
+                </Typography>
+                <Typography component="p">
+                    Collaboration with farmers for sustainable and climate-resilient
+                    practices and equitable climate-friendly supply chains, ensuring an
+                    uninterrupted supply.
+                </Typography>
+                <Typography variant="h5" component="h5">
+                    Capacity development
+                </Typography>
+                <Typography component="p">
+                    Enhancing the capacity of the farming community for the adaptation to
+                    climatic hazards for livestock production.
+                </Typography>
+            </>
+        ),
     },
 ];
 
@@ -59,17 +458,35 @@ function TabPanel({ children, value, index }) {
     );
 }
 
-function TestHome() {
-    const { country } = useParams(); // Extract country from URL params
+function TestHome(props) {
+    const { country } = useParams();
+    const theme = useTheme();
+    const [value, setValue] = useState(0);
+    const [loading, setLoading] = useState(false);
 
-    const { countries } = useParams();
+    const mediaItems = useMemo(() => {
+        const copy = [...items];
+        const picked = [];
+        for (let i = 0; i < 3; i++) {
+            const idx = Math.floor(Math.random() * copy.length);
+            picked.push(copy.splice(idx, 1)[0]);
+        }
+        return picked;
+    }, []);
+
+
+    // cycle through those 3
+    const [mediaIdx, setMediaIdx] = useState(0);
+
+    // slide through the 3 types
+    const [typeIdx, setTypeIdx] = useState(0);
+
+    const currentMedia = mediaItems[mediaIdx];
 
     useEffect(() => {
         document.documentElement.style.overflowX = "hidden";
         document.body.style.overflowX = "hidden";
     }, []);
-
-    const [value, setValue] = React.useState(0);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -86,470 +503,863 @@ function TestHome() {
         arrows: false,
     };
 
-    // Define partner logos, filtering for Nepal if country is "nepal"
-    const partnerLogos = country === "nepal" ? [2] : [2, 4, 5, 6, 8, 9]; // Only NARC (partner-2.png) for Nepal
+    const partnerLogos = country === "nepal" ? [2] : [2, 4, 5, 6, 8, 9];
+    const contryLogos = [1, 2, 3, 4, 5, 6, 7, 8];
 
-    const contryLogos = countries === "" ? [1] : [1, 2, 3, 4, 5, 6, 7, 8];
+    const { mode } = useContext(ThemeContext);
+
+    if (loading) {
+        return <LoadingPage />; // Show loading screen while loading is true
+    }
+    const PopperMessage = () => (
+        <Box
+            sx={{
+                position: "absolute",
+                top: 10,
+                right: 20,
+                backgroundColor: (theme) => (theme.palette.mode === "dark" ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.7)"),
+                color: mode === "dark" ? "#e0e0e0" : "#ffffff",
+                padding: "10px",
+                borderRadius: "5px",
+                width: "250px",
+                textAlign: "center",
+                zIndex: 1000,
+            }}
+        >
+            <Typography variant="body2" fontStyle={"italic"}>
+                {" "}
+                <GppMaybeIcon fontSize="11px" sx={{ marginX: "2px", marginY: 0 }} />
+                Disclaimer: This is an internal test version of ACASA. Please do not cite or quote the data.
+            </Typography>
+        </Box>
+    );
 
     return (
-        <>
-            <Box className="carouselImg" sx={{ position: "relative", width: "100vw", height: "100vh" }}>
-                {/* Banner Slider */}
-                <Slider {...settings}>
-                    {slides.map((slide, index) => (
-                        <Box
-                            key={index}
-                            sx={{
-                                width: "100vw",
-                                height: "100vh",
-                                backgroundImage: `url(${slide.image})`,
-                                backgroundSize: "cover",
-                                backgroundPosition: "center",
-                                position: "relative",
-                            }}
-                        >
-                            {/* Slide Text & Buttons */}
+        <Box
+            sx={{
+                bgcolor: theme.palette.mode === "dark" ? "#2c2f34" : "#f5f5f5",
+            }}>
+
+            <div style={{ backgroundColor: theme.palette.mode === "dark" ? "#25292e" : "#ffffff" }}>
+                <Box sx={{ marginTop: "85px", display: { xs: "none", md: "block" } }}>
+
+                    <Paper sx={{ position: "relative", width: "100vw", height: "100vh", overflow: "hidden" }}>
+                        {/* Optional loading logic with thumbnail, if needed */}
+                        {loading && (
                             <Box
                                 sx={{
+                                    width: "100vw",
+                                    height: "100vh",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    backgroundColor: "#ffffff",
                                     position: "absolute",
-                                    bottom: { xs: 40, md: 80 },
-                                    left: { xs: 20, md: 80 },
-                                    color: "#fff",
-                                    background: "rgba(0, 0, 0, 0.5)",
-                                    p: 3,
-                                    borderRadius: 2,
-                                    zIndex: 2,
+                                    top: 0,
+                                    left: 0,
+                                    zIndex: 10,
                                 }}
                             >
-                                <Typography variant="h4" className="sliderTitle" sx={{ mb: 2 }}>
-                                    {slide.title}
-                                </Typography>
-                                <Stack direction="row" spacing={2}>
-                                    <Button className="btnExplore">{slide.buttonText}</Button>
-                                </Stack>
+                                <img src={props.item.videothumb} alt="Loading" style={thumbstyle} />
+                            </Box>
+                        )}
+
+                        {/* Background video or image */}
+                        {currentMedia.video.match(/\.(mp4|webm)$/) ? (
+                            <ReactPlayer
+                                url={currentMedia.video}
+                                playing
+                                loop
+                                muted
+                                width="100vw"
+                                height="100vh"
+                                style={{
+                                    position: "absolute",
+                                    top: 0,
+                                    left: 0,
+                                    objectFit: "cover",
+                                    display: loading ? "none" : "block",
+                                }}
+                                config={{
+                                    file: {
+                                        attributes: {
+                                            style: {
+                                                width: "100%",
+                                                height: "100%",
+                                                objectFit: "cover",
+                                            },
+                                        },
+                                    },
+                                }}
+                            />
+                        ) : (
+                            <Box
+                                component="img"
+                                src={currentMedia.video}
+                                alt=""
+                                sx={{
+                                    width: "100%",
+                                    height: "100%",
+                                    objectFit: "cover",
+                                    position: "absolute",
+                                    top: 0,
+                                    left: 0,
+                                    display: loading ? "none" : "block",
+                                }}
+                            />
+                        )}
+
+                        {/* Overlay */}
+                        <Box
+                            sx={{
+                                backgroundColor: "#111111",
+                                opacity: 0.3,
+                                position: "absolute",
+                                top: 0,
+                                bottom: 0,
+                                left: 0,
+                                right: 0,
+                                zIndex: 1,
+                            }}
+                        />
+
+                        {/* Foreground content */}
+                        <Box
+                            sx={{
+                                position: "relative",
+                                zIndex: 2,
+                                display: "flex",
+                                m: 1,
+                                ml: 7,
+                                mt: 5,
+                                p: 2,
+                                width: "35vw",
+                                flexDirection: "column",
+                                textAlign: { sm: "left", md: "left" },
+                            }}
+                        >
+                            <Typography
+                                variant="h4"
+                                sx={(theme) => ({
+                                    color: theme.palette.mode === "dark" ? "#000000" : "#ffffff",
+                                    fontWeight: "bold",
+                                    textShadow: theme.palette.mode === "dark" ? "2px 2px 5px rgba(0, 0, 0, 0.6)" : "2px 2px 5px rgba(0, 0, 0, 0.25), -2px -2px 5px rgba(0, 0, 0, 0.25)",
+                                })}
+                            >
+                                Atlas of Climate Adaptation in South Asian Agriculture
+                            </Typography>
+                            <Typography
+                                variant="subtitle1"
+                                sx={(theme) => ({
+                                    fontWeight: "bold",
+                                    mt: 2,
+                                    color: theme.palette.mode === "dark" ? "#000000" : "#ffffff",
+                                })}
+                            >
+                                Interconnections between climate risks, practices, technologies, and policies
+                            </Typography>
+
+                            <Box
+                                sx={(theme) => ({
+                                    background:
+                                        theme.palette.mode === "dark"
+                                            ? "linear-gradient(to right, rgba(99, 99, 99, 0.7), rgba(240, 240, 240, 0.7))"
+                                            : "linear-gradient(to right, rgba(255, 254, 227,0.4), rgba(0, 0, 0, 0.3))",
+                                    mt: "90px",
+                                    ml: -9,
+                                    mr: -3,
+                                })}
+                            >
+                                <Slide key={typeIdx} direction="right" in={true} timeout={500} mountOnEnter unmountOnExit>
+                                    <Typography
+                                        variant="h6"
+                                        sx={(theme) => ({
+                                            ml: 9,
+                                            mr: 3,
+                                            color: theme.palette.mode === "dark" ? "#000000" : "#ffffff",
+                                        })}
+                                    >
+                                        {types[typeIdx]}
+                                    </Typography>
+                                </Slide>
+                            </Box>
+
+                            <Button
+                                variant="contained"
+                                href="/#/dashboard"
+                                sx={(theme) => ({
+                                    "width": "160px",
+                                    "mt": 6,
+                                    "mb": 2,
+                                    "fontSize": "18px",
+                                    "flexShrink": 0,
+                                    "color": theme.palette.mode === "dark" ? "#ffffff" : "#000000",
+                                    "fontWeight": "bold",
+                                    "backgroundColor": theme.palette.mode === "dark" ? "#B88F1A" : "#fece2f",
+                                    "&:hover": {
+                                        backgroundColor: theme.palette.mode === "dark" ? "#B88F1A" : "#fece2f",
+                                    },
+                                })}
+                            >
+                                Explore
+                            </Button>
+                        </Box>
+
+                        <PopperMessage />
+                    </Paper>
+
+                    <Box
+                        sx={{
+                            position: "relative",
+                            display: "flex",
+                            flexDirection: "row",
+                            width: "95vw",
+                            margin: "auto",
+                            boxShadow: theme.palette.mode === "dark" ? "0px 1px 5px rgba(0, 0, 0, 0.5)" : "0px 1px 5px #aaa",
+                            border: `9px solid ${theme.palette.mode === "dark" ? "#2d3238" : "#f8faf0"}`,
+                            borderRadius: "10px",
+                            backgroundColor: theme.palette.mode === "dark" ? "#2d3238" : "#f8faf0",
+                            height: "auto",
+                            marginTop: -5,
+                            zIndex: 200,
+                        }}
+                    >
+                        <Box sx={{ width: "100%" }}>
+                            <img src={"afghanistan.svg"} style={logoStyle4} alt="afghanistan" loading="lazy" />
+                            <img src={"bangladesh.png"} style={logoStyle4} alt="bangladesh" loading="lazy" />
+                            <img src={"bhutan.svg"} style={logoStyle4} alt="bhutan" loading="lazy" />
+                            <img src={"india.png"} style={logoStyle4} alt="india" loading="lazy" />
+                            <img src={"maldives.svg"} style={logoStyle4} alt="maldives" loading="lazy" />
+                            <img src={"nepal.svg"} style={logoStyle4} alt="nepal" loading="lazy" />
+                            <img src={"pakistan.svg"} style={logoStyle4} alt="pakistan" loading="lazy" />
+                            <img src={"srilanka.png"} style={logoStyle4} alt="srilanka" loading="lazy" />
+                        </Box>
+                    </Box>
+
+                    <Box sx={{ mt: "20px" }}>
+                        <Typography
+                            variant="h2"
+                            sx={{
+                                color: theme.palette.mode === "dark" ? "#F2F4F3" : "#1a1d21",
+                                fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+                                textAlign: "center",
+                            }}
+                        >
+                            ACASA Approach
+                        </Typography>
+                        <img
+                            src="Approach (1)-cropped.svg"
+                            style={{
+                                ...logoStyle3,
+                                filter: theme.palette.mode === "dark" ? "invert(93%) sepia(5%) saturate(166%) hue-rotate(202deg) brightness(100%) contrast(91%)" : "none",
+                            }}
+                            alt="approach"
+                            loading="lazy"
+                        />
+                    </Box>
+                    <Box
+                        sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                            width: { xs: "100%", sm: "100%" },
+                            paddingBottom: 10,
+                            paddinTop: 5,
+                            backgroundColor: theme.palette.mode === "dark" ? "#1b1f23" : "#f7f7f7",
+                        }}
+                    >
+                        <Box sx={{ marginLeft: 7, marginRight: 7, marginTop: 4 }}>
+                            <Typography
+                                sx={{
+                                    color: theme.palette.mode === "dark" ? "#e0e0e0" : "#111111",
+                                    fontWeight: "bold",
+                                    fontSize: "30px",
+                                    fontFamily: "revert",
+                                    marginBottom: "4px",
+                                }}
+                            >
+                                Our Partners
+                            </Typography>
+                            {/*  */}
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    justifyContent: "center",
+                                    width: { xs: "100%", sm: "100%" },
+                                }}
+                                gap="0.5vw"
+                            >
+                                <SleekTooltip title="Bangladesh Agricultural Research Council (BARC)" arrow placement="top">
+                                    <Paper sx={paperHoverStyle} elevation={0}>
+                                        <img src={"barc.png"} style={logoStyle6} alt="barc" loading="lazy" />
+                                    </Paper>
+                                </SleekTooltip>
+                                <SleekTooltip title="Indian Council of Agricultural Research" arrow placement="top">
+                                    <Paper sx={paperHoverStyle} elevation={0}>
+                                        <img src={"icar.png"} style={logoStyle6} alt="icar" loading="lazy" />
+                                    </Paper>
+                                </SleekTooltip>
+                                <SleekTooltip title="Nepal Agricultural Research Council" arrow placement="top">
+                                    <Paper sx={paperHoverStyle} elevation={0}>
+                                        <img src={"narc.png"} style={logoStyle6} alt="narc" loading="lazy" />
+                                    </Paper>
+                                </SleekTooltip>
+                                <SleekTooltip title="Natural Resources Management Center (NRMC)" arrow placement="top">
+                                    <Paper sx={paperHoverStyle} elevation={0}>
+                                        <img src={"nrmc.png"} style={logoStyle6} alt="nrmc" loading="lazy" />
+                                    </Paper>
+                                </SleekTooltip>
+                            </Box>
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    width: { xs: "100%", sm: "100%" },
+                                    justifyContent: "center",
+                                }}
+                                gap="0.5vw"
+                            >
+                                <SleekTooltip title="International Maize and Wheat Improvement Center" arrow>
+                                    <Paper sx={paperHoverStyle} elevation={0}>
+                                        <img src={"cimmyt-cgiar.png"} style={logoStyle7} alt="cimmyt" loading="lazy" />
+                                    </Paper>
+                                </SleekTooltip>
+                                <SleekTooltip title="Gates Foundation" arrow>
+                                    <Paper sx={paperHoverStyle} elevation={0}>
+                                        <img src={theme.palette.mode === "dark" ? "GF PRIMARY LOGO_light.png" : "GF PRIMARY LOGO_Dark.png"} style={logoStyle7} alt="gates" loading="lazy" />
+                                    </Paper>
+                                </SleekTooltip>
+                                <SleekTooltip title="University of Florida" arrow>
+                                    <Paper sx={paperHoverStyle} elevation={0}>
+                                        <img src={"south-asia-11.svg"} style={logoStyle7} alt="florida" loading="lazy" />
+                                    </Paper>
+                                </SleekTooltip>
+                                <SleekTooltip title="Columbia University" arrow>
+                                    <Paper sx={paperHoverStyle} elevation={0}>
+                                        <img src={"columbia-university.png"} style={logoStyle6} alt="columbia" loading="lazy" />
+                                    </Paper>
+                                </SleekTooltip>
+                                <SleekTooltip title="Evans School Policy Analysis and Research (EPAR), University of Washington" arrow>
+                                    <Paper sx={paperHoverStyle} elevation={0}>
+                                        <img src={"Univ of Washington.png"} alt="washington" style={{ width: "90%", height: "auto", objectFit: "contain", display: "block", margin: "0 auto" }} loading="lazy" />
+                                    </Paper>
+                                </SleekTooltip>
                             </Box>
                         </Box>
-                    ))}
-                </Slider>
+                    </Box>
+                </Box>
 
-                {/* Overlay Right Cards */}
                 <Box
                     sx={{
-                        position: "absolute",
-                        top: "50%",
-                        right: 20,
-                        transform: "translateY(-50%)",
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: 2,
-                        zIndex: 3,
-                        width: { xs: "80%", sm: "300px" },
+                        marginTop: "80px",
+                        width: "100%",
+                        height: "calc(100vh - 80px)",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        display: { xs: "flex", md: "none" },
                     }}
                 >
-                    {rightCards.map((card, idx) => (
-                        <Card key={idx} className="cardImg" sx={{ backgroundColor: "rgba(255, 255, 255, 0.10)", borderRadius: "20px", backdropFilter: "blur(25px)" }}>
-                            {card.image && (
-                                <CardMedia component="img" height="50px" width="50px" image={card.image} alt={card.title} />
-                            )}
-                            <CardContent>
-                                <Typography variant="body2" color="text.secondary">
-                                    {card.description}
-                                </Typography>
-                            </CardContent>
-                        </Card>
-                    ))}
+                    <Typography
+                        style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            color: theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",
+                        }}
+                    >
+                        <PersonalVideoIcon style={{ fontSize: 40 }} /> This website is designed for desktop. Please view in a bigger screen.
+                    </Typography>
                 </Box>
-            </Box>
+            </div>
 
             <Container maxWidth="sm">
-                <Box className="AboutSection">
-                    <h1>
+                <Box
+                    className="AboutSection"
+                    sx={{
+                        p: 2,
+                        bgcolor: theme.palette.mode === "dark" ? "#2c2f34" : "#f5f5f5",
+                        borderRadius: "12px",
+                        boxShadow:
+                            theme.palette.mode === "dark"
+                                ? "0px 4px 10px rgba(0,0,0,0.4)"
+                                : "0px 4px 10px rgba(0,0,0,0.1)",
+                    }}
+                >
+                    <Typography
+                        variant="h1"
+                        sx={{
+                            color: theme.palette.mode === "dark" ? "#f5f5f5" : "#4ba046",
+                            fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+                            fontWeight: "bold",
+                            "& span": {
+                                color: theme.palette.mode === "dark" ? "#b0e3ae" : "#c4ecc2",
+                            },
+                        }}
+                    >
                         Explore <span>Climate Risk</span> Like Never Before
-                    </h1>
-                    <h4>Village-Level Maps to Inform Real-World Action</h4>
-                    <p>
-                        Our interactive maps are designed to help policymakers, researchers, NGOs, and farmers visualize climate-related risks and opportunities at an unprecedented resolution — down to the village level. Built using climate, crop, and socioeconomic data, the maps empower users to plan smarter and adapt faster.
-                    </p>
+                    </Typography>
+                    <Typography
+                        variant="h4"
+                        sx={{
+                            color: theme.palette.text.primary,
+                            fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+                            mt: 2,
+                        }}
+                    >
+                        Village-Level Maps to Inform Real-World Action
+                    </Typography>
+                    <Typography
+                        sx={{
+                            color: theme.palette.text.primary,
+                            fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+                            mt: 2,
+                            fontSize: "1rem",
+                            lineHeight: 1.6,
+                        }}
+                    >
+                        Our interactive maps are designed to help policymakers, researchers,
+                        NGOs, and farmers visualize climate-related risks and opportunities at
+                        an unprecedented resolution — down to the village level. Built using
+                        climate, crop, and socioeconomic data, the maps empower users to plan
+                        smarter and adapt faster.
+                    </Typography>
                 </Box>
             </Container>
 
             <Container maxWidth="md">
-                <Box className="" sx={{ mt: 4, mb: 4 }}>
+                <Box sx={{ mt: 4, mb: 4 }}>
                     <Grid container spacing={2}>
-                        <Grid item xs={12} sm={6} md={4}>
-                            <Card className="card1">
-                                <CardContent className="cardBody">
-                                    <p>🔍</p>
-                                    <p> Zoom in to view risks at sub-district and village scales</p>
-                                </CardContent>
-                            </Card>
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                            <Card className="card1">
-                                <CardContent className="cardBody">
-                                    <p>🌾</p>
-                                    <p>Visualize climate hazards including droughts, floods, and heat stress</p>
-                                </CardContent>
-                            </Card>
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                            <Card className="card1">
-                                <CardContent className="cardBody">
-                                    <p>🧑‍🌾</p>
-                                    <p> Identify vulnerable regions for key crops and livestock</p>
-                                </CardContent>
-                            </Card>
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                            <Card className="card1">
-                                <CardContent className="cardBody">
-                                    <p>🛠 </p>
-                                    <p>Discover locally relevant adaptation options</p>
-                                </CardContent>
-                            </Card>
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                            <Card className="card1">
-                                <CardContent className="cardBody">
-                                    <p>📊 </p>
-                                    <p>Filter by country, crop, and hazard type</p>
-                                </CardContent>
-                            </Card>
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                            <Card className="card1">
-                                <CardContent className="cardBody">
-                                    <p>🧭 </p>
-                                    <p> Support decision-making for insurance, planning, and investments</p>
-                                </CardContent>
-                            </Card>
-                        </Grid>
+                        {[
+                            {
+                                emoji: "🔍",
+                                text: "Zoom in to view risks at sub-district and village scales",
+                            },
+                            {
+                                emoji: "🌾",
+                                text: "Visualize climate hazards including droughts, floods, and heat stress",
+                            },
+                            {
+                                emoji: "🧑‍🌾",
+                                text: "Identify vulnerable regions for key crops and livestock",
+                            },
+                            { emoji: "🛠", text: "Discover locally relevant adaptation options" },
+                            { emoji: "📊", text: "Filter by country, crop, and hazard type" },
+                            {
+                                emoji: "🧭",
+                                text: "Support decision-making for insurance, planning, and investments",
+                            },
+                        ].map((item, idx) => (
+                            <Grid item xs={12} sm={6} md={4} key={idx}>
+                                <Card
+                                    className="card1"
+                                    sx={{
+                                        bgcolor:
+                                            theme.palette.mode === "dark" ? "#2c2f34" : "#ffffff",
+                                        borderRadius: "12px",
+                                        boxShadow:
+                                            theme.palette.mode === "dark"
+                                                ? "0px 4px 10px rgba(0,0,0,0.4)"
+                                                : "0px 4px 10px rgba(0,0,0,0.1)",
+                                    }}
+                                >
+                                    <CardContent
+                                        className="cardBody"
+                                        sx={{
+                                            color: theme.palette.text.primary,
+                                            fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+                                            textAlign: "center",
+                                        }}
+                                    >
+                                        <Typography sx={{ fontSize: "1.5rem" }}>
+                                            {item.emoji}
+                                        </Typography>
+                                        <Typography sx={{ fontSize: "1rem", lineHeight: 1.6 }}>
+                                            {item.text}
+                                        </Typography>
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                        ))}
                     </Grid>
                 </Box>
             </Container>
 
-            <Container maxWidth="xl" className="" sx={{ bgcolor: "#F2F4F3" }}>
+            <Container
+                maxWidth="xl"
+                sx={{
+                    bgcolor: theme.palette.mode === "dark" ? "#1a1d21" : "#F2F4F3",
+                }}
+            >
                 <Box className="aboutSectionApproach" sx={{ mt: 4, mb: 4, p: 5 }}>
-                    <h1>ACASA Approach</h1>
+                    <Typography
+                        variant="h1"
+                        sx={{
+                            color: theme.palette.mode === "dark" ? "#F2F4F3" : "#1a1d21",
+                            fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+                            textAlign: "center",
+                        }}
+                    >
+                        ACASA Approach
+                    </Typography>
                     <Container maxWidth="lg">
-                        <img src="/images/approach.svg" className="w-100" alt="" />
-                        <Button className="btn btnAbout">More About Us</Button>
+                        <img
+                            className="w-100"
+                            src="Approach (1)-cropped.svg"
+                            style={{
+                                filter: theme.palette.mode === "dark" ? "invert(93%) sepia(5%) saturate(166%) hue-rotate(202deg) brightness(100%) contrast(91%)" : "none",
+                            }}
+                            alt="approach"
+                            loading="lazy"
+                        />
+                        {/* <img src="/images/approach.svg" alt="" /> */}
+                        <Button
+                            className="btn btnAbout"
+                            sx={{
+                                bgcolor: theme.palette.mode === "dark" ? "#61c258" : "#4C9E46",
+                                color: "#ffffff",
+                                mt: 2,
+                                "&:hover": {
+                                    bgcolor: theme.palette.mode === "dark" ? "#4ba046" : "#3d8b3a",
+                                },
+                            }}
+                        >
+                            More About Us
+                        </Button>
                     </Container>
                 </Box>
             </Container>
 
-            <Container maxWidth="xl" className="">
+            <Container
+                maxWidth="xl"
+                sx={{
+                    bgcolor: theme.palette.mode === "dark" ? "#25292e" : "#ffffff",
+                }}
+            >
                 <Box className="aboutSectionApproach" sx={{ mt: 0, mb: 4 }}>
-                    <h1>Use Cases</h1>
-                    <Tabs className="btnTabs" value={value} onChange={handleChange} centered>
-                        <Tab className="tabBtn" label="Government" />
-                        <Tab className="tabBtn" label="Research" />
-                        <Tab className="tabBtn" label="Civil Society" />
-                        <Tab className="tabBtn" label="Credit and Finance" />
-                        <Tab className="tabBtn" label="Multi-lateral Agencies" />
-                        <Tab className="tabBtn" label="Insurance Industry" />
-                        <Tab className="tabBtn" label="Agri-food Industry" />
+                    <Typography
+                        variant="h1"
+                        sx={{
+                            color: theme.palette.mode === "dark" ? "#61c258" : "#4ba046",
+                            fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+                            textAlign: "center",
+                        }}
+                    >
+                        Use Cases
+                    </Typography>
+                    <Tabs
+                        className="btnTabs"
+                        value={value}
+                        onChange={handleChange}
+                        centered
+                        sx={{
+                            "& .MuiTab-root": {
+                                color:
+                                    theme.palette.mode === "dark" ? "#cccccc" : "#00000080",
+                                fontFamily: '"Poppins", "Roboto", sans-serif',
+                                fontWeight: 400,
+                            },
+                            "& .Mui-selected": {
+                                color: "#ffffff",
+                                bgcolor: theme.palette.mode === "dark" ? "#61c258" : "#4C9E46",
+                                borderRadius: "12px",
+                            },
+                            "& .MuiTabs-indicator": {
+                                display: "none",
+                            },
+                        }}
+                    >
+                        {useCases.map((useCase, index) => (
+                            <Tab
+                                key={index}
+                                className="tabBtn"
+                                label={useCase.title}
+                                sx={{
+                                    borderRadius: "12px",
+                                    mx: 1,
+                                    "&.Mui-selected": {
+                                        bgcolor:
+                                            theme.palette.mode === "dark" ? "#61c258" : "#4C9E46",
+                                        color: "#ffffff",
+                                    },
+                                }}
+                            />
+                        ))}
                     </Tabs>
 
-                    <TabPanel value={value} index={0}>
-                        <Container maxWidth="xl" className="">
-                            <Card className="roundedCard" sx={{ maxWidth: "100%", m: 2 }}>
-                                <CardContent>
-                                    <Grid container spacing={2} justifyContent="space-between">
-                                        <Grid item sx={{ flexBasis: "40%" }}>
-                                            <Box className="tabBox"></Box>
+                    {useCases.map((useCase, index) => (
+                        <TabPanel key={index} value={value} index={index}>
+                            <Container maxWidth="xl">
+                                <Card
+                                    className="roundedCard"
+                                    sx={{
+                                        maxWidth: "100%",
+                                        m: 2,
+                                        bgcolor:
+                                            theme.palette.mode === "dark" ? "#2c2f34" : "#f2f4f3",
+                                        borderRadius: "12px",
+                                        boxShadow:
+                                            theme.palette.mode === "dark"
+                                                ? "0px 4px 10px rgba(0,0,0,0.4)"
+                                                : "0px 4px 10px rgba(0,0,0,0.1)",
+                                    }}
+                                >
+                                    <CardContent>
+                                        <Grid container spacing={2} justifyContent="space-between">
+                                            <Grid item xs={12} md={5}>
+                                                <Box sx={{ width: "100%", height: "100%", p: 0 }}>
+                                                    <Box
+                                                        component="img"
+                                                        src={useCase.image}
+                                                        alt={useCase.title}
+                                                        sx={{
+                                                            width: "100%",
+                                                            height: "auto",
+                                                            objectFit: "contain",
+                                                            display: "block",
+                                                            borderRadius: "8px",
+                                                        }}
+                                                    />
+                                                </Box>
+                                            </Grid>
+                                            <Grid item xs={12} md={7}>
+                                                <Box
+                                                    sx={{
+                                                        p: 3,
+                                                        pt: 0,
+                                                        color: theme.palette.text.primary,
+                                                        "& h1": {
+                                                            fontFamily:
+                                                                '"Roboto", "Helvetica", "Arial", sans-serif',
+                                                            color:
+                                                                theme.palette.mode === "dark"
+                                                                    ? "#61c258"
+                                                                    : "#4ba046",
+                                                            fontSize: "1.5rem",
+                                                            fontWeight: "bold",
+                                                        },
+                                                        "& p": {
+                                                            fontFamily:
+                                                                '"Roboto", "Helvetica", "Arial", sans-serif',
+                                                            fontSize: "1rem",
+                                                            lineHeight: 1.6,
+                                                        },
+                                                        "& h5": {
+                                                            fontFamily:
+                                                                '"Roboto", "Helvetica", "Arial", sans-serif',
+                                                            color:
+                                                                theme.palette.mode === "dark"
+                                                                    ? "#b0e3ae"
+                                                                    : "#4ba046",
+                                                            margin: theme.spacing(2, 0, 1),
+                                                        },
+                                                    }}
+                                                >
+                                                    <Typography variant="h1">{useCase.title}</Typography>
+                                                    {useCase.content}
+                                                </Box>
+                                            </Grid>
                                         </Grid>
-                                        <Grid item sx={{ flexBasis: "60%" }}>
-                                            <Box className="contentBox">
-                                                <h1>Government</h1>
-                                                <p>
-                                                    ACASA can be useful for climate risk profiling and regional adaptation prioritisation. Insights from ACASA would help government agencies determine future investment requirements for climate risk mitigation and regional scaling opportunities.
-                                                </p>
-                                                <h5>Evidence-based policymaking:</h5>
-                                                <p>
-                                                    The Atlas provides data and analysis to support policymaking for climate-resilient agriculture and strategic resource allocation. The Atlas identifies sustainable practices and resilient farming methods to support rural climate-resilient infrastructure and finance requirements.
-                                                </p>
-                                                <h5>National Adaptation Plan:</h5>
-                                                <p>
-                                                    Atlas could provide relevant stakeholder-validated adaptation options to be integrated into the National Adaptation Plans of respective countries.
-                                                </p>
-                                                <h5>Climate-Smart Villages:</h5>
-                                                <p>
-                                                    Atlas will support scaling climate-resilient agriculture and villages by providing granular information on select implementation sites.
-                                                </p>
-                                            </Box>
-                                        </Grid>
-                                    </Grid>
-                                </CardContent>
-                            </Card>
-                        </Container>
-                    </TabPanel>
+                                    </CardContent>
+                                </Card>
+                            </Container>
+                        </TabPanel>
+                    ))}
 
-                    <TabPanel value={value} index={1}>
-                        <Container maxWidth="xl" className="">
-                            <Card className="roundedCard" sx={{ maxWidth: "100%", m: 2 }}>
-                                <CardContent>
-                                    <Grid container spacing={2} justifyContent="space-between">
-                                        <Grid item sx={{ flexBasis: "40%" }}>
-                                            <Box className="tabBox"></Box>
-                                        </Grid>
-                                        <Grid item sx={{ flexBasis: "60%" }}>
-                                            <Box className="contentBox">
-                                                <h1>Research</h1>
-                                                <p>
-                                                    ACASA can be useful for climate risk profiling and regional adaptation prioritisation. Insights from ACASA would help government agencies determine future investment requirements for climate risk mitigation and regional scaling opportunities.
-                                                </p>
-                                                <h5>Evidence-based policymaking:</h5>
-                                                <p>
-                                                    The Atlas provides data and analysis to support policymaking for climate-resilient agriculture and strategic resource allocation. The Atlas identifies sustainable practices and resilient farming methods to support rural climate-resilient infrastructure and finance requirements.
-                                                </p>
-                                                <h5>National Adaptation Plan:</h5>
-                                                <p>
-                                                    Atlas could provide relevant stakeholder-validated adaptation options to be integrated into the National Adaptation Plans of respective countries.
-                                                </p>
-                                                <h5>Climate-Smart Villages:</h5>
-                                                <p>
-                                                    Atlas will support scaling climate-resilient agriculture and villages by providing granular information on select implementation sites.
-                                                </p>
-                                            </Box>
-                                        </Grid>
-                                    </Grid>
-                                </CardContent>
-                            </Card>
-                        </Container>
-                    </TabPanel>
-
-                    <TabPanel value={value} index={2}>
-                        <Container maxWidth="xl" className="">
-                            <Card className="roundedCard" sx={{ maxWidth: "100%", m: 2 }}>
-                                <CardContent>
-                                    <Grid container spacing={2} justifyContent="space-between">
-                                        <Grid item sx={{ flexBasis: "40%" }}>
-                                            <Box className="tabBox"></Box>
-                                        </Grid>
-                                        <Grid item sx={{ flexBasis: "60%" }}>
-                                            <Box className="contentBox">
-                                                <h1>Civil Society</h1>
-                                                <p>
-                                                    ACASA can be useful for climate risk profiling and regional adaptation prioritisation. Insights from ACASA would help government agencies determine future investment requirements for climate risk mitigation and regional scaling opportunities.
-                                                </p>
-                                                <h5>Evidence-based policymaking:</h5>
-                                                <p>
-                                                    The Atlas provides data and analysis to support policymaking for climate-resilient agriculture and strategic resource allocation. The Atlas identifies sustainable practices and resilient farming methods to support rural climate-resilient infrastructure and finance requirements.
-                                                </p>
-                                                <h5>National Adaptation Plan:</h5>
-                                                <p>
-                                                    Atlas could provide relevant stakeholder-validated adaptation options to be integrated into the National Adaptation Plans of respective countries.
-                                                </p>
-                                                <h5>Climate-Smart Villages:</h5>
-                                                <p>
-                                                    Atlas will support scaling climate-resilient agriculture and villages by providing granular information on select implementation sites.
-                                                </p>
-                                            </Box>
-                                        </Grid>
-                                    </Grid>
-                                </CardContent>
-                            </Card>
-                        </Container>
-                    </TabPanel>
-
-                    <TabPanel value={value} index={3}>
-                        <Container maxWidth="xl" className="">
-                            <Card className="roundedCard" sx={{ maxWidth: "100%", m: 2 }}>
-                                <CardContent>
-                                    <Grid container spacing={2} justifyContent="space-between">
-                                        <Grid item sx={{ flexBasis: "40%" }}>
-                                            <Box className="tabBox"></Box>
-                                        </Grid>
-                                        <Grid item sx={{ flexBasis: "60%" }}>
-                                            <Box className="contentBox">
-                                                <h1>Credit and Finance</h1>
-                                                <p>
-                                                    ACASA can be useful for climate risk profiling and regional adaptation prioritisation. Insights from ACASA would help government agencies determine future investment requirements for climate risk mitigation and regional scaling opportunities.
-                                                </p>
-                                                <h5>Evidence-based policymaking:</h5>
-                                                <p>
-                                                    The Atlas provides data and analysis to support policymaking for climate-resilient agriculture and strategic resource allocation. The Atlas identifies sustainable practices and resilient farming methods to support rural climate-resilient infrastructure and finance requirements.
-                                                </p>
-                                                <h5>National Adaptation Plan:</h5>
-                                                <p>
-                                                    Atlas could provide relevant stakeholder-validated adaptation options to be integrated into the National Adaptation Plans of respective countries.
-                                                </p>
-                                                <h5>Climate-Smart Villages:</h5>
-                                                <p>
-                                                    Atlas will support scaling climate-resilient agriculture and villages by providing granular information on select implementation sites.
-                                                </p>
-                                            </Box>
-                                        </Grid>
-                                    </Grid>
-                                </CardContent>
-                            </Card>
-                        </Container>
-                    </TabPanel>
-
-                    <TabPanel value={value} index={4}>
-                        <Container maxWidth="xl" className="">
-                            <Card className="roundedCard" sx={{ maxWidth: "100%", m: 2 }}>
-                                <CardContent>
-                                    <Grid container spacing={2} justifyContent="space-between">
-                                        <Grid item sx={{ flexBasis: "40%" }}>
-                                            <Box className="tabBox"></Box>
-                                        </Grid>
-                                        <Grid item sx={{ flexBasis: "60%" }}>
-                                            <Box className="contentBox">
-                                                <h1>Multi-lateral Agencies</h1>
-                                                <p>
-                                                    ACASA can be useful for climate risk profiling and regional adaptation prioritisation. Insights from ACASA would help government agencies determine future investment requirements for climate risk mitigation and regional scaling opportunities.
-                                                </p>
-                                                <h5>Evidence-based policymaking:</h5>
-                                                <p>
-                                                    The Atlas provides data and analysis to support policymaking for climate-resilient agriculture and strategic resource allocation. The Atlas identifies sustainable practices and resilient farming methods to support rural climate-resilient infrastructure and finance requirements.
-                                                </p>
-                                                <h5>National Adaptation Plan:</h5>
-                                                <p>
-                                                    Atlas could provide relevant stakeholder-validated adaptation options to be integrated into the National Adaptation Plans of respective countries.
-                                                </p>
-                                                <h5>Climate-Smart Villages:</h5>
-                                                <p>
-                                                    Atlas will support scaling climate-resilient agriculture and villages by providing granular information on select implementation sites.
-                                                </p>
-                                            </Box>
-                                        </Grid>
-                                    </Grid>
-                                </CardContent>
-                            </Card>
-                        </Container>
-                    </TabPanel>
-
-                    <TabPanel value={value} index={5}>
-                        <Container maxWidth="xl" className="">
-                            <Card className="roundedCard" sx={{ maxWidth: "100%", m: 2 }}>
-                                <CardContent>
-                                    <Grid container spacing={2} justifyContent="space-between">
-                                        <Grid item sx={{ flexBasis: "40%" }}>
-                                            <Box className="tabBox"></Box>
-                                        </Grid>
-                                        <Grid item sx={{ flexBasis: "60%" }}>
-                                            <Box className="contentBox">
-                                                <h1>Insurance Industry</h1>
-                                                <p>
-                                                    ACASA can be useful for climate risk profiling and regional adaptation prioritisation. Insights from ACASA would help government agencies determine future investment requirements for climate risk mitigation and regional scaling opportunities.
-                                                </p>
-                                                <h5>Evidence-based policymaking:</h5>
-                                                <p>
-                                                    The Atlas provides data and analysis to support policymaking for climate-resilient agriculture and strategic resource allocation. The Atlas identifies sustainable practices and resilient farming methods to support rural climate-resilient infrastructure and finance requirements.
-                                                </p>
-                                                <h5>National Adaptation Plan:</h5>
-                                                <p>
-                                                    Atlas could provide relevant stakeholder-validated adaptation options to be integrated into the National Adaptation Plans of respective countries.
-                                                </p>
-                                                <h5>Climate-Smart Villages:</h5>
-                                                <p>
-                                                    Atlas will support scaling climate-resilient agriculture and villages by providing granular information on select implementation sites.
-                                                </p>
-                                            </Box>
-                                        </Grid>
-                                    </Grid>
-                                </CardContent>
-                            </Card>
-                        </Container>
-                    </TabPanel>
-
-                    <TabPanel value={value} index={6}>
-                        <Container maxWidth="xl" className="">
-                            <Card className="roundedCard" sx={{ maxWidth: "100%", m: 2 }}>
-                                <CardContent>
-                                    <Grid container spacing={2} justifyContent="space-between">
-                                        <Grid item sx={{ flexBasis: "40%" }}>
-                                            <Box className="tabBox"></Box>
-                                        </Grid>
-                                        <Grid item sx={{ flexBasis: "60%" }}>
-                                            <Box className="contentBox">
-                                                <h1>Agri-food Industry</h1>
-                                                <p>
-                                                    ACASA can be useful for climate risk profiling and regional adaptation prioritisation. Insights from ACASA would help government agencies determine future investment requirements for climate risk mitigation and regional scaling opportunities.
-                                                </p>
-                                                <h5>Evidence-based policymaking:</h5>
-                                                <p>
-                                                    The Atlas provides data and analysis to support policymaking for climate-resilient agriculture and strategic resource allocation. The Atlas identifies sustainable practices and resilient farming methods to support rural climate-resilient infrastructure and finance requirements.
-                                                </p>
-                                                <h5>National Adaptation Plan:</h5>
-                                                <p>
-                                                    Atlas could provide relevant stakeholder-validated adaptation options to be integrated into the National Adaptation Plans of respective countries.
-                                                </p>
-                                                <h5>Climate-Smart Villages:</h5>
-                                                <p>
-                                                    Atlas will support scaling climate-resilient agriculture and villages by providing granular information on select implementation sites.
-                                                </p>
-                                            </Box>
-                                        </Grid>
-                                    </Grid>
-                                </CardContent>
-                            </Card>
-                        </Container>
-                    </TabPanel>
-
-                    <Button className="btn btnAbout">Explore the Atlas</Button>
+                    <Button
+                        className="btn btnAbout"
+                        sx={{
+                            bgcolor: theme.palette.mode === "dark" ? "#61c258" : "#4C9E46",
+                            color: "#ffffff",
+                            mt: 2,
+                            "&:hover": {
+                                bgcolor: theme.palette.mode === "dark" ? "#4ba046" : "#3d8b3a",
+                            },
+                        }}
+                    >
+                        Explore the Atlas
+                    </Button>
                 </Box>
             </Container>
 
-            <Container maxWidth="xl" className="" sx={{ bgcolor: "#fff" }}>
+            <Container
+                maxWidth="xl"
+                sx={{
+                    bgcolor: theme.palette.mode === "dark" ? "#25292e" : "#fff",
+                }}
+            >
                 <Box className="aboutSectionApproach" sx={{ p: 5 }}>
-                    <h1>Resources</h1>
+                    <Typography
+                        variant="h1"
+                        sx={{
+                            color: theme.palette.mode === "dark" ? "#61c258" : "#4ba046",
+                            fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+                            textAlign: "center",
+                        }}
+                    >
+                        Resources
+                    </Typography>
                     <Container maxWidth="xl">
                         <Grid container spacing={3}>
-                            <Grid item xs={12} sm={6} md={4}>
-                                <Card className="resourceCard">
-                                    <CardContent>
-                                        <Box className="whiteBox"></Box>
-                                        <Box className="ContentBox">
-                                            <h4>Maize, Agribusiness</h4>
-                                            <p>Building Capabilities of Medium and Large-Scale Sri Lankan Maize Growers in Agricultural Risk Management</p>
-                                        </Box>
-                                    </CardContent>
-                                </Card>
-                            </Grid>
-                            <Grid item xs={12} sm={6} md={4}>
-                                <Card className="resourceCard">
-                                    <CardContent>
-                                        <Box className="whiteBox"></Box>
-                                        <Box className="ContentBox">
-                                            <h4>Capacity building, women</h4>
-                                            <p>ACASA for empowering women-led social entrepreneurs in Nepal: Building climate-resilient forage for a sustainable livestock ecosystem</p>
-                                        </Box>
-                                    </CardContent>
-                                </Card>
-                            </Grid>
-                            <Grid item xs={12} sm={6} md={4}>
-                                <Card className="resourceCard">
-                                    <CardContent>
-                                        <Box className="whiteBox"></Box>
-                                        <Box className="ContentBox">
-                                            <h4>Adaptation, local-level planning</h4>
-                                            <p>Strengthening the model of “Adaptation Clinic” through data-driven local level adaptation planning in Bangladesh</p>
-                                        </Box>
-                                    </CardContent>
-                                </Card>
-                            </Grid>
+                            {[
+                                {
+                                    title: "Maize, Agribusiness",
+                                    description:
+                                        "Building Capabilities of Medium and Large-Scale Sri Lankan Maize Growers in Agricultural Risk Management",
+                                },
+                                {
+                                    title: "Capacity building, women",
+                                    description:
+                                        "ACASA for empowering women-led social entrepreneurs in Nepal: Building climate-resilient forage for a sustainable livestock ecosystem",
+                                },
+                                {
+                                    title: "Adaptation, local-level planning",
+                                    description:
+                                        "Strengthening the model of “Adaptation Clinic” through data-driven local level adaptation planning in Bangladesh",
+                                },
+                            ].map((resource, idx) => (
+                                <Grid item xs={12} sm={6} md={4} key={idx}>
+                                    <Card
+                                        className="resourceCard"
+                                        sx={{
+                                            bgcolor:
+                                                theme.palette.mode === "dark" ? "#2c2f34" : "#ffffff",
+                                            borderRadius: "12px",
+                                            boxShadow:
+                                                theme.palette.mode === "dark"
+                                                    ? "0px 4px 10px rgba(0,0,0,0.4)"
+                                                    : "0px 4px 10px rgba(0,0,0,0.1)",
+                                        }}
+                                    >
+                                        <CardContent>
+                                            <Box
+                                                className="whiteBox"
+                                                sx={{
+                                                    bgcolor:
+                                                        theme.palette.mode === "dark" ? "#33373e" : "#f0f0f0",
+                                                    height: "150px",
+                                                    borderRadius: "8px",
+                                                }}
+                                            ></Box>
+                                            <Box className="ContentBox">
+                                                <Typography
+                                                    variant="h4"
+                                                    sx={{
+                                                        color:
+                                                            theme.palette.mode === "dark"
+                                                                ? "#b0e3ae"
+                                                                : "#4ba046",
+                                                        fontFamily:
+                                                            '"Roboto", "Helvetica", "Arial", sans-serif',
+                                                        mt: 2,
+                                                    }}
+                                                >
+                                                    {resource.title}
+                                                </Typography>
+                                                <Typography
+                                                    sx={{
+                                                        color: theme.palette.text.primary,
+                                                        fontFamily:
+                                                            '"Roboto", "Helvetica", "Arial", sans-serif',
+                                                        fontSize: "1rem",
+                                                        lineHeight: 1.6,
+                                                    }}
+                                                >
+                                                    {resource.description}
+                                                </Typography>
+                                            </Box>
+                                        </CardContent>
+                                    </Card>
+                                </Grid>
+                            ))}
                         </Grid>
-                        <Button className="btn btnAbout1">Explore More</Button>
+                        <Button
+                            className="btn btnAbout1"
+                            sx={{
+                                bgcolor: theme.palette.mode === "dark" ? "#61c258" : "#4C9E46",
+                                color: "#ffffff",
+                                mt: 2,
+                                "&:hover": {
+                                    bgcolor: theme.palette.mode === "dark" ? "#4ba046" : "#3d8b3a",
+                                },
+                            }}
+                        >
+                            Explore More
+                        </Button>
                     </Container>
                 </Box>
             </Container>
 
-            <Container maxWidth="xl" className="" sx={{ bgcolor: "#fff" }}>
+            <Container
+                maxWidth="xl"
+                sx={{
+                    bgcolor: theme.palette.mode === "dark" ? "#25292e" : "#fff",
+                }}
+            >
                 <Box className="aboutSectionApproach" sx={{ p: 5 }}>
-                    <h1>Our Partners</h1>
-                    <p className="paraOne">
-                        ACASA is a collaborative initiative powered by global and regional leaders in agricultural innovation and climate science. Our partners provide critical expertise, data, tools, and regional insights to drive climate-resilient agriculture across South Asia.
-                    </p>
+                    <Typography
+                        variant="h1"
+                        sx={{
+                            color: theme.palette.mode === "dark" ? "#61c258" : "#4ba046",
+                            fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+                            textAlign: "center",
+                        }}
+                    >
+                        Our Partners
+                    </Typography>
+                    <Typography
+                        className="paraOne"
+                        sx={{
+                            color: theme.palette.text.primary,
+                            fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+                            mt: 2,
+                            fontSize: "1rem",
+                            lineHeight: 1.6,
+                        }}
+                    >
+                        ACASA is a collaborative initiative powered by global and regional
+                        leaders in agricultural innovation and climate science. Our partners
+                        provide critical expertise, data, tools, and regional insights to drive
+                        climate-resilient agriculture across South Asia.
+                    </Typography>
                     <Container maxWidth="xl">
                         <Grid container spacing={3} justifyContent="center" alignItems="center">
                             {partnerLogos.map((num) => (
-                                <Grid item xs={6} sm={4} md={2} key={num} display="flex" justifyContent="center">
-                                    <Card className="resourceCardPartner">
-                                        <CardContent sx={{ p: 0, height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                            <img src={`/images/partner-${num}.png`} alt={`partner-${num}`} className="partner-img" />
+                                <Grid
+                                    item
+                                    xs={6}
+                                    sm={4}
+                                    md={2}
+                                    key={num}
+                                    display="flex"
+                                    justifyContent="center"
+                                >
+                                    <Card
+                                        className="resourceCardPartner"
+                                        sx={{
+                                            bgcolor:
+                                                theme.palette.mode === "dark" ? "#2c2f34" : "#ffffff",
+                                            borderRadius: "12px",
+                                            boxShadow:
+                                                theme.palette.mode === "dark"
+                                                    ? "0px 4px 10px rgba(0,0,0,0.4)"
+                                                    : "0px 4px 10px rgba(0,0,0,0.1)",
+                                        }}
+                                    >
+                                        <CardContent
+                                            sx={{
+                                                p: 0,
+                                                height: "100%",
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                            }}
+                                        >
+                                            <img
+                                                src={`/images/partner-${num}.png`}
+                                                alt={`partner-${num}`}
+                                                className="partner-img"
+                                                style={{ maxWidth: "80%", maxHeight: "80%" }}
+                                            />
                                         </CardContent>
                                     </Card>
                                 </Grid>
@@ -559,32 +1369,39 @@ function TestHome() {
                 </Box>
             </Container>
 
-            <Container maxWidth="xl" sx={{ bgcolor: "#F2F4F3", py: 4 }}>
+            <Container
+                maxWidth="xl"
+                sx={{
+                    bgcolor: theme.palette.mode === "dark" ? "#1a1d21" : "#F2F4F3",
+                    py: 4,
+                }}
+            >
                 <Box className="aboutSectionApproach" sx={{ overflowX: "auto" }}>
                     <Box
                         sx={{
                             display: "flex",
                             justifyContent: "center",
                             gap: 3,
-                            flexWrap: { xs: "nowrap", sm: "wrap" }, // No wrap on mobile
+                            flexWrap: { xs: "nowrap", sm: "wrap" },
                             px: 0,
                         }}
                     >
                         {contryLogos.map((num) => (
-                            <Card sx={{ bgcolor: "transparent", border:'none', boxShadow:'none'}}
+                            <Card
                                 key={num}
                                 className="countryLogos"
-                                // sx={{
-                                //     flex: "0 0 auto", // Prevent shrinking in scroll
-                                //     width: 120,
-                                //     height: 120,
-                                //     display: "flex",
-                                //     alignItems: "center",
-                                //     justifyContent: "center",
-                                //     borderRadius: 2,
-                                //     boxShadow: "none",
-                                //     bgcolor: "#fff",
-                                // }}
+                                sx={{
+                                    bgcolor: "transparent",
+                                    border: "none",
+                                    boxShadow: "none",
+                                    flex: "0 0 auto",
+                                    width: 120,
+                                    height: 120,
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    borderRadius: 2,
+                                }}
                             >
                                 <img
                                     src={`/images/country-${num}.png`}
@@ -597,10 +1414,8 @@ function TestHome() {
                 </Box>
             </Container>
 
-
-
             <StickyFooter />
-        </>
+        </Box>
     );
 }
 

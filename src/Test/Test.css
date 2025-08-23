@@ -536,7 +536,7 @@ button.btnExplore {
 }
 
 .AboutSection h1 {
-    color: #000;
+    /* color: #000; */
     text-align: center;
     font-size: 60px;
     font-style: normal;
@@ -584,7 +584,7 @@ button.btnExplore {
 }
 
 .AboutSection h4 {
-    color: #000;
+    /* color: #000; */
     text-align: center;
     font-family: Poppins;
     font-size: 18px;
@@ -594,7 +594,7 @@ button.btnExplore {
 }
 
 .AboutSection p {
-    color: #00000080;
+    /* color: #00000080; */
     text-align: center;
     font-family: Poppins;
     font-size: 12px;
@@ -631,7 +631,7 @@ button.btnExplore {
 }
 
 .aboutSectionApproach h1 {
-    color: #000;
+    /* color: #000; */
     font-family: Poppins;
     font-size: 60px;
     font-style: normal;
