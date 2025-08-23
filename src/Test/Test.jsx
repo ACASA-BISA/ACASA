@@ -282,7 +282,6 @@ function Test() {
                 .map((groupName) => groupedCommodities[groupName])
                 .flatMap((group) =>
                     group.items.filter((commodity) =>
-                        commodity.status &&
                         (selectedCommodityTypeId ? +commodity.commodity_type_id === +selectedCommodityTypeId : true)
                     )
                 );
@@ -938,7 +937,6 @@ function Test() {
                                                     const group = groupedCommodities[groupName];
                                                     const filteredItems = group.items
                                                         .filter((commodity) =>
-                                                            commodity.status &&
                                                             (selectedCommodityTypeId ? +commodity.commodity_type_id === +selectedCommodityTypeId : true)
                                                         );
                                                     return filteredItems.length > 0 ? (
