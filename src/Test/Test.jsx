@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
-import "./Test.css";
 import { Button, Grid, Toolbar, IconButton, Drawer, Switch, Typography, FormGroup, List, Box, Tooltip, ListItemButton, ListItemIcon, ListItemText, Collapse, FormControlLabel, FormControl, FormLabel, MenuItem, Select, ListSubheader } from "@mui/material";
 import { ExpandLess, ExpandMore, InfoOutlined as InfoIcon } from "@mui/icons-material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
@@ -175,10 +174,6 @@ function Test() {
                 setAdaptations
             );
             fetchData(`lkp/specific/risks?commodity_id=${selectedCommodityId}`, setRisks);
-        } else if (selectedCommodityId) {
-            fetchData(`lkp/specific/risks?commodity_id=${selectedCommodityId}`, setRisks);
-            setAdaptations([]);
-            setSelectedAdaptationId("");
         } else {
             setAdaptations([]);
             setSelectedAdaptationId("");
@@ -317,7 +312,6 @@ function Test() {
             return;
         }
 
-        // Enforce mutual exclusivity
         const selectedCount = [selectedRiskId, selectedImpactId, selectedAdaptationId].filter(Boolean).length;
         if (selectedCount > 1) {
             console.warn("Mutual exclusivity violation detected:", {
@@ -340,7 +334,6 @@ function Test() {
         let layer_type = "commodity";
         if (selectedRiskId) layer_type = "risk";
         else if (selectedImpactId) layer_type = "impact";
-        else if (selectedAdaptationId) layer_type = "adaptation";
         else if (selectedAdaptationId) layer_type = "adaptation";
 
         const admin_level = selectedStateId !== 0 ? "state" : selectedCountryId !== 0 ? "country" : "total";
@@ -477,19 +470,17 @@ function Test() {
         const newCommodityTypeId = event.target.value;
         setSelectedCommodityTypeId(newCommodityTypeId);
         setSelectedCommodityId("");
-        setSelectedRiskId(""); // Reset risk
-        setSelectedImpactId(""); // Reset impact
-        setSelectedAdaptationId(""); // Reset adaptation
-        // Rely on useEffect to trigger updateFilters after state updates
+        setSelectedRiskId("");
+        setSelectedImpactId("");
+        setSelectedAdaptationId("");
     };
 
     const handleCommodityChange = (event) => {
         const newCommodityId = event.target.value;
         setSelectedCommodityId(newCommodityId);
-        setSelectedRiskId(""); // Reset risk
-        setSelectedImpactId(""); // Reset impact
-        setSelectedAdaptationId(""); // Reset adaptation
-        // Rely on useEffect to trigger updateFilters after state updates
+        setSelectedRiskId("");
+        setSelectedImpactId("");
+        setSelectedAdaptationId("");
     };
 
     const handleScopeChange = (event) => {
@@ -510,26 +501,23 @@ function Test() {
 
     const handleRiskChange = (event) => {
         const newRiskId = event.target.value;
-        setSelectedRiskId(newRiskId); // Update risk state
-        setSelectedImpactId(""); // Reset impact
-        setSelectedAdaptationId(""); // Reset adaptation
-        // Rely on useEffect to trigger updateFilters after state updates
+        setSelectedRiskId(newRiskId);
+        setSelectedImpactId("");
+        setSelectedAdaptationId("");
     };
 
     const handleImpactChange = (event) => {
         const newImpactId = event.target.value;
-        setSelectedImpactId(newImpactId); // Update impact state
-        setSelectedRiskId(""); // Reset risk
-        setSelectedAdaptationId(""); // Reset adaptation
-        // Rely on useEffect to trigger updateFilters after state updates
+        setSelectedImpactId(newImpactId);
+        setSelectedRiskId("");
+        setSelectedAdaptationId("");
     };
 
     const handleAdaptationChange = (event) => {
         const newAdaptationId = event.target.value;
-        setSelectedAdaptationId(newAdaptationId); // Update adaptation state
-        setSelectedRiskId(""); // Reset risk
-        setSelectedImpactId(""); // Reset impact
-        // Rely on useEffect to trigger updateFilters after state updates
+        setSelectedAdaptationId(newAdaptationId);
+        setSelectedRiskId("");
+        setSelectedImpactId("");
     };
 
     const groupedRisks = risks.reduce((acc, risk) => {
@@ -553,26 +541,51 @@ function Test() {
             return acc;
         }, {});
 
-    const groupedAdaptations = adaptations.reduce((acc, adaptation) => {
-        if (adaptation.group_id && adaptation.group) {
-            if (!acc[adaptation.group_id]) acc[adaptation.group_id] = { name: adaptation.group, items: [] };
-            acc[adaptation.group_id].items.push(adaptation);
+    // Process adaptations in the order of the API response
+    const groupedAdaptations = [];
+    let currentGroup = null;
+    let currentItems = [];
+
+    adaptations.forEach((adaptation, index) => {
+        const isLast = index === adaptations.length - 1;
+        const groupId = adaptation.group_id;
+        const groupName = adaptation.group || adaptation.adaptation;
+
+        if (groupId === null) {
+            // Non-grouped adaptation: create a standalone section
+            if (currentGroup !== null) {
+                // Push the previous group if it exists
+                groupedAdaptations.push({ groupId: currentGroup.groupId, name: currentGroup.name, items: currentItems });
+                currentItems = [];
+            }
+            groupedAdaptations.push({
+                groupId: adaptation.adaptation_id,
+                name: adaptation.adaptation,
+                items: [adaptation],
+            });
+            currentGroup = null;
         } else {
-            acc[adaptation.adaptation_id] = { name: adaptation.adaptation, items: [adaptation] };
+            // Grouped adaptation
+            if (currentGroup === null || currentGroup.groupId !== groupId) {
+                // New group starts
+                if (currentGroup !== null) {
+                    // Push the previous group
+                    groupedAdaptations.push({ groupId: currentGroup.groupId, name: currentGroup.name, items: currentItems });
+                    currentItems = [];
+                }
+                currentGroup = { groupId, name: groupName };
+                currentItems.push(adaptation);
+            } else {
+                // Same group continues
+                currentItems.push(adaptation);
+            }
         }
-        return acc;
-    }, {});
 
-    Object.values(groupedAdaptations).forEach((group) => {
-        group.items.sort((a, b) => a.adaptation_id - b.adaptation_id);
+        // Push the last group if this is the last item
+        if (isLast && currentGroup !== null) {
+            groupedAdaptations.push({ groupId: currentGroup.groupId, name: currentGroup.name, items: currentItems });
+        }
     });
-
-    const sortedGroupedAdaptations = Object.keys(groupedAdaptations)
-        .sort((a, b) => parseInt(a) - parseInt(b))
-        .reduce((acc, key) => {
-            acc[key] = groupedAdaptations[key];
-            return acc;
-        }, {});
 
     const getListItemStyle = (category) => ({
         backgroundColor:
@@ -647,7 +660,7 @@ function Test() {
                                             <img src="/images/location.svg" alt="" />
                                         </ListItemIcon>
                                         <ListItemText
-                                            primary={<FormLabel className="formLabel">Region</FormLabel>}
+                                            primary={<FormLabel style={{ textAlign: "left" }} className="formLabel">Region</FormLabel>}
                                         />
                                         {isSidebarOpen.region ? <ExpandLess /> : <ExpandMore />}
                                     </ListItemButton>
@@ -655,7 +668,7 @@ function Test() {
                                         <List component="div" disablePadding>
                                             <div className="card w-100 bg-transparent border-0 text-start">
                                                 <div className="card-body">
-                                                    <FormControl>
+                                                    <FormControl style={{ textAlign: "left" }}>
                                                         {showCountrySelect ? (
                                                             <>
                                                                 <br />
@@ -689,8 +702,8 @@ function Test() {
                                                                 </Select>
                                                             </>
                                                         ) : (
-                                                            <Typography variant="subtitle2" sx={{ mb: 1 }}>
-                                                                <FormLabel className="formLabel">
+                                                            <Typography variant="subtitle2" sx={{ mb: 1 }} style={{ textAlign: "left" }}>
+                                                                <FormLabel style={{ textAlign: "left" }} className="formLabel">
                                                                     Country:{" "}
                                                                     {countries.find((c) => c.country_id === selectedCountryId)?.country ||
                                                                         "South Asia"}
@@ -753,7 +766,7 @@ function Test() {
                                             <img src="/images/datatype.svg" alt="Data Type" />
                                         </ListItemIcon>
                                         <ListItemText
-                                            primary={<FormLabel className="formLabel">Data Type</FormLabel>}
+                                            primary={<FormLabel style={{ textAlign: "left" }} className="formLabel">Data Type</FormLabel>}
                                         />
                                         {isSidebarOpen.dataType ? <ExpandLess /> : <ExpandMore />}
                                     </ListItemButton>
@@ -811,14 +824,14 @@ function Test() {
                                             <img src="/images/analysis.svg" alt="Analysis & Scale" />
                                         </ListItemIcon>
                                         <ListItemText
-                                            primary={<FormLabel className="formLabel">Analysis & Scale</FormLabel>}
+                                            primary={<FormLabel style={{ textAlign: "left" }} className="formLabel">Analysis & Scale</FormLabel>}
                                         />
                                         {isSidebarOpen.analysis ? <ExpandLess /> : <ExpandMore />}
                                     </ListItemButton>
                                     <Collapse in={isSidebarOpen.analysis} timeout="auto" unmountOnExit>
                                         <List component="div" disablePadding sx={{ px: 2 }}>
-                                            <Typography variant="subtitle2" sx={{ mt: 2, mb: 1, textAlign: "left" }}>
-                                                <FormLabel className="formLabel">Select analysis scope</FormLabel>
+                                            <Typography variant="subtitle2" sx={{ mt: 2, mb: 1 }} style={{ textAlign: "left" }}>
+                                                <FormLabel style={{ textAlign: "left" }} className="formLabel">Select analysis scope</FormLabel>
                                             </Typography>
                                             <FormGroup>
                                                 {analysisScopes.map((scope) => (
@@ -854,8 +867,8 @@ function Test() {
                                                 ))}
                                             </FormGroup>
 
-                                            <Typography variant="subtitle2" sx={{ mt: 3, mb: 1, textAlign: "left" }}>
-                                                <FormLabel className="formLabel">Select visualization scale</FormLabel>
+                                            <Typography variant="subtitle2" sx={{ mt: 3, mb: 1 }} style={{ textAlign: "left" }}>
+                                                <FormLabel style={{ textAlign: "left" }} className="formLabel">Select visualization scale</FormLabel>
                                             </Typography>
                                             <FormGroup>
                                                 {visualizationScales.map((scale) => (
@@ -916,7 +929,7 @@ function Test() {
                                             <img src="/images/commodity.svg" alt="Commodity" />
                                         </ListItemIcon>
                                         <ListItemText
-                                            primary={<FormLabel className="formLabel">Commodity</FormLabel>}
+                                            primary={<FormLabel style={{ textAlign: "left" }} className="formLabel">Commodity</FormLabel>}
                                         />
                                         {isSidebarOpen.commodity ? <ExpandLess /> : <ExpandMore />}
                                     </ListItemButton>
@@ -944,8 +957,8 @@ function Test() {
                                                     );
                                                     return filteredItems.length > 0 ? (
                                                         <div key={group.name}>
-                                                            <Typography variant="subtitle2" sx={{ mt: 2, mb: 1, textAlign: "left" }}>
-                                                                <FormLabel className="formLabel">{group.name}</FormLabel>
+                                                            <Typography variant="subtitle2" sx={{ mt: 2, mb: 1 }} style={{ textAlign: "left" }}>
+                                                                <FormLabel style={{ textAlign: "left" }} className="formLabel">{group.name}</FormLabel>
                                                             </Typography>
                                                             <FormGroup>
                                                                 {filteredItems.map((commodity) => (
@@ -1011,7 +1024,7 @@ function Test() {
                                             <img src="/images/risk.svg" alt="Risk" />
                                         </ListItemIcon>
                                         <ListItemText
-                                            primary={<FormLabel className="formLabel">Risk</FormLabel>}
+                                            primary={<FormLabel style={{ textAlign: "left" }} className="formLabel">Risk</FormLabel>}
                                         />
                                         {isSidebarOpen.risk ? <ExpandLess /> : <ExpandMore />}
                                     </ListItemButton>
@@ -1019,8 +1032,8 @@ function Test() {
                                         <List component="div" disablePadding sx={{ px: 2 }}>
                                             {Object.entries(sortedGroupedRisks).map(([groupId, group]) => (
                                                 <div key={groupId}>
-                                                    <Typography variant="subtitle2" sx={{ mt: 2, mb: 1, textAlign: "left" }}>
-                                                        <FormLabel className="formLabel">{group.name}</FormLabel>
+                                                    <Typography variant="subtitle2" sx={{ mt: 2, mb: 1 }} style={{ textAlign: "left" }}>
+                                                        <FormLabel style={{ textAlign: "left" }} className="formLabel">{group.name}</FormLabel>
                                                     </Typography>
                                                     <FormGroup>
                                                         {group.items.map((risk) => (
@@ -1084,7 +1097,7 @@ function Test() {
                                             <img src="/images/impact.svg" alt="Impact" />
                                         </ListItemIcon>
                                         <ListItemText
-                                            primary={<FormLabel className="formLabel">Impact</FormLabel>}
+                                            primary={<FormLabel style={{ textAlign: "left" }} className="formLabel">Impact</FormLabel>}
                                         />
                                         {isSidebarOpen.impact ? <ExpandLess /> : <ExpandMore />}
                                     </ListItemButton>
@@ -1150,16 +1163,16 @@ function Test() {
                                             <img src="/images/option.svg" alt="Adaptation" />
                                         </ListItemIcon>
                                         <ListItemText
-                                            primary={<FormLabel className="formLabel">Adaptation</FormLabel>}
+                                            primary={<FormLabel style={{ textAlign: "left" }} className="formLabel">Adaptation</FormLabel>}
                                         />
                                         {isSidebarOpen.adaptation ? <ExpandLess /> : <ExpandMore />}
                                     </ListItemButton>
                                     <Collapse in={isSidebarOpen.adaptation} timeout="auto" unmountOnExit>
                                         <List component="div" disablePadding sx={{ px: 2 }}>
-                                            {Object.entries(sortedGroupedAdaptations).map(([groupId, group]) => (
-                                                <div key={groupId}>
-                                                    <Typography variant="subtitle2" sx={{ mt: 2, mb: 1, textAlign: "left" }}>
-                                                        <FormLabel className="formLabel">{group.name}</FormLabel>
+                                            {groupedAdaptations.map((group) => (
+                                                <div key={group.groupId}>
+                                                    <Typography variant="subtitle2" sx={{ mt: 2, mb: 1 }} style={{ textAlign: "left" }}>
+                                                        <FormLabel style={{ textAlign: "left" }} className="formLabel">{group.name}</FormLabel>
                                                     </Typography>
                                                     <FormGroup>
                                                         {group.items.map((adaptation) => (
