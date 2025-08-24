@@ -195,7 +195,7 @@ L.control.mapControls = function (opts) {
 };
 
 const DataGlance = () => {
-    const theme = useTheme();
+    const theme = useTheme(); // Add useTheme hook to access theme mode
     const [countries, setCountries] = useState([]);
     const [commodities, setCommodities] = useState([]);
     const [climateScenarios, setClimateScenarios] = useState([]);
@@ -229,7 +229,7 @@ const DataGlance = () => {
     const hasInitializedRef = useRef(false);
     const lastFetchKeyRef = useRef(null);
     const geotiffPromiseCache = useRef(new Map());
-    const controlsInitialized = useRef(new Array(8).fill(false));
+    const controlsInitialized = useRef(new Array(8).fill(false)); // Track control initialization
 
     const apiRand = Math.random().toString(36).substring(2, 15);
     const apiUrl = process.env.REACT_APP_API_URL || `http://52.52.161.42/acasa_api?rand=${apiRand}`;
@@ -255,6 +255,7 @@ const DataGlance = () => {
     const memoizedHazardData = useMemo(() => hazardData, [hazardData]);
     const memoizedGeojsonData = useMemo(() => geojsonData, [geojsonData]);
 
+    // Function to get tile layer URL based on theme
     const getTileLayerUrl = () => {
         return theme.palette.mode === "dark"
             ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
@@ -281,32 +282,18 @@ const DataGlance = () => {
                 hazardData.raster_grids.map((g) => g.grid_sequence)
             )}`;
 
-            // Check if tiffData has valid arrayBuffers for all grid sequences
-            const hasValidTiffData = tiffData.length > 0 && hazardData.raster_grids.every((grid) => {
-                const tiff = tiffData.find((t) => t.metadata.grid_sequence === grid.grid_sequence);
-                return tiff && tiff.arrayBuffer && tiff.arrayBuffer.byteLength > 0;
-            });
-
-            if (lastFetchKeyRef.current === fetchKey && hasValidTiffData) {
-                console.log("Skipping fetchTiffs: valid data already fetched for this configuration", { fetchKey });
+            if (lastFetchKeyRef.current === fetchKey && tiffData.length > 0) {
+                console.log("Skipping fetchTiffs: data already fetched for this configuration", { fetchKey });
                 return;
             }
 
             isFetchingRef.current = true;
             setIsLoading(true);
             try {
-                console.log(`Fetching TIFFs for configuration: ${fetchKey}`);
-                geotiffPromiseCache.current.clear();
-                console.log("Cleared geotiffPromiseCache before fetching TIFFs");
-
                 const sortedGrids = [...hazardData.raster_grids].sort(
                     (a, b) => (a.grid_sequence || 0) - (b.grid_sequence || 0)
                 );
-                console.log("Sorted raster grids:", sortedGrids.map(g => ({
-                    grid_sequence: g.grid_sequence,
-                    title: g.hazard_title,
-                    source_files: g.raster_files?.map(f => f.source_file),
-                })));
+                console.log("Sorted raster grids:", sortedGrids);
 
                 const fetchedSourceFiles = new Set();
                 const tiffPromises = sortedGrids.slice(0, 7).map(async (grid) => {
@@ -328,30 +315,8 @@ const DataGlance = () => {
                 });
 
                 const tiffResults = await Promise.all(tiffPromises);
-                const validTiffResults = tiffResults.filter((result) => {
-                    if (result === null || !result.arrayBuffer || result.arrayBuffer.byteLength === 0) {
-                        console.warn(`Invalid TIFF result for grid_sequence ${result?.metadata?.grid_sequence || "unknown"}`, {
-                            resultExists: !!result,
-                            arrayBufferExists: !!result?.arrayBuffer,
-                            byteLength: result?.arrayBuffer?.byteLength || 0,
-                        });
-                        return false;
-                    }
-                    // Create a copy of the arrayBuffer to prevent transfer
-                    const arrayBufferCopy = result.arrayBuffer.slice(0);
-                    return {
-                        arrayBuffer: arrayBufferCopy,
-                        metadata: { ...result.metadata },
-                    };
-                });
-
-                console.log("Valid TIFF results:", validTiffResults.map(t => ({
-                    grid_sequence: t.metadata.grid_sequence,
-                    layer_name: t.metadata.layer_name,
-                    arrayBufferSize: t.arrayBuffer.byteLength,
-                    source_file: t.metadata.source_file,
-                    firstBytes: Array.from(new Uint8Array(t.arrayBuffer).slice(0, 8)).map(b => b.toString(16).padStart(2, "0")).join(" "),
-                })));
+                const validTiffResults = tiffResults.filter((result) => result !== null);
+                console.log("Valid TIFF results:", validTiffResults);
 
                 if (validTiffResults.length === 0) {
                     console.warn("No valid GeoTIFFs fetched");
@@ -365,13 +330,6 @@ const DataGlance = () => {
                 georasterCache.current.clear();
                 setRenderedMaps(new Array(8).fill(false));
                 setTiffData(validTiffResults);
-                console.log("tiffData set with:", validTiffResults.map(t => ({
-                    grid_sequence: t.metadata.grid_sequence,
-                    layer_name: t.metadata.layer_name,
-                    arrayBufferSize: t.arrayBuffer.byteLength,
-                    source_file: t.metadata.source_file,
-                    firstBytes: Array.from(new Uint8Array(t.arrayBuffer).slice(0, 8)).map(b => b.toString(16).padStart(2, "0")).join(" "),
-                })));
                 setAllDataReady(true);
                 lastFetchKeyRef.current = fetchKey;
             } catch (err) {
@@ -391,7 +349,7 @@ const DataGlance = () => {
                 geotiffPromiseCache.current.clear();
             }
         }, 500),
-        [selectedScenarioId, selectedVisualizationScaleId, selectedIntensityMetricId, selectedChangeMetricId]
+        [tiffData, selectedScenarioId, selectedVisualizationScaleId, selectedIntensityMetricId, selectedChangeMetricId]
     );
 
     useEffect(() => {
@@ -604,9 +562,7 @@ const DataGlance = () => {
                     if (!arrayBuffer || arrayBuffer.byteLength === 0) {
                         throw new Error(`Empty or invalid arrayBuffer for ${file.source_file}`);
                     }
-                    const firstBytes = Array.from(new Uint8Array(arrayBuffer).slice(0, 8))
-                        .map(b => b.toString(16).padStart(2, "0")).join(" ");
-                    console.log(`GeoTIFF fetched successfully for ${file.hazard_title || "hazard"}, grid_sequence: ${gridSequence}, size: ${arrayBuffer.byteLength} bytes, byteOrder: ${firstBytes.startsWith("49 49") ? "II (little-endian)" : firstBytes.startsWith("4d 4d") ? "MM (big-endian)" : "unknown"}, firstBytes: ${firstBytes}`);
+                    console.log(`GeoTIFF fetched successfully for ${file.hazard_title || "hazard"}, grid_sequence: ${gridSequence}, size: ${arrayBuffer.byteLength} bytes`);
                     const modifiedColorRamp = file.ramp.map((color) =>
                         color.toLowerCase() === "#00ff00" ? "#7FFF00" : color
                     );
@@ -652,9 +608,7 @@ const DataGlance = () => {
         }
 
         try {
-            const firstBytes = Array.from(new Uint8Array(arrayBuffer).slice(0, 8))
-                .map(b => b.toString(16).padStart(2, "0")).join(" ");
-            console.log(`Preparing to download GeoTIFF: ${filename}, size: ${arrayBuffer.byteLength} bytes, firstBytes: ${firstBytes}`);
+            console.log(`Preparing to download GeoTIFF: ${filename}, size: ${arrayBuffer.byteLength} bytes`);
             const blob = new Blob([arrayBuffer], { type: "image/tiff" });
             const url = URL.createObjectURL(blob);
             const a = document.createElement("a");
@@ -679,25 +633,32 @@ const DataGlance = () => {
         console.log("Cleaning up maps");
         mapInstances.current.forEach((map, index) => {
             if (map) {
+                // Remove all layers
                 layerRefs.current[index].forEach((layer) => {
                     if (layer && map.hasLayer(layer)) {
                         map.removeLayer(layer);
                     }
                 });
+                // Remove tile layer
                 if (tileLayerRefs.current[index] && map.hasLayer(tileLayerRefs.current[index])) {
                     map.removeLayer(tileLayerRefs.current[index]);
                 }
+                // Remove GeoJSON layer
                 if (geojsonLayerRefs.current[index] && map.hasLayer(geojsonLayerRefs.current[index])) {
                     map.removeLayer(geojsonLayerRefs.current[index]);
                 }
+                // Remove map controls
                 if (mapControlRefs.current[index]) {
                     map.removeControl(mapControlRefs.current[index]);
                 }
+                // Remove download control
                 if (downloadControlRefs.current[index]) {
                     map.removeControl(downloadControlRefs.current[index]);
                 }
+                // Remove map event listeners and map itself
                 map.off();
                 map.remove();
+                // Reset references
                 mapInstances.current[index] = null;
                 layerRefs.current[index] = [];
                 tileLayerRefs.current[index] = null;
@@ -723,9 +684,11 @@ const DataGlance = () => {
         }
     }, []);
 
+    // Effect to handle theme changes for tile layers and GeoJSON styles
     useEffect(() => {
         mapInstances.current.forEach((map, index) => {
             if (map && tileLayerRefs.current[index] && mapRefs.current[index]) {
+                // Fade out current tile layer
                 tileLayerRefs.current[index].setOpacity(0);
                 setTimeout(() => {
                     if (mapInstances.current[index] && tileLayerRefs.current[index]) {
@@ -754,6 +717,7 @@ const DataGlance = () => {
                     }
                 }, 200);
 
+                // Update GeoJSON layer style
                 if (geojsonLayerRefs.current[index]) {
                     geojsonLayerRefs.current[index].setStyle({
                         color: theme.palette.mode === "dark" ? "white" : "black",
@@ -936,7 +900,7 @@ const DataGlance = () => {
             }
 
             const map = mapInstances.current[index];
-            console.log(`Updating GeoTIFF layer for map ${index}, grid_sequence: ${tiff.metadata.grid_sequence}, arrayBufferSize: ${tiff.arrayBuffer?.byteLength || 0}, source_file: ${tiff.metadata.source_file}, firstBytes: ${tiff.arrayBuffer ? Array.from(new Uint8Array(tiff.arrayBuffer).slice(0, 8)).map(b => b.toString(16).padStart(2, "0")).join(" ") : "N/A"}`);
+            console.log(`Updating GeoTIFF layer for map ${index}, grid_sequence: ${tiff.metadata.grid_sequence}`);
 
             // Remove existing layers
             layerRefs.current[index].forEach((layer) => {
@@ -951,6 +915,7 @@ const DataGlance = () => {
                 geojsonLayerRefs.current[index] = null;
             }
 
+            // Remove existing controls if they exist
             if (mapControlRefs.current[index]) {
                 map.removeControl(mapControlRefs.current[index]);
                 mapControlRefs.current[index] = null;
@@ -967,32 +932,21 @@ const DataGlance = () => {
 
             if (!georaster) {
                 try {
-                    if (!arrayBuffer || arrayBuffer.byteLength === 0) {
-                        throw new Error(`Invalid arrayBuffer for map ${index}, grid_sequence: ${metadata.grid_sequence}, source_file: ${metadata.source_file}`);
-                    }
-                    // Use a copy of the arrayBuffer for parsing to preserve the original
-                    const arrayBufferCopy = arrayBuffer.slice(0);
-                    console.log(`Parsing GeoTIFF for map ${index}, grid_sequence: ${metadata.grid_sequence}, arrayBufferSize: ${arrayBufferCopy.byteLength}, source_file: ${metadata.source_file}, firstBytes: ${Array.from(new Uint8Array(arrayBufferCopy).slice(0, 8)).map(b => b.toString(16).padStart(2, "0")).join(" ")}`);
-                    georaster = await parseGeoraster(arrayBufferCopy, { useWorker: false });
+                    georaster = await parseGeoraster(arrayBuffer);
                     console.log(`Map ${index} - GeoRaster parsed:`, {
-                        grid_sequence: metadata.grid_sequence,
                         bands: georaster.bands,
                         mins: georaster.mins,
                         maxs: georaster.maxs,
                         height: georaster.height,
                         width: georaster.width,
-                        arrayBufferSize: arrayBuffer.byteLength,
-                        source_file: metadata.source_file,
                     });
-                    // Log original arrayBuffer state after parsing
-                    console.log(`Original arrayBuffer state after parsing for map ${index}, grid_sequence: ${metadata.grid_sequence}, arrayBufferSize: ${arrayBuffer.byteLength}, firstBytes: ${arrayBuffer ? Array.from(new Uint8Array(arrayBuffer).slice(0, 8)).map(b => b.toString(16).padStart(2, "0")).join(" ") : "N/A"}`);
                     georasterCache.current.set(cacheKey, georaster);
                 } catch (err) {
-                    console.error(`GeoRaster parsing error for map ${index}, grid_sequence: ${metadata.grid_sequence}, source_file: ${metadata.source_file}:`, err);
+                    console.error(`GeoRaster parsing error for map ${index}:`, err);
                     Swal.fire({
                         icon: "error",
                         title: "Error",
-                        text: `Failed to parse GeoTIFF for map ${index} (${metadata.layer_name || "unknown"})`,
+                        text: `Failed to parse GeoTIFF for map ${index}`,
                     });
                     return;
                 }
@@ -1026,7 +980,7 @@ const DataGlance = () => {
             try {
                 geotiffLayer.addTo(map);
                 layerRefs.current[index].push(geotiffLayer);
-                console.log(`GeoTIFF layer added to map ${index}, grid_sequence: ${metadata.grid_sequence}`);
+                console.log(`GeoTIFF layer added to map ${index}`);
 
                 if (memoizedGeojsonData?.geojson) {
                     const geojsonLayer = L.geoJSON(memoizedGeojsonData.geojson, {
@@ -1086,45 +1040,28 @@ const DataGlance = () => {
                     });
                 });
 
+                // Only add controls if not already initialized
                 if (!controlsInitialized.current[index]) {
+                    // Add download control (top-left)
                     const downloadControl = L.control.downloadControl({
                         position: "topleft",
                         onDownload: () => {
-                            const gridSequence = index === 0 ? 0 : index;
-                            const tiffForDownload = tiffData.find((t) => t.metadata.grid_sequence === gridSequence);
-                            if (!tiffForDownload) {
-                                console.error(`No TIFF data found for map ${index}, grid_sequence: ${gridSequence}`);
+                            if (tiff && tiff.arrayBuffer) {
+                                handleDownloadGeoTIFF(tiff.arrayBuffer, `${tiff.metadata.layer_name}.tif`);
+                            } else {
+                                console.error("No valid GeoTIFF data available for download", { tiff });
                                 Swal.fire({
                                     icon: "error",
                                     title: "Download Failed",
-                                    text: `No GeoTIFF data available for map ${index}.`,
+                                    text: "No GeoTIFF data available for this map.",
                                 });
-                                return;
                             }
-                            if (!tiffForDownload.arrayBuffer || tiffForDownload.arrayBuffer.byteLength === 0) {
-                                console.error(`Invalid arrayBuffer for map ${index}, grid_sequence: ${gridSequence}`, {
-                                    tiffExists: !!tiffForDownload,
-                                    arrayBufferExists: !!tiffForDownload.arrayBuffer,
-                                    byteLength: tiffForDownload.arrayBuffer?.byteLength || 0,
-                                    sourceFile: tiffForDownload.metadata.source_file,
-                                    layerName: tiffForDownload.metadata.layer_name,
-                                });
-                                Swal.fire({
-                                    icon: "error",
-                                    title: "Download Failed",
-                                    text: `No valid GeoTIFF data available for ${tiffForDownload.metadata.layer_name || `map ${index}`}.`,
-                                });
-                                return;
-                            }
-                            const firstBytes = Array.from(new Uint8Array(tiffForDownload.arrayBuffer).slice(0, 8))
-                                .map(b => b.toString(16).padStart(2, "0")).join(" ");
-                            console.log(`Initiating download for map ${index}, grid_sequence: ${tiffForDownload.metadata.grid_sequence}, layer_name: ${tiffForDownload.metadata.layer_name}, size: ${tiffForDownload.arrayBuffer.byteLength} bytes, source_file: ${tiffForDownload.metadata.source_file}, firstBytes: ${firstBytes}`);
-                            handleDownloadGeoTIFF(tiffForDownload.arrayBuffer, `${tiffForDownload.metadata.layer_name}.tif`);
                         },
                     });
                     downloadControl.addTo(map);
                     downloadControlRefs.current[index] = downloadControl;
 
+                    // Add map controls (top-right)
                     const mapControl = L.control.mapControls({
                         position: "topright",
                         isFullscreen: isFullscreen[index] || false,
@@ -1135,6 +1072,7 @@ const DataGlance = () => {
                                 updateFullscreenButton(button, newFullscreen[index]);
                                 return newFullscreen;
                             });
+                            // Trigger fullscreen toggle logic (assuming map container is toggled)
                             const mapContainer = mapRefs.current[index];
                             if (mapContainer) {
                                 if (!isFullscreen[index]) {
@@ -1177,7 +1115,7 @@ const DataGlance = () => {
                 });
             }
         },
-        [memoizedGeojsonData, isFullscreen, updateFullscreenButton, handleDownloadGeoTIFF, theme.palette.mode, tiffData]
+        [memoizedGeojsonData, isFullscreen, updateFullscreenButton, handleDownloadGeoTIFF, theme.palette.mode]
     );
 
     const renderMaps = useCallback(() => {
@@ -1186,13 +1124,7 @@ const DataGlance = () => {
             return;
         }
 
-        console.log("Rendering maps with tiffData:", tiffData.map(t => ({
-            grid_sequence: t.metadata.grid_sequence,
-            layer_name: t.metadata.layer_name,
-            arrayBufferSize: t.arrayBuffer?.byteLength || 0,
-            source_file: t.metadata.source_file,
-            firstBytes: t.arrayBuffer ? Array.from(new Uint8Array(t.arrayBuffer).slice(0, 8)).map(b => b.toString(16).padStart(2, "0")).join(" ") : "N/A",
-        })));
+        console.log("Rendering maps with tiffData:", tiffData);
 
         tiffData.forEach((tiff) => {
             const gridSequence = tiff.metadata.grid_sequence;
@@ -1255,13 +1187,7 @@ const DataGlance = () => {
 
     useEffect(() => {
         if (allDataReady && tiffData.length > 0) {
-            console.log("Triggering renderMaps with tiffData:", tiffData.map(t => ({
-                grid_sequence: t.metadata.grid_sequence,
-                layer_name: t.metadata.layer_name,
-                arrayBufferSize: t.arrayBuffer?.byteLength || 0,
-                source_file: t.metadata.source_file,
-                firstBytes: t.arrayBuffer ? Array.from(new Uint8Array(t.arrayBuffer).slice(0, 8)).map(b => b.toString(16).padStart(2, "0")).join(" ") : "N/A",
-            })));
+            console.log("Triggering renderMaps with tiffData:", tiffData);
             renderMaps();
         } else {
             console.log("Not triggering renderMaps:", { allDataReady, tiffDataLength: tiffData.length });

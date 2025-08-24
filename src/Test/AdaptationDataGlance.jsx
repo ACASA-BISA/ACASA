@@ -284,18 +284,32 @@ const DataGlance = () => {
                 hazardData.raster_grids.map((g) => g.grid_sequence)
             )}`;
 
-            if (lastFetchKeyRef.current === fetchKey && tiffData.length > 0) {
-                console.log("Skipping fetchTiffs: data already fetched for this configuration", { fetchKey });
+            // Check if tiffData has valid arrayBuffers for all grid sequences
+            const hasValidTiffData = tiffData.length > 0 && hazardData.raster_grids.every((grid) => {
+                const tiff = tiffData.find((t) => t.metadata.grid_sequence === grid.grid_sequence);
+                return tiff && tiff.arrayBuffer && tiff.arrayBuffer.byteLength > 0;
+            });
+
+            if (lastFetchKeyRef.current === fetchKey && hasValidTiffData) {
+                console.log("Skipping fetchTiffs: valid data already fetched for this configuration", { fetchKey });
                 return;
             }
 
             isFetchingRef.current = true;
             setIsLoading(true);
             try {
+                console.log(`Fetching TIFFs for configuration: ${fetchKey}`);
+                geotiffPromiseCache.current.clear();
+                console.log("Cleared geotiffPromiseCache before fetching TIFFs");
+
                 const sortedGrids = [...hazardData.raster_grids].sort(
                     (a, b) => (a.grid_sequence || 0) - (b.grid_sequence || 0)
                 );
-                console.log("Sorted raster grids:", sortedGrids);
+                console.log("Sorted raster grids:", sortedGrids.map(g => ({
+                    grid_sequence: g.grid_sequence,
+                    title: g.grid_sequence_title,
+                    source_files: g.raster_files?.map(f => f.source_file),
+                })));
 
                 const fetchedSourceFiles = new Set();
                 const tiffPromises = sortedGrids.slice(0, 7).map(async (grid) => {
@@ -318,8 +332,30 @@ const DataGlance = () => {
                 });
 
                 const tiffResults = await Promise.all(tiffPromises);
-                const validTiffResults = tiffResults.filter((result) => result !== null);
-                console.log("Valid TIFF results:", validTiffResults);
+                const validTiffResults = tiffResults.filter((result) => {
+                    if (result === null || !result.arrayBuffer || result.arrayBuffer.byteLength === 0) {
+                        console.warn(`Invalid TIFF result for grid_sequence ${result?.metadata?.grid_sequence || "unknown"}`, {
+                            resultExists: !!result,
+                            arrayBufferExists: !!result?.arrayBuffer,
+                            byteLength: result?.arrayBuffer?.byteLength || 0,
+                        });
+                        return false;
+                    }
+                    // Create a copy of the arrayBuffer to prevent transfer
+                    const arrayBufferCopy = result.arrayBuffer.slice(0);
+                    return {
+                        arrayBuffer: arrayBufferCopy,
+                        metadata: { ...result.metadata },
+                    };
+                });
+
+                console.log("Valid TIFF results:", validTiffResults.map(t => ({
+                    grid_sequence: t.metadata.grid_sequence,
+                    layer_name: t.metadata.layer_name,
+                    arrayBufferSize: t.arrayBuffer.byteLength,
+                    source_file: t.metadata.source_file,
+                    firstBytes: Array.from(new Uint8Array(t.arrayBuffer).slice(0, 8)).map(b => b.toString(16).padStart(2, "0")).join(" "),
+                })));
 
                 if (validTiffResults.length === 0) {
                     console.warn("No valid GeoTIFFs fetched");
@@ -333,6 +369,13 @@ const DataGlance = () => {
                 georasterCache.current.clear();
                 setRenderedMaps(new Array(8).fill(false));
                 setTiffData(validTiffResults);
+                console.log("tiffData set with:", validTiffResults.map(t => ({
+                    grid_sequence: t.metadata.grid_sequence,
+                    layer_name: t.metadata.layer_name,
+                    arrayBufferSize: t.arrayBuffer.byteLength,
+                    source_file: t.metadata.source_file,
+                    firstBytes: Array.from(new Uint8Array(t.arrayBuffer).slice(0, 8)).map(b => b.toString(16).padStart(2, "0")).join(" "),
+                })));
                 setAllDataReady(true);
                 lastFetchKeyRef.current = fetchKey;
             } catch (err) {
@@ -349,10 +392,9 @@ const DataGlance = () => {
             } finally {
                 setIsLoading(false);
                 isFetchingRef.current = false;
-                geotiffPromiseCache.current.clear();
             }
         }, 500),
-        [tiffData, selectedScenarioId, selectedVisualizationScaleId, selectedIntensityMetricId, selectedChangeMetricId, selectedAdaptationCropTabId]
+        [selectedScenarioId, selectedVisualizationScaleId, selectedIntensityMetricId, selectedChangeMetricId, selectedAdaptationCropTabId, selectedAdaptations]
     );
 
     useEffect(() => {
@@ -573,7 +615,7 @@ const DataGlance = () => {
                 return geotiffPromiseCache.current.get(cacheKey);
             }
 
-            console.log(`Fetching GeoTIFF for ${file.grid_sequence_title || "grid"} with grid_sequence: ${gridSequence}, adaptation: ${file.adaptation_id || "none"}`);
+            console.log(`Fetching GeoTIFF for ${file.grid_sequence_title || "grid"} with grid_sequence: ${gridSequence}, adaptation: ${file.adaptation_id || "none"}, source_file: ${file.source_file}`);
             const admin_level = selectedCountryId !== 0 ? "country" : "total";
             const admin_level_id = selectedCountryId || null;
             const promise = fetchWithRetry(`${apiUrl}/layers/geotiff`, {
@@ -587,14 +629,28 @@ const DataGlance = () => {
                 }),
             })
                 .then(async (geotiffRes) => {
+                    console.log(`fetchGeoTiff response for ${file.source_file}:`, {
+                        status: geotiffRes.status,
+                        ok: geotiffRes.ok,
+                        headers: Object.fromEntries(geotiffRes.headers.entries()),
+                    });
                     if (!geotiffRes.ok) {
-                        throw new Error(`Failed to fetch GeoTIFF: ${geotiffRes.status}`);
+                        throw new Error(`Failed to fetch GeoTIFF: ${geotiffRes.status} ${geotiffRes.statusText}`);
                     }
                     const arrayBuffer = await geotiffRes.arrayBuffer();
                     if (!arrayBuffer || arrayBuffer.byteLength === 0) {
-                        throw new Error(`Empty or invalid arrayBuffer for ${file.source_file}`);
+                        throw new Error(`Empty arrayBuffer for ${file.source_file}`);
                     }
-                    console.log(`GeoTIFF fetched successfully for ${file.grid_sequence_title || "grid"}, grid_sequence: ${gridSequence}, size: ${arrayBuffer.byteLength} bytes`);
+
+                    // Validate GeoTIFF byte order (first two bytes should be 'II' (0x4949) or 'MM' (0x4D4D))
+                    const view = new DataView(arrayBuffer);
+                    const byteOrder = view.getUint16(0, false);
+                    if (byteOrder !== 0x4949 && byteOrder !== 0x4D4D) {
+                        throw new Error(`Invalid GeoTIFF byte order for ${file.source_file}: ${byteOrder.toString(16)}`);
+                    }
+
+                    console.log(`GeoTIFF fetched successfully for ${file.grid_sequence_title || "grid"}, grid_sequence: ${gridSequence}, size: ${arrayBuffer.byteLength} bytes, byteOrder: ${byteOrder === 0x4949 ? "II (little-endian)" : "MM (big-endian)"}, firstBytes: ${Array.from(new Uint8Array(arrayBuffer).slice(0, 8)).map(b => b.toString(16).padStart(2, "0")).join(" ")}`);
+
                     const modifiedColorRamp = file.ramp.map((color) =>
                         color.toLowerCase() === "#00ff00" ? "#7FFF00" : color
                     );
@@ -613,7 +669,7 @@ const DataGlance = () => {
                     };
                 })
                 .catch((err) => {
-                    console.error(`Error fetching GeoTIFF for ${file.grid_sequence_title || "grid"}:`, err);
+                    console.error(`Error fetching GeoTIFF for ${file.source_file}:`, err);
                     Swal.fire({
                         icon: "error",
                         title: "Error",
@@ -999,8 +1055,9 @@ const DataGlance = () => {
             }
 
             const map = mapInstances.current[index];
-            console.log(`Updating GeoTIFF layer for map ${index}, grid_sequence: ${tiff.metadata.grid_sequence}`);
+            console.log(`Updating GeoTIFF layer for map ${index}, grid_sequence: ${tiff.metadata.grid_sequence}, arrayBufferSize: ${tiff.arrayBuffer?.byteLength || 0}, source_file: ${tiff.metadata.source_file}, firstBytes: ${tiff.arrayBuffer ? Array.from(new Uint8Array(tiff.arrayBuffer).slice(0, 8)).map(b => b.toString(16).padStart(2, "0")).join(" ") : "N/A"}`);
 
+            // Clear existing layers
             layerRefs.current[index].forEach((layer) => {
                 if (layer && map.hasLayer(layer)) {
                     map.removeLayer(layer);
@@ -1029,21 +1086,32 @@ const DataGlance = () => {
 
             if (!georaster) {
                 try {
-                    georaster = await parseGeoraster(arrayBuffer);
+                    if (!arrayBuffer || arrayBuffer.byteLength === 0) {
+                        throw new Error(`Invalid arrayBuffer for map ${index}, grid_sequence: ${metadata.grid_sequence}, source_file: ${metadata.source_file}`);
+                    }
+                    // Use a copy of the arrayBuffer for parsing to preserve the original
+                    const arrayBufferCopy = arrayBuffer.slice(0);
+                    console.log(`Parsing GeoTIFF for map ${index}, grid_sequence: ${metadata.grid_sequence}, arrayBufferSize: ${arrayBufferCopy.byteLength}, source_file: ${metadata.source_file}, firstBytes: ${Array.from(new Uint8Array(arrayBufferCopy).slice(0, 8)).map(b => b.toString(16).padStart(2, "0")).join(" ")}`);
+                    georaster = await parseGeoraster(arrayBufferCopy, { useWorker: false });
                     console.log(`Map ${index} - GeoRaster parsed:`, {
+                        grid_sequence: metadata.grid_sequence,
                         bands: georaster.bands,
                         mins: georaster.mins,
                         maxs: georaster.maxs,
                         height: georaster.height,
                         width: georaster.width,
+                        arrayBufferSize: arrayBuffer.byteLength,
+                        source_file: metadata.source_file,
                     });
+                    // Log original arrayBuffer state after parsing
+                    console.log(`Original arrayBuffer state after parsing for map ${index}, grid_sequence: ${metadata.grid_sequence}, arrayBufferSize: ${arrayBuffer.byteLength}, firstBytes: ${arrayBuffer ? Array.from(new Uint8Array(arrayBuffer).slice(0, 8)).map(b => b.toString(16).padStart(2, "0")).join(" ") : "N/A"}`);
                     georasterCache.current.set(cacheKey, georaster);
                 } catch (err) {
-                    console.error(`GeoRaster parsing error for map ${index}:`, err);
+                    console.error(`GeoRaster parsing error for map ${index}, grid_sequence: ${metadata.grid_sequence}, source_file: ${metadata.source_file}:`, err);
                     Swal.fire({
                         icon: "error",
                         title: "Error",
-                        text: `Failed to parse GeoTIFF for map ${index}`,
+                        text: `Failed to parse GeoTIFF for map ${index} (${metadata.layer_name || "unknown"})`,
                     });
                     return;
                 }
@@ -1077,7 +1145,7 @@ const DataGlance = () => {
             try {
                 geotiffLayer.addTo(map);
                 layerRefs.current[index].push(geotiffLayer);
-                console.log(`GeoTIFF layer added to map ${index}`);
+                console.log(`GeoTIFF layer added to map ${index}, grid_sequence: ${metadata.grid_sequence}`);
 
                 if (memoizedGeojsonData?.geojson) {
                     const geojsonLayer = L.geoJSON(memoizedGeojsonData.geojson, {
@@ -1141,16 +1209,34 @@ const DataGlance = () => {
                     const downloadControl = L.control.downloadControl({
                         position: "topleft",
                         onDownload: () => {
-                            if (tiff && tiff.arrayBuffer) {
-                                handleDownloadGeoTIFF(tiff.arrayBuffer, `${tiff.metadata.layer_name}.tif`);
-                            } else {
-                                console.error("No valid GeoTIFF data available for download", { tiff });
+                            const gridSequence = index === 0 ? 0 : index;
+                            const tiffForDownload = tiffData.find((t) => t.metadata.grid_sequence === gridSequence);
+                            if (!tiffForDownload) {
+                                console.error(`No TIFF data found for map ${index}, grid_sequence: ${gridSequence}`);
                                 Swal.fire({
                                     icon: "error",
                                     title: "Download Failed",
-                                    text: "No GeoTIFF data available for this map.",
+                                    text: `No GeoTIFF data available for map ${index}.`,
                                 });
+                                return;
                             }
+                            if (!tiffForDownload.arrayBuffer || tiffForDownload.arrayBuffer.byteLength === 0) {
+                                console.error(`Invalid arrayBuffer for map ${index}, grid_sequence: ${gridSequence}`, {
+                                    tiffExists: !!tiffForDownload,
+                                    arrayBufferExists: !!tiffForDownload.arrayBuffer,
+                                    byteLength: tiffForDownload.arrayBuffer?.byteLength || 0,
+                                    sourceFile: tiffForDownload.metadata.source_file,
+                                    layerName: tiffForDownload.metadata.layer_name,
+                                });
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Download Failed",
+                                    text: `No valid GeoTIFF data available for ${tiffForDownload.metadata.layer_name || `map ${index}`}.`,
+                                });
+                                return;
+                            }
+                            console.log(`Initiating download for map ${index}, grid_sequence: ${tiffForDownload.metadata.grid_sequence}, layer_name: ${tiffForDownload.metadata.layer_name}, size: ${tiffForDownload.arrayBuffer.byteLength} bytes, source_file: ${tiffForDownload.metadata.source_file}, firstBytes: ${Array.from(new Uint8Array(tiffForDownload.arrayBuffer).slice(0, 8)).map(b => b.toString(16).padStart(2, "0")).join(" ")}`);
+                            handleDownloadGeoTIFF(tiffForDownload.arrayBuffer, `${tiffForDownload.metadata.layer_name}.tif`);
                         },
                     });
                     downloadControl.addTo(map);
@@ -1208,7 +1294,7 @@ const DataGlance = () => {
                 });
             }
         },
-        [memoizedGeojsonData, isFullscreen, updateFullscreenButton, handleDownloadGeoTIFF, theme.palette.mode]
+        [memoizedGeojsonData, isFullscreen, updateFullscreenButton, handleDownloadGeoTIFF, theme.palette.mode, tiffData]
     );
 
     const renderMaps = useCallback(() => {
