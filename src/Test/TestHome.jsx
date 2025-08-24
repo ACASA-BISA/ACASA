@@ -500,9 +500,21 @@ function TestHome(props) {
 
     // cycle through those 3
     const [mediaIdx, setMediaIdx] = useState(0);
+    useEffect(() => {
+        const id = setInterval(() => {
+            setMediaIdx((i) => (i + 1) % mediaItems.length);
+        }, 4000); // change every 3.5s
+        return () => clearInterval(id);
+    }, [mediaItems.length]);
 
     // slide through the 3 types
     const [typeIdx, setTypeIdx] = useState(0);
+    useEffect(() => {
+        const id = setInterval(() => {
+            setTypeIdx((i) => (i + 1) % types.length);
+        }, 4000); // change every 3.5s
+        return () => clearInterval(id);
+    }, []);
 
     const currentMedia = mediaItems[mediaIdx];
 
@@ -953,58 +965,35 @@ function TestHome(props) {
                 <Box sx={{ mt: 4, mb: 4 }}>
                     <Grid container spacing={2}>
                         {[
-                            {
-                                emoji: "🔍",
-                                text: "Zoom in to view risks at sub-district and village scales",
-                            },
-                            {
-                                emoji: "🌾",
-                                text: "Visualize climate hazards including droughts, floods, and heat stress",
-                            },
-                            {
-                                emoji: "🧑‍🌾",
-                                text: "Identify vulnerable regions for key crops and livestock",
-                            },
+                            { emoji: "🔍", text: "Zoom in to view risks at sub-district and village scales", },
+                            { emoji: "🌾", text: "Visualize climate hazards including droughts, floods, and heat stress", },
+                            { emoji: "🧑‍🌾", text: "Identify vulnerable regions for key crops and livestock", },
                             { emoji: "🛠", text: "Discover locally relevant adaptation options" },
                             { emoji: "📊", text: "Filter by country, crop, and hazard type" },
-                            {
-                                emoji: "🧭",
-                                text: "Support decision-making for insurance, planning, and investments",
-                            },
+                            { emoji: "🧭", text: "Support decision-making for insurance, planning, and investments", },
                         ].map((item, idx) => (
                             <Grid item xs={12} sm={6} md={4} key={idx}>
-                                <Card
-                                    className="card1"
-                                    sx={{
-                                        bgcolor:
-                                            theme.palette.mode === "dark" ? "#2c2f34" : "#ffffff",
-                                        borderRadius: "12px",
-                                        boxShadow:
-                                            theme.palette.mode === "dark"
-                                                ? "0px 4px 10px rgba(0,0,0,0.4)"
-                                                : "0px 4px 10px rgba(0,0,0,0.1)",
-                                    }}
-                                >
-                                    <CardContent
-                                        className="cardBody"
+                                <Card className="card1"
+                                    sx={{ bgcolor: theme.palette.mode === "dark" ? "#2c2f34" : "#ffffff",
+                                     borderRadius: "12px", 
+                                     boxShadow: theme.palette.mode === "dark" ? "0px 4px 10px rgba(0,0,0,0.4)" : "0px 4px 10px rgba(0,0,0,0.1)", }} >
+                                    <CardContent className="cardBody"
                                         sx={{
                                             color: theme.palette.text.primary,
                                             fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
                                             textAlign: "center",
-                                        }}
-                                    >
+                                        }} >
                                         <Typography sx={{ fontSize: "1.5rem", mt: 2 }}>
                                             {item.emoji}
                                         </Typography>
-                                        <Typography sx={{ fontSize: "1rem", lineHeight: 1.6, mt: 3 }}>
-                                            {item.text}
-                                        </Typography>
+                                        <Typography
+                                            sx={{ fontSize: "1rem", lineHeight: 1.6, mt: 3 }}>
+                                            {item.text} </Typography>
                                     </CardContent>
-                                </Card>
-                            </Grid>
-                        ))}
+                                </Card> </Grid>))}
                     </Grid>
                 </Box>
+
             </Container>
 
             <Container
@@ -1197,8 +1186,8 @@ function TestHome(props) {
                     ))}
 
                     <Button
-                    component={Link}
-                    to="/usecases"
+                        component={Link}
+                        to="/usecases"
                         className="btn btnAbout"
                         sx={{
                             bgcolor: theme.palette.mode === "dark" ? "#61c258" : "#4C9E46",
