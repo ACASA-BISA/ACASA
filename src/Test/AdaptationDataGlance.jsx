@@ -1324,6 +1324,8 @@ const DataGlance = () => {
                 center: [20.5937, 78.9629],
                 fadeAnimation: false,
                 zoomAnimation: false,
+                zoomSnap: 0.1, // Allow fractional zoom levels (e.g., 5.3, 5.6)
+                zoomDelta: 0.1, // Allow smaller zoom increments
             });
             const tileLayer = L.tileLayer(getTileLayerUrl(), {
                 attribution:

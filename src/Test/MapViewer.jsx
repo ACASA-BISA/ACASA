@@ -406,6 +406,10 @@ function MapViewer({
         layerRefs.current[index].push(geotiffLayer);
         console.log(`GeoTIFF layer added to map ${index}`);
 
+        const currentZoom = map.getZoom();
+        const newZoom = Math.min(currentZoom + 0.3, map.getMaxZoom());
+        map.setZoom(newZoom);
+
         geotiffLayer.on("click", async (e) => {
           const { lat, lng } = e.latlng;
           try {
@@ -566,6 +570,8 @@ function MapViewer({
           zoomAnimation: false,
           center: [20, 80], // Center on South Asia
           renderer: L.canvas(),
+          zoomSnap: 0.1, // Allow fractional zoom levels (e.g., 5.3, 5.6)
+          zoomDelta: 0.1, // Allow smaller zoom increments
         });
         const tileLayer = L.tileLayer(getTileLayerUrl(), {
           attribution:

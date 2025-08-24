@@ -974,6 +974,9 @@ const DataGlance = () => {
                     const arrayBufferCopy = arrayBuffer.slice(0);
                     console.log(`Parsing GeoTIFF for map ${index}, grid_sequence: ${metadata.grid_sequence}, arrayBufferSize: ${arrayBufferCopy.byteLength}, source_file: ${metadata.source_file}, firstBytes: ${Array.from(new Uint8Array(arrayBufferCopy).slice(0, 8)).map(b => b.toString(16).padStart(2, "0")).join(" ")}`);
                     georaster = await parseGeoraster(arrayBufferCopy, { useWorker: false });
+                    if (!georaster) {
+                        throw new Error(`GeoRaster parsing returned undefined for map ${index}, grid_sequence: ${metadata.grid_sequence}, source_file: ${metadata.source_file}`);
+                    }
                     console.log(`Map ${index} - GeoRaster parsed:`, {
                         grid_sequence: metadata.grid_sequence,
                         bands: georaster.bands,
@@ -994,8 +997,22 @@ const DataGlance = () => {
                         title: "Error",
                         text: `Failed to parse GeoTIFF for map ${index} (${metadata.layer_name || "unknown"})`,
                     });
-                    return;
+                    // Clear the cache for this key to prevent reusing invalid data
+                    georasterCache.current.delete(cacheKey);
+                    return; // Exit the function to prevent creating GeoRasterLayer with undefined georaster
                 }
+            }
+
+            // Verify georaster is valid before creating GeoRasterLayer
+            if (!georaster || !georaster.mins || !georaster.maxs) {
+                console.error(`Invalid georaster for map ${index}, grid_sequence: ${metadata.grid_sequence}, source_file: ${metadata.source_file}`);
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: `Invalid GeoRaster data for map ${index} (${metadata.layer_name || "unknown"})`,
+                });
+                georasterCache.current.delete(cacheKey);
+                return;
             }
 
             const geotiffLayer = new GeoRasterLayer({
@@ -1213,6 +1230,8 @@ const DataGlance = () => {
                 center: [20.5937, 78.9629],
                 fadeAnimation: false,
                 zoomAnimation: false,
+                zoomSnap: 0.1, // Allow fractional zoom levels (e.g., 5.3, 5.6)
+                zoomDelta: 0.1, // Allow smaller zoom increments
             });
             const tileLayer = L.tileLayer(getTileLayerUrl(), {
                 attribution:
@@ -1695,6 +1714,7 @@ const DataGlance = () => {
                                                     showHeader={false}
                                                     padding="2px"
                                                     glance={true}
+                                                    hazards={true}
                                                 />
                                             )}
                                         </Box>

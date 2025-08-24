@@ -24,13 +24,13 @@ const DynamicColorTooltip = styled(({ bgColor, textColor, className, ...props })
   },
 }));
 
-const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, mapWidth, showHeader = true, padding = "10px", glance = false }) => {
+const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, mapWidth, showHeader = true, padding = "10px", glance = false, hazards = false }) => {
   const theme = useTheme();
   const [legendData, setLegendData] = useState(null);
 
   // Calculate responsive width and font sizes
-  let maxLegendWidth = mapWidth ? Math.min(mapWidth, 450) : 450; // 80% of map width, capped at 450px
-  maxLegendWidth = glance ? maxLegendWidth - 30 : maxLegendWidth;
+  let maxLegendWidth = mapWidth ? Math.min(mapWidth, 450) : 415; // 80% of map width, capped at 450px
+  maxLegendWidth = glance && !hazards ? 450 : glance && hazards ? 320 : maxLegendWidth;
   console.log({ maxLegendWidth });
   const baseFontSize = mapWidth ? Math.max(10, Math.min(mapWidth * 0.03, 13)) : 11; // Scale font size
   const smallFontSize = baseFontSize * 0.9;
@@ -140,7 +140,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, mapWidth, showHead
         if (!success || !data) throw new Error("No valid legend data returned");
         setLegendData({
           ...data,
-          legend: data.legend?.filter((item) => item.base_category?.toLowerCase() !== "nil") || [],
+          legend: data.legend?.filter((item) => item.base_category?.toLowerCase() !== "nil" && item.named_category?.toLowerCase() !== "nil") || [],
         });
       } catch (err) {
         console.error("Error fetching legend data:", err);
@@ -168,9 +168,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, mapWidth, showHead
                 marginBottom: "2px",
               }}
             >
-              {legendData.header_text?.toLowerCase() === "seasonal rainfall"
-                ? "Seasonal rainfall"
-                : legendData.header_text || "Legend"}
+              {legendData.header_text || "Legend"}
             </Typography>
           </div>
         )}
@@ -187,59 +185,98 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, mapWidth, showHead
                 "& span": { color: theme.palette.mode === "dark" ? theme.palette.text.secondary : "#111", fontStyle: "italic" },
               }}
             >
-              <span>Number of rural farm households, million (M)</span>
+              <span>{legendData.population_text}</span>
             </Typography>
           </div>
         )}
         <Typography variant="body1">
           <div>
             <Box sx={{ display: "flex", flexDirection: "row", gap: "4px", flexWrap: "wrap", justifyContent: "center" }}>
-              {legendData.legend.map((item, index) => (
-                <div key={index}>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "left",
-                      flexDirection: "column",
-                      width: "100%",
-                      gap: "2px",
-                    }}
-                  >
-                    <Box sx={{ maxWidth: maxLegendWidth / 5, height: glance ? 15 : 18, borderRadius: 0, marginBottom: "-4px" }}>
-                      <Typography
-                        sx={{
-                          fontSize: tinyFontSize,
-                          margin: glance ? "0" : "2px",
-                          color: theme.palette.mode === "dark" ? theme.palette.text.secondary : "#111",
-                        }}
-                      >
-                        {calcpop(item.population_value)}
-                      </Typography>
-                    </Box>
+              {legendData.legend.map((item, index) => {
+                // Split named_category by newline for multi-line display
+                const [primaryText, secondaryText] = item.named_category ? item.named_category.split('\n') : [item.named_category, ''];
+                const isRainfall = legendData.header_text?.toLowerCase() === "seasonal rainfall";
+                const textColor = isRainfall
+                  ? ["<25 mm", "25-50 mm"].map(c => c.toLowerCase()).includes(item.named_category?.toLowerCase()) ? "#111" : "white"
+                  : item.text_color || "black";
+
+                return (
+                  <div key={index}>
                     <Box
                       sx={{
-                        maxWidth: maxLegendWidth / 5,
-                        height: 18,
-                        borderRadius: 0,
-                        bgcolor: item.color,
-                        alignContent: "center",
-                        cursor: legendData.header_text?.toLowerCase() === "seasonal rainfall" ? "pointer" : "default",
+                        display: "flex",
+                        alignItems: "left",
+                        flexDirection: "column",
+                        width: "100%",
+                        gap: "2px",
                       }}
                     >
-                      {legendData.header_text?.toLowerCase() === "seasonal rainfall" ? (
-                        <DynamicColorTooltip
-                          bgColor={item.color}
-                          textColor={["<25 mm", "25-50 mm"].map(c => c.toLowerCase()).includes(item.named_category?.toLowerCase()) ? "#111" : "white"}
-                          title={<Typography fontSize={smallFontSize}>This is dummy information about rainfall category.</Typography>}
+                      <Box sx={{ maxWidth: maxLegendWidth / 5, height: glance ? 15 : 18, borderRadius: 0, marginBottom: "-4px" }}>
+                        <Typography
+                          sx={{
+                            fontSize: tinyFontSize,
+                            margin: glance ? "0" : "2px",
+                            color: theme.palette.mode === "dark" ? theme.palette.text.secondary : "#111",
+                          }}
                         >
+                          {calcpop(item.population_value)}
+                        </Typography>
+                      </Box>
+                      <Box
+                        sx={{
+                          maxWidth: maxLegendWidth / 5,
+                          height: 18,
+                          borderRadius: 0,
+                          bgcolor: item.color,
+                          alignContent: "center",
+                          cursor: isRainfall ? "pointer" : "default",
+                        }}
+                      >
+                        {isRainfall ? (
+                          <DynamicColorTooltip
+                            bgColor={item.color}
+                            textColor={textColor}
+                            title={<Typography fontSize={smallFontSize}>This is dummy information about rainfall category.</Typography>}
+                          >
+                            <Typography
+                              sx={{
+                                fontSize: tinyFontSize,
+                                marginY: "auto",
+                                marginX: primaryText?.toLowerCase().includes("50-75 mm") ? "0px" : "3px",
+                                color: textColor,
+                              }}
+                              align={primaryText?.toLowerCase().includes("50-75 mm") ? "center" : "left"}
+                            >
+                              <span
+                                style={{
+                                  display: "inline-block",
+                                  whiteSpace: "nowrap",
+                                  overflow: "hidden",
+                                  textOverflow: "ellipsis",
+                                  lineHeight: secondaryText ? "1" : "2",
+                                  fontWeight: "bold",
+                                  fontSize: tinyFontSize,
+                                }}
+                              >
+                                {primaryText}
+                                {secondaryText && (
+                                  <>
+                                    <br />
+                                    <span style={{ fontSize: tinyFontSize * 0.9, fontWeight: "normal" }}>{secondaryText}</span>
+                                  </>
+                                )}
+                              </span>
+                            </Typography>
+                          </DynamicColorTooltip>
+                        ) : (
                           <Typography
                             sx={{
                               fontSize: tinyFontSize,
                               marginY: "auto",
-                              marginX: item.named_category?.toLowerCase().includes("50-75 mm") ? "0px" : "3px",
-                              color: ["<25 mm", "25-50 mm"].map(c => c.toLowerCase()).includes(item.named_category?.toLowerCase()) ? "#111" : "white",
+                              marginX: primaryText?.toLowerCase().includes("medium ") ? "0px" : "3px",
+                              color: textColor,
                             }}
-                            align={item.named_category?.toLowerCase().includes("50-75 mm") ? "center" : "left"}
+                            align={primaryText?.toLowerCase().includes("medium ") ? "center" : "left"}
                           >
                             <span
                               style={{
@@ -247,56 +284,38 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, mapWidth, showHead
                                 whiteSpace: "nowrap",
                                 overflow: "hidden",
                                 textOverflow: "ellipsis",
-                                lineHeight: "2",
+                                lineHeight: secondaryText ? "1" : "2",
                                 fontWeight: "bold",
                                 fontSize: tinyFontSize,
                               }}
                             >
-                              {item.named_category}
+                              {primaryText}
+                              {secondaryText && (
+                                <>
+                                  <br />
+                                  <span style={{ fontSize: tinyFontSize * 0.9, fontWeight: "normal" }}>{secondaryText}</span>
+                                </>
+                              )}
                             </span>
                           </Typography>
-                        </DynamicColorTooltip>
-                      ) : (
+                        )}
+                      </Box>
+                      <Box sx={{ maxWidth: maxLegendWidth / 5, height: glance ? 15 : 18, borderRadius: 0 }}>
                         <Typography
                           sx={{
                             fontSize: tinyFontSize,
-                            marginY: "auto",
-                            marginX: item.named_category?.toLowerCase().includes("medium ") ? "0px" : "3px",
-                            color: index <= 4 && index >= 2 ? "#111" : "white",
+                            margin: glance ? "0" : "2px",
+                            marginTop: "0px",
+                            color: theme.palette.mode === "dark" ? theme.palette.text.secondary : "#111",
                           }}
-                          align={item.named_category?.toLowerCase().includes("medium ") ? "center" : "left"}
                         >
-                          <span
-                            style={{
-                              display: "inline-block",
-                              whiteSpace: "nowrap",
-                              overflow: "hidden",
-                              textOverflow: "ellipsis",
-                              lineHeight: "2",
-                              fontWeight: "bold",
-                              fontSize: tinyFontSize,
-                            }}
-                          >
-                            {item.named_category}
-                          </span>
+                          {calcarea(item.commodity_value)}
                         </Typography>
-                      )}
+                      </Box>
                     </Box>
-                    <Box sx={{ maxWidth: maxLegendWidth / 5, height: glance ? 15 : 18, borderRadius: 0 }}>
-                      <Typography
-                        sx={{
-                          fontSize: tinyFontSize,
-                          margin: glance ? "0" : "2px",
-                          marginTop: "0px",
-                          color: theme.palette.mode === "dark" ? theme.palette.text.secondary : "#111",
-                        }}
-                      >
-                        {calcarea(item.commodity_value)}
-                      </Typography>
-                    </Box>
-                  </Box>
-                </div>
-              ))}
+                  </div>
+                );
+              })}
             </Box>
           </div>
         </Typography>
@@ -313,7 +332,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, mapWidth, showHead
             >
               <span>
                 {checkcrop()
-                  ? `${breadcrumbData?.commodityLabel} area, million hectare (Mha)`
+                  ? `${breadcrumbData?.commodityLabel ?? 'Cropped'} area, million hectare (Mha)`
                   : `Number of ${breadcrumbData?.commodityLabel?.toLowerCase()}${breadcrumbData?.commodityLabel?.toLowerCase() === "buffalo"
                     ? "es"
                     : breadcrumbData?.commodityLabel?.toLowerCase() === "sheep" || breadcrumbData?.commodityLabel?.toLowerCase() === "cattle"
