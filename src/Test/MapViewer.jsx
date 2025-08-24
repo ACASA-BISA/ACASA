@@ -564,7 +564,7 @@ function MapViewer({
           zoom: 3,
           fadeAnimation: false,
           zoomAnimation: false,
-          center: [0, 0],
+          center: [20, 80], // Center on South Asia
           renderer: L.canvas(),
         });
         const tileLayer = L.tileLayer(getTileLayerUrl(), {
@@ -1483,7 +1483,7 @@ function MapViewer({
         className="breadTextFont"
       >
         <Box sx={{ flexGrow: 1 }}>
-          {breadcrumbData ? (
+          {breadcrumbData && (
             <Breadcrumbs
               aria-label="breadcrumb"
               separator=">"
@@ -1524,10 +1524,6 @@ function MapViewer({
                 </Typography>
               )}
             </Breadcrumbs>
-          ) : (
-            <Typography color="text.secondary" className="breadText">
-              Loading breadcrumb...
-            </Typography>
           )}
         </Box>
         <IconButton

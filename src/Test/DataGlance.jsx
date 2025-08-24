@@ -842,7 +842,7 @@ const DataGlance = () => {
                 if (fetchedCommodities.length > 0) {
                     const activeCommodities = fetchedCommodities.filter((c) => c.status);
                     if (activeCommodities.length > 0) {
-                        commodityId = activeCommodities[0]?.commodity_id;
+                        commodityId = activeCommodities[1]?.commodity_id;
                         console.log(`Setting default commodity to ID: ${commodityId}`, { activeCommodities });
                         setSelectedCommodityId(commodityId);
                     } else {
