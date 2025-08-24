@@ -1132,8 +1132,8 @@ function MapViewer({
         visualization_scale_id: breadcrumbData?.visualization_scale_id || null,
         layer_id: tiffMetadata.layer_id || selectedRiskId,
         adaptation_croptab_id: breadcrumbData?.adaptation_croptab_id || null,
-        intensity_metric_id: breadcrumbData?.intensity_metric_id || null,
-        change_metric_id: breadcrumbData?.change_metric_id || null,
+        intensity_metric_id: selectedIntensityMetric === "Intensity Frequency" ? 2 : 1,
+        change_metric_id: selectedChangeMetric === "Absolute" ? 1 : 2,
       };
       console.log("Table download payload:", payload);
 
