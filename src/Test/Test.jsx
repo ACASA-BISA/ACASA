@@ -169,7 +169,7 @@ function Test() {
     }, [fetchData]);
 
     useEffect(() => {
-        if (selectedCommodityId && selectedCommodityTypeId === 1) {
+        if (selectedCommodityId) {
             fetchData(
                 `lkp/specific/adaptations?commodity_id=${selectedCommodityId}&commodity_type_id=1`,
                 setAdaptations
@@ -261,7 +261,6 @@ function Test() {
 
     useEffect(() => {
         if (commodities.length > 0) {
-            // Maintain order of commodity groups as they appear in the API response
             const groupOrder = [];
             const groupedCommodities = commodities.reduce((acc, commodity) => {
                 if (!acc[commodity.commodity_group]) {
@@ -272,24 +271,22 @@ function Test() {
                 return acc;
             }, {});
 
-            // Sort commodities within each group by commodity_id
             Object.values(groupedCommodities).forEach((group) => {
                 group.items.sort((a, b) => a.commodity_id - b.commodity_id);
             });
 
-            // Filter commodities based on selectedCommodityTypeId and status
             const filtered = groupOrder
                 .map((groupName) => groupedCommodities[groupName])
                 .flatMap((group) =>
                     group.items.filter((commodity) =>
-                        (selectedCommodityTypeId ? +commodity.commodity_type_id === +selectedCommodityTypeId : true)
+                        selectedCommodityTypeId ? commodity.commodity_type_id === selectedCommodityTypeId : true
                     )
                 );
 
             setFilteredCommodities(filtered);
 
-            if (filtered.length > 0 && (!selectedCommodityId || !filtered.some(c => +c.commodity_id === +selectedCommodityId))) {
-                setSelectedCommodityId(filtered[1].commodity_id);
+            if (filtered.length > 0 && (!selectedCommodityId || !filtered.some((c) => c.commodity_id === selectedCommodityId))) {
+                setSelectedCommodityId(filtered[1]?.commodity_id || "");
             }
         }
     }, [selectedCommodityTypeId, commodities, selectedCommodityId]);
@@ -320,10 +317,18 @@ function Test() {
             return;
         }
 
-        if (
-            (selectedRiskId || selectedImpactId || selectedAdaptationId) &&
-            !selectedCommodityId
-        ) {
+        // Enforce mutual exclusivity
+        const selectedCount = [selectedRiskId, selectedImpactId, selectedAdaptationId].filter(Boolean).length;
+        if (selectedCount > 1) {
+            console.warn("Mutual exclusivity violation detected:", {
+                selectedRiskId,
+                selectedImpactId,
+                selectedAdaptationId,
+            });
+            return;
+        }
+
+        if ((selectedRiskId || selectedImpactId || selectedAdaptationId) && !selectedCommodityId) {
             Swal.fire({
                 icon: "error",
                 title: "Missing Commodity",
@@ -335,25 +340,23 @@ function Test() {
         let layer_type = "commodity";
         if (selectedRiskId) layer_type = "risk";
         else if (selectedImpactId) layer_type = "impact";
-        else if (selectedAdaptationId && selectedCommodityTypeId === 1) layer_type = "adaptation";
+        else if (selectedAdaptationId) layer_type = "adaptation";
         else if (selectedAdaptationId) layer_type = "adaptation";
 
-        const admin_level =
-            selectedStateId !== 0 ? "state" : selectedCountryId !== 0 ? "country" : "total";
-        const admin_level_id =
-            selectedStateId !== 0 ? selectedStateId : selectedCountryId !== 0 ? selectedCountryId : null;
+        const admin_level = selectedStateId !== 0 ? "state" : selectedCountryId !== 0 ? "country" : "total";
+        const admin_level_id = selectedStateId !== 0 ? selectedStateId : selectedCountryId !== 0 ? selectedCountryId : null;
 
         const newFilters = {
-            analysis_scope_id: +selectedScopeId || null,
-            visualization_scale_id: +selectedScaleId || null,
-            commodity_id: +selectedCommodityId || null,
-            commodity_type_id: +selectedCommodityTypeId || null,
-            data_source_id: +selectedDataSourceId || null,
-            climate_scenario_id: +selectedScenarioId || null,
+            analysis_scope_id: selectedScopeId || null,
+            visualization_scale_id: selectedScaleId || null,
+            commodity_id: selectedCommodityId || null,
+            commodity_type_id: selectedCommodityTypeId || null,
+            data_source_id: selectedDataSourceId || null,
+            climate_scenario_id: selectedScenarioId || null,
             layer_type,
-            risk_id: layer_type === "risk" ? +selectedRiskId : null,
-            impact_id: layer_type === "impact" ? +selectedImpactId : null,
-            adaptation_id: layer_type === "adaptation" ? +selectedAdaptationId || null : null,
+            risk_id: layer_type === "risk" ? selectedRiskId : null,
+            impact_id: layer_type === "impact" ? selectedImpactId : null,
+            adaptation_id: layer_type === "adaptation" ? selectedAdaptationId || null : null,
             admin_level,
             admin_level_id,
             geojson: geojsonData?.geojson,
@@ -424,13 +427,10 @@ function Test() {
     const getStates = async (countryId) => {
         setIsLoading(true);
         try {
-            const response = await fetch(
-                `${apiUrl}/lkp/locations/states?country_id=${countryId}`,
-                {
-                    method: "GET",
-                    headers: { "Content-Type": "application/json" },
-                }
-            );
+            const response = await fetch(`${apiUrl}/lkp/locations/states?country_id=${countryId}`, {
+                method: "GET",
+                headers: { "Content-Type": "application/json" },
+            });
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
             const { success, data } = await response.json();
             if (!success) throw new Error("Error loading states");
@@ -477,17 +477,19 @@ function Test() {
         const newCommodityTypeId = event.target.value;
         setSelectedCommodityTypeId(newCommodityTypeId);
         setSelectedCommodityId("");
-        setSelectedAdaptationId("");
-        setSelectedRiskId("");
-        setSelectedImpactId("");
+        setSelectedRiskId(""); // Reset risk
+        setSelectedImpactId(""); // Reset impact
+        setSelectedAdaptationId(""); // Reset adaptation
+        // Rely on useEffect to trigger updateFilters after state updates
     };
 
     const handleCommodityChange = (event) => {
         const newCommodityId = event.target.value;
         setSelectedCommodityId(newCommodityId);
-        setSelectedAdaptationId("");
-        setSelectedRiskId("");
-        setSelectedImpactId("");
+        setSelectedRiskId(""); // Reset risk
+        setSelectedImpactId(""); // Reset impact
+        setSelectedAdaptationId(""); // Reset adaptation
+        // Rely on useEffect to trigger updateFilters after state updates
     };
 
     const handleScopeChange = (event) => {
@@ -507,27 +509,27 @@ function Test() {
     };
 
     const handleRiskChange = (event) => {
-        setSelectedRiskId(event.target.value);
-        if (event.target.value) {
-            setSelectedImpactId("");
-            setSelectedAdaptationId("");
-        }
+        const newRiskId = event.target.value;
+        setSelectedRiskId(newRiskId); // Update risk state
+        setSelectedImpactId(""); // Reset impact
+        setSelectedAdaptationId(""); // Reset adaptation
+        // Rely on useEffect to trigger updateFilters after state updates
     };
 
     const handleImpactChange = (event) => {
-        setSelectedImpactId(event.target.value);
-        if (event.target.value) {
-            setSelectedRiskId("");
-            setSelectedAdaptationId("");
-        }
+        const newImpactId = event.target.value;
+        setSelectedImpactId(newImpactId); // Update impact state
+        setSelectedRiskId(""); // Reset risk
+        setSelectedAdaptationId(""); // Reset adaptation
+        // Rely on useEffect to trigger updateFilters after state updates
     };
 
     const handleAdaptationChange = (event) => {
-        setSelectedAdaptationId(event.target.value);
-        if (event.target.value) {
-            setSelectedRiskId("");
-            setSelectedImpactId("");
-        }
+        const newAdaptationId = event.target.value;
+        setSelectedAdaptationId(newAdaptationId); // Update adaptation state
+        setSelectedRiskId(""); // Reset risk
+        setSelectedImpactId(""); // Reset impact
+        // Rely on useEffect to trigger updateFilters after state updates
     };
 
     const groupedRisks = risks.reduce((acc, risk) => {
@@ -540,12 +542,10 @@ function Test() {
         return acc;
     }, {});
 
-    // Sort risks within each group by risk_id
     Object.values(groupedRisks).forEach((group) => {
         group.items.sort((a, b) => a.risk_id - b.risk_id);
     });
 
-    // Sort groups by ipcc_id (or risk_id for ungrouped items)
     const sortedGroupedRisks = Object.keys(groupedRisks)
         .sort((a, b) => parseInt(a) - parseInt(b))
         .reduce((acc, key) => {
@@ -563,12 +563,10 @@ function Test() {
         return acc;
     }, {});
 
-    // Sort adaptations within each group by adaptation_id
     Object.values(groupedAdaptations).forEach((group) => {
         group.items.sort((a, b) => a.adaptation_id - b.adaptation_id);
     });
 
-    // Sort groups by group_id (or adaptation_id for ungrouped items)
     const sortedGroupedAdaptations = Object.keys(groupedAdaptations)
         .sort((a, b) => parseInt(a) - parseInt(b))
         .reduce((acc, key) => {
@@ -604,13 +602,7 @@ function Test() {
                 >
                     <Toolbar />
                     <List style={{ marginTop: "14px" }}>
-                        <Box
-                            sx={{
-                                display: "flex",
-                                justifyContent: "flex-end",
-                                alignItems: "center",
-                            }}
-                        >
+                        <Box sx={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
                             <Box>
                                 <IconButton
                                     color="inherit"
@@ -773,7 +765,7 @@ function Test() {
                                                         key={type.commodity_type_id}
                                                         control={
                                                             <Switch
-                                                                checked={+selectedCommodityTypeId === +type.commodity_type_id}
+                                                                checked={selectedCommodityTypeId === type.commodity_type_id}
                                                                 onChange={() =>
                                                                     handleCommodityTypeChange({
                                                                         target: { value: type.commodity_type_id },
@@ -819,9 +811,7 @@ function Test() {
                                             <img src="/images/analysis.svg" alt="Analysis & Scale" />
                                         </ListItemIcon>
                                         <ListItemText
-                                            primary={
-                                                <FormLabel className="formLabel">Analysis & Scale</FormLabel>
-                                            }
+                                            primary={<FormLabel className="formLabel">Analysis & Scale</FormLabel>}
                                         />
                                         {isSidebarOpen.analysis ? <ExpandLess /> : <ExpandMore />}
                                     </ListItemButton>
@@ -836,7 +826,7 @@ function Test() {
                                                         key={scope.scope_id}
                                                         control={
                                                             <Switch
-                                                                checked={+selectedScopeId === +scope.scope_id}
+                                                                checked={selectedScopeId === scope.scope_id}
                                                                 onChange={() =>
                                                                     handleScopeChange({
                                                                         target: { value: scope.scope_id },
@@ -873,7 +863,7 @@ function Test() {
                                                         key={scale.scale_id}
                                                         control={
                                                             <Switch
-                                                                checked={+selectedScaleId === +scale.scale_id}
+                                                                checked={selectedScaleId === scale.scale_id}
                                                                 onChange={() =>
                                                                     handleScaleChange({
                                                                         target: { value: scale.scale_id },
@@ -943,17 +933,15 @@ function Test() {
                                                     return acc;
                                                 }, {});
 
-                                                // Sort commodities within each group by commodity_id
                                                 Object.values(groupedCommodities).forEach((group) => {
                                                     group.items.sort((a, b) => a.commodity_id - b.commodity_id);
                                                 });
 
                                                 return groupOrder.map((groupName) => {
                                                     const group = groupedCommodities[groupName];
-                                                    const filteredItems = group.items
-                                                        .filter((commodity) =>
-                                                            (selectedCommodityTypeId ? +commodity.commodity_type_id === +selectedCommodityTypeId : true)
-                                                        );
+                                                    const filteredItems = group.items.filter((commodity) =>
+                                                        selectedCommodityTypeId ? commodity.commodity_type_id === selectedCommodityTypeId : true
+                                                    );
                                                     return filteredItems.length > 0 ? (
                                                         <div key={group.name}>
                                                             <Typography variant="subtitle2" sx={{ mt: 2, mb: 1, textAlign: "left" }}>
@@ -965,7 +953,7 @@ function Test() {
                                                                         key={commodity.commodity_id}
                                                                         control={
                                                                             <Switch
-                                                                                checked={+selectedCommodityId === +commodity.commodity_id}
+                                                                                checked={selectedCommodityId === commodity.commodity_id}
                                                                                 onChange={() =>
                                                                                     handleCommodityChange({
                                                                                         target: { value: commodity.commodity_id },
@@ -1040,7 +1028,7 @@ function Test() {
                                                                 key={risk.risk_id}
                                                                 control={
                                                                     <Switch
-                                                                        checked={+selectedRiskId === +risk.risk_id}
+                                                                        checked={selectedRiskId === risk.risk_id}
                                                                         onChange={() =>
                                                                             handleRiskChange({
                                                                                 target: { value: risk.risk_id },
@@ -1108,7 +1096,7 @@ function Test() {
                                                         key={impact.impact_id}
                                                         control={
                                                             <Switch
-                                                                checked={+selectedImpactId === +impact.impact_id}
+                                                                checked={selectedImpactId === impact.impact_id}
                                                                 onChange={() =>
                                                                     handleImpactChange({
                                                                         target: { value: impact.impact_id },
@@ -1139,80 +1127,78 @@ function Test() {
                                     </Collapse>
                                 </List>
 
-                                {selectedCommodityTypeId === 1 && (
-                                    <List
-                                        className="listMenu"
-                                        sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
-                                        component="nav"
-                                        aria-labelledby="nested-list-subheader7"
+                                <List
+                                    className="listMenu"
+                                    sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+                                    component="nav"
+                                    aria-labelledby="nested-list-subheader7"
+                                >
+                                    <ListSubheader component="div" id="nested-list-subheader7"></ListSubheader>
+                                    <ListItemButton
+                                        onClick={() => handleSidebarToggle("adaptation")}
+                                        disabled={isLoading || mapLoading || !selectedCommodityId}
+                                        sx={getListItemStyle("adaptation")}
                                     >
-                                        <ListSubheader component="div" id="nested-list-subheader7"></ListSubheader>
-                                        <ListItemButton
-                                            onClick={() => handleSidebarToggle("adaptation")}
-                                            disabled={isLoading || mapLoading || !selectedCommodityId}
-                                            sx={getListItemStyle("adaptation")}
+                                        <ListItemIcon
+                                            sx={{
+                                                minWidth: 35,
+                                                color: "rgba(0, 0, 0, 0.54)",
+                                                flexShrink: 0,
+                                                display: "inline-flex",
+                                            }}
                                         >
-                                            <ListItemIcon
-                                                sx={{
-                                                    minWidth: 35,
-                                                    color: "rgba(0, 0, 0, 0.54)",
-                                                    flexShrink: 0,
-                                                    display: "inline-flex",
-                                                }}
-                                            >
-                                                <img src="/images/option.svg" alt="Adaptation" />
-                                            </ListItemIcon>
-                                            <ListItemText
-                                                primary={<FormLabel className="formLabel">Adaptation</FormLabel>}
-                                            />
-                                            {isSidebarOpen.adaptation ? <ExpandLess /> : <ExpandMore />}
-                                        </ListItemButton>
-                                        <Collapse in={isSidebarOpen.adaptation} timeout="auto" unmountOnExit>
-                                            <List component="div" disablePadding sx={{ px: 2 }}>
-                                                {Object.entries(sortedGroupedAdaptations).map(([groupId, group]) => (
-                                                    <div key={groupId}>
-                                                        <Typography variant="subtitle2" sx={{ mt: 2, mb: 1, textAlign: "left" }}>
-                                                            <FormLabel className="formLabel">{group.name}</FormLabel>
-                                                        </Typography>
-                                                        <FormGroup>
-                                                            {group.items.map((adaptation) => (
-                                                                <FormControlLabel
-                                                                    key={adaptation.adaptation_id}
-                                                                    control={
-                                                                        <Switch
-                                                                            checked={+selectedAdaptationId === +adaptation.adaptation_id}
-                                                                            onChange={() =>
-                                                                                handleAdaptationChange({
-                                                                                    target: { value: adaptation.adaptation_id },
-                                                                                })
-                                                                            }
-                                                                            disabled={!adaptation.status || isLoading || mapLoading}
-                                                                            color="primary"
-                                                                        />
-                                                                    }
-                                                                    label={
-                                                                        <span
-                                                                            style={{
-                                                                                fontFamily: "Poppins",
-                                                                                fontSize: "10px",
-                                                                                fontStyle: "normal",
-                                                                                fontWeight: 500,
-                                                                                lineHeight: "normal",
-                                                                                textAlign: "left",
-                                                                            }}
-                                                                        >
-                                                                            {adaptation.adaptation}
-                                                                        </span>
-                                                                    }
-                                                                />
-                                                            ))}
-                                                        </FormGroup>
-                                                    </div>
-                                                ))}
-                                            </List>
-                                        </Collapse>
-                                    </List>
-                                )}
+                                            <img src="/images/option.svg" alt="Adaptation" />
+                                        </ListItemIcon>
+                                        <ListItemText
+                                            primary={<FormLabel className="formLabel">Adaptation</FormLabel>}
+                                        />
+                                        {isSidebarOpen.adaptation ? <ExpandLess /> : <ExpandMore />}
+                                    </ListItemButton>
+                                    <Collapse in={isSidebarOpen.adaptation} timeout="auto" unmountOnExit>
+                                        <List component="div" disablePadding sx={{ px: 2 }}>
+                                            {Object.entries(sortedGroupedAdaptations).map(([groupId, group]) => (
+                                                <div key={groupId}>
+                                                    <Typography variant="subtitle2" sx={{ mt: 2, mb: 1, textAlign: "left" }}>
+                                                        <FormLabel className="formLabel">{group.name}</FormLabel>
+                                                    </Typography>
+                                                    <FormGroup>
+                                                        {group.items.map((adaptation) => (
+                                                            <FormControlLabel
+                                                                key={adaptation.adaptation_id}
+                                                                control={
+                                                                    <Switch
+                                                                        checked={selectedAdaptationId === adaptation.adaptation_id}
+                                                                        onChange={() =>
+                                                                            handleAdaptationChange({
+                                                                                target: { value: adaptation.adaptation_id },
+                                                                            })
+                                                                        }
+                                                                        disabled={!adaptation.status || isLoading || mapLoading}
+                                                                        color="primary"
+                                                                    />
+                                                                }
+                                                                label={
+                                                                    <span
+                                                                        style={{
+                                                                            fontFamily: "Poppins",
+                                                                            fontSize: "10px",
+                                                                            fontStyle: "normal",
+                                                                            fontWeight: 500,
+                                                                            lineHeight: "normal",
+                                                                            textAlign: "left",
+                                                                        }}
+                                                                    >
+                                                                        {adaptation.adaptation}
+                                                                    </span>
+                                                                }
+                                                            />
+                                                        ))}
+                                                    </FormGroup>
+                                                </div>
+                                            ))}
+                                        </List>
+                                    </Collapse>
+                                </List>
                             </div>
                         </div>
                     </List>

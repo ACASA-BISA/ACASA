@@ -30,8 +30,8 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, mapWidth, showHead
 
   // Calculate responsive width and font sizes
   let maxLegendWidth = mapWidth ? Math.min(mapWidth, 450) : 450; // 80% of map width, capped at 450px
-  maxLegendWidth = glance ? maxLegendWidth - 30 : maxLegendWidth
-  console.log({ maxLegendWidth })
+  maxLegendWidth = glance ? maxLegendWidth - 30 : maxLegendWidth;
+  console.log({ maxLegendWidth });
   const baseFontSize = mapWidth ? Math.max(10, Math.min(mapWidth * 0.03, 13)) : 11; // Scale font size
   const smallFontSize = baseFontSize * 0.9;
   const tinyFontSize = baseFontSize * 0.8;
@@ -61,7 +61,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, mapWidth, showHead
     return areaInMillions.toFixed(1) + unit;
   };
 
-  // Generate canvas for non-risk layers
+  // Generate canvas for commodity layer
   const generateLegendCanvas = async (colorRamp) => {
     const canvas = document.createElement("canvas");
     canvas.width = maxLegendWidth * 0.6; // 60% of legend width for gradient
@@ -90,7 +90,8 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, mapWidth, showHead
   // Fetch legend data
   useEffect(() => {
     const fetchLegendData = async () => {
-      if (layerType?.toLowerCase() !== "risk") {
+      // For commodity layer, generate gradient canvas
+      if (layerType?.toLowerCase() === "commodity") {
         if (tiff?.metadata?.color_ramp) {
           try {
             const legendData = await generateLegendCanvas(tiff.metadata.color_ramp);
@@ -105,14 +106,17 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, mapWidth, showHead
         return;
       }
 
-      if (!tiff?.metadata?.layer_id) {
+      // For risk, impact, adaptation, or adaptation_croptab layers, fetch from API
+      if (!tiff?.metadata?.layer_id && layerType?.toLowerCase() !== "commodity") {
+        console.warn(`Missing layer_id for layerType: ${layerType}`);
         setLegendData(null);
         return;
       }
 
       try {
         const payload = {
-          layer_type: layerType,
+          adaptation_croptab_id: breadcrumbData?.adaptation_croptab_id || null,
+          layer_type: layerType?.toLowerCase(),
           country_id: breadcrumbData?.country_id || null,
           state_id: breadcrumbData?.state_id || null,
           commodity_id: breadcrumbData?.commodity_id || null,
@@ -121,6 +125,8 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, mapWidth, showHead
           data_source_id: breadcrumbData?.data_source_id || null,
           visualization_scale_id: breadcrumbData?.visualization_scale_id || null,
           layer_id: tiff.metadata.layer_id,
+          intensity_metric_id: breadcrumbData?.intensity_metric_id || null,
+          change_metric_id: breadcrumbData?.change_metric_id || null,
         };
 
         const response = await fetch(`${apiUrl}/layers/legend`, {
@@ -145,13 +151,13 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, mapWidth, showHead
     fetchLegendData();
   }, [tiff, layerType, apiUrl, breadcrumbData]);
 
-  // Render risk legend
+  // Render categorical legend for risk, impact, adaptation, or adaptation_croptab
   const renderRiskLegend = () => {
     if (!legendData || !legendData.legend) return null;
 
     return (
       <div style={{ maxWidth: maxLegendWidth, minWidth: maxLegendWidth * 0.7 }}>
-        {showHeader &&
+        {showHeader && (
           <div>
             <Typography
               variant="body1"
@@ -166,7 +172,8 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, mapWidth, showHead
                 ? "Seasonal rainfall"
                 : legendData.header_text || "Legend"}
             </Typography>
-          </div>}
+          </div>
+        )}
 
         {legendData.population_text && (
           <div>
@@ -336,7 +343,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, mapWidth, showHead
     );
   };
 
-  // Render non-risk legend
+  // Render gradient legend for commodity
   const renderDefaultLegend = () => {
     if (!legendData?.base64 || !breadcrumbData?.commodityLabel) return null;
 
@@ -364,8 +371,13 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, mapWidth, showHead
     );
   };
 
+  // Determine which legend to render based on layerType
+  const legendContent =
+    ["risk", "impact", "adaptation", "adaptation_croptab"].includes(layerType?.toLowerCase())
+      ? renderRiskLegend()
+      : renderDefaultLegend();
+
   // Conditionally render the Paper only if there is valid content
-  const legendContent = layerType?.toLowerCase() === "risk" ? renderRiskLegend() : renderDefaultLegend();
   if (!legendContent) return null;
 
   return (

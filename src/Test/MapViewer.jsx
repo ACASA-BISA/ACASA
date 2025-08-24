@@ -807,6 +807,8 @@ function MapViewer({
         (item) => item.commodity_id === memoizedFilters?.commodity_id
       );
       const commodityLabel = selectedCommodity ? selectedCommodity.commodity : null;
+      console.log(payload.layer_type, +memoizedFilters?.commodity_type_id, selectedAdaptationTabId)
+      // debugger;
       setBreadcrumbData({
         mask: data.mask || null,
         commodityLabel: commodityLabel,
@@ -820,6 +822,9 @@ function MapViewer({
         climate_scenario_id: memoizedFilters.climate_scenario_id,
         data_source_id: memoizedFilters.data_source_id,
         visualization_scale_id: memoizedFilters.visualization_scale_id,
+        adaptation_croptab_id: payload.layer_type === 'adaptation' && +memoizedFilters?.commodity_type_id === 1 ? selectedAdaptationTabId : null,
+        intensity_metric_id: selectedIntensityMetric,
+        change_metric_id: selectedChangeMetric,
       });
 
       let tiffPromises;
@@ -893,15 +898,15 @@ function MapViewer({
           },
         ];
 
+
         const existingFiles = fileList.filter((file) =>
-          defaultFilters.some(
-            (filter) =>
-              file.exists === true &&
-              file.climate_scenario_id === filter.climate_scenario_id &&
-              (filter.year ? file.year === filter.year : !file.year) &&
-              file.intensity_metric_id === filter.intensity_metric_id &&
-              file.change_metric_id === filter.change_metric_id &&
-              file.ramp
+          defaultFilters.some((filter) =>
+            file.climate_scenario_id === filter.climate_scenario_id &&
+            file.year === filter.year &&
+            file.intensity_metric_id === filter.intensity_metric_id &&
+            file.change_metric_id === filter.change_metric_id &&
+            file.exists === true &&
+            Array.isArray(file.ramp) && file.ramp.length > 0
           )
         );
 
@@ -909,17 +914,19 @@ function MapViewer({
           let file = existingFiles.find(
             (f) =>
               f.climate_scenario_id === filter.climate_scenario_id &&
-              (filter.year ? f.year === filter.year : !f.year) &&
+              f.year === filter.year &&
               f.intensity_metric_id === filter.intensity_metric_id &&
               f.change_metric_id === filter.change_metric_id &&
-              f.ramp
+              Array.isArray(f.ramp) && f.ramp.length > 0
           );
+
           if (!file && existingFiles.length > 0) {
             file = existingFiles[0];
-            console.warn(`No file found for index ${index}, falling back to first available file`);
+            console.warn(`No exact file match for filter at index ${index}, falling back to first available file.`);
           }
+
           if (!file) {
-            console.warn(`No file available for index ${index}`);
+            console.warn(`No file available for filter at index ${index}:`, filter);
             return null;
           }
 
@@ -946,7 +953,7 @@ function MapViewer({
               source_file: file.source_file,
               color_ramp: file.ramp,
               layer_name: filter.label,
-              layer_id: payload.layer_type === "risk" ? selectedRiskId : null,
+              layer_id: ({ risk: selectedRiskId, adaptation: selectedAdaptationId, impact: selectedImpactId }[payload.layer_type] ?? null),
               year: filter.year,
               intensity_metric: filter.metric,
               climate_scenario_id: file.climate_scenario_id,
@@ -1124,6 +1131,9 @@ function MapViewer({
         data_source_id: breadcrumbData?.data_source_id || null,
         visualization_scale_id: breadcrumbData?.visualization_scale_id || null,
         layer_id: tiffMetadata.layer_id || selectedRiskId,
+        adaptation_croptab_id: breadcrumbData?.adaptation_croptab_id || null,
+        intensity_metric_id: breadcrumbData?.intensity_metric_id || null,
+        change_metric_id: breadcrumbData?.change_metric_id || null,
       };
       console.log("Table download payload:", payload);
 
@@ -1809,7 +1819,7 @@ function MapViewer({
                   </Box>
                 )}
                 {tiffData[index] && (
-                  <DownloadDropdown
+                  < DownloadDropdown
                     layerName={tiffData[index].metadata.layer_name}
                     layerType={memoizedFilters?.layer_type || "risk"}
                     mapIndex={index}

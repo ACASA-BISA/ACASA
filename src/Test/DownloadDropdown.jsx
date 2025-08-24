@@ -99,7 +99,7 @@ const DownloadDropdown = ({ layerName, layerType, mapIndex, onDownloadGeoTIFF, o
                         marginTop: "4px",
                     }}
                 />
-                {layerType === 'risk' &&
+                {layerType !== 'commodity' &&
                     (
                         <><Box
                             sx={{ cursor: "pointer" }}
