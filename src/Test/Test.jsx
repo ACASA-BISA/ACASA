@@ -679,7 +679,7 @@ function Test() {
                                                                     displayEmpty
                                                                     inputProps={{ "aria-label": "Country" }}
                                                                     disabled={isLoading || mapLoading}
-                                                                    style={{ margin: "0 0 15px 0", textAlign: "left" }}
+                                                                    style={{ margin: "0px 0px 0px 17px", textAlign: "left" }}
                                                                 >
                                                                     <MenuItem
                                                                         className="customMenuItem"
@@ -717,7 +717,7 @@ function Test() {
                                                             displayEmpty
                                                             inputProps={{ "aria-label": "State" }}
                                                             disabled={disabledStateFilter || isLoading || mapLoading}
-                                                            style={{ textAlign: "left" }}
+                                                            style={{ margin: "8px 0px 0px 17px", textAlign: "left" }}
                                                         >
                                                             <MenuItem
                                                                 className="customMenuItem"

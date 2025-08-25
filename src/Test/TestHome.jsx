@@ -167,11 +167,11 @@ var items = [
     },
 ];
 
-const types = [
-    "Enhance adaptive capacity of agricultural systems through granular climate risk assessment and targeted adaptation options.",
-    "Strengthen the quality, accessibility, and usability of data and evidence to support climate-informed decision-making in agriculture.",
-    "Build resilience of small-scale producers to climate variability and change through data-driven climate adaptation options.",
-];
+// const types = [
+//     "Enhance adaptive capacity of agricultural systems through granular climate risk assessment and targeted adaptation options.",
+//     "Strengthen the quality, accessibility, and usability of data and evidence to support climate-informed decision-making in agriculture.",
+//     "Build resilience of small-scale producers to climate variability and change through data-driven climate adaptation options.",
+// ];
 
 const ImageOverlay = styled("span")(({ theme }) => ({
     position: "absolute",
@@ -508,13 +508,13 @@ function TestHome(props) {
     }, [mediaItems.length]);
 
     // slide through the 3 types
-    const [typeIdx, setTypeIdx] = useState(0);
-    useEffect(() => {
-        const id = setInterval(() => {
-            setTypeIdx((i) => (i + 1) % types.length);
-        }, 4000); // change every 3.5s
-        return () => clearInterval(id);
-    }, []);
+    // const [typeIdx, setTypeIdx] = useState(0);
+    // useEffect(() => {
+    //     const id = setInterval(() => {
+    //         setTypeIdx((i) => (i + 1) % types.length);
+    //     }, 4000); // change every 3.5s
+    //     return () => clearInterval(id);
+    // }, []);
 
     const currentMedia = mediaItems[mediaIdx];
 
@@ -678,6 +678,7 @@ function TestHome(props) {
                                 sx={(theme) => ({
                                     color: theme.palette.mode === "dark" ? "#000000" : "#ffffff",
                                     fontWeight: "bold",
+                                    mt: 6,
                                     textShadow: theme.palette.mode === "dark" ? "2px 2px 5px rgba(0, 0, 0, 0.6)" : "2px 2px 5px rgba(0, 0, 0, 0.25), -2px -2px 5px rgba(0, 0, 0, 0.25)",
                                 })}
                             >
@@ -705,7 +706,7 @@ function TestHome(props) {
                                     mr: -3,
                                 })}
                             >
-                                <Slide key={typeIdx} direction="right" in={true} timeout={500} mountOnEnter unmountOnExit>
+                                {/* <Slide key={typeIdx} direction="right" in={true} timeout={500} mountOnEnter unmountOnExit>
                                     <Typography
                                         variant="h6"
                                         sx={(theme) => ({
@@ -716,7 +717,7 @@ function TestHome(props) {
                                     >
                                         {types[typeIdx]}
                                     </Typography>
-                                </Slide>
+                                </Slide> */}
                             </Box>
 
                             <Button
@@ -724,7 +725,7 @@ function TestHome(props) {
                                 href="/#/dashboard"
                                 sx={(theme) => ({
                                     "width": "160px",
-                                    "mt": 6,
+                                    "mt": 3,
                                     "mb": 2,
                                     "fontSize": "18px",
                                     "flexShrink": 0,
@@ -739,7 +740,33 @@ function TestHome(props) {
                                 Explore
                             </Button>
                         </Box>
-
+ {/* Overlay Right Cards */}
+                <Box
+                    sx={{
+                        position: "absolute",
+                        top: "370px",
+                        right: 20,
+                        transform: "translateY(-50%)",
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 2,
+                        zIndex: 3,
+                        width: { xs: "80%", sm: "300px" },
+                    }}
+                >
+                    {rightCards.map((card, idx) => (
+                        <Card key={idx} className="cardImg" sx={{ backgroundColor: "rgba(255, 255, 255, 0.10)", borderRadius: "20px", backdropFilter: "blur(25px)" }}>
+                            {card.image && (
+                                <CardMedia component="img" height="50px" width="50px" image={card.image} alt={card.title} />
+                            )}
+                            <CardContent>
+                                <Typography variant="body2" color="text.secondary">
+                                    {card.description}
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                    ))}
+                </Box>
                         <PopperMessage />
                     </Paper>
 
@@ -882,6 +909,7 @@ function TestHome(props) {
                         </Box>
                     </Box> */}
                 </Box>
+                
 
                 <Box
                     sx={{
@@ -983,11 +1011,11 @@ function TestHome(props) {
                                             fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
                                             textAlign: "center",
                                         }} >
-                                        <Typography sx={{ fontSize: "1.5rem", mt: 2 }}>
-                                            {item.emoji}
+                                        <Typography sx={{ fontSize: "1.5rem", mt: 1 }}>
+                                            <div className="roundedBox">{item.emoji}</div>
                                         </Typography>
                                         <Typography
-                                            sx={{ fontSize: "1rem", lineHeight: 1.6, mt: 3 }}>
+                                            sx={{ fontSize: "1rem", lineHeight: 1.6, mt: 2 }}>
                                             {item.text} </Typography>
                                     </CardContent>
                                 </Card> </Grid>))}
@@ -1464,7 +1492,7 @@ function TestHome(props) {
                                         className="resourceCardPartner"
                                         sx={{
                                             bgcolor:
-                                                theme.palette.mode === "dark" ? "#2c2f34" : "#F2F4F3",
+                                                theme.palette.mode === "dark" ? "#2c2f34" : "#FAFAFA",
                                             borderRadius: "12px",
                                             boxShadow:
                                                 theme.palette.mode === "dark"
@@ -1517,12 +1545,12 @@ function TestHome(props) {
                                 key={num}
                                 className="countryLogos"
                                 sx={{
-                                    bgcolor: theme.palette.mode === "dark" ? "#1a1d21" : "#fff",
+                                    bgcolor: theme.palette.mode === "dark" ? "#1a1d21" : "tranparent",
                                     border: "none",
                                     boxShadow: "none",
                                     flex: "0 0 auto",
-                                    width: 80,
-                                    height: 80,
+                                    width: 70,
+                                    height: 70,
                                     display: "flex",
                                     alignItems: "center",
                                     justifyContent: "center",

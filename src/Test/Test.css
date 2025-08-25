@@ -8,6 +8,10 @@ body {
     font-family: "Poppins", sans-serif;
 }
 
+.countryLogos {
+    background-color: transparent!important;
+}
+
 .countryLogos img {
     height: 45px;
     /* background-color: transparent; */
@@ -60,7 +64,7 @@ body {
 
 .resourceCardPartner {
     border-radius: 50% !important;
-    /* background: #F2F4F3 !important; */
+    /* background: #FAFAFA !important;  */
     box-shadow: none !important;
     width: 150px;
     height: 150px;
@@ -294,8 +298,22 @@ select.form-select {
 .card .card-body nav {
     border-top: 1px solid rgba(0, 0, 0, 0.10) !important;
     border-bottom: 1px solid rgba(0, 0, 0, 0.10) !important;
-    text-align: left!important;
+    text-align: left !important;
     /* background: #FFF; */
+}
+
+.roundedBox {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    background-color: #4c9e4633;
+    border-radius: 50px;
+    width: 68px;
+    height: 68px;
+    position: relative;
+    left: 71px;
+    font-size: 20px;
+    line-height: 71px;
 }
 
 /* .css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root {
@@ -308,7 +326,7 @@ label {
     font-style: normal;
     font-weight: 500;
     line-height: normal;
-    text-align: left!important;
+    text-align: left !important;
     /* padding-left: 54px; */
 }
 
@@ -616,6 +634,7 @@ button.btnExplore {
 
 .card1 .cardBody {
     padding: 13px 33px !important;
+    min-height: 155px;
 }
 
 .card1:hover {
