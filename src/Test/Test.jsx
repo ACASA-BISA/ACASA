@@ -786,7 +786,7 @@ function Test() {
                                                                 }
                                                                 disabled={!type.status || isLoading || mapLoading}
                                                                 color="primary"
-                                                            />
+                                                            style={{ textAlign: "left!important" }} />
                                                         }
                                                         label={
                                                             <Box display="flex" alignItems="center" gap={1}>
@@ -831,9 +831,9 @@ function Test() {
                                     <Collapse in={isSidebarOpen.analysis} timeout="auto" unmountOnExit>
                                         <List component="div" disablePadding sx={{ px: 2 }}>
                                             <Typography variant="subtitle2" sx={{ mt: 2, mb: 1 }} style={{ textAlign: "left" }}>
-                                                <FormLabel style={{ textAlign: "left" }} className="formLabel">Select analysis scope</FormLabel>
+                                                <FormLabel style={{ textAlign: "left!important" }} className="formLabel">Select analysis scope</FormLabel>
                                             </Typography>
-                                            <FormGroup>
+                                            <FormGroup style={{ textAlign: "left!important" }}>
                                                 {analysisScopes.map((scope) => (
                                                     <FormControlLabel
                                                         key={scope.scope_id}
@@ -847,7 +847,7 @@ function Test() {
                                                                 }
                                                                 disabled={!scope.status || isLoading || mapLoading}
                                                                 color="primary"
-                                                            />
+                                                            style={{ textAlign: "left!important" }} />
                                                         }
                                                         label={
                                                             <span
@@ -884,7 +884,7 @@ function Test() {
                                                                 }
                                                                 disabled={!scale.status || isLoading || mapLoading}
                                                                 color="primary"
-                                                            />
+                                                           style={{ textAlign: "left!important" }} />
                                                         }
                                                         label={
                                                             <span
@@ -894,7 +894,7 @@ function Test() {
                                                                     fontStyle: "normal",
                                                                     fontWeight: 500,
                                                                     lineHeight: "normal",
-                                                                    textAlign: "left",
+                                                                    textAlign: "left!important",
                                                                 }}
                                                             >
                                                                 {scale.scale}
@@ -974,7 +974,7 @@ function Test() {
                                                                                 }
                                                                                 disabled={!commodity.status || isLoading || mapLoading}
                                                                                 color="primary"
-                                                                            />
+                                                                            style={{ textAlign: "left!important" }} />
                                                                         }
                                                                         label={
                                                                             <span
@@ -1033,7 +1033,7 @@ function Test() {
                                             {Object.entries(sortedGroupedRisks).map(([groupId, group]) => (
                                                 <div key={groupId}>
                                                     <Typography variant="subtitle2" sx={{ mt: 2, mb: 1 }} style={{ textAlign: "left" }}>
-                                                        <FormLabel style={{ textAlign: "left" }} className="formLabel">{group.name}</FormLabel>
+                                                        <FormLabel style={{ textAlign: "left!important" }} className="formLabel">{group.name}</FormLabel>
                                                     </Typography>
                                                     <FormGroup>
                                                         {group.items.map((risk) => (
@@ -1049,7 +1049,7 @@ function Test() {
                                                                         }
                                                                         disabled={!risk.status || isLoading || mapLoading}
                                                                         color="primary"
-                                                                    />
+                                                                   style={{ textAlign: "left!important" }} />
                                                                 }
                                                                 label={
                                                                     <span
@@ -1097,7 +1097,7 @@ function Test() {
                                             <img src="/images/impact.svg" alt="Impact" />
                                         </ListItemIcon>
                                         <ListItemText
-                                            primary={<FormLabel style={{ textAlign: "left" }} className="formLabel">Impact</FormLabel>}
+                                            primary={<FormLabel style={{ textAlign: "left!important" }} className="formLabel">Impact</FormLabel>}
                                         />
                                         {isSidebarOpen.impact ? <ExpandLess /> : <ExpandMore />}
                                     </ListItemButton>
@@ -1117,7 +1117,7 @@ function Test() {
                                                                 }
                                                                 disabled={!impact.status || isLoading || mapLoading}
                                                                 color="primary"
-                                                            />
+                                                           style={{ textAlign: "left!important" }} />
                                                         }
                                                         label={
                                                             <span
@@ -1163,7 +1163,7 @@ function Test() {
                                             <img src="/images/option.svg" alt="Adaptation" />
                                         </ListItemIcon>
                                         <ListItemText
-                                            primary={<FormLabel style={{ textAlign: "left" }} className="formLabel">Adaptation</FormLabel>}
+                                            primary={<FormLabel style={{ textAlign: "left!important" }} className="formLabel">Adaptation</FormLabel>}
                                         />
                                         {isSidebarOpen.adaptation ? <ExpandLess /> : <ExpandMore />}
                                     </ListItemButton>
@@ -1171,8 +1171,8 @@ function Test() {
                                         <List component="div" disablePadding sx={{ px: 2 }}>
                                             {groupedAdaptations.map((group) => (
                                                 <div key={group.groupId}>
-                                                    <Typography variant="subtitle2" sx={{ mt: 2, mb: 1 }} style={{ textAlign: "left" }}>
-                                                        <FormLabel style={{ textAlign: "left" }} className="formLabel">{group.name}</FormLabel>
+                                                    <Typography variant="subtitle2" sx={{ mt: 2, mb: 1 }} style={{ textAlign: "left!important" }}>
+                                                        <FormLabel style={{ textAlign: "left!important" }} className="formLabel">{group.name}</FormLabel>
                                                     </Typography>
                                                     <FormGroup>
                                                         {group.items.map((adaptation) => (
@@ -1188,7 +1188,7 @@ function Test() {
                                                                         }
                                                                         disabled={!adaptation.status || isLoading || mapLoading}
                                                                         color="primary"
-                                                                    />
+                                                                   style={{ textAlign: "left!important" }}  />
                                                                 }
                                                                 label={
                                                                     <span
@@ -1198,7 +1198,7 @@ function Test() {
                                                                             fontStyle: "normal",
                                                                             fontWeight: 500,
                                                                             lineHeight: "normal",
-                                                                            textAlign: "left",
+                                                                            textAlign: "left!important",
                                                                         }}
                                                                     >
                                                                         {adaptation.adaptation}
