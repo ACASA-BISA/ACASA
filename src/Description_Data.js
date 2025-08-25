@@ -168,13 +168,6 @@ const data = [
 
   // BASELINE HAZARD
 
-  createData("Rice", "Baseline", "Hazard", "Heat stress", "", "", "Download"),
-  createData("Rice", "Baseline", "Hazard", "High temperature induced pollen sterility", "", "", "Download"),
-  createData("Rice", "Baseline", "Hazard", "Low temperature induced pollen sterility", "", "", "Download"),
-  createData("Rice", "Baseline", "Hazard", "Delayed monsoon", "Number of events of delayed monsoon where delay is more than 15 days", "https://www.chc.ucsb.edu/data/chirps", "Download"),
-  createData("Rice", "Baseline", "Hazard", "Crop water deficit index", "SPI below -1 (moderate and severe drought)", "http://data.chc.ucsb.edu/products/CHIRTSdaily/", "Download"),
-  createData("Rice", "Baseline", "Hazard", "Dry spell", "Number of dry spells with length of 15 days or more in a season", "https://www.chc.ucsb.edu/data/chirps", "Download"),
-  /*createData("Rice", "Baseline", "Hazard", "Flood", "Flood layer", "https://www.chc.ucsb.edu/data/chirps", "Download"),*/
   createData(
     "Wheat",
     "Baseline",
@@ -197,6 +190,15 @@ const data = [
   createData("Wheat", "Baseline", "Hazard", "Untimely rainfall", "Whole season consecutive two-day rainfall > 100 mm ", "https://www.chc.ucsb.edu/data/chirps", "Download"),
   createData("Wheat", "Baseline", "Hazard", "Crop water deficit index", "Sept/Oct/Nov and season drought", "http://data.chc.ucsb.edu/products/CHIRTSdaily/", "Download"),
   createData("Wheat", "Baseline", "Hazard", "Days of frost", "Minimum temperature less than zero degree for more than three days", "https://www.chc.ucsb.edu/data/chirps", "Download"),
+
+  createData("Rice", "Baseline", "Hazard", "Heat stress", "", "", "Download"),
+  createData("Rice", "Baseline", "Hazard", "High temperature induced pollen sterility", "", "", "Download"),
+  createData("Rice", "Baseline", "Hazard", "Low temperature induced pollen sterility", "", "", "Download"),
+  createData("Rice", "Baseline", "Hazard", "Delayed monsoon", "Number of events of delayed monsoon where delay is more than 15 days", "https://www.chc.ucsb.edu/data/chirps", "Download"),
+  createData("Rice", "Baseline", "Hazard", "Crop water deficit index", "SPI below -1 (moderate and severe drought)", "http://data.chc.ucsb.edu/products/CHIRTSdaily/", "Download"),
+  createData("Rice", "Baseline", "Hazard", "Dry spell", "Number of dry spells with length of 15 days or more in a season", "https://www.chc.ucsb.edu/data/chirps", "Download"),
+  /*createData("Rice", "Baseline", "Hazard", "Flood", "Flood layer", "https://www.chc.ucsb.edu/data/chirps", "Download"),*/
+  
 
   createData("Maize", "Baseline", "Hazard", "Heat stress", "", "", "Download"),
   createData("Maize", "Baseline", "Hazard", "High temperature induced pollen sterility", "", "", "Download"),
