@@ -294,6 +294,7 @@ select.form-select {
 .card .card-body nav {
     border-top: 1px solid rgba(0, 0, 0, 0.10) !important;
     border-bottom: 1px solid rgba(0, 0, 0, 0.10) !important;
+    text-align: left!important;
     /* background: #FFF; */
 }
 
@@ -307,6 +308,7 @@ label {
     font-style: normal;
     font-weight: 500;
     line-height: normal;
+    text-align: left!important;
     /* padding-left: 54px; */
 }
 

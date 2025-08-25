@@ -858,6 +858,7 @@ function Test() {
                                                                     fontWeight: 500,
                                                                     lineHeight: "normal",
                                                                     textAlign: "left",
+                                                                    display:'flex',
                                                                 }}
                                                             >
                                                                 {scope.scope}
@@ -1168,13 +1169,13 @@ function Test() {
                                         {isSidebarOpen.adaptation ? <ExpandLess /> : <ExpandMore />}
                                     </ListItemButton>
                                     <Collapse in={isSidebarOpen.adaptation} timeout="auto" unmountOnExit>
-                                        <List component="div" disablePadding sx={{ px: 2 }}>
+                                        <List component="div" disablePadding sx={{ px: 2, textAlign:'left' }}>
                                             {groupedAdaptations.map((group) => (
                                                 <div key={group.groupId}>
-                                                    <Typography variant="subtitle2" sx={{ mt: 2, mb: 1 }} style={{ textAlign: "left!important" }}>
+                                                    <Typography variant="subtitle2" sx={{ mt: 2, mb: 1, textAlign: "left!important" }}>
                                                         <FormLabel style={{ textAlign: "left!important" }} className="formLabel">{group.name}</FormLabel>
                                                     </Typography>
-                                                    <FormGroup>
+                                                    <FormGroup style={{ textAlign: "left!important" }}>
                                                         {group.items.map((adaptation) => (
                                                             <FormControlLabel
                                                                 key={adaptation.adaptation_id}
@@ -1191,15 +1192,14 @@ function Test() {
                                                                    style={{ textAlign: "left!important" }}  />
                                                                 }
                                                                 label={
-                                                                    <span
-                                                                        style={{
-                                                                            fontFamily: "Poppins",
+                                                                    <span style={{fontFamily: "Poppins",
                                                                             fontSize: "10px",
                                                                             fontStyle: "normal",
                                                                             fontWeight: 500,
                                                                             lineHeight: "normal",
-                                                                            textAlign: "left!important",
-                                                                        }}
+                                                                            display:'flex',
+                                                                            textAlign: "left!important"}}
+                                                                       
                                                                     >
                                                                         {adaptation.adaptation}
                                                                     </span>
