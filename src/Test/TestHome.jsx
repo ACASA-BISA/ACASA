@@ -678,7 +678,7 @@ function TestHome(props) {
                                 sx={(theme) => ({
                                     color: theme.palette.mode === "dark" ? "#000000" : "#ffffff",
                                     fontWeight: "bold",
-                                    mt: 6,
+                                    marginTop: '95px',
                                     textShadow: theme.palette.mode === "dark" ? "2px 2px 5px rgba(0, 0, 0, 0.6)" : "2px 2px 5px rgba(0, 0, 0, 0.25), -2px -2px 5px rgba(0, 0, 0, 0.25)",
                                 })}
                             >
@@ -701,7 +701,7 @@ function TestHome(props) {
                                         theme.palette.mode === "dark"
                                             ? "linear-gradient(to right, rgba(99, 99, 99, 0.7), rgba(240, 240, 240, 0.7))"
                                             : "linear-gradient(to right, rgba(255, 254, 227,0.4), rgba(0, 0, 0, 0.3))",
-                                    mt: "90px",
+                                    mt: "30px",
                                     ml: -9,
                                     mr: -3,
                                 })}
@@ -725,7 +725,7 @@ function TestHome(props) {
                                 href="/#/dashboard"
                                 sx={(theme) => ({
                                     "width": "160px",
-                                    "mt": 3,
+                                    "mt": 0,
                                     "mb": 2,
                                     "fontSize": "18px",
                                     "flexShrink": 0,
