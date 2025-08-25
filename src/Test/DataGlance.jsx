@@ -207,6 +207,7 @@ const DataGlance = () => {
     const [selectedVisualizationScaleId, setSelectedVisualizationScaleId] = useState("");
     const [selectedIntensityMetricId, setSelectedIntensityMetricId] = useState(2);
     const [selectedChangeMetricId, setSelectedChangeMetricId] = useState(1);
+    const [selectedYear, setSelectedYear] = useState(null);
     const [isOptionLoading, setIsOptionLoading] = useState(false);
     const [showCountrySelect, setShowCountrySelect] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
@@ -391,7 +392,7 @@ const DataGlance = () => {
                 geotiffPromiseCache.current.clear();
             }
         }, 500),
-        [selectedScenarioId, selectedVisualizationScaleId, selectedIntensityMetricId, selectedChangeMetricId]
+        [selectedScenarioId, selectedVisualizationScaleId, selectedIntensityMetricId, selectedChangeMetricId, selectedYear]
     );
 
     useEffect(() => {
@@ -548,21 +549,30 @@ const DataGlance = () => {
                 selectedIntensityMetricId,
                 selectedChangeMetricId,
                 selectedVisualizationScaleId,
+                selectedYear,
                 availableFiles: rasterFiles,
             });
+
             const scenario = climateScenarios.find((s) => s.scenario_id === parseInt(selectedScenarioId));
             const scenarioName = scenario?.scenario || "";
-            const expectedYear = scenarioName.includes("2050") ? 2050 : scenarioName.includes("2080") ? 2080 : null;
+            const isBaseline = parseInt(selectedScenarioId) === 1;
+            const expectedYear = isBaseline ? null : selectedYear;
 
             const matchedFile = rasterFiles.find((file) => {
                 const matchesScenario =
                     !selectedScenarioId ||
-                    (file.climate_scenario_id === parseInt(selectedScenarioId) &&
-                        (!file.year || file.year === expectedYear));
-                const matchesIntensity = !selectedIntensityMetricId || file.intensity_metric_id === parseInt(selectedIntensityMetricId || 2);
-                const matchesChange = !selectedChangeMetricId || file.change_metric_id === parseInt(selectedChangeMetricId || 1);
-                const matchesScale = !selectedVisualizationScaleId || file.visualization_scale_id === parseInt(selectedVisualizationScaleId || 1);
-                return matchesScenario && matchesIntensity && matchesChange && matchesScale;
+                    file.climate_scenario_id === parseInt(selectedScenarioId);
+                const matchesYear = +file.year === +expectedYear;
+                const matchesIntensity =
+                    !selectedIntensityMetricId ||
+                    file.intensity_metric_id === parseInt(selectedIntensityMetricId || 2);
+                const matchesChange =
+                    !selectedChangeMetricId ||
+                    file.change_metric_id === parseInt(selectedChangeMetricId || 1);
+                const matchesScale =
+                    !selectedVisualizationScaleId ||
+                    file.visualization_scale_id === parseInt(selectedVisualizationScaleId || 1);
+                return matchesScenario && matchesYear && matchesIntensity && matchesChange && matchesScale;
             });
 
             if (!matchedFile && rasterFiles.length > 0) {
@@ -572,7 +582,7 @@ const DataGlance = () => {
             console.log("Selected raster file:", matchedFile);
             return matchedFile;
         },
-        [selectedScenarioId, selectedIntensityMetricId, selectedChangeMetricId, selectedVisualizationScaleId, climateScenarios]
+        [selectedScenarioId, selectedIntensityMetricId, selectedChangeMetricId, selectedVisualizationScaleId, selectedYear, climateScenarios]
     );
 
     const fetchGeoTiff = useCallback(
@@ -922,7 +932,7 @@ const DataGlance = () => {
         return () => {
             fetchTiffs.cancel();
         };
-    }, [memoizedHazardData, memoizedGeojsonData, selectedCountryId, selectedCommodityId, selectRasterFile, fetchGeoTiff, fetchTiffs]);
+    }, [memoizedHazardData, memoizedGeojsonData, selectedCountryId, selectedCommodityId, selectRasterFile, fetchGeoTiff, fetchTiffs, selectedYear]);
 
     const updateGeoTiffLayer = useCallback(
         async (tiff, index) => {
@@ -1328,9 +1338,16 @@ const DataGlance = () => {
             }
             console.log(`Scenario changed to ID: ${scenarioId}`);
             setSelectedScenarioId(scenarioId);
+            if (parseInt(scenarioId) === 1) {
+                console.log("Baseline scenario selected, resetting year to null");
+                setSelectedYear(null);
+            } else if (selectedYear === null) {
+                console.log("Non-baseline scenario selected, setting default year to 2050");
+                setSelectedYear(2050);
+            }
             cleanupMaps();
         },
-        [selectedScenarioId, cleanupMaps]
+        [selectedScenarioId, selectedYear, cleanupMaps]
     );
 
     const handleVisualizationScaleChange = useCallback(
@@ -1373,6 +1390,19 @@ const DataGlance = () => {
             cleanupMaps();
         },
         [selectedChangeMetricId, cleanupMaps]
+    );
+    const handleSelectedYear = useCallback(
+        (event) => {
+            const value = event.target.value;
+            if (+value === +selectedYear) {
+                console.log("Change metric unchanged, skipping update");
+                return;
+            }
+            console.log(`Change metric changed to ID: ${value}`);
+            setSelectedYear(+value);
+            cleanupMaps();
+        },
+        [selectedYear, cleanupMaps]
     );
 
     return (
@@ -1624,13 +1654,46 @@ const DataGlance = () => {
                                         </FormControl>
                                     </Box>
                                 </Grid>
+                                <Grid item>
+                                    {parseInt(selectedScenarioId) !== 1 && (
+                                        <Box sx={{ display: "flex", alignItems: "center", mt: 1, gap: 0.625 }}>
+                                            <Typography sx={{ fontSize: 13, fontWeight: "bold" }}>Year: </Typography>
+                                            <FormControl sx={{ minWidth: "95px" }}>
+                                                <Select
+                                                    disableUnderline
+                                                    variant="standard"
+                                                    value={selectedYear || 2050}
+                                                    onChange={handleSelectedYear}
+                                                    MenuProps={{
+                                                        disableScrollLock: true,
+                                                        PaperProps: { sx: { maxHeight: 300 } },
+                                                        PopperProps: { modifiers: [{ name: "flip", enabled: false }] },
+                                                    }}
+                                                    sx={(theme) => ({
+                                                        fontSize: "12px",
+                                                        height: "24px",
+                                                        backgroundColor: theme.palette.mode === "dark" ? "rgba(60, 75, 60, 1)" : "rgba(235, 247, 233, 1)",
+                                                    })}
+                                                    disabled={isLoading || isOptionLoading}
+                                                >
+                                                    <MenuItem value={2050} sx={{ fontSize: "12px", paddingY: "2px" }}>
+                                                        2050
+                                                    </MenuItem>
+                                                    <MenuItem value={2080} sx={{ fontSize: "12px", paddingY: "2px" }}>
+                                                        2080
+                                                    </MenuItem>
+                                                </Select>
+                                            </FormControl>
+                                        </Box>
+                                    )}
+                                </Grid>
                             </Grid>
                         </Box>
                         <Box sx={{ position: "relative" }}>
                             <div
                                 ref={(el) => (mapRefs.current[0] = el)}
                                 className="map-container"
-                                style={{ height: "calc(-233px + 100vh)", width: "100%" }}
+                                style={{ height: "calc(-265px + 100vh)", width: "100%" }}
                             />
                             {isLoading && (
                                 <Box

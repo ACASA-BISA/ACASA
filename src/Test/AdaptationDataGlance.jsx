@@ -206,6 +206,7 @@ const DataGlance = () => {
     const [selectedVisualizationScaleId, setSelectedVisualizationScaleId] = useState("");
     const [selectedIntensityMetricId, setSelectedIntensityMetricId] = useState(2);
     const [selectedChangeMetricId, setSelectedChangeMetricId] = useState(1);
+    const [selectedYear, setSelectedYear] = useState(null);
     const [selectedAdaptationCropTabId, setSelectedAdaptationCropTabId] = useState("");
     const [selectedAdaptations, setSelectedAdaptations] = useState(new Array(8).fill(""));
     const [isOptionLoading, setIsOptionLoading] = useState(false);
@@ -394,7 +395,7 @@ const DataGlance = () => {
                 isFetchingRef.current = false;
             }
         }, 500),
-        [selectedScenarioId, selectedVisualizationScaleId, selectedIntensityMetricId, selectedChangeMetricId, selectedAdaptationCropTabId, selectedAdaptations]
+        [selectedScenarioId, selectedVisualizationScaleId, selectedIntensityMetricId, selectedChangeMetricId, selectedAdaptationCropTabId, selectedAdaptations, selectedYear]
     );
 
     useEffect(() => {
@@ -578,23 +579,31 @@ const DataGlance = () => {
                 selectedIntensityMetricId,
                 selectedChangeMetricId,
                 selectedVisualizationScaleId,
+                selectedYear,
                 adaptationId,
                 availableFiles: rasterFiles,
             });
-            const scenario = climateScenarios.find((s) => s.scenario_id === parseInt(selectedScenarioId));
-            const scenarioName = scenario?.scenario || "";
-            const expectedYear = scenarioName.includes("2050") ? 2050 : scenarioName.includes("2080") ? 2080 : null;
+
+            const isBaseline = parseInt(selectedScenarioId) === 1;
+            const expectedYear = isBaseline ? null : selectedYear;
 
             const matchedFile = rasterFiles.find((file) => {
                 const matchesScenario =
                     !selectedScenarioId ||
-                    (file.climate_scenario_id === parseInt(selectedScenarioId) &&
-                        (!file.year || file.year === expectedYear));
-                const matchesIntensity = !selectedIntensityMetricId || file.intensity_metric_id === parseInt(selectedIntensityMetricId || 2);
-                const matchesChange = !selectedChangeMetricId || file.change_metric_id === parseInt(selectedChangeMetricId || 1);
-                const matchesScale = !selectedVisualizationScaleId || file.visualization_scale_id === parseInt(selectedVisualizationScaleId || 1);
-                const matchesAdaptation = !adaptationId || file.adaptation_id === parseInt(adaptationId);
-                return matchesScenario && matchesIntensity && matchesChange && matchesScale && matchesAdaptation;
+                    file.climate_scenario_id === parseInt(selectedScenarioId);
+                const matchesYear = +file.year === +expectedYear;
+                const matchesIntensity =
+                    !selectedIntensityMetricId ||
+                    file.intensity_metric_id === parseInt(selectedIntensityMetricId || 2);
+                const matchesChange =
+                    !selectedChangeMetricId ||
+                    file.change_metric_id === parseInt(selectedChangeMetricId || 1);
+                const matchesScale =
+                    !selectedVisualizationScaleId ||
+                    file.visualization_scale_id === parseInt(selectedVisualizationScaleId || 1);
+                const matchesAdaptation =
+                    !adaptationId || file.adaptation_id === parseInt(adaptationId);
+                return matchesScenario && matchesYear && matchesIntensity && matchesChange && matchesScale && matchesAdaptation;
             });
 
             if (!matchedFile && rasterFiles.length > 0) {
@@ -604,7 +613,7 @@ const DataGlance = () => {
             console.log("Selected raster file:", matchedFile);
             return matchedFile;
         },
-        [selectedScenarioId, selectedIntensityMetricId, selectedChangeMetricId, selectedVisualizationScaleId, climateScenarios]
+        [selectedScenarioId, selectedIntensityMetricId, selectedChangeMetricId, selectedVisualizationScaleId, selectedYear, climateScenarios]
     );
 
     const fetchGeoTiff = useCallback(
@@ -1041,7 +1050,7 @@ const DataGlance = () => {
         return () => {
             fetchTiffs.cancel();
         };
-    }, [memoizedHazardData, memoizedGeojsonData, selectedCountryId, selectedCommodityId, selectedAdaptationCropTabId, selectRasterFile, fetchGeoTiff, fetchTiffs]);
+    }, [memoizedHazardData, memoizedGeojsonData, selectedCountryId, selectedCommodityId, selectedAdaptationCropTabId, selectRasterFile, fetchGeoTiff, fetchTiffs, selectedYear]);
 
     const updateGeoTiffLayer = useCallback(
         async (tiff, index) => {
@@ -1425,9 +1434,16 @@ const DataGlance = () => {
             }
             console.log(`Scenario changed to ID: ${scenarioId}`);
             setSelectedScenarioId(scenarioId);
+            if (parseInt(scenarioId) === 1) {
+                console.log("Baseline scenario selected, resetting year to null");
+                setSelectedYear(null);
+            } else if (selectedYear === null) {
+                console.log("Non-baseline scenario selected, setting default year to 2050");
+                setSelectedYear(2050);
+            }
             cleanupMaps();
         },
-        [selectedScenarioId, cleanupMaps]
+        [selectedScenarioId, selectedYear, cleanupMaps]
     );
 
     const handleVisualizationScaleChange = useCallback(
@@ -1470,6 +1486,20 @@ const DataGlance = () => {
             cleanupMaps();
         },
         [selectedChangeMetricId, cleanupMaps]
+    );
+
+    const handleSelectedYear = useCallback(
+        (event) => {
+            const year = event.target.value;
+            if (+year === +selectedYear) {
+                console.log("Year unchanged, skipping update");
+                return;
+            }
+            console.log(`Year changed to: ${year}`);
+            setSelectedYear(+year);
+            cleanupMaps();
+        },
+        [selectedYear, cleanupMaps]
     );
 
     const handleAdaptationCropTabChange = useCallback(
@@ -1738,7 +1768,40 @@ const DataGlance = () => {
                                         </FormControl>
                                     </Box>
                                 </Grid>
-                                <Grid item style={{ margin: "auto" }}>
+                                {parseInt(selectedScenarioId) !== 1 && (
+                                    <Grid item>
+                                        <Box sx={{ display: "flex", alignItems: "center", mt: 1, gap: 0.625, marginRight: "5px" }}>
+                                            <Typography sx={{ fontSize: 13, fontWeight: "bold" }}>Year: </Typography>
+                                            <FormControl sx={{ minWidth: "70px" }}>
+                                                <Select
+                                                    disableUnderline
+                                                    variant="standard"
+                                                    value={selectedYear || 2050}
+                                                    onChange={handleSelectedYear}
+                                                    MenuProps={{
+                                                        disableScrollLock: true,
+                                                        PaperProps: { sx: { maxHeight: 300 } },
+                                                        PopperProps: { modifiers: [{ name: "flip", enabled: false }] },
+                                                    }}
+                                                    sx={(theme) => ({
+                                                        fontSize: "12px",
+                                                        height: "24px",
+                                                        backgroundColor: theme.palette.mode === "dark" ? "rgba(60, 75, 60, 1)" : "rgba(235, 247, 233, 1)",
+                                                    })}
+                                                    disabled={isLoading || isOptionLoading}
+                                                >
+                                                    <MenuItem value={2050} sx={{ fontSize: "12px", paddingY: "2px" }}>
+                                                        2050
+                                                    </MenuItem>
+                                                    <MenuItem value={2080} sx={{ fontSize: "12px", paddingY: "2px" }}>
+                                                        2080
+                                                    </MenuItem>
+                                                </Select>
+                                            </FormControl>
+                                        </Box>
+                                    </Grid>
+                                )}
+                                <Grid item sx={{ margin: parseInt(selectedScenarioId) === 1 ? "auto" : "0" }}>
                                     <Box sx={{ display: "flex", alignItems: "center", mt: 1, gap: 0.625 }}>
                                         <Typography sx={{ fontSize: 13, fontWeight: "bold" }}>Adaptation Indicator: </Typography>
                                         <FormControl sx={{ minWidth: "150px" }}>
