@@ -1136,7 +1136,7 @@ function MapViewer({
         year: tiffMetadata.year || null,
         data_source_id: breadcrumbData?.data_source_id || null,
         visualization_scale_id: breadcrumbData?.visualization_scale_id || null,
-        layer_id: tiffMetadata.layer_id || selectedRiskId,
+        layer_id: tiffMetadata.layer_id || selectedRiskId || selectedAdaptationId,
         adaptation_croptab_id: breadcrumbData?.adaptation_croptab_id || null,
         intensity_metric_id: selectedIntensityMetric === "Intensity Frequency" ? 2 : 1,
         change_metric_id: selectedChangeMetric === "Absolute" ? 1 : 2,
