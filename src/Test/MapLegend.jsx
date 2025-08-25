@@ -219,7 +219,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, mapWidth, showHead
                             color: theme.palette.mode === "dark" ? theme.palette.text.secondary : "#111",
                           }}
                         >
-                          {calcpop(item.population_value)}
+                          {item.population_value!== null ? calcpop(item.population_value) : "N/A"}
                         </Typography>
                       </Box>
                       <Box
@@ -309,7 +309,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, mapWidth, showHead
                             color: theme.palette.mode === "dark" ? theme.palette.text.secondary : "#111",
                           }}
                         >
-                          {calcarea(item.commodity_value)}
+                          {item.commodity_value !== null ? calcarea(item.commodity_value) : "N/A"}
                         </Typography>
                       </Box>
                     </Box>
