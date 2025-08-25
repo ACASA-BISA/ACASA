@@ -546,28 +546,28 @@ function TestHome(props) {
     if (loading) {
         return <LoadingPage />; // Show loading screen while loading is true
     }
-    const PopperMessage = () => (
-        <Box
-            sx={{
-                position: "absolute",
-                top: 10,
-                right: 20,
-                backgroundColor: (theme) => (theme.palette.mode === "dark" ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.7)"),
-                color: mode === "dark" ? "#e0e0e0" : "#ffffff",
-                padding: "10px",
-                borderRadius: "5px",
-                width: "250px",
-                textAlign: "center",
-                zIndex: 1000,
-            }}
-        >
-            <Typography variant="body2" fontStyle={"italic"}>
-                {" "}
-                <GppMaybeIcon fontSize="11px" sx={{ marginX: "2px", marginY: 0 }} />
-                Disclaimer: This is an internal test version of ACASA. Please do not cite or quote the data.
-            </Typography>
-        </Box>
-    );
+    // const PopperMessage = () => (
+    //     <Box
+    //         sx={{
+    //             position: "absolute",
+    //             top: 10,
+    //             right: 20,
+    //             backgroundColor: (theme) => (theme.palette.mode === "dark" ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.7)"),
+    //             color: mode === "dark" ? "#e0e0e0" : "#ffffff",
+    //             padding: "10px",
+    //             borderRadius: "5px",
+    //             width: "250px",
+    //             textAlign: "center",
+    //             zIndex: 1000,
+    //         }}
+    //     >
+    //         <Typography variant="body2" fontStyle={"italic"}>
+    //             {" "}
+    //             <GppMaybeIcon fontSize="11px" sx={{ marginX: "2px", marginY: 0 }} />
+    //             Disclaimer: This is an internal test version of ACASA. Please do not cite or quote the data.
+    //         </Typography>
+    //     </Box>
+    // );
 
     return (
         <Box
@@ -767,7 +767,7 @@ function TestHome(props) {
                         </Card>
                     ))}
                 </Box>
-                        <PopperMessage />
+                        {/* <PopperMessage /> */}
                     </Paper>
 
                     {/* <Box
@@ -1514,6 +1514,14 @@ function TestHome(props) {
                                                 alt={`partner-${num}`}
                                                 className="partner-img"
                                             />
+
+                                            {/* Gate Foundation */}
+                                             {/* <img
+                                                src="/images/gateFoundation.png"
+                                                alt=""
+                                                className="partner-img"
+                                            /> */}
+                                            
                                         </CardContent>
                                     </Card>
                                 </Grid>
