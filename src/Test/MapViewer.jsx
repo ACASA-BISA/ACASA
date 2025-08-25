@@ -117,7 +117,7 @@ function MapViewer({
   const [adaptationTabs, setAdaptationTabs] = useState([]);
   const [selectedAdaptationTabId, setSelectedAdaptationTabId] = useState("");
   const [isSyncing, setIsSyncing] = useState(false);
-  const [selectedIntensityMetric, setSelectedIntensityMetric] = useState("Intensity");
+  const [selectedIntensityMetric, setSelectedIntensityMetric] = useState("Intensity Frequency");
   const [selectedScenario, setSelectedScenario] = useState(3);
   const [selectedChangeMetric, setSelectedChangeMetric] = useState("Absolute");
   const [isOptionLoading, setIsOptionLoading] = useState(false);
@@ -829,8 +829,8 @@ function MapViewer({
         data_source_id: memoizedFilters.data_source_id,
         visualization_scale_id: memoizedFilters.visualization_scale_id,
         adaptation_croptab_id: payload.layer_type === 'adaptation' && +memoizedFilters?.commodity_type_id === 1 ? selectedAdaptationTabId : null,
-        intensity_metric_id: selectedIntensityMetric,
-        change_metric_id: selectedChangeMetric,
+        intensity_metric_id: selectedIntensityMetric === "Intensity Frequency" ? 2 : 1,
+        change_metric_id: selectedChangeMetric === "Absolute" ? 1 : 2,
       });
 
       let tiffPromises;
