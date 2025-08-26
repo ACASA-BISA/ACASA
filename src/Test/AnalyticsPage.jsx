@@ -24,7 +24,7 @@ const AnalyticsPage = ({ filters }) => {
     const [years, setYears] = useState([]);
     const [yMin, setYMin] = useState(0);
     const [yMax, setYMax] = useState(40);
-    const [analyticsParamId, setAnalyticsParamId] = useState(3);
+    const [analyticsParamId, setAnalyticsParamId] = useState(2);
     const [parameterName, setParameterName] = useState('Minimum Temperature');
     const [location, setLocation] = useState('');
     const [units, setUnits] = useState('°C');
@@ -287,7 +287,7 @@ const AnalyticsPage = ({ filters }) => {
                     htmlFor="analytics-param"
                     style={{ fontSize: '13px', fontWeight: 'bold' }}
                 >
-                    Analytics Parameter:
+                    Climate Projections for:
                 </label>
                 <select
                     id="analytics-param"
