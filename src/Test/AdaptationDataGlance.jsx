@@ -1979,6 +1979,7 @@ const DataGlance = () => {
                                     apiUrl={apiUrl}
                                     mapWidth={mapWidths.current[0]}
                                     sourceFile={tiffData.find((tiff) => tiff.metadata.grid_sequence === 0)?.metadata.source_file}
+                                    legendType="Large"
                                 />
                             )}
                         </Box>

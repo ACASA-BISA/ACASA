@@ -1775,7 +1775,7 @@ const DataGlance = () => {
                             <div
                                 ref={(el) => (mapRefs.current[0] = el)}
                                 className="map-container"
-                                style={{ height: "calc(-265px + 100vh)", width: "100%" }}
+                                style={{ height: "calc(-233px + 100vh)", width: "100%" }}
                             />
                             {isLoading && (
                                 <Box
@@ -1802,6 +1802,7 @@ const DataGlance = () => {
                                     layerType="risk"
                                     apiUrl={apiUrl}
                                     mapWidth={mapWidths.current[0]}
+                                    legendType="Large"
                                 />
                             )}
                         </Box>
@@ -1860,6 +1861,7 @@ const DataGlance = () => {
                                                     padding="2px"
                                                     glance={true}
                                                     hazards={true}
+                                                    legendType="Small"
                                                 />
                                             )}
                                         </Box>

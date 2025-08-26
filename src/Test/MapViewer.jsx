@@ -1899,6 +1899,7 @@ function MapViewer({
                     breadcrumbData={breadcrumbData}
                     layerType={memoizedFilters?.layer_type || "risk"}
                     apiUrl={apiUrl}
+                    legendType="Large"
                   />
                 )}
               </Box>

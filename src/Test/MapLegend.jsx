@@ -1,8 +1,8 @@
-// MapLegend.jsx
 import { Box, Paper, Typography, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
+import "../../src/index.css";
 
 // DynamicColorTooltip for Seasonal Rainfall
 const DynamicColorTooltip = styled(({ bgColor, textColor, className, ...props }) => (
@@ -24,15 +24,16 @@ const DynamicColorTooltip = styled(({ bgColor, textColor, className, ...props })
   },
 }));
 
-const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, mapWidth, showHeader = true, padding = "10px", glance = false, hazards = false }) => {
+const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHeader = true, glance = false, hazards = false, legendData }) => {
   const theme = useTheme();
-  const [legendData, setLegendData] = useState(null);
+  const [localLegendData, setLocalLegendData] = useState(null);
 
-  // Calculate responsive width and font sizes
-  let maxLegendWidth = mapWidth ? Math.min(mapWidth, 450) : 415; // 80% of map width, capped at 450px
-  maxLegendWidth = glance && !hazards ? 450 : glance && hazards ? 320 : maxLegendWidth;
-  console.log({ maxLegendWidth });
-  const baseFontSize = mapWidth ? Math.max(10, Math.min(mapWidth * 0.03, 13)) : 11; // Scale font size
+  // Calculate responsive width and font sizes based on screen width
+  const screenWidth = window.innerWidth;
+  let maxLegendWidth = Math.min(screenWidth * (legendType === "Large" ? 0.30 : 0.25), 450); // 30% for Large, 25% for Small, capped at 450px
+  maxLegendWidth = glance && hazards ? 320 : glance && !hazards ? 450 : maxLegendWidth; // Preserve glance/hazards overrides
+  const minLegendWidth = maxLegendWidth * 0.7; // Minimum width is 70% of max
+  const baseFontSize = Math.max(10, Math.min(maxLegendWidth * 0.03, 13)); // Font size based on maxLegendWidth
   const smallFontSize = baseFontSize * 0.9;
   const tinyFontSize = baseFontSize * 0.8;
 
@@ -43,7 +44,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, mapWidth, showHead
   };
 
   const calcpop = (popu) => {
-    if (popu === 0) return "0";
+    if (popu === 0) return "None";
     const popInMillions = popu / 1_000_000;
     if (popInMillions < 0.1) {
       return layerType === "Absolute" ? "<0.1 M" : popInMillions.toFixed(1) + " M";
@@ -52,7 +53,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, mapWidth, showHead
   };
 
   const calcarea = (popu) => {
-    if (popu === 0) return "0";
+    if (popu === 0) return "None";
     const unit = checkcrop() ? " Mha" : " M";
     const areaInMillions = popu / 1_000_000;
     if (areaInMillions < 0.1) {
@@ -64,7 +65,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, mapWidth, showHead
   // Generate canvas for commodity layer
   const generateLegendCanvas = async (colorRamp) => {
     const canvas = document.createElement("canvas");
-    canvas.width = maxLegendWidth * 0.6; // 60% of legend width for gradient
+    canvas.width = maxLegendWidth * 0.6;
     canvas.height = 40;
     const ctx = canvas.getContext("2d");
     const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
@@ -87,196 +88,232 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, mapWidth, showHead
     };
   };
 
-  // Fetch legend data
+  // Fetch or use legend data
   useEffect(() => {
     const fetchLegendData = async () => {
       // For commodity layer, generate gradient canvas
       if (layerType?.toLowerCase() === "commodity") {
         if (tiff?.metadata?.color_ramp) {
           try {
-            const legendData = await generateLegendCanvas(tiff.metadata.color_ramp);
-            setLegendData({ base64: legendData.canvas.toDataURL() });
+            const legendCanvas = await generateLegendCanvas(tiff.metadata.color_ramp);
+            setLocalLegendData({ base64: legendCanvas.canvas.toDataURL() });
           } catch (err) {
             console.error("Error generating legend canvas:", err);
-            setLegendData(null);
+            setLocalLegendData(null);
           }
-        } else {
-          setLegendData(null);
+          return;
         }
+        setLocalLegendData(null);
         return;
       }
 
-      // For risk, impact, adaptation, or adaptation_croptab layers, fetch from API
-      if (!tiff?.metadata?.layer_id && layerType?.toLowerCase() !== "commodity") {
-        console.warn(`Missing layer_id for layerType: ${layerType}`);
-        setLegendData(null);
-        return;
-      }
-
+      // Use provided legendData or fetch from API
       try {
-        const payload = {
-          adaptation_croptab_id: breadcrumbData?.adaptation_croptab_id || null,
-          layer_type: layerType?.toLowerCase(),
-          country_id: breadcrumbData?.country_id || null,
-          state_id: breadcrumbData?.state_id || null,
-          commodity_id: breadcrumbData?.commodity_id || null,
-          climate_scenario_id: tiff.metadata.year ? breadcrumbData?.climate_scenario_id : 1,
-          year: tiff.metadata.year || null,
-          data_source_id: breadcrumbData?.data_source_id || null,
-          visualization_scale_id: breadcrumbData?.visualization_scale_id || null,
-          layer_id: tiff.metadata.layer_id,
-          intensity_metric_id: breadcrumbData?.intensity_metric_id || null,
-          change_metric_id: breadcrumbData?.change_metric_id || null,
-        };
+        let data;
+        if (legendData?.data) {
+          data = legendData.data; // Use provided legendData
+        } else {
+          if (!tiff?.metadata?.layer_id) {
+            console.warn(`Missing layer_id for layerType: ${layerType}`);
+            setLocalLegendData(null);
+            return;
+          }
 
-        const response = await fetch(`${apiUrl}/layers/legend`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
+          const payload = {
+            adaptation_croptab_id: breadcrumbData?.adaptation_croptab_id || null,
+            layer_type: layerType?.toLowerCase(),
+            country_id: breadcrumbData?.country_id || null,
+            state_id: breadcrumbData?.state_id || null,
+            commodity_id: breadcrumbData?.commodity_id || null,
+            climate_scenario_id: tiff.metadata.year ? breadcrumbData?.climate_scenario_id : 1,
+            year: tiff.metadata.year || null,
+            data_source_id: breadcrumbData?.data_source_id || null,
+            visualization_scale_id: breadcrumbData?.visualization_scale_id || null,
+            layer_id: tiff.metadata.layer_id,
+            intensity_metric_id: breadcrumbData?.intensity_metric_id || null,
+            change_metric_id: breadcrumbData?.change_metric_id || null,
+          };
 
-        if (!response.ok) throw new Error(`Legend API error! Status: ${response.status}`);
-        const { success, data } = await response.json();
-        if (!success || !data) throw new Error("No valid legend data returned");
-        setLegendData({
+          const response = await fetch(`${apiUrl}/layers/legend`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+
+          if (!response.ok) throw new Error(`Legend API error! Status: ${response.status}`);
+          const result = await response.json();
+          if (!result.success || !result.data) throw new Error("No valid legend data returned");
+          data = result.data;
+        }
+
+        setLocalLegendData({
           ...data,
           legend: data.legend?.filter((item) => item.base_category?.toLowerCase() !== "nil" && item.named_category?.toLowerCase() !== "nil") || [],
         });
       } catch (err) {
         console.error("Error fetching legend data:", err);
-        setLegendData(null);
+        setLocalLegendData(null);
       }
     };
 
     fetchLegendData();
-  }, [tiff, layerType, apiUrl, breadcrumbData]);
+  }, [tiff, layerType, apiUrl, breadcrumbData, legendData]);
 
-  // Render categorical legend for risk, impact, adaptation, or adaptation_croptab
+  // Render categorical legend for risk, impact, adaptation
   const renderRiskLegend = () => {
-    if (!legendData || !legendData.legend) return null;
+    if (!localLegendData || !localLegendData.legend) return null;
+
+    // Master lists for adaptation categories
+    const shelter_master = ["Modify sheds and bathing", "Modify sheds", "For cold stress", "For natural hazards", "Micro climate", "Planting trees", "Heating management", "Mechanical cooling"];
+    const feed_master = ["Ad lib water", "Balanced concentrate", "Mineral mixture", "Change feeding and grazing pattern", "Green fodder", "Fodder conservation", "Grassland and Silvi-pasture management", "Feeding pattern change", "Fat supplementation", "Protein supplementation", "Feed additives"];
+    const healthcare_master = ["Vaccination", "Deworming", "Control of vectors", "Parasite control", "Thinning of flock"];
+
+    // Derive single header text
+    let headerText = "";
+    const adaption = localLegendData.header_text?.toLowerCase().includes("percent change in yield")
+      ? localLegendData.header_text.replace("Percent change in yield for ", "")
+      : null;
+    const ImpactName = localLegendData.header_text?.toLowerCase().includes("yield (kg/ha)") ? "Productivity" : localLegendData.header_text;
+    const RiskName = localLegendData.header_text?.toLowerCase().includes("seasonal rainfall") ? "Seasonal Rainfall" : localLegendData.header_text;
+    const adaptedAdaption = adaption === "Supplemental irrigation (water harvesting structures/farm ponds)" ? "Supplemental irrigation" : adaption;
+
+    // Prioritize header based on layerType
+    if (layerType === "adaptation" && adaption) {
+      headerText = `Percent change in yield for ${adaptedAdaption?.charAt(0).toUpperCase() + adaptedAdaption?.slice(1).toLowerCase()}`;
+      if (!checkcrop()) {
+        const prefix = shelter_master.includes(adaptedAdaption) ? "shelter management: " :
+          feed_master.includes(adaptedAdaption) ? "feed management: " :
+            healthcare_master.includes(adaptedAdaption) ? "healthcare management: " : "";
+        headerText = `Percent change in yield for ${prefix}${adaptedAdaption?.toLowerCase()}`;
+      }
+    } else if (layerType === "adaptation_croptab" && adaption) {
+      if (breadcrumbData?.climate_scenario_id !== 1 && checkcrop()) {
+        headerText = `Effectiveness of ${adaptedAdaption?.charAt(0).toUpperCase() + adaptedAdaption?.slice(1).toLowerCase()}`;
+      } else if (breadcrumbData?.climate_scenario_id === 1) {
+        headerText = "Yield";
+      } else if (["Gender Suitability", "Female labourer suitability", "Female cultivator suitability"].includes(localLegendData.header_text)) {
+        headerText = localLegendData.header_text;
+      }
+    } else if (layerType === "impact" && ImpactName) {
+      if (ImpactName === "Productivity") {
+        headerText = breadcrumbData?.climate_scenario_id !== 1 ? "Percent change in Yield" : "Yield (kg/ha)";
+      } else {
+        headerText = ImpactName.charAt(0).toUpperCase() + ImpactName.toLowerCase().slice(1);
+      }
+    } else if (layerType === "risk" && RiskName) {
+      headerText = RiskName === "Seasonal Rainfall" ? "Annual rainfall" : RiskName.charAt(0).toUpperCase() + RiskName.toLowerCase().slice(1);
+    } else {
+      headerText = localLegendData.header_text || ""; // Fallback to raw header_text
+    }
 
     return (
-      <div style={{ maxWidth: maxLegendWidth, minWidth: maxLegendWidth * 0.7 }}>
-        {showHeader && (
-          <div>
-            <Typography
-              variant="body1"
-              sx={{
-                fontSize: baseFontSize,
-                fontWeight: "bold",
-                color: theme.palette.mode === "dark" ? "white" : "black",
-                marginBottom: "2px",
-              }}
-            >
-              {legendData.header_text || "Legend"}
+      <Box sx={{ maxWidth: maxLegendWidth, minWidth: minLegendWidth }}>
+        {showHeader && headerText && (
+          <Box sx={{ display: "flex", marginTop: "-10px", justifyContent: "center" }}>
+            <Typography sx={{ fontSize: baseFontSize, margin: "5px 0 2px 0", color: theme.palette.mode === "dark" ? "white" : "black" }}>
+              <strong>{headerText}</strong>
             </Typography>
-          </div>
+          </Box>
         )}
 
-        {legendData.population_text && (
-          <div>
+        {localLegendData.population_text && (
+          <Box sx={{ display: "flex", justifyContent: "center", marginTop: "-2px" }}>
             <Typography
-              variant="body1"
               sx={{
                 fontSize: smallFontSize,
+                marginBottom: "2px",
                 color: theme.palette.mode === "dark" ? "white" : "black",
-                marginBottom: glance ? "0" : "2px",
-                lineHeight: glance ? "10px" : "",
                 "& span": { color: theme.palette.mode === "dark" ? theme.palette.text.secondary : "#111", fontStyle: "italic" },
               }}
             >
-              <span>{legendData.population_text}</span>
+              <span>{localLegendData.population_text}</span>
             </Typography>
-          </div>
+          </Box>
         )}
+
         <Typography variant="body1">
-          <div>
-            <Box sx={{ display: "flex", flexDirection: "row", gap: "4px", flexWrap: "wrap", justifyContent: "center" }}>
-              {legendData.legend.map((item, index) => {
-                // Split named_category by newline for multi-line display
-                const [primaryText, secondaryText] = item.named_category ? item.named_category.split('\n') : [item.named_category, ''];
-                const isRainfall = legendData.header_text?.toLowerCase() === "seasonal rainfall";
+          <Box sx={{ display: "flex", flexDirection: "row", gap: "4px", flexWrap: "wrap", justifyContent: "center", marginTop: "-5px" }}>
+            {(ImpactName === "Productivity" || ImpactName === "Resilience") && (
+              <Box sx={{ width: 63, height: glance ? 15 : 18, borderRadius: 0, bgcolor: "#969696", alignContent: "center", marginTop: "16px", marginRight: "2px" }}>
+                <Typography sx={{ fontSize: tinyFontSize, marginY: "auto", marginLeft: "3px" }} color="white">
+                  <strong>NA</strong>
+                </Typography>
+              </Box>
+            )}
+            {/* {(layerType === "adaptation" || layerType === "adaptation_croptab") && (
+              <Tooltip
+                title={
+                  <Box sx={{ width: 80, height: glance ? 15 : 18, borderRadius: 0, bgcolor: "#A52A2A", alignContent: "center" }}>
+                    <Typography sx={{ fontSize: tinyFontSize, marginY: "auto", marginX: "3px" }} color="white">
+                      <strong>Unsuitable area</strong>
+                    </Typography>
+                  </Box>
+                }
+                placement="top"
+                open={true}
+                componentsProps={{
+                  tooltip: { sx: { backgroundColor: "white", padding: 0 } },
+                  popper: { modifiers: [{ name: "offset", options: { offset: [20, 25] } }] },
+                }}
+              >
+                <Box sx={{ height: 0 }} />
+              </Tooltip>
+            )} */}
+            <Box sx={{ display: "flex", flexDirection: "row", width: "100%", gap: "2px" }}>
+              {localLegendData.legend.map((item, index) => {
+                const isRainfall = RiskName === "Seasonal Rainfall";
                 const textColor = isRainfall
-                  ? ["<25 mm", "25-50 mm"].map(c => c.toLowerCase()).includes(item.named_category?.toLowerCase()) ? "#111" : "white"
+                  ? ["<25 mm", "25-50 mm"].map((c) => c.toLowerCase()).includes(item.named_category?.toLowerCase())
+                    ? "#111"
+                    : "white"
                   : item.text_color || "black";
 
                 return (
-                  <div key={index}>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "left",
-                        flexDirection: "column",
-                        width: "100%",
-                        gap: "2px",
-                      }}
-                    >
-                      <Box sx={{ maxWidth: maxLegendWidth / 5, height: glance ? 15 : 18, borderRadius: 0, marginBottom: "-4px" }}>
-                        <Typography
-                          sx={{
-                            fontSize: tinyFontSize,
-                            margin: glance ? "0" : "2px",
-                            color: theme.palette.mode === "dark" ? theme.palette.text.secondary : "#111",
-                          }}
-                        >
-                          {item.population_value ? calcpop(item.population_value) : "N/A"}
-                        </Typography>
-                      </Box>
-                      <Box
+                  <Box
+                    key={index}
+                    sx={{
+                      display: "flex",
+                      alignItems: "left",
+                      flexDirection: "column",
+                      width: "100%",
+                      gap: "2px",
+                    }}
+                  >
+                    <Box sx={{ maxWidth: maxLegendWidth / 5, height: glance ? 15 : 18, borderRadius: 0, marginBottom: "-4px" }}>
+                      <Typography
                         sx={{
-                          maxWidth: maxLegendWidth / 5,
-                          height: 18,
-                          borderRadius: 0,
-                          bgcolor: item.color,
-                          alignContent: "center",
-                          cursor: isRainfall ? "pointer" : "default",
+                          fontSize: tinyFontSize,
+                          margin: glance ? "0" : "2px",
+                          color: theme.palette.mode === "dark" ? theme.palette.text.secondary : "#111",
                         }}
                       >
-                        {isRainfall ? (
-                          <DynamicColorTooltip
-                            bgColor={item.color}
-                            textColor={textColor}
-                            title={<Typography fontSize={smallFontSize}>This is dummy information about rainfall category.</Typography>}
-                          >
-                            <Typography
-                              sx={{
-                                fontSize: tinyFontSize,
-                                marginY: "auto",
-                                marginX: primaryText?.toLowerCase().includes("50-75 mm") ? "0px" : "3px",
-                                color: textColor,
-                              }}
-                              align={primaryText?.toLowerCase().includes("50-75 mm") ? "center" : "left"}
-                            >
-                              <span
-                                style={{
-                                  display: "inline-block",
-                                  whiteSpace: "nowrap",
-                                  overflow: "hidden",
-                                  textOverflow: "ellipsis",
-                                  lineHeight: secondaryText ? "1" : "2",
-                                  fontWeight: "bold",
-                                  fontSize: tinyFontSize,
-                                }}
-                              >
-                                {primaryText}
-                                {secondaryText && (
-                                  <>
-                                    <br />
-                                    <span style={{ fontSize: tinyFontSize * 0.9, fontWeight: "normal" }}>{secondaryText}</span>
-                                  </>
-                                )}
-                              </span>
-                            </Typography>
-                          </DynamicColorTooltip>
-                        ) : (
+                        {item.population_value ? calcpop(item.population_value) : ""}
+                      </Typography>
+                    </Box>
+                    <Box
+                      sx={{
+                        maxWidth: maxLegendWidth / 5,
+                        height: glance ? 15 : 18,
+                        borderRadius: 0,
+                        bgcolor: item.color,
+                        alignContent: "center",
+                        cursor: isRainfall ? "pointer" : "default",
+                      }}
+                    >
+                      {isRainfall ? (
+                        <DynamicColorTooltip
+                          bgColor={item.color}
+                          textColor={textColor}
+                          title={<Typography fontSize={smallFontSize}>This is dummy information about rainfall category.</Typography>}
+                        >
                           <Typography
                             sx={{
                               fontSize: tinyFontSize,
                               marginY: "auto",
-                              marginX: primaryText?.toLowerCase().includes("medium ") ? "0px" : "3px",
+                              marginX: item.named_category?.toLowerCase().includes("50-75 mm") ? "0px" : "3px",
                               color: textColor,
                             }}
-                            align={primaryText?.toLowerCase().includes("medium ") ? "center" : "left"}
+                            align={item.named_category?.toLowerCase().includes("50-75 mm") ? "center" : "left"}
                           >
                             <span
                               style={{
@@ -284,92 +321,110 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, mapWidth, showHead
                                 whiteSpace: "nowrap",
                                 overflow: "hidden",
                                 textOverflow: "ellipsis",
-                                lineHeight: secondaryText ? "1" : "2",
+                                lineHeight: "2",
                                 fontWeight: "bold",
-                                fontSize: tinyFontSize,
                               }}
                             >
-                              {primaryText}
-                              {secondaryText && (
-                                <>
-                                  <br />
-                                  <span style={{ fontSize: tinyFontSize * 0.9, fontWeight: "normal" }}>{secondaryText}</span>
-                                </>
-                              )}
+                              {item.named_category}
                             </span>
                           </Typography>
-                        )}
-                      </Box>
-                      <Box sx={{ maxWidth: maxLegendWidth / 5, height: glance ? 15 : 18, borderRadius: 0 }}>
+                        </DynamicColorTooltip>
+                      ) : (
                         <Typography
                           sx={{
                             fontSize: tinyFontSize,
-                            margin: glance ? "0" : "2px",
-                            marginTop: "0px",
-                            color: theme.palette.mode === "dark" ? theme.palette.text.secondary : "#111",
+                            marginY: "auto",
+                            marginX: item.named_category?.toLowerCase().includes("medium ") ? "0px" : "3px",
+                            color: textColor,
                           }}
+                          align={item.named_category?.toLowerCase().includes("medium ") ? "center" : "left"}
                         >
-                          {item.commodity_value ? calcarea(item.commodity_value) : "N/A"}
+                          <span
+                            style={{
+                              display: "inline-block",
+                              whiteSpace: "nowrap",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              lineHeight: "2",
+                              fontWeight: "bold",
+                            }}
+                          >
+                            {item.named_category}
+                          </span>
                         </Typography>
-                      </Box>
+                      )}
                     </Box>
-                  </div>
+                    <Box sx={{ maxWidth: maxLegendWidth / 5, height: glance ? 15 : 18, borderRadius: 0 }}>
+                      <Typography
+                        sx={{
+                          fontSize: tinyFontSize,
+                          margin: glance ? "0" : "2px",
+                          marginTop: "0px",
+                          color: theme.palette.mode === "dark" ? theme.palette.text.secondary : "#111",
+                        }}
+                      >
+                        {item.commodity_value ? calcarea(item.commodity_value) : ""}
+                      </Typography>
+                    </Box>
+                  </Box>
                 );
               })}
             </Box>
-          </div>
+          </Box>
         </Typography>
-        {legendData.commodity_text && (
-          <div>
+
+        {localLegendData.commodity_text && (
+          <Box sx={{ display: "flex", justifyContent: "center", marginTop: "-2px" }}>
             <Typography
-              variant="body1"
               sx={{
                 fontSize: smallFontSize,
-                color: theme.palette.mode === "dark" ? "white" : "black",
                 margin: glance ? "-2px 0" : "2px",
+                color: theme.palette.mode === "dark" ? "white" : "black",
                 "& span": { color: theme.palette.mode === "dark" ? theme.palette.text.secondary : "#111", fontStyle: "italic" },
               }}
             >
               <span>
                 {checkcrop()
-                  ? `${breadcrumbData?.commodityLabel ?? 'Cropped'} area, million hectare (Mha)`
-                  : `Number of ${breadcrumbData?.commodityLabel?.toLowerCase()}${breadcrumbData?.commodityLabel?.toLowerCase() === "buffalo"
-                    ? "es"
-                    : breadcrumbData?.commodityLabel?.toLowerCase() === "sheep" || breadcrumbData?.commodityLabel?.toLowerCase() === "cattle"
-                      ? ""
-                      : "s"
-                  }, million (M)`}
+                  ? `${breadcrumbData?.commodityLabel ?? "Cropped"} area, million hectare (Mha)`
+                  : `Number of ${breadcrumbData?.commodityLabel?.toLowerCase()}${breadcrumbData?.commodityLabel?.toLowerCase() === "buffalo" ? "es" : breadcrumbData?.commodityLabel?.toLowerCase() === "sheep" || breadcrumbData?.commodityLabel?.toLowerCase() === "cattle" ? "" : "s"}, million (M)`}
               </span>
             </Typography>
-          </div>
+          </Box>
         )}
-        {legendData.footer_text && (
-          <div>
+
+        {localLegendData.footer_text && (
+          <Box sx={{ display: "flex", justifyContent: "center", marginTop: "-2px" }}>
             <Typography
-              variant="body1"
               sx={{
                 fontSize: tinyFontSize,
+                margin: glance ? "-2px 0" : "2px",
                 color: theme.palette.mode === "dark" ? theme.palette.text.secondary : "#111",
                 fontStyle: "italic",
-                margin: glance ? "-2px 0" : "2px",
               }}
             >
-              {legendData.footer_text}
+              {localLegendData.footer_text}
             </Typography>
-          </div>
+          </Box>
         )}
-      </div>
+
+        {RiskName && ["Irrigation", "Volumetric Soil Water", "Agriculture Income", "Soil Organic Carbon", "Feed/Fodder", "Rural infrastructure", "Socio-economic Development Indicator", "Income"].includes(RiskName) && (
+          <Box sx={{ display: "flex", alignContent: "center", alignItems: "center", justifyContent: "center", marginBottom: "-2px", marginTop: "-2px" }}>
+            <Typography sx={{ fontSize: tinyFontSize, marginX: "-2px", fontWeight: "normal" }} color="text.secondary">
+              (Lower {RiskName.toLowerCase()} depicts higher vulnerability)
+            </Typography>
+          </Box>
+        )}
+      </Box>
     );
   };
 
   // Render gradient legend for commodity
   const renderDefaultLegend = () => {
-    if (!legendData?.base64 || !breadcrumbData?.commodityLabel) return null;
+    if (!localLegendData?.base64 || !breadcrumbData?.commodityLabel) return null;
 
     return (
       <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", gap: 2 }}>
         <Typography
-          variant="body1"
           sx={{
             fontSize: baseFontSize,
             fontWeight: "bold",
@@ -381,8 +436,8 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, mapWidth, showHead
         </Typography>
         <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
           <img
-            src={legendData.base64}
-            alt={`Legend for ${tiff.metadata.layer_name || "layer"}`}
+            src={localLegendData.base64}
+            alt={`Legend for ${tiff?.metadata?.layer_name || "layer"}`}
             style={{ maxWidth: "100%", width: maxLegendWidth * 0.6, height: "auto", loading: "lazy" }}
           />
         </Box>
@@ -404,17 +459,16 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, mapWidth, showHead
       elevation={1}
       sx={{
         position: "absolute",
-        bottom: theme.spacing(5),
+        bottom: 0, // Tight to bottom
         left: "50%",
         transform: "translateX(-50%)",
         zIndex: 1000,
-        padding: padding,
         borderRadius: "5px",
         boxShadow: "0px 0px 0px #aaa",
-        minWidth: maxLegendWidth * 0.7,
-        maxWidth: mapWidth,
+        minWidth: minLegendWidth,
+        maxWidth: maxLegendWidth,
         backgroundColor: theme.palette.background.paper,
-        bottom: "0px",
+        padding: "8px", // Minimal padding
       }}
       role="tooltip"
       data-popper-placement="bottom"
