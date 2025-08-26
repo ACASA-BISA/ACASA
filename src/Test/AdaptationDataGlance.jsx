@@ -1519,6 +1519,11 @@ const DataGlance = () => {
         [selectedAdaptationCropTabId, selectedCommodityId, cleanupMaps, fetchHazardData]
     );
 
+     useEffect(() => {
+            document.documentElement.style.overflowX = "hidden";
+            document.body.style.overflowX = "hidden";
+        }, []);
+
     return (
         <div style={{ backgroundColor: theme.palette.mode === "dark" ? "black" : "white" }}>
             <Grid container spacing={1} sx={{ marginTop: "86px", p: 1 }}>

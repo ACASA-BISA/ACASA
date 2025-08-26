@@ -676,9 +676,9 @@ function TestHome(props) {
                             <Typography
                                 variant="h4"
                                 sx={(theme) => ({
-                                    color: theme.palette.mode === "dark" ? "#000000" : "#ffffff",
+                                    color: theme.palette.mode === "dark" ? "#fff" : "#ffffff",
                                     fontWeight: "bold",
-                                    marginTop: '95px',
+                                    marginTop: '70px',
                                     textShadow: theme.palette.mode === "dark" ? "2px 2px 5px rgba(0, 0, 0, 0.6)" : "2px 2px 5px rgba(0, 0, 0, 0.25), -2px -2px 5px rgba(0, 0, 0, 0.25)",
                                 })}
                             >
@@ -689,7 +689,7 @@ function TestHome(props) {
                                 sx={(theme) => ({
                                     fontWeight: "bold",
                                     mt: 2,
-                                    color: theme.palette.mode === "dark" ? "#000000" : "#ffffff",
+                                    color: theme.palette.mode === "dark" ? "#fff" : "#ffffff",
                                 })}
                             >
                                 Interconnections between climate risks, practices, technologies, and policies
@@ -744,7 +744,7 @@ function TestHome(props) {
                 <Box
                     sx={{
                         position: "absolute",
-                        top: "370px",
+                        top: "350px",
                         right: 20,
                         transform: "translateY(-50%)",
                         display: "flex",
@@ -1492,7 +1492,7 @@ function TestHome(props) {
                                         className="resourceCardPartner"
                                         sx={{
                                             bgcolor:
-                                                theme.palette.mode === "dark" ? "#2c2f34" : "#FAFAFA",
+                                                theme.palette.mode === "dark" ? "#fff" : "#FAFAFA",
                                             borderRadius: "12px",
                                             boxShadow:
                                                 theme.palette.mode === "dark"
@@ -1521,7 +1521,7 @@ function TestHome(props) {
                                                 alt=""
                                                 className="partner-img"
                                             /> */}
-                                            
+
                                         </CardContent>
                                     </Card>
                                 </Grid>
