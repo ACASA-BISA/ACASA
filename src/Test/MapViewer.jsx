@@ -1915,8 +1915,8 @@ function MapViewer({
             backgroundColor: "rgba(255, 255, 255, 0.95)",
             zIndex: 1500,
             padding: "16px 16px 0 16px",
-            height: "450px",
-            width: "600px",
+            height: "500px",
+            width: "500px",
             display: showAnalytics && !internalMapLoading.some(loading => loading) && breadcrumbData ? "block" : "none",
           }}
         >

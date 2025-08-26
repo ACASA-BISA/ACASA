@@ -87,8 +87,6 @@ const AnalyticsPage = ({ filters }) => {
                 const ssp585 = processScenarioData('SSP585');
 
                 const allValues = [
-                    ...historical.spreadMin.filter(v => v !== null),
-                    ...historical.spreadMax.filter(v => v !== null),
                     ...ssp245.spreadMin.filter(v => v !== null),
                     ...ssp245.spreadMax.filter(v => v !== null),
                     ...ssp585.spreadMin.filter(v => v !== null),
@@ -101,23 +99,6 @@ const AnalyticsPage = ({ filters }) => {
                 const yMax = allValues.length > 0 ? Math.max(...allValues) + 1 : 40;
 
                 const chartSeries = [
-                    {
-                        type: 'arearange',
-                        name: 'Historical Spread (Low-High)',
-                        data: years.map((year, index) => {
-                            if (year < 2015) return null;
-                            return [
-                                Date.UTC(year, 0, 1),
-                                historical.spreadMin[index] || null,
-                                historical.spreadMax[index] || null,
-                            ];
-                        }).filter(d => d !== null && d[1] !== null && d[2] !== null),
-                        color: 'rgba(0, 0, 0, 0.3)',
-                        fillOpacity: 0.3,
-                        lineWidth: 0,
-                        zIndex: 0,
-                        showInLegend: true,
-                    },
                     {
                         type: 'line',
                         name: 'Historical Mean',
@@ -132,7 +113,7 @@ const AnalyticsPage = ({ filters }) => {
                     },
                     {
                         type: 'arearange',
-                        name: 'SSP245 Spread (Low-High)',
+                        name: 'SSP 2-4.5 Spread (Low-High)',
                         data: years.map((year, index) => {
                             if (year < 2015) return null;
                             return [
@@ -149,7 +130,7 @@ const AnalyticsPage = ({ filters }) => {
                     },
                     {
                         type: 'line',
-                        name: 'SSP245 Mean',
+                        name: 'SSP 2-4.5 Mean',
                         data: years.map((year, index) => {
                             if (year < 2015) return null;
                             return [
@@ -164,7 +145,7 @@ const AnalyticsPage = ({ filters }) => {
                     },
                     {
                         type: 'arearange',
-                        name: 'SSP585 Spread (Low-High)',
+                        name: 'SSP 5-8.5 Spread (Low-High)',
                         data: years.map((year, index) => {
                             if (year < 2015) return null;
                             return [
@@ -181,7 +162,7 @@ const AnalyticsPage = ({ filters }) => {
                     },
                     {
                         type: 'line',
-                        name: 'SSP585 Mean',
+                        name: 'SSP 5-8.5 Mean',
                         data: years.map((year, index) => {
                             if (year < 2015) return null;
                             return [
@@ -220,6 +201,10 @@ const AnalyticsPage = ({ filters }) => {
 
         if (chartData.length) {
             Highcharts.chart('tmaxChart', {
+                chart: {
+                    width: 450, // Set explicit width
+                    height: 450, // Set equal height to make the chart square
+                },
                 title: { text: `Annual Mean ${parameterName} for ${location}` },
                 credits: { enabled: false },
                 exporting: { enabled: false },
@@ -239,7 +224,7 @@ const AnalyticsPage = ({ filters }) => {
                     title: { text: `${parameterName} (${units})` },
                     min: yMin,
                     max: yMax,
-                    tickInterval: 2, // Set y-axis tick interval to 2 units
+                    tickInterval: 1, // Set y-axis tick interval to 1 unit
                 },
                 tooltip: { shared: true, valueDecimals: 2 },
                 plotOptions: {
@@ -311,7 +296,6 @@ const AnalyticsPage = ({ filters }) => {
                     <option value="3">Tmin</option>
                 </select>
             </div>
-            <br />
             <div className="row">
                 <div className="col-12">
                     <div className="card outlook-card border-0 mt-1 mb-5">
@@ -321,13 +305,16 @@ const AnalyticsPage = ({ filters }) => {
                                 display: 'flex',
                                 justifyContent: 'center',
                                 alignItems: 'center',
-                                minHeight: '400px',
+                                minHeight: '500px', // Match chart height
                             }}
                         >
                             {isLoading ? (
                                 <CircularProgress />
                             ) : (
-                                <div id="tmaxChart" style={{ width: '100%', height: '100%' }}></div>
+                                <div
+                                    id="tmaxChart"
+                                    style={{ width: '450px', height: '450px' }} // Set square dimensions
+                                ></div>
                             )}
                         </div>
                     </div>
