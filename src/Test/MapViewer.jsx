@@ -1912,7 +1912,7 @@ function MapViewer({
             top: "10px",
             right: 0,
             bottom: 0,
-            backgroundColor: "rgba(255, 255, 255, 0.95)",
+            backgroundColor: "lightblue",
             zIndex: 1500,
             padding: "16px 16px 0 16px",
             height: "500px",

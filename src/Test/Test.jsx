@@ -521,11 +521,13 @@ function Test() {
     };
 
     const groupedRisks = risks.reduce((acc, risk) => {
-        if (risk.ipcc_id && risk.ipcc) {
-            if (!acc[risk.ipcc_id]) acc[risk.ipcc_id] = { name: risk.ipcc, items: [] };
-            acc[risk.ipcc_id].items.push(risk);
-        } else {
-            acc[risk.risk_id] = { name: risk.risk, items: [risk] };
+        if (risk.status === true) { // Only include risks with status: true
+            if (risk.ipcc_id && risk.ipcc) {
+                if (!acc[risk.ipcc_id]) acc[risk.ipcc_id] = { name: risk.ipcc, items: [] };
+                acc[risk.ipcc_id].items.push(risk);
+            } else {
+                acc[risk.risk_id] = { name: risk.risk, items: [risk] };
+            }
         }
         return acc;
     }, {});
@@ -786,7 +788,7 @@ function Test() {
                                                                 }
                                                                 disabled={!type.status || isLoading || mapLoading}
                                                                 color="primary"
-                                                            style={{ textAlign: "left!important" }} />
+                                                                style={{ textAlign: "left!important" }} />
                                                         }
                                                         label={
                                                             <Box display="flex" alignItems="center" gap={1}>
@@ -847,7 +849,7 @@ function Test() {
                                                                 }
                                                                 disabled={!scope.status || isLoading || mapLoading}
                                                                 color="primary"
-                                                            style={{ textAlign: "left!important" }} />
+                                                                style={{ textAlign: "left!important" }} />
                                                         }
                                                         label={
                                                             <span
@@ -858,7 +860,7 @@ function Test() {
                                                                     fontWeight: 500,
                                                                     lineHeight: "normal",
                                                                     textAlign: "left",
-                                                                    display:'flex',
+                                                                    display: 'flex',
                                                                 }}
                                                             >
                                                                 {scope.scope}
@@ -885,7 +887,7 @@ function Test() {
                                                                 }
                                                                 disabled={!scale.status || isLoading || mapLoading}
                                                                 color="primary"
-                                                           style={{ textAlign: "left!important" }} />
+                                                                style={{ textAlign: "left!important" }} />
                                                         }
                                                         label={
                                                             <span
@@ -975,7 +977,7 @@ function Test() {
                                                                                 }
                                                                                 disabled={!commodity.status || isLoading || mapLoading}
                                                                                 color="primary"
-                                                                            style={{ textAlign: "left!important" }} />
+                                                                                style={{ textAlign: "left!important" }} />
                                                                         }
                                                                         label={
                                                                             <span
@@ -1050,7 +1052,7 @@ function Test() {
                                                                         }
                                                                         disabled={!risk.status || isLoading || mapLoading}
                                                                         color="primary"
-                                                                   style={{ textAlign: "left!important" }} />
+                                                                        style={{ textAlign: "left!important" }} />
                                                                 }
                                                                 label={
                                                                     <span
@@ -1118,7 +1120,7 @@ function Test() {
                                                                 }
                                                                 disabled={!impact.status || isLoading || mapLoading}
                                                                 color="primary"
-                                                           style={{ textAlign: "left!important" }} />
+                                                                style={{ textAlign: "left!important" }} />
                                                         }
                                                         label={
                                                             <span
@@ -1169,7 +1171,7 @@ function Test() {
                                         {isSidebarOpen.adaptation ? <ExpandLess /> : <ExpandMore />}
                                     </ListItemButton>
                                     <Collapse in={isSidebarOpen.adaptation} timeout="auto" unmountOnExit>
-                                        <List component="div" disablePadding sx={{ px: 2, textAlign:'left' }}>
+                                        <List component="div" disablePadding sx={{ px: 2, textAlign: 'left' }}>
                                             {groupedAdaptations.map((group) => (
                                                 <div key={group.groupId}>
                                                     <Typography variant="subtitle2" sx={{ mt: 2, mb: 1, textAlign: "left!important" }}>
@@ -1189,17 +1191,19 @@ function Test() {
                                                                         }
                                                                         disabled={!adaptation.status || isLoading || mapLoading}
                                                                         color="primary"
-                                                                   style={{ textAlign: "left!important" }}  />
+                                                                        style={{ textAlign: "left!important" }} />
                                                                 }
                                                                 label={
-                                                                    <span style={{fontFamily: "Poppins",
-                                                                            fontSize: "10px",
-                                                                            fontStyle: "normal",
-                                                                            fontWeight: 500,
-                                                                            lineHeight: "normal",
-                                                                            display:'flex',
-                                                                            textAlign: "left!important"}}
-                                                                       
+                                                                    <span style={{
+                                                                        fontFamily: "Poppins",
+                                                                        fontSize: "10px",
+                                                                        fontStyle: "normal",
+                                                                        fontWeight: 500,
+                                                                        lineHeight: "normal",
+                                                                        display: 'flex',
+                                                                        textAlign: "left!important"
+                                                                    }}
+
                                                                     >
                                                                         {adaptation.adaptation}
                                                                     </span>

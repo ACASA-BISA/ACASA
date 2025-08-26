@@ -305,7 +305,7 @@ const AnalyticsPage = ({ filters }) => {
                                 display: 'flex',
                                 justifyContent: 'center',
                                 alignItems: 'center',
-                                minHeight: '500px', // Match chart height
+                                minHeight: '470px', // Match chart height
                             }}
                         >
                             {isLoading ? (
