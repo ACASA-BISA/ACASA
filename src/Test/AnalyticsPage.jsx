@@ -239,6 +239,7 @@ const AnalyticsPage = ({ filters }) => {
                     title: { text: `${parameterName} (${units})` },
                     min: yMin,
                     max: yMax,
+                    tickInterval: 2, // Set y-axis tick interval to 2 units
                 },
                 tooltip: { shared: true, valueDecimals: 2 },
                 plotOptions: {
