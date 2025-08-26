@@ -29,7 +29,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
   const [localLegendData, setLocalLegendData] = useState(null);
 
   // Calculate responsive width and font sizes based on screen width
-  const screenWidth = window.innerWidth;
+  const screenWidth = typeof window !== "undefined" ? window.innerWidth : 1200; // Fallback for SSR
   let maxLegendWidth = Math.min(screenWidth * (legendType === "Large" ? 0.30 : 0.25), 450); // 30% for Large, 25% for Small, capped at 450px
   maxLegendWidth = glance && hazards ? 320 : glance && !hazards ? 450 : maxLegendWidth; // Preserve glance/hazards overrides
   const minLegendWidth = maxLegendWidth * 0.7; // Minimum width is 70% of max
@@ -163,6 +163,11 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
   const renderRiskLegend = () => {
     if (!localLegendData || !localLegendData.legend) return null;
 
+    // Check if any legend item has secondaryText (contains \n)
+    const hasSecondaryText = localLegendData.legend.some(
+      (item) => item.named_category && item.named_category.includes("\n")
+    );
+
     // Master lists for adaptation categories
     const shelter_master = ["Modify sheds and bathing", "Modify sheds", "For cold stress", "For natural hazards", "Micro climate", "Planting trees", "Heating management", "Mechanical cooling"];
     const feed_master = ["Ad lib water", "Balanced concentrate", "Mineral mixture", "Change feeding and grazing pattern", "Green fodder", "Fodder conservation", "Grassland and Silvi-pasture management", "Feeding pattern change", "Fat supplementation", "Protein supplementation", "Feed additives"];
@@ -233,13 +238,13 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
 
         <Typography variant="body1">
           <Box sx={{ display: "flex", flexDirection: "row", gap: "4px", flexWrap: "wrap", justifyContent: "center", marginTop: "-5px" }}>
-            {(ImpactName === "Productivity" || ImpactName === "Resilience") && (
+            {/* {(ImpactName === "Productivity" || ImpactName === "Resilience") && (
               <Box sx={{ width: 63, height: glance ? 15 : 18, borderRadius: 0, bgcolor: "#969696", alignContent: "center", marginTop: "16px", marginRight: "2px" }}>
                 <Typography sx={{ fontSize: tinyFontSize, marginY: "auto", marginLeft: "3px" }} color="white">
                   <strong>NA</strong>
                 </Typography>
               </Box>
-            )}
+            )} */}
             {/* {(layerType === "adaptation" || layerType === "adaptation_croptab") && (
               <Tooltip
                 title={
@@ -267,6 +272,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
                     ? "#111"
                     : "white"
                   : item.text_color || "black";
+                const [primaryText, secondaryText] = item.named_category ? item.named_category.split("\n") : [item.named_category, ""];
 
                 return (
                   <Box
@@ -293,10 +299,12 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
                     <Box
                       sx={{
                         maxWidth: maxLegendWidth / 5,
-                        height: glance ? 15 : 18,
+                        height: hasSecondaryText ? (glance ? 24 : 28) : (glance ? 15 : 18), // Conditional height based on any secondaryText
                         borderRadius: 0,
                         bgcolor: item.color,
-                        alignContent: "center",
+                        display: "flex", // Use flex to center content
+                        alignItems: "center", // Vertically center
+                        justifyContent: primaryText?.toLowerCase().includes("50-75 mm") || primaryText?.toLowerCase().includes("medium ") ? "center" : "flex-start", // Horizontally center or left-align
                         cursor: isRainfall ? "pointer" : "default",
                       }}
                     >
@@ -309,23 +317,29 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
                           <Typography
                             sx={{
                               fontSize: tinyFontSize,
-                              marginY: "auto",
-                              marginX: item.named_category?.toLowerCase().includes("50-75 mm") ? "0px" : "3px",
+                              marginX: primaryText?.toLowerCase().includes("50-75 mm") ? "0px" : "3px",
                               color: textColor,
                             }}
-                            align={item.named_category?.toLowerCase().includes("50-75 mm") ? "center" : "left"}
+                            align={primaryText?.toLowerCase().includes("50-75 mm") ? "center" : "left"}
                           >
                             <span
                               style={{
-                                display: "inline-block",
+                                display: "block",
                                 whiteSpace: "nowrap",
                                 overflow: "hidden",
                                 textOverflow: "ellipsis",
-                                lineHeight: "2",
+                                lineHeight: "1.3", // Consistent lineHeight for centering
                                 fontWeight: "bold",
+                                fontSize: secondaryText ? tinyFontSize : tinyFontSize,
                               }}
                             >
-                              {item.named_category}
+                              {primaryText}
+                              {secondaryText && (
+                                <>
+                                  <br />
+                                  <span style={{ fontSize: tinyFontSize * 0.8, fontWeight: "normal", fontStyle: "italic" }}>{secondaryText}</span>
+                                </>
+                              )}
                             </span>
                           </Typography>
                         </DynamicColorTooltip>
@@ -333,23 +347,29 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
                         <Typography
                           sx={{
                             fontSize: tinyFontSize,
-                            marginY: "auto",
-                            marginX: item.named_category?.toLowerCase().includes("medium ") ? "0px" : "3px",
+                            marginX: primaryText?.toLowerCase().includes("medium ") ? "0px" : "3px",
                             color: textColor,
                           }}
-                          align={item.named_category?.toLowerCase().includes("medium ") ? "center" : "left"}
+                          align={primaryText?.toLowerCase().includes("medium ") ? "center" : "left"}
                         >
                           <span
                             style={{
-                              display: "inline-block",
+                              display: "block",
                               whiteSpace: "nowrap",
                               overflow: "hidden",
                               textOverflow: "ellipsis",
-                              lineHeight: "2",
+                              lineHeight: "1.3", // Consistent lineHeight for centering
                               fontWeight: "bold",
+                              fontSize: secondaryText ? tinyFontSize : tinyFontSize,
                             }}
                           >
-                            {item.named_category}
+                            {primaryText}
+                            {secondaryText && (
+                              <>
+                                <br />
+                                <span style={{ fontSize: tinyFontSize * 0.8, fontWeight: "normal", fontStyle: "italic" }}>{secondaryText}</span>
+                              </>
+                            )}
                           </span>
                         </Typography>
                       )}
@@ -407,13 +427,13 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
           </Box>
         )}
 
-        {RiskName && ["Irrigation", "Volumetric Soil Water", "Agriculture Income", "Soil Organic Carbon", "Feed/Fodder", "Rural infrastructure", "Socio-economic Development Indicator", "Income"].includes(RiskName) && (
+        {/* {RiskName && ["Irrigation", "Volumetric Soil Water", "Agriculture Income", "Soil Organic Carbon", "Feed/Fodder", "Rural infrastructure", "Socio-economic Development Indicator", "Income"].includes(RiskName) && (
           <Box sx={{ display: "flex", alignContent: "center", alignItems: "center", justifyContent: "center", marginBottom: "-2px", marginTop: "-2px" }}>
             <Typography sx={{ fontSize: tinyFontSize, marginX: "-2px", fontWeight: "normal" }} color="text.secondary">
               (Lower {RiskName.toLowerCase()} depicts higher vulnerability)
             </Typography>
           </Box>
-        )}
+        )} */}
       </Box>
     );
   };
