@@ -1007,9 +1007,8 @@ const DataGlance = () => {
                         title: "Error",
                         text: `Failed to parse GeoTIFF for map ${index} (${metadata.layer_name || "unknown"})`,
                     });
-                    // Clear the cache for this key to prevent reusing invalid data
                     georasterCache.current.delete(cacheKey);
-                    return; // Exit the function to prevent creating GeoRasterLayer with undefined georaster
+                    return;
                 }
             }
 
@@ -1055,6 +1054,83 @@ const DataGlance = () => {
                 layerRefs.current[index].push(geotiffLayer);
                 console.log(`GeoTIFF layer added to map ${index}, grid_sequence: ${metadata.grid_sequence}`);
 
+                // Add mask polygon if GeoJSON data exists
+                if (memoizedGeojsonData?.geojson) {
+                    // Define world bounds for the mask
+                    const worldBounds = [
+                        [
+                            [-90, -180],
+                            [-90, 180],
+                            [90, 180],
+                            [90, -180],
+                            [-90, -180],
+                        ],
+                    ];
+
+                    // Function to flip coordinates for Leaflet (lng, lat)
+                    const flipCoordinates = (coords) => {
+                        if (!Array.isArray(coords)) return coords;
+                        if (typeof coords[0] === "number" && typeof coords[1] === "number") {
+                            return [coords[1], coords[0]];
+                        }
+                        return coords.map(flipCoordinates);
+                    };
+
+                    // Extract and flip GeoJSON coordinates
+                    const geojsonCoords = memoizedGeojsonData.geojson.features
+                        .filter(feature => feature.geometry && ["Polygon", "MultiPolygon"].includes(feature.geometry.type))
+                        .map(feature => {
+                            const { type, coordinates } = feature.geometry;
+                            try {
+                                return type === "Polygon" ? flipCoordinates(coordinates) : flipCoordinates(coordinates).flat(1);
+                            } catch (e) {
+                                console.warn(`Error processing geometry for feature in map ${index}:`, e);
+                                return [];
+                            }
+                        })
+                        .filter(coords => coords.length > 0);
+
+                    let maskPolygon;
+                    if (geojsonCoords.length > 0) {
+                        try {
+                            maskPolygon = L.polygon(
+                                [worldBounds[0], ...geojsonCoords],
+                                {
+                                    color: "transparent",
+                                    fillColor: "#ffffff",
+                                    fillOpacity: 0.8, // Mask opacity set to 0.8
+                                    weight: 0,
+                                    interactive: false,
+                                    pane: "maskPane",
+                                }
+                            );
+                        } catch (e) {
+                            console.error(`Error creating mask polygon for map ${index}:`, e);
+                            maskPolygon = L.polygon(worldBounds, {
+                                color: "transparent",
+                                fillColor: "#ffffff",
+                                fillOpacity: 0.8, // Fallback mask opacity
+                                weight: 0,
+                                interactive: false,
+                                pane: "maskPane",
+                            });
+                        }
+                    } else {
+                        maskPolygon = L.polygon(worldBounds, {
+                            color: "transparent",
+                            fillColor: "#ffffff",
+                            fillOpacity: 0.8, // Fallback mask opacity
+                            weight: 0,
+                            interactive: false,
+                            pane: "maskPane",
+                        });
+                    }
+                    maskPolygon.addTo(map);
+                    layerRefs.current[index].push(maskPolygon); // Store mask in layerRefs for cleanup
+                    console.log(`Mask polygon added to map ${index}`);
+                }
+
+                // Add GeoJSON layer
                 if (memoizedGeojsonData?.geojson) {
                     const geojsonLayer = L.geoJSON(memoizedGeojsonData.geojson, {
                         style: {
@@ -1062,7 +1138,7 @@ const DataGlance = () => {
                             weight: 2,
                             opacity: 0.8,
                             fillOpacity: 0,
-                            transition: "color 0.2s ease",
+                            transition: "color 0.2s ease, opacity 0.2s ease", // Smooth style transitions
                         },
                         onEachFeature: (feature, layer) => {
                             layer.bindPopup(
@@ -1239,10 +1315,16 @@ const DataGlance = () => {
                 zoom: 5,
                 center: [20.5937, 78.9629],
                 fadeAnimation: false,
-                zoomAnimation: false,
-                zoomSnap: 0.1, // Allow fractional zoom levels (e.g., 5.3, 5.6)
-                zoomDelta: 0.1, // Allow smaller zoom increments
+                zoomAnimation: true, // Enable smooth zoom transitions
+                zoomSnap: 0.1, // Finer zoom increments
+                zoomDelta: 0.1, // Smaller zoom steps for smoother transitions
             });
+
+            // Create custom pane for mask
+            map.createPane("maskPane");
+            map.getPane("maskPane").style.zIndex = 450; // Above tilePane (400), below overlayPane (500)
+            map.getPane("maskPane").style.pointerEvents = "none"; // Non-interactive mask
+
             const tileLayer = L.tileLayer(getTileLayerUrl(), {
                 attribution:
                     theme.palette.mode === "dark"
@@ -1741,7 +1823,7 @@ const DataGlance = () => {
                                                 fontFamily: "Jura",
                                             }}
                                         >
-                                            {grid?.hazard_title || "Unnamed Hazard"}
+                                            {grid?.hazard_title || ""}
                                         </Typography>
                                         <Box sx={{ position: "relative" }}>
                                             <div

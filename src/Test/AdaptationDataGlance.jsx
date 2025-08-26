@@ -283,7 +283,7 @@ const DataGlance = () => {
 
             const fetchKey = `${countryId}-${commodityId}-${selectedScenarioId}-${selectedVisualizationScaleId}-${selectedIntensityMetricId}-${selectedChangeMetricId}-${adaptationCropTabId}-${JSON.stringify(
                 hazardData.raster_grids.map((g) => g.grid_sequence)
-            )}`;
+            )}-${JSON.stringify(selectedAdaptations)}`; // Include selectedAdaptations in fetchKey
 
             // Check if tiffData has valid arrayBuffers for all grid sequences
             const hasValidTiffData = tiffData.length > 0 && hazardData.raster_grids.every((grid) => {
@@ -333,28 +333,29 @@ const DataGlance = () => {
                 });
 
                 const tiffResults = await Promise.all(tiffPromises);
-                const validTiffResults = tiffResults.filter((result) => {
-                    if (result === null || !result.arrayBuffer || result.arrayBuffer.byteLength === 0) {
-                        console.warn(`Invalid TIFF result for grid_sequence ${result?.metadata?.grid_sequence || "unknown"}`, {
-                            resultExists: !!result,
-                            arrayBufferExists: !!result?.arrayBuffer,
-                            byteLength: result?.arrayBuffer?.byteLength || 0,
-                        });
-                        return false;
-                    }
-                    // Create a copy of the arrayBuffer to prevent transfer
-                    const arrayBufferCopy = result.arrayBuffer.slice(0);
-                    return {
-                        arrayBuffer: arrayBufferCopy,
+                const validTiffResults = tiffResults
+                    .filter((result, idx) => {
+                        if (result === null || !result.arrayBuffer || result.arrayBuffer.byteLength === 0) {
+                            console.warn(`Invalid TIFF result for grid_sequence ${sortedGrids[idx]?.grid_sequence || "unknown"}`, {
+                                resultExists: !!result,
+                                arrayBufferExists: !!result?.arrayBuffer,
+                                byteLength: result?.arrayBuffer?.byteLength || 0,
+                            });
+                            return false;
+                        }
+                        return true;
+                    })
+                    .map((result) => ({
+                        arrayBuffer: result.arrayBuffer.slice(0), // Ensure a copy of arrayBuffer
                         metadata: { ...result.metadata },
-                    };
-                });
+                    }));
 
                 console.log("Valid TIFF results:", validTiffResults.map(t => ({
                     grid_sequence: t.metadata.grid_sequence,
                     layer_name: t.metadata.layer_name,
                     arrayBufferSize: t.arrayBuffer.byteLength,
                     source_file: t.metadata.source_file,
+                    adaptation_id: t.metadata.adaptation_id,
                     firstBytes: Array.from(new Uint8Array(t.arrayBuffer).slice(0, 8)).map(b => b.toString(16).padStart(2, "0")).join(" "),
                 })));
 
@@ -375,6 +376,7 @@ const DataGlance = () => {
                     layer_name: t.metadata.layer_name,
                     arrayBufferSize: t.arrayBuffer.byteLength,
                     source_file: t.metadata.source_file,
+                    adaptation_id: t.metadata.adaptation_id,
                     firstBytes: Array.from(new Uint8Array(t.arrayBuffer).slice(0, 8)).map(b => b.toString(16).padStart(2, "0")).join(" "),
                 })));
                 setAllDataReady(true);
@@ -558,8 +560,15 @@ const DataGlance = () => {
                 console.log("Fetched adaptations:", data);
                 setAdaptations(data);
                 if (data.length > 0) {
-                    const firstAdaptationId = data.find((a) => a.status)?.adaptation_id || "";
-                    setSelectedAdaptations(new Array(8).fill(firstAdaptationId));
+                    const activeAdaptations = data.filter((a) => a.status);
+                    const newSelectedAdaptations = new Array(8).fill("");
+                    // Assign different adaptations for grid_sequence 1 to 6 if available
+                    for (let i = 1; i <= 6; i++) {
+                        const adaptation = activeAdaptations[i - 1] || activeAdaptations[0] || { adaptation_id: "" };
+                        newSelectedAdaptations[i] = adaptation.adaptation_id || "";
+                    }
+                    console.log("Setting selected adaptations:", newSelectedAdaptations);
+                    setSelectedAdaptations(newSelectedAdaptations);
                 } else {
                     setSelectedAdaptations(new Array(8).fill(""));
                 }
@@ -567,6 +576,8 @@ const DataGlance = () => {
                 console.error("Error fetching adaptations:", err);
                 setAdaptations([]);
                 setSelectedAdaptations(new Array(8).fill(""));
+            } finally {
+                setIsOptionLoading(false);
             }
         },
         [fetchData]
@@ -853,10 +864,16 @@ const DataGlance = () => {
                                     newRenderedMaps[gridSequence] = false;
                                     return newRenderedMaps;
                                 });
+                                console.log(`GeoTIFF updated for grid_sequence ${gridSequence}, adaptation_id: ${adaptationId}`);
                             }
                             setIsLoading(false);
                         }).catch((err) => {
                             console.error(`Failed to update GeoTIFF for grid_sequence ${gridSequence}:`, err);
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error",
+                                text: `Failed to load GeoTIFF for ${grid.grid_sequence_title || "grid"}`,
+                            });
                             setIsLoading(false);
                         });
                     } else {
@@ -1064,7 +1081,7 @@ const DataGlance = () => {
             }
 
             const map = mapInstances.current[index];
-            console.log(`Updating GeoTIFF layer for map ${index}, grid_sequence: ${tiff.metadata.grid_sequence}, arrayBufferSize: ${tiff.arrayBuffer?.byteLength || 0}, source_file: ${tiff.metadata.source_file}, firstBytes: ${tiff.arrayBuffer ? Array.from(new Uint8Array(tiff.arrayBuffer).slice(0, 8)).map(b => b.toString(16).padStart(2, "0")).join(" ") : "N/A"}`);
+            console.log(`Updating GeoTIFF layer for map ${index}, grid_sequence: ${tiff.metadata.grid_sequence}, adaptation_id: ${tiff.metadata.adaptation_id || "none"}, arrayBufferSize: ${tiff.arrayBuffer?.byteLength || 0}, source_file: ${tiff.metadata.source_file}, firstBytes: ${tiff.arrayBuffer ? Array.from(new Uint8Array(tiff.arrayBuffer).slice(0, 8)).map(b => b.toString(16).padStart(2, "0")).join(" ") : "N/A"}`);
 
             // Clear existing layers
             layerRefs.current[index].forEach((layer) => {
@@ -1098,12 +1115,12 @@ const DataGlance = () => {
                     if (!arrayBuffer || arrayBuffer.byteLength === 0) {
                         throw new Error(`Invalid arrayBuffer for map ${index}, grid_sequence: ${metadata.grid_sequence}, source_file: ${metadata.source_file}`);
                     }
-                    // Use a copy of the arrayBuffer for parsing to preserve the original
                     const arrayBufferCopy = arrayBuffer.slice(0);
-                    console.log(`Parsing GeoTIFF for map ${index}, grid_sequence: ${metadata.grid_sequence}, arrayBufferSize: ${arrayBufferCopy.byteLength}, source_file: ${metadata.source_file}, firstBytes: ${Array.from(new Uint8Array(arrayBufferCopy).slice(0, 8)).map(b => b.toString(16).padStart(2, "0")).join(" ")}`);
+                    console.log(`Parsing GeoTIFF for map ${index}, grid_sequence: ${metadata.grid_sequence}, adaptation_id: ${metadata.adaptation_id || "none"}, arrayBufferSize: ${arrayBufferCopy.byteLength}, source_file: ${metadata.source_file}, firstBytes: ${Array.from(new Uint8Array(arrayBufferCopy).slice(0, 8)).map(b => b.toString(16).padStart(2, "0")).join(" ")}`);
                     georaster = await parseGeoraster(arrayBufferCopy, { useWorker: false });
                     console.log(`Map ${index} - GeoRaster parsed:`, {
                         grid_sequence: metadata.grid_sequence,
+                        adaptation_id: metadata.adaptation_id || "none",
                         bands: georaster.bands,
                         mins: georaster.mins,
                         maxs: georaster.maxs,
@@ -1112,8 +1129,6 @@ const DataGlance = () => {
                         arrayBufferSize: arrayBuffer.byteLength,
                         source_file: metadata.source_file,
                     });
-                    // Log original arrayBuffer state after parsing
-                    console.log(`Original arrayBuffer state after parsing for map ${index}, grid_sequence: ${metadata.grid_sequence}, arrayBufferSize: ${arrayBuffer.byteLength}, firstBytes: ${arrayBuffer ? Array.from(new Uint8Array(arrayBuffer).slice(0, 8)).map(b => b.toString(16).padStart(2, "0")).join(" ") : "N/A"}`);
                     georasterCache.current.set(cacheKey, georaster);
                 } catch (err) {
                     console.error(`GeoRaster parsing error for map ${index}, grid_sequence: ${metadata.grid_sequence}, source_file: ${metadata.source_file}:`, err);
@@ -1154,7 +1169,80 @@ const DataGlance = () => {
             try {
                 geotiffLayer.addTo(map);
                 layerRefs.current[index].push(geotiffLayer);
-                console.log(`GeoTIFF layer added to map ${index}, grid_sequence: ${metadata.grid_sequence}`);
+                console.log(`GeoTIFF layer added to map ${index}, grid_sequence: ${metadata.grid_sequence}, adaptation_id: ${metadata.adaptation_id || "none"}`);
+
+                // Add mask polygon if GeoJSON data exists
+                if (memoizedGeojsonData?.geojson) {
+                    const worldBounds = [
+                        [
+                            [-90, -180],
+                            [-90, 180],
+                            [90, 180],
+                            [90, -180],
+                            [-90, -180],
+                        ],
+                    ];
+
+                    const flipCoordinates = (coords) => {
+                        if (!Array.isArray(coords)) return coords;
+                        if (typeof coords[0] === "number" && typeof coords[1] === "number") {
+                            return [coords[1], coords[0]];
+                        }
+                        return coords.map(flipCoordinates);
+                    };
+
+                    const geojsonCoords = memoizedGeojsonData.geojson.features
+                        .filter(feature => feature.geometry && ["Polygon", "MultiPolygon"].includes(feature.geometry.type))
+                        .map(feature => {
+                            const { type, coordinates } = feature.geometry;
+                            try {
+                                return type === "Polygon" ? flipCoordinates(coordinates) : flipCoordinates(coordinates).flat(1);
+                            } catch (e) {
+                                console.warn(`Error processing geometry for feature in map ${index}:`, e);
+                                return [];
+                            }
+                        })
+                        .filter(coords => coords.length > 0);
+
+                    let maskPolygon;
+                    if (geojsonCoords.length > 0) {
+                        try {
+                            maskPolygon = L.polygon(
+                                [worldBounds[0], ...geojsonCoords],
+                                {
+                                    color: "transparent",
+                                    fillColor: "#ffffff",
+                                    fillOpacity: 0.8,
+                                    weight: 0,
+                                    interactive: false,
+                                    pane: "maskPane",
+                                }
+                            );
+                        } catch (e) {
+                            console.error(`Error creating mask polygon for map ${index}:`, e);
+                            maskPolygon = L.polygon(worldBounds, {
+                                color: "transparent",
+                                fillColor: "#ffffff",
+                                fillOpacity: 0.8,
+                                weight: 0,
+                                interactive: false,
+                                pane: "maskPane",
+                            });
+                        }
+                    } else {
+                        maskPolygon = L.polygon(worldBounds, {
+                            color: "transparent",
+                            fillColor: "#ffffff",
+                            fillOpacity: 0.8,
+                            weight: 0,
+                            interactive: false,
+                            pane: "maskPane",
+                        });
+                    }
+                    maskPolygon.addTo(map);
+                    layerRefs.current[index].push(maskPolygon);
+                    console.log(`Mask polygon added to map ${index}`);
+                }
 
                 if (memoizedGeojsonData?.geojson) {
                     const geojsonLayer = L.geoJSON(memoizedGeojsonData.geojson, {
@@ -1163,7 +1251,7 @@ const DataGlance = () => {
                             weight: 2,
                             opacity: 0.8,
                             fillOpacity: 0,
-                            transition: "color 0.2s ease",
+                            transition: "color 0.2s ease, opacity 0.2s ease",
                         },
                         onEachFeature: (feature, layer) => {
                             layer.bindPopup(
@@ -1205,7 +1293,7 @@ const DataGlance = () => {
                 });
 
                 geotiffLayer.on("load", () => {
-                    console.log(`GeoTIFF layer ${index} loaded successfully`);
+                    console.log(`GeoTIFF layer ${index} loaded successfully, adaptation_id: ${metadata.adaptation_id || "none"}`);
                     map.invalidateSize();
                     setRenderedMaps((prev) => {
                         const newRenderedMaps = [...prev];
@@ -1236,6 +1324,7 @@ const DataGlance = () => {
                                     byteLength: tiffForDownload.arrayBuffer?.byteLength || 0,
                                     sourceFile: tiffForDownload.metadata.source_file,
                                     layerName: tiffForDownload.metadata.layer_name,
+                                    adaptation_id: tiffForDownload.metadata.adaptation_id,
                                 });
                                 Swal.fire({
                                     icon: "error",
@@ -1244,7 +1333,7 @@ const DataGlance = () => {
                                 });
                                 return;
                             }
-                            console.log(`Initiating download for map ${index}, grid_sequence: ${tiffForDownload.metadata.grid_sequence}, layer_name: ${tiffForDownload.metadata.layer_name}, size: ${tiffForDownload.arrayBuffer.byteLength} bytes, source_file: ${tiffForDownload.metadata.source_file}, firstBytes: ${Array.from(new Uint8Array(tiffForDownload.arrayBuffer).slice(0, 8)).map(b => b.toString(16).padStart(2, "0")).join(" ")}`);
+                            console.log(`Initiating download for map ${index}, grid_sequence: ${tiffForDownload.metadata.grid_sequence}, layer_name: ${tiffForDownload.metadata.layer_name}, adaptation_id: ${tiffForDownload.metadata.adaptation_id || "none"}, size: ${tiffForDownload.arrayBuffer.byteLength} bytes, source_file: ${tiffForDownload.metadata.source_file}, firstBytes: ${Array.from(new Uint8Array(tiffForDownload.arrayBuffer).slice(0, 8)).map(b => b.toString(16).padStart(2, "0")).join(" ")}`);
                             handleDownloadGeoTIFF(tiffForDownload.arrayBuffer, `${tiffForDownload.metadata.layer_name}.tif`);
                         },
                     });
@@ -1293,7 +1382,7 @@ const DataGlance = () => {
                 }
 
                 map.invalidateSize();
-                console.log(`Map ${index} rendering completed`);
+                console.log(`Map ${index} rendering completed, adaptation_id: ${metadata.adaptation_id || "none"}`);
             } catch (err) {
                 console.error(`Failed to add layers to map ${index}:`, err);
                 Swal.fire({
@@ -1332,10 +1421,16 @@ const DataGlance = () => {
                 zoom: 5,
                 center: [20.5937, 78.9629],
                 fadeAnimation: false,
-                zoomAnimation: false,
-                zoomSnap: 0.1, // Allow fractional zoom levels (e.g., 5.3, 5.6)
-                zoomDelta: 0.1, // Allow smaller zoom increments
+                zoomAnimation: true, // Enable smooth zoom transitions
+                zoomSnap: 0.1, // Finer zoom increments
+                zoomDelta: 0.1, // Smaller zoom steps for smoother transitions
             });
+
+            // Create custom pane for mask
+            map.createPane("maskPane");
+            map.getPane("maskPane").style.zIndex = 450; // Above tilePane (400), below overlayPane (500)
+            map.getPane("maskPane").style.pointerEvents = "none"; // Non-interactive mask
+
             const tileLayer = L.tileLayer(getTileLayerUrl(), {
                 attribution:
                     theme.palette.mode === "dark"
@@ -1519,10 +1614,10 @@ const DataGlance = () => {
         [selectedAdaptationCropTabId, selectedCommodityId, cleanupMaps, fetchHazardData]
     );
 
-     useEffect(() => {
-            document.documentElement.style.overflowX = "hidden";
-            document.body.style.overflowX = "hidden";
-        }, []);
+    useEffect(() => {
+        document.documentElement.style.overflowX = "hidden";
+        document.body.style.overflowX = "hidden";
+    }, []);
 
     return (
         <div style={{ backgroundColor: theme.palette.mode === "dark" ? "black" : "white" }}>

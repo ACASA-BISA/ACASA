@@ -108,6 +108,7 @@ function MapViewer({
   const boundsRefs = useRef([]);
   const fullscreenButtonRefs = useRef([]);
   const tileLayerRefs = useRef([]);
+  const isZoomingRef = useRef([]);
   const [internalMapLoading, setInternalMapLoading] = useState([false, false, false]);
   const [tiffData, setTiffData] = useState([]);
   const [fileList, setFileList] = useState([]);
@@ -115,20 +116,20 @@ function MapViewer({
   const [breadcrumbData, setBreadcrumbData] = useState(null);
   const [isFullscreen, setIsFullscreen] = useState([false, false, false]);
   const [adaptationTabs, setAdaptationTabs] = useState([]);
-  const [selectedAdaptationTabId, setSelectedAdaptationTabId] = useState("");
+  const [selectedAdaptationTabId, setSelectedAdaptationTabId] = useState(1);
   const [isSyncing, setIsSyncing] = useState(false);
   const [selectedIntensityMetric, setSelectedIntensityMetric] = useState("Intensity Frequency");
   const [selectedScenario, setSelectedScenario] = useState(3);
   const [selectedChangeMetric, setSelectedChangeMetric] = useState("Absolute");
   const [isOptionLoading, setIsOptionLoading] = useState(false);
   const [showAnalytics, setShowAnalytics] = useState(false);
+  const [viewMode, setViewMode] = useState("all"); // Added viewMode state
   const isFetchingRef = useRef(false);
   const lastTiffDataRef = useRef([]);
+  const lastViewModeRef = useRef("all"); // Added lastViewModeRef
   const mapsInitializedRef = useRef(false);
   const georasterCache = useRef(new Map());
   const hasRenderedRef = useRef([]);
-  const [viewMode, setViewMode] = useState("all");
-  const lastViewModeRef = useRef("all");
 
   // Memoize filters
   const memoizedFilters = useMemo(
@@ -175,15 +176,15 @@ function MapViewer({
 
           // Group tabs 3, 4, 5 under "Gender Suitability"
           const groupedTabs = [
-            ...activeTabs.filter(tab => ![3, 4, 5].includes(tab.tab_id)), // Non-grouped tabs (1, 6, 7, 8)
+            ...activeTabs.filter(tab => ![3, 4, 5].includes(tab.tab_id)),
             {
               tab_id: "gender_group",
               tab_name: "Gender Suitability",
               subTabs: activeTabs
                 .filter(tab => [3, 4, 5].includes(tab.tab_id))
-                .sort((a, b) => a.tab_id - b.tab_id), // Sort subTabs by tab_id (3, 4, 5)
+                .sort((a, b) => a.tab_id - b.tab_id),
             },
-          ].filter(tab => tab.subTabs ? tab.subTabs.length > 0 : true); // Include group only if it has subTabs
+          ].filter(tab => tab.subTabs ? tab.subTabs.length > 0 : true);
 
           // Sort tabs to maintain order: 1, 2, gender_group, 6, 7, 8
           const sortedTabs = groupedTabs.sort((a, b) => {
@@ -196,7 +197,7 @@ function MapViewer({
           console.log('&&&&&&&&&&', sortedTabs);
           setAdaptationTabs(sortedTabs || []);
           if (sortedTabs?.length > 0 && !selectedAdaptationTabId) {
-            setSelectedAdaptationTabId(1); // Default to Land-climate suitability (tab_id: 1)
+            setSelectedAdaptationTabId(1);
           }
         } catch (err) {
           console.error(err);
@@ -252,6 +253,7 @@ function MapViewer({
     boundsRefs.current = [];
     fullscreenButtonRefs.current = [];
     tileLayerRefs.current = [];
+    isZoomingRef.current = [];
     setIsFullscreen([false, false, false]);
     setTiffData([]);
     setAllDataReady(false);
@@ -269,27 +271,31 @@ function MapViewer({
     }
   };
 
-  const syncMaps = _.debounce((sourceMap, sourceIndex) => {
-    if (isSyncing) return;
-    setIsSyncing(true);
-    try {
-      const visibleIndices = viewMode === "single" ? [0] : [0, 1, 2];
-      mapInstances.current.forEach((map, index) => {
-        if (
-          map &&
-          index !== sourceIndex &&
-          visibleIndices.includes(index) &&
-          mapInstances.current[index]
-        ) {
-          map.setView(sourceMap.getCenter(), sourceMap.getZoom(), { animate: false });
-        }
-      });
-    } catch (e) {
-      console.error("SyncMaps error:", e);
-    } finally {
-      setIsSyncing(false);
-    }
-  }, 300);
+  const syncMaps = useCallback(
+    _.throttle((sourceMap, sourceIndex) => {
+      if (isSyncing) return;
+      setIsSyncing(true);
+      try {
+        const visibleIndices = viewMode === "single" ? [0] : [0, 1, 2];
+        mapInstances.current.forEach((map, index) => {
+          if (
+            map &&
+            index !== sourceIndex &&
+            visibleIndices.includes(index) &&
+            mapInstances.current[index]
+          ) {
+            map.setView(sourceMap.getCenter(), sourceMap.getZoom(), { animate: true });
+            _.debounce(() => map.invalidateSize(), 100)();
+          }
+        });
+      } catch (e) {
+        console.error("SyncMaps error:", e);
+      } finally {
+        setIsSyncing(false);
+      }
+    }, 50), // Throttle to 50ms
+    [isSyncing, viewMode]
+  );
 
   const getTileLayerUrl = () => {
     return theme.palette.mode === "dark"
@@ -299,10 +305,21 @@ function MapViewer({
 
   const updateGeoTiffLayer = useCallback(async (tiff, index) => {
     if (!mapInstances.current[index] || !mapRefs.current[index] || !tiff) {
-      console.warn(`Skipping updateGeoTiffLayer for index ${index} due to missing dependencies`, {
-        mapInstance: !!mapInstances.current[index],
-        mapRef: !!mapRefs.current[index],
-        tiff,
+      console.warn(`Skipping updateGeoTiffLayer for index ${index}`);
+      return;
+    }
+
+    const map = mapInstances.current[index];
+    const currentZoom = map.getZoom();
+    const cacheKey = `${tiff.metadata.source_file}-${index}-${currentZoom}`;
+
+    // Skip update if layer is already cached for this zoom level
+    if (georasterCache.current.has(cacheKey) && hasRenderedRef.current[index]) {
+      console.log(`Skipping GeoTIFF update for index ${index}: already cached for zoom ${currentZoom}`);
+      setInternalMapLoading(prev => {
+        const newLoading = [...prev];
+        newLoading[index] = false;
+        return newLoading;
       });
       return;
     }
@@ -313,78 +330,42 @@ function MapViewer({
       return newLoading;
     });
 
-    const map = mapInstances.current[index];
-
-    if (layerRefs.current[index]) {
-      const geotiffLayer = layerRefs.current[index].find(layer => layer instanceof GeoRasterLayer);
-      if (geotiffLayer && map.hasLayer(geotiffLayer)) {
-        try {
-          map.removeLayer(geotiffLayer);
-          console.log(`Removed existing GeoTIFF layer for map ${index}`);
-        } catch (e) {
-          console.warn(`Failed to remove GeoTIFF layer at index ${index}:`, e);
-        }
-      }
-      layerRefs.current[index] = layerRefs.current[index].filter(layer => !(layer instanceof GeoRasterLayer));
-    }
-
     const { arrayBuffer, metadata } = tiff;
-    console.log(`Processing GeoTIFF for index ${index}, metadata:`, metadata, `buffer size: ${arrayBuffer.byteLength}`);
-
-    const cacheKey = `${metadata.source_file}-${index}`;
     let georaster;
     if (georasterCache.current.has(cacheKey)) {
-      console.log(`Using cached GeoRaster for index ${index}`);
       georaster = georasterCache.current.get(cacheKey);
     } else {
-      const clonedBuffer = arrayBuffer.slice(0);
       try {
-        georaster = await parseGeoraster(clonedBuffer);
-        console.log(`Map ${index} - GeoRaster parsed successfully`, {
-          bands: georaster.bands,
-          mins: georaster.mins,
-          maxs: georaster.maxs,
-          height: georaster.height,
-          width: georaster.width,
-          projection: georaster.projection,
-          noDataValue: georaster.noDataValue,
-        });
-
-        if (!georaster.height || !georaster.width) {
-          console.error(`Invalid GeoRaster dimensions for map ${index}`);
-          throw new Error(`Invalid GeoTIFF data for map ${index}`);
-        }
+        georaster = await parseGeoraster(arrayBuffer.slice(0));
         georasterCache.current.set(cacheKey, georaster);
       } catch (err) {
         console.error(`GeoRaster parsing error for index ${index}:`, err);
+        setInternalMapLoading(prev => {
+          const newLoading = [...prev];
+          newLoading[index] = false;
+          return newLoading;
+        });
         throw err;
       }
     }
+
+    // Dynamic resolution based on zoom level
+    const resolution = currentZoom < 7 ? 128 : 256;
 
     const geotiffLayer = new GeoRasterLayer({
       georaster,
       opacity: 0.8,
       pixelValuesToColorFn: (values) => {
-        if (!values || values.length === 0) {
-          console.warn(`No pixel values for map ${index}`);
-          return "rgba(255, 255, 255, 0)";
-        }
+        if (!values || values.length === 0) return "rgba(255, 255, 255, 0)";
         if (values.length >= 4) {
           const [r, g, b, a] = values;
-          const alpha = a !== undefined ? a / 255 : 1;
-          return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+          return `rgba(${r}, ${g}, ${b}, ${a / 255})`;
         }
         const value = values[0];
-        if (!metadata.color_ramp) {
-          console.warn(`No color ramp for map ${index}`);
-          return "rgba(255, 255, 255, 0)";
-        }
+        if (!metadata.color_ramp) return "rgba(255, 255, 255, 0)";
         const min = georaster.mins[0] || 0;
         const max = georaster.maxs[0] || 1;
-        if (max === min || value < min || value > max) {
-          console.warn(`Invalid pixel value ${value} for map ${index}, min: ${min}, max: ${max}`);
-          return "rgba(255, 255, 255, 0)";
-        }
+        if (max === min || value < min || value > max) return "rgba(255, 255, 255, 0)";
         const colorIndex = Math.min(
           Math.max(
             Math.floor(((value - min) / (max - min)) * (metadata.color_ramp.length - 1)),
@@ -396,71 +377,75 @@ function MapViewer({
           metadata.color_ramp[colorIndex].slice(3, 5), 16
         )}, ${parseInt(metadata.color_ramp[colorIndex].slice(5, 7), 16)}, 0.8)`;
       },
-      resolution: 256,
+      resolution,
       pane: "overlayPane",
+      fadeAnimation: true, // Enable fade animation for smooth layer transitions
     });
 
-    if (mapInstances.current[index] && mapRefs.current[index]) {
-      try {
-        geotiffLayer.addTo(map);
-        layerRefs.current[index].push(geotiffLayer);
-        console.log(`GeoTIFF layer added to map ${index}`);
-
-        const currentZoom = map.getZoom();
-        const newZoom = Math.min(currentZoom + 0.3, map.getMaxZoom());
-        map.setZoom(newZoom);
-
-        geotiffLayer.on("click", async (e) => {
-          const { lat, lng } = e.latlng;
-          try {
-            const value = await georaster.getValues([[lng, lat]])[0];
-            L.popup()
-              .setLatLng(e.latlng)
-              .setContent(`Value: ${value !== undefined ? value.toFixed(2) : "N/A"} at (${lat.toFixed(4)}, ${lng.toFixed(4)})`)
-              .openOn(map);
-          } catch (err) {
-            console.error("Error fetching GeoTIFF value:", err);
-            Swal.fire({
-              icon: "error",
-              title: "Error",
-              text: "Failed to retrieve raster value.",
-            });
-          }
-        });
-
-        geotiffLayer.on("load", () => {
-          console.log(`GeoTIFF layer ${index} loaded successfully`);
-          map.invalidateSize();
-          setInternalMapLoading(prev => {
-            const newLoading = [...prev];
-            newLoading[index] = false;
-            return newLoading;
-          });
-        });
-        geotiffLayer.on("error", (err) => {
-          console.error(`GeoTIFF layer error for map ${index}:`, err);
-          setInternalMapLoading(prev => {
-            const newLoading = [...prev];
-            newLoading[index] = false;
-            return newLoading;
-          });
-        });
-      } catch (err) {
-        console.error(`Failed to add GeoTIFF layer to map ${index}:`, err);
-        throw err;
+    // Remove old GeoTIFF layer
+    if (layerRefs.current[index]) {
+      const oldLayer = layerRefs.current[index].find(layer => layer instanceof GeoRasterLayer);
+      if (oldLayer && map.hasLayer(oldLayer)) {
+        map.removeLayer(oldLayer);
       }
-    } else {
-      console.warn(`Map instance or reference missing for index ${index}`);
+      layerRefs.current[index] = layerRefs.current[index].filter(layer => !(layer instanceof GeoRasterLayer));
     }
 
-    setTiffData((prev) => {
-      const newTiffData = [...prev];
-      newTiffData[index] = tiff;
-      console.log(`tiffData updated for index ${index}:`, newTiffData[index]);
-      return newTiffData;
-    });
-    lastTiffDataRef.current[index] = tiff;
-    hasRenderedRef.current[index] = true;
+    try {
+      geotiffLayer.addTo(map);
+      layerRefs.current[index].push(geotiffLayer);
+
+      geotiffLayer.on("click", async (e) => {
+        const { lat, lng } = e.latlng;
+        try {
+          const value = await georaster.getValues([[lng, lat]])[0];
+          L.popup()
+            .setLatLng(e.latlng)
+            .setContent(`Value: ${value !== undefined ? value.toFixed(2) : "N/A"} at (${lat.toFixed(4)}, ${lng.toFixed(4)})`)
+            .openOn(map);
+        } catch (err) {
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Failed to retrieve raster value.",
+          });
+        }
+      });
+
+      geotiffLayer.on("load", () => {
+        console.log(`GeoTIFF layer ${index} loaded`);
+        _.debounce(() => map.invalidateSize(), 100)();
+        setInternalMapLoading(prev => {
+          const newLoading = [...prev];
+          newLoading[index] = false;
+          return newLoading;
+        });
+      });
+
+      geotiffLayer.on("error", (err) => {
+        console.error(`GeoTIFF layer error for map ${index}:`, err);
+        setInternalMapLoading(prev => {
+          const newLoading = [...prev];
+          newLoading[index] = false;
+          return newLoading;
+        });
+      });
+
+      setTiffData(prev => {
+        const newTiffData = [...prev];
+        newTiffData[index] = tiff;
+        return newTiffData;
+      });
+      lastTiffDataRef.current[index] = tiff;
+      hasRenderedRef.current[index] = true;
+    } catch (err) {
+      console.error(`Failed to add GeoTIFF layer to map ${index}:`, err);
+      setInternalMapLoading(prev => {
+        const newLoading = [...prev];
+        newLoading[index] = false;
+        return newLoading;
+      });
+    }
   }, []);
 
   const renderMapLayers = useCallback(
@@ -473,14 +458,7 @@ function MapViewer({
         !tiff ||
         !allDataReady
       ) {
-        console.warn(`Skipping renderMapLayers for index ${index} due to missing dependencies`, {
-          mapInstance: !!mapInstances.current[index],
-          mapRef: !!mapRefs.current[index],
-          geoJson,
-          bbox,
-          tiff,
-          allDataReady,
-        });
+        console.warn(`Skipping renderMapLayers for index ${index}`);
         return;
       }
 
@@ -490,43 +468,124 @@ function MapViewer({
       }
 
       const map = mapInstances.current[index];
+      const bounds = [[bbox[1], bbox[0]], [bbox[3], bbox[2]]];
+      boundsRefs.current[index] = bounds;
 
-      if (!layerRefs.current[index]?.find(layer => layer instanceof L.GeoJSON)) {
-        const bounds = [[bbox[1], bbox[0]], [bbox[3], bbox[2]]];
-        boundsRefs.current[index] = bounds;
-        map.fitBounds(bounds, { padding: [50, 50] });
-        map.invalidateSize();
-        syncMaps(map, index);
-
-        const geojsonLayer = L.geoJSON(geoJson, {
-          style: {
-            color: theme.palette.mode === "dark" ? "white" : "black",
-            weight: 1,
-            fill: false,
-            transition: "color 0.2s ease",
-          },
-          onEachFeature: (feature, layer) => {
-            const tooltipNameIndex = {
-              total: "country",
-              country: "state",
-              state: "district",
-            };
-            const tooltipText = feature.properties[tooltipNameIndex[memoizedFilters.admin_level]];
-            if (tooltipText) {
-              layer.bindTooltip(tooltipText, {
-                permanent: false,
-                direction: "auto",
-                className: "map-tooltip",
-              });
-            }
-          },
+      // Clear existing layers
+      if (layerRefs.current[index]) {
+        layerRefs.current[index].forEach(layer => {
+          if (map.hasLayer(layer)) {
+            map.removeLayer(layer);
+          }
         });
-        geojsonLayer.addTo(map);
-        layerRefs.current[index] = layerRefs.current[index] || [];
-        layerRefs.current[index].push(geojsonLayer);
+        layerRefs.current[index] = [];
       }
 
-      updateGeoTiffLayer(tiff, index).catch((err) => {
+      // Create a feature group for GeoJSON
+      const geojsonFeatureGroup = L.featureGroup();
+      const geojsonLayer = L.geoJSON(geoJson, {
+        style: {
+          color: theme.palette.mode === "dark" ? "white" : "black",
+          weight: 1,
+          fill: false,
+          transition: "color 0.2s ease",
+        },
+        onEachFeature: (feature, layer) => {
+          const tooltipNameIndex = {
+            total: "country",
+            country: "state",
+            state: "district",
+          };
+          const tooltipText = feature.properties[tooltipNameIndex[memoizedFilters.admin_level]];
+          if (tooltipText) {
+            layer.bindTooltip(tooltipText, {
+              permanent: false,
+              direction: "auto",
+              className: "map-tooltip",
+            });
+          }
+        },
+      });
+
+      geojsonFeatureGroup.addLayer(geojsonLayer);
+
+      // Create mask polygon
+      const worldBounds = [
+        [
+          [-90, -180],
+          [-90, 180],
+          [90, 180],
+          [90, -180],
+          [-90, -180],
+        ],
+      ];
+
+      const flipCoordinates = (coords) => {
+        if (!Array.isArray(coords)) return coords;
+        if (typeof coords[0] === "number" && typeof coords[1] === "number") {
+          return [coords[1], coords[0]];
+        }
+        return coords.map(flipCoordinates);
+      };
+
+      const geojsonCoords = geoJson.features
+        .filter(feature => feature.geometry && ["Polygon", "MultiPolygon"].includes(feature.geometry.type))
+        .map(feature => {
+          const { type, coordinates } = feature.geometry;
+          try {
+            return type === "Polygon" ? flipCoordinates(coordinates) : flipCoordinates(coordinates).flat(1);
+          } catch (e) {
+            console.warn(`Error processing geometry for feature at index ${index}:`, e);
+            return [];
+          }
+        })
+        .filter(coords => coords.length > 0);
+
+      let maskPolygon;
+      if (geojsonCoords.length > 0) {
+        try {
+          maskPolygon = L.polygon(
+            [worldBounds[0], ...geojsonCoords],
+            {
+              color: "transparent",
+              fillColor: "#ffffff",
+              fillOpacity: 0.8,
+              weight: 0,
+              interactive: false,
+              pane: "maskPane",
+            }
+          );
+        } catch (e) {
+          console.error(`Error creating mask polygon for index ${index}:`, e);
+          maskPolygon = L.polygon(worldBounds, {
+            color: "transparent",
+            fillColor: "#ffffff",
+            fillOpacity: 0.8,
+            weight: 0,
+            interactive: false,
+            pane: "maskPane",
+          });
+        }
+      }
+
+      if (!map.getPane("maskPane")) {
+        map.createPane("maskPane");
+        map.getPane("maskPane").style.zIndex = 350;
+      }
+
+      // Add layers to map
+      geojsonFeatureGroup.addTo(map);
+      if (maskPolygon) {
+        maskPolygon.addTo(map);
+        layerRefs.current[index].push(maskPolygon);
+      }
+      layerRefs.current[index].push(geojsonFeatureGroup);
+
+      map.fitBounds(bounds, { padding: [50, 50], animate: true });
+      _.debounce(() => map.invalidateSize(), 100)();
+
+      // Update GeoTIFF layer
+      updateGeoTiffLayer(tiff, index).catch(err => {
         console.error(`Error updating GeoTIFF layer for index ${index}:`, err);
         Swal.fire({
           icon: "error",
@@ -540,7 +599,7 @@ function MapViewer({
         });
       });
     },
-    [theme.palette.mode, allDataReady, syncMaps, memoizedFilters, updateGeoTiffLayer]
+    [theme.palette.mode, allDataReady, updateGeoTiffLayer]
   );
 
   const initializeMaps = useCallback(() => {
@@ -554,6 +613,7 @@ function MapViewer({
     fullscreenButtonRefs.current = fullscreenButtonRefs.current.slice(0, 3);
     tileLayerRefs.current = tileLayerRefs.current.slice(0, 3);
     layerRefs.current = layerRefs.current.slice(0, 3);
+    isZoomingRef.current = new Array(3).fill(false);
     hasRenderedRef.current = new Array(3).fill(false);
 
     [0, 1, 2].forEach((index) => {
@@ -561,18 +621,18 @@ function MapViewer({
       if (!mapRef || mapInstances.current[index]) return;
 
       if (mapRef && mapRef.offsetParent !== null) {
-        console.log(`Initializing map for index ${index}, container size: ${mapRef.offsetWidth}x${mapRef.offsetHeight}`);
         const map = L.map(mapRef, {
           minZoom: 3,
           maxZoom: 18,
           zoom: 3,
-          fadeAnimation: false,
-          zoomAnimation: false,
-          center: [20, 80], // Center on South Asia
+          fadeAnimation: true,
+          zoomAnimation: true,
+          zoomSnap: 0.25, // Smoother zoom increments
+          zoomDelta: 0.25, // Smaller zoom steps for fluidity
+          center: [20, 80],
           renderer: L.canvas(),
-          zoomSnap: 0.1, // Allow fractional zoom levels (e.g., 5.3, 5.6)
-          zoomDelta: 0.1, // Allow smaller zoom increments
         });
+
         const tileLayer = L.tileLayer(getTileLayerUrl(), {
           attribution:
             theme.palette.mode === "dark"
@@ -582,15 +642,16 @@ function MapViewer({
           errorTileUrl: "/images/fallback-tile.png",
           preload: 1,
         });
+
         tileLayer.addTo(map);
         tileLayer.on("load", () => {
           tileLayer.setOpacity(1);
-          console.log(`Tile layer loaded for map ${index}`);
-          map.invalidateSize();
+          _.debounce(() => map.invalidateSize(), 100)();
         });
         tileLayer.on("error", (err) => {
           console.error(`Tile layer error for map ${index}:`, err);
         });
+
         mapInstances.current[index] = map;
         tileLayerRefs.current[index] = tileLayer;
         layerRefs.current[index] = [];
@@ -600,12 +661,12 @@ function MapViewer({
           onFullscreen: () => {
             if (screenfull.isEnabled) {
               screenfull.toggle(mapRef).then(() => {
-                setIsFullscreen((prev) => {
+                setIsFullscreen(prev => {
                   const newState = [...prev];
                   newState[index] = !newState[index];
                   return newState;
                 });
-                map.invalidateSize();
+                _.debounce(() => map.invalidateSize(), 100)();
               });
             } else {
               Swal.fire({
@@ -617,7 +678,7 @@ function MapViewer({
           },
           onFitExtent: () => {
             if (boundsRefs.current[index] && mapInstances.current[index]) {
-              mapInstances.current[index].fitBounds(boundsRefs.current[index], { padding: [50, 50] });
+              mapInstances.current[index].fitBounds(boundsRefs.current[index], { padding: [50, 50], animate: true });
               syncMaps(mapInstances.current[index], index);
             }
           },
@@ -628,9 +689,20 @@ function MapViewer({
         });
         mapControl.addTo(map);
 
-        map.on("moveend zoomend", () => {
-          if (mapInstances.current[index]) syncMaps(mapInstances.current[index], index);
+        // Throttled event handlers for zoom and move
+        const throttledSync = _.throttle(() => syncMaps(map, index), 50);
+
+        map.on("zoomstart", () => {
+          isZoomingRef.current[index] = true;
         });
+        map.on("zoomend", () => {
+          isZoomingRef.current[index] = false;
+          if (tiffData[index] && !hasRenderedRef.current[index]) {
+            updateGeoTiffLayer(tiffData[index], index);
+          }
+          throttledSync();
+        });
+        map.on("move", throttledSync);
 
         delete L.Icon.Default.prototype._getIconUrl;
         L.Icon.Default.mergeOptions({
@@ -639,20 +711,16 @@ function MapViewer({
           shadowUrl: "/images/leaflet/marker-shadow.png",
         });
 
-        map.invalidateSize();
-      } else {
-        console.warn(`Map ref not visible for index ${index}`);
+        _.debounce(() => map.invalidateSize(), 100)();
       }
     });
     mapsInitializedRef.current = true;
-  }, [isFullscreen, syncMaps, theme.palette.mode]);
+  }, [isFullscreen, syncMaps, theme.palette.mode, tiffData, updateGeoTiffLayer]);
 
-  // Initialize maps on mount
   useEffect(() => {
     initializeMaps();
   }, [initializeMaps]);
 
-  // Update map visibility when viewMode changes
   useEffect(() => {
     if (lastViewModeRef.current === viewMode) {
       console.log(`Skipping viewMode useEffect: viewMode unchanged (${viewMode})`);
@@ -684,7 +752,6 @@ function MapViewer({
     });
   }, [viewMode, tiffData, memoizedFilters.geojson, memoizedFilters.bbox, renderMapLayers]);
 
-  // Update tile layers and GeoJSON styles when theme changes
   useEffect(() => {
     mapInstances.current.forEach((map, index) => {
       if (map && tileLayerRefs.current[index] && mapRefs.current[index]) {
@@ -723,7 +790,6 @@ function MapViewer({
     });
   }, [theme.palette.mode]);
 
-  // Retry logic for API calls
   const fetchWithRetry = async (url, options, retries = 3, backoff = 300) => {
     for (let i = 0; i < retries; i++) {
       try {
@@ -813,8 +879,6 @@ function MapViewer({
         (item) => item.commodity_id === memoizedFilters?.commodity_id
       );
       const commodityLabel = selectedCommodity ? selectedCommodity.commodity : null;
-      console.log(payload.layer_type, +memoizedFilters?.commodity_type_id, selectedAdaptationTabId)
-      // debugger;
       setBreadcrumbData({
         mask: data.mask || null,
         commodityLabel: commodityLabel,
@@ -903,7 +967,6 @@ function MapViewer({
             label: "2080s",
           },
         ];
-
 
         const existingFiles = fileList.filter((file) =>
           defaultFilters.some((filter) =>
@@ -1067,7 +1130,7 @@ function MapViewer({
           }
         });
       }
-    }, 300),
+    }, 150),
     [memoizedTiffData, memoizedFilters.geojson, memoizedFilters.bbox, allDataReady, renderMapLayers, viewMode]
   );
 
@@ -1444,7 +1507,6 @@ function MapViewer({
     setViewMode("all");
   };
 
-  // Always render three maps with consistent labels
   const defaultTiffData = Array(3).fill(null).map((_, index) => ({
     arrayBuffer: null,
     metadata: {
@@ -1459,7 +1521,6 @@ function MapViewer({
     },
   }));
 
-  // Common sx styles for both Select components
   const selectStyles = {
     minWidth: "130px",
     height: "22px",
@@ -1568,7 +1629,7 @@ function MapViewer({
                 <FormControl
                   key={tab.tab_id}
                   sx={{
-                    flex: 1, // Equal space
+                    flex: 1,
                   }}
                 >
                   <Select
@@ -1578,7 +1639,6 @@ function MapViewer({
                     variant="standard"
                     disabled={internalMapLoading.some((loading) => loading)}
                     renderValue={(selected) => {
-                      // Display "Gender Suitability" if the selected tab is not one of the sub-tabs
                       const isSubTabSelected = tab.subTabs.some(
                         (subTab) => +subTab.tab_id === +selected
                       );
@@ -1590,7 +1650,7 @@ function MapViewer({
                       backgroundColor: tab.subTabs.some(
                         (subTab) => +subTab.tab_id === +selectedAdaptationTabId
                       )
-                        ? "rgb(191, 215, 122)" // Highlight if a subTab is selected
+                        ? "rgb(191, 215, 122)"
                         : theme.palette.mode === "dark"
                           ? "rgba(60, 75, 60, 1)"
                           : "rgba(235, 247, 233, 1)",
@@ -1628,18 +1688,17 @@ function MapViewer({
                     padding: "2px 12px",
                     borderRadius: "4px",
                     backgroundColor: +selectedAdaptationTabId === +tab.tab_id
-                      ? "rgb(191, 215, 122)" // Highlight if selected
+                      ? "rgb(191, 215, 122)"
                       : "transparent",
                     borderColor: (theme) =>
                       +selectedAdaptationTabId === +tab.tab_id
-                        ? "rgb(191, 215, 122)" // Match border to background
+                        ? "rgb(191, 215, 122)"
                         : theme.palette.grey[500],
                     color: (theme) =>
                       +selectedAdaptationTabId === +tab.tab_id
                         ? theme.palette.primary.contrastText
                         : theme.palette.text.primary,
                   }}
-
                 >
                   {tab.tab_name}
                 </Button>
@@ -1691,16 +1750,15 @@ function MapViewer({
                   position: "relative",
                   display: "flex",
                   alignItems: "center",
-                  justifyContent: "center", // center the middle box
+                  justifyContent: "center",
                 }}
               >
-                {/* Centered: Label + Selects */}
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                   <Typography>
                     {tiffData[index]?.metadata.layer_name || defaultTiffData[index].metadata.layer_name}
                   </Typography>
 
-                  {memoizedFilters.layer_type !== "commodity" && index === 0 && (
+                  {memoizedFilters.layer_type && memoizedFilters.layer_type !== "commodity" && index === 0 && (
                     <Select
                       value={selectedIntensityMetric}
                       onChange={(e) => handleIntensityMetricChange(e.target.value)}
@@ -1712,7 +1770,7 @@ function MapViewer({
                     </Select>
                   )}
 
-                  {memoizedFilters.layer_type !== "commodity" && index !== 0 && (
+                  {memoizedFilters.layer_type && memoizedFilters.layer_type !== "commodity" && index !== 0 && (
                     <>
                       <Select
                         value={selectedScenario}
@@ -1742,7 +1800,6 @@ function MapViewer({
                   )}
                 </Box>
 
-                {/* Right-aligned icons */}
                 {index === 0 && (
                   <Box
                     sx={{
@@ -1825,7 +1882,7 @@ function MapViewer({
                   </Box>
                 )}
                 {tiffData[index] && (
-                  < DownloadDropdown
+                  <DownloadDropdown
                     layerName={tiffData[index].metadata.layer_name}
                     layerType={memoizedFilters?.layer_type || "risk"}
                     mapIndex={index}
@@ -1865,7 +1922,7 @@ function MapViewer({
           <AnalyticsPage filters={memoizedFilters} />
         </Box>
       </Box>
-    </Box >
+    </Box>
   );
 }
 
