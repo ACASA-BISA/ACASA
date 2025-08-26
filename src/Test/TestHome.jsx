@@ -969,7 +969,7 @@ function TestHome(props) {
                             mt: 2,
                         }}
                     >
-                        Village-Level Maps to Inform Real-World Action
+                        Local-Level Maps to Inform the Real-World Action
                     </Typography>
                     <Typography
                         sx={{
@@ -980,11 +980,7 @@ function TestHome(props) {
                             lineHeight: 1.6,
                         }}
                     >
-                        Our interactive maps are designed to help policymakers, researchers,
-                        NGOs, and farmers visualize climate-related risks and opportunities at
-                        an unprecedented resolution — down to the village level. Built using
-                        climate, crop, and socioeconomic data, the maps empower users to plan
-                        smarter and adapt faster.
+                       Our interactive maps are designed to support government agencies, insurance providers, researchers, and service providers in aligned disciplines, agri-food industries, international and national donors, and organizations focused on climate adaptation. They can visualize climate-related risks and adaptation options at a high resolution, down to the sub-district level. Built on climate, crop, livestock, socioeconomic data, and adaptation options, our maps enable users to plan effectively and adapt quickly. 
                     </Typography>
                 </Box>
             </Container>
@@ -993,12 +989,12 @@ function TestHome(props) {
                 <Box sx={{ mt: 4, mb: 4 }}>
                     <Grid container spacing={2}>
                         {[
-                            { emoji: "🔍", text: "Zoom in to view risks at sub-district and village scales", },
-                            { emoji: "🌾", text: "Visualize climate hazards including droughts, floods, and heat stress", },
+                            { emoji: "🔍", text: "Zoom in to view risks at the local / sub-district scale.", },
+                            { emoji: "🌾", text: "Visualise climate hazards", },
                             { emoji: "🧑‍🌾", text: "Identify vulnerable regions for key crops and livestock", },
                             { emoji: "🛠", text: "Discover locally relevant adaptation options" },
-                            { emoji: "📊", text: "Filter by country, crop, and hazard type" },
-                            { emoji: "🧭", text: "Support decision-making for insurance, planning, and investments", },
+                            { emoji: "📊", text: "Filter by country, crop and hazard type" },
+                            { emoji: "🧭", text: "Support decision making through open access and granular data", },
                         ].map((item, idx) => (
                             <Grid item xs={12} sm={6} md={4} key={idx}>
                                 <Card className="card1"
