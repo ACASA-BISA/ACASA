@@ -1221,6 +1221,7 @@ function TestHome(props) {
                             bgcolor: theme.palette.mode === "dark" ? "#61c258" : "#4C9E46",
                             color: "#ffffff",
                             mt: 2,
+                            mb: 4,
                             "&:hover": {
                                 bgcolor: theme.palette.mode === "dark" ? "#4ba046" : "#3d8b3a",
                             },
@@ -1407,7 +1408,7 @@ function TestHome(props) {
                                                 color:
                                                     theme.palette.mode === "dark"
                                                         ? "#fff"
-                                                        : "#4ba046",
+                                                        : "#000",
                                                 fontSize: "12px",
                                                 lineHeight: 1.6,
                                                 mt: 2,
