@@ -36,7 +36,7 @@ const glossaryData = {
     },
     {
       term: "Barley",
-      definition: "The analysis for barley is done for 'Rabi'/winter season",
+      definition: "The analysis for barley is done for 'Rabi'/winter season in all countries except Afghanistan where Barley is sown predominantly in April (spring Barley).",
     },
     {
       term: "Broadbed and furrow",
@@ -289,18 +289,12 @@ const glossaryData = {
   ],
   M: [
     {
-      term: "MPI-ESM1-2-HR",
-      definition:
-        "An Earth System Model developed by the Max Planck Institute for Meteorology, Germany. It includes the ECHAM6.3 atmospheric model, MPIOM ocean model, HAMOCC marine biogeochemistry module, and JSBACH land surface model with dynamic vegetation and carbon cycling. It focuses on coupled climate–carbon feedbacks.",
-    },
-    {
-      term: "MRI-ESM2-0",
-      definition:
-        "An Earth System Model developed by the Meteorological Research Institute (MRI), Japan. It includes the MRI-AGCM3.5 atmospheric model, MOM4 ocean model, SIS sea-ice model, and MATSIRO land surface model. The model simulates land hydrology, snow processes, and interactive carbon-nitrogen cycles, with marine biogeochemistry represented through the TOP module.",
-    },
-    {
       term: "Maize",
-      definition: "Maize is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif') and 'Maha' in Sri Lanka",
+      definition: "Maize is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif' in India and Nepal and 'Maha' in Sri Lanka).",
+    },
+    {
+      term: "Millets",
+      definition: "Millet is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif' in India and Nepal)."
     },
     {
       term: "Micro-irrigation",
@@ -367,7 +361,7 @@ const glossaryData = {
     },
     {
       term: "Pixel level",
-      definition: "Visualisation is at 0.05 degree x 0.05 degree",
+      definition: "Visualisation is at 0.05 degree x 0.05 degree grid level.",
     },
     {
       term: "Planting of trees",
@@ -376,7 +370,7 @@ const glossaryData = {
     {
       term: "Pigeonpea",
       definition:
-        "The analysis for pigeonpea is conducted exclusively for the monsoon season, as this period plays a vital role in its growth cycle. Pigeonpea, being a rainfed crop, heavily relies on the monsoon rains for optimal development",
+        "Pigeonpea is planted in in multiple seasons in different countries. This analysis is for monsoon season (also known as 'Kharif' in India).",
     },
     {
       term: "Potato",
@@ -391,7 +385,7 @@ const glossaryData = {
   R: [
     {
       term: "Regional analysis",
-      definition: "The analysis is for a region from a general agriculture perspective, but is independent of specific commodities grown there.",
+      definition: "The analysis is for a region from a general agriculture perspective and is independent of specific commodities.",
     },
     {
       term: "Rural infrastructure",
@@ -413,7 +407,7 @@ const glossaryData = {
     {
       term: "Rice",
       definition:
-        "Rice is planted in multiple seasons in different countries. Here this analysis is only for monsoon season (also known as 'Kharif' in India, 'Aman' in Bangladesh,and 'Maha' in Sri Lanka)",
+        "Rice is planted in multiple seasons in different countries. Here this analysis is only for monsoon season (also known as 'Kharif' in India and Nepal, 'Aman' in Bangladesh,and 'Maha' in Sri Lanka).",
     },
     {
       term: "Rapeseed/Mustard",
@@ -460,7 +454,7 @@ const glossaryData = {
     },
     {
       term: "Sorghum",
-      definition: "Sorghum is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif')",
+      definition: "Sorghum is planted in multiple seasons in different countries. This analysis is for the winter season (also known as 'rabi').",
     },
     {
       term: "Soybean",
@@ -517,7 +511,7 @@ const glossaryData = {
     },
     {
       term: "Wheat",
-      definition: "The analysis for wheat (except for Afghanistan) is done for Rabi/winter season with planting time around mid-November. For Afghanistan, wheat season starts around April.",
+      definition: "The analysis for wheat is done for Rabi/winter season in all countries except Afghanistan where wheat is sown predominantly in April.",
     },
   ],
   X: [],
