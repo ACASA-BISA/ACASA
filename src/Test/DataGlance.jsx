@@ -1487,11 +1487,21 @@ const DataGlance = () => {
         [selectedYear, cleanupMaps]
     );
 
+
+    useEffect(() => {
+        document.documentElement.style.overflowX = "hidden";
+        document.body.style.overflowX = "hidden";
+        document.documentElement.style.overflowY = "hidden";
+        document.body.style.overflowY = "hidden";
+    }, []);
+
+    const box1 = React.useRef(null);
+
     return (
-        <div style={{ backgroundColor: theme.palette.mode === "dark" ? "black" : "white" }}>
-            <Grid container spacing={1} sx={{ marginTop: "86px", p: 1 }}>
-                <Grid item xs={3}>
-                    <Paper elevation={1} sx={{ borderRadius: 1 }}>
+        <Paper sx={{ overflow: "hidden", height: "100vh", backgroundColor: theme.palette.mode === "dark" ? "black" : "white" }}>
+            <Grid container spacing={1} sx={{ marginTop: "74px", p: 1 }}>
+                <Grid item xs={3} key="side">
+                    <Paper elevation={1} ref={box1} sx={{ borderRadius: 1 }}>
                         <Box
                             sx={(theme) => ({
                                 width: "100%",
@@ -1506,276 +1516,433 @@ const DataGlance = () => {
                                 Hazard at a Glance
                             </Typography>
                         </Box>
-                        <Box sx={{ m: 0.5 }}>
-                            <Grid container>
-                                <Grid item>
-                                    <Box sx={{ display: "flex", alignItems: "center", gap: 0.625, marginRight: "5px" }}>
-                                        <Typography sx={{ fontSize: 13, fontWeight: "bold" }}>Location: </Typography>
-                                        <FormControl sx={{ minWidth: "105px" }}>
-                                            {showCountrySelect ? (
-                                                <Select
-                                                    disableUnderline
-                                                    variant="standard"
-                                                    value={selectedCountryId}
-                                                    onChange={handleCountryChange}
-                                                    displayEmpty
-                                                    inputProps={{ "aria-label": "Country" }}
-                                                    IconComponent={ArrowDropDownIcon}
-                                                    MenuProps={{
-                                                        disableScrollLock: true,
-                                                        PaperProps: { sx: { maxHeight: 300 } },
-                                                        PopperProps: { modifiers: [{ name: "flip", enabled: false }] },
-                                                    }}
-                                                    sx={(theme) => ({
+
+                        <Box
+                            sx={(theme) => ({
+                                paddingX: "8px",
+                                paddingY: "1.5px",
+                                display: "flex",
+                                flexDirection: "row",
+                                justifyContent: "space-between",
+                                gap: "8px",
+                                alignItems: "center",
+                                flexWrap: "nowrap", // ✅ never wrap
+                                overflow: "hidden", // ✅ prevent overflow
+                                backgroundColor: theme.palette.mode === "dark" ? "#2d3136" : "#F7F7F7",
+                                border: "0px solid black",
+                            })}
+                        >
+
+                            <Box  sx={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: 0.625,
+                                    flex: 1,
+                                    marginRight: "5px",
+                                    overflow: "hidden",
+                                    flexWrap: "nowrap",
+                                    overflow: "hidden",
+                                    minWidth: 'auto'
+                                }}>
+                                <Typography sx={{ fontSize: 13, fontWeight: "bold" }}>Location: </Typography>
+                                <FormControl fullWidth>
+                                    {showCountrySelect ? (
+                                        <Select
+                                            disableUnderline
+                                            variant="standard"
+                                            value={selectedCountryId}
+                                            onChange={handleCountryChange}
+                                            displayEmpty
+                                            inputProps={{ "aria-label": "Country" }}
+                                            IconComponent={ArrowDropDownIcon}
+                                            MenuProps={{
+                                                disableScrollLock: true,
+                                                PaperProps: { sx: { maxHeight: 300 } },
+                                                PopperProps: { modifiers: [{ name: "flip", enabled: false }] },
+                                            }}
+                                            sx={(theme) => ({
+                                                fontSize: "12px",
+                                                height: "24px",
+                                                backgroundColor:
+                                                    theme.palette.mode === "dark"
+                                                        ? "rgba(60, 75, 60, 1)"
+                                                        : "rgba(235, 247, 233, 1)",
+                                                overflow: "hidden", // ✅ required for ellipsis
+                                                textOverflow: "ellipsis",
+                                                whiteSpace: "nowrap",
+                                            })}
+                                            disabled={isLoading || isOptionLoading}
+                                        >
+                                            <MenuItem value={0} sx={{ fontSize: "12px", paddingY: "2px" }}>
+                                                South Asia
+                                            </MenuItem>
+                                            {countries.map((country) => (
+                                                <MenuItem
+                                                    key={country.country_id}
+                                                    value={country.country_id}
+                                                    disabled={!country.status}
+                                                     sx={{
                                                         fontSize: "12px",
-                                                        height: "24px",
-                                                        backgroundColor: theme.palette.mode === "dark" ? "rgba(60, 75, 60, 1)" : "rgba(235, 247, 233, 1)",
-                                                    })}
-                                                    disabled={isLoading || isOptionLoading}
-                                                >
-                                                    <MenuItem value={0} sx={{ fontSize: "12px", paddingY: "2px" }}>
-                                                        South Asia
-                                                    </MenuItem>
-                                                    {countries.map((country) => (
-                                                        <MenuItem
-                                                            key={country.country_id}
-                                                            value={country.country_id}
-                                                            disabled={!country.status}
-                                                            sx={{ fontSize: "12px", paddingY: "2px" }}
-                                                        >
-                                                            {country.country}
-                                                        </MenuItem>
-                                                    ))}
-                                                </Select>
-                                            ) : (
-                                                <Typography variant="body1" sx={{ fontSize: "12px" }}>
-                                                    {countries.find((c) => c.country_id === selectedCountryId)?.country || "South Asia"}
-                                                </Typography>
-                                            )}
-                                        </FormControl>
-                                    </Box>
-                                </Grid>
-                                <Grid item>
-                                    <Box sx={{ display: "flex", alignItems: "center", gap: 0.625 }}>
-                                        <Typography sx={{ fontSize: 13, fontWeight: "bold" }}>Commodity: </Typography>
-                                        <FormControl sx={{ minWidth: "105px" }}>
-                                            <Select
-                                                disableUnderline
-                                                variant="standard"
-                                                value={selectedCommodityId}
-                                                onChange={handleCommodityChange}
-                                                displayEmpty
-                                                inputProps={{ "aria-label": "Commodity" }}
-                                                IconComponent={ArrowDropDownIcon}
-                                                MenuProps={{
-                                                    disableScrollLock: true,
-                                                    PaperProps: { sx: { maxHeight: 300 } },
-                                                    PopperProps: { modifiers: [{ name: "flip", enabled: false }] },
-                                                }}
-                                                sx={(theme) => ({
-                                                    fontSize: "12px",
-                                                    height: "24px",
-                                                    backgroundColor: theme.palette.mode === "dark" ? "rgba(60, 75, 60, 1)" : "rgba(235, 247, 233, 1)",
-                                                })}
-                                                disabled={isLoading || isOptionLoading}
-                                            >
-                                                {commodities.filter((c) => c.status).map((commodity) => (
-                                                    <MenuItem
-                                                        key={commodity.commodity_id}
-                                                        value={commodity.commodity_id}
-                                                        sx={{ fontSize: "12px", paddingY: "2px" }}
-                                                    >
-                                                        {commodity.commodity}
-                                                    </MenuItem>
-                                                ))}
-                                            </Select>
-                                        </FormControl>
-                                    </Box>
-                                </Grid>
-                                <Grid item>
-                                    <Box sx={{ display: "flex", alignItems: "center", mt: 1, gap: 0.625, marginRight: "5px" }}>
-                                        <Typography sx={{ fontSize: 13, fontWeight: "bold" }}>Scenario: </Typography>
-                                        <FormControl sx={{ minWidth: "120px" }}>
-                                            <Select
-                                                disableUnderline
-                                                variant="standard"
-                                                value={selectedScenarioId}
-                                                onChange={handleScenarioChange}
-                                                displayEmpty
-                                                inputProps={{ "aria-label": "Scenario" }}
-                                                IconComponent={ArrowDropDownIcon}
-                                                MenuProps={{
-                                                    disableScrollLock: true,
-                                                    PaperProps: { sx: { maxHeight: 300 } },
-                                                    PopperProps: { modifiers: [{ name: "flip", enabled: false }] },
-                                                }}
-                                                sx={(theme) => ({
-                                                    fontSize: "12px",
-                                                    height: "24px",
-                                                    backgroundColor: theme.palette.mode === "dark" ? "rgba(60, 75, 60, 1)" : "rgba(235, 247, 233, 1)",
-                                                })}
-                                                disabled={isLoading || isOptionLoading}
-                                            >
-                                                {climateScenarios.map((scenario) => (
-                                                    <MenuItem
-                                                        key={scenario.scenario_id}
-                                                        value={scenario.scenario_id}
-                                                        disabled={!scenario.status}
-                                                        sx={{ fontSize: "12px", paddingY: "2px" }}
-                                                    >
-                                                        {scenario.scenario}
-                                                    </MenuItem>
-                                                ))}
-                                            </Select>
-                                        </FormControl>
-                                    </Box>
-                                </Grid>
-                                <Grid item>
-                                    <Box sx={{ display: "flex", alignItems: "center", mt: 1, gap: 0.625 }}>
-                                        <Typography sx={{ fontSize: 13, fontWeight: "bold" }}>Scales: </Typography>
-                                        <FormControl sx={{ minWidth: "120px" }}>
-                                            <Select
-                                                disableUnderline
-                                                variant="standard"
-                                                value={selectedVisualizationScaleId}
-                                                onChange={handleVisualizationScaleChange}
-                                                displayEmpty
-                                                inputProps={{ "aria-label": "Visualization Scales" }}
-                                                IconComponent={ArrowDropDownIcon}
-                                                MenuProps={{
-                                                    disableScrollLock: true,
-                                                    PaperProps: { sx: { maxHeight: 300 } },
-                                                    PopperProps: { modifiers: [{ name: "flip", enabled: false }] },
-                                                }}
-                                                sx={(theme) => ({
-                                                    fontSize: "12px",
-                                                    height: "24px",
-                                                    backgroundColor: theme.palette.mode === "dark" ? "rgba(60, 75, 60, 1)" : "rgba(235, 247, 233, 1)",
-                                                })}
-                                                disabled={isLoading || isOptionLoading || visualizationScales.length === 0}
-                                            >
-                                                {visualizationScales.length === 0 ? (
-                                                    <MenuItem value="" sx={{ fontSize: "12px", paddingY: "2px" }}>
-                                                        No scales available
-                                                    </MenuItem>
-                                                ) : (
-                                                    visualizationScales.map((scale) => (
-                                                        <MenuItem
-                                                            key={scale.scale_id}
-                                                            value={scale.scale_id}
-                                                            disabled={!scale.status}
-                                                            sx={{ fontSize: "12px", paddingY: "2px" }}
-                                                        >
-                                                            {scale.scale}
-                                                        </MenuItem>
-                                                    ))
-                                                )}
-                                            </Select>
-                                        </FormControl>
-                                    </Box>
-                                </Grid>
-                                <Grid item>
-                                    <Box sx={{ display: "flex", alignItems: "center", mt: 1, gap: 0.625, marginRight: "5px" }}>
-                                        <Typography sx={{ fontSize: 13, fontWeight: "bold" }}>Intensity: </Typography>
-                                        <FormControl sx={{ minWidth: "150px" }}>
-                                            <Select
-                                                disableUnderline
-                                                variant="standard"
-                                                value={selectedIntensityMetricId}
-                                                onChange={handleIntensityMetricChange}
-                                                MenuProps={{
-                                                    disableScrollLock: true,
-                                                    PaperProps: { sx: { maxHeight: 300 } },
-                                                    PopperProps: { modifiers: [{ name: "flip", enabled: false }] },
-                                                }}
-                                                sx={(theme) => ({
-                                                    fontSize: "12px",
-                                                    height: "24px",
-                                                    backgroundColor: theme.palette.mode === "dark" ? "rgba(60, 75, 60, 1)" : "rgba(235, 247, 233, 1)",
-                                                })}
-                                                disabled={isLoading || isOptionLoading}
-                                            >
-                                                <MenuItem value={1} sx={{ fontSize: "12px", paddingY: "2px" }}>
-                                                    Intensity
-                                                </MenuItem>
-                                                <MenuItem value={2} sx={{ fontSize: "12px", paddingY: "2px" }}>
-                                                    Intensity Frequency
-                                                </MenuItem>
-                                            </Select>
-                                        </FormControl>
-                                    </Box>
-                                </Grid>
-                                <Grid item>
-                                    <Box sx={{ display: "flex", alignItems: "center", mt: 1, gap: 0.625 }}>
-                                        <Typography sx={{ fontSize: 13, fontWeight: "bold" }}>Metric: </Typography>
-                                        <FormControl sx={{ minWidth: "95px" }}>
-                                            <Select
-                                                disableUnderline
-                                                variant="standard"
-                                                value={selectedChangeMetricId}
-                                                onChange={handleChangeMetricChange}
-                                                MenuProps={{
-                                                    disableScrollLock: true,
-                                                    PaperProps: { sx: { maxHeight: 300 } },
-                                                    PopperProps: { modifiers: [{ name: "flip", enabled: false }] },
-                                                }}
-                                                sx={(theme) => ({
-                                                    fontSize: "12px",
-                                                    height: "24px",
-                                                    backgroundColor: theme.palette.mode === "dark" ? "rgba(60, 75, 60, 1)" : "rgba(235, 247, 233, 1)",
-                                                })}
-                                                disabled={isLoading || isOptionLoading}
-                                            >
-                                                <MenuItem value={1} sx={{ fontSize: "12px", paddingY: "2px" }}>
-                                                    Absolute
-                                                </MenuItem>
-                                                <MenuItem value={2} sx={{ fontSize: "12px", paddingY: "2px" }}>
-                                                    Delta
-                                                </MenuItem>
-                                            </Select>
-                                        </FormControl>
-                                    </Box>
-                                </Grid>
-                                <Grid item>
-                                    {parseInt(selectedScenarioId) !== 1 && (
-                                        <Box sx={{ display: "flex", alignItems: "center", mt: 1, gap: 0.625 }}>
-                                            <Typography sx={{ fontSize: 13, fontWeight: "bold" }}>Year: </Typography>
-                                            <FormControl sx={{ minWidth: "95px" }}>
-                                                <Select
-                                                    disableUnderline
-                                                    variant="standard"
-                                                    value={selectedYear || 2050}
-                                                    onChange={handleSelectedYear}
-                                                    MenuProps={{
-                                                        disableScrollLock: true,
-                                                        PaperProps: { sx: { maxHeight: 300 } },
-                                                        PopperProps: { modifiers: [{ name: "flip", enabled: false }] },
+                                                        paddingY: "2px",
+                                                        overflow: "hidden",
+                                                        textOverflow: "ellipsis",
+                                                        whiteSpace: "nowrap",
+                                                        maxWidth: "90px", // ✅ control menu item width
                                                     }}
-                                                    sx={(theme) => ({
-                                                        fontSize: "12px",
-                                                        height: "24px",
-                                                        backgroundColor: theme.palette.mode === "dark" ? "rgba(60, 75, 60, 1)" : "rgba(235, 247, 233, 1)",
-                                                    })}
-                                                    disabled={isLoading || isOptionLoading}
                                                 >
-                                                    <MenuItem value={2050} sx={{ fontSize: "12px", paddingY: "2px" }}>
-                                                        2050
-                                                    </MenuItem>
-                                                    <MenuItem value={2080} sx={{ fontSize: "12px", paddingY: "2px" }}>
-                                                        2080
-                                                    </MenuItem>
-                                                </Select>
-                                            </FormControl>
-                                        </Box>
+                                                    {country.country}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    ) : (
+                                        <Typography variant="body1" sx={{ fontSize: "12px" }}>
+                                            {countries.find((c) => c.country_id === selectedCountryId)?.country || "South Asia"}
+                                        </Typography>
                                     )}
-                                </Grid>
-                            </Grid>
+                                </FormControl>
+                            </Box>
+
+                            <Box sx={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: 0.625,
+                                    flex: 1,
+                                    marginRight: "5px",
+                                    overflow: "hidden",
+                                    flexWrap: "nowrap",
+                                    overflow: "hidden",
+                                    minWidth: 'auto'
+                                }}>
+                                <Typography sx={{ fontSize: 13, fontWeight: "bold" }}>Commodity: </Typography>
+                                <FormControl fullWidth>
+                                    <Select
+                                        disableUnderline
+                                        variant="standard"
+                                        value={selectedCommodityId}
+                                        onChange={handleCommodityChange}
+                                        displayEmpty
+                                        inputProps={{ "aria-label": "Commodity" }}
+                                        IconComponent={ArrowDropDownIcon}
+                                        MenuProps={{
+                                            disableScrollLock: true,
+                                            PaperProps: { sx: { maxHeight: 300 } },
+                                            PopperProps: { modifiers: [{ name: "flip", enabled: false }] },
+                                        }}
+                                        sx={(theme) => ({
+                                            fontSize: "12px",
+                                            height: "24px",
+                                            backgroundColor:
+                                                theme.palette.mode === "dark"
+                                                    ? "rgba(60, 75, 60, 1)"
+                                                    : "rgba(235, 247, 233, 1)",
+                                            overflow: "hidden",
+                                            textOverflow: "ellipsis",
+                                            whiteSpace: "nowrap",
+                                        })}
+                                        disabled={isLoading || isOptionLoading}
+                                    >
+                                        {commodities.filter((c) => c.status).map((commodity) => (
+                                            <MenuItem
+                                                key={commodity.commodity_id}
+                                                value={commodity.commodity_id}
+                                                 sx={{
+                                                        fontSize: "12px",
+                                                        paddingY: "2px",
+                                                        overflow: "hidden",
+                                                        textOverflow: "ellipsis",
+                                                        whiteSpace: "nowrap",
+                                                        maxWidth: "90px",
+                                                    }}
+                                            >
+                                                {commodity.commodity}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                            </Box>
+
+                        </Box>
+
+                        <Box
+                            sx={(theme) => ({
+                                paddingX: "8px",
+                                paddingY: "1.5px",
+                                display: "flex",
+                                flexDirection: "row",
+                                justifyContent: "space-between",
+                                gap: "8px",
+                                alignItems: "center",
+                                flexWrap: "nowrap", // ✅ never wrap
+                                overflow: "hidden", // ✅ prevent overflow
+                                backgroundColor: theme.palette.mode === "dark" ? "#2d3136" : "#F7F7F7",
+                                border: "0px solid black",
+                            })}
+                        >
+
+                            <Box sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 0.625,
+                                flex: 1,
+                                marginRight: "5px",
+                                overflow: "hidden",
+                                flexWrap: "nowrap",
+                                overflow: "hidden",
+                                minWidth: 'auto'
+                            }}>
+                                <Typography sx={{ fontSize: 13, fontWeight: "bold" }}>Scenario: </Typography>
+                                <FormControl fullWidth>
+                                    <Select
+                                        disableUnderline
+                                        variant="standard"
+                                        value={selectedScenarioId}
+                                        onChange={handleScenarioChange}
+                                        displayEmpty
+                                        inputProps={{ "aria-label": "Scenario" }}
+                                        IconComponent={ArrowDropDownIcon}
+                                        MenuProps={{
+                                            disableScrollLock: true,
+                                            PaperProps: { sx: { maxHeight: 300 } },
+                                            PopperProps: { modifiers: [{ name: "flip", enabled: false }] },
+                                        }}
+                                        sx={(theme) => ({
+                                            fontSize: "12px",
+                                            height: "24px",
+                                            backgroundColor: theme.palette.mode === "dark" ? "rgba(60, 75, 60, 1)" : "rgba(235, 247, 233, 1)",
+                                        })}
+                                        disabled={isLoading || isOptionLoading}
+                                    >
+                                        {climateScenarios.map((scenario) => (
+                                            <MenuItem
+                                                key={scenario.scenario_id}
+                                                value={scenario.scenario_id}
+                                                disabled={!scenario.status}
+                                                sx={{ fontSize: "12px", paddingY: "2px" }}
+                                            >
+                                                {scenario.scenario}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                            </Box>
+
+                            <Box sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 0.625,
+                                flex: 1,
+                                marginRight: "5px",
+                                overflow: "hidden",
+                                flexWrap: "nowrap",
+                                overflow: "hidden",
+                                minWidth: 'auto'
+                            }}>
+                                <Typography sx={{ fontSize: 13, fontWeight: "bold" }}>Scales: </Typography>
+                                <FormControl fullWidth>
+                                    <Select
+                                        disableUnderline
+                                        variant="standard"
+                                        value={selectedVisualizationScaleId}
+                                        onChange={handleVisualizationScaleChange}
+                                        displayEmpty
+                                        inputProps={{ "aria-label": "Visualization Scales" }}
+                                        IconComponent={ArrowDropDownIcon}
+                                        MenuProps={{
+                                            disableScrollLock: true,
+                                            PaperProps: { sx: { maxHeight: 300 } },
+                                            PopperProps: { modifiers: [{ name: "flip", enabled: false }] },
+                                        }}
+                                        sx={(theme) => ({
+                                            fontSize: "12px",
+                                            height: "24px",
+                                            backgroundColor: theme.palette.mode === "dark" ? "rgba(60, 75, 60, 1)" : "rgba(235, 247, 233, 1)",
+                                        })}
+                                        disabled={isLoading || isOptionLoading || visualizationScales.length === 0}
+                                    >
+                                        {visualizationScales.length === 0 ? (
+                                            <MenuItem value="" sx={{ fontSize: "12px", paddingY: "2px" }}>
+                                                No scales available
+                                            </MenuItem>
+                                        ) : (
+                                            visualizationScales.map((scale) => (
+                                                <MenuItem
+                                                    key={scale.scale_id}
+                                                    value={scale.scale_id}
+                                                    disabled={!scale.status}
+                                                    sx={{ fontSize: "12px", paddingY: "2px" }}
+                                                >
+                                                    {scale.scale}
+                                                </MenuItem>
+                                            ))
+                                        )}
+                                    </Select>
+                                </FormControl>
+                            </Box>
+
+                        </Box>
+
+                        <Box
+                            sx={(theme) => ({
+                                paddingX: "8px",
+                                paddingY: "1.5px",
+                                display: "flex",
+                                flexDirection: "row",
+                                justifyContent: "space-between",
+                                gap: "8px",
+                                alignItems: "center",
+                                flexWrap: "nowrap", // ✅ never wrap
+                                overflow: "hidden", // ✅ prevent overflow
+                                backgroundColor: theme.palette.mode === "dark" ? "#2d3136" : "#F7F7F7",
+                                border: "0px solid black",
+                            })}
+                        >
+
+                            <Box sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 0.625,
+                                flex: 1,
+                                marginRight: "5px",
+                                overflow: "hidden",
+                                flexWrap: "nowrap",
+                                overflow: "hidden",
+                                minWidth: 'auto'
+                            }}>
+                                <Typography sx={{ fontSize: 13, fontWeight: "bold" }}>Intensity: </Typography>
+                                <FormControl fullWidth>
+                                    <Select
+                                        disableUnderline
+                                        variant="standard"
+                                        value={selectedIntensityMetricId}
+                                        onChange={handleIntensityMetricChange}
+                                        MenuProps={{
+                                            disableScrollLock: true,
+                                            PaperProps: { sx: { maxHeight: 300 } },
+                                            PopperProps: { modifiers: [{ name: "flip", enabled: false }] },
+                                        }}
+                                        sx={(theme) => ({
+                                            fontSize: "12px",
+                                            height: "24px",
+                                            backgroundColor: theme.palette.mode === "dark" ? "rgba(60, 75, 60, 1)" : "rgba(235, 247, 233, 1)",
+                                        })}
+                                        disabled={isLoading || isOptionLoading}
+                                    >
+                                        <MenuItem value={1} sx={{ fontSize: "12px", paddingY: "2px" }}>
+                                            Intensity
+                                        </MenuItem>
+                                        <MenuItem value={2} sx={{ fontSize: "12px", paddingY: "2px" }}>
+                                            Intensity Frequency
+                                        </MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </Box>
+
+                            <Box sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 0.625,
+                                flex: 1,
+                                marginRight: "5px",
+                                overflow: "hidden",
+                                flexWrap: "nowrap",
+                                overflow: "hidden",
+                                minWidth: 'auto'
+                            }}>
+                                <Typography sx={{ fontSize: 13, fontWeight: "bold" }}>Metric: </Typography>
+                                <FormControl fullWidth>
+                                    <Select
+                                        disableUnderline
+                                        variant="standard"
+                                        value={selectedChangeMetricId}
+                                        onChange={handleChangeMetricChange}
+                                        MenuProps={{
+                                            disableScrollLock: true,
+                                            PaperProps: { sx: { maxHeight: 300 } },
+                                            PopperProps: { modifiers: [{ name: "flip", enabled: false }] },
+                                        }}
+                                        sx={(theme) => ({
+                                            fontSize: "12px",
+                                            height: "24px",
+                                            backgroundColor: theme.palette.mode === "dark" ? "rgba(60, 75, 60, 1)" : "rgba(235, 247, 233, 1)",
+                                        })}
+                                        disabled={isLoading || isOptionLoading}
+                                    >
+                                        <MenuItem value={1} sx={{ fontSize: "12px", paddingY: "2px" }}>
+                                            Absolute
+                                        </MenuItem>
+                                        <MenuItem value={2} sx={{ fontSize: "12px", paddingY: "2px" }}>
+                                            Delta
+                                        </MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </Box>
+
+                        </Box>
+
+                        <Box
+                            sx={(theme) => ({
+                                paddingX: "8px",
+                                paddingY: "1.5px",
+                                display: "flex",
+                                flexDirection: "row",
+                                justifyContent: "space-between",
+                                gap: "8px",
+                                alignItems: "center",
+                                flexWrap: "nowrap", // ✅ never wrap
+                                overflow: "hidden", // ✅ prevent overflow
+                                backgroundColor: theme.palette.mode === "dark" ? "#2d3136" : "#F7F7F7",
+                                border: "0px solid black",
+                            })}
+                        >
+
+                            {parseInt(selectedScenarioId) !== 1 && (
+                                <Box sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 0.625,
+                                flex: 1,
+                                marginRight: "5px",
+                                overflow: "hidden",
+                                flexWrap: "nowrap",
+                                overflow: "hidden",
+                                minWidth: 'auto'
+                            }}>
+                                    <Typography sx={{ fontSize: 13, fontWeight: "bold" }}>Year: </Typography>
+                                    <FormControl fullWidth>
+                                        <Select
+                                            disableUnderline
+                                            variant="standard"
+                                            value={selectedYear || 2050}
+                                            onChange={handleSelectedYear}
+                                            MenuProps={{
+                                                disableScrollLock: true,
+                                                PaperProps: { sx: { maxHeight: 300 } },
+                                                PopperProps: { modifiers: [{ name: "flip", enabled: false }] },
+                                            }}
+                                            sx={(theme) => ({
+                                                fontSize: "12px",
+                                                height: "24px",
+                                                backgroundColor: theme.palette.mode === "dark" ? "rgba(60, 75, 60, 1)" : "rgba(235, 247, 233, 1)",
+                                            })}
+                                            disabled={isLoading || isOptionLoading}
+                                        >
+                                            <MenuItem value={2050} sx={{ fontSize: "12px", paddingY: "2px" }}>
+                                                2050
+                                            </MenuItem>
+                                            <MenuItem value={2080} sx={{ fontSize: "12px", paddingY: "2px" }}>
+                                                2080
+                                            </MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                </Box>
+                            )}
+
                         </Box>
                         <Box sx={{ position: "relative" }}>
                             <div
                                 ref={(el) => (mapRefs.current[0] = el)}
                                 className="map-container"
-                                style={{ height: "calc(-233px + 100vh)", width: "100%" }}
+                                style={{ height: "calc(-203px + 100vh)", width: "100%" }}
                             />
                             {isLoading && (
                                 <Box
@@ -1830,7 +1997,7 @@ const DataGlance = () => {
                                             <div
                                                 ref={(el) => (mapRefs.current[gridSequence] = el)}
                                                 className="map-container"
-                                                style={{ height: "calc(-80px + 50vh)", width: "100%" }}
+                                                style={{ height: "calc(-71px + 50vh)", width: "100%" }}
                                             />
                                             {isLoading && (
                                                 <Box
@@ -1872,7 +2039,7 @@ const DataGlance = () => {
                     </Grid>
                 </Grid>
             </Grid>
-        </div>
+        </Paper>
     );
 };
 
