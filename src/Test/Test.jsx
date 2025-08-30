@@ -281,7 +281,8 @@ function Test() {
             setFilteredCommodities(filtered);
 
             if (filtered.length > 0 && (!selectedCommodityId || !filtered.some((c) => c.commodity_id === selectedCommodityId))) {
-                setSelectedCommodityId(filtered[1]?.commodity_id || "");
+                let index = +selectedCommodityTypeId === 1 ? 1 : 0;
+                setSelectedCommodityId(filtered[index]?.commodity_id || "");
             }
         }
     }, [selectedCommodityTypeId, commodities, selectedCommodityId]);
@@ -700,7 +701,14 @@ function Test() {
                                                                             disabled={!a.status}
                                                                             style={{ textAlign: "left" }}
                                                                         >
-                                                                            {a.country}
+                                                                            <Box display="flex" alignItems="center" gap={0.5}>
+                                                                                <span>{a.country}</span>
+                                                                                {a.description && (
+                                                                                    <Tooltip title={a.description} arrow>
+                                                                                        <InfoIcon fontSize="small" sx={{ color: "rgba(0, 0, 0, 0.54)" }} />
+                                                                                    </Tooltip>
+                                                                                )}
+                                                                            </Box>
                                                                         </MenuItem>
                                                                     ))}
                                                                 </Select>
@@ -737,7 +745,14 @@ function Test() {
                                                                     value={a.state_id}
                                                                     style={{ textAlign: "left" }}
                                                                 >
-                                                                    {a.state}
+                                                                    <Box display="flex" alignItems="center" gap={0.5}>
+                                                                        <span>{a.state}</span>
+                                                                        {a.description && (
+                                                                            <Tooltip title={a.description} arrow>
+                                                                                <InfoIcon fontSize="small" sx={{ color: "rgba(0, 0, 0, 0.54)" }} />
+                                                                            </Tooltip>
+                                                                        )}
+                                                                    </Box>
                                                                 </MenuItem>
                                                             ))}
                                                         </Select>
@@ -790,13 +805,19 @@ function Test() {
                                                                 }
                                                                 disabled={!type.status || isLoading || mapLoading}
                                                                 color="primary"
-                                                                style={{ textAlign: "left!important" }} />
+                                                                style={{ textAlign: "left!important" }}
+                                                            />
                                                         }
                                                         label={
-                                                            <Box display="flex" alignItems="center" gap={1}>
+                                                            <Box display="flex" alignItems="center" gap={0.5}>
                                                                 <FormLabel className="label-list" style={{ textAlign: "left" }}>
                                                                     {type.commodity_type}
                                                                 </FormLabel>
+                                                                {type.description && (
+                                                                    <Tooltip title={type.description} arrow>
+                                                                        <InfoIcon fontSize="small" sx={{ color: "rgba(0, 0, 0, 0.54)" }} />
+                                                                    </Tooltip>
+                                                                )}
                                                             </Box>
                                                         }
                                                     />
@@ -851,22 +872,30 @@ function Test() {
                                                                 }
                                                                 disabled={!scope.status || isLoading || mapLoading}
                                                                 color="primary"
-                                                                style={{ textAlign: "left!important" }} />
+                                                                style={{ textAlign: "left!important" }}
+                                                            />
                                                         }
                                                         label={
-                                                            <span
-                                                                style={{
-                                                                    fontFamily: "Poppins",
-                                                                    fontSize: "10px",
-                                                                    fontStyle: "normal",
-                                                                    fontWeight: 500,
-                                                                    lineHeight: "normal",
-                                                                    textAlign: "left",
-                                                                    display: 'flex',
-                                                                }}
-                                                            >
-                                                                {scope.scope}
-                                                            </span>
+                                                            <Box display="flex" alignItems="center" gap={0.5}>
+                                                                <span
+                                                                    style={{
+                                                                        fontFamily: "Poppins",
+                                                                        fontSize: "10px",
+                                                                        fontStyle: "normal",
+                                                                        fontWeight: 500,
+                                                                        lineHeight: "normal",
+                                                                        textAlign: "left",
+                                                                        display: "flex",
+                                                                    }}
+                                                                >
+                                                                    {scope.scope}
+                                                                </span>
+                                                                {scope.description && (
+                                                                    <Tooltip title={scope.description} arrow>
+                                                                        <InfoIcon fontSize="small" sx={{ color: "rgba(0, 0, 0, 0.54)" }} />
+                                                                    </Tooltip>
+                                                                )}
+                                                            </Box>
                                                         }
                                                     />
                                                 ))}
@@ -889,21 +918,29 @@ function Test() {
                                                                 }
                                                                 disabled={!scale.status || isLoading || mapLoading}
                                                                 color="primary"
-                                                                style={{ textAlign: "left!important" }} />
+                                                                style={{ textAlign: "left!important" }}
+                                                            />
                                                         }
                                                         label={
-                                                            <span
-                                                                style={{
-                                                                    fontFamily: "Poppins",
-                                                                    fontSize: "10px",
-                                                                    fontStyle: "normal",
-                                                                    fontWeight: 500,
-                                                                    lineHeight: "normal",
-                                                                    textAlign: "left!important",
-                                                                }}
-                                                            >
-                                                                {scale.scale}
-                                                            </span>
+                                                            <Box display="flex" alignItems="center" gap={0.5}>
+                                                                <span
+                                                                    style={{
+                                                                        fontFamily: "Poppins",
+                                                                        fontSize: "10px",
+                                                                        fontStyle: "normal",
+                                                                        fontWeight: 500,
+                                                                        lineHeight: "normal",
+                                                                        textAlign: "left!important",
+                                                                    }}
+                                                                >
+                                                                    {scale.scale}
+                                                                </span>
+                                                                {scale.description && (
+                                                                    <Tooltip title={scale.description} arrow>
+                                                                        <InfoIcon fontSize="small" sx={{ color: "rgba(0, 0, 0, 0.54)" }} />
+                                                                    </Tooltip>
+                                                                )}
+                                                            </Box>
                                                         }
                                                     />
                                                 ))}
@@ -979,21 +1016,29 @@ function Test() {
                                                                                 }
                                                                                 disabled={!commodity.status || isLoading || mapLoading}
                                                                                 color="primary"
-                                                                                style={{ textAlign: "left!important" }} />
+                                                                                style={{ textAlign: "left!important" }}
+                                                                            />
                                                                         }
                                                                         label={
-                                                                            <span
-                                                                                style={{
-                                                                                    fontFamily: "Poppins",
-                                                                                    fontSize: "10px",
-                                                                                    fontStyle: "normal",
-                                                                                    fontWeight: 500,
-                                                                                    lineHeight: "normal",
-                                                                                    textAlign: "left",
-                                                                                }}
-                                                                            >
-                                                                                {commodity.commodity}
-                                                                            </span>
+                                                                            <Box display="flex" alignItems="center" gap={0.5}>
+                                                                                <span
+                                                                                    style={{
+                                                                                        fontFamily: "Poppins",
+                                                                                        fontSize: "10px",
+                                                                                        fontStyle: "normal",
+                                                                                        fontWeight: 500,
+                                                                                        lineHeight: "normal",
+                                                                                        textAlign: "left",
+                                                                                    }}
+                                                                                >
+                                                                                    {commodity.commodity}
+                                                                                </span>
+                                                                                {commodity.description && (
+                                                                                    <Tooltip title={commodity.description} arrow>
+                                                                                        <InfoIcon fontSize="small" sx={{ color: "rgba(0, 0, 0, 0.54)" }} />
+                                                                                    </Tooltip>
+                                                                                )}
+                                                                            </Box>
                                                                         }
                                                                     />
                                                                 ))}
@@ -1054,21 +1099,29 @@ function Test() {
                                                                         }
                                                                         disabled={!risk.status || isLoading || mapLoading}
                                                                         color="primary"
-                                                                        style={{ textAlign: "left!important" }} />
+                                                                        style={{ textAlign: "left!important" }}
+                                                                    />
                                                                 }
                                                                 label={
-                                                                    <span
-                                                                        style={{
-                                                                            fontFamily: "Poppins",
-                                                                            fontSize: "10px",
-                                                                            fontStyle: "normal",
-                                                                            fontWeight: 500,
-                                                                            lineHeight: "normal",
-                                                                            textAlign: "left",
-                                                                        }}
-                                                                    >
-                                                                        {risk.risk}
-                                                                    </span>
+                                                                    <Box display="flex" alignItems="center" gap={0.5}>
+                                                                        <span
+                                                                            style={{
+                                                                                fontFamily: "Poppins",
+                                                                                fontSize: "10px",
+                                                                                fontStyle: "normal",
+                                                                                fontWeight: 500,
+                                                                                lineHeight: "normal",
+                                                                                textAlign: "left",
+                                                                            }}
+                                                                        >
+                                                                            {risk.risk}
+                                                                        </span>
+                                                                        {risk.description && (
+                                                                            <Tooltip title={risk.description} arrow>
+                                                                                <InfoIcon fontSize="small" sx={{ color: "rgba(0, 0, 0, 0.54)" }} />
+                                                                            </Tooltip>
+                                                                        )}
+                                                                    </Box>
                                                                 }
                                                             />
                                                         ))}
@@ -1079,71 +1132,81 @@ function Test() {
                                     </Collapse>
                                 </List>
 
-                                <List
-                                    className="listMenu"
-                                    sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
-                                    component="nav"
-                                    aria-labelledby="nested-list-subheader6"
-                                >
-                                    <ListSubheader component="div" id="nested-list-subheader6"></ListSubheader>
-                                    <ListItemButton
-                                        onClick={() => handleSidebarToggle("impact")}
-                                        disabled={isLoading || mapLoading || !selectedCommodityId}
-                                        sx={getListItemStyle("impact")}
+                                {selectedCommodityTypeId !== 2 && (
+                                    <List
+                                        className="listMenu"
+                                        sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+                                        component="nav"
+                                        aria-labelledby="nested-list-subheader6"
                                     >
-                                        <ListItemIcon
-                                            sx={{
-                                                minWidth: 35,
-                                                color: "rgba(0, 0, 0, 0.54)",
-                                                flexShrink: 0,
-                                                display: "inline-flex",
-                                            }}
+                                        <ListSubheader component="div" id="nested-list-subheader6"></ListSubheader>
+                                        <ListItemButton
+                                            onClick={() => handleSidebarToggle("impact")}
+                                            disabled={isLoading || mapLoading || !selectedCommodityId}
+                                            sx={getListItemStyle("impact")}
                                         >
-                                            <img src="/images/impact.svg" alt="Impact" />
-                                        </ListItemIcon>
-                                        <ListItemText
-                                            primary={<FormLabel style={{ textAlign: "left!important" }} className="formLabel">Impact</FormLabel>}
-                                        />
-                                        {isSidebarOpen.impact ? <ExpandLess /> : <ExpandMore />}
-                                    </ListItemButton>
-                                    <Collapse in={isSidebarOpen.impact} timeout="auto" unmountOnExit>
-                                        <List component="div" disablePadding sx={{ px: 2 }}>
-                                            <FormGroup>
-                                                {impacts.map((impact) => (
-                                                    <FormControlLabel
-                                                        key={impact.impact_id}
-                                                        control={
-                                                            <Switch
-                                                                checked={selectedImpactId === impact.impact_id}
-                                                                onChange={() =>
-                                                                    handleImpactChange({
-                                                                        target: { value: impact.impact_id },
-                                                                    })
-                                                                }
-                                                                disabled={!impact.status || isLoading || mapLoading}
-                                                                color="primary"
-                                                                style={{ textAlign: "left!important" }} />
-                                                        }
-                                                        label={
-                                                            <span
-                                                                style={{
-                                                                    fontFamily: "Poppins",
-                                                                    fontSize: "10px",
-                                                                    fontStyle: "normal",
-                                                                    fontWeight: 500,
-                                                                    lineHeight: "normal",
-                                                                    textAlign: "left",
-                                                                }}
-                                                            >
-                                                                {impact.impact}
-                                                            </span>
-                                                        }
-                                                    />
-                                                ))}
-                                            </FormGroup>
-                                        </List>
-                                    </Collapse>
-                                </List>
+                                            <ListItemIcon
+                                                sx={{
+                                                    minWidth: 35,
+                                                    color: "rgba(0, 0, 0, 0.54)",
+                                                    flexShrink: 0,
+                                                    display: "inline-flex",
+                                                }}
+                                            >
+                                                <img src="/images/impact.svg" alt="Impact" />
+                                            </ListItemIcon>
+                                            <ListItemText
+                                                primary={<FormLabel style={{ textAlign: "left!important" }} className="formLabel">Impact</FormLabel>}
+                                            />
+                                            {isSidebarOpen.impact ? <ExpandLess /> : <ExpandMore />}
+                                        </ListItemButton>
+                                        <Collapse in={isSidebarOpen.impact} timeout="auto" unmountOnExit>
+                                            <List component="div" disablePadding sx={{ px: 2 }}>
+                                                <FormGroup>
+                                                    {impacts.map((impact) => (
+                                                        <FormControlLabel
+                                                            key={impact.impact_id}
+                                                            control={
+                                                                <Switch
+                                                                    checked={selectedImpactId === impact.impact_id}
+                                                                    onChange={() =>
+                                                                        handleImpactChange({
+                                                                            target: { value: impact.impact_id },
+                                                                        })
+                                                                    }
+                                                                    disabled={!impact.status || isLoading || mapLoading}
+                                                                    color="primary"
+                                                                    style={{ textAlign: "left!important" }}
+                                                                />
+                                                            }
+                                                            label={
+                                                                <Box display="flex" alignItems="center" gap={0.5}>
+                                                                    <span
+                                                                        style={{
+                                                                            fontFamily: "Poppins",
+                                                                            fontSize: "10px",
+                                                                            fontStyle: "normal",
+                                                                            fontWeight: 500,
+                                                                            lineHeight: "normal",
+                                                                            textAlign: "left",
+                                                                        }}
+                                                                    >
+                                                                        {impact.impact}
+                                                                    </span>
+                                                                    {impact.description && (
+                                                                        <Tooltip title={impact.description} arrow>
+                                                                            <InfoIcon fontSize="small" sx={{ color: "rgba(0, 0, 0, 0.54)" }} />
+                                                                        </Tooltip>
+                                                                    )}
+                                                                </Box>
+                                                            }
+                                                        />
+                                                    ))}
+                                                </FormGroup>
+                                            </List>
+                                        </Collapse>
+                                    </List>
+                                )}
 
                                 <List
                                     className="listMenu"
@@ -1173,7 +1236,7 @@ function Test() {
                                         {isSidebarOpen.adaptation ? <ExpandLess /> : <ExpandMore />}
                                     </ListItemButton>
                                     <Collapse in={isSidebarOpen.adaptation} timeout="auto" unmountOnExit>
-                                        <List component="div" disablePadding sx={{ px: 2, textAlign: 'left' }}>
+                                        <List component="div" disablePadding sx={{ px: 2, textAlign: "left" }}>
                                             {groupedAdaptations.map((group) => (
                                                 <div key={group.groupId}>
                                                     <Typography variant="subtitle2" sx={{ mt: 2, mb: 1, textAlign: "left!important" }}>
@@ -1193,22 +1256,30 @@ function Test() {
                                                                         }
                                                                         disabled={!adaptation.status || isLoading || mapLoading}
                                                                         color="primary"
-                                                                        style={{ textAlign: "left!important" }} />
+                                                                        style={{ textAlign: "left!important" }}
+                                                                    />
                                                                 }
                                                                 label={
-                                                                    <span style={{
-                                                                        fontFamily: "Poppins",
-                                                                        fontSize: "10px",
-                                                                        fontStyle: "normal",
-                                                                        fontWeight: 500,
-                                                                        lineHeight: "normal",
-                                                                        display: 'flex',
-                                                                        textAlign: "left!important"
-                                                                    }}
-
-                                                                    >
-                                                                        {adaptation.adaptation}
-                                                                    </span>
+                                                                    <Box display="flex" alignItems="center" gap={0.5}>
+                                                                        <span
+                                                                            style={{
+                                                                                fontFamily: "Poppins",
+                                                                                fontSize: "10px",
+                                                                                fontStyle: "normal",
+                                                                                fontWeight: 500,
+                                                                                lineHeight: "normal",
+                                                                                textAlign: "left",
+                                                                                display: "flex",
+                                                                            }}
+                                                                        >
+                                                                            {adaptation.adaptation}
+                                                                        </span>
+                                                                        {adaptation.description && (
+                                                                            <Tooltip title={adaptation.description} arrow>
+                                                                                <InfoIcon fontSize="small" sx={{ color: "rgba(0, 0, 0, 0.54)" }} />
+                                                                            </Tooltip>
+                                                                        )}
+                                                                    </Box>
                                                                 }
                                                             />
                                                         ))}
