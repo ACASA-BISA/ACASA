@@ -1923,7 +1923,7 @@ const DataGlance = () => {
 
                         </Box>
 
-                        <Box sx={(theme) => ({
+                        {/* <Box sx={(theme) => ({
                             paddingX: "8px",
                             paddingY: "1.5px",
                             display: "flex",
@@ -2018,7 +2018,7 @@ const DataGlance = () => {
                                 </FormControl>
                             </Box>
 
-                        </Box>
+                        </Box> */}
 
                         <Box sx={(theme) => ({
                             paddingX: "8px",
@@ -2159,7 +2159,7 @@ const DataGlance = () => {
                             <div
                                 ref={(el) => (mapRefs.current[0] = el)}
                                 className="map-container"
-                                style={{ height: "calc(-230px + 100vh)", width: "100%" }}
+                                style={{ height: "calc(-204px + 100vh)", width: "100%" }}
                             />
                             {isLoading && (
                                 <Box
