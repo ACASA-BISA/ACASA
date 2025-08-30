@@ -190,7 +190,6 @@ function MapViewer({
           ].filter(tab => tab.subTabs ? tab.subTabs.length > 0 : true);
 
           // Sort tabs to maintain order: 1, 2, gender_group, 
-
           const sortedTabs = groupedTabs.sort((a, b) => {
             const order = [1, 2, "gender_group", 6, 7, 8];
             const aIndex = a.tab_id === "gender_group" ? "gender_group" : a.tab_id;
@@ -310,7 +309,7 @@ function MapViewer({
 
   const updateGeoTiffLayer = useCallback(async (tiff, index) => {
     if (!mapInstances.current[index] || !mapRefs.current[index] || !tiff || tiff.noGeoTiff) {
-      console.warn(`Skipping updateGeoTiffLayer for index ${index}: ${tiff.noGeoTiff ? "No GeoTIFF available" : "Invalid map or tiff data"}`);
+      console.warn(`Skipping updateGeoTiffLayer for index ${index}: ${tiff.noGeoTiff ? "No file matched" : "Invalid map or tiff data"}`);
       setInternalMapLoading(prev => {
         const newLoading = [...prev];
         newLoading[index] = false;
@@ -928,7 +927,7 @@ function MapViewer({
         tiffPromises = Array(3).fill().map(async (_, index) => {
           const file = availableFiles.length === 1 ? availableFiles[0] : availableFiles[index] || availableFiles[0];
           if (!file || !file.exists) {
-            console.warn(`No valid file available for index ${index}`);
+            console.warn(`No file matched for index ${index}`);
             setInternalMapLoading(prev => {
               const newLoading = [...prev];
               newLoading[index] = false;
@@ -977,7 +976,7 @@ function MapViewer({
           {
             climate_scenario_id: 1,
             year: null,
-            intensity_metric_id: selectedIntensityMetric === "Intensity Frequency" ? 2 : 1,
+            intensity_metric_id: selectedIntensityMetric.toLowerCase() === "intensity frequency" ? 2 : 1,
             change_metric_id: 1,
             metric: selectedIntensityMetric,
             changeMetric: "Absolute",
@@ -986,8 +985,8 @@ function MapViewer({
           {
             climate_scenario_id: selectedScenario,
             year: 2050,
-            intensity_metric_id: selectedIntensityMetric === "Intensity Frequency" ? 2 : 1,
-            change_metric_id: selectedChangeMetric === "Absolute" ? 1 : 2,
+            intensity_metric_id: selectedIntensityMetric.toLowerCase() === "intensity frequency" ? 2 : 1,
+            change_metric_id: selectedChangeMetric.toLowerCase() === "absolute" ? 1 : 2,
             metric: selectedIntensityMetric,
             changeMetric: selectedChangeMetric,
             label: "2050s",
@@ -995,8 +994,8 @@ function MapViewer({
           {
             climate_scenario_id: selectedScenario,
             year: 2080,
-            intensity_metric_id: selectedIntensityMetric === "Intensity Frequency" ? 2 : 1,
-            change_metric_id: selectedChangeMetric === "Absolute" ? 1 : 2,
+            intensity_metric_id: selectedIntensityMetric.toLowerCase() === "intensity frequency" ? 2 : 1,
+            change_metric_id: selectedChangeMetric.toLowerCase() === "absolute" ? 1 : 2,
             metric: selectedIntensityMetric,
             changeMetric: selectedChangeMetric,
             label: "2080s",
@@ -1024,13 +1023,13 @@ function MapViewer({
               Array.isArray(f.ramp) && f.ramp.length > 0
           );
 
-          if (!file && existingFiles.length > 0) {
-            file = existingFiles[0];
-            console.warn(`No exact file match for filter at index ${index}, falling back to first available file.`);
+          if (!file && fileList.length > 0) {
+            file = fileList.find(f => f.exists === true && Array.isArray(f.ramp) && f.ramp.length > 0);
+            console.warn(`No file matched for filter at index ${index}, falling back to first available file`);
           }
 
           if (!file || !file.exists) {
-            console.warn(`No valid file available for filter at index ${index}:`, filter);
+            console.warn(`No file matched for index ${index}:`, filter);
             setInternalMapLoading(prev => {
               const newLoading = [...prev];
               newLoading[index] = false;
@@ -1249,8 +1248,8 @@ function MapViewer({
         visualization_scale_id: breadcrumbData?.visualization_scale_id || null,
         layer_id: tiffMetadata.layer_id || selectedRiskId || selectedAdaptationId,
         adaptation_croptab_id: breadcrumbData?.adaptation_croptab_id || null,
-        intensity_metric_id: selectedIntensityMetric === "Intensity Frequency" ? 2 : 1,
-        change_metric_id: selectedChangeMetric === "Absolute" ? 1 : 2,
+        intensity_metric_id: selectedIntensityMetric.toLowerCase() === "intensity frequency" ? 2 : 1,
+        change_metric_id: selectedChangeMetric.toLowerCase() === "absolute" ? 1 : 2,
       };
       console.log("Table download payload:", payload);
 
@@ -1348,26 +1347,30 @@ function MapViewer({
   const handleIntensityMetricChange = (value) => {
     setSelectedIntensityMetric(value);
     setIsOptionLoading(true);
-    const intensityMetricId = value === "Intensity Frequency" ? 2 : 1;
+    const intensityMetricId = value.toLowerCase() === "intensity frequency" ? 2 : 1;
     const indicesToUpdate = [0, 1, 2];
     let pendingUpdates = indicesToUpdate.length;
 
     indicesToUpdate.forEach((index) => {
       const year = index === 0 ? null : index === 1 ? 2050 : 2080;
       const climateScenarioId = index === 0 ? 1 : selectedScenario;
-      const changeMetricId = index === 0 ? 1 : selectedChangeMetric === "Absolute" ? 1 : 2;
+      const changeMetricId = index === 0 ? 1 : selectedChangeMetric.toLowerCase() === "absolute" ? 1 : 2;
+
       let file = fileList.find(
         (f) =>
           f.climate_scenario_id === climateScenarioId &&
-          (year ? f.year === year : !f.year) &&
+          f.year === year &&
           f.intensity_metric_id === intensityMetricId &&
           f.change_metric_id === changeMetricId &&
           f.exists === true &&
-          f.ramp
+          Array.isArray(f.ramp) && f.ramp.length > 0
       );
+
       if (!file && fileList.length > 0) {
-        file = fileList.find((f) => f.exists === true && f.ramp);
+        file = fileList.find((f) => f.exists === true && Array.isArray(f.ramp) && f.ramp.length > 0);
+        console.warn(`No file matched for intensity metric change at index ${index}, falling back to first available file`);
       }
+
       if (file) {
         fetchGeoTiff(file, index, value, index === 0 ? "Absolute" : selectedChangeMetric, () => {
           pendingUpdates--;
@@ -1376,7 +1379,7 @@ function MapViewer({
           }
         });
       } else {
-        console.warn(`No file found for intensity metric change: index ${index}, metric ${value}, scenario ${climateScenarioId}, year ${year || "Baseline"}`);
+        console.warn(`No file matched for index ${index}, metric ${value}, scenario ${climateScenarioId}, year ${year || "Baseline"}`);
         setNoGeoTiffAvailable(prev => {
           const newState = [...prev];
           newState[index] = true;
@@ -1408,8 +1411,9 @@ function MapViewer({
 
     indicesToUpdate.forEach((index) => {
       const year = index === 1 ? 2050 : 2080;
-      const intensityMetricId = selectedIntensityMetric === "Intensity Frequency" ? 2 : 1;
-      const changeMetricId = selectedChangeMetric === "Absolute" ? 1 : 2;
+      const intensityMetricId = selectedIntensityMetric.toLowerCase() === "intensity frequency" ? 2 : 1;
+      const changeMetricId = selectedChangeMetric.toLowerCase() === "absolute" ? 1 : 2;
+
       let file = fileList.find(
         (f) =>
           f.climate_scenario_id === value &&
@@ -1417,11 +1421,14 @@ function MapViewer({
           f.intensity_metric_id === intensityMetricId &&
           f.change_metric_id === changeMetricId &&
           f.exists === true &&
-          f.ramp
+          Array.isArray(f.ramp) && f.ramp.length > 0
       );
+
       if (!file && fileList.length > 0) {
-        file = fileList.find((f) => f.exists === true && f.ramp);
+        file = fileList.find((f) => f.exists === true && Array.isArray(f.ramp) && f.ramp.length > 0);
+        console.warn(`No file matched for scenario change at index ${index}, falling back to first available file`);
       }
+
       if (file) {
         fetchGeoTiff(file, index, selectedIntensityMetric, selectedChangeMetric, () => {
           pendingUpdates--;
@@ -1430,7 +1437,7 @@ function MapViewer({
           }
         });
       } else {
-        console.warn(`No file found for scenario change: index ${index}, scenario ${value}, year ${year}`);
+        console.warn(`No file matched for index ${index}, scenario ${value}, year ${year}`);
         setNoGeoTiffAvailable(prev => {
           const newState = [...prev];
           newState[index] = true;
@@ -1462,8 +1469,9 @@ function MapViewer({
 
     indicesToUpdate.forEach((index) => {
       const year = index === 1 ? 2050 : 2080;
-      const intensityMetricId = selectedIntensityMetric === "Intensity Frequency" ? 2 : 1;
-      const changeMetricId = value === "Absolute" ? 1 : 2;
+      const intensityMetricId = selectedIntensityMetric.toLowerCase() === "intensity frequency" ? 2 : 1;
+      const changeMetricId = value.toLowerCase() === "absolute" ? 1 : 2;
+
       let file = fileList.find(
         (f) =>
           f.climate_scenario_id === selectedScenario &&
@@ -1471,11 +1479,14 @@ function MapViewer({
           f.intensity_metric_id === intensityMetricId &&
           f.change_metric_id === changeMetricId &&
           f.exists === true &&
-          f.ramp
+          Array.isArray(f.ramp) && f.ramp.length > 0
       );
+
       if (!file && fileList.length > 0) {
-        file = fileList.find((f) => f.exists === true && f.ramp);
+        file = fileList.find((f) => f.exists === true && Array.isArray(f.ramp) && f.ramp.length > 0);
+        console.warn(`No file matched for change metric at index ${index}, falling back to first available file`);
       }
+
       if (file) {
         fetchGeoTiff(file, index, selectedIntensityMetric, value, () => {
           pendingUpdates--;
@@ -1484,7 +1495,7 @@ function MapViewer({
           }
         });
       } else {
-        console.warn(`No file found for change metric: index ${index}, change metric ${value}, year ${year}`);
+        console.warn(`No file matched for index ${index}, change metric ${value}, year ${year}`);
         setNoGeoTiffAvailable(prev => {
           const newState = [...prev];
           newState[index] = true;
@@ -1510,7 +1521,7 @@ function MapViewer({
 
   const fetchGeoTiff = async (file, index, metric, changeMetric, onComplete) => {
     if (!file.exists) {
-      console.warn(`No GeoTIFF available for index ${index}, skipping fetch`);
+      console.warn(`No file matched for index ${index}, skipping fetch`);
       setTiffData(prev => {
         const newTiffData = [...prev];
         newTiffData[index] = { noGeoTiff: true, metadata: { layer_name: ["Baseline", "2050s", "2080s"][index] } };
@@ -1550,6 +1561,7 @@ function MapViewer({
       if (!arrayBuffer || arrayBuffer.byteLength === 0) {
         throw new Error(`Empty or invalid arrayBuffer for ${file.source_file}`);
       }
+      console.log(`GeoTIFF fetched for index ${index}, size: ${arrayBuffer.byteLength} bytes`);
       const clonedBuffer = arrayBuffer.slice(0);
 
       const newTiff = {
@@ -1558,7 +1570,7 @@ function MapViewer({
           source_file: file.source_file,
           color_ramp: file.ramp,
           layer_name: ["Baseline", "2050s", "2080s"][index],
-          layer_id: memoizedFilters.layer_type === "risk" ? selectedRiskId : null,
+          layer_id: memoizedFilters.layer_type === "risk" ? selectedRiskId : memoizedFilters.layer_type === "adaptation" ? selectedAdaptationId : memoizedFilters.layer_type === "impact" ? selectedImpactId : null,
           year: index === 0 ? null : index === 1 ? 2050 : 2080,
           intensity_metric: metric,
           climate_scenario_id: file.climate_scenario_id,
@@ -1568,6 +1580,12 @@ function MapViewer({
 
       georasterCache.current.delete(`${file.source_file}-${index}`);
       hasRenderedRef.current[index] = false;
+
+      setTiffData(prev => {
+        const newTiffData = [...prev];
+        newTiffData[index] = newTiff;
+        return newTiffData;
+      });
 
       if (mapInstances.current[index]) {
         await updateGeoTiffLayer(newTiff, index);
@@ -1579,6 +1597,16 @@ function MapViewer({
         icon: "error",
         title: "Error",
         text: err.message || "Failed to load GeoTIFF data.",
+      });
+      setTiffData(prev => {
+        const newTiffData = [...prev];
+        newTiffData[index] = { noGeoTiff: true, metadata: { layer_name: ["Baseline", "2050s", "2080s"][index] } };
+        return newTiffData;
+      });
+      setNoGeoTiffAvailable(prev => {
+        const newState = [...prev];
+        newState[index] = true;
+        return newState;
       });
       setInternalMapLoading(prev => {
         const newLoading = [...prev];
@@ -1810,7 +1838,7 @@ function MapViewer({
                     padding: "2px 12px",
                     borderRadius: "4px",
                     backgroundColor: +selectedAdaptationTabId === +tab.tab_id
-                      ? "rgb(191,obium, 215, 122)"
+                      ? "rgb(191, 215, 122)"
                       : "transparent",
                     borderColor: (theme) =>
                       +selectedAdaptationTabId === +tab.tab_id
