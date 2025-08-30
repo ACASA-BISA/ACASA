@@ -2111,7 +2111,7 @@ const DataGlance = () => {
                                         flexWrap: "nowrap",
                                         minWidth: 'auto'
                                     }}>
-                                        <Typography sx={{ display: 'flex', fontSize: 13, fontWeight: "bold", flexWrap: 'nowrap' }}>Adaptation&nbsp;Indicator: </Typography>
+                                        <Typography sx={{ display: 'flex', fontSize: 13, fontWeight: "bold", flexWrap: 'nowrap' }}>Indicator: </Typography>
                                         <FormControl fullWidth>
                                             <Select
                                                 disableUnderline
