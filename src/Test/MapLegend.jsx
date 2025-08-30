@@ -43,22 +43,35 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
     return !diffcrop.includes(breadcrumbData?.commodityLabel?.toLowerCase());
   };
 
+  // const calcpop = (popu) => {
+  //   if (popu === 0) return "None";
+  //   const popInMillions = popu / 1_000_000;
+  //   if (popInMillions < 0.1) {
+  //     return layerType === "Absolute" ? "<0.1 M" : popInMillions.toFixed(1) + " M";
+  //   }
+  //   return popInMillions.toFixed(1) + " M";
+  // };
+
+  // const calcarea = (popu) => {
+  //   if (popu === 0) return "None";
+  //   const unit = checkcrop() ? " Mha" : " M";
+  //   const areaInMillions = popu / 1_000_000;
+  //   if (areaInMillions < 0.1) {
+  //     return layerType === "Absolute" ? `<0.1${unit}` : areaInMillions.toFixed(1) + unit;
+  //   }
+  //   return areaInMillions.toFixed(1) + unit;
+  // };
+
   const calcpop = (popu) => {
-    if (popu === 0) return "None";
+    if (popu <= 100_000) return "< 0.1 M"; // Handle zero or values ≤ 100,000
     const popInMillions = popu / 1_000_000;
-    if (popInMillions < 0.1) {
-      return layerType === "Absolute" ? "<0.1 M" : popInMillions.toFixed(1) + " M";
-    }
     return popInMillions.toFixed(1) + " M";
   };
 
   const calcarea = (popu) => {
-    if (popu === 0) return "None";
     const unit = checkcrop() ? " Mha" : " M";
+    if (popu <= 100_000) return `< 0.1${unit}`; // Handle zero or values ≤ 100,000
     const areaInMillions = popu / 1_000_000;
-    if (areaInMillions < 0.1) {
-      return layerType === "Absolute" ? `<0.1${unit}` : areaInMillions.toFixed(1) + unit;
-    }
     return areaInMillions.toFixed(1) + unit;
   };
 
@@ -267,7 +280,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
                           color: theme.palette.mode === "dark" ? theme.palette.text.secondary : "#111",
                         }}
                       >
-                        {item.population_value ? calcpop(item.population_value) : ""}
+                        {calcpop(item.population_value)}
                       </Typography>
                     </Box>
                     <Box
@@ -357,7 +370,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
                           color: theme.palette.mode === "dark" ? theme.palette.text.secondary : "#111",
                         }}
                       >
-                        {item.commodity_value ? calcarea(item.commodity_value) : ""}
+                        {calcarea(item.commodity_value)}
                       </Typography>
                     </Box>
                   </Box>
