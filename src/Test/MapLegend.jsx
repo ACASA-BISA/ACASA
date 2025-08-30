@@ -63,15 +63,19 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
   // };
 
   const calcpop = (popu) => {
-    if (popu <= 100_000) return "< 0.1 M"; // Handle zero or values ≤ 100,000
-    const popInMillions = popu / 1_000_000;
+    const value = Number(popu) || 0; // Ensure numeric value
+    if (value === 0) return "0"; // Handle exactly 0, no suffix
+    if (value <= 100_000) return "< 0.1 M"; // Handle 0 < value ≤ 100,000
+    const popInMillions = value / 1_000_000;
     return popInMillions.toFixed(1) + " M";
   };
 
   const calcarea = (popu) => {
+    const value = Number(popu) || 0; // Ensure numeric value
     const unit = checkcrop() ? " Mha" : " M";
-    if (popu <= 100_000) return `< 0.1${unit}`; // Handle zero or values ≤ 100,000
-    const areaInMillions = popu / 1_000_000;
+    if (value === 0) return "0"; // Handle exactly 0, no suffix
+    if (value <= 100_000) return `< 0.1${unit}`; // Handle 0 < value ≤ 100,000
+    const areaInMillions = value / 1_000_000;
     return areaInMillions.toFixed(1) + unit;
   };
 
