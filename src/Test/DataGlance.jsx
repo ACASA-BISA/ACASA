@@ -233,7 +233,7 @@ const DataGlance = () => {
     const controlsInitialized = useRef(new Array(8).fill(false));
 
     const apiRand = Math.random().toString(36).substring(2, 15);
-    const apiUrl = process.env.REACT_APP_API_URL || `http://52.52.161.42/acasa_api?rand=${apiRand}`;
+    const apiUrl = process.env.REACT_APP_API_URL || `https://i7f9yi0027.execute-api.us-west-1.amazonaws.com/acasa_api?rand=${apiRand}`;
     const { country } = useParams();
 
     const breadcrumbData = useMemo(
@@ -1533,17 +1533,17 @@ const DataGlance = () => {
                             })}
                         >
 
-                            <Box  sx={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    gap: 0.625,
-                                    flex: 1,
-                                    marginRight: "5px",
-                                    overflow: "hidden",
-                                    flexWrap: "nowrap",
-                                    overflow: "hidden",
-                                    minWidth: 'auto'
-                                }}>
+                            <Box sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 0.625,
+                                flex: 1,
+                                marginRight: "5px",
+                                overflow: "hidden",
+                                flexWrap: "nowrap",
+                                overflow: "hidden",
+                                minWidth: 'auto'
+                            }}>
                                 <Typography sx={{ fontSize: 13, fontWeight: "bold" }}>Location: </Typography>
                                 <FormControl fullWidth>
                                     {showCountrySelect ? (
@@ -1581,7 +1581,7 @@ const DataGlance = () => {
                                                     key={country.country_id}
                                                     value={country.country_id}
                                                     disabled={!country.status}
-                                                     sx={{
+                                                    sx={{
                                                         fontSize: "12px",
                                                         paddingY: "2px",
                                                         overflow: "hidden",
@@ -1603,16 +1603,16 @@ const DataGlance = () => {
                             </Box>
 
                             <Box sx={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    gap: 0.625,
-                                    flex: 1,
-                                    marginRight: "5px",
-                                    overflow: "hidden",
-                                    flexWrap: "nowrap",
-                                    overflow: "hidden",
-                                    minWidth: 'auto'
-                                }}>
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 0.625,
+                                flex: 1,
+                                marginRight: "5px",
+                                overflow: "hidden",
+                                flexWrap: "nowrap",
+                                overflow: "hidden",
+                                minWidth: 'auto'
+                            }}>
                                 <Typography sx={{ fontSize: 13, fontWeight: "bold" }}>Commodity: </Typography>
                                 <FormControl fullWidth>
                                     <Select
@@ -1645,14 +1645,14 @@ const DataGlance = () => {
                                             <MenuItem
                                                 key={commodity.commodity_id}
                                                 value={commodity.commodity_id}
-                                                 sx={{
-                                                        fontSize: "12px",
-                                                        paddingY: "2px",
-                                                        overflow: "hidden",
-                                                        textOverflow: "ellipsis",
-                                                        whiteSpace: "nowrap",
-                                                        maxWidth: "90px",
-                                                    }}
+                                                sx={{
+                                                    fontSize: "12px",
+                                                    paddingY: "2px",
+                                                    overflow: "hidden",
+                                                    textOverflow: "ellipsis",
+                                                    whiteSpace: "nowrap",
+                                                    maxWidth: "90px",
+                                                }}
                                             >
                                                 {commodity.commodity}
                                             </MenuItem>
@@ -1897,16 +1897,16 @@ const DataGlance = () => {
 
                             {parseInt(selectedScenarioId) !== 1 && (
                                 <Box sx={{
-                                display: "flex",
-                                alignItems: "center",
-                                gap: 0.625,
-                                flex: 1,
-                                marginRight: "5px",
-                                overflow: "hidden",
-                                flexWrap: "nowrap",
-                                overflow: "hidden",
-                                minWidth: 'auto'
-                            }}>
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: 0.625,
+                                    flex: 1,
+                                    marginRight: "5px",
+                                    overflow: "hidden",
+                                    flexWrap: "nowrap",
+                                    overflow: "hidden",
+                                    minWidth: 'auto'
+                                }}>
                                     <Typography sx={{ fontSize: 13, fontWeight: "bold" }}>Year: </Typography>
                                     <FormControl fullWidth>
                                         <Select
