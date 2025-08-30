@@ -62,7 +62,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
     return areaInMillions.toFixed(1) + unit;
   };
 
-  // Generate canvas for commodity layer
+  // Generate canvas for commodity layer (no longer used, but kept for reference)
   const generateLegendCanvas = async (colorRamp) => {
     const canvas = document.createElement("canvas");
     canvas.width = maxLegendWidth * 0.6;
@@ -238,32 +238,6 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
 
         <Typography variant="body1">
           <Box sx={{ display: "flex", flexDirection: "row", gap: "4px", flexWrap: "wrap", justifyContent: "center", marginTop: "-5px" }}>
-            {/* {(ImpactName === "Productivity" || ImpactName === "Resilience") && (
-              <Box sx={{ width: 63, height: glance ? 15 : 18, borderRadius: 0, bgcolor: "#969696", alignContent: "center", marginTop: "16px", marginRight: "2px" }}>
-                <Typography sx={{ fontSize: tinyFontSize, marginY: "auto", marginLeft: "3px" }} color="white">
-                  <strong>NA</strong>
-                </Typography>
-              </Box>
-            )} */}
-            {/* {(layerType === "adaptation" || layerType === "adaptation_croptab") && (
-              <Tooltip
-                title={
-                  <Box sx={{ width: 80, height: glance ? 15 : 18, borderRadius: 0, bgcolor: "#A52A2A", alignContent: "center" }}>
-                    <Typography sx={{ fontSize: tinyFontSize, marginY: "auto", marginX: "3px" }} color="white">
-                      <strong>Unsuitable area</strong>
-                    </Typography>
-                  </Box>
-                }
-                placement="top"
-                open={true}
-                componentsProps={{
-                  tooltip: { sx: { backgroundColor: "white", padding: 0 } },
-                  popper: { modifiers: [{ name: "offset", options: { offset: [20, 25] } }] },
-                }}
-              >
-                <Box sx={{ height: 0 }} />
-              </Tooltip>
-            )} */}
             <Box sx={{ display: "flex", flexDirection: "row", width: "100%", gap: "2px" }}>
               {localLegendData.legend.map((item, index) => {
                 const isRainfall = RiskName === "Seasonal Rainfall";
@@ -367,7 +341,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
                             {secondaryText && (
                               <>
                                 <br />
-                                <span style={{ fontSize: tinyFontSize * 0.8, fontWeight: "normal", fontStyle: "italic" }}>{secondaryText}</span>
+                                <span>{secondaryText}</span>
                               </>
                             )}
                           </span>
@@ -426,40 +400,66 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
             </Typography>
           </Box>
         )}
-
-        {/* {RiskName && ["Irrigation", "Volumetric Soil Water", "Agriculture Income", "Soil Organic Carbon", "Feed/Fodder", "Rural infrastructure", "Socio-economic Development Indicator", "Income"].includes(RiskName) && (
-          <Box sx={{ display: "flex", alignContent: "center", alignItems: "center", justifyContent: "center", marginBottom: "-2px", marginTop: "-2px" }}>
-            <Typography sx={{ fontSize: tinyFontSize, marginX: "-2px", fontWeight: "normal" }} color="text.secondary">
-              (Lower {RiskName.toLowerCase()} depicts higher vulnerability)
-            </Typography>
-          </Box>
-        )} */}
       </Box>
     );
   };
 
   // Render gradient legend for commodity
   const renderDefaultLegend = () => {
-    if (!localLegendData?.base64 || !breadcrumbData?.commodityLabel) return null;
+    if (!breadcrumbData?.commodityLabel) return null;
 
     return (
-      <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", gap: 2 }}>
-        <Typography
+      <Box
+        sx={{
+          position: "fixed", // Fixed position as requested
+          bottom: 25,
+          left: "50%",
+          transform: "translateX(-50%)",
+          backgroundColor: "background.paper",
+          borderRadius: 2,
+          boxShadow: 3,
+          paddingX: 3,
+          paddingY: 1.5,
+          display: "flex",
+          alignItems: "center",
+          gap: 1,
+          zIndex: 1300, // Higher than most other UI elements
+          border: (theme) => (theme.palette.mode === "dark" ? "1px solid rgba(255, 255, 255, 0.1)" : "1px solid rgba(0, 0, 0, 0.1)"),
+        }}
+      >
+        <Typography sx={{ fontSize: 12, fontWeight: 600, whiteSpace: "nowrap" }} color="text.primary">
+          {checkcrop() ? `Area under ${breadcrumbData.commodityLabel.toLowerCase()}` : `Region with ${breadcrumbData.commodityLabel.toLowerCase()} population`}
+        </Typography>
+
+        <Box
           sx={{
-            fontSize: baseFontSize,
-            fontWeight: "bold",
-            whiteSpace: "wrap",
-            color: theme.palette.mode === "dark" ? "white" : "black",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
-          {`Area under: ${breadcrumbData.commodityLabel || "Unknown"}`}
-        </Typography>
-        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-          <img
-            src={localLegendData.base64}
-            alt={`Legend for ${tiff?.metadata?.layer_name || "layer"}`}
-            style={{ maxWidth: "100%", width: maxLegendWidth * 0.6, height: "auto", loading: "lazy" }}
+          <Box
+            sx={{
+              width: 200,
+              height: 12,
+              borderRadius: 6,
+              background: "linear-gradient(to right, #fff9c4, #ffe680, #ffd700, #daa520, #a0522d, #6b3d1b)",
+              marginBottom: 0.5,
+            }}
           />
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              width: "100%",
+            }}
+          >
+            {["Very Low", "Low", "Medium", "High", "Very High"].map((label) => (
+              <Typography key={label} sx={{ fontSize: 11, color: "text.secondary" }}>
+                {label}
+              </Typography>
+            ))}
+          </Box>
         </Box>
       </Box>
     );

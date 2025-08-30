@@ -64,7 +64,7 @@ function App() {
 
   return (
     <div className="App">
-      <BrowserCheck />
+      {/* <BrowserCheck /> */}
       <ThemeProviderWrapper>
         <ResponsiveAppBar validCountries={validCountries} />
         <Routes>

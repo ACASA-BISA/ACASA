@@ -366,6 +366,8 @@ function Test() {
             adaptations: adaptations || [],
             states: states || [],
             risks: risks || [],
+            country_id: selectedCountryId,
+            state_id: selectedStateId,
         };
 
         setAppliedFilters(newFilters);
