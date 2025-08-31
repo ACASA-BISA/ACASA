@@ -538,7 +538,7 @@ function TestHome(props) {
         arrows: false,
     };
 
-    const partnerLogos = country === "nepal" ? [2] : [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    const partnerLogos = country === "nepal" ? [2] : [1, 7, 2, 3, 4, 5, 6, 8, 9];
     const contryLogos = [1, 2, 3, 4, 5, 6, 7, 8];
 
     const { mode } = useContext(ThemeContext);
