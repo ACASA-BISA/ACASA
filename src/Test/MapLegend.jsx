@@ -428,20 +428,9 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
     return (
       <Box
         sx={{
-          position: "fixed", // Fixed position as requested
-          bottom: 25,
-          left: "50%",
-          transform: "translateX(-50%)",
-          backgroundColor: "background.paper",
-          borderRadius: 2,
-          boxShadow: 3,
-          paddingX: 3,
-          paddingY: 1.5,
           display: "flex",
           alignItems: "center",
-          gap: 1,
-          zIndex: 1300, // Higher than most other UI elements
-          border: (theme) => (theme.palette.mode === "dark" ? "1px solid rgba(255, 255, 255, 0.1)" : "1px solid rgba(0, 0, 0, 0.1)"),
+          gap: 1
         }}
       >
         <Typography sx={{ fontSize: 12, fontWeight: 600, whiteSpace: "nowrap" }} color="text.primary">
