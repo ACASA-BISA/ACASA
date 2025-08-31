@@ -714,7 +714,7 @@ function Test() {
                                                                 </Select>
                                                             </>
                                                         ) : (
-                                                            <Typography variant="subtitle2" sx={{ mb: 1 }} style={{ textAlign: "left" }}>
+                                                            <Typography variant="subtitle2" sx={{ mb: 1 }} style={{ textAlign: "center" }}>
                                                                 <FormLabel style={{ textAlign: "center" }} className="formLabel">
                                                                     Country:{" "}
                                                                     {countries.find((c) => c.country_id === selectedCountryId)?.country ||
