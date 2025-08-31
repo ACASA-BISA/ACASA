@@ -715,7 +715,7 @@ function Test() {
                                                             </>
                                                         ) : (
                                                             <Typography variant="subtitle2" sx={{ mb: 1 }} style={{ textAlign: "left" }}>
-                                                                <FormLabel style={{ textAlign: "left" }} className="formLabel">
+                                                                <FormLabel style={{ textAlign: "center" }} className="formLabel">
                                                                     Country:{" "}
                                                                     {countries.find((c) => c.country_id === selectedCountryId)?.country ||
                                                                         "South Asia"}

@@ -197,7 +197,6 @@ function MapViewer({
             return order.indexOf(aIndex) - order.indexOf(bIndex);
           });
 
-          console.log('&&&&&&&&&&', sortedTabs);
           setAdaptationTabs(sortedTabs || []);
           if (sortedTabs?.length > 0 && !selectedAdaptationTabId) {
             setSelectedAdaptationTabId(1);
@@ -324,7 +323,6 @@ function MapViewer({
 
     // Skip update if layer is already cached for this zoom level
     if (georasterCache.current.has(cacheKey) && hasRenderedRef.current[index]) {
-      console.log(`Skipping GeoTIFF update for index ${index}: already cached for zoom ${currentZoom}`);
       setInternalMapLoading(prev => {
         const newLoading = [...prev];
         newLoading[index] = false;
@@ -422,7 +420,6 @@ function MapViewer({
       });
 
       geotiffLayer.on("load", () => {
-        console.log(`GeoTIFF layer ${index} loaded`);
         _.debounce(() => map.invalidateSize(), 100)();
         setInternalMapLoading(prev => {
           const newLoading = [...prev];
@@ -472,7 +469,6 @@ function MapViewer({
       }
 
       if (hasRenderedRef.current[index] && _.isEqual(tiff, lastTiffDataRef.current[index])) {
-        console.log(`Skipping renderMapLayers for index ${index}: no data change`);
         return;
       }
 
@@ -621,7 +617,6 @@ function MapViewer({
 
   const initializeMaps = useCallback(() => {
     if (mapsInitializedRef.current) {
-      console.log("Maps already initialized, skipping");
       return;
     }
 
@@ -740,7 +735,6 @@ function MapViewer({
 
   useEffect(() => {
     if (lastViewModeRef.current === viewMode) {
-      console.log(`Skipping viewMode useEffect: viewMode unchanged (${viewMode})`);
       return;
     }
 
@@ -752,11 +746,9 @@ function MapViewer({
         mapContainer.style.display = visibleIndices.includes(index) ? "block" : "none";
         if (visibleIndices.includes(index)) {
           if (!hasRenderedRef.current[index] && tiffData[index] && memoizedFilters.geojson && memoizedFilters.bbox) {
-            console.log(`Rendering layers for map ${index} due to viewMode change to ${viewMode}`);
             renderMapLayers(memoizedFilters.geojson, memoizedFilters.bbox, tiffData[index], index);
           }
           mapInstances.current[index].invalidateSize();
-          console.log(`Invalidated size for map ${index} due to viewMode change to ${viewMode}`);
           if (index !== 0 && mapInstances.current[0]) {
             mapInstances.current[index].setView(
               mapInstances.current[0].getCenter(),
@@ -787,7 +779,6 @@ function MapViewer({
         tileLayerRefs.current[index] = newTileLayer;
         newTileLayer.on("load", () => {
           newTileLayer.setOpacity(1);
-          console.log(`New tile layer loaded for map ${index}`);
           map.invalidateSize();
         });
         if (layerRefs.current[index]) {
@@ -823,7 +814,6 @@ function MapViewer({
 
   const fetchTiffData = async () => {
     if (isFetchingRef.current) {
-      console.log("Skipping fetchTiffData: already in progress");
       return;
     }
     isFetchingRef.current = true;
@@ -832,7 +822,6 @@ function MapViewer({
     setNoGeoTiffAvailable([false, false, false]);
     cleanupMaps();
     try {
-      console.log("fetchTiffData triggered with filters:", memoizedFilters);
       const payload = {
         analysis_scope_id: +memoizedFilters.analysis_scope_id,
         visualization_scale_id: +memoizedFilters.visualization_scale_id,
@@ -880,7 +869,6 @@ function MapViewer({
         body: JSON.stringify(payload),
       });
       const tifPickerData = await tifPickerRes.json();
-      console.log("tif_picker API response:", tifPickerData);
 
       if (!tifPickerData.success || !tifPickerData.data) {
         throw new Error(`Invalid response from tif_picker: success=${tifPickerData.success}, data=${tifPickerData.data ? "present" : "missing"}`);
@@ -893,8 +881,8 @@ function MapViewer({
       }
 
       // Set default metrics based on API response
-      setSelectedChangeMetric(data.default_change_metric_id === 1 ? "Absolute" : "Delta");
-      setSelectedIntensityMetric(data.default_intensity_metric_id === 1 ? "Intensity" : "Intensity Frequency");
+      setSelectedChangeMetric(+data.default_change_metric_id === 1 ? "Absolute" : "Delta");
+      setSelectedIntensityMetric(+data.default_intensity_metric_id === 1 ? "Intensity" : "Intensity Frequency");
       setToggleChangeMetric(data.toggle_change_metric);
       setToggleIntensityMetric(data.toggle_intensity_metric);
 
@@ -913,12 +901,12 @@ function MapViewer({
         country_id: memoizedFilters.country_id,
         state_id: memoizedFilters.state_id,
         commodity_id: memoizedFilters.commodity_id,
-        climate_scenario_id: memoizedFilters.climate_scenario_id,
+        climate_scenario_id: selectedScenario,
         data_source_id: memoizedFilters.data_source_id,
         visualization_scale_id: memoizedFilters.visualization_scale_id,
         adaptation_croptab_id: payload.layer_type === 'adaptation' && +memoizedFilters?.commodity_type_id === 1 ? selectedAdaptationTabId : null,
-        intensity_metric_id: selectedIntensityMetric === "Intensity Frequency" ? 2 : 1,
-        change_metric_id: selectedChangeMetric === "Absolute" ? 1 : 2,
+        intensity_metric_id: selectedIntensityMetric.toLowerCase() === "intensity frequency" ? 2 : 1,
+        change_metric_id: selectedChangeMetric.toLowerCase() === "absolute" ? 1 : 2,
       });
 
       let tiffPromises;
@@ -940,6 +928,8 @@ function MapViewer({
             newLoading[index] = true;
             return newLoading;
           });
+          console.log({ breadcrumbData }, 'arun1')
+          // debugger;
           const geotiffRes = await fetchWithRetry(`${apiUrl}/layers/geotiff`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -954,7 +944,6 @@ function MapViewer({
           if (!arrayBuffer || arrayBuffer.byteLength === 0) {
             throw new Error(`Empty or invalid arrayBuffer for ${file.source_file}`);
           }
-          console.log(`GeoTIFF fetched for index ${index}, size: ${arrayBuffer.byteLength} bytes`);
           const clonedBuffer = arrayBuffer.slice(0);
 
           return {
@@ -1044,6 +1033,8 @@ function MapViewer({
             return newLoading;
           });
 
+          console.log({ breadcrumbData }, 'arun2')
+          // debugger;
           const geotiffRes = await fetchWithRetry(`${apiUrl}/layers/geotiff`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -1058,7 +1049,6 @@ function MapViewer({
           if (!arrayBuffer || arrayBuffer.byteLength === 0) {
             throw new Error(`Empty or invalid arrayBuffer for ${file.source_file}`);
           }
-          console.log(`GeoTIFF fetched for index ${index}, size: ${arrayBuffer.byteLength} bytes`);
           const clonedBuffer = arrayBuffer.slice(0);
 
           return {
@@ -1118,14 +1108,6 @@ function MapViewer({
   };
 
   useEffect(() => {
-    console.log("fetchTiffData useEffect triggered", {
-      filters: memoizedFilters,
-      selectedAdaptationTabId,
-      selectedRiskId,
-      selectedImpactId,
-      selectedAdaptationId,
-    });
-
     if (
       !memoizedFilters ||
       (!memoizedFilters.layer_type && memoizedFilters.layer_type !== "commodity") ||
@@ -1134,7 +1116,6 @@ function MapViewer({
       !memoizedFilters.data_source_id ||
       (memoizedFilters.layer_type !== "commodity" && !memoizedFilters.climate_scenario_id)
     ) {
-      console.log("Skipping fetchTiffData: filters are not fully populated", memoizedFilters);
       setInternalMapLoading([false, false, false]);
       setIsOptionLoading(false);
       return;
@@ -1148,20 +1129,12 @@ function MapViewer({
   }, [memoizedFilters, selectedAdaptationTabId, selectedRiskId, selectedImpactId, selectedAdaptationId]);
 
   const memoizedTiffData = useMemo(() => {
-    console.log("Memoizing tiffData:", tiffData);
     return tiffData;
   }, [tiffData]);
 
   const debouncedRenderMaps = useCallback(
     _.debounce(() => {
-      console.log("debouncedRenderMaps triggered", {
-        tiffDataLength: memoizedTiffData.length,
-        geojson: !!memoizedFilters.geojson,
-        bbox: !!memoizedFilters.bbox,
-        allDataReady,
-      });
       if (memoizedTiffData.length && memoizedFilters?.geojson && memoizedFilters?.bbox && allDataReady) {
-        console.log(`Rendering ${memoizedTiffData.length} maps with tiffData`, memoizedTiffData);
         const visibleIndices = viewMode === "single" ? [0] : [0, 1, 2];
         memoizedTiffData.forEach((tiff, index) => {
           if (
@@ -1170,10 +1143,7 @@ function MapViewer({
             visibleIndices.includes(index) &&
             !hasRenderedRef.current[index]
           ) {
-            console.log(`Triggering renderMapLayers for index ${index}`);
             renderMapLayers(memoizedFilters.geojson, memoizedFilters.bbox, tiff, index);
-          } else {
-            console.log(`Skipping renderMapLayers for index ${index}: already rendered or not visible`);
           }
         });
       }
@@ -1223,7 +1193,6 @@ function MapViewer({
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      console.log(`GeoTIFF downloaded: ${filename}`);
     } catch (err) {
       console.error("GeoTIFF download error:", err);
       Swal.fire({
@@ -1236,13 +1205,12 @@ function MapViewer({
 
   const handleDownloadTable = async (layerName, tiffMetadata) => {
     try {
-      console.log(`Fetching table data for ${layerName}`);
       const payload = {
         layer_type: memoizedFilters?.layer_type || "risk",
         country_id: breadcrumbData?.country_id || null,
         state_id: breadcrumbData?.state_id || null,
         commodity_id: breadcrumbData?.commodity_id || null,
-        climate_scenario_id: tiffMetadata.year ? breadcrumbData?.climate_scenario_id : 1,
+        climate_scenario_id: selectedScenario,
         year: tiffMetadata.year || null,
         data_source_id: breadcrumbData?.data_source_id || null,
         visualization_scale_id: breadcrumbData?.visualization_scale_id || null,
@@ -1251,7 +1219,6 @@ function MapViewer({
         intensity_metric_id: selectedIntensityMetric.toLowerCase() === "intensity frequency" ? 2 : 1,
         change_metric_id: selectedChangeMetric.toLowerCase() === "absolute" ? 1 : 2,
       };
-      console.log("Table download payload:", payload);
 
       const response = await fetchWithRetry(`${apiUrl}/layers/table`, {
         method: "POST",
@@ -1268,7 +1235,6 @@ function MapViewer({
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      console.log(`Table downloaded: ${layerName}.csv`);
     } catch (err) {
       console.error("Table download error:", err);
       Swal.fire({
@@ -1281,7 +1247,6 @@ function MapViewer({
 
   const handleDownloadImage = async (layerName, mapIndex) => {
     try {
-      console.log(`Capturing image for ${layerName} at map index ${mapIndex}`);
       const mapContainer = mapRefs.current[mapIndex];
       if (!mapContainer) {
         throw new Error("Map container not found");
@@ -1289,7 +1254,6 @@ function MapViewer({
 
       if (mapInstances.current[mapIndex]) {
         mapInstances.current[mapIndex].invalidateSize();
-        console.log(`Map ${mapIndex} invalidated for image capture`);
         await new Promise((resolve) => setTimeout(resolve, 300));
       }
 
@@ -1298,10 +1262,7 @@ function MapViewer({
         throw new Error("Parent container for map and legend not found");
       }
 
-      console.log(`Map and legend container dimensions: width=${mapAndLegendContainer.offsetWidth}, height=${mapAndLegendContainer.offsetHeight}`);
-
       const legendElement = mapAndLegendContainer.querySelector(".css-1annchz");
-      console.log(`Legend element ${legendElement ? "found" : "not found"} in container`);
 
       let imgData;
       try {
@@ -1311,7 +1272,6 @@ function MapViewer({
           width: mapAndLegendContainer.offsetWidth,
           height: mapAndLegendContainer.offsetHeight,
         });
-        console.log(`Image captured for ${layerName} using domtoimage`);
       } catch (error) {
         console.warn(`domtoimage failed for ${layerName}:`, error);
         const canvas = await html2canvas(mapAndLegendContainer, {
@@ -1320,7 +1280,6 @@ function MapViewer({
           backgroundColor: "#fff",
         });
         imgData = canvas.toDataURL("image/jpeg", 0.8);
-        console.log(`Image captured for ${layerName} using html2canvas`);
       }
 
       if (!imgData) {
@@ -1333,7 +1292,6 @@ function MapViewer({
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
-      console.log(`Image downloaded: ${layerName}.jpg`);
     } catch (err) {
       console.error(`Image download error for ${layerName}:`, err);
       Swal.fire({
@@ -1346,180 +1304,209 @@ function MapViewer({
 
   const handleIntensityMetricChange = (value) => {
     setSelectedIntensityMetric(value);
-    setIsOptionLoading(true);
-    const intensityMetricId = value.toLowerCase() === "intensity frequency" ? 2 : 1;
-    const indicesToUpdate = [0, 1, 2];
-    let pendingUpdates = indicesToUpdate.length;
+  };
 
-    indicesToUpdate.forEach((index) => {
-      const year = index === 0 ? null : index === 1 ? 2050 : 2080;
-      const climateScenarioId = index === 0 ? 1 : selectedScenario;
-      const changeMetricId = index === 0 ? 1 : selectedChangeMetric.toLowerCase() === "absolute" ? 1 : 2;
+  useEffect(() => {
+    if (selectedIntensityMetric) {
+      console.log(selectedIntensityMetric)
+      setIsOptionLoading(true);
+      const intensityMetricId = selectedIntensityMetric.toLowerCase() === "intensity frequency" ? 2 : 1;
+      const indicesToUpdate = [0, 1, 2];
+      let pendingUpdates = indicesToUpdate.length;
 
-      let file = fileList.find(
-        (f) =>
-          f.climate_scenario_id === climateScenarioId &&
-          f.year === year &&
-          f.intensity_metric_id === intensityMetricId &&
-          f.change_metric_id === changeMetricId &&
-          f.exists === true &&
-          Array.isArray(f.ramp) && f.ramp.length > 0
-      );
+      indicesToUpdate.forEach((index) => {
+        const year = index === 0 ? null : index === 1 ? 2050 : 2080;
+        const climateScenarioId = index === 0 ? 1 : selectedScenario;
+        const changeMetricId = index === 0 ? 1 : selectedChangeMetric.toLowerCase() === "absolute" ? 1 : 2;
 
-      if (!file && fileList.length > 0) {
-        file = fileList.find((f) => f.exists === true && Array.isArray(f.ramp) && f.ramp.length > 0);
-        console.warn(`No file matched for intensity metric change at index ${index}, falling back to first available file`);
-      }
+        let file = fileList.find(
+          (f) =>
+            f.climate_scenario_id === climateScenarioId &&
+            f.year === year &&
+            f.intensity_metric_id === intensityMetricId &&
+            f.change_metric_id === changeMetricId &&
+            f.exists === true &&
+            Array.isArray(f.ramp) && f.ramp.length > 0
+        );
 
-      if (file) {
-        fetchGeoTiff(file, index, value, index === 0 ? "Absolute" : selectedChangeMetric, () => {
+        if (!file && fileList.length > 0) {
+          file = fileList.find((f) => f.exists === true && Array.isArray(f.ramp) && f.ramp.length > 0);
+          console.warn(`No file matched for intensity metric change at index ${index}, falling back to first available file`);
+        }
+
+        if (file) {
+          fetchGeoTiff(file, index, selectedIntensityMetric, index === 0 ? "Absolute" : selectedChangeMetric, () => {
+            pendingUpdates--;
+            if (pendingUpdates === 0) {
+              setIsOptionLoading(false);
+            }
+          });
+        } else {
+          console.warn(`No file matched for index ${index}, metric ${selectedIntensityMetric}, scenario ${climateScenarioId}, year ${year || "Baseline"}`);
+          setNoGeoTiffAvailable(prev => {
+            const newState = [...prev];
+            newState[index] = true;
+            return newState;
+          });
+          setTiffData(prev => {
+            const newTiffData = [...prev];
+            newTiffData[index] = { noGeoTiff: true, metadata: { layer_name: ["Baseline", "2050s", "2080s"][index] } };
+            return newTiffData;
+          });
+          setInternalMapLoading(prev => {
+            const newLoading = [...prev];
+            newLoading[index] = false;
+            return newLoading;
+          });
           pendingUpdates--;
           if (pendingUpdates === 0) {
             setIsOptionLoading(false);
           }
-        });
-      } else {
-        console.warn(`No file matched for index ${index}, metric ${value}, scenario ${climateScenarioId}, year ${year || "Baseline"}`);
-        setNoGeoTiffAvailable(prev => {
-          const newState = [...prev];
-          newState[index] = true;
-          return newState;
-        });
-        setTiffData(prev => {
-          const newTiffData = [...prev];
-          newTiffData[index] = { noGeoTiff: true, metadata: { layer_name: ["Baseline", "2050s", "2080s"][index] } };
-          return newTiffData;
-        });
-        setInternalMapLoading(prev => {
-          const newLoading = [...prev];
-          newLoading[index] = false;
-          return newLoading;
-        });
-        pendingUpdates--;
-        if (pendingUpdates === 0) {
-          setIsOptionLoading(false);
         }
-      }
-    });
-  };
+      });
+    }
+  }, [selectedIntensityMetric]);
 
   const handleScenarioChange = (value) => {
     setSelectedScenario(value);
-    setIsOptionLoading(true);
-    const indicesToUpdate = [1, 2];
-    let pendingUpdates = indicesToUpdate.length;
+  };
 
-    indicesToUpdate.forEach((index) => {
-      const year = index === 1 ? 2050 : 2080;
-      const intensityMetricId = selectedIntensityMetric.toLowerCase() === "intensity frequency" ? 2 : 1;
-      const changeMetricId = selectedChangeMetric.toLowerCase() === "absolute" ? 1 : 2;
+  useEffect(() => {
+    if (selectedScenario) {
+      setIsOptionLoading(true);
+      const indicesToUpdate = [1, 2];
+      let pendingUpdates = indicesToUpdate.length;
 
-      let file = fileList.find(
-        (f) =>
-          f.climate_scenario_id === value &&
-          f.year === year &&
-          f.intensity_metric_id === intensityMetricId &&
-          f.change_metric_id === changeMetricId &&
-          f.exists === true &&
-          Array.isArray(f.ramp) && f.ramp.length > 0
-      );
+      indicesToUpdate.forEach((index) => {
+        const year = index === 1 ? 2050 : 2080;
+        const intensityMetricId = selectedIntensityMetric.toLowerCase() === "intensity frequency" ? 2 : 1;
+        const changeMetricId = selectedChangeMetric.toLowerCase() === "absolute" ? 1 : 2;
 
-      if (!file && fileList.length > 0) {
-        file = fileList.find((f) => f.exists === true && Array.isArray(f.ramp) && f.ramp.length > 0);
-        console.warn(`No file matched for scenario change at index ${index}, falling back to first available file`);
-      }
+        let file = fileList.find(
+          (f) =>
+            f.climate_scenario_id === selectedScenario &&
+            f.year === year &&
+            f.intensity_metric_id === intensityMetricId &&
+            f.change_metric_id === changeMetricId &&
+            f.exists === true &&
+            Array.isArray(f.ramp) && f.ramp.length > 0
+        );
 
-      if (file) {
-        fetchGeoTiff(file, index, selectedIntensityMetric, selectedChangeMetric, () => {
+        if (!file && fileList.length > 0) {
+          file = fileList.find((f) => f.exists === true && Array.isArray(f.ramp) && f.ramp.length > 0);
+          console.warn(`No file matched for scenario change at index ${index}, falling back to first available file`);
+        }
+
+        if (file) {
+          fetchGeoTiff(file, index, selectedIntensityMetric, selectedChangeMetric, () => {
+            pendingUpdates--;
+            if (pendingUpdates === 0) {
+              setIsOptionLoading(false);
+            }
+          });
+        } else {
+          console.warn(`No file matched for index ${index}, scenario ${selectedScenario}, year ${year}`);
+          setNoGeoTiffAvailable(prev => {
+            const newState = [...prev];
+            newState[index] = true;
+            return newState;
+          });
+          setTiffData(prev => {
+            const newTiffData = [...prev];
+            newTiffData[index] = { noGeoTiff: true, metadata: { layer_name: ["2050s", "2080s"][index - 1] } };
+            return newTiffData;
+          });
+          setInternalMapLoading(prev => {
+            const newLoading = [...prev];
+            newLoading[index] = false;
+            return newLoading;
+          });
           pendingUpdates--;
           if (pendingUpdates === 0) {
             setIsOptionLoading(false);
           }
-        });
-      } else {
-        console.warn(`No file matched for index ${index}, scenario ${value}, year ${year}`);
-        setNoGeoTiffAvailable(prev => {
-          const newState = [...prev];
-          newState[index] = true;
-          return newState;
-        });
-        setTiffData(prev => {
-          const newTiffData = [...prev];
-          newTiffData[index] = { noGeoTiff: true, metadata: { layer_name: ["2050s", "2080s"][index - 1] } };
-          return newTiffData;
-        });
-        setInternalMapLoading(prev => {
-          const newLoading = [...prev];
-          newLoading[index] = false;
-          return newLoading;
-        });
-        pendingUpdates--;
-        if (pendingUpdates === 0) {
-          setIsOptionLoading(false);
         }
-      }
-    });
-  };
+      });
+    }
+  }, [selectedScenario]);
 
   const handleChangeMetricChange = (value) => {
     setSelectedChangeMetric(value);
-    setIsOptionLoading(true);
-    const indicesToUpdate = [1, 2];
-    let pendingUpdates = indicesToUpdate.length;
+  };
 
-    indicesToUpdate.forEach((index) => {
-      const year = index === 1 ? 2050 : 2080;
-      const intensityMetricId = selectedIntensityMetric.toLowerCase() === "intensity frequency" ? 2 : 1;
-      const changeMetricId = value.toLowerCase() === "absolute" ? 1 : 2;
+  useEffect(() => {
+    if (selectedChangeMetric) {
+      setIsOptionLoading(true);
+      const indicesToUpdate = [1, 2];
+      let pendingUpdates = indicesToUpdate.length;
 
-      let file = fileList.find(
-        (f) =>
-          f.climate_scenario_id === selectedScenario &&
-          f.year === year &&
-          f.intensity_metric_id === intensityMetricId &&
-          f.change_metric_id === changeMetricId &&
-          f.exists === true &&
-          Array.isArray(f.ramp) && f.ramp.length > 0
-      );
+      indicesToUpdate.forEach((index) => {
+        const year = index === 1 ? 2050 : 2080;
+        const intensityMetricId = selectedIntensityMetric.toLowerCase() === "intensity frequency" ? 2 : 1;
+        const changeMetricId = selectedChangeMetric.toLowerCase() === "absolute" ? 1 : 2;
 
-      if (!file && fileList.length > 0) {
-        file = fileList.find((f) => f.exists === true && Array.isArray(f.ramp) && f.ramp.length > 0);
-        console.warn(`No file matched for change metric at index ${index}, falling back to first available file`);
-      }
+        let file = fileList.find(
+          (f) =>
+            f.climate_scenario_id === selectedScenario &&
+            f.year === year &&
+            f.intensity_metric_id === intensityMetricId &&
+            f.change_metric_id === changeMetricId &&
+            f.exists === true &&
+            Array.isArray(f.ramp) && f.ramp.length > 0
+        );
 
-      if (file) {
-        fetchGeoTiff(file, index, selectedIntensityMetric, value, () => {
+        if (!file && fileList.length > 0) {
+          file = fileList.find((f) => f.exists === true && Array.isArray(f.ramp) && f.ramp.length > 0);
+          console.warn(`No file matched for change metric at index ${index}, falling back to first available file`);
+        }
+
+        if (file) {
+          fetchGeoTiff(file, index, selectedIntensityMetric, selectedChangeMetric, () => {
+            pendingUpdates--;
+            if (pendingUpdates === 0) {
+              setIsOptionLoading(false);
+            }
+          });
+        } else {
+          console.warn(`No file matched for index ${index}, change metric ${selectedChangeMetric}, year ${year}`);
+          setNoGeoTiffAvailable(prev => {
+            const newState = [...prev];
+            newState[index] = true;
+            return newState;
+          });
+          setTiffData(prev => {
+            const newTiffData = [...prev];
+            newTiffData[index] = { noGeoTiff: true, metadata: { layer_name: ["2050s", "2080s"][index - 1] } };
+            return newTiffData;
+          });
+          setInternalMapLoading(prev => {
+            const newLoading = [...prev];
+            newLoading[index] = false;
+            return newLoading;
+          });
           pendingUpdates--;
           if (pendingUpdates === 0) {
             setIsOptionLoading(false);
           }
-        });
-      } else {
-        console.warn(`No file matched for index ${index}, change metric ${value}, year ${year}`);
-        setNoGeoTiffAvailable(prev => {
-          const newState = [...prev];
-          newState[index] = true;
-          return newState;
-        });
-        setTiffData(prev => {
-          const newTiffData = [...prev];
-          newTiffData[index] = { noGeoTiff: true, metadata: { layer_name: ["2050s", "2080s"][index - 1] } };
-          return newTiffData;
-        });
-        setInternalMapLoading(prev => {
-          const newLoading = [...prev];
-          newLoading[index] = false;
-          return newLoading;
-        });
-        pendingUpdates--;
-        if (pendingUpdates === 0) {
-          setIsOptionLoading(false);
         }
-      }
-    });
-  };
+      });
+    }
+  }, [selectedChangeMetric]);
 
   const fetchGeoTiff = async (file, index, metric, changeMetric, onComplete) => {
+    // Clear previous GeoTIFF layer at the start to ensure clean state
+    if (mapInstances.current[index] && layerRefs.current[index]) {
+      const oldLayer = layerRefs.current[index].find(layer => layer instanceof GeoRasterLayer);
+      if (oldLayer && mapInstances.current[index].hasLayer(oldLayer)) {
+        try {
+          mapInstances.current[index].removeLayer(oldLayer);
+        } catch (e) {
+          console.warn(`Failed to remove previous GeoTIFF layer at index ${index}:`, e);
+        }
+      }
+      layerRefs.current[index] = layerRefs.current[index].filter(layer => !(layer instanceof GeoRasterLayer));
+    }
+
     if (!file.exists) {
       console.warn(`No file matched for index ${index}, skipping fetch`);
       setTiffData(prev => {
@@ -1527,11 +1514,7 @@ function MapViewer({
         newTiffData[index] = { noGeoTiff: true, metadata: { layer_name: ["Baseline", "2050s", "2080s"][index] } };
         return newTiffData;
       });
-      setNoGeoTiffAvailable(prev => {
-        const newState = [...prev];
-        newState[index] = true;
-        return newState;
-      });
+      // Do not set noGeoTiffAvailable to true here, as per requirement
       setInternalMapLoading(prev => {
         const newLoading = [...prev];
         newLoading[index] = false;
@@ -1542,11 +1525,19 @@ function MapViewer({
     }
 
     try {
+      setBreadcrumbData({
+        ...breadcrumbData,
+        climate_scenario_id: selectedScenario,
+        change_metric_id: selectedChangeMetric.toLowerCase() === "absolute" ? 1 : 2,
+        intensity_metric_id: selectedIntensityMetric.toLowerCase() === "intensity frequency" ? 2 : 1,
+      });
+
       setInternalMapLoading(prev => {
         const newLoading = [...prev];
         newLoading[index] = true;
         return newLoading;
       });
+
       const geotiffRes = await fetchWithRetry(`${apiUrl}/layers/geotiff`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -1557,11 +1548,44 @@ function MapViewer({
           color_ramp: file.ramp,
         }),
       });
-      const arrayBuffer = await geotiffRes.arrayBuffer();
+
+      // Check if response is JSON (contains success key) or direct GeoTIFF
+      const contentType = geotiffRes.headers.get("content-type");
+      let responseData;
+      let arrayBuffer;
+
+      if (contentType && contentType.includes("application/json")) {
+        responseData = await geotiffRes.json();
+        if (!responseData.success) {
+          console.warn(`No data available for index ${index}: ${responseData.message}`);
+          setTiffData(prev => {
+            const newTiffData = [...prev];
+            newTiffData[index] = { noGeoTiff: true, metadata: { layer_name: ["Baseline", "2050s", "2080s"][index] } };
+            return newTiffData;
+          });
+          setNoGeoTiffAvailable(prev => {
+            const newState = [...prev];
+            newState[index] = true; // Only set true for success: 0
+            return newState;
+          });
+          setInternalMapLoading(prev => {
+            const newLoading = [...prev];
+            newLoading[index] = false;
+            return newLoading;
+          });
+          onComplete();
+          return;
+        }
+        // If success: 1, fetch the arrayBuffer separately
+        arrayBuffer = await geotiffRes.arrayBuffer();
+      } else {
+        // Direct GeoTIFF response
+        arrayBuffer = await geotiffRes.arrayBuffer();
+      }
+
       if (!arrayBuffer || arrayBuffer.byteLength === 0) {
         throw new Error(`Empty or invalid arrayBuffer for ${file.source_file}`);
       }
-      console.log(`GeoTIFF fetched for index ${index}, size: ${arrayBuffer.byteLength} bytes`);
       const clonedBuffer = arrayBuffer.slice(0);
 
       const newTiff = {
@@ -1586,6 +1610,11 @@ function MapViewer({
         newTiffData[index] = newTiff;
         return newTiffData;
       });
+      setNoGeoTiffAvailable(prev => {
+        const newState = [...prev];
+        newState[index] = false; // Ensure noGeoTiffAvailable is false for valid GeoTIFF
+        return newState;
+      });
 
       if (mapInstances.current[index]) {
         await updateGeoTiffLayer(newTiff, index);
@@ -1603,11 +1632,7 @@ function MapViewer({
         newTiffData[index] = { noGeoTiff: true, metadata: { layer_name: ["Baseline", "2050s", "2080s"][index] } };
         return newTiffData;
       });
-      setNoGeoTiffAvailable(prev => {
-        const newState = [...prev];
-        newState[index] = true;
-        return newState;
-      });
+      // Do not set noGeoTiffAvailable to true for general errors, only for success: 0
       setInternalMapLoading(prev => {
         const newLoading = [...prev];
         newLoading[index] = false;
@@ -1624,7 +1649,6 @@ function MapViewer({
         const focusedElement = popover.querySelector(":focus");
         if (focusedElement) {
           popover.removeAttribute("aria-hidden");
-          console.log("Removed aria-hidden from popover due to focused descendant");
         }
       });
     };
@@ -2001,9 +2025,6 @@ function MapViewer({
                 <Box
                   ref={(el) => {
                     mapRefs.current[index] = el;
-                    if (el) {
-                      console.log(`Map ref set for index ${index}`);
-                    }
                   }}
                   sx={{
                     height: "100%",
