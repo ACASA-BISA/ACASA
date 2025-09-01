@@ -1,5 +1,5 @@
 import { Box, Paper, Typography, useTheme } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { styled } from "@mui/material/styles";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import "../../src/index.css";
@@ -27,6 +27,10 @@ const DynamicColorTooltip = styled(({ bgColor, textColor, className, ...props })
 const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHeader = true, glance = false, hazards = false, legendData }) => {
   const theme = useTheme();
   const [localLegendData, setLocalLegendData] = useState(null);
+  const [error, setError] = useState(null);
+
+  // Cache for legend data to prevent redundant API calls
+  const legendCache = useMemo(() => new Map(), []);
 
   // Calculate responsive width and font sizes based on screen width
   const screenWidth = typeof window !== "undefined" ? window.innerWidth : 1200; // Fallback for SSR
@@ -42,25 +46,6 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
     const diffcrop = ["cattle", "buffalo", "goat", "sheep", "pig", "chicken"];
     return !diffcrop.includes(breadcrumbData?.commodityLabel?.toLowerCase());
   };
-
-  // const calcpop = (popu) => {
-  //   if (popu === 0) return "None";
-  //   const popInMillions = popu / 1_000_000;
-  //   if (popInMillions < 0.1) {
-  //     return layerType === "Absolute" ? "<0.1 M" : popInMillions.toFixed(1) + " M";
-  //   }
-  //   return popInMillions.toFixed(1) + " M";
-  // };
-
-  // const calcarea = (popu) => {
-  //   if (popu === 0) return "None";
-  //   const unit = checkcrop() ? " Mha" : " M";
-  //   const areaInMillions = popu / 1_000_000;
-  //   if (areaInMillions < 0.1) {
-  //     return layerType === "Absolute" ? `<0.1${unit}` : areaInMillions.toFixed(1) + unit;
-  //   }
-  //   return areaInMillions.toFixed(1) + unit;
-  // };
 
   const calcpop = (popu) => {
     const value = Number(popu) || 0; // Ensure numeric value
@@ -79,7 +64,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
     return areaInMillions.toFixed(1) + unit;
   };
 
-  // Generate canvas for commodity layer (no longer used, but kept for reference)
+  // Generate canvas for commodity layer
   const generateLegendCanvas = async (colorRamp) => {
     const canvas = document.createElement("canvas");
     canvas.width = maxLegendWidth * 0.6;
@@ -105,6 +90,20 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
     };
   };
 
+  // Fetch legend data with retry logic
+  const fetchWithRetry = async (url, options, retries = 1, backoff = 300) => {
+    for (let i = 0; i < retries; i++) {
+      try {
+        const response = await fetch(url, options);
+        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+        return response;
+      } catch (err) {
+        if (i === retries - 1) throw err;
+        await new Promise(resolve => setTimeout(resolve, backoff * Math.pow(2, i)));
+      }
+    }
+  };
+
   // Fetch or use legend data
   useEffect(() => {
     const fetchLegendData = async () => {
@@ -114,13 +113,16 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
           try {
             const legendCanvas = await generateLegendCanvas(tiff.metadata.color_ramp);
             setLocalLegendData({ base64: legendCanvas.canvas.toDataURL() });
+            setError(null);
           } catch (err) {
             console.error("Error generating legend canvas:", err);
             setLocalLegendData(null);
+            setError("Failed to generate legend canvas");
           }
-          return;
+        } else {
+          setLocalLegendData(null);
+          setError("No color ramp available for commodity layer");
         }
-        setLocalLegendData(null);
         return;
       }
 
@@ -133,48 +135,63 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
           if (!tiff?.metadata?.layer_id) {
             console.warn(`Missing layer_id for layerType: ${layerType}`);
             setLocalLegendData(null);
+            setError("Missing layer ID");
             return;
           }
 
-          const payload = {
-            adaptation_croptab_id: breadcrumbData?.adaptation_croptab_id || null,
+          const cacheKey = JSON.stringify({
             layer_type: layerType?.toLowerCase(),
-            country_id: breadcrumbData?.country_id || null,
-            state_id: breadcrumbData?.state_id || null,
-            commodity_id: breadcrumbData?.commodity_id || null,
+            layer_id: tiff.metadata.layer_id,
             climate_scenario_id: tiff.metadata.year ? breadcrumbData?.climate_scenario_id : 1,
             year: tiff.metadata.year || null,
-            data_source_id: breadcrumbData?.data_source_id || null,
-            visualization_scale_id: breadcrumbData?.visualization_scale_id || null,
-            layer_id: tiff.metadata.layer_id,
-            intensity_metric_id: breadcrumbData?.intensity_metric_id || null,
-            change_metric_id: breadcrumbData?.change_metric_id || null,
-          };
-
-          const response = await fetch(`${apiUrl}/layers/legend`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
           });
 
-          if (!response.ok) throw new Error(`Legend API error! Status: ${response.status}`);
-          const result = await response.json();
-          if (!result.success || !result.data) throw new Error("No valid legend data returned");
-          data = result.data;
+          // Check cache first
+          if (legendCache.has(cacheKey)) {
+            data = legendCache.get(cacheKey);
+          } else {
+            const payload = {
+              adaptation_croptab_id: breadcrumbData?.adaptation_croptab_id || null,
+              layer_type: layerType?.toLowerCase(),
+              country_id: breadcrumbData?.country_id || null,
+              state_id: breadcrumbData?.state_id || null,
+              commodity_id: breadcrumbData?.commodity_id || null,
+              climate_scenario_id: tiff.metadata.year ? breadcrumbData?.climate_scenario_id : 1,
+              year: tiff.metadata.year || null,
+              data_source_id: breadcrumbData?.data_source_id || null,
+              visualization_scale_id: breadcrumbData?.visualization_scale_id || null,
+              layer_id: tiff.metadata.layer_id,
+              intensity_metric_id: breadcrumbData?.intensity_metric_id || null,
+              change_metric_id: tiff.metadata.year ? breadcrumbData?.change_metric_id : 1,
+            };
+
+            const response = await fetchWithRetry(`${apiUrl}/layers/legend`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload),
+            });
+
+            const result = await response.json();
+            if (!result.success || !result.data) throw new Error("No valid legend data returned");
+            data = result.data;
+            legendCache.set(cacheKey, data); // Cache the result
+          }
         }
 
         setLocalLegendData({
           ...data,
           legend: data.legend?.filter((item) => item.base_category?.toLowerCase() !== "nil" && item.named_category?.toLowerCase() !== "nil") || [],
         });
+        setError(null);
       } catch (err) {
         console.error("Error fetching legend data:", err);
         setLocalLegendData(null);
+        setError("Failed to load legend data. Please try again later.");
       }
     };
 
     fetchLegendData();
-  }, [tiff, layerType, apiUrl, breadcrumbData, legendData]);
+  }, [tiff, layerType, apiUrl, breadcrumbData, legendData, legendCache]);
 
   // Render categorical legend for risk, impact, adaptation
   const renderRiskLegend = () => {
@@ -290,12 +307,12 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
                     <Box
                       sx={{
                         maxWidth: maxLegendWidth / 5,
-                        height: hasSecondaryText ? (glance ? 24 : 28) : (glance ? 15 : 18), // Conditional height based on any secondaryText
+                        height: hasSecondaryText ? (glance ? 24 : 28) : (glance ? 15 : 18),
                         borderRadius: 0,
                         bgcolor: item.color,
-                        display: "flex", // Use flex to center content
-                        alignItems: "center", // Vertically center
-                        justifyContent: primaryText?.toLowerCase().includes("50-75 mm") || primaryText?.toLowerCase().includes("medium ") ? "center" : "flex-start", // Horizontally center or left-align
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: primaryText?.toLowerCase().includes("50-75 mm") || primaryText?.toLowerCase().includes("medium ") ? "center" : "flex-start",
                         cursor: isRainfall ? "pointer" : "default",
                       }}
                     >
@@ -319,7 +336,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
                                 whiteSpace: "nowrap",
                                 overflow: "hidden",
                                 textOverflow: "ellipsis",
-                                lineHeight: "1.3", // Consistent lineHeight for centering
+                                lineHeight: "1.3",
                                 fontWeight: "bold",
                                 fontSize: secondaryText ? tinyFontSize : tinyFontSize,
                               }}
@@ -349,7 +366,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
                               whiteSpace: "nowrap",
                               overflow: "hidden",
                               textOverflow: "ellipsis",
-                              lineHeight: "1.3", // Consistent lineHeight for centering
+                              lineHeight: "1.3",
                               fontWeight: "bold",
                               fontSize: secondaryText ? tinyFontSize : tinyFontSize,
                             }}
@@ -471,11 +488,23 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
     );
   };
 
+  // Render fallback UI for errors
+  const renderErrorLegend = () => {
+    return (
+      <Box sx={{ maxWidth: maxLegendWidth, minWidth: minLegendWidth, textAlign: "center" }}>
+        <Typography sx={{ fontSize: baseFontSize, color: theme.palette.error.main }}>
+          {error}
+        </Typography>
+      </Box>
+    );
+  };
+
   // Determine which legend to render based on layerType
   const legendContent =
-    ["risk", "impact", "adaptation", "adaptation_croptab"].includes(layerType?.toLowerCase())
-      ? renderRiskLegend()
-      : renderDefaultLegend();
+    error ? renderErrorLegend() :
+      ["risk", "impact", "adaptation", "adaptation_croptab"].includes(layerType?.toLowerCase())
+        ? renderRiskLegend()
+        : renderDefaultLegend();
 
   // Conditionally render the Paper only if there is valid content
   if (!legendContent) return null;
@@ -485,7 +514,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
       elevation={1}
       sx={{
         position: "absolute",
-        bottom: 0, // Tight to bottom
+        bottom: 0,
         left: "50%",
         transform: "translateX(-50%)",
         zIndex: 1000,
@@ -494,7 +523,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
         minWidth: minLegendWidth,
         maxWidth: maxLegendWidth,
         backgroundColor: theme.palette.background.paper,
-        padding: "8px", // Minimal padding
+        padding: "8px",
       }}
       role="tooltip"
       data-popper-placement="bottom"

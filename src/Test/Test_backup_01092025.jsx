@@ -179,7 +179,6 @@ function Test() {
             setSelectedAdaptationId("");
             setRisks([]);
             setSelectedRiskId("");
-            setSelectedImpactId("");
         }
     }, [selectedCommodityId, selectedCommodityTypeId, fetchData]);
 
@@ -314,45 +313,29 @@ function Test() {
             return;
         }
 
-        if (!selectedCommodityId) {
-            Swal.fire({
-                icon: "error",
-                title: "Missing Commodity",
-                text: "Please select a commodity before applying filters.",
-            });
-            return;
-        }
-
-        // Ensure mutual exclusivity
-        const selections = [selectedRiskId, selectedImpactId, selectedAdaptationId].filter(Boolean);
-        if (selections.length > 1) {
+        const selectedCount = [selectedRiskId, selectedImpactId, selectedAdaptationId].filter(Boolean).length;
+        if (selectedCount > 1) {
             console.warn("Mutual exclusivity violation detected:", {
                 selectedRiskId,
                 selectedImpactId,
                 selectedAdaptationId,
             });
-            // Reset all selections to enforce commodity layer
-            setSelectedRiskId("");
-            setSelectedImpactId("");
-            setSelectedAdaptationId("");
+            return;
+        }
+
+        if ((selectedRiskId || selectedImpactId || selectedAdaptationId) && !selectedCommodityId) {
+            Swal.fire({
+                icon: "error",
+                title: "Missing Commodity",
+                text: "Please select a commodity when selecting a risk, impact, or adaptation.",
+            });
             return;
         }
 
         let layer_type = "commodity";
-        let risk_id = null;
-        let impact_id = null;
-        let adaptation_id = null;
-
-        if (selectedRiskId) {
-            layer_type = "risk";
-            risk_id = selectedRiskId;
-        } else if (selectedImpactId) {
-            layer_type = "impact";
-            impact_id = selectedImpactId;
-        } else if (selectedAdaptationId) {
-            layer_type = "adaptation";
-            adaptation_id = selectedAdaptationId;
-        }
+        if (selectedRiskId) layer_type = "risk";
+        else if (selectedImpactId) layer_type = "impact";
+        else if (selectedAdaptationId) layer_type = "adaptation";
 
         const admin_level = selectedStateId !== 0 ? "state" : selectedCountryId !== 0 ? "country" : "total";
         const admin_level_id = selectedStateId !== 0 ? selectedStateId : selectedCountryId !== 0 ? selectedCountryId : null;
@@ -365,9 +348,9 @@ function Test() {
             data_source_id: selectedDataSourceId || null,
             climate_scenario_id: selectedScenarioId || null,
             layer_type,
-            risk_id,
-            impact_id,
-            adaptation_id,
+            risk_id: layer_type === "risk" ? selectedRiskId : null,
+            impact_id: layer_type === "impact" ? selectedImpactId : null,
+            adaptation_id: layer_type === "adaptation" ? selectedAdaptationId || null : null,
             admin_level,
             admin_level_id,
             geojson: geojsonData?.geojson,
@@ -519,26 +502,29 @@ function Test() {
         setSelectedDataSourceId(event.target.value);
     };
 
-    const handleRiskChange = (riskId) => {
-        setSelectedRiskId(prev => prev === riskId ? "" : riskId);
+    const handleRiskChange = (event) => {
+        const newRiskId = event.target.value;
+        setSelectedRiskId(newRiskId);
         setSelectedImpactId("");
         setSelectedAdaptationId("");
     };
 
-    const handleImpactChange = (impactId) => {
-        setSelectedImpactId(prev => prev === impactId ? "" : impactId);
+    const handleImpactChange = (event) => {
+        const newImpactId = event.target.value;
+        setSelectedImpactId(newImpactId);
         setSelectedRiskId("");
         setSelectedAdaptationId("");
     };
 
-    const handleAdaptationChange = (adaptationId) => {
-        setSelectedAdaptationId(prev => prev === adaptationId ? "" : adaptationId);
+    const handleAdaptationChange = (event) => {
+        const newAdaptationId = event.target.value;
+        setSelectedAdaptationId(newAdaptationId);
         setSelectedRiskId("");
         setSelectedImpactId("");
     };
 
     const groupedRisks = risks.reduce((acc, risk) => {
-        if (risk.status === true) {
+        if (risk.status === true) { // Only include risks with status: true
             if (risk.ipcc_id && risk.ipcc) {
                 if (!acc[risk.ipcc_id]) acc[risk.ipcc_id] = { name: risk.ipcc, items: [] };
                 acc[risk.ipcc_id].items.push(risk);
@@ -560,6 +546,7 @@ function Test() {
             return acc;
         }, {});
 
+    // Process adaptations in the order of the API response
     const groupedAdaptations = [];
     let currentGroup = null;
     let currentItems = [];
@@ -570,7 +557,9 @@ function Test() {
         const groupName = adaptation.group || adaptation.adaptation;
 
         if (groupId === null) {
+            // Non-grouped adaptation: create a standalone section
             if (currentGroup !== null) {
+                // Push the previous group if it exists
                 groupedAdaptations.push({ groupId: currentGroup.groupId, name: currentGroup.name, items: currentItems });
                 currentItems = [];
             }
@@ -581,18 +570,23 @@ function Test() {
             });
             currentGroup = null;
         } else {
+            // Grouped adaptation
             if (currentGroup === null || currentGroup.groupId !== groupId) {
+                // New group starts
                 if (currentGroup !== null) {
+                    // Push the previous group
                     groupedAdaptations.push({ groupId: currentGroup.groupId, name: currentGroup.name, items: currentItems });
                     currentItems = [];
                 }
                 currentGroup = { groupId, name: groupName };
                 currentItems.push(adaptation);
             } else {
+                // Same group continues
                 currentItems.push(adaptation);
             }
         }
 
+        // Push the last group if this is the last item
         if (isLast && currentGroup !== null) {
             groupedAdaptations.push({ groupId: currentGroup.groupId, name: currentGroup.name, items: currentItems });
         }
@@ -891,6 +885,7 @@ function Test() {
                                                                         fontWeight: 500,
                                                                         lineHeight: "normal",
                                                                         textAlign: "left",
+                                                                        display: "flex",
                                                                     }}
                                                                 >
                                                                     {scope.scope}
@@ -1097,7 +1092,11 @@ function Test() {
                                                                 control={
                                                                     <Switch
                                                                         checked={selectedRiskId === risk.risk_id}
-                                                                        onChange={() => handleRiskChange(risk.risk_id)}
+                                                                        onChange={() =>
+                                                                            handleRiskChange({
+                                                                                target: { value: risk.risk_id },
+                                                                            })
+                                                                        }
                                                                         disabled={!risk.status || isLoading || mapLoading}
                                                                         color="primary"
                                                                         style={{ textAlign: "left!important" }}
@@ -1170,7 +1169,11 @@ function Test() {
                                                             control={
                                                                 <Switch
                                                                     checked={selectedImpactId === impact.impact_id}
-                                                                    onChange={() => handleImpactChange(impact.impact_id)}
+                                                                    onChange={() =>
+                                                                        handleImpactChange({
+                                                                            target: { value: impact.impact_id },
+                                                                        })
+                                                                    }
                                                                     disabled={!impact.status || isLoading || mapLoading}
                                                                     color="primary"
                                                                     style={{ textAlign: "left!important" }}
@@ -1246,7 +1249,11 @@ function Test() {
                                                                 control={
                                                                     <Switch
                                                                         checked={selectedAdaptationId === adaptation.adaptation_id}
-                                                                        onChange={() => handleAdaptationChange(adaptation.adaptation_id)}
+                                                                        onChange={() =>
+                                                                            handleAdaptationChange({
+                                                                                target: { value: adaptation.adaptation_id },
+                                                                            })
+                                                                        }
                                                                         disabled={!adaptation.status || isLoading || mapLoading}
                                                                         color="primary"
                                                                         style={{ textAlign: "left!important" }}
@@ -1297,6 +1304,12 @@ function Test() {
                                 drawerOpen={open}
                                 filters={appliedFilters}
                                 adaptations={adaptations}
+                                selectedAdaptationId={selectedAdaptationId}
+                                setSelectedAdaptationId={setSelectedAdaptationId}
+                                selectedRiskId={selectedRiskId}
+                                setSelectedRiskId={setSelectedRiskId}
+                                selectedImpactId={selectedImpactId}
+                                setSelectedImpactId={setSelectedImpactId}
                                 mapLoading={mapLoading}
                                 setMapLoading={setMapLoading}
                                 climateScenarios={climateScenarios}
