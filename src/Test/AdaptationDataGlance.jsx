@@ -1617,8 +1617,8 @@ const DataGlance = () => {
     useEffect(() => {
         document.documentElement.style.overflowX = "hidden";
         document.body.style.overflowX = "hidden";
-        document.documentElement.style.overflowY = "hidden";
-        document.body.style.overflowY = "hidden";
+        // document.documentElement.style.overflowY = "hidden";
+        // document.body.style.overflowY = "hidden";
     }, []);
 
     const box1 = React.useRef(null);
