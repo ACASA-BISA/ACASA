@@ -932,7 +932,7 @@ function MapViewer({
           const parseArrayBuffer = arrayBuffer.slice(0);
           const downloadArrayBuffer = arrayBuffer.slice(0);
           if (!parseArrayBuffer || parseArrayBuffer.byteLength === 0 || !downloadArrayBuffer || downloadArrayBuffer.byteLength === 0) {
-            return { noGeoTiff: true, metadata: { layer_name: ["Baseline", "2050s", "2080s"][index] } };
+            return { noGeoTiff: true, metadata: { layer_name: ["Baseline (2000s)", "2050s", "2080s"][index] } };
           }
           return {
             arrayBuffer: parseArrayBuffer,
@@ -940,7 +940,7 @@ function MapViewer({
             metadata: {
               source_file: baselineFile.source_file,
               color_ramp: baselineFile.ramp,
-              layer_name: ["Baseline", "2050s", "2080s"][index],
+              layer_name: ["Baseline (2000s)", "2050s", "2080s"][index],
               layer_id: memoizedFilters.commodity_id,
               year: [null, 2050, 2080][index],
               intensity_metric: null,
@@ -958,7 +958,7 @@ function MapViewer({
             change_metric_id: 1,
             metric: selectedIntensityMetric,
             changeMetric: "Absolute",
-            label: "Baseline",
+            label: "Baseline (2000s)",
           },
           {
             climate_scenario_id: selectedScenario,
@@ -1327,7 +1327,7 @@ function MapViewer({
         });
         setTiffData(prev => {
           const newTiffData = [...prev];
-          newTiffData[index] = { noGeoTiff: true, metadata: { layer_name: ["Baseline", "2050s", "2080s"][index] } };
+          newTiffData[index] = { noGeoTiff: true, metadata: { layer_name: ["Baseline (2000s)", "2050s", "2080s"][index] } };
           return newTiffData;
         });
         setInternalMapLoading(prev => {
@@ -1467,7 +1467,7 @@ function MapViewer({
     if (!file.exists || !file.ramp) {
       setTiffData(prev => {
         const newTiffData = [...prev];
-        newTiffData[index] = { noGeoTiff: true, metadata: { layer_name: ["Baseline", "2050s", "2080s"][index] } };
+        newTiffData[index] = { noGeoTiff: true, metadata: { layer_name: ["Baseline (2000s)", "2050s", "2080s"][index] } };
         return newTiffData;
       });
       setNoGeoTiffAvailable(prev => {
@@ -1519,7 +1519,7 @@ function MapViewer({
         if (!responseData.success) {
           setTiffData(prev => {
             const newTiffData = [...prev];
-            newTiffData[index] = { noGeoTiff: true, metadata: { layer_name: ["Baseline", "2050s", "2080s"][index] } };
+            newTiffData[index] = { noGeoTiff: true, metadata: { layer_name: ["Baseline (2000s)", "2050s", "2080s"][index] } };
             return newTiffData;
           });
           setNoGeoTiffAvailable(prev => {
@@ -1543,7 +1543,7 @@ function MapViewer({
       if (!arrayBuffer || arrayBuffer.byteLength === 0) {
         setTiffData(prev => {
           const newTiffData = [...prev];
-          newTiffData[index] = { noGeoTiff: true, metadata: { layer_name: ["Baseline", "2050s", "2080s"][index] } };
+          newTiffData[index] = { noGeoTiff: true, metadata: { layer_name: ["Baseline (2000s)", "2050s", "2080s"][index] } };
           return newTiffData;
         });
         setNoGeoTiffAvailable(prev => {
@@ -1564,7 +1564,7 @@ function MapViewer({
       if (!downloadArrayBuffer || downloadArrayBuffer.byteLength === 0) {
         setTiffData(prev => {
           const newTiffData = [...prev];
-          newTiffData[index] = { noGeoTiff: true, metadata: { layer_name: ["Baseline", "2050s", "2080s"][index] } };
+          newTiffData[index] = { noGeoTiff: true, metadata: { layer_name: ["Baseline (2000s)", "2050s", "2080s"][index] } };
           return newTiffData;
         });
         setNoGeoTiffAvailable(prev => {
@@ -1587,7 +1587,7 @@ function MapViewer({
         metadata: {
           source_file: file.source_file,
           color_ramp: file.ramp,
-          layer_name: ["Baseline", "2050s", "2080s"][index],
+          layer_name: ["Baseline (2000s)", "2050s", "2080s"][index],
           layer_id: ({ commodity: memoizedFilters.commodity_id, risk: memoizedFilters.risk_id, adaptation: memoizedFilters.adaptation_id, impact: memoizedFilters.impact_id }[memoizedFilters.layer_type] ?? null),
           year: index === 0 ? null : index === 1 ? 2050 : 2080,
           intensity_metric: metric,
@@ -1623,7 +1623,7 @@ function MapViewer({
       // });
       setTiffData(prev => {
         const newTiffData = [...prev];
-        newTiffData[index] = { noGeoTiff: true, metadata: { layer_name: ["Baseline", "2050s", "2080s"][index] } };
+        newTiffData[index] = { noGeoTiff: true, metadata: { layer_name: ["Baseline (2000s)", "2050s", "2080s"][index] } };
         return newTiffData;
       });
       setNoGeoTiffAvailable(prev => {
@@ -1678,7 +1678,7 @@ function MapViewer({
   const defaultTiffData = Array(3).fill(null).map((_, index) => ({
     arrayBuffer: null,
     metadata: {
-      layer_name: ["Baseline", "2050s", "2080s"][index],
+      layer_name: ["Baseline (2000s)", "2050s", "2080s"][index],
       source_file: null,
       color_ramp: null,
       layer_id: null,
@@ -2027,7 +2027,7 @@ function MapViewer({
                     {viewMode === "all" ? (
                       <IconButton
                         onClick={handleViewSingle}
-                        title="Show only Baseline map"
+                        title="Show only Baseline (2000s) map"
                         sx={{ color: theme => theme.palette.text.secondary }}
                       >
                         <VisibilityIcon />

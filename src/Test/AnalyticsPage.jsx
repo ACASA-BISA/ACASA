@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { CircularProgress } from '@mui/material';
-import Highcharts from 'highcharts'; // Core Highcharts library
-import HighchartsMoreModule from 'highcharts/highcharts-more'; // For arearange support
-import ExportingModule from 'highcharts/modules/exporting'; // For exporting (optional)
+import Highcharts from 'highcharts';
+import HighchartsMoreModule from 'highcharts/highcharts-more';
+import ExportingModule from 'highcharts/modules/exporting';
 
 // Initialize Highcharts modules
-const HighchartsMore = HighchartsMoreModule.default || HighchartsMoreModule; // Handle ES module default export
-const Exporting = ExportingModule.default || ExportingModule; // Handle ES module default export
+const HighchartsMore = HighchartsMoreModule.default || HighchartsMoreModule;
+const Exporting = ExportingModule.default || ExportingModule;
 
 if (typeof Highcharts === 'object') {
     try {
-        HighchartsMore(Highcharts); // Initialize arearange support
-        Exporting(Highcharts); // Initialize exporting module
+        HighchartsMore(Highcharts);
+        Exporting(Highcharts);
     } catch (error) {
         console.error('Error initializing Highcharts modules:', error);
     }
@@ -22,8 +22,8 @@ if (typeof Highcharts === 'object') {
 const AnalyticsPage = ({ filters }) => {
     const [chartData, setChartData] = useState(null);
     const [years, setYears] = useState([]);
-    const [yMin, setYMin] = useState(0);
-    const [yMax, setYMax] = useState(40);
+    const [yMin, setYMin] = useState(null); // Initialize as null
+    const [yMax, setYMax] = useState(null); // Initialize as null
     const [analyticsParamId, setAnalyticsParamId] = useState(2);
     const [parameterName, setParameterName] = useState('Minimum Temperature');
     const [location, setLocation] = useState('');
@@ -86,17 +86,22 @@ const AnalyticsPage = ({ filters }) => {
                 const ssp245 = processScenarioData('SSP245');
                 const ssp585 = processScenarioData('SSP585');
 
-                const allValues = [
-                    ...ssp245.spreadMin.filter(v => v !== null),
-                    ...ssp245.spreadMax.filter(v => v !== null),
-                    ...ssp585.spreadMin.filter(v => v !== null),
-                    ...ssp585.spreadMax.filter(v => v !== null),
-                    ...historical.meanData.filter(v => v !== null),
-                    ...ssp245.meanData.filter(v => v !== null),
-                    ...ssp585.meanData.filter(v => v !== null),
-                ];
-                const yMin = allValues.length > 0 ? Math.min(...allValues) - 1 : 0;
-                const yMax = allValues.length > 0 ? Math.max(...allValues) + 1 : 40;
+                // Calculate yMin and yMax only for non-Precipitation parameters
+                let yMin = null;
+                let yMax = null;
+                if (analyticsParamId !== 1) { // Skip for Precipitation
+                    const allValues = [
+                        ...ssp245.spreadMin.filter(v => v !== null),
+                        ...ssp245.spreadMax.filter(v => v !== null),
+                        ...ssp585.spreadMin.filter(v => v !== null),
+                        ...ssp585.spreadMax.filter(v => v !== null),
+                        ...historical.meanData.filter(v => v !== null),
+                        ...ssp245.meanData.filter(v => v !== null),
+                        ...ssp585.meanData.filter(v => v !== null),
+                    ];
+                    yMin = allValues.length > 0 ? Math.min(...allValues) - 1 : 0;
+                    yMax = allValues.length > 0 ? Math.max(...allValues) + 1 : 40;
+                }
 
                 const chartSeries = [
                     {
@@ -202,8 +207,8 @@ const AnalyticsPage = ({ filters }) => {
         if (chartData.length) {
             Highcharts.chart('tmaxChart', {
                 chart: {
-                    width: 450, // Set explicit width
-                    height: 450, // Set equal height to make the chart square
+                    width: 450,
+                    height: 450,
                 },
                 title: { text: `Annual Mean ${parameterName} for ${location}` },
                 credits: { enabled: false },
@@ -222,9 +227,10 @@ const AnalyticsPage = ({ filters }) => {
                 },
                 yAxis: {
                     title: { text: `${parameterName} (${units})` },
-                    min: yMin,
-                    max: yMax,
-                    tickInterval: 1, // Set y-axis tick interval to 1 unit
+                    // Conditionally set min and max only if defined (not for Precipitation)
+                    ...(yMin !== null && { min: yMin }),
+                    ...(yMax !== null && { max: yMax }),
+                    tickInterval: yMin !== null ? 3 : null, // Use tickInterval only for manual scaling
                 },
                 tooltip: { shared: true, valueDecimals: 2 },
                 plotOptions: {
@@ -305,7 +311,7 @@ const AnalyticsPage = ({ filters }) => {
                                 display: 'flex',
                                 justifyContent: 'center',
                                 alignItems: 'center',
-                                minHeight: '470px', // Match chart height
+                                minHeight: '470px',
                             }}
                         >
                             {isLoading ? (
@@ -313,7 +319,7 @@ const AnalyticsPage = ({ filters }) => {
                             ) : (
                                 <div
                                     id="tmaxChart"
-                                    style={{ width: '450px', height: '450px' }} // Set square dimensions
+                                    style={{ width: '450px', height: '450px' }}
                                 ></div>
                             )}
                         </div>

@@ -1234,6 +1234,9 @@ function Test() {
                                     </ListItemButton>
                                     <Collapse in={isSidebarOpen.adaptation} timeout="auto" unmountOnExit>
                                         <List component="div" disablePadding sx={{ px: 2, textAlign: "left" }}>
+                                            <Typography variant="subtitle3" sx={{ mt: 2, mb: 1, textAlign: "left!important" }}>
+                                                <FormLabel style={{ textAlign: "left!important" }} className="formLabel">Select intervention for adaptation potential</FormLabel>
+                                            </Typography>
                                             {groupedAdaptations.map((group) => (
                                                 <div key={group.groupId}>
                                                     <Typography variant="subtitle2" sx={{ mt: 2, mb: 1, textAlign: "left!important" }}>
