@@ -451,7 +451,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
         }}
       >
         <Typography sx={{ fontSize: 12, fontWeight: 600, whiteSpace: "nowrap" }} color="text.primary">
-          {checkcrop() ? `Area under ${breadcrumbData.commodityLabel.toLowerCase()}` : `Region with ${breadcrumbData.commodityLabel.toLowerCase()} population`}
+          {checkcrop() ? `Area under ${breadcrumbData.commodityLabel.toLowerCase()}` : `${breadcrumbData.commodityLabel} population`}
         </Typography>
 
         <Box
