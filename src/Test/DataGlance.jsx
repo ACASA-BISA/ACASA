@@ -232,8 +232,7 @@ const DataGlance = () => {
     const geotiffPromiseCache = useRef(new Map());
     const controlsInitialized = useRef(new Array(8).fill(false));
 
-    const apiRand = Math.random().toString(36).substring(2, 15);
-    const apiUrl = process.env.REACT_APP_API_URL || `https://i7f9yi0027.execute-api.us-west-1.amazonaws.com/acasa_api?rand=${apiRand}`;
+    const apiUrl = process.env.REACT_APP_API_URL;
     const { country } = useParams();
 
     const breadcrumbData = useMemo(
