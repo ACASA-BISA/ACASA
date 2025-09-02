@@ -148,7 +148,7 @@ export default function AboutUs() {
                   fontSize: "16px",
                 })}
               >
-                <Link href="ACASA Brochure.pdf" underline="none" color="#4b9e44" target="_blank">
+                <Link href="ACASA Brochure_01.9.25_Single page HR.pdf" underline="none" color="#4b9e44" target="_blank">
                   ACASA Brochure
                 </Link>
               </Typography>
