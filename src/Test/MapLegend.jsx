@@ -156,13 +156,13 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
               country_id: breadcrumbData?.country_id || null,
               state_id: breadcrumbData?.state_id || null,
               commodity_id: breadcrumbData?.commodity_id || null,
-              climate_scenario_id: tiff.metadata.year ? breadcrumbData?.climate_scenario_id : 1,
+              climate_scenario_id: (tiff.metadata.year || hazards) ? breadcrumbData?.climate_scenario_id : 1,
               year: tiff.metadata.year || null,
               data_source_id: breadcrumbData?.data_source_id || null,
               visualization_scale_id: breadcrumbData?.visualization_scale_id || null,
               layer_id: tiff.metadata.layer_id,
               intensity_metric_id: breadcrumbData?.intensity_metric_id || null,
-              change_metric_id: tiff.metadata.year ? breadcrumbData?.change_metric_id : 1,
+              change_metric_id: (tiff.metadata.year || hazards) ? breadcrumbData?.change_metric_id : 1,
             };
 
             const response = await fetchWithRetry(`${apiUrl}/layers/legend`, {

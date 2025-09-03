@@ -216,6 +216,7 @@ const DataGlance = () => {
     const [allDataReady, setAllDataReady] = useState(false);
     const [renderedMaps, setRenderedMaps] = useState(new Array(8).fill(false));
     const [isFullscreen, setIsFullscreen] = useState(new Array(8).fill(false));
+    const [noGeoTiffAvailable, setNoGeoTiffAvailable] = useState(new Array(8).fill(false));
 
     const mapRefs = useRef(new Array(8).fill(null));
     const mapInstances = useRef(new Array(8).fill(null));
@@ -248,8 +249,9 @@ const DataGlance = () => {
             geojson: geojsonData?.geojson || null,
             bbox: geojsonData?.bbox || null,
             region: geojsonData?.region || null,
+            year: selectedYear || null,
         }),
-        [commodities, selectedCommodityId, selectedCountryId, selectedScenarioId, selectedVisualizationScaleId, selectedIntensityMetricId, selectedChangeMetricId, geojsonData]
+        [commodities, selectedCommodityId, selectedCountryId, selectedScenarioId, selectedVisualizationScaleId, selectedIntensityMetricId, selectedChangeMetricId, geojsonData, selectedYear]
     );
 
     const memoizedHazardData = useMemo(() => hazardData, [hazardData]);
@@ -264,16 +266,10 @@ const DataGlance = () => {
     const fetchTiffs = useCallback(
         debounce(async (hazardData, geojsonData, countryId, commodityId, selectRasterFile, fetchGeoTiff) => {
             if (isFetchingRef.current) {
-                console.log("Skipping fetchTiffs: fetch already in progress");
                 return;
             }
 
             if (!hazardData || !hazardData.raster_grids || !geojsonData) {
-                console.log("Skipping fetchTiffs: dependencies not ready", {
-                    hasHazardData: !!hazardData,
-                    hasRasterGrids: !!hazardData?.raster_grids,
-                    hasGeojson: !!geojsonData,
-                });
                 return;
             }
 
@@ -281,42 +277,32 @@ const DataGlance = () => {
                 hazardData.raster_grids.map((g) => g.grid_sequence)
             )}`;
 
-            // Check if tiffData has valid arrayBuffers for all grid sequences
             const hasValidTiffData = tiffData.length > 0 && hazardData.raster_grids.every((grid) => {
                 const tiff = tiffData.find((t) => t.metadata.grid_sequence === grid.grid_sequence);
                 return tiff && tiff.arrayBuffer && tiff.arrayBuffer.byteLength > 0;
             });
 
             if (lastFetchKeyRef.current === fetchKey && hasValidTiffData) {
-                console.log("Skipping fetchTiffs: valid data already fetched for this configuration", { fetchKey });
                 return;
             }
 
             isFetchingRef.current = true;
             setIsLoading(true);
             try {
-                console.log(`Fetching TIFFs for configuration: ${fetchKey}`);
                 geotiffPromiseCache.current.clear();
-                console.log("Cleared geotiffPromiseCache before fetching TIFFs");
 
                 const sortedGrids = [...hazardData.raster_grids].sort(
                     (a, b) => (a.grid_sequence || 0) - (b.grid_sequence || 0)
                 );
-                console.log("Sorted raster grids:", sortedGrids.map(g => ({
-                    grid_sequence: g.grid_sequence,
-                    title: g.hazard_title,
-                    source_files: g.raster_files?.map(f => f.source_file),
-                })));
 
                 const fetchedSourceFiles = new Set();
                 const tiffPromises = sortedGrids.slice(0, 7).map(async (grid) => {
                     const file = selectRasterFile(grid.raster_files);
                     if (!file || !file.exists) {
                         console.warn(`No matching raster file for hazard ${grid.hazard_title || grid.grid_sequence}`);
-                        return null;
+                        return { metadata: { grid_sequence: grid.grid_sequence, layer_name: grid.hazard_title || `Hazard ${grid.grid_sequence}`, source_file: null } };
                     }
                     if (fetchedSourceFiles.has(file.source_file)) {
-                        console.log(`Skipping duplicate fetch for source_file: ${file.source_file}`);
                         return null;
                     }
                     fetchedSourceFiles.add(file.source_file);
@@ -329,15 +315,15 @@ const DataGlance = () => {
 
                 const tiffResults = await Promise.all(tiffPromises);
                 const validTiffResults = tiffResults.filter((result) => {
-                    if (result === null || !result.arrayBuffer || result.arrayBuffer.byteLength === 0) {
-                        console.warn(`Invalid TIFF result for grid_sequence ${result?.metadata?.grid_sequence || "unknown"}`, {
+                    if (result === null) return false;
+                    if (!result.arrayBuffer || result.arrayBuffer.byteLength === 0) {
+                        console.warn(`No GeoTIFF data for grid_sequence ${result?.metadata?.grid_sequence || "unknown"}`, {
                             resultExists: !!result,
                             arrayBufferExists: !!result?.arrayBuffer,
                             byteLength: result?.arrayBuffer?.byteLength || 0,
                         });
-                        return false;
+                        return true; // Include even if no arrayBuffer to render GeoJSON
                     }
-                    // Create a copy of the arrayBuffer to prevent transfer
                     const arrayBufferCopy = result.arrayBuffer.slice(0);
                     return {
                         arrayBuffer: arrayBufferCopy,
@@ -345,17 +331,10 @@ const DataGlance = () => {
                     };
                 });
 
-                console.log("Valid TIFF results:", validTiffResults.map(t => ({
-                    grid_sequence: t.metadata.grid_sequence,
-                    layer_name: t.metadata.layer_name,
-                    arrayBufferSize: t.arrayBuffer.byteLength,
-                    source_file: t.metadata.source_file,
-                    firstBytes: Array.from(new Uint8Array(t.arrayBuffer).slice(0, 8)).map(b => b.toString(16).padStart(2, "0")).join(" "),
-                })));
-
                 if (validTiffResults.length === 0) {
                     console.warn("No valid GeoTIFFs fetched");
                     setTiffData([]);
+                    setNoGeoTiffAvailable(new Array(8).fill(true));
                     setAllDataReady(true);
                     setRenderedMaps(new Array(8).fill(false));
                     lastFetchKeyRef.current = fetchKey;
@@ -365,13 +344,12 @@ const DataGlance = () => {
                 georasterCache.current.clear();
                 setRenderedMaps(new Array(8).fill(false));
                 setTiffData(validTiffResults);
-                console.log("tiffData set with:", validTiffResults.map(t => ({
-                    grid_sequence: t.metadata.grid_sequence,
-                    layer_name: t.metadata.layer_name,
-                    arrayBufferSize: t.arrayBuffer.byteLength,
-                    source_file: t.metadata.source_file,
-                    firstBytes: Array.from(new Uint8Array(t.arrayBuffer).slice(0, 8)).map(b => b.toString(16).padStart(2, "0")).join(" "),
-                })));
+                const newNoGeoTiffAvailable = new Array(8).fill(true);
+                validTiffResults.forEach((tiff) => {
+                    const index = tiff.metadata.grid_sequence === 0 ? 0 : tiff.metadata.grid_sequence;
+                    newNoGeoTiffAvailable[index] = !tiff.arrayBuffer || tiff.arrayBuffer.byteLength === 0;
+                });
+                setNoGeoTiffAvailable(newNoGeoTiffAvailable);
                 setAllDataReady(true);
                 lastFetchKeyRef.current = fetchKey;
             } catch (err) {
@@ -382,6 +360,7 @@ const DataGlance = () => {
                     text: err.message || "Failed to load map data.",
                 });
                 setTiffData([]);
+                setNoGeoTiffAvailable(new Array(8).fill(true));
                 setAllDataReady(true);
                 setRenderedMaps(new Array(8).fill(false));
                 lastFetchKeyRef.current = fetchKey;
@@ -400,7 +379,6 @@ const DataGlance = () => {
                 const index = mapRefs.current.indexOf(entry.target);
                 if (index !== -1) {
                     mapWidths.current[index] = entry.contentRect.width;
-                    console.log(`Map ${index} width updated: ${mapWidths.current[index]}px`);
                     if (mapInstances.current[index]) {
                         mapInstances.current[index].invalidateSize();
                     }
@@ -442,7 +420,6 @@ const DataGlance = () => {
                 });
                 const { success, data } = await response.json();
                 if (!success) throw new Error(`API error: ${endpoint}`);
-                console.log(`Fetched ${endpoint}:`, data);
                 return data || [];
             } catch (err) {
                 console.error(`Error fetching ${endpoint}:`, err);
@@ -462,7 +439,6 @@ const DataGlance = () => {
     const fetchGeojson = useCallback(
         async (admin_level, admin_level_id) => {
             if (isFetchingRef.current) {
-                console.log("Skipping fetchGeojson: already in progress");
                 return;
             }
             isFetchingRef.current = true;
@@ -481,7 +457,6 @@ const DataGlance = () => {
                 if (!geojsonData.success || !geojsonData.data) {
                     throw new Error("No valid GeoJSON data returned");
                 }
-                console.log(`Fetched GeoJSON for ${admin_level}${admin_level_id ? `:${admin_level_id}` : ""}:`, geojsonData.data);
                 setGeojsonData(geojsonData.data);
             } catch (err) {
                 console.error("Error fetching GeoJSON:", err);
@@ -502,16 +477,13 @@ const DataGlance = () => {
     const fetchHazardData = useCallback(
         async (commodityId) => {
             if (!commodityId) {
-                console.log("Skipping fetchHazardData: missing commodity", { commodityId });
                 return;
             }
-            console.log("Starting fetchHazardData");
             isFetchingRef.current = true;
             setIsLoading(true);
             try {
                 const admin_level = selectedCountryId !== 0 ? "country" : "total";
                 const admin_level_id = selectedCountryId || null;
-                console.log("Fetching hazard data with:", { commodity_id: commodityId, admin_level, admin_level_id });
                 const response = await fetchWithRetry(`${apiUrl}/layers/hazards_glance`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -523,7 +495,6 @@ const DataGlance = () => {
                 });
                 const { success, data } = await response.json();
                 if (!success) throw new Error("API error: /layers/hazards_glance");
-                console.log("Hazard data fetched:", data);
                 setHazardData(data);
             } catch (err) {
                 console.error("Error fetching hazard data:", err);
@@ -543,15 +514,6 @@ const DataGlance = () => {
 
     const selectRasterFile = useCallback(
         (rasterFiles) => {
-            console.log("Selecting raster file with filters:", {
-                selectedScenarioId,
-                selectedIntensityMetricId,
-                selectedChangeMetricId,
-                selectedVisualizationScaleId,
-                selectedYear,
-                availableFiles: rasterFiles,
-            });
-
             const scenario = climateScenarios.find((s) => s.scenario_id === parseInt(selectedScenarioId));
             const scenarioName = scenario?.scenario || "";
             const isBaseline = parseInt(selectedScenarioId) === 1;
@@ -578,7 +540,6 @@ const DataGlance = () => {
                 console.warn("No matching raster file found, falling back to first available file");
                 return rasterFiles[0];
             }
-            console.log("Selected raster file:", matchedFile);
             return matchedFile;
         },
         [selectedScenarioId, selectedIntensityMetricId, selectedChangeMetricId, selectedVisualizationScaleId, selectedYear, climateScenarios]
@@ -588,11 +549,8 @@ const DataGlance = () => {
         async (file, gridSequence, layerId) => {
             const cacheKey = `${file.source_file}-${selectedCountryId || "total"}-${gridSequence}`;
             if (geotiffPromiseCache.current.has(cacheKey)) {
-                console.log(`Returning cached GeoTIFF promise for ${cacheKey}`);
                 return geotiffPromiseCache.current.get(cacheKey);
             }
-
-            console.log(`Fetching GeoTIFF for ${file.hazard_title || "hazard"} with grid_sequence: ${gridSequence}`);
             const admin_level = selectedCountryId !== 0 ? "country" : "total";
             const admin_level_id = selectedCountryId || null;
             const promise = fetchWithRetry(`${apiUrl}/layers/geotiff`, {
@@ -606,16 +564,41 @@ const DataGlance = () => {
                 }),
             })
                 .then(async (geotiffRes) => {
+                    // Check if the response is JSON (indicating an error like success: 0)
+                    const contentType = geotiffRes.headers.get("content-type");
+                    if (contentType && contentType.includes("application/json")) {
+                        const jsonResponse = await geotiffRes.json();
+                        if (!jsonResponse.success && jsonResponse.message.includes("No data available")) {
+                            console.warn(`No GeoTIFF data available for ${file.hazard_title || "hazard"}: ${jsonResponse.message}`);
+                            return {
+                                arrayBuffer: null,
+                                metadata: {
+                                    source_file: file.source_file,
+                                    color_ramp: file.ramp.map((color) =>
+                                        color.toLowerCase() === "#00ff00" ? "#7FFF00" : color
+                                    ),
+                                    layer_name: file.hazard_title || `Hazard ${gridSequence}`,
+                                    grid_sequence: gridSequence,
+                                    layer_id: layerId,
+                                    year: file.year || null,
+                                    climate_scenario_id: file.climate_scenario_id || null,
+                                },
+                            };
+                        }
+                        throw new Error(`Unexpected JSON response: ${jsonResponse.message || "Unknown error"}`);
+                    }
+
                     if (!geotiffRes.ok) {
                         throw new Error(`Failed to fetch GeoTIFF: ${geotiffRes.status}`);
                     }
+
                     const arrayBuffer = await geotiffRes.arrayBuffer();
                     if (!arrayBuffer || arrayBuffer.byteLength === 0) {
                         throw new Error(`Empty or invalid arrayBuffer for ${file.source_file}`);
                     }
                     const firstBytes = Array.from(new Uint8Array(arrayBuffer).slice(0, 8))
-                        .map(b => b.toString(16).padStart(2, "0")).join(" ");
-                    console.log(`GeoTIFF fetched successfully for ${file.hazard_title || "hazard"}, grid_sequence: ${gridSequence}, size: ${arrayBuffer.byteLength} bytes, byteOrder: ${firstBytes.startsWith("49 49") ? "II (little-endian)" : firstBytes.startsWith("4d 4d") ? "MM (big-endian)" : "unknown"}, firstBytes: ${firstBytes}`);
+                        .map((b) => b.toString(16).padStart(2, "0"))
+                        .join(" ");
                     const modifiedColorRamp = file.ramp.map((color) =>
                         color.toLowerCase() === "#00ff00" ? "#7FFF00" : color
                     );
@@ -637,7 +620,7 @@ const DataGlance = () => {
                     Swal.fire({
                         icon: "error",
                         title: "Error",
-                        text: `Failed to load GeoTIFF for ${file.hazard_title || "hazard"}`,
+                        text: `Failed to load GeoTIFF for ${file.hazard_title || "hazard"}: ${err.message}`,
                     });
                     geotiffPromiseCache.current.delete(cacheKey);
                     return null;
@@ -662,8 +645,8 @@ const DataGlance = () => {
 
         try {
             const firstBytes = Array.from(new Uint8Array(arrayBuffer).slice(0, 8))
-                .map(b => b.toString(16).padStart(2, "0")).join(" ");
-            console.log(`Preparing to download GeoTIFF: ${filename}, size: ${arrayBuffer.byteLength} bytes, firstBytes: ${firstBytes}`);
+                .map((b) => b.toString(16).padStart(2, "0"))
+                .join(" ");
             const blob = new Blob([arrayBuffer], { type: "image/tiff" });
             const url = URL.createObjectURL(blob);
             const a = document.createElement("a");
@@ -673,7 +656,6 @@ const DataGlance = () => {
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
-            console.log(`GeoTIFF downloaded: ${filename}`);
         } catch (err) {
             console.error("GeoTIFF download error:", err);
             Swal.fire({
@@ -685,7 +667,6 @@ const DataGlance = () => {
     }, []);
 
     const cleanupMaps = useCallback(() => {
-        console.log("Cleaning up maps");
         mapInstances.current.forEach((map, index) => {
             if (map) {
                 layerRefs.current[index].forEach((layer) => {
@@ -720,6 +701,7 @@ const DataGlance = () => {
         setRenderedMaps(new Array(8).fill(false));
         setIsFullscreen(new Array(8).fill(false));
         setTiffData([]);
+        setNoGeoTiffAvailable(new Array(8).fill(false));
         setAllDataReady(false);
         geotiffPromiseCache.current.clear();
     }, []);
@@ -752,14 +734,12 @@ const DataGlance = () => {
                         tileLayerRefs.current[index] = newTileLayer;
                         newTileLayer.on("load", () => {
                             newTileLayer.setOpacity(1);
-                            console.log(`New tile layer loaded for map ${index}`);
                         });
                         setTimeout(() => {
                             if (mapInstances.current[index]) {
                                 mapInstances.current[index].invalidateSize();
                             }
                         }, 200);
-                        console.log(`Theme changed to ${theme.palette.mode} for map ${index}`);
                     }
                 }, 200);
 
@@ -778,7 +758,6 @@ const DataGlance = () => {
 
     useEffect(() => {
         if (!countries.length) {
-            console.log("Countries not loaded yet, skipping country param update");
             return;
         }
 
@@ -794,7 +773,6 @@ const DataGlance = () => {
                     c.country.toLowerCase().replace(/\s+/g, "") === countryName.replace(/\s+/g, "") && c.status
             );
             if (matchedCountry) {
-                console.log(`Setting country to ${matchedCountry.country} (ID: ${matchedCountry.country_id}) from URL`);
                 countryId = matchedCountry.country_id;
                 admin_level = "country";
                 admin_level_id = matchedCountry.country_id;
@@ -807,18 +785,13 @@ const DataGlance = () => {
                     text: `Country "${country}" not found or inactive. Defaulting to South Asia.`,
                 });
             }
-        } else {
-            console.log("No country param, defaulting to South Asia");
         }
 
         if (countryId !== selectedCountryId || showCountrySelect !== showSelect) {
-            console.log(`Updating selectedCountryId to ${countryId} and showCountrySelect to ${showSelect}`);
             setSelectedCountryId(countryId);
             setShowCountrySelect(showSelect);
             cleanupMaps();
             fetchGeojson(admin_level, admin_level_id);
-        } else {
-            console.log("Country ID and showCountrySelect unchanged, skipping update");
         }
 
         return () => {
@@ -830,7 +803,6 @@ const DataGlance = () => {
         if (hasInitializedRef.current) return;
         hasInitializedRef.current = true;
 
-        console.log("Starting initialization");
         const initializeData = async () => {
             setIsLoading(true);
             try {
@@ -840,7 +812,6 @@ const DataGlance = () => {
                     fetchData("lkp/common/climate_scenarios"),
                     fetchData("lkp/common/visualization_scales"),
                 ]);
-                console.log("Dropdown data fetched", { fetchedCountries, fetchedCommodities });
 
                 setCountries(fetchedCountries);
                 setCommodities(fetchedCommodities);
@@ -852,7 +823,6 @@ const DataGlance = () => {
                     const activeCommodities = fetchedCommodities.filter((c) => c.status);
                     if (activeCommodities.length > 0) {
                         commodityId = activeCommodities[1]?.commodity_id;
-                        console.log(`Setting default commodity to ID: ${commodityId}`, { activeCommodities });
                         setSelectedCommodityId(commodityId);
                     } else {
                         console.error("No active commodities available");
@@ -873,18 +843,15 @@ const DataGlance = () => {
 
                 if (fetchedScenarios.length > 0 && !selectedScenarioId) {
                     const scenarioId = fetchedScenarios[0]?.scenario_id || "";
-                    console.log(`Setting default scenario to ID: ${scenarioId}`);
                     setSelectedScenarioId(scenarioId);
                 }
 
                 if (fetchedScales.length > 0 && !selectedVisualizationScaleId) {
                     const scaleId = fetchedScales[0]?.scale_id || "";
-                    console.log(`Setting default visualization scale to ID: ${scaleId}`);
                     setSelectedVisualizationScaleId(scaleId);
                 }
 
                 if (!country) {
-                    console.log("Triggering default GeoJSON fetch for South Asia");
                     fetchGeojson("total", null);
                 }
             } catch (err) {
@@ -904,28 +871,16 @@ const DataGlance = () => {
 
     useEffect(() => {
         if (!hasInitializedRef.current || !selectedCommodityId) {
-            console.log("Not triggering fetchHazardData on filter change:", {
-                hasInitialized: hasInitializedRef.current,
-                selectedCommodityId,
-                isFetching: isFetchingRef.current,
-            });
             return;
         }
-        console.log(`Triggering fetchHazardData for commodity ${selectedCommodityId}, country ${selectedCountryId}`);
         fetchHazardData(selectedCommodityId);
     }, [selectedCommodityId, selectedCountryId, fetchHazardData]);
 
     useEffect(() => {
-        if (!memoizedHazardData || !memoizedHazardData.raster_grids || !memoizedGeojsonData) {
-            console.log("Skipping fetchTiffs: dependencies not ready", {
-                hasHazardData: !!memoizedHazardData,
-                hasRasterGrids: !!memoizedHazardData?.raster_grids,
-                hasGeojson: !!memoizedGeojsonData,
-            });
+        if (!memoizedHazardData || !memoizedGeojsonData) {
             return;
         }
 
-        console.log("Triggering fetchTiffs");
         fetchTiffs(memoizedHazardData, memoizedGeojsonData, selectedCountryId, selectedCommodityId, selectRasterFile, fetchGeoTiff);
 
         return () => {
@@ -935,19 +890,16 @@ const DataGlance = () => {
 
     const updateGeoTiffLayer = useCallback(
         async (tiff, index) => {
-            if (!mapInstances.current[index] || !mapRefs.current[index] || !tiff) {
+            if (!mapInstances.current[index] || !mapRefs.current[index]) {
                 console.warn(`Skipping updateGeoTiffLayer for index ${index}: missing dependencies`, {
                     mapInstance: !!mapInstances.current[index],
                     mapRef: !!mapRefs.current[index],
-                    tiff: !!tiff,
                 });
                 return;
             }
 
             const map = mapInstances.current[index];
-            console.log(`Updating GeoTIFF layer for map ${index}, grid_sequence: ${tiff.metadata.grid_sequence}, arrayBufferSize: ${tiff.arrayBuffer?.byteLength || 0}, source_file: ${tiff.metadata.source_file}, firstBytes: ${tiff.arrayBuffer ? Array.from(new Uint8Array(tiff.arrayBuffer).slice(0, 8)).map(b => b.toString(16).padStart(2, "0")).join(" ") : "N/A"}`);
 
-            // Remove existing layers
             layerRefs.current[index].forEach((layer) => {
                 if (layer && map.hasLayer(layer)) {
                     map.removeLayer(layer);
@@ -970,6 +922,95 @@ const DataGlance = () => {
             }
             controlsInitialized.current[index] = false;
 
+            if (!tiff || !tiff.arrayBuffer || tiff.arrayBuffer.byteLength === 0) {
+                setNoGeoTiffAvailable((prev) => {
+                    const newNoGeoTiff = [...prev];
+                    newNoGeoTiff[index] = true;
+                    return newNoGeoTiff;
+                });
+                if (memoizedGeojsonData?.geojson) {
+                    const geojsonLayer = L.geoJSON(memoizedGeojsonData.geojson, {
+                        style: {
+                            color: theme.palette.mode === "dark" ? "white" : "black",
+                            weight: 2,
+                            opacity: 0.8,
+                            fillOpacity: 0.2,
+                            transition: "color 0.2s ease, opacity 0.2s ease",
+                        },
+                        onEachFeature: (feature, layer) => {
+                            layer.bindPopup(
+                                feature.properties.name ||
+                                feature.properties.NAME ||
+                                feature.properties.admin ||
+                                "Region"
+                            );
+                        },
+                    });
+                    geojsonLayer.addTo(map);
+                    geojsonLayerRefs.current[index] = geojsonLayer;
+                    if (memoizedGeojsonData.bbox) {
+                        map.fitBounds([
+                            [memoizedGeojsonData.bbox[1], memoizedGeojsonData.bbox[0]],
+                            [memoizedGeojsonData.bbox[3], memoizedGeojsonData.bbox[2]],
+                        ]);
+                    }
+                }
+
+                if (!controlsInitialized.current[index]) {
+                    const mapControl = L.control.mapControls({
+                        position: "topright",
+                        isFullscreen: isFullscreen[index] || false,
+                        onFullscreen: (button) => {
+                            setIsFullscreen((prev) => {
+                                const newFullscreen = [...prev];
+                                newFullscreen[index] = !newFullscreen[index];
+                                updateFullscreenButton(button, newFullscreen[index]);
+                                return newFullscreen;
+                            });
+                            const mapContainer = mapRefs.current[index];
+                            if (mapContainer) {
+                                if (!isFullscreen[index]) {
+                                    if (mapContainer.requestFullscreen) {
+                                        mapContainer.requestFullscreen();
+                                    }
+                                } else {
+                                    if (document.exitFullscreen) {
+                                        document.exitFullscreen();
+                                    }
+                                }
+                            }
+                        },
+                        onFitExtent: () => {
+                            if (memoizedGeojsonData?.bbox && mapInstances.current[index]) {
+                                mapInstances.current[index].fitBounds([
+                                    [memoizedGeojsonData.bbox[1], memoizedGeojsonData.bbox[0]],
+                                    [memoizedGeojsonData.bbox[3], memoizedGeojsonData.bbox[2]],
+                                ], { padding: [50, 50] });
+                            }
+                        },
+                        updateFullscreenButton: (button) => updateFullscreenButton(button, isFullscreen[index]),
+                    });
+                    mapControl.addTo(map);
+                    mapControlRefs.current[index] = mapControl;
+
+                    controlsInitialized.current[index] = true;
+                }
+
+                map.invalidateSize();
+                setRenderedMaps((prev) => {
+                    const newRenderedMaps = [...prev];
+                    newRenderedMaps[index] = true;
+                    return newRenderedMaps;
+                });
+                return;
+            }
+
+            setNoGeoTiffAvailable((prev) => {
+                const newNoGeoTiff = [...prev];
+                newNoGeoTiff[index] = false;
+                return newNoGeoTiff;
+            });
+
             const { arrayBuffer, metadata } = tiff;
             const cacheKey = `${metadata.source_file}-${index}`;
             let georaster = georasterCache.current.get(cacheKey);
@@ -979,25 +1020,11 @@ const DataGlance = () => {
                     if (!arrayBuffer || arrayBuffer.byteLength === 0) {
                         throw new Error(`Invalid arrayBuffer for map ${index}, grid_sequence: ${metadata.grid_sequence}, source_file: ${metadata.source_file}`);
                     }
-                    // Use a copy of the arrayBuffer for parsing to preserve the original
                     const arrayBufferCopy = arrayBuffer.slice(0);
-                    console.log(`Parsing GeoTIFF for map ${index}, grid_sequence: ${metadata.grid_sequence}, arrayBufferSize: ${arrayBufferCopy.byteLength}, source_file: ${metadata.source_file}, firstBytes: ${Array.from(new Uint8Array(arrayBufferCopy).slice(0, 8)).map(b => b.toString(16).padStart(2, "0")).join(" ")}`);
                     georaster = await parseGeoraster(arrayBufferCopy, { useWorker: false });
                     if (!georaster) {
                         throw new Error(`GeoRaster parsing returned undefined for map ${index}, grid_sequence: ${metadata.grid_sequence}, source_file: ${metadata.source_file}`);
                     }
-                    console.log(`Map ${index} - GeoRaster parsed:`, {
-                        grid_sequence: metadata.grid_sequence,
-                        bands: georaster.bands,
-                        mins: georaster.mins,
-                        maxs: georaster.maxs,
-                        height: georaster.height,
-                        width: georaster.width,
-                        arrayBufferSize: arrayBuffer.byteLength,
-                        source_file: metadata.source_file,
-                    });
-                    // Log original arrayBuffer state after parsing
-                    console.log(`Original arrayBuffer state after parsing for map ${index}, grid_sequence: ${metadata.grid_sequence}, arrayBufferSize: ${arrayBuffer.byteLength}, firstBytes: ${arrayBuffer ? Array.from(new Uint8Array(arrayBuffer).slice(0, 8)).map(b => b.toString(16).padStart(2, "0")).join(" ") : "N/A"}`);
                     georasterCache.current.set(cacheKey, georaster);
                 } catch (err) {
                     console.error(`GeoRaster parsing error for map ${index}, grid_sequence: ${metadata.grid_sequence}, source_file: ${metadata.source_file}:`, err);
@@ -1011,7 +1038,6 @@ const DataGlance = () => {
                 }
             }
 
-            // Verify georaster is valid before creating GeoRasterLayer
             if (!georaster || !georaster.mins || !georaster.maxs) {
                 console.error(`Invalid georaster for map ${index}, grid_sequence: ${metadata.grid_sequence}, source_file: ${metadata.source_file}`);
                 Swal.fire({
@@ -1051,11 +1077,8 @@ const DataGlance = () => {
             try {
                 geotiffLayer.addTo(map);
                 layerRefs.current[index].push(geotiffLayer);
-                console.log(`GeoTIFF layer added to map ${index}, grid_sequence: ${metadata.grid_sequence}`);
 
-                // Add mask polygon if GeoJSON data exists
                 if (memoizedGeojsonData?.geojson) {
-                    // Define world bounds for the mask
                     const worldBounds = [
                         [
                             [-90, -180],
@@ -1066,7 +1089,6 @@ const DataGlance = () => {
                         ],
                     ];
 
-                    // Function to flip coordinates for Leaflet (lng, lat)
                     const flipCoordinates = (coords) => {
                         if (!Array.isArray(coords)) return coords;
                         if (typeof coords[0] === "number" && typeof coords[1] === "number") {
@@ -1075,7 +1097,6 @@ const DataGlance = () => {
                         return coords.map(flipCoordinates);
                     };
 
-                    // Extract and flip GeoJSON coordinates
                     const geojsonCoords = memoizedGeojsonData.geojson.features
                         .filter(feature => feature.geometry && ["Polygon", "MultiPolygon"].includes(feature.geometry.type))
                         .map(feature => {
@@ -1097,7 +1118,7 @@ const DataGlance = () => {
                                 {
                                     color: "transparent",
                                     fillColor: "#ffffff",
-                                    fillOpacity: 0.8, // Mask opacity set to 0.8
+                                    fillOpacity: 0.8,
                                     weight: 0,
                                     interactive: false,
                                     pane: "maskPane",
@@ -1108,7 +1129,7 @@ const DataGlance = () => {
                             maskPolygon = L.polygon(worldBounds, {
                                 color: "transparent",
                                 fillColor: "#ffffff",
-                                fillOpacity: 0.8, // Fallback mask opacity
+                                fillOpacity: 0.8,
                                 weight: 0,
                                 interactive: false,
                                 pane: "maskPane",
@@ -1118,18 +1139,16 @@ const DataGlance = () => {
                         maskPolygon = L.polygon(worldBounds, {
                             color: "transparent",
                             fillColor: "#ffffff",
-                            fillOpacity: 0.8, // Fallback mask opacity
+                            fillOpacity: 0.8,
                             weight: 0,
                             interactive: false,
                             pane: "maskPane",
                         });
                     }
                     maskPolygon.addTo(map);
-                    layerRefs.current[index].push(maskPolygon); // Store mask in layerRefs for cleanup
-                    console.log(`Mask polygon added to map ${index}`);
+                    layerRefs.current[index].push(maskPolygon);
                 }
 
-                // Add GeoJSON layer
                 if (memoizedGeojsonData?.geojson) {
                     const geojsonLayer = L.geoJSON(memoizedGeojsonData.geojson, {
                         style: {
@@ -1137,7 +1156,7 @@ const DataGlance = () => {
                             weight: 2,
                             opacity: 0.8,
                             fillOpacity: 0,
-                            transition: "color 0.2s ease, opacity 0.2s ease", // Smooth style transitions
+                            transition: "color 0.2s ease, opacity 0.2s ease",
                         },
                         onEachFeature: (feature, layer) => {
                             layer.bindPopup(
@@ -1150,13 +1169,11 @@ const DataGlance = () => {
                     });
                     geojsonLayer.addTo(map);
                     geojsonLayerRefs.current[index] = geojsonLayer;
-                    console.log(`GeoJSON layer added to map ${index}`);
                     if (memoizedGeojsonData.bbox) {
                         map.fitBounds([
                             [memoizedGeojsonData.bbox[1], memoizedGeojsonData.bbox[0]],
                             [memoizedGeojsonData.bbox[3], memoizedGeojsonData.bbox[2]],
                         ]);
-                        console.log(`Map ${index} zoomed to bbox:`, memoizedGeojsonData.bbox);
                     }
                 }
 
@@ -1179,7 +1196,6 @@ const DataGlance = () => {
                 });
 
                 geotiffLayer.on("load", () => {
-                    console.log(`GeoTIFF layer ${index} loaded successfully`);
                     map.invalidateSize();
                     setRenderedMaps((prev) => {
                         const newRenderedMaps = [...prev];
@@ -1219,8 +1235,8 @@ const DataGlance = () => {
                                 return;
                             }
                             const firstBytes = Array.from(new Uint8Array(tiffForDownload.arrayBuffer).slice(0, 8))
-                                .map(b => b.toString(16).padStart(2, "0")).join(" ");
-                            console.log(`Initiating download for map ${index}, grid_sequence: ${tiffForDownload.metadata.grid_sequence}, layer_name: ${tiffForDownload.metadata.layer_name}, size: ${tiffForDownload.arrayBuffer.byteLength} bytes, source_file: ${tiffForDownload.metadata.source_file}, firstBytes: ${firstBytes}`);
+                                .map((b) => b.toString(16).padStart(2, "0"))
+                                .join(" ");
                             handleDownloadGeoTIFF(tiffForDownload.arrayBuffer, `${tiffForDownload.metadata.layer_name}.tif`);
                         },
                     });
@@ -1256,7 +1272,6 @@ const DataGlance = () => {
                                     [memoizedGeojsonData.bbox[1], memoizedGeojsonData.bbox[0]],
                                     [memoizedGeojsonData.bbox[3], memoizedGeojsonData.bbox[2]],
                                 ], { padding: [50, 50] });
-                                console.log(`Map ${index} fit to extent`);
                             }
                         },
                         updateFullscreenButton: (button) => updateFullscreenButton(button, isFullscreen[index]),
@@ -1265,11 +1280,9 @@ const DataGlance = () => {
                     mapControlRefs.current[index] = mapControl;
 
                     controlsInitialized.current[index] = true;
-                    console.log(`Controls initialized for map ${index}`);
                 }
 
                 map.invalidateSize();
-                console.log(`Map ${index} rendering completed`);
             } catch (err) {
                 console.error(`Failed to add layers to map ${index}:`, err);
                 Swal.fire({
@@ -1284,20 +1297,12 @@ const DataGlance = () => {
 
     const renderMaps = useCallback(() => {
         if (!allDataReady) {
-            console.log("Skipping renderMaps: data not ready", { allDataReady, tiffDataLength: tiffData.length });
             return;
         }
 
-        console.log("Rendering maps with tiffData:", tiffData.map(t => ({
-            grid_sequence: t.metadata.grid_sequence,
-            layer_name: t.metadata.layer_name,
-            arrayBufferSize: t.arrayBuffer?.byteLength || 0,
-            source_file: t.metadata.source_file,
-            firstBytes: t.arrayBuffer ? Array.from(new Uint8Array(t.arrayBuffer).slice(0, 8)).map(b => b.toString(16).padStart(2, "0")).join(" ") : "N/A",
-        })));
-
-        tiffData.forEach((tiff) => {
-            const gridSequence = tiff.metadata.grid_sequence;
+        const sortedGrids = memoizedHazardData?.raster_grids?.sort((a, b) => (a.grid_sequence || 0) - (b.grid_sequence || 0)) || [];
+        sortedGrids.forEach((grid) => {
+            const gridSequence = grid.grid_sequence;
             const mapIndex = gridSequence === 0 ? 0 : gridSequence;
             if (!mapRefs.current[mapIndex] || mapInstances.current[mapIndex]) {
                 console.warn(`Skipping map initialization for index ${mapIndex}:`, {
@@ -1307,22 +1312,20 @@ const DataGlance = () => {
                 return;
             }
 
-            console.log(`Initializing map ${mapIndex} for grid_sequence: ${gridSequence}`);
             const map = L.map(mapRefs.current[mapIndex], {
                 minZoom: 3,
                 maxZoom: 18,
                 zoom: 5,
                 center: [20.5937, 78.9629],
                 fadeAnimation: false,
-                zoomAnimation: true, // Enable smooth zoom transitions
-                zoomSnap: 0.1, // Finer zoom increments
-                zoomDelta: 0.1, // Smaller zoom steps for smoother transitions
+                zoomAnimation: true,
+                zoomSnap: 0.1,
+                zoomDelta: 0.1,
             });
 
-            // Create custom pane for mask
             map.createPane("maskPane");
-            map.getPane("maskPane").style.zIndex = 450; // Above tilePane (400), below overlayPane (500)
-            map.getPane("maskPane").style.pointerEvents = "none"; // Non-interactive mask
+            map.getPane("maskPane").style.zIndex = 450;
+            map.getPane("maskPane").style.pointerEvents = "none";
 
             const tileLayer = L.tileLayer(getTileLayerUrl(), {
                 attribution:
@@ -1336,7 +1339,6 @@ const DataGlance = () => {
             tileLayer.addTo(map);
             tileLayer.on("load", () => {
                 tileLayer.setOpacity(1);
-                console.log(`Tile layer loaded for map ${mapIndex}`);
                 map.invalidateSize();
             });
             mapInstances.current[mapIndex] = map;
@@ -1346,35 +1348,30 @@ const DataGlance = () => {
             setTimeout(() => {
                 if (mapInstances.current[mapIndex]) {
                     mapInstances.current[mapIndex].invalidateSize();
-                    console.log(`Map ${mapIndex} size invalidated`);
                 }
             }, 100);
         });
 
-        tiffData.forEach((tiff) => {
-            const gridSequence = tiff.metadata.grid_sequence;
+        sortedGrids.forEach((grid) => {
+            const gridSequence = grid.grid_sequence;
             const mapIndex = gridSequence === 0 ? 0 : gridSequence;
             if (mapRefs.current[mapIndex] && mapInstances.current[mapIndex]) {
-                console.log(`Rendering GeoTIFF for grid_sequence: ${gridSequence} at map index: ${mapIndex}`);
+                const tiff = tiffData.find((t) => t.metadata.grid_sequence === gridSequence);
                 updateGeoTiffLayer(tiff, mapIndex);
             } else {
                 console.warn(`Map ref or instance missing for grid_sequence: ${gridSequence}, map index: ${mapIndex}`);
+                setNoGeoTiffAvailable((prev) => {
+                    const newNoGeoTiff = [...prev];
+                    newNoGeoTiff[mapIndex] = true;
+                    return newNoGeoTiff;
+                });
             }
         });
-    }, [allDataReady, tiffData, updateGeoTiffLayer, theme.palette.mode]);
+    }, [allDataReady, tiffData, updateGeoTiffLayer, theme.palette.mode, memoizedHazardData]);
 
     useEffect(() => {
-        if (allDataReady && tiffData.length > 0) {
-            console.log("Triggering renderMaps with tiffData:", tiffData.map(t => ({
-                grid_sequence: t.metadata.grid_sequence,
-                layer_name: t.metadata.layer_name,
-                arrayBufferSize: t.arrayBuffer?.byteLength || 0,
-                source_file: t.metadata.source_file,
-                firstBytes: t.arrayBuffer ? Array.from(new Uint8Array(t.arrayBuffer).slice(0, 8)).map(b => b.toString(16).padStart(2, "0")).join(" ") : "N/A",
-            })));
+        if (allDataReady) {
             renderMaps();
-        } else {
-            console.log("Not triggering renderMaps:", { allDataReady, tiffDataLength: tiffData.length });
         }
     }, [allDataReady, tiffData, renderMaps]);
 
@@ -1382,10 +1379,8 @@ const DataGlance = () => {
         (event) => {
             const countryId = event.target.value;
             if (countryId === selectedCountryId) {
-                console.log("Country unchanged, skipping update");
                 return;
             }
-            console.log(`Country changed to ID: ${countryId}`);
             setSelectedCountryId(countryId);
             setShowCountrySelect(true);
             const admin_level = countryId !== 0 ? "country" : "total";
@@ -1400,10 +1395,8 @@ const DataGlance = () => {
         (event) => {
             const commodityId = event.target.value;
             if (commodityId === selectedCommodityId) {
-                console.log("Commodity unchanged, skipping update");
                 return;
             }
-            console.log(`Commodity changed to ID: ${commodityId}`);
             setSelectedCommodityId(commodityId);
             cleanupMaps();
         },
@@ -1414,16 +1407,12 @@ const DataGlance = () => {
         (event) => {
             const scenarioId = event.target.value;
             if (scenarioId === selectedScenarioId) {
-                console.log("Scenario unchanged, skipping update");
                 return;
             }
-            console.log(`Scenario changed to ID: ${scenarioId}`);
             setSelectedScenarioId(scenarioId);
             if (parseInt(scenarioId) === 1) {
-                console.log("Baseline scenario selected, resetting year to null");
                 setSelectedYear(null);
             } else if (selectedYear === null) {
-                console.log("Non-baseline scenario selected, setting default year to 2050");
                 setSelectedYear(2050);
             }
             cleanupMaps();
@@ -1435,10 +1424,8 @@ const DataGlance = () => {
         (event) => {
             const scaleId = event.target.value;
             if (scaleId === selectedVisualizationScaleId) {
-                console.log("Visualization scale unchanged, skipping update");
                 return;
             }
-            console.log(`Visualization scale changed to ID: ${scaleId}`);
             setSelectedVisualizationScaleId(scaleId);
             cleanupMaps();
         },
@@ -1449,10 +1436,8 @@ const DataGlance = () => {
         (event) => {
             const value = event.target.value;
             if (+value === +selectedIntensityMetricId) {
-                console.log("Intensity metric unchanged, skipping update");
                 return;
             }
-            console.log(`Intensity metric changed to ID: ${value}`);
             setSelectedIntensityMetricId(+value);
             cleanupMaps();
         },
@@ -1463,35 +1448,29 @@ const DataGlance = () => {
         (event) => {
             const value = event.target.value;
             if (+value === +selectedChangeMetricId) {
-                console.log("Change metric unchanged, skipping update");
                 return;
             }
-            console.log(`Change metric changed to ID: ${value}`);
             setSelectedChangeMetricId(+value);
             cleanupMaps();
         },
         [selectedChangeMetricId, cleanupMaps]
     );
+
     const handleSelectedYear = useCallback(
         (event) => {
             const value = event.target.value;
             if (+value === +selectedYear) {
-                console.log("Change metric unchanged, skipping update");
                 return;
             }
-            console.log(`Change metric changed to ID: ${value}`);
             setSelectedYear(+value);
             cleanupMaps();
         },
         [selectedYear, cleanupMaps]
     );
 
-
     useEffect(() => {
         document.documentElement.style.overflowX = "hidden";
         document.body.style.overflowX = "hidden";
-        // document.documentElement.style.overflowY = "hidden";
-        // document.body.style.overflowY = "hidden";
     }, []);
 
     const box1 = React.useRef(null);
@@ -1525,13 +1504,12 @@ const DataGlance = () => {
                                 justifyContent: "space-between",
                                 gap: "8px",
                                 alignItems: "center",
-                                flexWrap: "nowrap", // ✅ never wrap
-                                overflow: "hidden", // ✅ prevent overflow
+                                flexWrap: "nowrap",
+                                overflow: "hidden",
                                 backgroundColor: theme.palette.mode === "dark" ? "#2d3136" : "#F7F7F7",
                                 border: "0px solid black",
                             })}
                         >
-
                             <Box sx={{
                                 display: "flex",
                                 alignItems: "center",
@@ -1540,7 +1518,6 @@ const DataGlance = () => {
                                 marginRight: "5px",
                                 overflow: "hidden",
                                 flexWrap: "nowrap",
-                                overflow: "hidden",
                                 minWidth: 'auto'
                             }}>
                                 <Typography sx={{ fontSize: 13, fontWeight: "bold" }}>Location: </Typography>
@@ -1566,7 +1543,7 @@ const DataGlance = () => {
                                                     theme.palette.mode === "dark"
                                                         ? "rgba(60, 75, 60, 1)"
                                                         : "rgba(235, 247, 233, 1)",
-                                                overflow: "hidden", // ✅ required for ellipsis
+                                                overflow: "hidden",
                                                 textOverflow: "ellipsis",
                                                 whiteSpace: "nowrap",
                                             })}
@@ -1586,7 +1563,7 @@ const DataGlance = () => {
                                                         overflow: "hidden",
                                                         textOverflow: "ellipsis",
                                                         whiteSpace: "nowrap",
-                                                        maxWidth: "90px", // ✅ control menu item width
+                                                        maxWidth: "90px",
                                                     }}
                                                 >
                                                     {country.country}
@@ -1609,7 +1586,6 @@ const DataGlance = () => {
                                 marginRight: "5px",
                                 overflow: "hidden",
                                 flexWrap: "nowrap",
-                                overflow: "hidden",
                                 minWidth: 'auto'
                             }}>
                                 <Typography sx={{ fontSize: 13, fontWeight: "bold" }}>Commodity: </Typography>
@@ -1659,7 +1635,6 @@ const DataGlance = () => {
                                     </Select>
                                 </FormControl>
                             </Box>
-
                         </Box>
 
                         <Box
@@ -1671,13 +1646,12 @@ const DataGlance = () => {
                                 justifyContent: "space-between",
                                 gap: "8px",
                                 alignItems: "center",
-                                flexWrap: "nowrap", // ✅ never wrap
-                                overflow: "hidden", // ✅ prevent overflow
+                                flexWrap: "nowrap",
+                                overflow: "hidden",
                                 backgroundColor: theme.palette.mode === "dark" ? "#2d3136" : "#F7F7F7",
                                 border: "0px solid black",
                             })}
                         >
-
                             <Box sx={{
                                 display: "flex",
                                 alignItems: "center",
@@ -1686,7 +1660,6 @@ const DataGlance = () => {
                                 marginRight: "5px",
                                 overflow: "hidden",
                                 flexWrap: "nowrap",
-                                overflow: "hidden",
                                 minWidth: 'auto'
                             }}>
                                 <Typography sx={{ fontSize: 13, fontWeight: "bold" }}>Scenario: </Typography>
@@ -1733,7 +1706,6 @@ const DataGlance = () => {
                                 marginRight: "5px",
                                 overflow: "hidden",
                                 flexWrap: "nowrap",
-                                overflow: "hidden",
                                 minWidth: 'auto'
                             }}>
                                 <Typography sx={{ fontSize: 13, fontWeight: "bold" }}>Scales: </Typography>
@@ -1758,26 +1730,19 @@ const DataGlance = () => {
                                         })}
                                         disabled={isLoading || isOptionLoading || visualizationScales.length === 0}
                                     >
-                                        {visualizationScales.length === 0 ? (
-                                            <MenuItem value="" sx={{ fontSize: "12px", paddingY: "2px" }}>
-                                                No scales available
+                                        {visualizationScales.map((scale) => (
+                                            <MenuItem
+                                                key={scale.scale_id}
+                                                value={scale.scale_id}
+                                                disabled={!scale.status}
+                                                sx={{ fontSize: "12px", paddingY: "2px" }}
+                                            >
+                                                {scale.scale}
                                             </MenuItem>
-                                        ) : (
-                                            visualizationScales.map((scale) => (
-                                                <MenuItem
-                                                    key={scale.scale_id}
-                                                    value={scale.scale_id}
-                                                    disabled={!scale.status}
-                                                    sx={{ fontSize: "12px", paddingY: "2px" }}
-                                                >
-                                                    {scale.scale}
-                                                </MenuItem>
-                                            ))
-                                        )}
+                                        ))}
                                     </Select>
                                 </FormControl>
                             </Box>
-
                         </Box>
 
                         <Box
@@ -1789,13 +1754,12 @@ const DataGlance = () => {
                                 justifyContent: "space-between",
                                 gap: "8px",
                                 alignItems: "center",
-                                flexWrap: "nowrap", // ✅ never wrap
-                                overflow: "hidden", // ✅ prevent overflow
+                                flexWrap: "nowrap",
+                                overflow: "hidden",
                                 backgroundColor: theme.palette.mode === "dark" ? "#2d3136" : "#F7F7F7",
                                 border: "0px solid black",
                             })}
                         >
-
                             <Box sx={{
                                 display: "flex",
                                 alignItems: "center",
@@ -1804,7 +1768,6 @@ const DataGlance = () => {
                                 marginRight: "5px",
                                 overflow: "hidden",
                                 flexWrap: "nowrap",
-                                overflow: "hidden",
                                 minWidth: 'auto'
                             }}>
                                 <Typography sx={{ fontSize: 13, fontWeight: "bold" }}>Intensity: </Typography>
@@ -1844,7 +1807,6 @@ const DataGlance = () => {
                                 marginRight: "5px",
                                 overflow: "hidden",
                                 flexWrap: "nowrap",
-                                overflow: "hidden",
                                 minWidth: 'auto'
                             }}>
                                 <Typography sx={{ fontSize: 13, fontWeight: "bold" }}>Metric: </Typography>
@@ -1875,7 +1837,6 @@ const DataGlance = () => {
                                     </Select>
                                 </FormControl>
                             </Box>
-
                         </Box>
 
                         <Box
@@ -1887,13 +1848,12 @@ const DataGlance = () => {
                                 justifyContent: "space-between",
                                 gap: "8px",
                                 alignItems: "center",
-                                flexWrap: "nowrap", // ✅ never wrap
-                                overflow: "hidden", // ✅ prevent overflow
+                                flexWrap: "nowrap",
+                                overflow: "hidden",
                                 backgroundColor: theme.palette.mode === "dark" ? "#2d3136" : "#F7F7F7",
                                 border: "0px solid black",
                             })}
                         >
-
                             {parseInt(selectedScenarioId) !== 1 && (
                                 <Box sx={{
                                     display: "flex",
@@ -1903,7 +1863,6 @@ const DataGlance = () => {
                                     marginRight: "5px",
                                     overflow: "hidden",
                                     flexWrap: "nowrap",
-                                    overflow: "hidden",
                                     minWidth: 'auto'
                                 }}>
                                     <Typography sx={{ fontSize: 13, fontWeight: "bold" }}>Year: </Typography>
@@ -1935,8 +1894,8 @@ const DataGlance = () => {
                                     </FormControl>
                                 </Box>
                             )}
-
                         </Box>
+
                         <Box sx={{ position: "relative" }}>
                             <div
                                 ref={(el) => (mapRefs.current[0] = el)}
@@ -1961,19 +1920,41 @@ const DataGlance = () => {
                                     <CircularProgress />
                                 </Box>
                             )}
-                            {tiffData.find((tiff) => tiff.metadata.grid_sequence === 0) && renderedMaps[0] && (
-                                <MapLegend
-                                    tiff={tiffData.find((tiff) => tiff.metadata.grid_sequence === 0)}
-                                    breadcrumbData={breadcrumbData}
-                                    layerType="risk"
-                                    apiUrl={apiUrl}
-                                    mapWidth={mapWidths.current[0]}
-                                    legendType="Large"
-                                />
+                            {noGeoTiffAvailable[0] && !isLoading ? (
+                                <Box
+                                    sx={{
+                                        position: "absolute",
+                                        top: 0,
+                                        left: 0,
+                                        right: 0,
+                                        bottom: 0,
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        backgroundColor: "rgba(255, 255, 255, 0.7)",
+                                        zIndex: 1100,
+                                    }}
+                                >
+                                    <Typography sx={{ fontSize: "16px", fontWeight: "bold", textAlign: "center" }}>
+                                        No GeoTIFF Available
+                                    </Typography>
+                                </Box>
+                            ) : (
+                                tiffData.find((tiff) => tiff.metadata.grid_sequence === 0) && renderedMaps[0] && (
+                                    <MapLegend
+                                        tiff={tiffData.find((tiff) => tiff.metadata.grid_sequence === 0)}
+                                        breadcrumbData={breadcrumbData}
+                                        layerType="risk"
+                                        apiUrl={apiUrl}
+                                        mapWidth={mapWidths.current[0]}
+                                        legendType="Large"
+                                    />
+                                )
                             )}
                         </Box>
                     </Paper>
                 </Grid>
+
                 <Grid item xs={9}>
                     <Grid container spacing={1}>
                         {Array.from({ length: 6 }, (_, index) => {
@@ -1982,7 +1963,7 @@ const DataGlance = () => {
                             const grid = memoizedHazardData?.raster_grids?.find((g) => g.grid_sequence === gridSequence);
                             return (
                                 <Grid item xs={4} key={`map-${gridSequence}`}>
-                                    <Paper elevation={1} sx={{ borderRadius: 1 }}>
+                                    <Paper elevation={1} sx={{ borderRadius: 1, position: "relative" }}>
                                         <Typography
                                             sx={{
                                                 fontSize: 13,
@@ -1990,36 +1971,68 @@ const DataGlance = () => {
                                                 fontFamily: "Jura",
                                             }}
                                         >
-                                            {grid?.hazard_title || ""}
+                                            {grid?.hazard_title || " "}
                                         </Typography>
-                                        <Box sx={{ position: "relative" }}>
-                                            <div
-                                                ref={(el) => (mapRefs.current[gridSequence] = el)}
-                                                className="map-container"
-                                                style={{ height: "calc(-71px + 50vh)", width: "100%" }}
-                                            />
-                                            {isLoading && (
-                                                <Box
-                                                    sx={{
-                                                        position: "absolute",
-                                                        top: 0,
-                                                        left: 0,
-                                                        right: 0,
-                                                        bottom: 0,
-                                                        display: "flex",
-                                                        alignItems: "center",
-                                                        justifyContent: "center",
-                                                        backgroundColor: "rgba(255, 255, 255, 0.7)",
-                                                        zIndex: 1200,
-                                                    }}
-                                                >
-                                                    <CircularProgress />
-                                                </Box>
-                                            )}
-                                            {tiff && renderedMaps[gridSequence] && (
+                                        <div
+                                            ref={(el) => (mapRefs.current[gridSequence] = el)}
+                                            className="map-container"
+                                            style={{ height: "calc(-71px + 50vh)", width: "100%" }}
+                                        />
+                                        {isLoading && (
+                                            <Box
+                                                sx={{
+                                                    position: "absolute",
+                                                    top: 24,
+                                                    left: 0,
+                                                    right: 0,
+                                                    bottom: 0,
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    justifyContent: "center",
+                                                    backgroundColor: "rgba(255, 255, 255, 0.7)",
+                                                    zIndex: 1200,
+                                                }}
+                                            >
+                                                <CircularProgress />
+                                            </Box>
+                                        )}
+                                        {noGeoTiffAvailable[gridSequence] && !isLoading ? (
+                                            <Box
+                                                sx={{
+                                                    position: "absolute",
+                                                    top: 24,
+                                                    left: 0,
+                                                    right: 0,
+                                                    bottom: 0,
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    justifyContent: "center",
+                                                    backgroundColor: "rgba(255, 255, 255, 0.7)",
+                                                    zIndex: 1100,
+                                                }}
+                                            >
+                                                <Typography sx={{ fontSize: "14px", fontWeight: "bold", textAlign: "center" }}>
+                                                    No GeoTIFF Available
+                                                </Typography>
+                                            </Box>
+                                        ) : (
+                                            tiff && renderedMaps[gridSequence] && (
                                                 <MapLegend
                                                     tiff={tiff}
-                                                    breadcrumbData={breadcrumbData}
+                                                    breadcrumbData={{
+                                                        commodity: commodities.find((c) => c.commodity_id === selectedCommodityId)?.commodity || null,
+                                                        commodity_id: selectedCommodityId || null,
+                                                        country_id: selectedCountryId || null,
+                                                        state_id: null,
+                                                        climate_scenario_id: selectedScenarioId || null,
+                                                        visualization_scale_id: selectedVisualizationScaleId || null,
+                                                        intensity_metric_id: selectedIntensityMetricId || null,
+                                                        change_metric_id: selectedChangeMetricId || null,
+                                                        year: selectedYear || null,
+                                                        geojson: geojsonData?.geojson || null,
+                                                        bbox: geojsonData?.bbox || null,
+                                                        region: geojsonData?.region || null,
+                                                    }}
                                                     layerType="risk"
                                                     apiUrl={apiUrl}
                                                     mapWidth={mapWidths.current[gridSequence]}
@@ -2029,8 +2042,8 @@ const DataGlance = () => {
                                                     hazards={true}
                                                     legendType="Small"
                                                 />
-                                            )}
-                                        </Box>
+                                            )
+                                        )}
                                     </Paper>
                                 </Grid>
                             );
