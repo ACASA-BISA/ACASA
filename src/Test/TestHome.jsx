@@ -141,29 +141,24 @@ var items = [
         id: 10,
     },
     {
-        video: "./Home_imgs/Fertilizer application.jpg",
-        videothumb: "./Home_imgs/Fertilizer application.jpg",
-        id: 11,
-    },
-    {
         video: "./Home_imgs/CIMMYT (3).jpg",
         videothumb: "./Home_imgs/CIMMYT (3).jpg",
-        id: 12,
+        id: 11,
     },
     {
         video: "./Home_imgs/28474558493_9ac0292ca6_o.jpg",
         videothumb: "./Home_imgs/28474558493_9ac0292ca6_o.jpg",
-        id: 13,
+        id: 12,
     },
     {
         video: "./Home_imgs/CGIAR (2).jpg",
         videothumb: "./Home_imgs/CGIAR (2).jpg",
-        id: 14,
+        id: 13,
     },
     {
         video: "./Home_imgs/CGIAR (3).jpg",
         videothumb: "./Home_imgs/CGIAR (3).jpg",
-        id: 15,
+        id: 14,
     },
 ];
 
@@ -1040,9 +1035,9 @@ function TestHome(props) {
                     <Container maxWidth="lg">
                         <img
                             className="w-100"
-                            src="Approach (1)-cropped.svg"
+                            src="ACASA_Approach Diagram-curved-cropped.svg"
                             style={{
-                                filter: theme.palette.mode === "dark" ? "invert(93%) sepia(5%) saturate(166%) hue-rotate(202deg) brightness(100%) contrast(91%)" : "none",
+                                filter: theme.palette.mode === "dark" ? "invert(93%) sepia(5%) saturate(166%) hue-rotate(202deg) brightness(100%) contrast(85%)" : "none",
                             }}
                             alt="approach"
                             loading="lazy"
