@@ -466,6 +466,18 @@ const useCases = [
     },
 ];
 
+const partnertooltip = {
+    1: "Bangladesh Agricultural Research Council (BARC)",
+    2: "Nepal Agricultural Research Council",
+    3: "Natural Resources Management Center (NRMC)",
+    4: "International Maize and Wheat Improvement Center",
+    5: "Gates Foundation",
+    6: "University of Florida",
+    7: "Indian Council of Agricultural Research",
+    8: "Columbia University",
+    9: "Evans School Policy Analysis and Research (EPAR), University of Washington",
+}
+
 function TabPanel({ children, value, index }) {
     return (
         value === index && (
@@ -1484,12 +1496,20 @@ function TestHome(props) {
                                         className="resourceCardPartner"
                                         sx={{
                                             bgcolor:
-                                                theme.palette.mode === "dark" ? "#fff" : "#FAFAFA",
+                                                theme.palette.mode === "dark" ? "#00000080" : "#FAFAFA",
                                             borderRadius: "12px",
                                             boxShadow:
                                                 theme.palette.mode === "dark"
                                                     ? "0px 4px 10px rgba(0,0,0,0.4)"
                                                     : "0px 4px 10px rgba(0,0,0,0.1)",
+                                                    transition: "transform 0.2s ease, box-shadow 0.2s ease",
+                                            "&:hover": {
+                                            boxShadow:
+                                                theme.palette.mode === "dark"
+                                                ? "0px 6px 16px rgba(0,0,0,0.6)"
+                                                : "0px 6px 16px rgba(0,0,0,0.2)",
+                                            bgcolor: theme.palette.mode === "dark" ? "#1a1d21" : "#fff",
+                                            },
                                         }}
                                     >
                                         <CardContent
@@ -1501,11 +1521,17 @@ function TestHome(props) {
                                                 justifyContent: "center",
                                             }}
                                         >
+                                            <SleekTooltip title={partnertooltip[num] || `Partner ${num}`} arrow>
                                             <img
-                                                src={`/images/partner-${num}.png`}
-                                                alt={`partner-${num}`}
-                                                className="partner-img"
+                                            src={
+                                                theme.palette.mode === "dark" && num === 5
+                                                ? `/images/partner-${num}-dark.png`
+                                                : `/images/partner-${num}.png`
+                                            }
+                                            alt={`partner-${num}`}
+                                            className="partner-img"
                                             />
+                                            </SleekTooltip>
 
                                             {/* Gate Foundation */}
                                              {/* <img
