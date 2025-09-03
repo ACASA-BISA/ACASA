@@ -790,8 +790,17 @@ function Test() {
                                         >
                                             <img src="/images/datatype.svg" alt="Data Type" />
                                         </ListItemIcon>
-                                        <ListItemText
+                                        {/*<ListItemText
                                             primary={<FormLabel style={{ textAlign: "left" }} className="formLabel">Data Type</FormLabel>}
+                                        />*/}
+                                        <ListItemText
+                                            primary={
+                                                <FormLabel style={{ textAlign: "left" }} className="formLabel">
+                                                {selectedCommodityTypeId === 1
+                                                    ? "Switch to Livestock"
+                                                    : "Switch to Crops"}
+                                                </FormLabel>
+                                            }
                                         />
                                         {isSidebarOpen.dataType ? <ExpandLess /> : <ExpandMore />}
                                     </ListItemButton>
