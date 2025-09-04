@@ -561,38 +561,40 @@ function Test() {
         }, {});
 
     const groupedAdaptations = [];
-
-    const groupMap = new Map();
-
-    adaptations.forEach((adaptation) => {
+    let currentGroup = null;
+    let currentItems = []; adaptations.forEach((adaptation, index) => {
+        const isLast = index === adaptations.length - 1;
         const groupId = adaptation.group_id;
         const groupName = adaptation.group || adaptation.adaptation;
 
         if (groupId === null) {
+            if (currentGroup !== null) {
+                groupedAdaptations.push({ groupId: currentGroup.groupId, name: currentGroup.name, items: currentItems });
+                currentItems = [];
+            }
             groupedAdaptations.push({
                 groupId: adaptation.adaptation_id,
                 name: adaptation.adaptation,
                 items: [adaptation],
             });
+            currentGroup = null;
         } else {
-            if (!groupMap.has(groupId)) {
-                groupMap.set(groupId, {
-                    groupId,
-                    name: groupName,
-                    items: [],
-                });
+            if (currentGroup === null || currentGroup.groupId !== groupId) {
+                if (currentGroup !== null) {
+                    groupedAdaptations.push({ groupId: currentGroup.groupId, name: currentGroup.name, items: currentItems });
+                    currentItems = [];
+                }
+                currentGroup = { groupId, name: groupName };
+                currentItems.push(adaptation);
+            } else {
+                currentItems.push(adaptation);
             }
-            groupMap.get(groupId).items.push(adaptation);
+        }
+
+        if (isLast && currentGroup !== null) {
+            groupedAdaptations.push({ groupId: currentGroup.groupId, name: currentGroup.name, items: currentItems });
         }
     });
-
-    // Convert grouped items from Map to array
-    groupMap.forEach((group) => {
-        groupedAdaptations.push(group);
-    });
-
-    // Optional: Sort by groupId to maintain consistent order
-    groupedAdaptations.sort((a, b) => (a.groupId ?? 0) - (b.groupId ?? 0));
 
     const getListItemStyle = (category) => ({
         backgroundColor:

@@ -205,59 +205,38 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
       (item) => item.named_category && item.named_category.includes("\n")
     );
 
-    // Master lists for adaptation categories
-    const shelter_master = ["Modify sheds and bathing", "Modify sheds", "For cold stress", "For natural hazards", "Micro climate", "Planting trees", "Heating management", "Mechanical cooling"];
-    const feed_master = ["Ad lib water", "Balanced concentrate", "Mineral mixture", "Change feeding and grazing pattern", "Green fodder", "Fodder conservation", "Grassland and Silvi-pasture management", "Feeding pattern change", "Fat supplementation", "Protein supplementation", "Feed additives"];
-    const healthcare_master = ["Vaccination", "Deworming", "Control of vectors", "Parasite control", "Thinning of flock"];
+    const RiskName = localLegendData.header_text?.toLowerCase().includes("seasonal rainfall")
+      ? "Seasonal Rainfall"
+      : localLegendData.header_text;
 
-    // Derive single header text
-    let headerText = "";
-    const adaption = localLegendData.header_text?.toLowerCase().includes("percent change in yield")
-      ? localLegendData.header_text.replace("Percent change in yield for ", "")
-      : null;
-    const ImpactName = localLegendData.header_text?.toLowerCase().includes("yield (kg/ha)") ? "Productivity" : localLegendData.header_text;
-    const RiskName = localLegendData.header_text?.toLowerCase().includes("seasonal rainfall") ? "Seasonal Rainfall" : localLegendData.header_text;
-    const adaptedAdaption = adaption === "Supplemental irrigation (water harvesting structures/farm ponds)" ? "Supplemental irrigation" : adaption;
-
-    // Prioritize header based on layerType
-    if (layerType === "adaptation" && adaption) {
-      headerText = `Percent change in yield for ${adaptedAdaption?.charAt(0).toUpperCase() + adaptedAdaption?.slice(1).toLowerCase()}`;
-      if (!checkcrop()) {
-        const prefix = shelter_master.includes(adaptedAdaption) ? "shelter management: " :
-          feed_master.includes(adaptedAdaption) ? "feed management: " :
-            healthcare_master.includes(adaptedAdaption) ? "healthcare management: " : "";
-        headerText = `Percent change in yield for ${prefix}${adaptedAdaption?.toLowerCase()}`;
-      }
-    } else if (layerType === "adaptation_croptab" && adaption) {
-      if (breadcrumbData?.climate_scenario_id !== 1 && checkcrop()) {
-        headerText = `Effectiveness of ${adaptedAdaption?.charAt(0).toUpperCase() + adaptedAdaption?.slice(1).toLowerCase()}`;
-      } else if (breadcrumbData?.climate_scenario_id === 1) {
-        headerText = "Yield";
-      } else if (["Gender Suitability", "Female labourer suitability", "Female cultivator suitability"].includes(localLegendData.header_text)) {
-        headerText = localLegendData.header_text;
-      }
-    } else if (layerType === "impact" && ImpactName) {
-      if (ImpactName === "Productivity") {
-        headerText = breadcrumbData?.climate_scenario_id !== 1 ? "Percent change in Yield" : "Yield (kg/ha)";
-      } else {
-        headerText = ImpactName.charAt(0).toUpperCase() + ImpactName.toLowerCase().slice(1);
-      }
-    } else if (layerType === "risk" && RiskName) {
-      headerText = RiskName === "Seasonal Rainfall" ? "Annual rainfall" : RiskName.charAt(0).toUpperCase() + RiskName.toLowerCase().slice(1);
+    // Split header_text around header_bold_part for bold formatting
+    let headerComponents = [];
+    if (localLegendData.header_text && localLegendData.header_bold_part) {
+      const regex = new RegExp(`(${localLegendData.header_bold_part})`, "i"); // Case-insensitive match
+      const parts = localLegendData.header_text.split(regex);
+      headerComponents = parts.map((part, index) =>
+        part.toLowerCase() === localLegendData.header_bold_part.toLowerCase() ? (
+          <strong key={index}>{part}</strong>
+        ) : (
+          part
+        )
+      );
     } else {
-      headerText = localLegendData.header_text || ""; // Fallback to raw header_text
-    }
-
-    if (+breadcrumbData?.change_metric_id === 2) {
-      headerText = `Change in ${breadcrumbData?.commodityLabel}`;
+      headerComponents = [<strong key={0}>{localLegendData.header_text}</strong>];
     }
 
     return (
       <Box sx={{ maxWidth: maxLegendWidth, minWidth: minLegendWidth }}>
-        {showHeader && headerText && (
+        {showHeader && (
           <Box sx={{ display: "flex", marginTop: "-10px", justifyContent: "center" }}>
-            <Typography sx={{ fontSize: baseFontSize, margin: "5px 0 2px 0", color: theme.palette.mode === "dark" ? "white" : "black" }}>
-              <strong>{headerText}</strong>
+            <Typography
+              sx={{
+                fontSize: baseFontSize,
+                margin: "5px 0 2px 0",
+                color: theme.palette.mode === "dark" ? "white" : "black",
+              }}
+            >
+              {headerComponents}
             </Typography>
           </Box>
         )}
