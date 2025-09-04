@@ -1496,7 +1496,7 @@ function TestHome(props) {
                                         className="resourceCardPartner"
                                         sx={{
                                             bgcolor:
-                                                theme.palette.mode === "dark" ? "#00000080" : "#FAFAFA",
+                                                theme.palette.mode === "dark" ? "#fff" : "#FAFAFA",
                                             borderRadius: "12px",
                                             boxShadow:
                                                 theme.palette.mode === "dark"
@@ -1508,7 +1508,7 @@ function TestHome(props) {
                                                 theme.palette.mode === "dark"
                                                 ? "0px 6px 16px rgba(0,0,0,0.6)"
                                                 : "0px 6px 16px rgba(0,0,0,0.2)",
-                                            bgcolor: theme.palette.mode === "dark" ? "#1a1d21" : "#fff",
+                                            bgcolor: theme.palette.mode === "dark" ? "#fff" : "#fff",
                                             },
                                         }}
                                     >
