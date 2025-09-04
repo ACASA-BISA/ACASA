@@ -248,6 +248,10 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
       headerText = localLegendData.header_text || ""; // Fallback to raw header_text
     }
 
+    if (+breadcrumbData?.change_metric_id === 2) {
+      headerText = `Change in ${breadcrumbData?.commodityLabel}`;
+    }
+
     return (
       <Box sx={{ maxWidth: maxLegendWidth, minWidth: minLegendWidth }}>
         {showHeader && headerText && (
