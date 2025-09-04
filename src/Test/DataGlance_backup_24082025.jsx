@@ -258,8 +258,8 @@ const DataGlance = () => {
     // Function to get tile layer URL based on theme
     const getTileLayerUrl = () => {
         return theme.palette.mode === "dark"
-            ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-            : "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+            ? "http://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}"
+            : "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}";
     };
 
     const fetchTiffs = useCallback(
