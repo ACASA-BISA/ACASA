@@ -648,8 +648,8 @@ function MapViewer({
                 const tileLayer = L.tileLayer(getTileLayerUrl(), {
                     attribution:
                         theme.palette.mode === "dark"
-                            ? '&copy; <a href="https://carto.com/attributions">CARTO</a>'
-                            : '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+                            ? 'Tiles &copy; Esri &mdash; Esri, HERE, Garmin, FAO, NOAA, USGS, &copy; OpenStreetMap contributors, and the GIS User Community'
+                            : 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community',
                     opacity: 0,
                     errorTileUrl: "/images/fallback-tile.png",
                     preload: 1,
@@ -769,8 +769,8 @@ function MapViewer({
                 const newTileLayer = L.tileLayer(getTileLayerUrl(), {
                     attribution:
                         theme.palette.mode === "dark"
-                            ? '&copy; <a href="https://carto.com/attributions">CARTO</a>'
-                            : '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+                            ? 'Tiles &copy; Esri &mdash; Esri, HERE, Garmin, FAO, NOAA, USGS, &copy; OpenStreetMap contributors, and the GIS User Community'
+                            : 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community',
                     opacity: 0,
                     errorTileUrl: "/images/fallback-tile.png",
                     preload: 1,
