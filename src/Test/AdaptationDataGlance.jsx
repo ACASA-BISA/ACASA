@@ -267,16 +267,10 @@ const DataGlance = () => {
     const fetchTiffs = useCallback(
         debounce(async (hazardData, geojsonData, countryId, commodityId, adaptationCropTabId, selectRasterFile, fetchGeoTiff) => {
             if (isFetchingRef.current) {
-                console.log("Skipping fetchTiffs: fetch already in progress");
                 return;
             }
 
             if (!hazardData || !hazardData.raster_grids || !geojsonData) {
-                console.log("Skipping fetchTiffs: dependencies not ready", {
-                    hasHazardData: !!hazardData,
-                    hasRasterGrids: !!hazardData?.raster_grids,
-                    hasGeojson: !!geojsonData,
-                });
                 return;
             }
 
@@ -291,25 +285,17 @@ const DataGlance = () => {
             });
 
             if (lastFetchKeyRef.current === fetchKey && hasValidTiffData) {
-                console.log("Skipping fetchTiffs: valid data already fetched for this configuration", { fetchKey });
                 return;
             }
 
             isFetchingRef.current = true;
             setIsLoading(true);
             try {
-                console.log(`Fetching TIFFs for configuration: ${fetchKey}`);
                 geotiffPromiseCache.current.clear();
-                console.log("Cleared geotiffPromiseCache before fetching TIFFs");
 
                 const sortedGrids = [...hazardData.raster_grids].sort(
                     (a, b) => (a.grid_sequence || 0) - (b.grid_sequence || 0)
                 );
-                console.log("Sorted raster grids:", sortedGrids.map(g => ({
-                    grid_sequence: g.grid_sequence,
-                    title: g.grid_sequence_title,
-                    source_files: g.raster_files?.map(f => f.source_file),
-                })));
 
                 const fetchedSourceFiles = new Set();
                 const tiffPromises = sortedGrids.slice(0, 7).map(async (grid) => {
@@ -320,7 +306,6 @@ const DataGlance = () => {
                         return null;
                     }
                     if (fetchedSourceFiles.has(file.source_file)) {
-                        console.log(`Skipping duplicate fetch for source_file: ${file.source_file}`);
                         return null;
                     }
                     fetchedSourceFiles.add(file.source_file);
@@ -349,15 +334,6 @@ const DataGlance = () => {
                         metadata: { ...result.metadata },
                     }));
 
-                console.log("Valid TIFF results:", validTiffResults.map(t => ({
-                    grid_sequence: t.metadata.grid_sequence,
-                    layer_name: t.metadata.layer_name,
-                    arrayBufferSize: t.arrayBuffer.byteLength,
-                    source_file: t.metadata.source_file,
-                    adaptation_id: t.metadata.adaptation_id,
-                    firstBytes: Array.from(new Uint8Array(t.arrayBuffer).slice(0, 8)).map(b => b.toString(16).padStart(2, "0")).join(" "),
-                })));
-
                 if (validTiffResults.length === 0) {
                     console.warn("No valid GeoTIFFs fetched");
                     setTiffData([]);
@@ -370,14 +346,6 @@ const DataGlance = () => {
                 georasterCache.current.clear();
                 setRenderedMaps(new Array(8).fill(false));
                 setTiffData(validTiffResults);
-                console.log("tiffData set with:", validTiffResults.map(t => ({
-                    grid_sequence: t.metadata.grid_sequence,
-                    layer_name: t.metadata.layer_name,
-                    arrayBufferSize: t.arrayBuffer.byteLength,
-                    source_file: t.metadata.source_file,
-                    adaptation_id: t.metadata.adaptation_id,
-                    firstBytes: Array.from(new Uint8Array(t.arrayBuffer).slice(0, 8)).map(b => b.toString(16).padStart(2, "0")).join(" "),
-                })));
                 setAllDataReady(true);
                 lastFetchKeyRef.current = fetchKey;
             } catch (err) {
@@ -405,7 +373,6 @@ const DataGlance = () => {
                 const index = mapRefs.current.indexOf(entry.target);
                 if (index !== -1) {
                     mapWidths.current[index] = entry.contentRect.width;
-                    console.log(`Map ${index} width updated: ${mapWidths.current[index]}px`);
                     if (mapInstances.current[index]) {
                         mapInstances.current[index].invalidateSize();
                     }
@@ -447,7 +414,6 @@ const DataGlance = () => {
                 });
                 const { success, data } = await response.json();
                 if (!success) throw new Error(`API error: ${endpoint}`);
-                console.log(`Fetched ${endpoint}:`, data);
                 return data || [];
             } catch (err) {
                 console.error(`Error fetching ${endpoint}:`, err);
@@ -467,7 +433,6 @@ const DataGlance = () => {
     const fetchGeojson = useCallback(
         async (admin_level, admin_level_id) => {
             if (isFetchingRef.current) {
-                console.log("Skipping fetchGeojson: already in progress");
                 return;
             }
             isFetchingRef.current = true;
@@ -486,7 +451,6 @@ const DataGlance = () => {
                 if (!geojsonData.success || !geojsonData.data) {
                     throw new Error("No valid GeoJSON data returned");
                 }
-                console.log(`Fetched GeoJSON for ${admin_level}${admin_level_id ? `:${admin_level_id}` : ""}:`, geojsonData.data);
                 setGeojsonData(geojsonData.data);
             } catch (err) {
                 console.error("Error fetching GeoJSON:", err);
@@ -507,16 +471,13 @@ const DataGlance = () => {
     const fetchHazardData = useCallback(
         async (commodityId, adaptationCropTabId) => {
             if (!commodityId || !adaptationCropTabId) {
-                console.log("Skipping fetchHazardData: missing parameters", { commodityId, adaptationCropTabId });
                 return;
             }
-            console.log("Starting fetchHazardData");
             isFetchingRef.current = true;
             setIsLoading(true);
             try {
                 const admin_level = selectedCountryId !== 0 ? "country" : "total";
                 const admin_level_id = selectedCountryId || null;
-                console.log("Fetching adaptations data with:", { commodity_id: commodityId, adaptation_croptab_id: adaptationCropTabId, admin_level, admin_level_id });
                 const response = await fetchWithRetry(`${apiUrl}/layers/adaptations_glance`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -529,7 +490,6 @@ const DataGlance = () => {
                 });
                 const { success, data } = await response.json();
                 if (!success) throw new Error("API error: /layers/adaptations_glance");
-                console.log("Adaptations data fetched:", data);
                 setHazardData(data);
             } catch (err) {
                 console.error("Error fetching adaptations data:", err);
@@ -550,13 +510,11 @@ const DataGlance = () => {
     const fetchAdaptations = useCallback(
         async (commodityId) => {
             if (!commodityId) {
-                console.log("Skipping fetchAdaptations: missing commodityId");
                 return;
             }
             setIsOptionLoading(true);
             try {
                 const data = await fetchData(`lkp/specific/adaptations?commodity_id=${commodityId}`);
-                console.log("Fetched adaptations:", data);
                 setAdaptations(data);
                 if (data.length > 0) {
                     const activeAdaptations = data.filter((a) => a.status);
@@ -566,7 +524,6 @@ const DataGlance = () => {
                         const adaptation = activeAdaptations[i - 1] || activeAdaptations[0] || { adaptation_id: "" };
                         newSelectedAdaptations[i] = adaptation.adaptation_id || "";
                     }
-                    console.log("Setting selected adaptations:", newSelectedAdaptations);
                     setSelectedAdaptations(newSelectedAdaptations);
                 } else {
                     setSelectedAdaptations(new Array(8).fill(""));
@@ -584,15 +541,6 @@ const DataGlance = () => {
 
     const selectRasterFile = useCallback(
         (rasterFiles, adaptationId) => {
-            console.log("Selecting raster file with filters:", {
-                selectedScenarioId,
-                selectedIntensityMetricId,
-                selectedChangeMetricId,
-                selectedVisualizationScaleId,
-                selectedYear,
-                adaptationId,
-                availableFiles: rasterFiles,
-            });
 
             const isBaseline = parseInt(selectedScenarioId) === 1;
             const expectedYear = isBaseline ? null : selectedYear;
@@ -620,7 +568,6 @@ const DataGlance = () => {
                 console.warn("No matching raster file found, falling back to first available file");
                 return rasterFiles.find((file) => file.exists) || rasterFiles[0];
             }
-            console.log("Selected raster file:", matchedFile);
             return matchedFile;
         },
         [selectedScenarioId, selectedIntensityMetricId, selectedChangeMetricId, selectedVisualizationScaleId, selectedYear, climateScenarios]
@@ -630,11 +577,9 @@ const DataGlance = () => {
         async (file, gridSequence, layerId) => {
             const cacheKey = `${file.source_file}-${selectedCountryId || "total"}-${gridSequence}-${file.adaptation_id || "no-adaptation"}`;
             if (geotiffPromiseCache.current.has(cacheKey)) {
-                console.log(`Returning cached GeoTIFF promise for ${cacheKey}`);
                 return geotiffPromiseCache.current.get(cacheKey);
             }
 
-            console.log(`Fetching GeoTIFF for ${file.grid_sequence_title || "grid"} with grid_sequence: ${gridSequence}, adaptation: ${file.adaptation_id || "none"}, source_file: ${file.source_file}`);
             const admin_level = selectedCountryId !== 0 ? "country" : "total";
             const admin_level_id = selectedCountryId || null;
             const promise = fetchWithRetry(`${apiUrl}/layers/geotiff`, {
@@ -648,11 +593,6 @@ const DataGlance = () => {
                 }),
             })
                 .then(async (geotiffRes) => {
-                    console.log(`fetchGeoTiff response for ${file.source_file}:`, {
-                        status: geotiffRes.status,
-                        ok: geotiffRes.ok,
-                        headers: Object.fromEntries(geotiffRes.headers.entries()),
-                    });
                     if (!geotiffRes.ok) {
                         throw new Error(`Failed to fetch GeoTIFF: ${geotiffRes.status} ${geotiffRes.statusText}`);
                     }
@@ -667,8 +607,6 @@ const DataGlance = () => {
                     if (byteOrder !== 0x4949 && byteOrder !== 0x4D4D) {
                         throw new Error(`Invalid GeoTIFF byte order for ${file.source_file}: ${byteOrder.toString(16)}`);
                     }
-
-                    console.log(`GeoTIFF fetched successfully for ${file.grid_sequence_title || "grid"}, grid_sequence: ${gridSequence}, size: ${arrayBuffer.byteLength} bytes, byteOrder: ${byteOrder === 0x4949 ? "II (little-endian)" : "MM (big-endian)"}, firstBytes: ${Array.from(new Uint8Array(arrayBuffer).slice(0, 8)).map(b => b.toString(16).padStart(2, "0")).join(" ")}`);
 
                     const modifiedColorRamp = file.ramp.map((color) =>
                         color.toLowerCase() === "#00ff00" ? "#7FFF00" : color
@@ -704,9 +642,9 @@ const DataGlance = () => {
         [apiUrl, selectedCountryId]
     );
 
-    const handleDownloadGeoTIFF = useCallback((arrayBuffer, filename) => {
+    const handleDownloadGeoTIFF = useCallback((arrayBuffer, gridSequence) => {
         if (!arrayBuffer || arrayBuffer.byteLength === 0) {
-            console.error("Cannot download GeoTIFF: arrayBuffer is empty or invalid", { filename, byteLength: arrayBuffer?.byteLength });
+            console.error("Cannot download GeoTIFF: arrayBuffer is empty or invalid", { gridSequence, byteLength: arrayBuffer?.byteLength });
             Swal.fire({
                 icon: "error",
                 title: "Download Failed",
@@ -716,17 +654,58 @@ const DataGlance = () => {
         }
 
         try {
-            console.log(`Preparing to download GeoTIFF: ${filename}, size: ${arrayBuffer.byteLength} bytes`);
+
+            // Retrieve names from lookup data with fallback checks
+            const countryName = selectedCountryId === 0
+                ? "SouthAsia"
+                : countries.find((c) => c.country_id === selectedCountryId)?.country?.replace(/\s+/g, "") || "UnknownCountry";
+            const commodityName = selectedCommodityId && commodities.length
+                ? commodities.find((c) => c.commodity_id === selectedCommodityId)?.commodity?.replace(/\s+/g, "") || "UnknownCommodity"
+                : "NoCommoditySelected";
+            const scenario = selectedScenarioId && climateScenarios.length
+                ? climateScenarios.find((s) => s.scenario_id === parseInt(selectedScenarioId))
+                : null;
+            const scenarioName = scenario
+                ? scenario.scenario?.replace(/\s+/g, "") || "UnknownScenario"
+                : "NoScenarioSelected";
+            const scaleName = selectedVisualizationScaleId && visualizationScales.length
+                ? visualizationScales.find((s) => s.scale_id === parseInt(selectedVisualizationScaleId))?.scale?.replace(/\s+/g, "") || "UnknownScale"
+                : "NoScaleSelected";
+            const intensityName = selectedIntensityMetricId === 1 ? "Intensity" : "IntensityFrequency";
+            const changeName = selectedChangeMetricId === 1 ? "Absolute" : "Delta";
+            const isBaseline = parseInt(selectedScenarioId) === 1;
+            const year = isBaseline ? "" : (selectedYear || "UnknownYear");
+            const adaptationCropTabName = selectedAdaptationCropTabId && adaptationCropTabs.length
+                ? adaptationCropTabs.find((t) => t.tab_id === selectedAdaptationCropTabId)?.tab_name?.replace(/\s+/g, "") || "UnknownTab"
+                : "NoTabSelected";
+
+            // Determine adaptationName based on gridSequence
+            let adaptationName;
+            if (gridSequence === 0) {
+                adaptationName = "Reference";
+            } else {
+                const adaptationId = selectedAdaptations[gridSequence];
+                adaptationName = adaptationId && adaptations.length
+                    ? adaptations.find((a) => a.adaptation_id === adaptationId)?.adaptation?.replace(/\s+/g, "") || "UnknownAdaptation"
+                    : "NoAdaptation";
+            }
+
+            // Construct filename
+            let file_name = `${countryName}_${commodityName}_${intensityName}_${changeName}_${scaleName}_${scenarioName}_${adaptationCropTabName}_${adaptationName}${year ? `_${year}` : ""}`;
+
+            const firstBytes = Array.from(new Uint8Array(arrayBuffer).slice(0, 8))
+                .map((b) => b.toString(16).padStart(2, "0"))
+                .join(" ");
+
             const blob = new Blob([arrayBuffer], { type: "image/tiff" });
             const url = URL.createObjectURL(blob);
             const a = document.createElement("a");
             a.href = url;
-            a.download = filename || "geotiff.tif";
+            a.download = `${file_name}.tif`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
-            console.log(`GeoTIFF downloaded: ${filename}`);
         } catch (err) {
             console.error("GeoTIFF download error:", err);
             Swal.fire({
@@ -735,10 +714,9 @@ const DataGlance = () => {
                 text: "Failed to download GeoTIFF file.",
             });
         }
-    }, []);
+    }, [selectedCountryId, selectedCommodityId, selectedScenarioId, selectedVisualizationScaleId, selectedIntensityMetricId, selectedChangeMetricId, selectedYear, selectedAdaptationCropTabId, selectedAdaptations, countries, commodities, climateScenarios, visualizationScales, adaptations, adaptationCropTabs]);
 
     const cleanupMaps = useCallback(() => {
-        console.log("Cleaning up maps");
         mapInstances.current.forEach((map, index) => {
             if (map) {
                 layerRefs.current[index].forEach((layer) => {
@@ -807,14 +785,12 @@ const DataGlance = () => {
                         tileLayerRefs.current[index] = newTileLayer;
                         newTileLayer.on("load", () => {
                             newTileLayer.setOpacity(1);
-                            console.log(`New tile layer loaded for map ${index}`);
                         });
                         setTimeout(() => {
                             if (mapInstances.current[index]) {
                                 mapInstances.current[index].invalidateSize();
                             }
                         }, 200);
-                        console.log(`Theme changed to ${theme.palette.mode} for map ${index}`);
                     }
                 }, 200);
 
@@ -834,7 +810,6 @@ const DataGlance = () => {
 
     const handleAdaptationChange = useCallback(
         (gridSequence, adaptationId) => {
-            console.log(`Adaptation changed for grid_sequence ${gridSequence} to ID: ${adaptationId}`);
             setSelectedAdaptations((prev) => {
                 const newAdaptations = [...prev];
                 newAdaptations[gridSequence] = adaptationId;
@@ -863,7 +838,6 @@ const DataGlance = () => {
                                     newRenderedMaps[gridSequence] = false;
                                     return newRenderedMaps;
                                 });
-                                console.log(`GeoTIFF updated for grid_sequence ${gridSequence}, adaptation_id: ${adaptationId}`);
                             }
                             setIsLoading(false);
                         }).catch((err) => {
@@ -903,7 +877,6 @@ const DataGlance = () => {
 
     useEffect(() => {
         if (!countries.length) {
-            console.log("Countries not loaded yet, skipping country param update");
             return;
         }
 
@@ -919,7 +892,6 @@ const DataGlance = () => {
                     c.country.toLowerCase().replace(/\s+/g, "") === countryName.replace(/\s+/g, "") && c.status
             );
             if (matchedCountry) {
-                console.log(`Setting country to ${matchedCountry.country} (ID: ${matchedCountry.country_id}) from URL`);
                 countryId = matchedCountry.country_id;
                 admin_level = "country";
                 admin_level_id = matchedCountry.country_id;
@@ -932,18 +904,13 @@ const DataGlance = () => {
                     text: `Country "${country}" not found or inactive. Defaulting to South Asia.`,
                 });
             }
-        } else {
-            console.log("No country param, defaulting to South Asia");
         }
 
         if (countryId !== selectedCountryId || showCountrySelect !== showSelect) {
-            console.log(`Updating selectedCountryId to ${countryId} and showCountrySelect to ${showSelect}`);
             setSelectedCountryId(countryId);
             setShowCountrySelect(showSelect);
             cleanupMaps();
             fetchGeojson(admin_level, admin_level_id);
-        } else {
-            console.log("Country ID and showCountrySelect unchanged, skipping update");
         }
 
         return () => {
@@ -955,7 +922,6 @@ const DataGlance = () => {
         if (hasInitializedRef.current) return;
         hasInitializedRef.current = true;
 
-        console.log("Starting initialization");
         const initializeData = async () => {
             setIsLoading(true);
             try {
@@ -966,7 +932,6 @@ const DataGlance = () => {
                     fetchData("lkp/common/visualization_scales"),
                     fetchData("lkp/specific/adaptation_croptabs"),
                 ]);
-                console.log("Dropdown data fetched", { fetchedCountries, fetchedCommodities, fetchedAdaptationCropTabs });
 
                 setCountries(fetchedCountries);
                 setCommodities(fetchedCommodities);
@@ -979,7 +944,6 @@ const DataGlance = () => {
                     const activeCommodities = fetchedCommodities.filter((c) => c.status);
                     if (activeCommodities.length > 0) {
                         commodityId = activeCommodities[1]?.commodity_id;
-                        console.log(`Setting default commodity to ID: ${commodityId}`, { activeCommodities });
                         setSelectedCommodityId(commodityId);
                         await fetchAdaptations(commodityId);
                     } else {
@@ -1001,24 +965,20 @@ const DataGlance = () => {
 
                 if (fetchedScenarios.length > 0 && !selectedScenarioId) {
                     const scenarioId = fetchedScenarios[0]?.scenario_id || "";
-                    console.log(`Setting default scenario to ID: ${scenarioId}`);
                     setSelectedScenarioId(scenarioId);
                 }
 
                 if (fetchedScales.length > 0 && !selectedVisualizationScaleId) {
                     const scaleId = fetchedScales[0]?.scale_id || "";
-                    console.log(`Setting default visualization scale to ID: ${scaleId}`);
                     setSelectedVisualizationScaleId(scaleId);
                 }
 
                 if (fetchedAdaptationCropTabs.length > 0 && !selectedAdaptationCropTabId) {
                     const tabId = fetchedAdaptationCropTabs[0]?.tab_id || "";
-                    console.log(`Setting default adaptation crop tab to ID: ${tabId}`);
                     setSelectedAdaptationCropTabId(tabId);
                 }
 
                 if (!country) {
-                    console.log("Triggering default GeoJSON fetch for South Asia");
                     fetchGeojson("total", null);
                 }
             } catch (err) {
@@ -1038,29 +998,16 @@ const DataGlance = () => {
 
     useEffect(() => {
         if (!hasInitializedRef.current || !selectedCommodityId || !selectedAdaptationCropTabId) {
-            console.log("Not triggering fetchHazardData on filter change:", {
-                hasInitialized: hasInitializedRef.current,
-                selectedCommodityId,
-                selectedAdaptationCropTabId,
-                isFetching: isFetchingRef.current,
-            });
             return;
         }
-        console.log(`Triggering fetchHazardData for commodity ${selectedCommodityId}, adaptation crop tab ${selectedAdaptationCropTabId}`);
         fetchHazardData(selectedCommodityId, selectedAdaptationCropTabId);
     }, [selectedCommodityId, selectedAdaptationCropTabId, fetchHazardData]);
 
     useEffect(() => {
         if (!memoizedHazardData || !memoizedHazardData.raster_grids || !memoizedGeojsonData) {
-            console.log("Skipping fetchTiffs: dependencies not ready", {
-                hasHazardData: !!memoizedHazardData,
-                hasRasterGrids: !!memoizedHazardData?.raster_grids,
-                hasGeojson: !!memoizedGeojsonData,
-            });
             return;
         }
 
-        console.log("Triggering fetchTiffs");
         fetchTiffs(memoizedHazardData, memoizedGeojsonData, selectedCountryId, selectedCommodityId, selectedAdaptationCropTabId, selectRasterFile, fetchGeoTiff);
 
         return () => {
@@ -1080,7 +1027,6 @@ const DataGlance = () => {
             }
 
             const map = mapInstances.current[index];
-            console.log(`Updating GeoTIFF layer for map ${index}, grid_sequence: ${tiff.metadata.grid_sequence}, adaptation_id: ${tiff.metadata.adaptation_id || "none"}, arrayBufferSize: ${tiff.arrayBuffer?.byteLength || 0}, source_file: ${tiff.metadata.source_file}, firstBytes: ${tiff.arrayBuffer ? Array.from(new Uint8Array(tiff.arrayBuffer).slice(0, 8)).map(b => b.toString(16).padStart(2, "0")).join(" ") : "N/A"}`);
 
             // Clear existing layers
             layerRefs.current[index].forEach((layer) => {
@@ -1115,19 +1061,7 @@ const DataGlance = () => {
                         throw new Error(`Invalid arrayBuffer for map ${index}, grid_sequence: ${metadata.grid_sequence}, source_file: ${metadata.source_file}`);
                     }
                     const arrayBufferCopy = arrayBuffer.slice(0);
-                    console.log(`Parsing GeoTIFF for map ${index}, grid_sequence: ${metadata.grid_sequence}, adaptation_id: ${metadata.adaptation_id || "none"}, arrayBufferSize: ${arrayBufferCopy.byteLength}, source_file: ${metadata.source_file}, firstBytes: ${Array.from(new Uint8Array(arrayBufferCopy).slice(0, 8)).map(b => b.toString(16).padStart(2, "0")).join(" ")}`);
                     georaster = await parseGeoraster(arrayBufferCopy, { useWorker: false });
-                    console.log(`Map ${index} - GeoRaster parsed:`, {
-                        grid_sequence: metadata.grid_sequence,
-                        adaptation_id: metadata.adaptation_id || "none",
-                        bands: georaster.bands,
-                        mins: georaster.mins,
-                        maxs: georaster.maxs,
-                        height: georaster.height,
-                        width: georaster.width,
-                        arrayBufferSize: arrayBuffer.byteLength,
-                        source_file: metadata.source_file,
-                    });
                     georasterCache.current.set(cacheKey, georaster);
                 } catch (err) {
                     console.error(`GeoRaster parsing error for map ${index}, grid_sequence: ${metadata.grid_sequence}, source_file: ${metadata.source_file}:`, err);
@@ -1168,7 +1102,6 @@ const DataGlance = () => {
             try {
                 geotiffLayer.addTo(map);
                 layerRefs.current[index].push(geotiffLayer);
-                console.log(`GeoTIFF layer added to map ${index}, grid_sequence: ${metadata.grid_sequence}, adaptation_id: ${metadata.adaptation_id || "none"}`);
 
                 // Add mask polygon if GeoJSON data exists
                 if (memoizedGeojsonData?.geojson) {
@@ -1240,7 +1173,6 @@ const DataGlance = () => {
                     }
                     maskPolygon.addTo(map);
                     layerRefs.current[index].push(maskPolygon);
-                    console.log(`Mask polygon added to map ${index}`);
                 }
 
                 if (memoizedGeojsonData?.geojson) {
@@ -1263,13 +1195,11 @@ const DataGlance = () => {
                     });
                     geojsonLayer.addTo(map);
                     geojsonLayerRefs.current[index] = geojsonLayer;
-                    console.log(`GeoJSON layer added to map ${index}`);
                     if (memoizedGeojsonData.bbox) {
                         map.fitBounds([
                             [memoizedGeojsonData.bbox[1], memoizedGeojsonData.bbox[0]],
                             [memoizedGeojsonData.bbox[3], memoizedGeojsonData.bbox[2]],
                         ]);
-                        console.log(`Map ${index} zoomed to bbox:`, memoizedGeojsonData.bbox);
                     }
                 }
 
@@ -1292,7 +1222,6 @@ const DataGlance = () => {
                 });
 
                 geotiffLayer.on("load", () => {
-                    console.log(`GeoTIFF layer ${index} loaded successfully, adaptation_id: ${metadata.adaptation_id || "none"}`);
                     map.invalidateSize();
                     setRenderedMaps((prev) => {
                         const newRenderedMaps = [...prev];
@@ -1305,6 +1234,20 @@ const DataGlance = () => {
                     const downloadControl = L.control.downloadControl({
                         position: "topleft",
                         onDownload: () => {
+                            if (!allDataReady || !selectedCommodityId || !selectedScenarioId || !selectedVisualizationScaleId) {
+                                console.warn("Download attempted before data is ready", {
+                                    allDataReady,
+                                    selectedCommodityId,
+                                    selectedScenarioId,
+                                    selectedVisualizationScaleId,
+                                });
+                                Swal.fire({
+                                    icon: "warning",
+                                    title: "Data Not Ready",
+                                    text: "Please wait until all data is loaded before downloading.",
+                                });
+                                return;
+                            }
                             const gridSequence = index === 0 ? 0 : index;
                             const tiffForDownload = tiffData.find((t) => t.metadata.grid_sequence === gridSequence);
                             if (!tiffForDownload) {
@@ -1332,8 +1275,7 @@ const DataGlance = () => {
                                 });
                                 return;
                             }
-                            console.log(`Initiating download for map ${index}, grid_sequence: ${tiffForDownload.metadata.grid_sequence}, layer_name: ${tiffForDownload.metadata.layer_name}, adaptation_id: ${tiffForDownload.metadata.adaptation_id || "none"}, size: ${tiffForDownload.arrayBuffer.byteLength} bytes, source_file: ${tiffForDownload.metadata.source_file}, firstBytes: ${Array.from(new Uint8Array(tiffForDownload.arrayBuffer).slice(0, 8)).map(b => b.toString(16).padStart(2, "0")).join(" ")}`);
-                            handleDownloadGeoTIFF(tiffForDownload.arrayBuffer, `${tiffForDownload.metadata.layer_name}.tif`);
+                            handleDownloadGeoTIFF(tiffForDownload.arrayBuffer, gridSequence); // Pass only arrayBuffer and gridSequence
                         },
                     });
                     downloadControl.addTo(map);
@@ -1368,7 +1310,6 @@ const DataGlance = () => {
                                     [memoizedGeojsonData.bbox[1], memoizedGeojsonData.bbox[0]],
                                     [memoizedGeojsonData.bbox[3], memoizedGeojsonData.bbox[2]],
                                 ], { padding: [50, 50] });
-                                console.log(`Map ${index} fit to extent`);
                             }
                         },
                         updateFullscreenButton: (button) => updateFullscreenButton(button, isFullscreen[index]),
@@ -1377,11 +1318,9 @@ const DataGlance = () => {
                     mapControlRefs.current[index] = mapControl;
 
                     controlsInitialized.current[index] = true;
-                    console.log(`Controls initialized for map ${index}`);
                 }
 
                 map.invalidateSize();
-                console.log(`Map ${index} rendering completed, adaptation_id: ${metadata.adaptation_id || "none"}`);
             } catch (err) {
                 console.error(`Failed to add layers to map ${index}:`, err);
                 Swal.fire({
@@ -1396,11 +1335,8 @@ const DataGlance = () => {
 
     const renderMaps = useCallback(() => {
         if (!allDataReady) {
-            console.log("Skipping renderMaps: data not ready", { allDataReady, tiffDataLength: tiffData.length });
             return;
         }
-
-        console.log("Rendering maps with tiffData:", tiffData);
 
         tiffData.forEach((tiff) => {
             const gridSequence = tiff.metadata.grid_sequence;
@@ -1413,7 +1349,6 @@ const DataGlance = () => {
                 return;
             }
 
-            console.log(`Initializing map ${mapIndex} for grid_sequence: ${gridSequence}`);
             const map = L.map(mapRefs.current[mapIndex], {
                 minZoom: 3,
                 maxZoom: 18,
@@ -1442,7 +1377,6 @@ const DataGlance = () => {
             tileLayer.addTo(map);
             tileLayer.on("load", () => {
                 tileLayer.setOpacity(1);
-                console.log(`Tile layer loaded for map ${mapIndex}`);
                 map.invalidateSize();
             });
             mapInstances.current[mapIndex] = map;
@@ -1452,7 +1386,6 @@ const DataGlance = () => {
             setTimeout(() => {
                 if (mapInstances.current[mapIndex]) {
                     mapInstances.current[mapIndex].invalidateSize();
-                    console.log(`Map ${mapIndex} size invalidated`);
                 }
             }, 100);
         });
@@ -1461,7 +1394,6 @@ const DataGlance = () => {
             const gridSequence = tiff.metadata.grid_sequence;
             const mapIndex = gridSequence === 0 ? 0 : gridSequence;
             if (mapRefs.current[mapIndex] && mapInstances.current[mapIndex]) {
-                console.log(`Rendering GeoTIFF for grid_sequence: ${gridSequence} at map index: ${mapIndex}`);
                 updateGeoTiffLayer(tiff, mapIndex);
             } else {
                 console.warn(`Map ref or instance missing for grid_sequence: ${gridSequence}, map index: ${mapIndex}`);
@@ -1471,10 +1403,7 @@ const DataGlance = () => {
 
     useEffect(() => {
         if (allDataReady && tiffData.length > 0) {
-            console.log("Triggering renderMaps with tiffData:", tiffData);
             renderMaps();
-        } else {
-            console.log("Not triggering renderMaps:", { allDataReady, tiffDataLength: tiffData.length });
         }
     }, [allDataReady, tiffData, renderMaps]);
 
@@ -1488,10 +1417,8 @@ const DataGlance = () => {
         (event) => {
             const countryId = event.target.value;
             if (countryId === selectedCountryId) {
-                console.log("Country unchanged, skipping update");
                 return;
             }
-            console.log(`Country changed to ID: ${countryId}`);
             setSelectedCountryId(countryId);
             setShowCountrySelect(true);
             const admin_level = countryId !== 0 ? "country" : "total";
@@ -1506,10 +1433,8 @@ const DataGlance = () => {
         (event) => {
             const commodityId = event.target.value;
             if (commodityId === selectedCommodityId) {
-                console.log("Commodity unchanged, skipping update");
                 return;
             }
-            console.log(`Commodity changed to ID: ${commodityId}`);
             setSelectedCommodityId(commodityId);
             cleanupMaps();
             if (selectedAdaptationCropTabId) {
@@ -1523,16 +1448,12 @@ const DataGlance = () => {
         (event) => {
             const scenarioId = event.target.value;
             if (scenarioId === selectedScenarioId) {
-                console.log("Scenario unchanged, skipping update");
                 return;
             }
-            console.log(`Scenario changed to ID: ${scenarioId}`);
             setSelectedScenarioId(scenarioId);
             if (parseInt(scenarioId) === 1) {
-                console.log("Baseline scenario selected, resetting year to null");
                 setSelectedYear(null);
             } else if (selectedYear === null) {
-                console.log("Non-baseline scenario selected, setting default year to 2050");
                 setSelectedYear(2050);
             }
             cleanupMaps();
@@ -1544,10 +1465,8 @@ const DataGlance = () => {
         (event) => {
             const scaleId = event.target.value;
             if (scaleId === selectedVisualizationScaleId) {
-                console.log("Visualization scale unchanged, skipping update");
                 return;
             }
-            console.log(`Visualization scale changed to ID: ${scaleId}`);
             setSelectedVisualizationScaleId(scaleId);
             cleanupMaps();
         },
@@ -1558,10 +1477,8 @@ const DataGlance = () => {
         (event) => {
             const value = event.target.value;
             if (+value === +selectedIntensityMetricId) {
-                console.log("Intensity metric unchanged, skipping update");
                 return;
             }
-            console.log(`Intensity metric changed to ID: ${value}`);
             setSelectedIntensityMetricId(+value);
             cleanupMaps();
         },
@@ -1572,10 +1489,8 @@ const DataGlance = () => {
         (event) => {
             const value = event.target.value;
             if (+value === +selectedChangeMetricId) {
-                console.log("Change metric unchanged, skipping update");
                 return;
             }
-            console.log(`Change metric changed to ID: ${value}`);
             setSelectedChangeMetricId(+value);
             cleanupMaps();
         },
@@ -1586,10 +1501,8 @@ const DataGlance = () => {
         (event) => {
             const year = event.target.value;
             if (+year === +selectedYear) {
-                console.log("Year unchanged, skipping update");
                 return;
             }
-            console.log(`Year changed to: ${year}`);
             setSelectedYear(+year);
             cleanupMaps();
         },
@@ -1600,10 +1513,8 @@ const DataGlance = () => {
         (event) => {
             const tabId = event.target.value;
             if (tabId === selectedAdaptationCropTabId) {
-                console.log("Adaptation crop tab unchanged, skipping update");
                 return;
             }
-            console.log(`Adaptation crop tab changed to ID: ${tabId}`);
             setSelectedAdaptationCropTabId(tabId);
             cleanupMaps();
             if (selectedCommodityId) {

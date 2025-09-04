@@ -16,6 +16,7 @@ L.Control.DownloadControl = L.Control.extend({
     options: {
         position: "topleft",
         onDownload: () => { },
+        disabled: false,
     },
     onAdd: function (map) {
         const container = L.DomUtil.create(
@@ -36,16 +37,19 @@ L.Control.DownloadControl = L.Control.extend({
         `;
         downloadButton.style.border = "none";
         downloadButton.style.background = "none";
-        downloadButton.style.cursor = "pointer";
+        downloadButton.style.cursor = this.options.disabled ? "not-allowed" : "pointer";
         downloadButton.style.padding = "5px";
         downloadButton.style.display = "flex";
         downloadButton.style.alignItems = "center";
         downloadButton.style.justifyContent = "center";
         downloadButton.style.width = "30px";
         downloadButton.style.height = "30px";
-        downloadButton.style.backgroundColor = "#fff";
+        downloadButton.style.backgroundColor = this.options.disabled ? "#ccc" : "#fff";
         downloadButton.style.borderRadius = "4px";
+        downloadButton.disabled = this.options.disabled;
+
         L.DomEvent.on(downloadButton, "click", (e) => {
+            if (this.options.disabled) return;
             L.DomEvent.stopPropagation(e);
             L.DomEvent.preventDefault(e);
             this.options.onDownload();
@@ -633,6 +637,7 @@ const DataGlance = () => {
     );
 
     const handleDownloadGeoTIFF = useCallback((arrayBuffer, filename) => {
+
         if (!arrayBuffer || arrayBuffer.byteLength === 0) {
             console.error("Cannot download GeoTIFF: arrayBuffer is empty or invalid", { filename, byteLength: arrayBuffer?.byteLength });
             Swal.fire({
@@ -644,6 +649,30 @@ const DataGlance = () => {
         }
 
         try {
+            // Retrieve names from lookup data with fallback checks
+            const countryName = selectedCountryId === 0
+                ? "SouthAsia"
+                : countries.find((c) => +c.country_id === +selectedCountryId)?.country?.replace(/\s+/g, "") || "UnknownCountry";
+            const commodityName = selectedCommodityId && commodities.length
+                ? commodities.find((c) => +c.commodity_id === +selectedCommodityId)?.commodity?.replace(/\s+/g, "") || "UnknownCommodity"
+                : "NoCommoditySelected";
+            const scenario = selectedScenarioId && climateScenarios.length
+                ? climateScenarios.find((s) => +s.scenario_id === parseInt(selectedScenarioId))
+                : null;
+            const scenarioName = scenario
+                ? scenario.scenario?.replace(/\s+/g, "") || "UnknownScenario"
+                : "NoScenarioSelected";
+            const scaleName = selectedVisualizationScaleId && visualizationScales.length
+                ? visualizationScales.find((s) => +s.scale_id === parseInt(selectedVisualizationScaleId))?.scale?.replace(/\s+/g, "") || "UnknownScale"
+                : "NoScaleSelected";
+            const intensityName = +selectedIntensityMetricId === 1 ? "Intensity" : "IntensityFrequency";
+            const changeName = +selectedChangeMetricId === 1 ? "Absolute" : "Delta";
+            const isBaseline = parseInt(selectedScenarioId) === 1;
+            const year = isBaseline ? "" : (selectedYear || "UnknownYear");
+
+            // Construct filename using names, omitting year for baseline scenarios
+            let file_name = `${countryName}_${commodityName}_${intensityName}_${changeName}_${scaleName}_${scenarioName}${year ? `_${year}` : ""}`;
+
             const firstBytes = Array.from(new Uint8Array(arrayBuffer).slice(0, 8))
                 .map((b) => b.toString(16).padStart(2, "0"))
                 .join(" ");
@@ -651,7 +680,7 @@ const DataGlance = () => {
             const url = URL.createObjectURL(blob);
             const a = document.createElement("a");
             a.href = url;
-            a.download = filename || "geotiff.tif";
+            a.download = `${file_name}.tif`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
@@ -664,7 +693,15 @@ const DataGlance = () => {
                 text: "Failed to download GeoTIFF file.",
             });
         }
-    }, []);
+    }, [
+        commodities,
+        climateScenarios,
+        visualizationScales,
+        selectedCommodityId,
+        selectedScenarioId,
+        selectedVisualizationScaleId,
+        selectedYear,
+    ]);
 
     const cleanupMaps = useCallback(() => {
         mapInstances.current.forEach((map, index) => {
@@ -818,11 +855,12 @@ const DataGlance = () => {
                 setClimateScenarios(fetchedScenarios);
                 setVisualizationScales(fetchedScales);
 
+                // Initialize commodity
                 let commodityId = "";
                 if (fetchedCommodities.length > 0) {
                     const activeCommodities = fetchedCommodities.filter((c) => c.status);
                     if (activeCommodities.length > 0) {
-                        commodityId = activeCommodities[1]?.commodity_id;
+                        commodityId = activeCommodities[0]?.commodity_id; // Use the first active commodity
                         setSelectedCommodityId(commodityId);
                     } else {
                         console.error("No active commodities available");
@@ -841,14 +879,35 @@ const DataGlance = () => {
                     });
                 }
 
-                if (fetchedScenarios.length > 0 && !selectedScenarioId) {
+                // Initialize scenario
+                if (fetchedScenarios.length > 0) {
                     const scenarioId = fetchedScenarios[0]?.scenario_id || "";
                     setSelectedScenarioId(scenarioId);
+                } else {
+                    console.error("No climate scenarios fetched");
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: "Failed to load climate scenarios. Please try again later.",
+                    });
                 }
 
-                if (fetchedScales.length > 0 && !selectedVisualizationScaleId) {
+                // Initialize visualization scale
+                if (fetchedScales.length > 0) {
                     const scaleId = fetchedScales[0]?.scale_id || "";
                     setSelectedVisualizationScaleId(scaleId);
+                } else {
+                    console.error("No visualization scales fetched");
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: "Failed to load visualization scales. Please try again later.",
+                    });
+                }
+
+                // Initialize year based on scenario
+                if (fetchedScenarios.length > 0 && fetchedScenarios[0]?.scenario_id !== 1) {
+                    setSelectedYear(2050); // Default to 2050 for non-baseline scenarios
                 }
 
                 if (!country) {
@@ -900,6 +959,7 @@ const DataGlance = () => {
 
             const map = mapInstances.current[index];
 
+            // Clear existing layers
             layerRefs.current[index].forEach((layer) => {
                 if (layer && map.hasLayer(layer)) {
                     map.removeLayer(layer);
@@ -907,11 +967,13 @@ const DataGlance = () => {
             });
             layerRefs.current[index] = [];
 
+            // Remove existing GeoJSON layer
             if (geojsonLayerRefs.current[index] && map.hasLayer(geojsonLayerRefs.current[index])) {
                 map.removeLayer(geojsonLayerRefs.current[index]);
                 geojsonLayerRefs.current[index] = null;
             }
 
+            // Remove existing controls
             if (mapControlRefs.current[index]) {
                 map.removeControl(mapControlRefs.current[index]);
                 mapControlRefs.current[index] = null;
@@ -922,6 +984,10 @@ const DataGlance = () => {
             }
             controlsInitialized.current[index] = false;
 
+            // Check if all required data is available for download
+            const isDownloadDisabled = !commodities.length || !climateScenarios.length || !visualizationScales.length || !selectedCommodityId || !selectedScenarioId || !selectedVisualizationScaleId;
+
+            // Handle case where no valid TIFF data is available
             if (!tiff || !tiff.arrayBuffer || tiff.arrayBuffer.byteLength === 0) {
                 setNoGeoTiffAvailable((prev) => {
                     const newNoGeoTiff = [...prev];
@@ -993,6 +1059,42 @@ const DataGlance = () => {
                     mapControl.addTo(map);
                     mapControlRefs.current[index] = mapControl;
 
+                    const downloadControl = L.control.downloadControl({
+                        position: "topleft",
+                        disabled: isDownloadDisabled || true, // Disable download when no TIFF data
+                        onDownload: () => {
+                            const gridSequence = index === 0 ? 0 : index;
+                            const tiffForDownload = tiffData.find((t) => t.metadata.grid_sequence === gridSequence);
+                            if (!tiffForDownload) {
+                                console.error(`No TIFF data found for map ${index}, grid_sequence: ${gridSequence}`);
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Download Failed",
+                                    text: `No GeoTIFF data available for map ${index}.`,
+                                });
+                                return;
+                            }
+                            if (!tiffForDownload.arrayBuffer || tiffForDownload.arrayBuffer.byteLength === 0) {
+                                console.error(`Invalid arrayBuffer for map ${index}, grid_sequence: ${gridSequence}`, {
+                                    tiffExists: !!tiffForDownload,
+                                    arrayBufferExists: !!tiffForDownload.arrayBuffer,
+                                    byteLength: tiffForDownload.arrayBuffer?.byteLength || 0,
+                                    sourceFile: tiffForDownload.metadata.source_file,
+                                    layerName: tiffForDownload.metadata.layer_name,
+                                });
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Download Failed",
+                                    text: `No valid GeoTIFF data available for ${tiffForDownload.metadata.layer_name || `map ${index}`}.`,
+                                });
+                                return;
+                            }
+                            handleDownloadGeoTIFF(tiffForDownload.arrayBuffer, `${tiffForDownload.metadata.layer_name}.tif`);
+                        },
+                    });
+                    downloadControl.addTo(map);
+                    downloadControlRefs.current[index] = downloadControl;
+
                     controlsInitialized.current[index] = true;
                 }
 
@@ -1005,6 +1107,7 @@ const DataGlance = () => {
                 return;
             }
 
+            // Handle valid TIFF data
             setNoGeoTiffAvailable((prev) => {
                 const newNoGeoTiff = [...prev];
                 newNoGeoTiff[index] = false;
@@ -1207,6 +1310,7 @@ const DataGlance = () => {
                 if (!controlsInitialized.current[index]) {
                     const downloadControl = L.control.downloadControl({
                         position: "topleft",
+                        disabled: isDownloadDisabled || !tiff || !tiff.arrayBuffer || tiff.arrayBuffer.byteLength === 0,
                         onDownload: () => {
                             const gridSequence = index === 0 ? 0 : index;
                             const tiffForDownload = tiffData.find((t) => t.metadata.grid_sequence === gridSequence);
@@ -1234,9 +1338,6 @@ const DataGlance = () => {
                                 });
                                 return;
                             }
-                            const firstBytes = Array.from(new Uint8Array(tiffForDownload.arrayBuffer).slice(0, 8))
-                                .map((b) => b.toString(16).padStart(2, "0"))
-                                .join(" ");
                             handleDownloadGeoTIFF(tiffForDownload.arrayBuffer, `${tiffForDownload.metadata.layer_name}.tif`);
                         },
                     });
@@ -1292,7 +1393,20 @@ const DataGlance = () => {
                 });
             }
         },
-        [memoizedGeojsonData, isFullscreen, updateFullscreenButton, handleDownloadGeoTIFF, theme.palette.mode, tiffData]
+        [
+            memoizedGeojsonData,
+            isFullscreen,
+            updateFullscreenButton,
+            handleDownloadGeoTIFF,
+            theme.palette.mode,
+            tiffData,
+            commodities,
+            climateScenarios,
+            visualizationScales,
+            selectedCommodityId,
+            selectedScenarioId,
+            selectedVisualizationScaleId,
+        ]
     );
 
     const renderMaps = useCallback(() => {

@@ -1171,16 +1171,49 @@ function MapViewer({
     }
   }, [cleanupMaps, initializeMaps]);
 
-  const handleDownloadGeoTIFF = (arrayBuffer, filename) => {
+
+  const handleDownloadGeoTIFF = useCallback((arrayBuffer, layerName) => {
+
+    if (!arrayBuffer || arrayBuffer.byteLength === 0) {
+      console.error("Cannot download GeoTIFF: arrayBuffer is empty or invalid", { layerName, byteLength: arrayBuffer?.byteLength });
+      Swal.fire({
+        icon: "error",
+        title: "Download Failed",
+        text: "No valid GeoTIFF data available to download.",
+      });
+      return;
+    }
+
     try {
-      if (!arrayBuffer || arrayBuffer.byteLength === 0) {
-        throw new Error("Invalid or empty ArrayBuffer for GeoTIFF download");
-      }
+      // Retrieve names with fallback checks
+      const countryName = memoizedFilters.country_id === 0
+        ? "SouthAsia"
+        : memoizedFilters.countries?.find(c => +c.country_id === +memoizedFilters.country_id)?.country?.replace(/\s+/g, "") || "UnknownCountry";
+      const commodityName = memoizedFilters.commodity_id && memoizedFilters.commodities?.length
+        ? memoizedFilters.commodities.find(c => +c.commodity_id === +memoizedFilters.commodity_id)?.commodity?.replace(/\s+/g, "") || "UnknownCommodity"
+        : "NoCommoditySelected";
+      const scenario = selectedScenario && climateScenarios.length
+        ? climateScenarios.find(s => +s.scenario_id === parseInt(selectedScenario))
+        : null;
+      const scenarioName = scenario
+        ? scenario.scenario?.replace(/\s+/g, "") || "UnknownScenario"
+        : "NoScenarioSelected";
+      const intensityName = selectedIntensityMetric.toLowerCase() === "intensity frequency" ? "IntensityFrequency" : "Intensity";
+      const changeName = selectedChangeMetric.toLowerCase() === "absolute" ? "Absolute" : "Delta";
+      const isBaseline = layerName === "Baseline (2000s)";
+      const year = isBaseline ? "" : (layerName === "2050s" ? "2050" : layerName === "2080s" ? "2080" : "UnknownYear");
+
+      // Construct filename
+      const fileName = `${countryName}_${commodityName}_${intensityName}_${changeName}_${scenarioName}${year ? `_${year}` : ""}.tif`;
+
+      const firstBytes = Array.from(new Uint8Array(arrayBuffer).slice(0, 8))
+        .map(b => b.toString(16).padStart(2, "0"))
+        .join(" ");
       const blob = new Blob([arrayBuffer], { type: "image/tiff" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = filename;
+      a.download = fileName;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -1190,13 +1223,46 @@ function MapViewer({
       Swal.fire({
         icon: "error",
         title: "Download Failed",
-        text: "Failed to download GeoTIFF file: " + err.message,
+        text: "Failed to download GeoTIFF file.",
       });
     }
-  };
+  }, [
+    memoizedFilters.country_id,
+    memoizedFilters.countries,
+    memoizedFilters.commodities,
+    memoizedFilters.commodity_id,
+    memoizedFilters.visualization_scale_id,
+    memoizedFilters.visualizationScales,
+    selectedIntensityMetric,
+    selectedChangeMetric,
+    selectedScenario,
+    climateScenarios,
+  ]);
 
-  const handleDownloadTable = async (layerName, tiffMetadata) => {
+  const handleDownloadTable = useCallback(async (layerName, tiffMetadata) => {
+
     try {
+      // Retrieve names with fallback checks
+      const countryName = memoizedFilters.country_id === 0
+        ? "SouthAsia"
+        : memoizedFilters.countries?.find(c => +c.country_id === +memoizedFilters.country_id)?.country?.replace(/\s+/g, "") || "UnknownCountry";
+      const commodityName = memoizedFilters.commodity_id && memoizedFilters.commodities?.length
+        ? memoizedFilters.commodities.find(c => +c.commodity_id === +memoizedFilters.commodity_id)?.commodity?.replace(/\s+/g, "") || "UnknownCommodity"
+        : "NoCommoditySelected";
+      const scenario = selectedScenario && climateScenarios.length
+        ? climateScenarios.find(s => +s.scenario_id === parseInt(selectedScenario))
+        : null;
+      const scenarioName = scenario
+        ? scenario.scenario?.replace(/\s+/g, "") || "UnknownScenario"
+        : "NoScenarioSelected";
+      const intensityName = selectedIntensityMetric.toLowerCase() === "intensity frequency" ? "IntensityFrequency" : "Intensity";
+      const changeName = selectedChangeMetric.toLowerCase() === "absolute" ? "Absolute" : "Delta";
+      const isBaseline = layerName === "Baseline (2000s)";
+      const year = isBaseline ? "" : (layerName === "2050s" ? "2050" : layerName === "2080s" ? "2080" : tiffMetadata.year || "UnknownYear");
+
+      // Construct filename
+      const fileName = `${countryName}_${commodityName}_${intensityName}_${changeName}_${scenarioName}${year ? `_${year}` : ""}.csv`;
+
       const payload = {
         layer_type: tiffMetadata.layer_type,
         country_id: breadcrumbData?.country_id || null,
@@ -1222,7 +1288,7 @@ function MapViewer({
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `${layerName || "Table"}.csv`;
+      a.download = fileName;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -1235,10 +1301,45 @@ function MapViewer({
         text: `Failed to download table for ${layerName}: ${err.message}`,
       });
     }
-  };
+  }, [
+    memoizedFilters.country_id,
+    memoizedFilters.countries,
+    memoizedFilters.commodities,
+    memoizedFilters.commodity_id,
+    memoizedFilters.visualization_scale_id,
+    memoizedFilters.visualizationScales,
+    selectedIntensityMetric,
+    selectedChangeMetric,
+    selectedScenario,
+    climateScenarios,
+    breadcrumbData,
+    apiUrl,
+  ]);
 
-  const handleDownloadImage = async (layerName, mapIndex) => {
+  const handleDownloadImage = useCallback(async (layerName, mapIndex) => {
+
     try {
+      // Retrieve names with fallback checks
+      const countryName = memoizedFilters.country_id === 0
+        ? "SouthAsia"
+        : memoizedFilters.countries?.find(c => +c.country_id === +memoizedFilters.country_id)?.country?.replace(/\s+/g, "") || "UnknownCountry";
+      const commodityName = memoizedFilters.commodity_id && memoizedFilters.commodities?.length
+        ? memoizedFilters.commodities.find(c => +c.commodity_id === +memoizedFilters.commodity_id)?.commodity?.replace(/\s+/g, "") || "UnknownCommodity"
+        : "NoCommoditySelected";
+      const scenario = selectedScenario && climateScenarios.length
+        ? climateScenarios.find(s => +s.scenario_id === parseInt(selectedScenario))
+        : null;
+      const scenarioName = scenario
+        ? scenario.scenario?.replace(/\s+/g, "") || "UnknownScenario"
+        : "NoScenarioSelected";
+      const intensityName = selectedIntensityMetric.toLowerCase() === "intensity frequency" ? "IntensityFrequency" : "Intensity";
+      const changeName = selectedChangeMetric.toLowerCase() === "absolute" ? "Absolute" : "Delta";
+      const isBaseline = layerName === "Baseline (2000s)";
+      const year = isBaseline ? "" : (layerName === "2050s" ? "2050" : layerName === "2080s" ? "2080" : "UnknownYear");
+
+      // Construct filename
+      const fileName = `${countryName}_${commodityName}_${intensityName}_${changeName}_${scenarioName}${year ? `_${year}` : ""}.jpg`;
+
       const mapContainer = mapRefs.current[mapIndex];
       if (!mapContainer) throw new Error("Map container not found");
 
@@ -1271,7 +1372,7 @@ function MapViewer({
 
       const a = document.createElement("a");
       a.href = imgData;
-      a.download = `${layerName || "Map"}.jpg`;
+      a.download = fileName;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -1283,7 +1384,18 @@ function MapViewer({
         text: `Failed to download image for ${layerName}: ${err.message}`,
       });
     }
-  };
+  }, [
+    memoizedFilters.country_id,
+    memoizedFilters.countries,
+    memoizedFilters.commodities,
+    memoizedFilters.commodity_id,
+    memoizedFilters.visualization_scale_id,
+    memoizedFilters.visualizationScales,
+    selectedIntensityMetric,
+    selectedChangeMetric,
+    selectedScenario,
+    climateScenarios,
+  ]);
 
   const handleIntensityMetricChange = value => {
     setSelectedIntensityMetric(value);
@@ -1822,7 +1934,7 @@ function MapViewer({
                   color="text.primary"
                   sx={{ fontSize: "14px !important" }}
                 >
-                  Scenario: {breadcrumbData.scenario}
+                  Scenario: {selectedScenario}
                 </Typography>
               )}
             </Breadcrumbs>
