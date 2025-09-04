@@ -561,42 +561,38 @@ function Test() {
         }, {});
 
     const groupedAdaptations = [];
-    let currentGroup = null;
-    let currentItems = [];
 
-    adaptations.forEach((adaptation, index) => {
-        const isLast = index === adaptations.length - 1;
+    const groupMap = new Map();
+
+    adaptations.forEach((adaptation) => {
         const groupId = adaptation.group_id;
         const groupName = adaptation.group || adaptation.adaptation;
 
         if (groupId === null) {
-            if (currentGroup !== null) {
-                groupedAdaptations.push({ groupId: currentGroup.groupId, name: currentGroup.name, items: currentItems });
-                currentItems = [];
-            }
             groupedAdaptations.push({
                 groupId: adaptation.adaptation_id,
                 name: adaptation.adaptation,
                 items: [adaptation],
             });
-            currentGroup = null;
         } else {
-            if (currentGroup === null || currentGroup.groupId !== groupId) {
-                if (currentGroup !== null) {
-                    groupedAdaptations.push({ groupId: currentGroup.groupId, name: currentGroup.name, items: currentItems });
-                    currentItems = [];
-                }
-                currentGroup = { groupId, name: groupName };
-                currentItems.push(adaptation);
-            } else {
-                currentItems.push(adaptation);
+            if (!groupMap.has(groupId)) {
+                groupMap.set(groupId, {
+                    groupId,
+                    name: groupName,
+                    items: [],
+                });
             }
-        }
-
-        if (isLast && currentGroup !== null) {
-            groupedAdaptations.push({ groupId: currentGroup.groupId, name: currentGroup.name, items: currentItems });
+            groupMap.get(groupId).items.push(adaptation);
         }
     });
+
+    // Convert grouped items from Map to array
+    groupMap.forEach((group) => {
+        groupedAdaptations.push(group);
+    });
+
+    // Optional: Sort by groupId to maintain consistent order
+    groupedAdaptations.sort((a, b) => (a.groupId ?? 0) - (b.groupId ?? 0));
 
     const getListItemStyle = (category) => ({
         backgroundColor:
@@ -796,9 +792,9 @@ function Test() {
                                         <ListItemText
                                             primary={
                                                 <FormLabel style={{ textAlign: "left" }} className="formLabel">
-                                                {selectedCommodityTypeId === 1
-                                                    ? "Switch to Livestock"
-                                                    : "Switch to Crops"}
+                                                    {selectedCommodityTypeId === 1
+                                                        ? "Switch to Livestock"
+                                                        : "Switch to Crops"}
                                                 </FormLabel>
                                             }
                                         />

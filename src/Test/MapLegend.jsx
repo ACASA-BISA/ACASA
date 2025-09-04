@@ -107,81 +107,72 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
   // Fetch or use legend data
   useEffect(() => {
     const fetchLegendData = async () => {
-      // For commodity layer, generate gradient canvas
-      if (layerType?.toLowerCase() === "commodity") {
-        if (tiff?.metadata?.color_ramp) {
-          try {
-            const legendCanvas = await generateLegendCanvas(tiff.metadata.color_ramp);
-            setLocalLegendData({ base64: legendCanvas.canvas.toDataURL() });
-            setError(null);
-          } catch (err) {
-            console.error("Error generating legend canvas:", err);
-            setLocalLegendData(null);
-            setError("Failed to generate legend canvas");
-          }
-        } else {
+      if (layerType?.toLowerCase() === "commodity" && tiff?.metadata?.color_ramp) {
+        try {
+          const legendCanvas = await generateLegendCanvas(tiff.metadata.color_ramp);
+          setLocalLegendData({ base64: legendCanvas.canvas.toDataURL() });
+          setError(null);
+        } catch (err) {
+          console.error("Error generating legend canvas:", err);
           setLocalLegendData(null);
-          setError("No color ramp available for commodity layer");
+          setError("Failed to generate legend canvas");
         }
         return;
       }
 
-      // Use provided legendData or fetch from API
       try {
-        let data;
-        if (legendData?.data) {
-          data = legendData.data; // Use provided legendData
-        } else {
-          if (!tiff?.metadata?.layer_id) {
-            console.warn(`Missing layer_id for layerType: ${layerType}`);
-            setLocalLegendData(null);
-            setError("Missing layer ID");
-            return;
-          }
-
-          const cacheKey = JSON.stringify({
-            layer_type: layerType?.toLowerCase(),
-            layer_id: tiff.metadata.layer_id,
-            climate_scenario_id: tiff.metadata.year ? breadcrumbData?.climate_scenario_id : 1,
-            year: tiff.metadata.year || null,
-          });
-
-          // Check cache first
-          if (legendCache.has(cacheKey)) {
-            data = legendCache.get(cacheKey);
-          } else {
-            const payload = {
-              adaptation_croptab_id: breadcrumbData?.adaptation_croptab_id || null,
-              layer_type: layerType?.toLowerCase(),
-              country_id: breadcrumbData?.country_id || null,
-              state_id: breadcrumbData?.state_id || null,
-              commodity_id: breadcrumbData?.commodity_id || null,
-              climate_scenario_id: (tiff.metadata.year || hazards) ? breadcrumbData?.climate_scenario_id : 1,
-              year: tiff.metadata.year || null,
-              data_source_id: breadcrumbData?.data_source_id || null,
-              visualization_scale_id: breadcrumbData?.visualization_scale_id || null,
-              layer_id: tiff.metadata.layer_id,
-              intensity_metric_id: breadcrumbData?.intensity_metric_id || null,
-              change_metric_id: (tiff.metadata.year || hazards) ? breadcrumbData?.change_metric_id : 1,
-            };
-
-            const response = await fetchWithRetry(`${apiUrl}/layers/legend`, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(payload),
-            });
-
-            const result = await response.json();
-            if (!result.success || !result.data) throw new Error("No valid legend data returned");
-            data = result.data;
-            legendCache.set(cacheKey, data); // Cache the result
-          }
+        if (!tiff?.metadata?.layer_id) {
+          console.warn(`Missing layer_id for layerType: ${layerType}`);
+          setLocalLegendData(null);
+          setError("Missing layer ID");
+          return;
         }
 
-        setLocalLegendData({
-          ...data,
-          legend: data.legend?.filter((item) => item.base_category?.toLowerCase() !== "nil" && item.named_category?.toLowerCase() !== "nil") || [],
+        const cacheKey = JSON.stringify({
+          layer_type: layerType?.toLowerCase(),
+          layer_id: tiff.metadata.layer_id,
+          climate_scenario_id: tiff.metadata.year ? breadcrumbData?.climate_scenario_id : 1,
+          year: tiff.metadata.year || null,
+          change_metric_id: breadcrumbData?.change_metric_id || 1, // Include change_metric_id in cache key
         });
+
+        if (legendCache.has(cacheKey)) {
+          setLocalLegendData(legendCache.get(cacheKey));
+          setError(null);
+          return;
+        }
+
+        const payload = {
+          adaptation_croptab_id: breadcrumbData?.adaptation_croptab_id || null,
+          layer_type: layerType?.toLowerCase(),
+          country_id: breadcrumbData?.country_id || null,
+          state_id: breadcrumbData?.state_id || null,
+          commodity_id: breadcrumbData?.commodity_id || null,
+          climate_scenario_id: (tiff.metadata.year || hazards) ? breadcrumbData?.climate_scenario_id : 1,
+          year: tiff.metadata.year || null,
+          data_source_id: breadcrumbData?.data_source_id || null,
+          visualization_scale_id: breadcrumbData?.visualization_scale_id || null,
+          layer_id: tiff.metadata.layer_id,
+          intensity_metric_id: breadcrumbData?.intensity_metric_id || null,
+          change_metric_id: (tiff.metadata.year || hazards) ? breadcrumbData?.change_metric_id : 1, // Use change_metric_id
+        };
+
+        const response = await fetchWithRetry(`${apiUrl}/layers/legend`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        const result = await response.json();
+        if (!result.success || !result.data) throw new Error("No valid legend data returned");
+        const data = {
+          ...result.data,
+          legend: result.data.legend?.filter(
+            (item) => item.base_category?.toLowerCase() !== "nil" && item.named_category?.toLowerCase() !== "nil"
+          ) || [],
+        };
+        legendCache.set(cacheKey, data);
+        setLocalLegendData(data);
         setError(null);
       } catch (err) {
         console.error("Error fetching legend data:", err);
@@ -191,7 +182,19 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
     };
 
     fetchLegendData();
-  }, [tiff, layerType, apiUrl, breadcrumbData, legendData, legendCache]);
+  }, [
+    tiff?.metadata?.layer_id,
+    tiff?.metadata?.year,
+    layerType,
+    breadcrumbData?.climate_scenario_id,
+    breadcrumbData?.adaptation_croptab_id,
+    breadcrumbData?.data_source_id,
+    breadcrumbData?.visualization_scale_id,
+    breadcrumbData?.intensity_metric_id,
+    breadcrumbData?.change_metric_id, // Added change_metric_id
+    apiUrl,
+    hazards,
+  ]);
 
   // Render categorical legend for risk, impact, adaptation
   const renderRiskLegend = () => {

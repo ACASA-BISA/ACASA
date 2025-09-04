@@ -147,7 +147,7 @@ function MapViewer({
           const { success, data } = await response.json();
           if (!success) throw new Error("Error loading adaptation tabs");
 
-          const activeTabs = data.filter(tab => tab.status);
+          const activeTabs = data.filter(tab => tab.status && [1, 2, 3, 4, 5, 6, 7].includes(tab.tab_id));
           const groupedTabs = [
             ...activeTabs.filter(tab => ![3, 4, 5].includes(tab.tab_id)),
             {
@@ -167,17 +167,16 @@ function MapViewer({
           });
 
           setAdaptationTabs(sortedTabs || []);
-          if (sortedTabs?.length > 0 && !selectedAdaptationTabId) {
-            setSelectedAdaptationTabId(1);
-          }
+          setSelectedAdaptationTabId(sortedTabs.length > 0 ? sortedTabs[0].tab_id : "");
         } catch (err) {
           console.error(err);
+          setAdaptationTabs([]);
+          setSelectedAdaptationTabId("");
           // Swal.fire({
           //   icon: "error",
           //   title: "Error",
           //   text: err.message || "Error loading adaptation tabs",
           // });
-          setAdaptationTabs([]);
         }
       };
       fetchAdaptationTabs();
@@ -322,20 +321,19 @@ function MapViewer({
     });
 
     const { arrayBuffer, metadata } = tiff;
-    let georaster = georasterCache.current.get(cacheKey);
-    if (!georaster) {
-      try {
-        georaster = await parseGeoraster(arrayBuffer);
-        georasterCache.current.set(cacheKey, georaster);
-      } catch (err) {
-        console.error(`GeoRaster parsing error for index ${index}:`, err);
-        setInternalMapLoading(prev => {
-          const newLoading = [...prev];
-          newLoading[index] = false;
-          return newLoading;
-        });
-        throw err;
-      }
+    let georaster;
+    try {
+      georaster = await parseGeoraster(arrayBuffer.slice(0)); // Fresh copy
+      georasterCache.current.set(cacheKey, georaster);
+    } catch (err) {
+      console.error(`GeoRaster parsing error for index ${index}:`, err);
+      georasterCache.current.delete(cacheKey); // Clear cache on error
+      setInternalMapLoading(prev => {
+        const newLoading = [...prev];
+        newLoading[index] = false;
+        return newLoading;
+      });
+      return;
     }
 
     const resolution = currentZoom < 7 ? 128 : 256;
@@ -929,8 +927,8 @@ function MapViewer({
         }
 
         tiffPromises = [0, 1, 2].map(async (_, index) => {
-          const parseArrayBuffer = arrayBuffer.slice(0);
-          const downloadArrayBuffer = arrayBuffer.slice(0);
+          const parseArrayBuffer = arrayBuffer.slice(0); // Fresh copy for parsing
+          const downloadArrayBuffer = arrayBuffer.slice(0); // Fresh copy for downloading
           if (!parseArrayBuffer || parseArrayBuffer.byteLength === 0 || !downloadArrayBuffer || downloadArrayBuffer.byteLength === 0) {
             return { noGeoTiff: true, metadata: { layer_name: ["Baseline (2000s)", "2050s", "2080s"][index] } };
           }
@@ -1044,8 +1042,9 @@ function MapViewer({
             return { noGeoTiff: true, metadata: { layer_name: filter.label } };
           }
 
-          const downloadArrayBuffer = arrayBuffer.slice(0);
-          if (!downloadArrayBuffer || downloadArrayBuffer.byteLength === 0) {
+          const parseArrayBuffer = arrayBuffer.slice(0); // Fresh copy for parsing
+          const downloadArrayBuffer = arrayBuffer.slice(0); // Fresh copy for downloading
+          if (!parseArrayBuffer || parseArrayBuffer.byteLength === 0 || !downloadArrayBuffer || downloadArrayBuffer.byteLength === 0) {
             setInternalMapLoading(prev => {
               const newLoading = [...prev];
               newLoading[index] = false;
@@ -1055,7 +1054,7 @@ function MapViewer({
           }
 
           return {
-            arrayBuffer,
+            arrayBuffer: parseArrayBuffer,
             downloadArrayBuffer,
             metadata: {
               source_file: file.source_file,
@@ -1662,7 +1661,15 @@ function MapViewer({
   const gridLayout = getGridLayout();
 
   const handleAdaptationTabChange = tabId => {
-    setSelectedAdaptationTabId(tabId);
+    const validTabIds = adaptationTabs.flatMap(tab =>
+      tab.tab_id === "gender_group" ? tab.subTabs.map(subTab => subTab.tab_id) : [tab.tab_id]
+    );
+    if (validTabIds.includes(+tabId)) {
+      setSelectedAdaptationTabId(tabId);
+    } else {
+      console.warn(`Invalid tabId: ${tabId}. Available tabIds: ${validTabIds}`);
+      setSelectedAdaptationTabId(validTabIds[0] || "");
+    }
   };
 
   const toggleAnalytics = () => {
