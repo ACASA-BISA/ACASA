@@ -288,8 +288,8 @@ function MapViewer({
 
   const getTileLayerUrl = () => {
     return theme.palette.mode === "dark"
-    ? "http://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}"
-    : "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}";
+      ? "http://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}"
+      : "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}";
   };
 
   const updateGeoTiffLayer = useCallback(async (tiff, index) => {
@@ -1061,7 +1061,8 @@ function MapViewer({
               source_file: file.source_file,
               color_ramp: file.ramp,
               layer_name: filter.label,
-              layer_id: ({ commodity: memoizedFilters.commodity_id, risk: memoizedFilters.risk_id, adaptation: memoizedFilters.adaptation_id, impact: memoizedFilters.impact_id }[payload.layer_type] ?? null),
+              layer_id: file.layer_id,
+              layer_type: file.layer_type,
               year: filter.year,
               intensity_metric: filter.metric,
               climate_scenario_id: file.climate_scenario_id,
@@ -1198,7 +1199,7 @@ function MapViewer({
   const handleDownloadTable = async (layerName, tiffMetadata) => {
     try {
       const payload = {
-        layer_type: memoizedFilters?.layer_type,
+        layer_type: tiffMetadata.layer_type,
         country_id: breadcrumbData?.country_id || null,
         state_id: breadcrumbData?.state_id || null,
         commodity_id: breadcrumbData?.commodity_id || null,
@@ -1206,7 +1207,7 @@ function MapViewer({
         year: tiffMetadata.year || null,
         data_source_id: breadcrumbData?.data_source_id || null,
         visualization_scale_id: breadcrumbData?.visualization_scale_id || null,
-        layer_id: ({ commodity: memoizedFilters.commodity_id, risk: memoizedFilters.risk_id, adaptation: memoizedFilters.adaptation_id, impact: memoizedFilters.impact_id }[memoizedFilters.layer_type] ?? null),
+        layer_id: tiffMetadata.layer_id,
         adaptation_croptab_id: breadcrumbData?.adaptation_croptab_id || null,
         intensity_metric_id: selectedIntensityMetric.toLowerCase() === "intensity frequency" ? 2 : 1,
         change_metric_id: selectedChangeMetric.toLowerCase() === "absolute" ? 1 : 2,
@@ -1588,7 +1589,8 @@ function MapViewer({
           source_file: file.source_file,
           color_ramp: file.ramp,
           layer_name: ["Baseline (2000s)", "2050s", "2080s"][index],
-          layer_id: ({ commodity: memoizedFilters.commodity_id, risk: memoizedFilters.risk_id, adaptation: memoizedFilters.adaptation_id, impact: memoizedFilters.impact_id }[memoizedFilters.layer_type] ?? null),
+          layer_id: file.layer_id,
+          layer_type: file.layer_type,
           year: index === 0 ? null : index === 1 ? 2050 : 2080,
           intensity_metric: metric,
           climate_scenario_id: file.climate_scenario_id,
@@ -1682,6 +1684,7 @@ function MapViewer({
       source_file: null,
       color_ramp: null,
       layer_id: null,
+      layer_type: null,
       year: [null, 2050, 2080][index],
       intensity_metric: null,
       climate_scenario_id: null,
