@@ -147,7 +147,7 @@ function MapViewer({
           const { success, data } = await response.json();
           if (!success) throw new Error("Error loading adaptation tabs");
 
-          const activeTabs = data.filter(tab => tab.status && [1, 2, 3, 4, 5, 6, 7].includes(tab.tab_id));
+          const activeTabs = data.filter(tab => tab.status);
           const groupedTabs = [
             ...activeTabs.filter(tab => ![3, 4, 5].includes(tab.tab_id)),
             {
