@@ -1047,9 +1047,9 @@ function TestHome(props) {
                     <Container maxWidth="lg">
                         <img
                             className="w-100"
-                            src="ACASA_Approach Diagram-curved-cropped.svg"
+                            src="ACASA_approach-new-cropped.svg"
                             style={{
-                                filter: theme.palette.mode === "dark" ? "invert(93%) sepia(5%) saturate(166%) hue-rotate(202deg) brightness(100%) contrast(85%)" : "none",
+                                filter: theme.palette.mode === "dark" ? "invert(93%) sepia(5%) saturate(166%) hue-rotate(180deg) brightness(100%) contrast(85%)" : "none",
                             }}
                             alt="approach"
                             loading="lazy"
