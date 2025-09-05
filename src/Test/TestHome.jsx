@@ -747,33 +747,33 @@ function TestHome(props) {
                                 Explore
                             </Button>
                         </Box>
- {/* Overlay Right Cards */}
-                <Box
-                    sx={{
-                        position: "absolute",
-                        top: "350px",
-                        right: 20,
-                        transform: "translateY(-50%)",
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: 2,
-                        zIndex: 3,
-                        width: { xs: "80%", sm: "300px" },
-                    }}
-                >
-                    {rightCards.map((card, idx) => (
-                        <Card key={idx} className="cardImg" sx={{ backgroundColor: "rgba(255, 255, 255, 0.10)", borderRadius: "20px", backdropFilter: "blur(25px)" }}>
-                            {card.image && (
-                                <CardMedia component="img" height="50px" width="50px" image={card.image} alt={card.title} />
-                            )}
-                            <CardContent>
-                                <Typography variant="body2" color="text.secondary">
-                                    {card.description}
-                                </Typography>
-                            </CardContent>
-                        </Card>
-                    ))}
-                </Box>
+                        {/* Overlay Right Cards */}
+                        <Box
+                            sx={{
+                                position: "absolute",
+                                top: "350px",
+                                right: 20,
+                                transform: "translateY(-50%)",
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: 2,
+                                zIndex: 3,
+                                width: { xs: "80%", sm: "300px" },
+                            }}
+                        >
+                            {rightCards.map((card, idx) => (
+                                <Card key={idx} className="cardImg" sx={{ backgroundColor: "rgba(255, 255, 255, 0.10)", borderRadius: "20px", backdropFilter: "blur(25px)" }}>
+                                    {card.image && (
+                                        <CardMedia component="img" height="50px" width="50px" image={card.image} alt={card.title} />
+                                    )}
+                                    <CardContent>
+                                        <Typography variant="body2" color="text.secondary">
+                                            {card.description}
+                                        </Typography>
+                                    </CardContent>
+                                </Card>
+                            ))}
+                        </Box>
                         {/* <PopperMessage /> */}
                     </Paper>
 
@@ -916,7 +916,7 @@ function TestHome(props) {
                         </Box>
                     </Box> */}
                 </Box>
-                
+
 
                 <Box
                     sx={{
@@ -940,6 +940,73 @@ function TestHome(props) {
                     </Typography>
                 </Box>
             </div>
+
+
+            <Container maxWidth="xl">
+                <Box
+                    className="AboutSection"
+                    sx={{
+                        p: 2,
+                        bgcolor: theme.palette.mode === "dark" ? "#2c2f34" : "#f5f5f5",
+                        borderRadius: "12px",
+                        // boxShadow:
+                        //     theme.palette.mode === "dark"
+                        //         ? "0px 4px 10px rgba(0,0,0,0.4)"
+                        //         : "0px 4px 10px rgba(0,0,0,0.1)",
+                    }}
+                >
+                    <Typography
+                        variant="h1"
+                        sx={{
+                            color: theme.palette.mode === "dark" ? "#f5f5f5" : "#000",
+                            fontFamily: 'Poppins',
+                            fontWeight: "500",
+                            fontSize: '60px',
+                            textAlign: 'center',
+                            lineHeight: '70'
+
+                        }}
+                    >
+                        <span sx={{ color: theme.palette.mode === "dark" ? "#fff" : "#c4ecc2" }}>Tour</span> the <span sx={{ color: theme.palette.mode === "dark" ? "#fff" : "#c4ecc2" }}>Atlas</span>
+                    </Typography>
+                    <Typography
+                        variant="h4"
+                        sx={{
+                            color: theme.palette.text.primary,
+                            fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+                            mt: 2,
+                        }}
+                    >
+                        Aesthetics to be harmonised with Explore climate risks like never
+                    </Typography>
+
+                </Box>
+
+                <Box
+                    sx={{
+                        position: "relative",
+                        paddingTop: "1.25%", // not needed if you use fixed height
+                    }}
+                >
+                    <Box
+                        component="video"
+                        src="/images/ACASA Website - Take a Tour of the Platform.mp4"
+                        poster="/images/video-thumbnail.jpg" // ✅ thumbnail image before play
+                        controls
+                        autoPlay={false}
+                        muted
+                        loop
+                        sx={{
+                            width: "100%",      // full container width
+                            height: 500,        // custom height
+                            objectFit: "contain", // keep aspect ratio, crop if needed
+                            borderRadius: 2,    // optional rounded corners
+                            backgroundColor: "black", // shows black if video not loaded
+                        }}
+                    />
+                </Box>
+
+            </Container>
 
             <Container maxWidth="sm">
                 <Box
@@ -987,7 +1054,7 @@ function TestHome(props) {
                             lineHeight: 1.6,
                         }}
                     >
-                       Our interactive maps are designed to support government agencies, insurance providers, researchers, and service providers in aligned disciplines, agri-food industries, international and national donors, and organizations focused on climate adaptation. They can visualize climate-related risks and adaptation options at a high resolution, down to the sub-district level. Built on climate, crop, livestock, socioeconomic data, and adaptation options, our maps enable users to plan effectively and adapt quickly. 
+                        Our interactive maps are designed to support government agencies, insurance providers, researchers, and service providers in aligned disciplines, agri-food industries, international and national donors, and organizations focused on climate adaptation. They can visualize climate-related risks and adaptation options at a high resolution, down to the sub-district level. Built on climate, crop, livestock, socioeconomic data, and adaptation options, our maps enable users to plan effectively and adapt quickly.
                     </Typography>
                 </Box>
             </Container>
@@ -1005,9 +1072,11 @@ function TestHome(props) {
                         ].map((item, idx) => (
                             <Grid item xs={12} sm={6} md={4} key={idx}>
                                 <Card className="card1"
-                                    sx={{ bgcolor: theme.palette.mode === "dark" ? "#2c2f34" : "#ffffff",
-                                     borderRadius: "12px", 
-                                     boxShadow: theme.palette.mode === "dark" ? "0px 4px 10px rgba(0,0,0,0.4)" : "0px 4px 10px rgba(0,0,0,0.1)", }} >
+                                    sx={{
+                                        bgcolor: theme.palette.mode === "dark" ? "#2c2f34" : "#ffffff",
+                                        borderRadius: "12px",
+                                        boxShadow: theme.palette.mode === "dark" ? "0px 4px 10px rgba(0,0,0,0.4)" : "0px 4px 10px rgba(0,0,0,0.1)",
+                                    }} >
                                     <CardContent className="cardBody"
                                         sx={{
                                             color: theme.palette.text.primary,
@@ -1496,19 +1565,19 @@ function TestHome(props) {
                                         className="resourceCardPartner"
                                         sx={{
                                             bgcolor:
-                                                theme.palette.mode === "dark" ? "#fff" : "#FAFAFA",
+                                                theme.palette.mode === "dark" ? "transparent" : "#FAFAFA",
                                             borderRadius: "12px",
                                             boxShadow:
                                                 theme.palette.mode === "dark"
                                                     ? "0px 4px 10px rgba(0,0,0,0.4)"
                                                     : "0px 4px 10px rgba(0,0,0,0.1)",
-                                                    transition: "transform 0.2s ease, box-shadow 0.2s ease",
+                                            transition: "transform 0.2s ease, box-shadow 0.2s ease",
                                             "&:hover": {
-                                            boxShadow:
-                                                theme.palette.mode === "dark"
-                                                ? "0px 6px 16px rgba(0,0,0,0.6)"
-                                                : "0px 6px 16px rgba(0,0,0,0.2)",
-                                            bgcolor: theme.palette.mode === "dark" ? "#fff" : "#fff",
+                                                boxShadow:
+                                                    theme.palette.mode === "dark"
+                                                        ? "0px 6px 16px rgba(0,0,0,0.6)"
+                                                        : "0px 6px 16px rgba(0,0,0,0.2)",
+                                                bgcolor: theme.palette.mode === "dark" ? "transparent" : "#fff",
                                             },
                                         }}
                                     >
@@ -1522,19 +1591,19 @@ function TestHome(props) {
                                             }}
                                         >
                                             <SleekTooltip title={partnertooltip[num] || `Partner ${num}`} arrow>
-                                            <img
-                                            src={
-                                                theme.palette.mode === "dark" && num === 5
-                                                ? `/images/partner-${num}-dark.png`
-                                                : `/images/partner-${num}.png`
-                                            }
-                                            alt={`partner-${num}`}
-                                            className="partner-img"
-                                            />
+                                                <img
+                                                    src={
+                                                        theme.palette.mode === "dark" && num === 5
+                                                            ? `/images/partner-${num}-dark.png`
+                                                            : `/images/partner-${num}.png`
+                                                    }
+                                                    alt={`partner-${num}`}
+                                                    className="partner-img"
+                                                />
                                             </SleekTooltip>
 
                                             {/* Gate Foundation */}
-                                             {/* <img
+                                            {/* <img
                                                 src="/images/gateFoundation.png"
                                                 alt=""
                                                 className="partner-img"
