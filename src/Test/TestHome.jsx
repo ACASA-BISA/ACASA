@@ -969,7 +969,7 @@ function TestHome(props) {
                     >
                         <span sx={{ color: theme.palette.mode === "dark" ? "#fff" : "#c4ecc2" }}>Tour</span> the <span sx={{ color: theme.palette.mode === "dark" ? "#fff" : "#c4ecc2" }}>Atlas</span>
                     </Typography>
-                    <Typography
+                    {/* <Typography
                         variant="h4"
                         sx={{
                             color: theme.palette.text.primary,
@@ -978,7 +978,7 @@ function TestHome(props) {
                         }}
                     >
                         Aesthetics to be harmonised with Explore climate risks like never
-                    </Typography>
+                    </Typography> */}
 
                 </Box>
 
