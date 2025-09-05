@@ -985,23 +985,22 @@ function TestHome(props) {
                 <Box
                     sx={{
                         position: "relative",
-                        paddingTop: "1.25%", // not needed if you use fixed height
+                        width: "100%",
+                        height: 500, // 👈 custom height (px, vh, rem — up to you)
+                        borderRadius: 2,
+                        overflow: "hidden",
                     }}
                 >
                     <Box
-                        component="video"
-                        src="/images/ACASA Website - Take a Tour of the Platform.mp4"
-                        poster="/images/video-thumbnail.jpg" // ✅ thumbnail image before play
-                        controls
-                        autoPlay={false}
-                        muted
-                        loop
+                        component="iframe"
+                        src="https://www.youtube.com/embed/XLBjGhy_TZ0?si=9-mZbkcPUTMCsEs6" // replace with your YouTube video link
+                        title="YouTube video"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
                         sx={{
-                            width: "100%",      // full container width
-                            height: 500,        // custom height
-                            objectFit: "contain", // keep aspect ratio, crop if needed
-                            borderRadius: 2,    // optional rounded corners
-                            backgroundColor: "black", // shows black if video not loaded
+                            width: "100%",
+                            height: "100%", // 👈 fills the custom height
+                            border: 0,
                         }}
                     />
                 </Box>
