@@ -200,8 +200,14 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
   const renderRiskLegend = () => {
     if (!localLegendData || !localLegendData.legend) return null;
 
+    const sortedLegend = [...localLegendData.legend].sort((a, b) => {
+      if (a.base_category?.toLowerCase() === 'na') return -1; // Place 'NA' first
+      if (b.base_category?.toLowerCase() === 'na') return 1;
+      return 0; // Preserve original order for others
+    });
+
     // Check if any legend item has secondaryText (contains \n)
-    const hasSecondaryText = localLegendData.legend.some(
+    const hasSecondaryText = sortedLegend.some(
       (item) => item.named_category && item.named_category.includes("\n")
     );
 
@@ -259,8 +265,9 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
         <Typography variant="body1">
           <Box sx={{ display: "flex", flexDirection: "row", gap: "4px", flexWrap: "wrap", justifyContent: "center", marginTop: "-5px" }}>
             <Box sx={{ display: "flex", flexDirection: "row", width: "100%", gap: "2px" }}>
-              {localLegendData.legend.map((item, index) => {
+              {sortedLegend.map((item, index) => {
                 const isRainfall = RiskName === "Seasonal Rainfall";
+                const isNA = item.base_category?.toLowerCase() === "na";
                 const textColor = isRainfall
                   ? ["<25 mm", "25-50 mm"].map((c) => c.toLowerCase()).includes(item.named_category?.toLowerCase())
                     ? "#111"
@@ -287,7 +294,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
                           color: theme.palette.mode === "dark" ? theme.palette.text.secondary : "#111",
                         }}
                       >
-                        {calcpop(item.population_value)}
+                        {!isNA ? calcpop(item.population_value) : ""}
                       </Typography>
                     </Box>
                     <Box
@@ -377,7 +384,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
                           color: theme.palette.mode === "dark" ? theme.palette.text.secondary : "#111",
                         }}
                       >
-                        {calcarea(item.commodity_value)}
+                        {!isNA ? calcarea(item.commodity_value) : ""}
                       </Typography>
                     </Box>
                   </Box>
