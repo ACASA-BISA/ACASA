@@ -20,13 +20,21 @@ const glossaryData = {
       definition: "Yield benefits because of the adoption of technology options over conventional/farmers' practice.",
     },
     {
-      term: "Ad lib water",
-      definition: "Provision of water to cattle without restriction",
+      term: "Additional energy supplementation",
+      definition: "Additional energy supplementation during climatic stress period"
+    },
+    {
+      term: "Ad lib cool drinking water",
+      definition: "Provision of cold drinking water without restriction"
     },
     {
       term: "Adoption of climate resilient breeds",
-      definition: "Selective breeding and upgrading to climate-resilient breeds",
+      definition: "Selective breeding and upgrading to climate-resilient breeds"
     },
+    {
+      term: "ART Tools",
+      definition: "Use of assisted reproductive technologies for improved fertility, genetics, labour, and herd health of pigs measure"
+    }
   ],
   B: [
     {
@@ -44,36 +52,11 @@ const glossaryData = {
         "Broadbed and furrow (BBF), a water-saving and soil conservation technique used in field crop cultivation. It involves creating broad raised beds separated by furrows, allowing for better water infiltration, reduced waterlogging, and improved root aeration",
     },
     /*{
-      term: "Bathing",
-      definition: "",
-    },*/
-    {
-      term: "Balanced concentrate with buffer",
-      definition: "Combining concentrate feed and a buffering agent that helps maintain the pH balance in the cow’s rumen",
-    },
-    /*{
-      term: "Biotic",
-      definition: "",
-    },
-    {
-      term: "Biotic stress",
-      definition: "",
-    },*/
-    {
-      term: "Bypass protein and fats",
-      definition: "Blend of essential minerals to correct mineral deficiencies and improve productivity",
-    },
-    /*{
       term: "Buffalo",
       definition: "The analysis is done for milk production"
     }*/
   ],
   C: [
-    {
-      term: "CHC",
-      definition:
-        "A suite of climate data products hosted by the Climate Hazards Center, including CHIRPS (precipitation), CHIRTS (temperature), and CHC CMIP6 bias-corrected climate projections. These datasets support climate monitoring and impact assessment, especially in data-scarce regions.",
-    },
     {
       term: "Crop insurance",
       definition:
@@ -82,7 +65,7 @@ const glossaryData = {
     {
       term: "Crop water deficit index",
       definition:
-        "It is an agricultural drought indicator that quantifies the water deficit experienced by crops by integrating the balance between crop water supply and demand rather than relying solely on precipitation data.",
+        "It is an agricultural drought indicator that quantifies the water deficit experienced by crops by integrating the balance between crop water supply and demand.",
     },
     {
       term: "Commodity specific analysis",
@@ -91,15 +74,11 @@ const glossaryData = {
     {
       term: "Cold stress",
       definition:
-        "Cold stress is defined using both the intensity and frequency of extreme cold during the entire crop duration. Intensity refers to the number of days falling below a threshold of minimum temperature (Tmin), while frequency is the number of years (out of 30) in which such cold events occurred at a given location.",
+        "Cold stress refers to the negative impact of low temperatures on plant growth and development. It is defined using both the intensity and frequency of extreme cold during the entire crop duration. Intensity refers to the number of days falling below a threshold of minimum temperature (Tmin), while frequency is the number of years (out of 30) in which such cold events occur.",
     },
     {
       term: "Cyclone",
       definition: "Cyclone hazard in terms of classes, which were developed using the cyclone-prone district information for India sourced from the NDMA report, and Abdul Awal 2015 for Bangladesh.",
-    },
-    {
-      term: "Control of ectoparasites and other vectors",
-      definition: "Physical and chemical controls of ectoparasites and other vectors",
     },
     {
       term: "Chickpea",
@@ -117,6 +96,18 @@ const glossaryData = {
       term: "Chicken",
       definition: "Chicken refers to chicken and analysis is done for meat production",
     },
+    {
+      term: "Control of ectoparasites and other vectors",
+      definition: "Physical and chemical controls of ectoparasites and other vectors"
+    },
+    {
+      term: "Climate information services (including insurance)",
+      definition: "Protects against financial loss from climate impacts"
+    },
+    {
+      term: "Climatology",
+      definition: "The long-term average of temperature and precipitation patterns, used to characterize current and project future climate conditions under climate change scenarios."
+    }
   ],
   D: [
     {
@@ -131,7 +122,7 @@ const glossaryData = {
     {
       term: "Days of frost",
       definition:
-        "Frost is defined using intensity and frequency. Intensity refers to the number of days with temperatures below the frost threshold, during entire crop duration. Frequency is the number of years (out of 30) in which such frost events occurred at a given location.",
+        "Frost is defined using intensity and frequency. Intensity refers to the number of days with temperatures below the frost threshold, during entire crop duration. Frequency is the number of years (out of 30) in which such frost events occur at a given location.",
     },
     {
       term: "Delayed monsoon",
@@ -145,15 +136,10 @@ const glossaryData = {
     },
     {
       term: "Deworming",
-      definition: "Control of endoparasites",
-    },
+      definition: "Control of endoparasites"
+    }
   ],
   E: [
-    {
-      term: "Ensemble",
-      definition:
-        "An ensemble of the five models refers to combining the results of GFDL-ESM4, IPSL-CM6A-LR, MPI-ESM1-2-HR, UKESM1-0-LL, and MRI-ESM2-0 to capture a range of possible climate outcomes. This approach accounts for model uncertainty, providing more robust projections by comparing results across different models with varying assumptions and components.",
-    },
     {
       term: "Early sowing/changing planting dates",
       definition: "A tactical farming practice to synchronize crop planting with the optimal climatic conditions essential for key growth stages of crop",
@@ -165,12 +151,12 @@ const glossaryData = {
     {
       term: "Excess rainfall",
       definition:
-        "Excess rainfall for livestock is defined using intensity and frequency. Intensity refers to events with more than 100 mm of rainfall in a particular day, while frequency is the number of years (out of 34) in which such events occurred.",
+        "Excess rainfall for livestock is defined using intensity and frequency. Intensity refers to events with more than 100 mm of rainfall in a particular day, while frequency is the number of years (out of 30) in which such events occurred.",
     },
     {
       term: "Excess rainfall and waterlogging",
       definition:
-        "Excess rainfall is defined using intensity and frequency. Intensity refers to rainfall events of 100 mm or more over two consecutive days, while frequency is the number of years (out of 34) in which such events occurred during the crop season.",
+        "Excess rainfall accounts the amount of rain that exceeds the optimal levels needed for healthy crop growth. This can lead to waterlogging, nutrient leaching, increased pest and diseases, and physical damage to crops. It is defined using intensity and frequency. Intensity refers to rainfall events of 100 mm or more over two consecutive days, while frequency is the number of years (out of 30) in which such events occurred during the crop season.",
     },
     {
       term: "Exposure index",
@@ -178,34 +164,29 @@ const glossaryData = {
     },
     {
       term: "Estrous confirmation and synchronisation",
-      definition: "A process that uses hormones to bring female mammals into heat at a predetermined time",
-    },
+      definition: "A process that uses hormones to bring female mammals into heat at a predetermined time"
+    }
   ],
   F: [
     {
       term: "Flood",
       definition:
-        "Flood refers to the  excessive overflow and/or stagnation of water onto the crop field normally under dry condittion, causing waterlogging over an extended period which can significantly impact crop growth and yield.",
-    },
-    {
-      term: "Feed/fodder",
-      definition: "Crop residue for animal usage in tons per grid. We used Global Dataset (for the year 2021) for the Production and Usage of cereal residues derived from  Smerald et al., 2023.",
-    },
-    {
-      term: "Feed additive, antioxidants, vitamins and probiotics",
-      definition: "For cattle’s health and nutritional needs during climatic stress period",
+        "Flood refers to the  excessive overflow and/or stagnation of water onto the crop field, causing waterlogging over an extended period which can significantly impact crop growth and yield.",
     },
     {
       term: "Fodder conservation",
-      definition: "Preserving fodder to meet the demand during climatic stress period",
+      definition: "Preserving fodder to meet the demand during climatic stress period"
     },
+    {
+      term: "Fat supplementation",
+      definition: "To increase the overall energy density of the feed, improve nutrient absorption, enhance palatability, and sometimes to help manage heat stress, all while providing essential fatty acids necessary for the bird's health"
+    },
+    {
+      term: "Feed/fodder",
+      definition: "Crop residue for animal usage in tons per grid. We used Global Dataset (for the year 2021) for the Production and Usage of cereal residues derived from Smerald et al., 2023."
+    }
   ],
   G: [
-    {
-      term: "GFDL-ESM4",
-      definition:
-        "An Earth System Model developed by the Geophysical Fluid Dynamics Laboratory (GFDL), USA. It includes the AM4.0 atmospheric model, MOM6 ocean model, SIS2 sea-ice model, and LM4.1 land surface model. The model features dynamic vegetation, fully coupled terrestrial and oceanic carbon-nitrogen cycles, and advanced land–atmosphere feedbacks.",
-    },
     {
       term: "Gender suitability",
       definition: "It refers to the degree of suitability of each adaptation option to women farmers",
@@ -218,6 +199,10 @@ const glossaryData = {
       term: "Goat",
       definition: "The analysis is done for meat production",
     },
+    {
+      term: "Grassland and Silvi-pasture management",
+      definition: "Maintain and optimize the productivity of grasslands, often by integrating trees or shrubs (silvipasture) into the grazing area, aiming to improve forage production, soil health, and biodiversity while supporting livestock grazing simultaneously"
+    }
   ],
   H: [
     {
@@ -225,10 +210,14 @@ const glossaryData = {
       definition:
         "The index was built by enlisting hazards through literature review and stakeholder validation. This composite index was formulated through Z-score normalization, principal component analysis, and stakeholders' inputs.",
     },
-    /*{
+    {
+      term: "Hazard",
+      definition: "Hazard is an event or circumstance that can harm the commodity. In this Atlas we are considering climate induced hazards."
+    },
+    {
       term: "Heating management",
-      definition: "",
-    },*/
+      definition: "Preferably mechanical heating",
+    },
     {
       term: "Heat stress",
       definition:
@@ -237,20 +226,14 @@ const glossaryData = {
     {
       term: "High temperature induced pollen sterility",
       definition:
-        "High temperature induced pollen sterility is defined using both the intensity and frequency of extreme heat during the pollination period. Intensity refers to the number of days exceeding a threshold of maximum temperature (Tmax), while frequency is the number of years (out of 30) in which such extreme heat occurred at a given location. Severity is about how harsh the consequences of high temperature on pollen germination or pollen tube elongation or pistil.",
+        "High temperature induced pollen sterility is defined using both the intensity and frequency of extreme heat during the pollination period. Intensity refers to the number of days exceeding a threshold of maximum temperature (Tmax), while frequency is the number of years (out of 30) in which such extreme heat occurred at a given location.",
     },
+    {
+      term: "Hazard proof shelters",
+      definition: "Appropriate shelter to protect animals from natural hazards"
+    }
   ],
   I: [
-    {
-      term: "ISIMIP",
-      definition:
-        "Inter-Sectoral Impact Modal Intercomparison Project (ISIMIP) offers a framework for consistently projecting the impacts of climate change across affected sectors and spatial scales. An international network of climate-impact modellers contribute to a comprehensive and consistent picture of the world under different climate-change scenarios",
-    },
-    {
-      term: "IPSL-CM6A-LR",
-      definition:
-        "An Earth System Model developed by the Institut Pierre-Simon Laplace (IPSL), France. It couples the LMDZ atmospheric model, NEMO ocean model, LIM3 sea-ice model, and ORCHIDEE land surface model. The model includes interactive carbon cycles and simulates key processes in land-atmosphere and ocean biogeochemical dynamics.",
-    },
     {
       term: "ICT linked input management",
       definition:
@@ -265,9 +248,9 @@ const glossaryData = {
       definition: "Crop area under irrigation in percentage derived from FAO’s Global Map of Irrigation Areas (GMIA), version 5.",
     },
     {
-      term: "Inclusion of ad libitum green fodder",
-      definition: "Perennial grass, pasture legume, fodder trees, cultivated grasses",
-    },
+      term: "Increased proportion of green fodder",
+      definition: "Provision for perennial grass, pasture legume, fodder trees, cultivated grasses"
+    }
   ],
   J: [
     {
@@ -284,7 +267,7 @@ const glossaryData = {
     {
       term: "Low temperature induced pollen sterility",
       definition:
-        "Low temperature induced pollen sterility is defined using both the intensity and frequency of extreme cold during the pollination period. Intensity refers to the number of days falling below a threshold of minimum temperature (Tmin), while frequency is the number of years (out of 30) in which such cold events occurred at a given location.Severity is about how harsh the consequences of low temperature on pollen germination or pollen tube elongation or pistil.",
+        "Low temperature induced pollen sterility is defined using both the intensity and frequency of extreme cold during the pollination period. Intensity refers to the number of days falling below a threshold of minimum temperature (Tmin), while frequency is the number of years (out of 30) in which such cold events occurred at a given location.",
     },
   ],
   M: [
@@ -302,25 +285,45 @@ const glossaryData = {
         "A low-pressure, low-flow-rate type of irrigation that can reduce the likelihood of overwatering a landscape. Drip irrigation or trickle irrigation is an irrigation method that allows water to drip slowly to the roots of plants, either onto the soil surface or directly onto the root zone, through a network of valves, pipes, tubing, and emitters",
     },
     {
-      term: "Microclimate modification shelter",
-      definition: "Modify shelter, ventilation, adjusting roof heights",
+      term: "Modification of shed, ventilation and cooling",
+      definition: "Microclimate modification by modifying shelter, improved ventilation and by adjusting roof heights"
     },
     {
-      term: "Modification of shelter",
-      definition: "Appropriate shelter to protect animals from natural hazards",
+      term: "Modify shelters for cold stress",
+      definition: "Microclimate modification by modifying shelters for protection against cold stress"
+    },
+    {
+      term: "Micro-climate modification",
+      definition: "Microclimate modification by modifying shelter, improved ventilation and by adjusting roof heights"
     },
     {
       term: "Mechanical cooling",
-      definition: "Cooling using misting, fogging, sprinklers, fans, exhaust",
+      definition: "Cooling using misting, fogging, sprinklers, fans, exhaust"
+    },
+    {
+      term: "Micronutrient and probiotics",
+      definition: "Micronutrient and probiotics for health and nutritional needs during climatic stress period"
+    },
+    {
+      term: "Modification in feeding practices",
+      definition: "Adjust feeding times and grazing patterns to minimize climate stress"
     },
     {
       term: "Mineral mixture supplementation",
-      definition: "Blend of essential minerals to correct mineral deficiencies and improve productivity",
+      definition: "Blend of essential minerals to correct mineral deficiencies during climatic stress period and also  to improve productivity"
     },
     {
-      term: "Modification in feeding pattern, schedule, grazing",
-      definition: "Adjust feeding times and grazing patterns to minimize heat stress",
+      term: "Micro-nutrient and amino acid supplementation",
+      definition: "Micro-nutrient and amino acid supplementation to optimize growth, egg production, and overall health during climatic stress period"
     },
+    {
+      term: "Maximum temperature",
+      definition: "Maximum temperature observed during a specific period, averaged over the crop duration for crops and over the entire year for livestock. For both, this value is calculated for a 30-year baseline period and projected for future climate scenarios."
+    },
+    {
+      term: "Minimum temperature",
+      definition: "Minimum temperature observed during a specific period, averaged over the crop duration for crops and over the entire year for livestock. For both, this value is calculated for a 30-year baseline period and projected for future climate scenarios."
+    }
   ],
   N: [
     {
@@ -380,6 +383,14 @@ const glossaryData = {
       term: "Pig",
       definition: "The analysis is done for meat production",
     },
+    {
+      term: "Planting trees",
+      definition: "Provide a way for shade, food, and a way to increase the production"
+    },
+    {
+      term: "Parasite control",
+      definition: "Preventing and treating parasites that affect chickens and other birds"
+    }
   ],
   Q: [],
   R: [
@@ -389,7 +400,7 @@ const glossaryData = {
     },
     {
       term: "Rural infrastructure",
-      definition: "Rural infrastucture is proxied by nighlight luminosity data from https://www.mdpi.com/2072-4292/13/5/922",
+      definition: "Rural infrastucture is proxied by nightlight luminosity data from https://www.mdpi.com/2072-4292/13/5/922",
     },
     {
       term: "Rainfall deficit",
@@ -464,6 +475,10 @@ const glossaryData = {
       term: "Sheep",
       definition: "The analysis is done for meat production",
     },
+    {
+      term: "Seasonal rainfall",
+      definition: "For crops, seasonal rainfall refers to the total precipitation occurring during the specific crop duration, which varies by commodity depending on their growing season. For livestock, seasonal rainfall is defined as the total annual sum of precipitation."
+    }
   ],
   T: [
     {
@@ -476,33 +491,36 @@ const glossaryData = {
       definition:
         "Terminal heat for wheat refers to high temperatures during the late growth stages, particularly during grain filling.  It was calculated by assessing the number of days exceeding a temperature threshold (intensity) and the number of years such events occurred out of 30 (frequency).",
     },
+    {
+      term: "Thinning of flock",
+      definition: "Removing a portion of a group of chickens/birds from a shed so that the remaining birds have more space"
+    }
   ],
   U: [
     {
       term: "Untimely rainfall",
       definition:
-        "Untimely rainfall is defined using intensity and frequency. Intensity refers to events with 100 mm or more rainfall occurring over two consecutive days, while frequency is the number of years (out of 34) in which such events occurred.",
-    },
-    {
-      term: "UKESM1-0-LL",
-      definition:
-        "An Earth System Model developed by the UK Met Office Hadley Centre and partner institutions. It is based on the HadGEM3 physical climate system and includes the NEMO ocean model, CICE sea-ice model, JULES land surface model with TRIFFID dynamic vegetation, UKCA for atmospheric chemistry and aerosols, MEDUSA for marine biogeochemistry, and BISICLES for dynamic ice sheets. Coupling across submodels is managed through the OASIS coupler.",
+        "Untimely rainfall accounts the rain that occurs at a time when it is not beneficial for crop often disrupting their growth stages and economic yield. It is defined using intensity and frequency. Intensity refers to events with 100 mm or more rainfall occurring over two consecutive days, while frequency is the number of years (out of 30) in which such events occurred.",
     },
   ],
   V: [
     {
       term: "Vulnerability index",
       definition:
-        "This includes vulnerability layers identified through literature review, and supplemented with expert inputs and stakeholder validation. These layers were then mapped and an integrated vulnerability index was formulated through Z-score normalization, principal component analysis, and stakeholders' inputs.",
+        "This represents combined effect of vulnerability layers. These layers were then mapped and an integrated vulnerability index was formulated through Z-score normalization, principal component analysis, and stakeholders' inputs.",
     },
     {
       term: "Vaccination",
-      definition: "Vaccination against contagious diseases as a prophylactic measure.",
+      definition: "Vaccination programme against contagious diseases as a prophylactic measure",
     },
     {
       term: "Value of production",
       definition: "Total value of production of a specific commodity in USD per hectare at 2019 prices.",
     },
+    {
+      term: "Volumetric soil water",
+      definition: "Volumetric Soil Water (VWC) is defined as the ratio of the volume of water contained in a soil of a grid to the total volume of that soil in that grid."
+    }
   ],
   W: [
     {
