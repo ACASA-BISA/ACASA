@@ -964,7 +964,18 @@ function MapViewer({
             color_ramp: baselineFile.ramp,
           }),
         });
-        const arrayBuffer = await geotiffRes.arrayBuffer();
+        const contentType = geotiffRes.headers.get("content-type");
+        let arrayBuffer;
+        if (contentType && contentType.includes("application/json")) {
+          const responseData = await geotiffRes.json();
+          if (!responseData.success) {
+            tempGeoTiffStatus.fill(true); // API returned success: 0
+            throw new Error(responseData.message || "No GeoTIFF data available for commodity");
+          }
+          arrayBuffer = await geotiffRes.arrayBuffer();
+        } else {
+          arrayBuffer = await geotiffRes.arrayBuffer();
+        }
         if (!arrayBuffer || arrayBuffer.byteLength === 0) {
           tempGeoTiffStatus.fill(true); // Invalid arrayBuffer
           throw new Error(`Empty or invalid arrayBuffer for ${baselineFile.source_file}`);
@@ -1056,7 +1067,7 @@ function MapViewer({
           if (contentType && contentType.includes("application/json")) {
             const responseData = await geotiffRes.json();
             if (!responseData.success) {
-              tempGeoTiffStatus[index] = true;
+              tempGeoTiffStatus[index] = true; // API returned success: 0
               return { noGeoTiff: true, metadata: { layer_name: filter.label } };
             }
             arrayBuffer = await geotiffRes.arrayBuffer();

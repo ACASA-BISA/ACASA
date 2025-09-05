@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { Button, Grid, Toolbar, IconButton, Drawer, Switch, Typography, FormGroup, List, Box, Tooltip, ListItemButton, ListItemIcon, ListItemText, Collapse, FormControlLabel, FormControl, FormLabel, MenuItem, Select, ListSubheader } from "@mui/material";
-import { ExpandLess, ExpandMore, InfoOutlined as InfoIcon } from "@mui/icons-material";
+import { ExpandLess, ExpandMore, InfoOutlined as InfoIcon, ArrowDropDown as ArrowDropDownIcon } from "@mui/icons-material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Swal from "sweetalert2";
@@ -680,30 +680,54 @@ function Test() {
                                                     <FormControl style={{ textAlign: "left" }}>
                                                         {showCountrySelect ? (
                                                             <>
-                                                                <br />
                                                                 <Select
-                                                                    className="customSelect"
+                                                                    disableUnderline
+                                                                    variant="standard"
                                                                     value={selectedCountryId}
                                                                     onChange={handleCountryChange}
                                                                     displayEmpty
                                                                     inputProps={{ "aria-label": "Country" }}
+                                                                    IconComponent={ArrowDropDownIcon}
+                                                                    MenuProps={{
+                                                                        disableScrollLock: true,
+                                                                        PaperProps: { sx: { maxHeight: 300 } },
+                                                                        PopperProps: { modifiers: [{ name: "flip", enabled: false }] },
+                                                                    }}
+                                                                    sx={(theme) => ({
+                                                                        fontSize: "13px",
+                                                                        height: "26px",
+                                                                        backgroundColor:
+                                                                            theme.palette.mode === "dark"
+                                                                                ? "rgba(60, 75, 60, 1)"
+                                                                                : "rgba(235, 247, 233, 1)",
+                                                                        overflow: "hidden",
+                                                                        textOverflow: "ellipsis",
+                                                                        whiteSpace: "nowrap",
+                                                                        margin: "10px 20px",
+                                                                        textAlign: "left",
+                                                                        padding: "15px 0 15px 15px",
+                                                                        width: "220px"
+                                                                    })}
                                                                     disabled={isLoading || mapLoading}
-                                                                    style={{ margin: "0px 0px 0px 17px", textAlign: "left" }}
                                                                 >
                                                                     <MenuItem
-                                                                        className="customMenuItem"
                                                                         value={0}
-                                                                        style={{ textAlign: "left" }}
+                                                                        sx={{ fontSize: "13px", paddingY: "2px" }}
                                                                     >
                                                                         South Asia
                                                                     </MenuItem>
                                                                     {countries.map((a) => (
                                                                         <MenuItem
-                                                                            className="customMenuItem"
                                                                             key={a.country_id}
                                                                             value={a.country_id}
                                                                             disabled={!a.status}
-                                                                            style={{ textAlign: "left" }}
+                                                                            sx={{
+                                                                                fontSize: "13px",
+                                                                                paddingY: "2px",
+                                                                                overflow: "hidden",
+                                                                                textOverflow: "ellipsis",
+                                                                                whiteSpace: "nowrap",
+                                                                            }}
                                                                         >
                                                                             <Box display="flex" alignItems="center" gap={0.5}>
                                                                                 <span>{a.country}</span>
@@ -727,27 +751,52 @@ function Test() {
                                                             </Typography>
                                                         )}
                                                         <Select
-                                                            className="customSelect"
+                                                            disableUnderline
+                                                            variant="standard"
                                                             value={selectedStateId}
                                                             onChange={handleStateChange}
                                                             displayEmpty
                                                             inputProps={{ "aria-label": "State" }}
+                                                            IconComponent={ArrowDropDownIcon}
+                                                            MenuProps={{
+                                                                disableScrollLock: true,
+                                                                PaperProps: { sx: { maxHeight: 300 } },
+                                                                PopperProps: { modifiers: [{ name: "flip", enabled: false }] },
+                                                            }}
+                                                            sx={(theme) => ({
+                                                                fontSize: "13px",
+                                                                height: "26px",
+                                                                backgroundColor:
+                                                                    theme.palette.mode === "dark"
+                                                                        ? "rgba(60, 75, 60, 1)"
+                                                                        : "rgba(235, 247, 233, 1)",
+                                                                overflow: "hidden",
+                                                                textOverflow: "ellipsis",
+                                                                whiteSpace: "nowrap",
+                                                                margin: "0 20px 10px",
+                                                                textAlign: "left",
+                                                                padding: "15px 0 15px 15px",
+                                                                width: "220px"
+                                                            })}
                                                             disabled={disabledStateFilter || isLoading || mapLoading}
-                                                            style={{ margin: "8px 0px 0px 17px", textAlign: "left" }}
                                                         >
                                                             <MenuItem
-                                                                className="customMenuItem"
                                                                 value={0}
-                                                                style={{ textAlign: "left" }}
+                                                                sx={{ fontSize: "13px", paddingY: "2px" }}
                                                             >
                                                                 State/Province
                                                             </MenuItem>
                                                             {states.map((a) => (
                                                                 <MenuItem
-                                                                    className="customMenuItem"
                                                                     key={a.state_id}
                                                                     value={a.state_id}
-                                                                    style={{ textAlign: "left" }}
+                                                                    sx={{
+                                                                        fontSize: "13px",
+                                                                        paddingY: "2px",
+                                                                        overflow: "hidden",
+                                                                        textOverflow: "ellipsis",
+                                                                        whiteSpace: "nowrap",
+                                                                    }}
                                                                 >
                                                                     <Box display="flex" alignItems="center" gap={0.5}>
                                                                         <span>{a.state}</span>
