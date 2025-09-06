@@ -2051,7 +2051,7 @@ const DataGlance = () => {
                             <div
                                 ref={(el) => (mapRefs.current[0] = el)}
                                 className="map-container"
-                                style={{ height: "calc(-203px + 100vh)", width: "100%" }}
+                                style={{ height: parseInt(selectedScenarioId) === 1 ? "calc(-203px + 100vh)" : "calc(-228px + 100vh)", width: "100%" }}
                             />
                             {isLoading && (
                                 <Box
