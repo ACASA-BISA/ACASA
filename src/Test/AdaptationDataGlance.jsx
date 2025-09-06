@@ -1944,13 +1944,10 @@ const DataGlance = () => {
                                     marginRight: "5px",
                                     overflow: "hidden",
                                     flexWrap: "nowrap",
-                                    overflow: "hidden",
-                                    minWidth: 'auto'
+                                    minWidth: "auto",
                                 }}
                             >
-                                <Typography sx={{ fontSize: 13, fontWeight: "bold", whiteSpace: "nowrap" }}>
-                                    Commodity:
-                                </Typography>
+                                <Typography sx={{ fontSize: 13, fontWeight: "bold" }}>Commodity: </Typography>
                                 <FormControl fullWidth>
                                     <Select
                                         disableUnderline
@@ -1978,24 +1975,56 @@ const DataGlance = () => {
                                         })}
                                         disabled={isLoading || isOptionLoading}
                                     >
-                                        {commodities
-                                            .filter((c) => c.status)
-                                            .map((commodity) => (
+                                        {Object.entries(
+                                            commodities
+                                                .filter((c) => c.status)
+                                                .reduce((acc, commodity) => {
+                                                    const group = commodity.commodity_group || "Others";
+                                                    if (!acc[group]) {
+                                                        acc[group] = [];
+                                                    }
+                                                    acc[group].push(commodity);
+                                                    return acc;
+                                                }, {})
+                                        )
+                                            .sort(([groupA], [groupB]) => groupA.localeCompare(groupB))
+                                            .map(([group, items]) => [
                                                 <MenuItem
-                                                    key={commodity.commodity_id}
-                                                    value={commodity.commodity_id}
+                                                    key={`group-${group}`}
+                                                    value=""
+                                                    disabled
                                                     sx={{
                                                         fontSize: "12px",
+                                                        fontWeight: "bold",
+                                                        backgroundColor: (theme) =>
+                                                            theme.palette.mode === "dark" ? "#4a4a4a" : "#e0e0e0",
                                                         paddingY: "2px",
-                                                        overflow: "hidden",
-                                                        textOverflow: "ellipsis",
-                                                        whiteSpace: "nowrap",
-                                                        maxWidth: "90px",
+                                                        cursor: "default",
+                                                        "&:hover": { backgroundColor: "inherit" },
                                                     }}
                                                 >
-                                                    {commodity.commodity}
-                                                </MenuItem>
-                                            ))}
+                                                    {group}
+                                                </MenuItem>,
+                                                ...items
+                                                    .sort((a, b) => a.commodity.localeCompare(b.commodity))
+                                                    .map((commodity) => (
+                                                        <MenuItem
+                                                            key={commodity.commodity_id}
+                                                            value={commodity.commodity_id}
+                                                            sx={{
+                                                                fontSize: "12px",
+                                                                paddingY: "2px",
+                                                                paddingLeft: "20px", // Indent commodities under group
+                                                                overflow: "hidden",
+                                                                textOverflow: "ellipsis",
+                                                                whiteSpace: "nowrap",
+                                                                maxWidth: "90px",
+                                                            }}
+                                                        >
+                                                            {commodity.commodity}
+                                                        </MenuItem>
+                                                    )),
+                                            ])}
                                     </Select>
                                 </FormControl>
                             </Box>
