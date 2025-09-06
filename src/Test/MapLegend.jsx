@@ -133,7 +133,9 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
           layer_id: tiff.metadata.layer_id,
           climate_scenario_id: tiff.metadata.year ? breadcrumbData?.climate_scenario_id : 1,
           year: tiff.metadata.year || null,
-          change_metric_id: breadcrumbData?.change_metric_id || 1, // Include change_metric_id in cache key
+          change_metric_id: breadcrumbData?.change_metric_id || 1,
+          adaptation_id: tiff.metadata.adaptation_id || null, // Include adaptation_id in cache key
+          source_file: tiff.metadata.source_file, // Include source_file in cache key
         });
 
         if (legendCache.has(cacheKey)) {
@@ -154,7 +156,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
           visualization_scale_id: breadcrumbData?.visualization_scale_id || null,
           layer_id: tiff.metadata.layer_id,
           intensity_metric_id: breadcrumbData?.intensity_metric_id || null,
-          change_metric_id: (tiff.metadata.year || hazards) ? breadcrumbData?.change_metric_id : 1, // Use change_metric_id
+          change_metric_id: (tiff.metadata.year || hazards) ? breadcrumbData?.change_metric_id : 1,
         };
 
         const response = await fetchWithRetry(`${apiUrl}/layers/legend`, {
@@ -185,13 +187,15 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
   }, [
     tiff?.metadata?.layer_id,
     tiff?.metadata?.year,
+    tiff?.metadata?.source_file, // Added source_file
+    tiff?.metadata?.adaptation_id, // Added adaptation_id
     layerType,
     breadcrumbData?.climate_scenario_id,
     breadcrumbData?.adaptation_croptab_id,
     breadcrumbData?.data_source_id,
     breadcrumbData?.visualization_scale_id,
     breadcrumbData?.intensity_metric_id,
-    breadcrumbData?.change_metric_id, // Added change_metric_id
+    breadcrumbData?.change_metric_id,
     apiUrl,
     hazards,
   ]);

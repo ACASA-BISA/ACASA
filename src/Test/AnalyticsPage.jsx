@@ -13,7 +13,7 @@ if (typeof Highcharts === 'object') {
         HighchartsMore(Highcharts);
         Exporting(Highcharts);
     } catch (error) {
-        console.error('Error initializing Highcharts modules:', error);
+        // console.error('Error initializing Highcharts modules:', error);
     }
 } else {
     console.error('Highcharts core library not loaded');
