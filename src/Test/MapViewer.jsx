@@ -2227,7 +2227,7 @@ function MapViewer({
                     opacity: 1,
                   }}
                 />
-                {internalMapLoading[index] && (
+                {(internalMapLoading[index] || !tiffData || tiffData.length === 0) && (
                   <Box
                     sx={{
                       position: "absolute",
@@ -2245,7 +2245,7 @@ function MapViewer({
                     <CircularProgress />
                   </Box>
                 )}
-                {noGeoTiffAvailable[index] && !internalMapLoading[index] && (
+                {noGeoTiffAvailable[index] && !internalMapLoading[index] && tiffData?.length && (
                   <Box
                     sx={{
                       position: "absolute",

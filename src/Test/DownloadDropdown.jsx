@@ -8,7 +8,7 @@ const DownloadDropdown = ({ layerName, layerType, mapIndex, onDownloadGeoTIFF, o
 
     // Debug log to confirm component rendering
     useEffect(() => {
-        console.log(`DownloadDropdown rendered for layer: ${layerName}, mapIndex: ${mapIndex}`);
+        // console.log(`DownloadDropdown rendered for layer: ${layerName}, mapIndex: ${mapIndex}`);
     }, [layerName, mapIndex]);
 
     // Close dropdown when clicking outside
@@ -28,7 +28,7 @@ const DownloadDropdown = ({ layerName, layerType, mapIndex, onDownloadGeoTIFF, o
                 <IconButton
                     onClick={() => {
                         setIsOpen(!isOpen);
-                        console.log(`Download icon clicked for ${layerName}, dropdown isOpen: ${!isOpen}`);
+                        // console.log(`Download icon clicked for ${layerName}, dropdown isOpen: ${!isOpen}`);
                     }}
                     sx={{
                         backgroundColor: "rgba(255, 255, 255, 0.9)",
