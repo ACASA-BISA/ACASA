@@ -320,7 +320,8 @@ const DataGlance = () => {
                     return await fetchGeoTiff(
                         { ...file, grid_sequence_title: grid.grid_sequence_title, adaptation_id: adaptationId },
                         grid.grid_sequence,
-                        grid.layer_id || grid.impact_id || grid.adaptation_id
+                        adaptationId || grid.impact_id || grid.adaptation_id,
+                        grid
                     );
                 });
 
@@ -649,7 +650,7 @@ const DataGlance = () => {
 
 
     const fetchGeoTiff = useCallback(
-        async (file, gridSequence, layerId) => {
+        async (file, gridSequence, layerId, grid) => {
             const cacheKey = `${file.source_file}-${selectedCountryId || "total"}-${gridSequence}-${file.adaptation_id || "no-adaptation"}`;
             if (geotiffPromiseCache.current.has(cacheKey)) {
                 return geotiffPromiseCache.current.get(cacheKey);
@@ -700,6 +701,7 @@ const DataGlance = () => {
                         newState[gridSequence] = false;
                         return newState;
                     });
+                    console.log(grid.layer_id, { layerId })
                     return {
                         arrayBuffer,
                         metadata: {
@@ -707,7 +709,8 @@ const DataGlance = () => {
                             color_ramp: modifiedColorRamp,
                             layer_name: file.grid_sequence_title || `Grid ${gridSequence}`,
                             grid_sequence: gridSequence,
-                            layer_id: layerId,
+                            layer_id: grid.layer_id ?? layerId,
+                            layer_type: grid.layer_type,
                             year: file.year || null,
                             climate_scenario_id: file.climate_scenario_id || null,
                             adaptation_id: file.adaptation_id || null,
@@ -1285,7 +1288,8 @@ const DataGlance = () => {
                 const tiffResult = await fetchGeoTiff(
                     { ...file, grid_sequence_title: grid.grid_sequence_title, adaptation_id: adaptationId },
                     grid.grid_sequence,
-                    grid.layer_id || grid.impact_id || grid.adaptation_id
+                    adaptationId || grid.impact_id || grid.adaptation_id,
+                    grid
                 );
 
                 if (!tiffResult) {
@@ -1299,14 +1303,27 @@ const DataGlance = () => {
                     return;
                 }
 
+                // Update tiffData and ensure the new data is included
                 setTiffData((prev) => {
                     const newTiffData = prev.filter((t) => t.metadata.grid_sequence !== gridSequence);
                     newTiffData.push({
                         arrayBuffer: tiffResult.arrayBuffer.slice(0),
                         metadata: { ...tiffResult.metadata },
                     });
+                    console.log(`Updated tiffData for grid_sequence ${gridSequence}`, newTiffData);
                     return newTiffData;
                 });
+
+                // Clear the legend cache for this grid to force MapLegend to fetch new data
+                window.legendCache?.delete(JSON.stringify({
+                    layer_type: grid.layer_type,
+                    layer_id: tiffResult.metadata.layer_id,
+                    climate_scenario_id: tiffResult.metadata.climate_scenario_id,
+                    year: tiffResult.metadata.year,
+                    change_metric_id: breadcrumbData?.change_metric_id || 1,
+                    adaptation_id: tiffResult.metadata.adaptation_id,
+                    source_file: tiffResult.metadata.source_file,
+                }));
 
                 const mapIndex = gridSequence;
                 if (mapRefs.current[mapIndex] && mapInstances.current[mapIndex]) {
@@ -1348,6 +1365,7 @@ const DataGlance = () => {
             apiUrl,
             fetchWithRetry,
             updateGeoTiffLayer,
+            breadcrumbData,
         ]
     );
 
@@ -2324,16 +2342,19 @@ const DataGlance = () => {
                                 </Box>
                             )}
                             {tiffData.find((tiff) => tiff.metadata.grid_sequence === 0) && renderedMaps[0] && !noGeoTiffAvailable[0] && (
-                                <MapLegend
-                                    key={`${tiffData.find((tiff) => tiff.metadata.grid_sequence === 0).metadata.source_file}-${tiffData.find((tiff) => tiff.metadata.grid_sequence === 0).metadata.adaptation_id || "no-adaptation"}`}
-                                    tiff={tiffData.find((tiff) => tiff.metadata.grid_sequence === 0)}
-                                    breadcrumbData={breadcrumbData}
-                                    layerType="impact"
-                                    apiUrl={apiUrl}
-                                    mapWidth={mapWidths.current[0]}
-                                    sourceFile={tiffData.find((tiff) => tiff.metadata.grid_sequence === 0)?.metadata.source_file}
-                                    legendType="Large"
-                                />
+                                <>
+                                    {console.log({ tiffData })}
+                                    <MapLegend
+                                        key={`${tiffData.find((tiff) => tiff.metadata.grid_sequence === 0).metadata.source_file}-${tiffData.find((tiff) => tiff.metadata.grid_sequence === 0).metadata.adaptation_id || "no-adaptation"}`}
+                                        tiff={tiffData.find((tiff) => tiff.metadata.grid_sequence === 0)}
+                                        breadcrumbData={breadcrumbData}
+                                        layerType={tiffData.find((tiff) => tiff.metadata.grid_sequence === 0).metadata?.layer_type || "impact"}
+                                        apiUrl={apiUrl}
+                                        mapWidth={mapWidths.current[0]}
+                                        sourceFile={tiffData.find((tiff) => tiff.metadata.grid_sequence === 0)?.metadata.source_file}
+                                        legendType="Large"
+                                    />
+                                </>
                             )}
                         </Box>
                     </Paper>
@@ -2442,16 +2463,20 @@ const DataGlance = () => {
                                                 </Box>
                                             )}
                                             {tiff && renderedMaps[gridSequence] && !noGeoTiffAvailable[gridSequence] && (
+                                                // In the return statement of DataGlance, for each MapLegend
                                                 <MapLegend
-                                                    key={`${tiff.metadata.source_file}-${tiff.metadata.adaptation_id || "no-adaptation"}`}
+                                                    key={`${tiff?.metadata?.source_file}-${tiff?.metadata?.grid_sequence}-${tiff?.metadata?.adaptation_id || "no-adaptation"}-${Date.now()}`} // Added Date.now() for uniqueness
                                                     tiff={tiff}
                                                     breadcrumbData={breadcrumbData}
                                                     layerType={grid?.layer_type || "adaptation"}
                                                     apiUrl={apiUrl}
                                                     mapWidth={mapWidths.current[gridSequence]}
-                                                    sourceFile={tiff.metadata.source_file}
+                                                    sourceFile={tiff?.metadata?.source_file}
                                                     showHeader={false}
+                                                    padding="2px"
                                                     glance={true}
+                                                    hazards={true}
+                                                    legendType="Small"
                                                 />
                                             )}
                                         </Box>

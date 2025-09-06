@@ -1,5 +1,5 @@
 import { Box, Paper, Typography, useTheme } from "@mui/material";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useRef } from "react";
 import { styled } from "@mui/material/styles";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import "../../src/index.css";
@@ -30,14 +30,14 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
   const [error, setError] = useState(null);
 
   // Cache for legend data to prevent redundant API calls
-  const legendCache = useMemo(() => new Map(), []);
+  const legendCache = useRef(new Map());
 
   // Calculate responsive width and font sizes based on screen width
-  const screenWidth = typeof window !== "undefined" ? window.innerWidth : 1200; // Fallback for SSR
-  let maxLegendWidth = Math.min(screenWidth * (legendType === "Large" ? 0.30 : 0.25), 450); // 30% for Large, 25% for Small, capped at 450px
-  maxLegendWidth = glance && hazards ? 320 : glance && !hazards ? 450 : maxLegendWidth; // Preserve glance/hazards overrides
-  const minLegendWidth = maxLegendWidth * 0.7; // Minimum width is 70% of max
-  const baseFontSize = Math.max(10, Math.min(maxLegendWidth * 0.03, 13)); // Font size based on maxLegendWidth
+  const screenWidth = typeof window !== "undefined" ? window.innerWidth : 1200;
+  let maxLegendWidth = Math.min(screenWidth * (legendType === "Large" ? 0.30 : 0.25), 450);
+  maxLegendWidth = glance && hazards ? 320 : glance && !hazards ? 450 : maxLegendWidth;
+  const minLegendWidth = maxLegendWidth * 0.7;
+  const baseFontSize = Math.max(10, Math.min(maxLegendWidth * 0.03, 13));
   const smallFontSize = baseFontSize * 0.9;
   const tinyFontSize = baseFontSize * 0.8;
 
@@ -48,18 +48,18 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
   };
 
   const calcpop = (popu) => {
-    const value = Number(popu) || 0; // Ensure numeric value
-    if (value === 0) return "0"; // Handle exactly 0, no suffix
-    if (value <= 100_000) return "< 0.1 M"; // Handle 0 < value ≤ 100,000
+    const value = Number(popu) || 0;
+    if (value === 0) return "0";
+    if (value <= 100_000) return "< 0.1 M";
     const popInMillions = value / 1_000_000;
     return popInMillions.toFixed(1) + " M";
   };
 
   const calcarea = (popu) => {
-    const value = Number(popu) || 0; // Ensure numeric value
+    const value = Number(popu) || 0;
     const unit = checkcrop() ? " Mha" : " M";
-    if (value === 0) return "0"; // Handle exactly 0, no suffix
-    if (value <= 100_000) return `< 0.1${unit}`; // Handle 0 < value ≤ 100,000
+    if (value === 0) return "0";
+    if (value <= 100_000) return `< 0.1${unit}`;
     const areaInMillions = value / 1_000_000;
     return areaInMillions.toFixed(1) + unit;
   };
@@ -134,12 +134,12 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
           climate_scenario_id: tiff.metadata.year ? breadcrumbData?.climate_scenario_id : 1,
           year: tiff.metadata.year || null,
           change_metric_id: breadcrumbData?.change_metric_id || 1,
-          adaptation_id: tiff.metadata.adaptation_id || null, // Include adaptation_id in cache key
-          source_file: tiff.metadata.source_file, // Include source_file in cache key
+          adaptation_id: tiff.metadata.adaptation_id || null,
+          source_file: tiff.metadata.source_file,
         });
 
-        if (legendCache.has(cacheKey)) {
-          setLocalLegendData(legendCache.get(cacheKey));
+        if (legendCache.current.has(cacheKey)) {
+          setLocalLegendData(legendCache.current.get(cacheKey));
           setError(null);
           return;
         }
@@ -154,7 +154,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
           year: tiff.metadata.year || null,
           data_source_id: breadcrumbData?.data_source_id || null,
           visualization_scale_id: breadcrumbData?.visualization_scale_id || null,
-          layer_id: tiff.metadata.layer_id,
+          layer_id: tiff.metadata.adaptation_id || tiff.metadata.layer_id,
           intensity_metric_id: breadcrumbData?.intensity_metric_id || null,
           change_metric_id: (tiff.metadata.year || hazards) ? breadcrumbData?.change_metric_id : 1,
         };
@@ -173,7 +173,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
             (item) => item.base_category?.toLowerCase() !== "nil" && item.named_category?.toLowerCase() !== "nil"
           ) || [],
         };
-        legendCache.set(cacheKey, data);
+        legendCache.current.set(cacheKey, data);
         setLocalLegendData(data);
         setError(null);
       } catch (err) {
@@ -185,10 +185,8 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
 
     fetchLegendData();
   }, [
-    tiff?.metadata?.layer_id,
-    tiff?.metadata?.year,
-    tiff?.metadata?.source_file, // Added source_file
-    tiff?.metadata?.adaptation_id, // Added adaptation_id
+    tiff, // Include entire tiff object
+    tiff?.metadata?.adaptation_id, // Explicitly include adaptation_id
     layerType,
     breadcrumbData?.climate_scenario_id,
     breadcrumbData?.adaptation_croptab_id,
@@ -200,17 +198,24 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
     hazards,
   ]);
 
+  // Expose legendCache for external clearing
+  useEffect(() => {
+    window.legendCache = legendCache.current;
+    return () => {
+      delete window.legendCache;
+    };
+  }, []);
+
   // Render categorical legend for risk, impact, adaptation
   const renderRiskLegend = () => {
     if (!localLegendData || !localLegendData.legend) return null;
 
     const sortedLegend = [...localLegendData.legend].sort((a, b) => {
-      if (a.base_category?.toLowerCase() === 'na') return -1; // Place 'NA' first
+      if (a.base_category?.toLowerCase() === 'na') return -1;
       if (b.base_category?.toLowerCase() === 'na') return 1;
-      return 0; // Preserve original order for others
+      return 0;
     });
 
-    // Check if any legend item has secondaryText (contains \n)
     const hasSecondaryText = sortedLegend.some(
       (item) => item.named_category && item.named_category.includes("\n")
     );
@@ -219,10 +224,9 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
       ? "Seasonal Rainfall"
       : localLegendData.header_text;
 
-    // Split header_text around header_bold_part for bold formatting
     let headerComponents = [];
     if (localLegendData.header_text && localLegendData.header_bold_part) {
-      const regex = new RegExp(`(${localLegendData.header_bold_part})`, "i"); // Case-insensitive match
+      const regex = new RegExp(`(${localLegendData.header_bold_part})`, "i");
       const parts = localLegendData.header_text.split(regex);
       headerComponents = parts.map((part, index) =>
         part.toLowerCase() === localLegendData.header_bold_part.toLowerCase() ? (
@@ -503,7 +507,6 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
         ? renderRiskLegend()
         : renderDefaultLegend();
 
-  // Conditionally render the Paper only if there is valid content
   if (!legendContent) return null;
 
   return (

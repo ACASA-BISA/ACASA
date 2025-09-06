@@ -1976,7 +1976,8 @@ const DataGlance = () => {
                                             height: "24px",
                                             backgroundColor: theme.palette.mode === "dark" ? "rgba(60, 75, 60, 1)" : "rgba(235, 247, 233, 1)",
                                         })}
-                                        disabled={isLoading || isOptionLoading}
+                                        disabled={isLoading || isOptionLoading || +selectedScenarioId === 1}
+
                                     >
                                         <MenuItem value={1} sx={{ fontSize: "12px", paddingY: "2px" }}>
                                             Absolute
