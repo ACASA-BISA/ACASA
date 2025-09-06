@@ -301,7 +301,7 @@ const DataGlance = () => {
 
                 const fetchedSourceFiles = new Set();
                 const tiffPromises = sortedGrids.slice(0, 7).map(async (grid) => {
-                    const file = selectRasterFile(grid.raster_files);
+                    const file = selectRasterFile(grid.raster_files, grid.grid_sequence);
                     if (!file || !file.exists) {
                         console.warn(`No matching raster file for hazard ${grid.hazard_title || grid.grid_sequence}`);
                         return { metadata: { grid_sequence: grid.grid_sequence, layer_name: grid.hazard_title || `Hazard ${grid.grid_sequence}`, source_file: null } };
@@ -517,7 +517,7 @@ const DataGlance = () => {
     );
 
     const selectRasterFile = useCallback(
-        (rasterFiles) => {
+        (rasterFiles, gridSequence) => {
             const scenario = climateScenarios.find((s) => s.scenario_id === parseInt(selectedScenarioId));
             const scenarioName = scenario?.scenario || "";
             const isBaseline = parseInt(selectedScenarioId) === 1;
@@ -533,7 +533,7 @@ const DataGlance = () => {
                     file.intensity_metric_id === parseInt(selectedIntensityMetricId || 2);
                 const matchesChange =
                     !selectedChangeMetricId ||
-                    file.change_metric_id === parseInt(selectedChangeMetricId || 1);
+                    file.change_metric_id === parseInt(gridSequence === 0 ? 1 : selectedChangeMetricId || 1);
                 const matchesScale =
                     !selectedVisualizationScaleId ||
                     file.visualization_scale_id === parseInt(selectedVisualizationScaleId || 1);
@@ -2056,11 +2056,11 @@ const DataGlance = () => {
                             ) : (
                                 tiffData.find((tiff) => tiff.metadata.grid_sequence === 0) && renderedMaps[0] && (
                                     <MapLegend
-                                        tiff={tiffData.find((tiff) => tiff.metadata.grid_sequence === 0)}
-                                        breadcrumbData={breadcrumbData}
+                                        tiff={tiffData.find((tiff) => tiff?.metadata?.grid_sequence === 0) || null}
+                                        breadcrumbData={{ ...breadcrumbData, change_metric_id: 1 }}
                                         layerType="risk"
                                         apiUrl={apiUrl}
-                                        mapWidth={mapWidths.current[0]}
+                                        mapWidth={mapWidths.current[0] || 0}
                                         legendType="Large"
                                     />
                                 )
