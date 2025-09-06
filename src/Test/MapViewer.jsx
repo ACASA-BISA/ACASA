@@ -1958,7 +1958,7 @@ function MapViewer({
               >
                 {breadcrumbData.commodity}
               </Typography>
-              {breadcrumbData.scenario && (
+              {/* {breadcrumbData.scenario && (
                 <Typography
                   key="scenario"
                   color="text.primary"
@@ -1966,7 +1966,7 @@ function MapViewer({
                 >
                   Scenario: {selectedScenario}
                 </Typography>
-              )}
+              )} */}
             </Breadcrumbs>
           )}
         </Box>

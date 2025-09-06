@@ -226,11 +226,11 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
 
     let headerComponents = [];
     if (localLegendData.header_text && localLegendData.header_bold_part) {
-      const regex = new RegExp(`(${localLegendData.header_bold_part})`, "i");
+      const regex = new RegExp(`(${localLegendData.header_bold_part.toLowerCase()})`, "i");
       const parts = localLegendData.header_text.split(regex);
       headerComponents = parts.map((part, index) =>
         part.toLowerCase() === localLegendData.header_bold_part.toLowerCase() ? (
-          <strong key={index}>{part}</strong>
+          <strong key={index}>{part.toLowerCase()}</strong>
         ) : (
           part
         )

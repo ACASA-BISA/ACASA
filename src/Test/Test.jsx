@@ -1135,7 +1135,7 @@ function Test() {
                                             <img src="/images/risk.svg" alt="Risk" />
                                         </ListItemIcon>
                                         <ListItemText
-                                            primary={<FormLabel style={{ textAlign: "left" }} className="formLabel">Risk</FormLabel>}
+                                            primary={<FormLabel style={{ textAlign: "left" }} className="formLabel">Climate risk</FormLabel>}
                                         />
                                         {isSidebarOpen.risk ? <ExpandLess /> : <ExpandMore />}
                                     </ListItemButton>
@@ -1213,7 +1213,7 @@ function Test() {
                                                 <img src="/images/impact.svg" alt="Impact" />
                                             </ListItemIcon>
                                             <ListItemText
-                                                primary={<FormLabel style={{ textAlign: "left!important" }} className="formLabel">Impact</FormLabel>}
+                                                primary={<FormLabel style={{ textAlign: "left!important" }} className="formLabel">Climate change impact</FormLabel>}
                                             />
                                             {isSidebarOpen.impact ? <ExpandLess /> : <ExpandMore />}
                                         </ListItemButton>
