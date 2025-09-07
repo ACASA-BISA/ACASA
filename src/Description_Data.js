@@ -1463,6 +1463,7 @@ export default function Description() {
                 }}
                 onClick={handleGroupedDownload}
                 className="download-icon-button"
+                disabled
               >
                 <DownloadIcon />
                 <span className="button-text">

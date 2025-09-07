@@ -182,9 +182,9 @@ export const DataCatalog = ({
               {title}
             </Typography>
           )}
-          <div className="download-icon" onClick={onButtonClick}>
+          <div className="download-icon">
             <Tooltip title="Download" arrow>
-              <IconButton>
+              <IconButton disabled={true} onClick={onButtonClick}>
                 <DownloadIcon sx={{ fontSize: 18, color: (theme) => (theme.palette.mode === "light" ? "white" : "#1b1f23"), padding: 0 }} />
               </IconButton>
             </Tooltip>
