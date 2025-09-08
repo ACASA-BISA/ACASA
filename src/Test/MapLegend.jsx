@@ -412,11 +412,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
                 "& span": { color: theme.palette.mode === "dark" ? theme.palette.text.secondary : "#111", fontStyle: "italic" },
               }}
             >
-              <span>
-                {checkcrop()
-                  ? `${breadcrumbData?.commodityLabel ?? "Cropped"} area, million hectare (Mha)`
-                  : `Number of ${breadcrumbData?.commodityLabel?.toLowerCase()}${breadcrumbData?.commodityLabel?.toLowerCase() === "buffalo" ? "es" : breadcrumbData?.commodityLabel?.toLowerCase() === "sheep" || breadcrumbData?.commodityLabel?.toLowerCase() === "cattle" ? "" : "s"}, million (M)`}
-              </span>
+              <span>{localLegendData.commodity_text}</span>
             </Typography>
           </Box>
         )}
