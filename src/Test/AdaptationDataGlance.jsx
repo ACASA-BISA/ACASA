@@ -593,6 +593,10 @@ const DataGlance = () => {
                 const grid_adaptation_id =
                     data.layer_type === "adaptation" ? parseInt(data.layer_id) : parseInt(adaptationId);
 
+                const matchesIntensity = +file.intensity_metric_id === 2;
+
+                const matchesChange = +file.change_metric_id === 1;
+
                 const matchesScenario =
                     (!selectedScenarioId || !('climate_scenario_id' in file)) ||
                     +file.climate_scenario_id === parseInt(selectedScenarioId);
@@ -627,7 +631,9 @@ const DataGlance = () => {
                     matchesScenario &&
                     matchesYear &&
                     matchesScale &&
-                    matchesAdaptation
+                    matchesAdaptation && 
+                    matchesIntensity && 
+                    matchesChange
                 );
             });
 
@@ -1779,30 +1785,6 @@ const DataGlance = () => {
             cleanupMaps();
         },
         [selectedVisualizationScaleId, cleanupMaps]
-    );
-
-    const handleIntensityMetricChange = useCallback(
-        (event) => {
-            const value = event.target.value;
-            if (+value === +selectedIntensityMetricId) {
-                return;
-            }
-            setSelectedIntensityMetricId(+value);
-            cleanupMaps();
-        },
-        [selectedIntensityMetricId, cleanupMaps]
-    );
-
-    const handleChangeMetricChange = useCallback(
-        (event) => {
-            const value = event.target.value;
-            if (+value === +selectedChangeMetricId) {
-                return;
-            }
-            setSelectedChangeMetricId(+value);
-            cleanupMaps();
-        },
-        [selectedChangeMetricId, cleanupMaps]
     );
 
     const handleSelectedYear = useCallback(
