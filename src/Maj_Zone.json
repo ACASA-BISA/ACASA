@@ -1,3 +1,492 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:035c642ae5bc9f024f8fee18070e2c799f6a4d11bb61b3a45a9009ae89d72364
-size 7416
+[
+  {
+    "STATE": "ANDAMAN & NICOBAR",
+    "ZONE_CODE": 1,
+    "MAJORITY": 42
+  },
+  {
+    "STATE": "ANDHRA PRADESH",
+    "ZONE_CODE": 2,
+    "MAJORITY": 12
+  },
+  {
+    "STATE": "ARUNACHAL PRADESH",
+    "ZONE_CODE": 3,
+    "MAJORITY": 5
+  },
+  {
+    "STATE": "ASSAM",
+    "ZONE_CODE": 4,
+    "MAJORITY": 1
+  },
+  {
+    "STATE": "BADAKHSHAN",
+    "ZONE_CODE": 5,
+    "MAJORITY": 57
+  },
+  {
+    "STATE": "BADGHIS",
+    "ZONE_CODE": 6,
+    "MAJORITY": 69
+  },
+  {
+    "STATE": "BAGHLAN",
+    "ZONE_CODE": 7,
+    "MAJORITY": 69
+  },
+  {
+    "STATE": "BAGMATI",
+    "ZONE_CODE": 8,
+    "MAJORITY": 5
+  },
+  {
+    "STATE": "BALKH",
+    "ZONE_CODE": 9,
+    "MAJORITY": 69
+  },
+  {
+    "STATE": "BALOCHISTAN",
+    "ZONE_CODE": 10,
+    "MAJORITY": 16
+  },
+  {
+    "STATE": "BAMYAN",
+    "ZONE_CODE": 11,
+    "MAJORITY": 6
+  },
+  {
+    "STATE": "BARISAL DIVISION",
+    "ZONE_CODE": 12,
+    "MAJORITY": 28
+  },
+  {
+    "STATE": "BHUTAN",
+    "ZONE_CODE": 13,
+    "MAJORITY": 5
+  },
+  {
+    "STATE": "BIHAR",
+    "ZONE_CODE": 14,
+    "MAJORITY": 33
+  },
+  {
+    "STATE": "CHANDIGARH",
+    "ZONE_CODE": 15,
+    "MAJORITY": 49
+  },
+  {
+    "STATE": "CHHATTISGARH",
+    "ZONE_CODE": 16,
+    "MAJORITY": 7
+  },
+  {
+    "STATE": "CHITTAGONG DIVISION",
+    "ZONE_CODE": 17,
+    "MAJORITY": 45
+  },
+  {
+    "STATE": "DADRA & NAGAR HAVE",
+    "ZONE_CODE": 18,
+    "MAJORITY": 61
+  },
+  {
+    "STATE": "DAMAN & DIU",
+    "ZONE_CODE": 19,
+    "MAJORITY": 4
+  },
+  {
+    "STATE": "DAYKUNDI",
+    "ZONE_CODE": 20,
+    "MAJORITY": 6
+  },
+  {
+    "STATE": "DELHI",
+    "ZONE_CODE": 21,
+    "MAJORITY": 51
+  },
+  {
+    "STATE": "DHAKA DIVISION",
+    "ZONE_CODE": 22,
+    "MAJORITY": 1
+  },
+  {
+    "STATE": "FARAH",
+    "ZONE_CODE": 23,
+    "MAJORITY": 16
+  },
+  {
+    "STATE": "FARYAB",
+    "ZONE_CODE": 24,
+    "MAJORITY": 69
+  },
+  {
+    "STATE": "FEDERAL CAPITAL TERRITORY",
+    "ZONE_CODE": 25,
+    "MAJORITY": 63
+  },
+  {
+    "STATE": "GANDAKI",
+    "ZONE_CODE": 26,
+    "MAJORITY": 5
+  },
+  {
+    "STATE": "GHAZNI",
+    "ZONE_CODE": 27,
+    "MAJORITY": 6
+  },
+  {
+    "STATE": "GHOR",
+    "ZONE_CODE": 28,
+    "MAJORITY": 6
+  },
+  {
+    "STATE": "GOA",
+    "ZONE_CODE": 29,
+    "MAJORITY": 61
+  },
+  {
+    "STATE": "GUJARAT",
+    "ZONE_CODE": 30,
+    "MAJORITY": 4
+  },
+  {
+    "STATE": "HARYANA",
+    "ZONE_CODE": 31,
+    "MAJORITY": 51
+  },
+  {
+    "STATE": "HILMAND",
+    "ZONE_CODE": 32,
+    "MAJORITY": 16
+  },
+  {
+    "STATE": "HIMACHAL PRADESH",
+    "ZONE_CODE": 33,
+    "MAJORITY": 5
+  },
+  {
+    "STATE": "HIRAT",
+    "ZONE_CODE": 34,
+    "MAJORITY": 69
+  },
+  {
+    "STATE": "JAMMU & KASHMIR",
+    "ZONE_CODE": 35,
+    "MAJORITY": 57
+  },
+  {
+    "STATE": "JAWZJAN",
+    "ZONE_CODE": 36,
+    "MAJORITY": 69
+  },
+  {
+    "STATE": "JHARKHAND",
+    "ZONE_CODE": 37,
+    "MAJORITY": 7
+  },
+  {
+    "STATE": "KABUL",
+    "ZONE_CODE": 38,
+    "MAJORITY": 58
+  },
+  {
+    "STATE": "KANDAHAR",
+    "ZONE_CODE": 39,
+    "MAJORITY": 6
+  },
+  {
+    "STATE": "KAPISA",
+    "ZONE_CODE": 40,
+    "MAJORITY": 5
+  },
+  {
+    "STATE": "KARNALI",
+    "ZONE_CODE": 41,
+    "MAJORITY": 5
+  },
+  {
+    "STATE": "KARNATAKA",
+    "ZONE_CODE": 42,
+    "MAJORITY": 15
+  },
+  {
+    "STATE": "KERALA",
+    "ZONE_CODE": 43,
+    "MAJORITY": 61
+  },
+  {
+    "STATE": "KHOST",
+    "ZONE_CODE": 44,
+    "MAJORITY": 58
+  },
+  {
+    "STATE": "KHULNA DIVISION",
+    "ZONE_CODE": 45,
+    "MAJORITY": 1
+  },
+  {
+    "STATE": "KHYBER PAKHTUNKHWA",
+    "ZONE_CODE": 46,
+    "MAJORITY": 5
+  },
+  {
+    "STATE": "KUNAR",
+    "ZONE_CODE": 47,
+    "MAJORITY": 5
+  },
+  {
+    "STATE": "KUNDUZ",
+    "ZONE_CODE": 48,
+    "MAJORITY": 69
+  },
+  {
+    "STATE": "LAGHMAN",
+    "ZONE_CODE": 49,
+    "MAJORITY": 58
+  },
+  {
+    "STATE": "LAKSHADWEEP",
+    "ZONE_CODE": 50,
+    "MAJORITY": 42
+  },
+  {
+    "STATE": "LOGAR",
+    "ZONE_CODE": 51,
+    "MAJORITY": 58
+  },
+  {
+    "STATE": "LUMBINI",
+    "ZONE_CODE": 52,
+    "MAJORITY": 5
+  },
+  {
+    "STATE": "MADHYA PRADESH",
+    "ZONE_CODE": 53,
+    "MAJORITY": 2
+  },
+  {
+    "STATE": "MAHARASHTRA",
+    "ZONE_CODE": 54,
+    "MAJORITY": 9
+  },
+  {
+    "STATE": "MANIPUR",
+    "ZONE_CODE": 55,
+    "MAJORITY": 45
+  },
+  {
+    "STATE": "MEGHALAYA",
+    "ZONE_CODE": 56,
+    "MAJORITY": 45
+  },
+  {
+    "STATE": "MIZORAM",
+    "ZONE_CODE": 57,
+    "MAJORITY": 45
+  },
+  {
+    "STATE": "MYMENSINGH DIVISION",
+    "ZONE_CODE": 58,
+    "MAJORITY": 1
+  },
+  {
+    "STATE": "NAGALAND",
+    "ZONE_CODE": 59,
+    "MAJORITY": 45
+  },
+  {
+    "STATE": "NANGARHAR",
+    "ZONE_CODE": 60,
+    "MAJORITY": 58
+  },
+  {
+    "STATE": "NIMROZ",
+    "ZONE_CODE": 61,
+    "MAJORITY": 16
+  },
+  {
+    "STATE": "NORTH",
+    "ZONE_CODE": 62,
+    "MAJORITY": 42
+  },
+  {
+    "STATE": "NORTH CENTRAL",
+    "ZONE_CODE": 63,
+    "MAJORITY": 42
+  },
+  {
+    "STATE": "ODISHA",
+    "ZONE_CODE": 64,
+    "MAJORITY": 34
+  },
+  {
+    "STATE": "PAKTIKA",
+    "ZONE_CODE": 65,
+    "MAJORITY": 58
+  },
+  {
+    "STATE": "PAKTYA",
+    "ZONE_CODE": 66,
+    "MAJORITY": 5
+  },
+  {
+    "STATE": "PROVINCE 1",
+    "ZONE_CODE": 67,
+    "MAJORITY": 5
+  },
+  {
+    "STATE": "PROVINCE 2",
+    "ZONE_CODE": 68,
+    "MAJORITY": 56
+  },
+  {
+    "STATE": "PUDUCHERRY",
+    "ZONE_CODE": 69,
+    "MAJORITY": 28
+  },
+  {
+    "STATE": "PUNJAB",
+    "ZONE_CODE": 70,
+    "MAJORITY": 51
+  },
+  {
+    "STATE": "PUNJAB (PK)",
+    "ZONE_CODE": 71,
+    "MAJORITY": 48
+  },
+  {
+    "STATE": "RAJASTHAN",
+    "ZONE_CODE": 72,
+    "MAJORITY": 16
+  },
+  {
+    "STATE": "RAJSHAHI DIVISION",
+    "ZONE_CODE": 73,
+    "MAJORITY": 1
+  },
+  {
+    "STATE": "RANGPUR DIVISION",
+    "ZONE_CODE": 74,
+    "MAJORITY": 1
+  },
+  {
+    "STATE": "SARI PUL",
+    "ZONE_CODE": 75,
+    "MAJORITY": 69
+  },
+  {
+    "STATE": "SIKKIM",
+    "ZONE_CODE": 76,
+    "MAJORITY": 5
+  },
+  {
+    "STATE": "SINDH",
+    "ZONE_CODE": 77,
+    "MAJORITY": 48
+  },
+  {
+    "STATE": "SOUTH",
+    "ZONE_CODE": 78,
+    "MAJORITY": 42
+  },
+  {
+    "STATE": "SOUTH CENTRAL",
+    "ZONE_CODE": 79,
+    "MAJORITY": 42
+  },
+  {
+    "STATE": "SUDURPASCHIM",
+    "ZONE_CODE": 80,
+    "MAJORITY": 5
+  },
+  {
+    "STATE": "SYLHET DIVISION",
+    "ZONE_CODE": 81,
+    "MAJORITY": 1
+  },
+  {
+    "STATE": "TAKHAR",
+    "ZONE_CODE": 82,
+    "MAJORITY": 69
+  },
+  {
+    "STATE": "TAMIL NADU",
+    "ZONE_CODE": 83,
+    "MAJORITY": 31
+  },
+  {
+    "STATE": "TELANGANA",
+    "ZONE_CODE": 84,
+    "MAJORITY": 13
+  },
+  {
+    "STATE": "TRIPURA",
+    "ZONE_CODE": 85,
+    "MAJORITY": 45
+  },
+  {
+    "STATE": "UTTAR PRADESH",
+    "ZONE_CODE": 86,
+    "MAJORITY": 54
+  },
+  {
+    "STATE": "UTTARAKHAND",
+    "ZONE_CODE": 87,
+    "MAJORITY": 5
+  },
+  {
+    "STATE": "WEST BENGAL",
+    "ZONE_CODE": 88,
+    "MAJORITY": 1
+  },
+  {
+    "STATE": "ZABUL",
+    "ZONE_CODE": 89,
+    "MAJORITY": 6
+  },
+  {
+    "STATE": "NORTHERN PROVINCE",
+    "ZONE_CODE": 90,
+    "MAJORITY": 20
+  },
+  {
+    "STATE": "SOUTHERN PROVINCE",
+    "ZONE_CODE": 91,
+    "MAJORITY": 71
+  },
+  {
+    "STATE": "EASTERN PROVINCE",
+    "ZONE_CODE": 92,
+    "MAJORITY": 20
+  },
+  {
+    "STATE": "NORTH CENTRAL PROVINCE",
+    "ZONE_CODE": 93,
+    "MAJORITY": 20
+  },
+  {
+    "STATE": "UVA PROVINCE",
+    "ZONE_CODE": 94,
+    "MAJORITY": 20
+  },
+  {
+    "STATE": "WESTERN PROVINCE",
+    "ZONE_CODE": 95,
+    "MAJORITY": 71
+  },
+  {
+    "STATE": "SABARAGAMUWA PROVINCE",
+    "ZONE_CODE": 96,
+    "MAJORITY": 71
+  },
+  {
+    "STATE": "NORTH WESTERN PROVINCE",
+    "ZONE_CODE": 97,
+    "MAJORITY": 39
+  },
+  {
+    "STATE": "CENTRAL PROVINCE",
+    "ZONE_CODE": 98,
+    "MAJORITY": 72
+  }
+]
