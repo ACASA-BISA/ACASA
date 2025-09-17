@@ -50,14 +50,14 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
   const calcpop = (popu) => {
     const value = Number(popu) || 0;
     if (value === 0) return "0";
-    if (value <= 100_000) return "< 0.1 M";
+    if (value <= 100_000) return "< 0.1\u00A0M";
     const popInMillions = value / 1_000_000;
-    return popInMillions.toFixed(1) + " M";
+    return popInMillions.toFixed(1) + "\u00A0M";
   };
 
   const calcarea = (popu) => {
     const value = Number(popu) || 0;
-    const unit = checkcrop() ? " Mha" : " M";
+    const unit = checkcrop() ? "\u00A0Mha" : "\u00A0M";
     if (value === 0) return "0";
     if (value <= 100_000) return `< 0.1${unit}`;
     const areaInMillions = value / 1_000_000;
