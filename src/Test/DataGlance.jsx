@@ -860,7 +860,7 @@ const DataGlance = () => {
                 if (fetchedCommodities.length > 0) {
                     const activeCommodities = fetchedCommodities.filter((c) => c.status);
                     if (activeCommodities.length > 0) {
-                        commodityId = activeCommodities[0]?.commodity_id; // Use the first active commodity
+                        commodityId = activeCommodities[1]?.commodity_id; // Use the first active commodity
                         setSelectedCommodityId(commodityId);
                     } else {
                         console.error("No active commodities available");
